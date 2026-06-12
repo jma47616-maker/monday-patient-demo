@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10151d">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Monday Patient">
+<title>The Monday Patient — week 1 · demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · component: app prototype · genre: modern-minimal · theme: custom (vibe: "dark clinical instrument, quiet game" · paper oklch(15% 0.012 235) · accent oklch(80% 0.11 195) teal · Space Grotesk + IBM Plex Sans + IBM Plex Mono)
+ * pre-emit critique: P4 H4 E4 S5 R4 V4
+ * states: default · hover · focus · active · disabled · loading · error · success
+ */
+:root {
+  color-scheme: dark;
+  /* hex fallbacks for older iOS Safari; upgraded to OKLCH below when supported */
+  --color-paper:    #10151d;
+  --color-card:     #171d27;
+  --color-raised:   #1e2632;
+  --color-rule:     #2d3743;
+  --color-ink:      #e8edf4;
+  --color-muted:    #9faaba;
+  --color-faint:    #75818f;
+  --color-accent:   #66d3da;
+  --color-accent-ink: #0a2a33;
+  --color-ink-soft: #ccd5e0;
+  --color-danger:   #ef8a80;
+  --color-warn:     #dcb663;
+  --color-good:     #72d3a4;
+  --color-focus:    #66d3da;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
+  --text-sm: 0.8125rem; --text-base: 1rem; --text-md: 1.25rem;
+  --text-lg: 1.5625rem; --text-xl: 1.953rem;
+  --radius-sm: 6px; --radius-md: 10px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:  cubic-bezier(0.7, 0, 0.84, 0);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 380ms;
+}
+@supports (color: oklch(50% 0 0)) {
+  :root {
+    --color-paper:    oklch(15% 0.012 235);
+    --color-card:     oklch(19% 0.014 235);
+    --color-raised:   oklch(23% 0.016 235);
+    --color-rule:     oklch(30% 0.014 235);
+    --color-ink:      oklch(94% 0.008 235);
+    --color-muted:    oklch(72% 0.015 235);
+    --color-faint:    oklch(58% 0.014 235);
+    --color-accent:   oklch(80% 0.11 195);
+    --color-accent-ink: oklch(18% 0.05 210);
+    --color-ink-soft: oklch(86% 0.01 235);
+    --color-danger:   oklch(74% 0.15 25);
+    --color-warn:     oklch(80% 0.12 85);
+    --color-good:     oklch(80% 0.12 155);
+    --color-focus:    oklch(80% 0.11 195);
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; }
+body { overscroll-behavior-y: contain; }
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+.app {
+  max-width: 27rem;
+  margin-inline: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 30rem) {
+  .app { border-inline: 1px solid var(--color-rule); }
+}
+
+/* ---- header ---- */
+.top {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-rule);
+  padding: calc(var(--space-3) + env(safe-area-inset-top, 0px)) var(--space-4) 0;
+}
+.brandrow { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+.wordmark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); letter-spacing: -0.02em; }
+.wordmark span { color: var(--color-accent); }
+.clock {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted); white-space: nowrap;
+}
+.clock strong { color: var(--color-ink); font-weight: 600; }
+.stepper { display: flex; gap: var(--space-1); margin-top: var(--space-3); }
+.step {
+  flex: 1; padding: var(--space-2) 0 var(--space-2);
+  border-top: 2px solid var(--color-rule);
+  font-size: 0.75rem; color: var(--color-faint);
+  text-align: center; letter-spacing: 0.02em;
+}
+.step[data-on="now"]  { border-top-color: var(--color-accent); color: var(--color-ink); }
+.step[data-on="done"] { border-top-color: var(--color-muted); color: var(--color-muted); }
+
+/* ---- screens ---- */
+main { flex: 1; padding: var(--space-5) var(--space-4) var(--space-7); }
+.screen { display: none; }
+.screen.is-on { display: block; animation: enter var(--dur-long) var(--ease-out); }
+@keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+h1 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--text-xl); line-height: 1.12; letter-spacing: -0.025em;
+  margin-bottom: var(--space-2);
+}
+h2 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--text-lg); line-height: 1.15; letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+.lede { color: var(--color-muted); margin-bottom: var(--space-5); max-width: 38ch; }
+.tagrow { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
+.tag {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  border: 1px solid var(--color-rule); border-radius: 999px;
+  padding: 0.2rem 0.65rem; color: var(--color-muted);
+}
+.tag--live { border-color: var(--color-accent); color: var(--color-accent); }
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.card__kicker {
+  font-family: var(--font-mono); font-size: 0.75rem;
+  color: var(--color-faint); margin-bottom: var(--space-2);
+}
+.obs {
+  font-family: var(--font-mono); font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums; line-height: 1.9;
+  color: var(--color-muted);
+}
+.obs b { color: var(--color-ink); font-weight: 600; }
+
+/* ---- buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 48px; width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-ink); color: var(--color-paper);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--text-base);
+  letter-spacing: -0.01em; white-space: nowrap;
+  border: 1px solid var(--color-ink); border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--dur-short) var(--ease-out), transform 100ms var(--ease-out), opacity var(--dur-short) var(--ease-out);
+}
+@media (hover: hover) { .btn:hover { background: var(--color-ink-soft); } }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible, .chip:focus-visible, .row__act:focus-visible, .opt:focus-visible {
+  outline: 2px solid var(--color-focus); outline-offset: 3px;
+}
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+.btn--ghost {
+  background: transparent; color: var(--color-ink);
+  border: 1px solid var(--color-rule); font-weight: 500;
+}
+@media (hover: hover) { .btn--ghost:hover { background: var(--color-card); } }
+.btn[data-state="loading"] { color: transparent; position: relative; pointer-events: none; }
+.btn[data-state="loading"]::after {
+  content: ""; position: absolute; width: 18px; height: 18px;
+  border: 2px solid var(--color-paper); border-top-color: transparent;
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.btnrow { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-5); }
+
+/* ---- history chips ---- */
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.chip {
+  min-height: 48px; padding: var(--space-2) var(--space-3);
+  background: var(--color-card); color: var(--color-ink);
+  border: 1px solid var(--color-rule); border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: var(--text-sm); text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), transform 100ms var(--ease-out);
+}
+@media (hover: hover) { .chip:hover { background: var(--color-raised); } }
+.chip:active { transform: translateY(1px); }
+.qa { list-style: none; padding: 0; margin: 0 0 var(--space-4); }
+.qa li { padding: var(--space-3) 0; border-bottom: 1px solid var(--color-rule); animation: pop var(--dur-short) var(--ease-out); }
+.qa .q { font-size: var(--text-sm); color: var(--color-faint); margin-bottom: var(--space-1); }
+.qa .a { color: var(--color-ink); }
+@keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---- exam + investigation rows ---- */
+.rows { list-style: none; padding: 0; margin: 0; }
+.row { border-bottom: 1px solid var(--color-rule); padding: var(--space-3) 0; }
+.row__head { display: flex; align-items: center; gap: var(--space-3); }
+.row__name { flex: 1; }
+.row__cost { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-faint); white-space: nowrap; }
+.row__act {
+  min-height: 44px; min-width: 84px;
+  background: transparent; color: var(--color-accent);
+  border: 1px solid var(--color-rule); border-radius: 999px;
+  font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600;
+  cursor: pointer; padding: 0 var(--space-3);
+  transition: background-color var(--dur-micro) var(--ease-out), transform 100ms var(--ease-out);
+}
+@media (hover: hover) { .row__act:hover { background: var(--color-card); } }
+.row__act:active { transform: translateY(1px); }
+.row__act[data-picked="yes"] { background: var(--color-accent); color: var(--color-accent-ink); border-color: var(--color-accent); }
+.row__act[disabled] { opacity: 0.4; cursor: not-allowed; color: var(--color-muted); }
+.finding { margin-top: var(--space-2); color: var(--color-muted); font-size: var(--text-sm); animation: pop var(--dur-short) var(--ease-out); }
+.grouph {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-faint);
+  margin: var(--space-5) 0 var(--space-1);
+}
+.grouph:first-of-type { margin-top: 0; }
+
+/* ---- results feed ---- */
+.result {
+  background: var(--color-card); border: 1px solid var(--color-rule);
+  border-radius: var(--radius-sm); padding: var(--space-3);
+  margin-top: var(--space-2); animation: pop var(--dur-short) var(--ease-out);
+}
+.result .rn { font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-1); }
+.result .rv { font-family: var(--font-mono); font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-muted); }
+.hi { color: var(--color-danger); font-weight: 600; }
+.roundh { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent); margin-top: var(--space-4); }
+
+/* ---- option lists (ddx, dx, mgmt) ---- */
+.opts { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
+.opt {
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: 52px; width: 100%; padding: var(--space-3);
+  background: var(--color-card); color: var(--color-ink);
+  border: 1px solid var(--color-rule); border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: var(--text-base); text-align: left;
+  cursor: pointer;
+  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+@media (hover: hover) { .opt:hover { background: var(--color-raised); } }
+.opt[data-picked="yes"] { border-color: var(--color-accent); }
+.opt .badge {
+  flex: none; width: 26px; height: 26px; border-radius: 50%;
+  border: 1px solid var(--color-rule);
+  font-family: var(--font-mono); font-size: 0.75rem;
+  display: grid; place-items: center; color: var(--color-faint);
+}
+.opt[data-picked="yes"] .badge { background: var(--color-accent); color: var(--color-accent-ink); border-color: var(--color-accent); }
+.formerr {
+  display: none; margin-top: var(--space-3); padding: var(--space-3);
+  border: 1px solid var(--color-danger); border-radius: var(--radius-sm);
+  color: var(--color-danger); font-size: var(--text-sm);
+}
+.formerr.is-on { display: block; }
+
+/* ---- outcome ---- */
+.verdict { border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-4); border: 1px solid var(--color-good); }
+.verdict--miss { border-color: var(--color-warn); }
+.verdict .vt { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); letter-spacing: -0.02em; }
+.verdict .vs { color: var(--color-muted); font-size: var(--text-sm); margin-top: var(--space-1); }
+.score { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.score td { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-rule); }
+.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.score tr:last-child td { border-bottom: 0; font-weight: 600; font-family: var(--font-display); font-size: var(--text-base); }
+.minus { color: var(--color-danger); }
+.plus { color: var(--color-good); }
+.pearls { padding-left: 1.1rem; color: var(--color-muted); font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-2); }
+.pearls li::marker { color: var(--color-accent); }
+.lockcard { display: flex; align-items: center; gap: var(--space-3); }
+.lockcard svg { flex: none; color: var(--color-faint); }
+.journey { font-size: var(--text-sm); color: var(--color-muted); line-height: 2; }
+.journey b { color: var(--color-ink); }
+
+footer {
+  padding: var(--space-4) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-rule);
+  font-size: 0.75rem; color: var(--color-faint); line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+  .btn[data-state="loading"]::after { animation-duration: 0.7s !important; animation-iteration-count: infinite !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brandrow">
+      <div class="wordmark">The Monday<span> Patient</span></div>
+      <div class="clock" aria-live="polite">ward clock <strong id="clock">0 h 00 m</strong></div>
+    </div>
+    <nav class="stepper" aria-label="Case progress">
+      <div class="step" data-stage="brief">Brief</div>
+      <div class="step" data-stage="history">History</div>
+      <div class="step" data-stage="exam">Exam</div>
+      <div class="step" data-stage="ddx">Ddx</div>
+      <div class="step" data-stage="ix">Ix</div>
+      <div class="step" data-stage="commit">Dx</div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============ BRIEF ============ -->
+    <section class="screen" id="s-brief">
+      <div class="tagrow">
+        <span class="tag tag--live">Week 1 of 12</span>
+        <span class="tag">≈ 15 min</span>
+        <span class="tag">demo build</span>
+      </div>
+      <h1>The collapse in the bathroom</h1>
+      <p class="lede">Work the case the way you would on the shop floor. Everything you order costs ward time — the clock is part of the score.</p>
+      <div class="card">
+        <div class="card__kicker">ED triage · 08:42 · majors</div>
+        <p style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-3);">Arthur Pell, 68. Brought by ambulance after a witnessed collapse at home this morning with brief loss of consciousness. Now alert. Wife at the bedside.</p>
+        <div class="obs">
+          NEWS <b>2</b> · HR <b>104</b> · BP <b>102/68</b><br>
+          RR <b>18</b> · SpO₂ <b>97%</b> air · T <b>36.4</b> · <b>Alert</b>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__kicker">how this works</div>
+        <ul class="pearls">
+          <li>Take a history, examine, then commit an early differential.</li>
+          <li>Order investigations in rounds — results come back, you decide what's next.</li>
+          <li>Targeted thinking scores; the scattergun costs time and points.</li>
+        </ul>
+      </div>
+      <div class="btnrow">
+        <button class="btn" data-go="history">Begin assessment</button>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section class="screen" id="s-history">
+      <h2>Take a history</h2>
+      <p class="lede">Tap a question to ask it. Each one costs 2 minutes of ward time.</p>
+      <ul class="qa" id="qa"></ul>
+      <div class="chips" id="chips"></div>
+      <div class="btnrow">
+        <button class="btn" id="histNext" data-go="exam" disabled>Move to examination</button>
+      </div>
+    </section>
+
+    <!-- ============ EXAM ============ -->
+    <section class="screen" id="s-exam">
+      <h2>Examine him</h2>
+      <p class="lede">Choose what to examine — 3 minutes each. Findings appear as you go.</p>
+      <ul class="rows" id="examRows"></ul>
+      <div class="btnrow">
+        <button class="btn" id="examNext" data-go="ddx" disabled>Commit an early differential</button>
+      </div>
+    </section>
+
+    <!-- ============ DDX CHECKPOINT ============ -->
+    <section class="screen" id="s-ddx">
+      <h2>Before any results — your top 3</h2>
+      <p class="lede">Rank your differential now. You'll see how it held up at the end.</p>
+      <ul class="opts" id="ddxOpts"></ul>
+      <div class="btnrow">
+        <button class="btn" id="ddxNext" data-go="ix" disabled>Lock it in — order investigations</button>
+      </div>
+    </section>
+
+    <!-- ============ INVESTIGATIONS ============ -->
+    <section class="screen" id="s-ix">
+      <h2>Order investigations</h2>
+      <p class="lede">Build a round, send it, read the results. Order as many rounds as you need — the clock advances by the slowest test in each round.</p>
+      <div id="ixGroups"></div>
+      <div id="resultsFeed" aria-live="polite"></div>
+      <div class="btnrow">
+        <button class="btn btn--ghost" id="sendRound" disabled>Send round</button>
+        <button class="btn" data-go="commit">I'm ready to commit</button>
+      </div>
+    </section>
+
+    <!-- ============ COMMIT ============ -->
+    <section class="screen" id="s-commit">
+      <h2>Commit</h2>
+      <p class="lede">One diagnosis, and your first three management moves.</p>
+      <div class="grouph">final diagnosis — pick one</div>
+      <ul class="opts" id="dxOpts"></ul>
+      <div class="grouph">immediate management — pick exactly 3</div>
+      <ul class="opts" id="mgOpts"></ul>
+      <div class="formerr" id="commitErr" role="alert">Pick one diagnosis and exactly three management actions — that's the registrar's call you're being asked to make.</div>
+      <div class="btnrow">
+        <button class="btn" id="commitBtn">Commit and see how you did</button>
+      </div>
+    </section>
+
+    <!-- ============ OUTCOME ============ -->
+    <section class="screen" id="s-out">
+      <div id="verdict"></div>
+      <div class="card">
+        <div class="card__kicker">score</div>
+        <table class="score" id="scoreTable"></table>
+      </div>
+      <div class="card">
+        <div class="card__kicker">your diagnostic journey</div>
+        <div class="journey" id="journey"></div>
+      </div>
+      <div class="card">
+        <div class="card__kicker">teaching pearls</div>
+        <ul class="pearls">
+          <li>"Dark stool but he's on iron" is the classic decoy. Iron stains; melaena is tarry, sticky and unmistakable — the PR exam settles it in thirty seconds.</li>
+          <li>Urea 14.6 with a creatinine of 92: a urea–creatinine rise out of proportion points at an upper GI source — digested blood is a protein meal.</li>
+          <li>The troponin of 34 is a type 2 rise from demand ischaemia on a haemoglobin of 72. Treating it as ACS — antiplatelets, anticoagulation — feeds the bleed.</li>
+          <li>One normal ECG never excludes paroxysmal arrhythmia — but it should not outrank a postural drop, melaena and an epigastric story.</li>
+        </ul>
+      </div>
+      <div class="card lockcard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <div>
+          <div style="font-weight:600; font-size: var(--text-sm);">Friday debrief — locked</div>
+          <div style="font-size: 0.75rem; color: var(--color-faint);">Unlocks Friday 17:00 · GI bleed vs arrhythmia vs seizure, and why the decoys nearly worked.</div>
+        </div>
+      </div>
+      <div class="btnrow">
+        <button class="btn btn--ghost" id="again">Play the case again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    The Monday Patient — weekly case series, acute medicine. Prototype build with a fictional patient; no real patient data. Scores and leaderboard go live with the full platform.
+  </footer>
+</div>
+
+<script>
+"use strict";
+
+/* ============ case data — this object IS the weekly template ============ */
+const CASE = {
+  history: [
+    { id:"what",     q:"What happened?",              a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute — no shaking that she saw.”" },
+    { id:"warning",  q:"Any warning beforehand?",     a:"“Light-headed and sweaty for a second or two. Then the floor.”" },
+    { id:"after",    q:"How did you feel afterwards?",a:"“Came round quick. Washed out ever since, mind.”" },
+    { id:"chest",    q:"Chest pain?",                 a:"“No pain. A bit of a flutter when I came round — gone now.”" },
+    { id:"palps",    q:"Palpitations?",               a:"“Now and then this week. Heart thumping on the stairs.”" },
+    { id:"fits",     q:"Tongue-biting or incontinence?", a:"Margaret answers: “Nothing like that, doctor, and I was right there.”" },
+    { id:"bowels",   q:"Bowels and stool?",           a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets Margaret has me on.”", key:true },
+    { id:"energy",   q:"Appetite and energy?",        a:"“Off my food all week. Tired. Dizzy when I stand.”" },
+    { id:"gi",       q:"Any indigestion?",            a:"“Burning up here for a fortnight.” — he points at his epigastrium. “Rennies take the edge off.”" },
+    { id:"drugs",    q:"Drug history?",               a:"“Naproxen for the knee these past six weeks. Aspirin every morning. A statin. And the iron tablets.”", key:true },
+    { id:"pmh",      q:"Past medical history?",       a:"“Blood pressure. The knee. And they caught a flutter of AF on a machine last year — said it had settled.”" },
+    { id:"fhx",      q:"Family history?",             a:"“Father died of his heart. My brother’s got a pacemaker.”" },
+    { id:"etoh",     q:"Alcohol?",                    a:"“Couple of whiskies of an evening. A few more on a Saturday.”" },
+    { id:"baseline", q:"Normal day-to-day?",          a:"“Fit as a flea. Retired plumber. Still drive, still do the garden.”" }
+  ],
+  exam: [
+    { id:"gen",   name:"End of the bed",            f:"Pale and clammy. Cool hands, capillary refill 3 s. He looks “not right”." },
+    { id:"post",  name:"Lying & standing obs",      f:"Lying 102/68, HR 104. Standing one minute: 84/56, HR 126 — he sways and asks to sit down.", key:true },
+    { id:"cvs",   name:"Cardiovascular",            f:"Pulse 104, regular. JVP not raised. Normal heart sounds, no murmur, no oedema." },
+    { id:"resp",  name:"Respiratory",               f:"Chest clear. RR 18, SpO₂ 97% on air." },
+    { id:"abdo",  name:"Abdomen",                   f:"Soft. Tender in the epigastrium without guarding. No masses. Bowel sounds active." },
+    { id:"pr",    name:"PR examination",            f:"Black, tarry stool on the glove. Unmistakable.", key:true },
+    { id:"neuro", name:"Neurological",              f:"GCS 15, no focal deficit, no tongue trauma. Steady on his feet once flat for a while." }
+  ],
+  ddx: ["Upper GI bleed", "Cardiac arrhythmia", "Seizure", "Acute coronary syndrome", "Pulmonary embolism", "Vasovagal syncope"],
+  answer: "Upper GI bleed",
+  ix: [
+    { g:"bedside", id:"ecg",  name:"ECG",                 cost:10,  costLabel:"10 min", tag:"key",
+      r:"Sinus tachycardia 104. No ischaemic changes. No AF. Normal intervals." },
+    { g:"bedside", id:"glu",  name:"Capillary glucose",   cost:2,   costLabel:"2 min",  tag:"key",
+      r:"<b class=\"rv\">6.2 mmol/L</b>" },
+    { g:"bedside", id:"vbg",  name:"Venous blood gas",    cost:15,  costLabel:"15 min", tag:"key",
+      r:"pH 7.36 · <span class=\"hi\">Hb 76 ▲</span> · <span class=\"hi\">lactate 2.9 ▲</span> · K 4.2" },
+    { g:"bedside", id:"dip",  name:"Urine dip",           cost:10,  costLabel:"10 min", tag:"noise",
+      r:"Unremarkable." },
+    { g:"bloods",  id:"fbc",  name:"FBC",                 cost:60,  costLabel:"60 min", tag:"key",
+      r:"<span class=\"hi\">Hb 72 ▲</span> · MCV 84 · WCC 11.2 · Plt 412" },
+    { g:"bloods",  id:"ue",   name:"U&E",                 cost:60,  costLabel:"60 min", tag:"key",
+      r:"Na 138 · K 4.3 · <span class=\"hi\">urea 14.6 ▲</span> · creatinine 92" },
+    { g:"bloods",  id:"lft",  name:"LFTs",                cost:60,  costLabel:"60 min", tag:"supp",
+      r:"Bilirubin 9 · ALT 28 · ALP 84 · albumin 38" },
+    { g:"bloods",  id:"coag", name:"Coagulation",         cost:60,  costLabel:"60 min", tag:"supp",
+      r:"INR 1.0 · APTT normal" },
+    { g:"bloods",  id:"trop", name:"Troponin",            cost:60,  costLabel:"60 min", tag:"supp",
+      r:"<span class=\"hi\">hs-cTn 34 ng/L ▲</span> (URL 14)" },
+    { g:"bloods",  id:"gs",   name:"Group & save + crossmatch 2 units", cost:45, costLabel:"45 min", tag:"key",
+      r:"Sample received. Two units available in 40 minutes." },
+    { g:"imaging", id:"cxr",  name:"Chest X-ray",         cost:45,  costLabel:"45 min", tag:"supp",
+      r:"Clear lungs. Normal mediastinum. No free air under the diaphragm." },
+    { g:"imaging", id:"cth",  name:"CT head",             cost:90,  costLabel:"90 min", tag:"noise",
+      r:"No acute intracranial abnormality." },
+    { g:"imaging", id:"ctpa", name:"CTPA",                cost:120, costLabel:"2 h",    tag:"noise",
+      r:"No pulmonary embolus. Incidental 4 mm nodule for routine follow-up." },
+    { g:"special", id:"echo", name:"Echocardiogram",      cost:360, costLabel:"next day", tag:"noise",
+      r:"Reported next working day: normal LV, no significant valve disease." },
+    { g:"special", id:"tape", name:"24-h Holter",         cost:0,   costLabel:"2 wk",   tag:"noise",
+      r:"Fitted. Report expected in two weeks." },
+    { g:"special", id:"eeg",  name:"EEG",                 cost:0,   costLabel:"6 wk OPD", tag:"noise",
+      r:"Routine outpatient request lodged — six-week wait." }
+  ],
+  groups: { bedside:"bedside — minutes", bloods:"bloods — about an hour", imaging:"imaging", special:"special tests" },
+  mgmt: [
+    { id:"iv",     t:"Two large-bore cannulae + balanced crystalloid",        kind:"good",
+      why:"Resuscitate first — he is haemodynamically compromised." },
+    { id:"xm",     t:"Activate transfusion — crossmatch 2 units",             kind:"good",
+      why:"Hb 72 and still bleeding; blood beats clear fluid." },
+    { id:"scope",  t:"Urgent gastroenterology referral for endoscopy",        kind:"good",
+      why:"Definitive diagnosis and treatment for an upper GI bleed." },
+    { id:"ppi",    t:"Stop naproxen & aspirin · start IV PPI",                kind:"good",
+      why:"Remove the cause; protect the mucosa pending endoscopy." },
+    { id:"lmwh",   t:"Treatment-dose LMWH for possible PE",                   kind:"danger",
+      why:"Anticoagulating an active GI bleed — this is the dangerous miss the case was built around." },
+    { id:"cth1",   t:"Send for CT head before anything else",                 kind:"bad",
+      why:"No focal neurology, no head strike story — it delays resuscitation." },
+    { id:"lev",    t:"Load with levetiracetam",                               kind:"bad",
+      why:"Nothing here behaves like a seizure: no tongue-biting, no post-ictal phase." },
+    { id:"holt",   t:"Discharge with an outpatient Holter",                   kind:"danger",
+      why:"Sending home a shocked patient with a Hb of 72." }
+  ]
+};
+
+/* ============ state ============ */
+const S = {
+  stage: "brief", simMin: 0,
+  asked: new Set(), examined: new Set(),
+  ddx: [], picked: new Set(), ordered: new Set(), round: 0,
+  dx: null, mg: new Set()
+};
+
+const $  = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+
+function fmtClock(m) {
+  return Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0") + " m";
+}
+function tick(min) {
+  S.simMin += min;
+  $("#clock").textContent = fmtClock(S.simMin);
+}
+function goTo(stage) {
+  S.stage = stage;
+  $$(".screen").forEach(el => el.classList.remove("is-on"));
+  $("#s-" + (stage === "out" ? "out" : stage)).classList.add("is-on");
+  const order = ["brief","history","exam","ddx","ix","commit"];
+  $$(".step").forEach(el => {
+    const i = order.indexOf(el.dataset.stage), cur = order.indexOf(stage);
+    el.dataset.on = stage === "out" ? "done" : (i === cur ? "now" : (i < cur ? "done" : ""));
+  });
+  window.scrollTo({ top: 0 });
+}
+$$("[data-go]").forEach(b => b.addEventListener("click", () => goTo(b.dataset.go)));
+
+/* ============ history ============ */
+function renderChips() {
+  const box = $("#chips"); box.innerHTML = "";
+  CASE.history.filter(h => !S.asked.has(h.id)).forEach(h => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = h.q;
+    b.addEventListener("click", () => {
+      S.asked.add(h.id); tick(2);
+      const li = document.createElement("li");
+      li.innerHTML = "<div class=\"q\">" + h.q + "</div><div class=\"a\">" + h.a + "</div>";
+      $("#qa").appendChild(li);
+      $("#histNext").disabled = S.asked.size < 3;
+      renderChips();
+    });
+    box.appendChild(b);
+  });
+}
+renderChips();
+
+/* ============ exam ============ */
+function renderExam() {
+  const ul = $("#examRows"); ul.innerHTML = "";
+  CASE.exam.forEach(e => {
+    const li = document.createElement("li"); li.className = "row";
+    const done = S.examined.has(e.id);
+    li.innerHTML = "<div class=\"row__head\"><span class=\"row__name\">" + e.name + "</span>" +
+      "<span class=\"row__cost\">3 min</span>" +
+      "<button class=\"row__act\"" + (done ? " disabled" : "") + ">" + (done ? "Done" : "Examine") + "</button></div>" +
+      (done ? "<div class=\"finding\">" + e.f + "</div>" : "");
+    if (!done) li.querySelector("button").addEventListener("click", () => {
+      S.examined.add(e.id); tick(3);
+      $("#examNext").disabled = S.examined.size < 2;
+      renderExam();
+    });
+    ul.appendChild(li);
+  });
+}
+renderExam();
+
+/* ============ ddx checkpoint ============ */
+function renderDdx() {
+  const ul = $("#ddxOpts"); ul.innerHTML = "";
+  CASE.ddx.forEach(d => {
+    const i = S.ddx.indexOf(d);
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.className = "opt"; b.dataset.picked = i > -1 ? "yes" : "no";
+    b.innerHTML = "<span class=\"badge\">" + (i > -1 ? (i + 1) : "·") + "</span><span>" + d + "</span>";
+    b.addEventListener("click", () => {
+      if (i > -1) S.ddx.splice(i, 1);
+      else if (S.ddx.length < 3) S.ddx.push(d);
+      $("#ddxNext").disabled = S.ddx.length !== 3;
+      renderDdx();
+    });
+    li.appendChild(b); ul.appendChild(li);
+  });
+}
+renderDdx();
+
+/* ============ investigations ============ */
+function renderIx() {
+  const box = $("#ixGroups"); box.innerHTML = "";
+  Object.keys(CASE.groups).forEach(g => {
+    const h = document.createElement("div");
+    h.className = "grouph"; h.textContent = CASE.groups[g];
+    box.appendChild(h);
+    const ul = document.createElement("ul"); ul.className = "rows";
+    CASE.ix.filter(x => x.g === g).forEach(x => {
+      const sent = S.ordered.has(x.id), inRound = S.picked.has(x.id);
+      const li = document.createElement("li"); li.className = "row";
+      li.innerHTML = "<div class=\"row__head\"><span class=\"row__name\" style=\"font-size: var(--text-sm);\">" + x.name + "</span>" +
+        "<span class=\"row__cost\">" + x.costLabel + "</span>" +
+        "<button class=\"row__act\"" + (sent ? " disabled" : "") + " data-picked=\"" + (inRound ? "yes" : "no") + "\">" +
+        (sent ? "Sent" : (inRound ? "Added" : "Add")) + "</button></div>";
+      if (!sent) li.querySelector("button").addEventListener("click", () => {
+        inRound ? S.picked.delete(x.id) : S.picked.add(x.id);
+        $("#sendRound").disabled = S.picked.size === 0;
+        $("#sendRound").textContent = S.picked.size ? "Send round (" + S.picked.size + ")" : "Send round";
+        renderIx();
+      });
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  });
+}
+renderIx();
+
+$("#sendRound").addEventListener("click", () => {
+  if (!S.picked.size) return;
+  const btn = $("#sendRound");
+  btn.dataset.state = "loading";
+  setTimeout(() => {
+    delete btn.dataset.state;
+    S.round += 1;
+    const items = CASE.ix.filter(x => S.picked.has(x.id));
+    tick(Math.max(...items.map(x => x.cost)));
+    const feed = $("#resultsFeed");
+    const rh = document.createElement("div");
+    rh.className = "roundh";
+    rh.textContent = "round " + S.round + " — back at " + fmtClock(S.simMin);
+    feed.appendChild(rh);
+    items.forEach(x => {
+      S.ordered.add(x.id);
+      const d = document.createElement("div"); d.className = "result";
+      d.innerHTML = "<div class=\"rn\">" + x.name + "</div><div class=\"rv\">" + x.r + "</div>";
+      feed.appendChild(d);
+    });
+    S.picked.clear();
+    btn.disabled = true; btn.textContent = "Send round";
+    renderIx();
+    feed.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, 700);
+});
+
+/* ============ commit ============ */
+function renderCommit() {
+  const dxUl = $("#dxOpts"); dxUl.innerHTML = "";
+  CASE.ddx.forEach(d => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.className = "opt"; b.dataset.picked = S.dx === d ? "yes" : "no";
+    b.innerHTML = "<span class=\"badge\">" + (S.dx === d ? "✓" : "·") + "</span><span>" + d + "</span>";
+    b.addEventListener("click", () => { S.dx = d; renderCommit(); });
+    li.appendChild(b); dxUl.appendChild(li);
+  });
+  const mgUl = $("#mgOpts"); mgUl.innerHTML = "";
+  CASE.mgmt.forEach(m => {
+    const on = S.mg.has(m.id);
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.className = "opt"; b.dataset.picked = on ? "yes" : "no";
+    b.innerHTML = "<span class=\"badge\">" + (on ? "✓" : "·") + "</span><span style=\"font-size: var(--text-sm);\">" + m.t + "</span>";
+    b.addEventListener("click", () => {
+      on ? S.mg.delete(m.id) : (S.mg.size < 3 && S.mg.add(m.id));
+      renderCommit();
+    });
+    li.appendChild(b); mgUl.appendChild(li);
+  });
+}
+renderCommit();
+
+/* ============ scoring ============ */
+$("#commitBtn").addEventListener("click", () => {
+  if (!S.dx || S.mg.size !== 3) { $("#commitErr").classList.add("is-on"); return; }
+  $("#commitErr").classList.remove("is-on");
+
+  const rows = [];
+  let total = 0;
+  const add = (label, pts) => { rows.push([label, pts]); total += pts; };
+
+  add("Final diagnosis" + (S.dx === CASE.answer ? " — correct" : " — " + S.dx), S.dx === CASE.answer ? 40 : 0);
+  add("GI bleed in your early top 3", S.ddx.includes(CASE.answer) ? 10 : 0);
+
+  let keys = 0;
+  CASE.history.forEach(h => { if (h.key && S.asked.has(h.id)) keys++; });
+  CASE.exam.forEach(e => { if (e.key && S.examined.has(e.id)) keys++; });
+  CASE.ix.forEach(x => { if (x.tag === "key" && S.ordered.has(x.id)) keys++; });
+  add("Discriminators found (" + keys + " of 10)", keys * 4);
+
+  const noise = CASE.ix.filter(x => x.tag === "noise" && S.ordered.has(x.id)).length;
+  if (noise) add("Low-yield tests ordered (" + noise + ")", -4 * noise);
+
+  S.mg.forEach(id => {
+    const m = CASE.mgmt.find(m => m.id === id);
+    if (m.kind === "good") add(m.t, 4);
+    if (m.kind === "bad") add(m.t, -4);
+    if (m.kind === "danger") add(m.t, -8);
+  });
+
+  if (S.simMin <= 240) add("Sorted inside 4 ward-hours", 8);
+
+  const table = $("#scoreTable");
+  table.innerHTML = rows.map(r =>
+    "<tr><td>" + r[0] + "</td><td class=\"" + (r[1] > 0 ? "plus" : (r[1] < 0 ? "minus" : "")) + "\">" +
+    (r[1] > 0 ? "+" : "") + r[1] + "</td></tr>"
+  ).join("") + "<tr><td>Total (max 110)</td><td>" + total + "</td></tr>";
+
+  const hit = S.dx === CASE.answer;
+  const rank = total >= 95 ? "Consultant calm." : total >= 75 ? "Registrar instinct." : total >= 50 ? "A safe pair of hands." : "Survived the post-take round.";
+  $("#verdict").innerHTML =
+    "<div class=\"verdict" + (hit ? "" : " verdict--miss") + "\">" +
+    "<div class=\"vt\">" + (hit ? "Upper GI bleed — you got him." : "It was an upper GI bleed.") + "</div>" +
+    "<div class=\"vs\">" + rank + " The iron tablets, the old AF and the troponin were all working against you.</div></div>";
+
+  const dangerPicked = CASE.mgmt.filter(m => S.mg.has(m.id) && m.kind !== "good");
+  $("#journey").innerHTML =
+    "Early top 3: <b>" + (S.ddx.join(" · ") || "—") + "</b><br>" +
+    "Final call: <b>" + S.dx + "</b> after <b>" + S.round + "</b> round" + (S.round === 1 ? "" : "s") +
+    " of investigations and <b>" + fmtClock(S.simMin) + "</b> of ward time." +
+    (dangerPicked.length ? "<br>Worth a second look: " + dangerPicked.map(m => "<b>" + m.t + "</b> — " + m.why).join(" ") : "");
+
+  goTo("out");
+});
+
+$("#again").addEventListener("click", () => location.reload());
+
+goTo("brief");
+</script>
+</body>
+</html>
