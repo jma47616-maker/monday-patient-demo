@@ -3,774 +3,982 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#10151d">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Monday Patient">
-<title>The Monday Patient — week 1 · demo</title>
+<title>The Monday Patient</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* Hallmark · component: app prototype · genre: modern-minimal · theme: custom (vibe: "dark clinical instrument, quiet game" · paper oklch(15% 0.012 235) · accent oklch(80% 0.11 195) teal · Space Grotesk + IBM Plex Sans + IBM Plex Mono)
- * pre-emit critique: P4 H4 E4 S5 R4 V4
- * states: default · hover · focus · active · disabled · loading · error · success
+/* Hallmark · component: app platform · genre: editorial × modern-minimal
+ * theme: custom (vibe: "warm editorial clinical, premium teaching" · paper oklch(98% 0.008 75) · accent oklch(58% 0.15 40) terracotta · Fraunces + Geist + Geist Mono)
+ * pre-emit critique: P5 H5 E4 S5 R4 V5
  */
 :root {
-  color-scheme: dark;
-  /* hex fallbacks for older iOS Safari; upgraded to OKLCH below when supported */
-  --color-paper:    #10151d;
-  --color-card:     #171d27;
-  --color-raised:   #1e2632;
-  --color-rule:     #2d3743;
-  --color-ink:      #e8edf4;
-  --color-muted:    #9faaba;
-  --color-faint:    #75818f;
-  --color-accent:   #66d3da;
-  --color-accent-ink: #0a2a33;
-  --color-ink-soft: #ccd5e0;
-  --color-danger:   #ef8a80;
-  --color-warn:     #dcb663;
-  --color-good:     #72d3a4;
-  --color-focus:    #66d3da;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
-  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
-  --space-4: 1rem; --space-5: 1.5rem; --space-6: 2rem; --space-7: 3rem;
-  --text-sm: 0.8125rem; --text-base: 1rem; --text-md: 1.25rem;
-  --text-lg: 1.5625rem; --text-xl: 1.953rem;
-  --radius-sm: 6px; --radius-md: 10px;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in:  cubic-bezier(0.7, 0, 0.84, 0);
-  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 380ms;
+  color-scheme: light;
+  --paper:   #faf6f0;
+  --paper-2: #f3ece1;
+  --paper-3: #ece2d4;
+  --ink:     #2b241d;
+  --ink-2:   #4a4136;
+  --muted:   #7a6f60;
+  --faint:   #9c917f;
+  --rule:    #e3d8c8;
+  --rule-2:  #d4c7b3;
+  --accent:    #b8552e;
+  --accent-2:  #9c4525;
+  --accent-bg: #f6e6db;
+  --accent-ink:#fdf6f0;
+  --danger:    #b23b2e;
+  --danger-bg: #f7e3df;
+  --good:      #3f7d52;
+  --good-bg:   #e6f0e6;
+  --warn:      #9a6a16;
+  --warn-bg:   #f6ebd6;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2rem; --s7:3rem;
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --shadow: 0 1px 2px rgba(43,36,29,.04), 0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg: 0 2px 6px rgba(43,36,29,.06), 0 12px 36px rgba(43,36,29,.10);
 }
 @supports (color: oklch(50% 0 0)) {
   :root {
-    --color-paper:    oklch(15% 0.012 235);
-    --color-card:     oklch(19% 0.014 235);
-    --color-raised:   oklch(23% 0.016 235);
-    --color-rule:     oklch(30% 0.014 235);
-    --color-ink:      oklch(94% 0.008 235);
-    --color-muted:    oklch(72% 0.015 235);
-    --color-faint:    oklch(58% 0.014 235);
-    --color-accent:   oklch(80% 0.11 195);
-    --color-accent-ink: oklch(18% 0.05 210);
-    --color-ink-soft: oklch(86% 0.01 235);
-    --color-danger:   oklch(74% 0.15 25);
-    --color-warn:     oklch(80% 0.12 85);
-    --color-good:     oklch(80% 0.12 155);
-    --color-focus:    oklch(80% 0.11 195);
+    --paper:   oklch(98% 0.008 75);
+    --paper-2: oklch(95.5% 0.013 72);
+    --paper-3: oklch(92.5% 0.016 70);
+    --ink:     oklch(26% 0.018 55);
+    --ink-2:   oklch(38% 0.02 52);
+    --muted:   oklch(52% 0.02 58);
+    --faint:   oklch(64% 0.018 62);
+    --rule:    oklch(89% 0.014 72);
+    --rule-2:  oklch(83% 0.018 70);
+    --accent:    oklch(56% 0.135 42);
+    --accent-2:  oklch(48% 0.14 40);
+    --accent-bg: oklch(93% 0.04 50);
+    --accent-ink:oklch(98% 0.01 70);
+    --danger:    oklch(52% 0.17 30);
+    --danger-bg: oklch(94% 0.045 32);
+    --good:      oklch(52% 0.11 150);
+    --good-bg:   oklch(94% 0.035 150);
+    --warn:      oklch(54% 0.11 75);
+    --warn-bg:   oklch(94% 0.05 82);
   }
 }
 * { box-sizing: border-box; margin: 0; }
 html, body { overflow-x: clip; }
 html { -webkit-text-size-adjust: 100%; }
-body { overscroll-behavior-y: contain; }
-button {
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  -webkit-user-select: none;
-  user-select: none;
-}
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--paper);
+  color: var(--ink);
   font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.55;
+  font-size: 16px; line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
 }
-.app {
-  max-width: 27rem;
-  margin-inline: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-}
-@media (min-width: 30rem) {
-  .app { border-inline: 1px solid var(--color-rule); }
-}
+button, input { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
 
-/* ---- header ---- */
-.top {
-  position: sticky; top: 0; z-index: 5;
-  background: var(--color-paper);
-  border-bottom: 1px solid var(--color-rule);
-  padding: calc(var(--space-3) + env(safe-area-inset-top, 0px)) var(--space-4) 0;
-}
-.brandrow { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
-.wordmark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); letter-spacing: -0.02em; }
-.wordmark span { color: var(--color-accent); }
-.clock {
-  font-family: var(--font-mono); font-size: var(--text-sm);
-  font-variant-numeric: tabular-nums;
-  color: var(--color-muted); white-space: nowrap;
-}
-.clock strong { color: var(--color-ink); font-weight: 600; }
-.stepper { display: flex; gap: var(--space-1); margin-top: var(--space-3); }
-.step {
-  flex: 1; padding: var(--space-2) 0 var(--space-2);
-  border-top: 2px solid var(--color-rule);
-  font-size: 0.75rem; color: var(--color-faint);
-  text-align: center; letter-spacing: 0.02em;
-}
-.step[data-on="now"]  { border-top-color: var(--color-accent); color: var(--color-ink); }
-.step[data-on="done"] { border-top-color: var(--color-muted); color: var(--color-muted); }
+.app { max-width: 30rem; margin-inline: auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--paper); }
+@media (min-width: 32rem) { .app { box-shadow: var(--shadow-lg); } }
 
-/* ---- screens ---- */
-main { flex: 1; padding: var(--space-5) var(--space-4) var(--space-7); }
+/* ---------- top bar ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark em { font-style: italic; color: var(--accent); }
+.clock { display: inline-flex; align-items: center; gap: var(--s2); font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: .28rem .6rem; white-space: nowrap; }
+.clock i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.clock b { color: var(--ink); font-weight: 500; }
+.acts { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.actpill { flex: 1; display: flex; align-items: center; gap: var(--s2); font-size: .72rem; color: var(--faint); padding: .3rem .5rem; border-radius: var(--r-sm); border: 1px solid transparent; }
+.actpill b { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: grid; place-items: center; background: var(--paper-3); color: var(--faint); font-size: .7rem; font-weight: 600; font-family: var(--font-mono); }
+.actpill[data-on="1"] { color: var(--ink); background: var(--accent-bg); border-color: color-mix(in oklab, var(--accent) 25%, transparent); }
+.actpill[data-on="1"] b { background: var(--accent); color: var(--accent-ink); }
+.actpill[data-on="done"] b { background: var(--good); color: #fff; }
+
+/* ---------- screens ---------- */
+main { flex: 1; padding: var(--s5) var(--s4) var(--s7); }
 .screen { display: none; }
-.screen.is-on { display: block; animation: enter var(--dur-long) var(--ease-out); }
-@keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.screen.on { display: block; animation: in .42s var(--ease); }
+@keyframes in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-h1 {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: var(--text-xl); line-height: 1.12; letter-spacing: -0.025em;
-  margin-bottom: var(--space-2);
-}
-h2 {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: var(--text-lg); line-height: 1.15; letter-spacing: -0.02em;
-  margin-bottom: var(--space-2);
-}
-.lede { color: var(--color-muted); margin-bottom: var(--space-5); max-width: 38ch; }
-.tagrow { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
-.tag {
-  font-family: var(--font-mono); font-size: 0.75rem;
-  border: 1px solid var(--color-rule); border-radius: 999px;
-  padding: 0.2rem 0.65rem; color: var(--color-muted);
-}
-.tag--live { border-color: var(--color-accent); color: var(--color-accent); }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: 2.1rem; line-height: 1.08; letter-spacing: -.02em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; line-height: 1.12; letter-spacing: -.015em; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; line-height: 1.2; }
+.kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; margin-bottom: var(--s2); }
+.lede { color: var(--muted); margin-top: var(--s2); max-width: 36ch; }
+.serif-body { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.5; color: var(--ink-2); }
 
-.card {
-  background: var(--color-card);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  margin-bottom: var(--space-4);
-}
-.card__kicker {
-  font-family: var(--font-mono); font-size: 0.75rem;
-  color: var(--color-faint); margin-bottom: var(--space-2);
-}
-.obs {
-  font-family: var(--font-mono); font-size: var(--text-sm);
-  font-variant-numeric: tabular-nums; line-height: 1.9;
-  color: var(--color-muted);
-}
-.obs b { color: var(--color-ink); font-weight: 600; }
+/* ---------- brief ---------- */
+.badges { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4); }
+.badge { font-size: .72rem; font-weight: 500; border-radius: 999px; padding: .28rem .7rem; background: var(--paper-2); color: var(--muted); border: 1px solid var(--rule); }
+.badge--accent { background: var(--accent-bg); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent) 22%, transparent); }
+.patient { display: flex; align-items: center; gap: var(--s3); margin: var(--s4) 0; }
+.avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; display: grid; place-items: center; box-shadow: var(--shadow); }
+.patient__meta b { font-weight: 500; }
+.patient__meta span { display: block; color: var(--muted); font-size: .85rem; }
 
-/* ---- buttons ---- */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  min-height: 48px; width: 100%;
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-ink); color: var(--color-paper);
-  font-family: var(--font-display); font-weight: 700; font-size: var(--text-base);
-  letter-spacing: -0.01em; white-space: nowrap;
-  border: 1px solid var(--color-ink); border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: background-color var(--dur-short) var(--ease-out), transform 100ms var(--ease-out), opacity var(--dur-short) var(--ease-out);
-}
-@media (hover: hover) { .btn:hover { background: var(--color-ink-soft); } }
+.card { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.card--plain { background: transparent; }
+.card__label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: var(--s3); }
+
+.obsgrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--s2); }
+.obs { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s2); text-align: center; }
+.obs .k { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.obs .v { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 500; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+.obs .u { font-size: .62rem; color: var(--faint); }
+.obs[data-flag="hi"] .v, .obs[data-flag="lo"] .v { color: var(--danger); }
+.news { display: flex; align-items: baseline; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s3); border-top: 1px dashed var(--rule-2); }
+.news .lbl { font-size: .8rem; color: var(--muted); }
+.news .val { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
+.news .val[data-tone="warn"] { color: var(--warn); }
+.news .val[data-tone="bad"] { color: var(--danger); }
+.news .val[data-tone="ok"] { color: var(--good); }
+
+.points { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.points li { display: flex; gap: var(--s3); font-size: .92rem; color: var(--ink-2); }
+.points .n { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-size: .78rem; font-weight: 600; display: grid; place-items: center; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: 52px; padding: var(--s3) var(--s4); background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 1rem; letter-spacing: -.01em; white-space: nowrap; border: 1px solid var(--accent); border-radius: var(--r-md); cursor: pointer; box-shadow: var(--shadow); transition: transform .12s var(--ease), background-color .2s var(--ease), filter .2s var(--ease); }
+@media (hover:hover){ .btn:hover { filter: brightness(1.06); } }
 .btn:active { transform: translateY(1px); }
-.btn:focus-visible, .chip:focus-visible, .row__act:focus-visible, .opt:focus-visible {
-  outline: 2px solid var(--color-focus); outline-offset: 3px;
-}
-.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
-.btn--ghost {
-  background: transparent; color: var(--color-ink);
-  border: 1px solid var(--color-rule); font-weight: 500;
-}
-@media (hover: hover) { .btn--ghost:hover { background: var(--color-card); } }
-.btn[data-state="loading"] { color: transparent; position: relative; pointer-events: none; }
-.btn[data-state="loading"]::after {
-  content: ""; position: absolute; width: 18px; height: 18px;
-  border: 2px solid var(--color-paper); border-top-color: transparent;
-  border-radius: 50%; animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.btnrow { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-5); }
+.btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule-2); box-shadow: none; }
+@media (hover:hover){ .btn--ghost:hover { background: var(--paper-2); } }
+.btn--sm { min-height: 44px; font-size: .92rem; width: auto; padding: var(--s2) var(--s4); }
+.btnrow { display: flex; flex-direction: column; gap: var(--s3); margin-top: var(--s5); }
+.bar { position: sticky; bottom: 0; z-index: 15; margin: var(--s5) calc(var(--s4) * -1) calc(var(--s7) * -1); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom,0px)); background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--rule); display: flex; gap: var(--s3); }
+.bar .btn { box-shadow: none; }
 
-/* ---- history chips ---- */
-.chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
-.chip {
-  min-height: 48px; padding: var(--space-2) var(--space-3);
-  background: var(--color-card); color: var(--color-ink);
-  border: 1px solid var(--color-rule); border-radius: var(--radius-sm);
-  font-family: var(--font-body); font-size: var(--text-sm); text-align: left;
-  cursor: pointer;
-  transition: background-color var(--dur-micro) var(--ease-out), transform 100ms var(--ease-out);
-}
-@media (hover: hover) { .chip:hover { background: var(--color-raised); } }
-.chip:active { transform: translateY(1px); }
-.qa { list-style: none; padding: 0; margin: 0 0 var(--space-4); }
-.qa li { padding: var(--space-3) 0; border-bottom: 1px solid var(--color-rule); animation: pop var(--dur-short) var(--ease-out); }
-.qa .q { font-size: var(--text-sm); color: var(--color-faint); margin-bottom: var(--space-1); }
-.qa .a { color: var(--color-ink); }
+/* ---------- tabs ---------- */
+.tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
+.tab { flex: 1; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .82rem; font-weight: 500; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .3rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
+.tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
+.tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
+.tab .dot.show { display: inline-flex; }
+.panel { display: none; }
+.panel.on { display: block; animation: in .3s var(--ease); }
+.panel__hint { font-size: .85rem; color: var(--muted); margin-bottom: var(--s4); }
+
+/* ---------- history ---------- */
+.qa { list-style: none; padding: 0; margin: 0 0 var(--s4); display: flex; flex-direction: column; gap: var(--s3); }
+.qa li { animation: pop .3s var(--ease); }
+.qa .q { font-size: .82rem; color: var(--accent-2); font-weight: 600; margin-bottom: .15rem; }
+.qa .a { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.45; color: var(--ink-2); }
 @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s2); }
+.chip { min-height: 50px; padding: var(--s2) var(--s3); background: var(--paper-2); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--r-md); font-size: .85rem; text-align: left; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .chip:hover { background: var(--paper-3); border-color: var(--rule-2); } }
+.chip:active { transform: translateY(1px); }
+.chip:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
 
-/* ---- exam + investigation rows ---- */
+/* ---------- exam + ix rows ---------- */
 .rows { list-style: none; padding: 0; margin: 0; }
-.row { border-bottom: 1px solid var(--color-rule); padding: var(--space-3) 0; }
-.row__head { display: flex; align-items: center; gap: var(--space-3); }
-.row__name { flex: 1; }
-.row__cost { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-faint); white-space: nowrap; }
-.row__act {
-  min-height: 44px; min-width: 84px;
-  background: transparent; color: var(--color-accent);
-  border: 1px solid var(--color-rule); border-radius: 999px;
-  font-family: var(--font-body); font-size: var(--text-sm); font-weight: 600;
-  cursor: pointer; padding: 0 var(--space-3);
-  transition: background-color var(--dur-micro) var(--ease-out), transform 100ms var(--ease-out);
-}
-@media (hover: hover) { .row__act:hover { background: var(--color-card); } }
-.row__act:active { transform: translateY(1px); }
-.row__act[data-picked="yes"] { background: var(--color-accent); color: var(--color-accent-ink); border-color: var(--color-accent); }
-.row__act[disabled] { opacity: 0.4; cursor: not-allowed; color: var(--color-muted); }
-.finding { margin-top: var(--space-2); color: var(--color-muted); font-size: var(--text-sm); animation: pop var(--dur-short) var(--ease-out); }
-.grouph {
-  font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-faint);
-  margin: var(--space-5) 0 var(--space-1);
-}
+.row { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.row__head { display: flex; align-items: center; gap: var(--s3); }
+.row__name { flex: 1; font-size: .92rem; }
+.row__sub { font-size: .72rem; color: var(--faint); }
+.row__cost { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.act { min-height: 40px; min-width: 76px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .82rem; font-weight: 600; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease); }
+@media (hover:hover){ .act:hover { background: var(--accent-bg); } }
+.act:active { transform: translateY(1px); }
+.act:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.act[data-picked="1"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.act[disabled] { opacity: .5; cursor: default; color: var(--muted); }
+.finding { margin-top: var(--s2); font-family: var(--font-display); font-size: .98rem; line-height: 1.45; color: var(--ink-2); animation: pop .3s var(--ease); }
+.finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
+.grouph { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: var(--s5) 0 var(--s1); }
 .grouph:first-of-type { margin-top: 0; }
+details.more { margin-top: var(--s4); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--paper-2); overflow: hidden; }
+details.more > summary { list-style: none; cursor: pointer; padding: var(--s3) var(--s4); font-size: .9rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary .chev { transition: transform .2s var(--ease); color: var(--faint); }
+details.more[open] > summary .chev { transform: rotate(180deg); }
+details.more .more__body { padding: 0 var(--s4) var(--s2); }
+details.more .more__body .row:last-child { border-bottom: none; }
 
-/* ---- results feed ---- */
-.result {
-  background: var(--color-card); border: 1px solid var(--color-rule);
-  border-radius: var(--radius-sm); padding: var(--space-3);
-  margin-top: var(--space-2); animation: pop var(--dur-short) var(--ease-out);
-}
-.result .rn { font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-1); }
-.result .rv { font-family: var(--font-mono); font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--color-muted); }
-.hi { color: var(--color-danger); font-weight: 600; }
-.roundh { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent); margin-top: var(--space-4); }
+/* ---------- results feed (lab report) ---------- */
+.roundh { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); font-weight: 500; margin: var(--s4) 0 var(--s2); display: flex; align-items: center; gap: var(--s2); }
+.roundh::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.result { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); animation: pop .3s var(--ease); }
+.result .rn { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.labrow { display: grid; grid-template-columns: 1fr auto auto; gap: var(--s2) var(--s3); align-items: baseline; font-size: .82rem; }
+.labrow + .labrow { margin-top: .35rem; padding-top: .35rem; border-top: 1px dashed var(--rule); }
+.labrow .ln { color: var(--muted); }
+.labrow .lv { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.labrow .lr { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.labrow[data-flag="hi"] .lv, .labrow[data-flag="lo"] .lv { color: var(--danger); font-weight: 600; }
+.labrow .lv .arrow { font-size: .7rem; }
+.labrow .base { grid-column: 1 / -1; font-size: .72rem; color: var(--faint); }
+.labtext { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-2); line-height: 1.5; }
 
-/* ---- option lists (ddx, dx, mgmt) ---- */
-.opts { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); }
-.opt {
-  display: flex; align-items: center; gap: var(--space-3);
-  min-height: 52px; width: 100%; padding: var(--space-3);
-  background: var(--color-card); color: var(--color-ink);
-  border: 1px solid var(--color-rule); border-radius: var(--radius-sm);
-  font-family: var(--font-body); font-size: var(--text-base); text-align: left;
-  cursor: pointer;
-  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
-}
-@media (hover: hover) { .opt:hover { background: var(--color-raised); } }
-.opt[data-picked="yes"] { border-color: var(--color-accent); }
-.opt .badge {
-  flex: none; width: 26px; height: 26px; border-radius: 50%;
-  border: 1px solid var(--color-rule);
-  font-family: var(--font-mono); font-size: 0.75rem;
-  display: grid; place-items: center; color: var(--color-faint);
-}
-.opt[data-picked="yes"] .badge { background: var(--color-accent); color: var(--color-accent-ink); border-color: var(--color-accent); }
-.formerr {
-  display: none; margin-top: var(--space-3); padding: var(--space-3);
-  border: 1px solid var(--color-danger); border-radius: var(--radius-sm);
-  color: var(--color-danger); font-size: var(--text-sm);
-}
-.formerr.is-on { display: block; }
+/* ---------- type-ahead ---------- */
+.field { margin-bottom: var(--s4); }
+.field label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.field .hint { font-size: .76rem; color: var(--faint); margin-bottom: var(--s2); }
+.field input { width: 100%; min-height: 50px; padding: var(--s3) var(--s4); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: 2px solid transparent; outline-offset: 1px; transition: background-color .15s var(--ease); }
+.field input::placeholder { color: var(--faint); }
+.field input:hover { background: var(--paper-2); }
+.field input:focus-visible { outline-color: var(--accent-2); }
+.ddxnums { display: flex; flex-direction: column; gap: var(--s3); }
+.ddxnums .field { margin-bottom: 0; display: flex; align-items: center; gap: var(--s3); }
+.ddxnums .field .num { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-weight: 600; display: grid; place-items: center; }
+.ddxnums .field input { flex: 1; }
 
-/* ---- outcome ---- */
-.verdict { border-radius: var(--radius-md); padding: var(--space-4); margin-bottom: var(--space-4); border: 1px solid var(--color-good); }
-.verdict--miss { border-color: var(--color-warn); }
-.verdict .vt { font-family: var(--font-display); font-weight: 700; font-size: var(--text-md); letter-spacing: -0.02em; }
-.verdict .vs { color: var(--color-muted); font-size: var(--text-sm); margin-top: var(--space-1); }
-.score { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
-.score td { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-rule); }
-.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-.score tr:last-child td { border-bottom: 0; font-weight: 600; font-family: var(--font-display); font-size: var(--text-base); }
-.minus { color: var(--color-danger); }
-.plus { color: var(--color-good); }
-.pearls { padding-left: 1.1rem; color: var(--color-muted); font-size: var(--text-sm); display: flex; flex-direction: column; gap: var(--space-2); }
-.pearls li::marker { color: var(--color-accent); }
-.lockcard { display: flex; align-items: center; gap: var(--space-3); }
-.lockcard svg { flex: none; color: var(--color-faint); }
-.journey { font-size: var(--text-sm); color: var(--color-muted); line-height: 2; }
-.journey b { color: var(--color-ink); }
+/* ---------- management drill (act 2) ---------- */
+.mq { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.mq__q { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin-bottom: var(--s3); }
+.mq__q .tagn { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); display: block; font-weight: 500; margin-bottom: .2rem; }
+.opts { display: flex; flex-direction: column; gap: var(--s2); }
+.opt { display: flex; align-items: center; gap: var(--s3); min-height: 50px; padding: var(--s3); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); text-align: left; font-size: .92rem; color: var(--ink); cursor: pointer; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .opt:hover:not([disabled]) { background: var(--paper-3); } }
+.opt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.opt .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule-2); display: grid; place-items: center; font-size: .8rem; }
+.opt[data-state="right"] { border-color: var(--good); background: var(--good-bg); }
+.opt[data-state="right"] .mk { background: var(--good); color: #fff; border-color: var(--good); }
+.opt[data-state="wrong"] { border-color: var(--danger); background: var(--danger-bg); }
+.opt[data-state="wrong"] .mk { background: var(--danger); color: #fff; border-color: var(--danger); }
+.opt[data-state="dim"] { opacity: .55; }
+.teach { margin-top: var(--s3); padding: var(--s3); border-radius: var(--r-md); background: var(--paper); border: 1px solid var(--rule); font-size: .88rem; line-height: 1.5; color: var(--ink-2); animation: pop .3s var(--ease); }
+.teach b { color: var(--ink); font-weight: 600; }
+.teach[data-tone="right"] { border-left: 3px solid var(--good); border-radius: 0 var(--r-md) var(--r-md) 0; }
+.teach[data-tone="wrong"] { border-left: 3px solid var(--danger); border-radius: 0 var(--r-md) var(--r-md) 0; }
 
-footer {
-  padding: var(--space-4) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid var(--color-rule);
-  font-size: 0.75rem; color: var(--color-faint); line-height: 1.6;
-}
+/* ---------- outcome ---------- */
+.scorehero { text-align: center; padding: var(--s5) 0 var(--s4); }
+.scorehero .big { font-family: var(--font-display); font-weight: 600; font-size: 4.2rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.scorehero .big span { font-size: 1.6rem; color: var(--faint); }
+.scorehero .rank { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--accent-2); margin-top: var(--s2); }
+.scorehero .sub { color: var(--muted); font-size: .9rem; margin-top: var(--s2); max-width: 34ch; margin-inline: auto; }
+.dxverdict { display: flex; align-items: center; gap: var(--s3); padding: var(--s4); border-radius: var(--r-md); margin-bottom: var(--s4); }
+.dxverdict[data-hit="1"] { background: var(--good-bg); border: 1px solid color-mix(in oklab, var(--good) 30%, transparent); }
+.dxverdict[data-hit="0"] { background: var(--warn-bg); border: 1px solid color-mix(in oklab, var(--warn) 35%, transparent); }
+.dxverdict .ic { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.dxverdict[data-hit="1"] .ic { background: var(--good); }
+.dxverdict[data-hit="0"] .ic { background: var(--warn); }
+.dxverdict .t { font-weight: 600; }
+.dxverdict .s { font-size: .82rem; color: var(--muted); }
+.lo { border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); display: flex; gap: var(--s3); }
+.lo .ic { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .76rem; font-weight: 700; color: #fff; margin-top: 1px; }
+.lo[data-v="hit"] .ic { background: var(--good); }
+.lo[data-v="part"] .ic { background: var(--warn); }
+.lo[data-v="miss"] .ic { background: var(--danger); }
+.lo .lt { font-size: .9rem; font-weight: 600; }
+.lo .ls { font-size: .84rem; color: var(--muted); margin-top: .15rem; line-height: 1.45; }
+.score { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.score td { padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
+.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.score tr:last-child td { border-bottom: none; font-weight: 600; font-family: var(--font-display); font-size: 1rem; padding-top: var(--s3); }
+.plus { color: var(--good); }
+.minus { color: var(--danger); }
+.pearls { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.pearls li { display: flex; gap: var(--s3); font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.pearls li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: .5rem; }
+.lock { display: flex; align-items: center; gap: var(--s3); }
+.lock .ic { flex: none; color: var(--faint); }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 1ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 1ms !important;
-  }
-  .btn[data-state="loading"]::after { animation-duration: 0.7s !important; animation-iteration-count: infinite !important; }
-}
+footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px)); border-top: 1px solid var(--rule); font-size: .72rem; color: var(--faint); line-height: 1.6; }
+
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
 </style>
 </head>
 <body>
 <div class="app">
 
   <header class="top">
-    <div class="brandrow">
-      <div class="wordmark">The Monday<span> Patient</span></div>
-      <div class="clock" aria-live="polite">ward clock <strong id="clock">0 h 00 m</strong></div>
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <div class="clock"><i></i>ward clock <b id="clock">08:42</b></div>
     </div>
-    <nav class="stepper" aria-label="Case progress">
-      <div class="step" data-stage="brief">Brief</div>
-      <div class="step" data-stage="history">History</div>
-      <div class="step" data-stage="exam">Exam</div>
-      <div class="step" data-stage="ddx">Ddx</div>
-      <div class="step" data-stage="ix">Ix</div>
-      <div class="step" data-stage="commit">Dx</div>
-    </nav>
+    <div class="acts" id="actbar">
+      <div class="actpill" data-stage="brief"><b>1</b><span>Brief</span></div>
+      <div class="actpill" data-stage="work"><b>2</b><span>Work-up</span></div>
+      <div class="actpill" data-stage="commit"><b>3</b><span>Diagnose</span></div>
+      <div class="actpill" data-stage="manage"><b>4</b><span>Manage</span></div>
+    </div>
   </header>
 
   <main>
 
-    <!-- ============ BRIEF ============ -->
-    <section class="screen" id="s-brief">
-      <div class="tagrow">
-        <span class="tag tag--live">Week 1 of 12</span>
-        <span class="tag">≈ 15 min</span>
-        <span class="tag">demo build</span>
+    <!-- ===================== BRIEF ===================== -->
+    <section class="screen on" id="s-brief">
+      <div class="badges">
+        <span class="badge badge--accent">Week 1 · 12</span>
+        <span class="badge">Acute medical take</span>
+        <span class="badge">≈ 15 min</span>
       </div>
       <h1>The collapse in the bathroom</h1>
-      <p class="lede">Work the case the way you would on the shop floor. Everything you order costs ward time — the clock is part of the score.</p>
-      <div class="card">
-        <div class="card__kicker">ED triage · 08:42 · majors</div>
-        <p style="font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-3);">Arthur Pell, 68. Brought by ambulance after a witnessed collapse at home this morning with brief loss of consciousness. Now alert. Wife at the bedside.</p>
-        <div class="obs">
-          NEWS <b>2</b> · HR <b>104</b> · BP <b>102/68</b><br>
-          RR <b>18</b> · SpO₂ <b>97%</b> air · T <b>36.4</b> · <b>Alert</b>
+      <p class="lede">Work him up the way you would on the take — examine, investigate, treat as you go. Every move costs ward time, and the clock is watching.</p>
+
+      <div class="patient">
+        <div class="avatar">AP</div>
+        <div class="patient__meta">
+          <b>Arthur Pell</b>
+          <span>68 · male · brought in by ambulance</span>
         </div>
       </div>
+
       <div class="card">
-        <div class="card__kicker">how this works</div>
-        <ul class="pearls">
-          <li>Take a history, examine, then commit an early differential.</li>
-          <li>Order investigations in rounds — results come back, you decide what's next.</li>
-          <li>Targeted thinking scores; the scattergun costs time and points.</li>
+        <div class="card__label">ED triage · 08:42 · majors</div>
+        <p class="serif-body" style="margin-bottom: var(--s4);">Witnessed collapse at home this morning with brief loss of consciousness. Came round quickly. Now alert, but grey and clammy. His wife Margaret is at the bedside.</p>
+        <div class="obsgrid">
+          <div class="obs"><div class="k">HR</div><div class="v">104</div><div class="u">/min</div></div>
+          <div class="obs" data-flag="lo"><div class="k">BP</div><div class="v">102/68</div><div class="u">mmHg</div></div>
+          <div class="obs"><div class="k">RR</div><div class="v">18</div><div class="u">/min</div></div>
+          <div class="obs"><div class="k">SpO₂</div><div class="v">97</div><div class="u">% air</div></div>
+          <div class="obs"><div class="k">Temp</div><div class="v">36.4</div><div class="u">°C</div></div>
+          <div class="obs"><div class="k">GCS</div><div class="v">15</div><div class="u">/15</div></div>
+        </div>
+        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="warn" id="newsBrief">3</span></div>
+      </div>
+
+      <div class="card card--plain" style="border:1px solid var(--rule);">
+        <div class="card__label">How this case works</div>
+        <ul class="points">
+          <li><span class="n">1</span><span>History, examination and investigations live in one workspace — loop between them freely.</span></li>
+          <li><span class="n">2</span><span>Lock an early differential, then order investigations in rounds. Re-examine when results change the picture.</span></li>
+          <li><span class="n">3</span><span>Commit a diagnosis, then prove you can <em>manage</em> it. Targeted thinking scores; the scattergun costs time.</span></li>
         </ul>
       </div>
+
       <div class="btnrow">
-        <button class="btn" data-go="history">Begin assessment</button>
+        <button class="btn" data-go="work">Begin the assessment</button>
       </div>
     </section>
 
-    <!-- ============ HISTORY ============ -->
-    <section class="screen" id="s-history">
-      <h2>Take a history</h2>
-      <p class="lede">Tap a question to ask it. Each one costs 2 minutes of ward time.</p>
-      <ul class="qa" id="qa"></ul>
-      <div class="chips" id="chips"></div>
-      <div class="btnrow">
-        <button class="btn" id="histNext" data-go="exam" disabled>Move to examination</button>
+    <!-- ===================== WORKSPACE ===================== -->
+    <section class="screen" id="s-work">
+      <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
+          <div style="font-size:.78rem; color:var(--muted);">Arthur Pell · 68 · bay 4</div>
+          <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--warn);">3</span></div>
+        </div>
+        <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ix">Investigate <span class="dot" id="ixDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="rx">Treat</button>
+      </div>
+
+      <div class="panel on" id="p-hx">
+        <p class="panel__hint">Tap to ask. Each question costs about 2 minutes.</p>
+        <ul class="qa" id="qa"></ul>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel" id="p-ex">
+        <p class="panel__hint">The core systems are quick. Reach for a focused examination when the story calls for it — choosing the right one is the skill.</p>
+        <ul class="rows" id="examCore"></ul>
+        <details class="more" id="moreExam">
+          <summary>Further / focused examinations <span class="chev">▾</span></summary>
+          <div class="more__body"><ul class="rows" id="examMore"></ul></div>
+        </details>
+        <div id="reexamWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="reexamBtn">Re-examine the patient</button>
+        </div>
+      </div>
+
+      <div class="panel" id="p-ix">
+        <p class="panel__hint">Build a round, send it, read the results. Order as many rounds as you need — the clock jumps by the slowest test each round.</p>
+        <div id="ixGroups"></div>
+        <button class="btn" id="sendRound" disabled style="margin-top:var(--s4);">Send round</button>
+        <div id="feed" aria-live="polite" style="margin-top:var(--s4);"></div>
+      </div>
+
+      <div class="panel" id="p-rx">
+        <p class="panel__hint">Immediate, real-time actions while you work him up. The definitive, condition-specific plan comes once you've committed a diagnosis.</p>
+        <ul class="rows" id="rxRows"></ul>
+      </div>
+
+      <div class="bar">
+        <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
+        <button class="btn btn--sm" style="flex:2;" id="toCommit">Commit a diagnosis</button>
       </div>
     </section>
 
-    <!-- ============ EXAM ============ -->
-    <section class="screen" id="s-exam">
-      <h2>Examine him</h2>
-      <p class="lede">Choose what to examine — 3 minutes each. Findings appear as you go.</p>
-      <ul class="rows" id="examRows"></ul>
-      <div class="btnrow">
-        <button class="btn" id="examNext" data-go="ddx" disabled>Commit an early differential</button>
-      </div>
-    </section>
-
-    <!-- ============ DDX CHECKPOINT ============ -->
+    <!-- ===================== DIFFERENTIAL CHECKPOINT ===================== -->
     <section class="screen" id="s-ddx">
-      <h2>Before any results — your top 3</h2>
-      <p class="lede">Rank your differential now. You'll see how it held up at the end.</p>
-      <ul class="opts" id="ddxOpts"></ul>
+      <div class="kicker">Checkpoint</div>
+      <h2>Your top three — before any results</h2>
+      <p class="lede">Commit to a differential now, from what's in front of you. You'll see how it held up.</p>
+      <div class="field" style="margin-top:var(--s5);">
+        <div class="hint">Start typing — choose the closest match.</div>
+        <div class="ddxnums">
+          <div class="field"><span class="num">1</span><input list="dxlist" id="ddx1" placeholder="Most likely diagnosis" autocomplete="off"></div>
+          <div class="field"><span class="num">2</span><input list="dxlist" id="ddx2" placeholder="Second" autocomplete="off"></div>
+          <div class="field"><span class="num">3</span><input list="dxlist" id="ddx3" placeholder="Third" autocomplete="off"></div>
+        </div>
+      </div>
       <div class="btnrow">
-        <button class="btn" id="ddxNext" data-go="ix" disabled>Lock it in — order investigations</button>
+        <button class="btn" id="ddxLock">Lock it in — send my first round</button>
       </div>
     </section>
 
-    <!-- ============ INVESTIGATIONS ============ -->
-    <section class="screen" id="s-ix">
-      <h2>Order investigations</h2>
-      <p class="lede">Build a round, send it, read the results. Order as many rounds as you need — the clock advances by the slowest test in each round.</p>
-      <div id="ixGroups"></div>
-      <div id="resultsFeed" aria-live="polite"></div>
-      <div class="btnrow">
-        <button class="btn btn--ghost" id="sendRound" disabled>Send round</button>
-        <button class="btn" data-go="commit">I'm ready to commit</button>
-      </div>
-    </section>
-
-    <!-- ============ COMMIT ============ -->
+    <!-- ===================== COMMIT ===================== -->
     <section class="screen" id="s-commit">
-      <h2>Commit</h2>
-      <p class="lede">One diagnosis, and your first three management moves.</p>
-      <div class="grouph">final diagnosis — pick one</div>
-      <ul class="opts" id="dxOpts"></ul>
-      <div class="grouph">immediate management — pick exactly 3</div>
-      <ul class="opts" id="mgOpts"></ul>
-      <div class="formerr" id="commitErr" role="alert">Pick one diagnosis and exactly three management actions — that's the registrar's call you're being asked to make.</div>
+      <div class="kicker">Diagnosis</div>
+      <h2>Commit your diagnosis</h2>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <div class="field" style="margin-top:var(--s5);">
+        <label for="dxInput">Final diagnosis</label>
+        <div class="hint">Type it — the box will suggest matches.</div>
+        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+      </div>
+      <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that's the registrar's call you're being asked to make.</div>
       <div class="btnrow">
-        <button class="btn" id="commitBtn">Commit and see how you did</button>
+        <button class="btn btn--ghost" data-go="work">Back to the work-up</button>
+        <button class="btn" id="commitBtn">Lock diagnosis → manage him</button>
       </div>
     </section>
 
-    <!-- ============ OUTCOME ============ -->
+    <!-- ===================== MANAGE (ACT 2) ===================== -->
+    <section class="screen" id="s-manage">
+      <div class="kicker">Management</div>
+      <h2 id="manageHead">Now manage the bleed</h2>
+      <p class="lede" id="manageLede">You've made the diagnosis. This is what separates safe from dangerous — the decisions, with the evidence behind each.</p>
+      <div id="mqList" style="margin-top:var(--s5);"></div>
+      <div class="btnrow">
+        <button class="btn" id="finishBtn">Finish the case → see how you did</button>
+      </div>
+    </section>
+
+    <!-- ===================== OUTCOME ===================== -->
     <section class="screen" id="s-out">
-      <div id="verdict"></div>
+      <div class="scorehero">
+        <div class="big" id="scoreBig">0<span>/160</span></div>
+        <div class="rank" id="rank"></div>
+        <div class="sub" id="scoreSub"></div>
+      </div>
+      <div id="dxVerdict"></div>
+
       <div class="card">
-        <div class="card__kicker">score</div>
+        <div class="card__label">Against the learning objectives</div>
+        <div id="loList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Your diagnostic journey</div>
+        <div id="journey" class="serif-body" style="font-size:.96rem;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Score breakdown</div>
         <table class="score" id="scoreTable"></table>
       </div>
+
       <div class="card">
-        <div class="card__kicker">your diagnostic journey</div>
-        <div class="journey" id="journey"></div>
-      </div>
-      <div class="card">
-        <div class="card__kicker">teaching pearls</div>
+        <div class="card__label">Teaching pearls</div>
         <ul class="pearls">
-          <li>"Dark stool but he's on iron" is the classic decoy. Iron stains; melaena is tarry, sticky and unmistakable — the PR exam settles it in thirty seconds.</li>
-          <li>Urea 14.6 with a creatinine of 92: a urea–creatinine rise out of proportion points at an upper GI source — digested blood is a protein meal.</li>
-          <li>The troponin of 34 is a type 2 rise from demand ischaemia on a haemoglobin of 72. Treating it as ACS — antiplatelets, anticoagulation — feeds the bleed.</li>
-          <li>One normal ECG never excludes paroxysmal arrhythmia — but it should not outrank a postural drop, melaena and an epigastric story.</li>
+          <li>Dark stool blamed on iron is the classic decoy. Iron stains; melaena is black, tarry, sticky and offensive. When in doubt, do the PR and let the urea settle it.</li>
+          <li>Urea 14.6 with a normal creatinine — out of proportion — is the fingerprint of an upper GI bleed. Digested blood is a protein meal.</li>
+          <li>The troponin of 34 is a type-2 rise from demand on a haemoglobin of 72. Treat it as ACS and you anticoagulate a bleeding man.</li>
+          <li>Glasgow-Blatchford risk-stratifies before endoscopy. A 0 can go home; this man, with a high score, cannot.</li>
+          <li>Terlipressin saves lives in variceal bleeding — but it's a vasoconstrictor. His cardiac history isn't just a diagnostic decoy; it shapes whether you reach for it.</li>
         </ul>
       </div>
-      <div class="card lockcard">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+
+      <div class="card lock">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
         <div>
-          <div style="font-weight:600; font-size: var(--text-sm);">Friday debrief — locked</div>
-          <div style="font-size: 0.75rem; color: var(--color-faint);">Unlocks Friday 17:00 · GI bleed vs arrhythmia vs seizure, and why the decoys nearly worked.</div>
+          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
+          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · the full work-up and management of upper GI bleeding, and why the decoys nearly won.</div>
         </div>
       </div>
+
       <div class="btnrow">
-        <button class="btn btn--ghost" id="again">Play the case again</button>
+        <button class="btn btn--ghost" id="replay">Play the case again</button>
       </div>
     </section>
 
   </main>
 
   <footer>
-    The Monday Patient — weekly case series, acute medicine. Prototype build with a fictional patient; no real patient data. Scores and leaderboard go live with the full platform.
+    The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
   </footer>
 </div>
+
+<datalist id="dxlist"></datalist>
 
 <script>
 "use strict";
 
-/* ============ case data — this object IS the weekly template ============ */
+/* ============================================================
+   CASE DATA — this object is the weekly authoring template.
+   To build week 2, copy this block and refill it.
+   ============================================================ */
 const CASE = {
+  meta: { dxAccepted: ["upper gi bleed","ugib","upper gastrointestinal bleed","upper gi haemorrhage","upper gi hemorrhage","bleeding peptic ulcer","peptic ulcer bleed","peptic ulcer haemorrhage","gi bleed","gastrointestinal bleed","melaena","haematemesis"],
+          dxName: "Upper GI bleed", startClock: 522 /* 08:42 in minutes */ },
+
   history: [
-    { id:"what",     q:"What happened?",              a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute — no shaking that she saw.”" },
-    { id:"warning",  q:"Any warning beforehand?",     a:"“Light-headed and sweaty for a second or two. Then the floor.”" },
-    { id:"after",    q:"How did you feel afterwards?",a:"“Came round quick. Washed out ever since, mind.”" },
-    { id:"chest",    q:"Chest pain?",                 a:"“No pain. A bit of a flutter when I came round — gone now.”" },
-    { id:"palps",    q:"Palpitations?",               a:"“Now and then this week. Heart thumping on the stairs.”" },
-    { id:"fits",     q:"Tongue-biting or incontinence?", a:"Margaret answers: “Nothing like that, doctor, and I was right there.”" },
-    { id:"bowels",   q:"Bowels and stool?",           a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets Margaret has me on.”", key:true },
-    { id:"energy",   q:"Appetite and energy?",        a:"“Off my food all week. Tired. Dizzy when I stand.”" },
-    { id:"gi",       q:"Any indigestion?",            a:"“Burning up here for a fortnight.” — he points at his epigastrium. “Rennies take the edge off.”" },
-    { id:"drugs",    q:"Drug history?",               a:"“Naproxen for the knee these past six weeks. Aspirin every morning. A statin. And the iron tablets.”", key:true },
-    { id:"pmh",      q:"Past medical history?",       a:"“Blood pressure. The knee. And they caught a flutter of AF on a machine last year — said it had settled.”" },
-    { id:"fhx",      q:"Family history?",             a:"“Father died of his heart. My brother’s got a pacemaker.”" },
-    { id:"etoh",     q:"Alcohol?",                    a:"“Couple of whiskies of an evening. A few more on a Saturday.”" },
-    { id:"baseline", q:"Normal day-to-day?",          a:"“Fit as a flea. Retired plumber. Still drive, still do the garden.”" }
+    { id:"what",   q:"What happened?", a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute.”" },
+    { id:"warn",   q:"Any warning first?", a:"“Light-headed and sweaty for a second. Then the floor.”" },
+    { id:"after",  q:"How now?", a:"“Came round quick. Washed out ever since.”" },
+    { id:"chest",  q:"Chest pain?", a:"“No pain. A bit of a flutter when I came round — gone now.”" },
+    { id:"palp",   q:"Palpitations?", a:"“Now and then this week. Heart thumping on the stairs.”", tag:"cardiac" },
+    { id:"fits",   q:"Tongue-biting, shaking?", a:"Margaret: “Nothing like that, doctor, and I was right next to him.”" },
+    { id:"bowels", q:"Bowels & stool?", a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets.”", key:true },
+    { id:"eat",    q:"Appetite, energy?", a:"“Off my food all week. Tired. Dizzy when I stand.”" },
+    { id:"gi",     q:"Indigestion?", a:"“Burning up here for a fortnight.” — he points at the epigastrium. “Rennies help.”", key:true },
+    { id:"drugs",  q:"Drug history?", a:"“Naproxen for the knee these six weeks. Aspirin each morning. A statin. And the iron.”", key:true },
+    { id:"pmh",    q:"Past history?", a:"“Blood pressure. The knee. They caught a flutter — AF — on a machine last year, said it settled.”", tag:"cardiac" },
+    { id:"fhx",    q:"Family history?", a:"“Father died of his heart. My brother’s got a pacemaker.”", tag:"cardiac" },
+    { id:"etoh",   q:"Alcohol?", a:"“Couple of whiskies most evenings. A good few more on a Saturday.”", key:true, tag:"varices" },
+    { id:"base",   q:"Normally fit?", a:"“Fit as a flea. Retired plumber, still do the garden.”" }
   ],
-  exam: [
-    { id:"gen",   name:"End of the bed",            f:"Pale and clammy. Cool hands, capillary refill 3 s. He looks “not right”." },
-    { id:"post",  name:"Lying & standing obs",      f:"Lying 102/68, HR 104. Standing one minute: 84/56, HR 126 — he sways and asks to sit down.", key:true },
-    { id:"cvs",   name:"Cardiovascular",            f:"Pulse 104, regular. JVP not raised. Normal heart sounds, no murmur, no oedema." },
-    { id:"resp",  name:"Respiratory",               f:"Chest clear. RR 18, SpO₂ 97% on air." },
-    { id:"abdo",  name:"Abdomen",                   f:"Soft. Tender in the epigastrium without guarding. No masses. Bowel sounds active." },
-    { id:"pr",    name:"PR examination",            f:"Black, tarry stool on the glove. Unmistakable.", key:true },
-    { id:"neuro", name:"Neurological",              f:"GCS 15, no focal deficit, no tongue trauma. Steady on his feet once flat for a while." }
+
+  examCore: [
+    { id:"gen",  name:"General inspection", f:"Pale, clammy, cool peripheries. Capillary refill 3 s. He looks unwell.", dyn:true },
+    { id:"cvs",  name:"Cardiovascular", f:"Pulse 104, regular. JVP not raised. Heart sounds normal, no murmur. No oedema." },
+    { id:"resp", name:"Respiratory", f:"Chest clear. Trachea central. RR 18, SpO₂ 97% on air." },
+    { id:"abdo", name:"Abdomen", f:"Soft. Tender in the epigastrium, no guarding. No masses, no organomegaly. Bowel sounds active.", key:true },
+    { id:"cns",  name:"Neurological", f:"GCS 15, no focal deficit, no tongue trauma. Cranial nerves intact." }
   ],
-  ddx: ["Upper GI bleed", "Cardiac arrhythmia", "Seizure", "Acute coronary syndrome", "Pulmonary embolism", "Vasovagal syncope"],
-  answer: "Upper GI bleed",
-  ix: [
-    { g:"bedside", id:"ecg",  name:"ECG",                 cost:10,  costLabel:"10 min", tag:"key",
-      r:"Sinus tachycardia 104. No ischaemic changes. No AF. Normal intervals." },
-    { g:"bedside", id:"glu",  name:"Capillary glucose",   cost:2,   costLabel:"2 min",  tag:"key",
-      r:"<b class=\"rv\">6.2 mmol/L</b>" },
-    { g:"bedside", id:"vbg",  name:"Venous blood gas",    cost:15,  costLabel:"15 min", tag:"key",
-      r:"pH 7.36 · <span class=\"hi\">Hb 76 ▲</span> · <span class=\"hi\">lactate 2.9 ▲</span> · K 4.2" },
-    { g:"bedside", id:"dip",  name:"Urine dip",           cost:10,  costLabel:"10 min", tag:"noise",
-      r:"Unremarkable." },
-    { g:"bloods",  id:"fbc",  name:"FBC",                 cost:60,  costLabel:"60 min", tag:"key",
-      r:"<span class=\"hi\">Hb 72 ▲</span> · MCV 84 · WCC 11.2 · Plt 412" },
-    { g:"bloods",  id:"ue",   name:"U&E",                 cost:60,  costLabel:"60 min", tag:"key",
-      r:"Na 138 · K 4.3 · <span class=\"hi\">urea 14.6 ▲</span> · creatinine 92" },
-    { g:"bloods",  id:"lft",  name:"LFTs",                cost:60,  costLabel:"60 min", tag:"supp",
-      r:"Bilirubin 9 · ALT 28 · ALP 84 · albumin 38" },
-    { g:"bloods",  id:"coag", name:"Coagulation",         cost:60,  costLabel:"60 min", tag:"supp",
-      r:"INR 1.0 · APTT normal" },
-    { g:"bloods",  id:"trop", name:"Troponin",            cost:60,  costLabel:"60 min", tag:"supp",
-      r:"<span class=\"hi\">hs-cTn 34 ng/L ▲</span> (URL 14)" },
-    { g:"bloods",  id:"gs",   name:"Group & save + crossmatch 2 units", cost:45, costLabel:"45 min", tag:"key",
-      r:"Sample received. Two units available in 40 minutes." },
-    { g:"imaging", id:"cxr",  name:"Chest X-ray",         cost:45,  costLabel:"45 min", tag:"supp",
-      r:"Clear lungs. Normal mediastinum. No free air under the diaphragm." },
-    { g:"imaging", id:"cth",  name:"CT head",             cost:90,  costLabel:"90 min", tag:"noise",
-      r:"No acute intracranial abnormality." },
-    { g:"imaging", id:"ctpa", name:"CTPA",                cost:120, costLabel:"2 h",    tag:"noise",
-      r:"No pulmonary embolus. Incidental 4 mm nodule for routine follow-up." },
-    { g:"special", id:"echo", name:"Echocardiogram",      cost:360, costLabel:"next day", tag:"noise",
-      r:"Reported next working day: normal LV, no significant valve disease." },
-    { g:"special", id:"tape", name:"24-h Holter",         cost:0,   costLabel:"2 wk",   tag:"noise",
-      r:"Fitted. Report expected in two weeks." },
-    { g:"special", id:"eeg",  name:"EEG",                 cost:0,   costLabel:"6 wk OPD", tag:"noise",
-      r:"Routine outpatient request lodged — six-week wait." }
+  examMore: [
+    { id:"pr",    name:"PR examination", sub:"per rectum", f:"Black, tarry, offensive melaena on the glove. Unmistakable.", tone:"alert", key:true, dyn:true, isPR:true },
+    { id:"post",  name:"Lying & standing BP", sub:"postural", f:"Lying 102/68, HR 104. Standing one minute: 84/56, HR 126 — he sways.", tone:"alert", key:true },
+    { id:"calf",  name:"Calf / DVT check", sub:"PE thinking", f:"Calves soft, non-tender, equal. No swelling.", tag:"pe" },
+    { id:"pulses",name:"Peripheral pulses", sub:"", f:"Thready but present and symmetrical." },
+    { id:"hydr",  name:"Hydration / volume", sub:"", f:"Dry mucous membranes, reduced skin turgor. Intravascularly deplete.", supp:true },
+    { id:"fundi", name:"Fundoscopy", sub:"", f:"Normal discs, no papilloedema." },
+    { id:"hern",  name:"Hernial orifices", sub:"", f:"No herniae. External genitalia normal." }
   ],
-  groups: { bedside:"bedside — minutes", bloods:"bloods — about an hour", imaging:"imaging", special:"special tests" },
+
+  ix: {
+    bedside: [
+      { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"key", labs:[{n:"Glucose", v:"6.2", r:"4.0–7.8", u:"mmol/L"}] },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia, rate 104. No ischaemic changes. No AF. Normal intervals." },
+      { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
+        labs:[{n:"pH", v:"7.36", r:"7.35–7.45"},{n:"Hb", v:"76", r:"130–170", u:"g/L", flag:"lo"},{n:"Lactate", v:"2.9", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.2", r:"3.5–5.3", u:"mmol/L"}] },
+      { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable." }
+    ],
+    bloods: [
+      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true,
+        labs:[{n:"Hb", v:"72", r:"130–170", u:"g/L", flag:"lo", base:"134 (3 months ago)"},{n:"MCV", v:"84", r:"80–99", u:"fL"},{n:"WCC", v:"11.2", r:"4.0–11.0", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"412", r:"150–400", u:"×10⁹/L", flag:"hi"}] },
+      { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"Sodium", v:"138", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.3", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"14.6", r:"2.5–7.8", u:"mmol/L", flag:"hi", base:"5.1 (3 months ago)"},{n:"Creatinine", v:"92", r:"59–104", u:"µmol/L"}] },
+      { id:"lft",  name:"Liver function", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"Bilirubin", v:"9", r:"<21", u:"µmol/L"},{n:"ALT", v:"28", r:"<41", u:"U/L"},{n:"ALP", v:"84", r:"30–130", u:"U/L"},{n:"Albumin", v:"38", r:"35–50", u:"g/L"}] },
+      { id:"coag", name:"Coagulation", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"INR", v:"1.1", r:"0.9–1.2"},{n:"APTT", v:"30", r:"24–36", u:"s"}] },
+      { id:"trop", name:"Troponin", cost:60, costL:"60 min", tag:"trap",
+        labs:[{n:"hs-cTnT", v:"34", r:"<14", u:"ng/L", flag:"hi"}] },
+      { id:"gs",   name:"Group & save + crossmatch 2 units", cost:45, costL:"45 min", tag:"key", text:"Sample received. Two units crossmatched, available in 40 minutes." }
+    ],
+    imaging: [
+      { id:"cxr",  name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", text:"Clear lung fields. Normal mediastinum. No free air under the diaphragm." },
+      { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"noise", text:"No acute intracranial abnormality." },
+      { id:"ctpa", name:"CT pulmonary angiogram", cost:120, costL:"2 h", tag:"noise", text:"No pulmonary embolus. Incidental 4 mm nodule for routine follow-up." }
+    ],
+    special: [
+      { id:"echo", name:"Echocardiogram", cost:240, costL:"next day", tag:"noise", text:"Reported next working day: normal LV, no significant valve disease." },
+      { id:"holt", name:"24-hour Holter", cost:0, costL:"2 wk", tag:"noise", text:"Fitted. Report expected in two weeks." }
+    ]
+  },
+  ixGroups: { bedside:"Bedside · minutes", bloods:"Bloods · about an hour", imaging:"Imaging", special:"Special tests" },
+
+  rx: [
+    { id:"iv",   t:"Two large-bore cannulae + IV crystalloid", kind:"good", resus:true, why:"Resuscitate first — he’s shocked." },
+    { id:"o2",   t:"High-flow oxygen, A–E approach", kind:"good", why:"Sound first principles in any unwell patient." },
+    { id:"blood",t:"Activate transfusion — give crossmatched blood", kind:"good", resus:true, why:"Hb 72 and bleeding — blood beats clear fluid." },
+    { id:"hold", t:"Stop the naproxen and aspirin", kind:"good", why:"Remove the cause of the bleed." },
+    { id:"cath", t:"Catheterise & monitor urine output", kind:"good", why:"Reasonable to track response to resuscitation." },
+    { id:"lmwh", t:"Treatment-dose anticoagulation (?PE / cardiac)", kind:"danger", why:"Anticoagulating an active GI bleed — the dangerous miss this case is built around." }
+  ],
+
+  /* ----- ACT 2 management drill ----- */
   mgmt: [
-    { id:"iv",     t:"Two large-bore cannulae + balanced crystalloid",        kind:"good",
-      why:"Resuscitate first — he is haemodynamically compromised." },
-    { id:"xm",     t:"Activate transfusion — crossmatch 2 units",             kind:"good",
-      why:"Hb 72 and still bleeding; blood beats clear fluid." },
-    { id:"scope",  t:"Urgent gastroenterology referral for endoscopy",        kind:"good",
-      why:"Definitive diagnosis and treatment for an upper GI bleed." },
-    { id:"ppi",    t:"Stop naproxen & aspirin · start IV PPI",                kind:"good",
-      why:"Remove the cause; protect the mucosa pending endoscopy." },
-    { id:"lmwh",   t:"Treatment-dose LMWH for possible PE",                   kind:"danger",
-      why:"Anticoagulating an active GI bleed — this is the dangerous miss the case was built around." },
-    { id:"cth1",   t:"Send for CT head before anything else",                 kind:"bad",
-      why:"No focal neurology, no head strike story — it delays resuscitation." },
-    { id:"lev",    t:"Load with levetiracetam",                               kind:"bad",
-      why:"Nothing here behaves like a seizure: no tongue-biting, no post-ictal phase." },
-    { id:"holt",   t:"Discharge with an outpatient Holter",                   kind:"danger",
-      why:"Sending home a shocked patient with a Hb of 72." }
-  ]
+    { id:"risk", tag:"Risk", q:"His urea is up, Hb is 72, he’s tachycardic and he had syncope and melaena. What does the Glasgow-Blatchford score tell you to do?",
+      opts:[
+        { t:"High score — admit, resuscitate, urgent endoscopy", ok:true },
+        { t:"Score is low — discharge with an outpatient endoscopy", ok:false },
+        { t:"The score doesn’t apply before endoscopy", ok:false } ],
+      teach:"The <b>Glasgow-Blatchford score</b> (urea, Hb, BP, pulse, melaena, syncope, liver/cardiac disease) risk-stratifies <b>before</b> endoscopy. A GBS of 0 may go home; his is high on almost every parameter — he is admitted." },
+    { id:"trans", tag:"Transfusion", q:"He’s haemodynamically unstable with a haemoglobin of 72. Transfuse?",
+      opts:[
+        { t:"Yes — transfuse, target Hb 70–90", ok:true },
+        { t:"No — restrictive threshold is 70, he’s above it", ok:false },
+        { t:"Only if Hb falls below 50", ok:false } ],
+      teach:"The <b>restrictive threshold is 70 g/L (target 70–90)</b> — but that’s for the stable patient. With haemodynamic instability or massive bleeding you transfuse regardless. He qualifies on instability." },
+    { id:"var", tag:"Drugs", q:"His heavy alcohol history raises varices. If you suspect a variceal bleed, what do you start?",
+      opts:[
+        { t:"Terlipressin + prophylactic antibiotics", ok:true },
+        { t:"IV proton-pump inhibitor only", ok:false },
+        { t:"Tranexamic acid for all GI bleeds", ok:false } ],
+      teach:"Suspected variceal bleeding gets <b>terlipressin</b> (splanchnic vasoconstriction) plus <b>prophylactic antibiotics</b> — ceftriaxone — which independently reduce mortality in cirrhotic bleeds. PPIs are for the non-variceal / peptic ulcer arm." },
+    { id:"citep", tag:"Caution", q:"Before you give terlipressin — what about that flutter of AF, the family history and the troponin of 34?",
+      opts:[
+        { t:"Terlipressin is a vasoconstrictor — caution in ischaemic heart / vascular disease", ok:true },
+        { t:"No concern — terlipressin is cardiac-safe", ok:false },
+        { t:"It only matters in asthma", ok:false } ],
+      teach:"<b>Terlipressin is cautioned / relatively contraindicated in ischaemic heart disease, peripheral and mesenteric vascular disease, and uncontrolled hypertension</b> — it can precipitate ischaemia. The cardiac story that tried to mislead your diagnosis now genuinely shapes your management." },
+    { id:"scope", tag:"Endoscopy", q:"When does this man need his endoscopy?",
+      opts:[
+        { t:"Within 24 h — and urgently after resuscitation if he stays unstable", ok:true },
+        { t:"Routine outpatient list in a few weeks", ok:false },
+        { t:"Only if he re-bleeds", ok:false } ],
+      teach:"All acute upper GI bleeds get endoscopy <b>within 24 hours of admission</b>. The unstable, actively bleeding patient goes <b>urgently, once resuscitated</b> — and you escalate early to the on-call endoscopist, with interventional radiology or surgery as backup." },
+    { id:"cause", tag:"Cause", q:"Most likely source of the bleed, given six weeks of naproxen and daily aspirin?",
+      opts:[
+        { t:"Peptic ulcer disease", ok:true },
+        { t:"Mallory-Weiss tear", ok:false },
+        { t:"Angiodysplasia", ok:false } ],
+      teach:"<b>Peptic ulcer disease</b> is the commonest cause of upper GI bleeding, and NSAIDs + aspirin are the classic culprits here. Varices, oesophagitis, Mallory-Weiss tears and malignancy make up the rest of the differential of the bleed itself." }
+  ],
+
+  conditions: ["Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Thrombotic thrombocytopenic purpura"]
 };
 
-/* ============ state ============ */
+/* ============================================================
+   STATE
+   ============================================================ */
 const S = {
-  stage: "brief", simMin: 0,
-  asked: new Set(), examined: new Set(),
-  ddx: [], picked: new Set(), ordered: new Set(), round: 0,
-  dx: null, mg: new Set()
+  clock: CASE.meta.startClock,
+  asked: new Set(), examCore: new Set(), examMore: new Set(),
+  ddxLocked: false, ddx: [],
+  picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
+  rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0, fbcBackAt: null,
+  dx: "", dxCorrect: false,
+  mg: {}
 };
 
-const $  = (s) => document.querySelector(s);
-const $$ = (s) => document.querySelectorAll(s);
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
 
-function fmtClock(m) {
-  return Math.floor(m / 60) + " h " + String(m % 60).padStart(2, "0") + " m";
+function fmtClock(min){ const h=Math.floor(min/60)%24, m=min%60; return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+function elapsed(){ return S.clock - CASE.meta.startClock; }
+function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); }
+
+/* ---------- dynamic obs ---------- */
+function obsState(){
+  // improving if resuscitated (iv or blood) early; deteriorating if time passes untreated
+  const resus = S.rx.has("iv") || S.rx.has("blood");
+  if (S.reexamCount === 0) return { hr:104, bp:"102/68", rr:18, spo2:97, news:3, tone:"warn", flag:"lo", appear:"base" };
+  if (resus) return { hr:92, bp:"112/70", rr:16, spo2:98, news:1, tone:"ok", flag:"", appear:"better" };
+  return { hr:124, bp:"86/54", rr:22, spo2:95, news:7, tone:"bad", flag:"lo", appear:"worse" };
 }
-function tick(min) {
-  S.simMin += min;
-  $("#clock").textContent = fmtClock(S.simMin);
+function renderObs(){
+  const o = obsState();
+  const cells = [
+    ["HR", o.hr, "/min", ""],
+    ["BP", o.bp, "mmHg", o.flag],
+    ["RR", o.rr, "/min", o.rr>20?"hi":""],
+    ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
+    ["Lactate", S.reexamCount&&!(S.rx.has("iv")||S.rx.has("blood"))?"3.8":"2.9", "mmol/L", "hi"],
+    ["GCS", "15", "/15", ""]
+  ];
+  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
+  const nl = $("#newsLive"); nl.textContent = o.news; nl.style.color = o.tone==="bad"?"var(--danger)":o.tone==="ok"?"var(--good)":"var(--warn)";
 }
-function goTo(stage) {
-  S.stage = stage;
-  $$(".screen").forEach(el => el.classList.remove("is-on"));
-  $("#s-" + (stage === "out" ? "out" : stage)).classList.add("is-on");
-  const order = ["brief","history","exam","ddx","ix","commit"];
-  $$(".step").forEach(el => {
-    const i = order.indexOf(el.dataset.stage), cur = order.indexOf(stage);
-    el.dataset.on = stage === "out" ? "done" : (i === cur ? "now" : (i < cur ? "done" : ""));
+
+/* ---------- screen / tab nav ---------- */
+function go(id){
+  $$(".screen").forEach(s=>s.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  const map = { brief:"brief", work:"work", ddx:"work", commit:"commit", manage:"manage", out:"manage" };
+  const stage = map[id] || "brief";
+  const order = ["brief","work","commit","manage"];
+  $$("#actbar .actpill").forEach(p=>{
+    const i = order.indexOf(p.dataset.stage), c = order.indexOf(stage);
+    p.dataset.on = i===c ? "1" : (i<c ? "done" : "0");
   });
-  window.scrollTo({ top: 0 });
+  window.scrollTo({top:0});
 }
-$$("[data-go]").forEach(b => b.addEventListener("click", () => goTo(b.dataset.go)));
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 
-/* ============ history ============ */
-function renderChips() {
+function tab(name){
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
+  $$(".panel").forEach(p=>p.classList.remove("on"));
+  $("#p-"+name).classList.add("on");
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab)));
+
+/* ---------- datalist ---------- */
+$("#dxlist").innerHTML = CASE.conditions.map(c=>`<option value="${c}">`).join("");
+
+/* ---------- history ---------- */
+function renderHx(){
   const box = $("#chips"); box.innerHTML = "";
-  CASE.history.filter(h => !S.asked.has(h.id)).forEach(h => {
+  CASE.history.filter(h=>!S.asked.has(h.id)).forEach(h=>{
     const b = document.createElement("button");
     b.className = "chip"; b.textContent = h.q;
-    b.addEventListener("click", () => {
+    b.onclick = ()=>{
       S.asked.add(h.id); tick(2);
       const li = document.createElement("li");
-      li.innerHTML = "<div class=\"q\">" + h.q + "</div><div class=\"a\">" + h.a + "</div>";
+      li.innerHTML = `<div class="q">${h.q}</div><div class="a">${h.a}</div>`;
       $("#qa").appendChild(li);
-      $("#histNext").disabled = S.asked.size < 3;
-      renderChips();
-    });
+      renderHx();
+    };
     box.appendChild(b);
   });
+  if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
 }
-renderChips();
 
-/* ============ exam ============ */
-function renderExam() {
-  const ul = $("#examRows"); ul.innerHTML = "";
-  CASE.exam.forEach(e => {
-    const li = document.createElement("li"); li.className = "row";
-    const done = S.examined.has(e.id);
-    li.innerHTML = "<div class=\"row__head\"><span class=\"row__name\">" + e.name + "</span>" +
-      "<span class=\"row__cost\">3 min</span>" +
-      "<button class=\"row__act\"" + (done ? " disabled" : "") + ">" + (done ? "Done" : "Examine") + "</button></div>" +
-      (done ? "<div class=\"finding\">" + e.f + "</div>" : "");
-    if (!done) li.querySelector("button").addEventListener("click", () => {
-      S.examined.add(e.id); tick(3);
-      $("#examNext").disabled = S.examined.size < 2;
+/* ---------- examination ---------- */
+function prFinding(){
+  // dynamic: ongoing loss if not resuscitated and time has passed
+  if (S.reexamCount>0 && !(S.rx.has("iv")||S.rx.has("blood"))) return "Fresh melaena again — he is still losing blood.";
+  return CASE.examMore.find(e=>e.id==="pr").f;
+}
+function genFinding(){
+  const o = obsState();
+  if (o.appear==="better") return "Warmer, pinker, settling. Capillary refill now 2 s — responding to resuscitation.";
+  if (o.appear==="worse") return "More clammy and drowsy. Capillary refill 4 s. He is deteriorating.";
+  return CASE.examCore.find(e=>e.id==="gen").f;
+}
+function rowHTML(item, picked, label){
+  return `<div class="row__head"><span class="row__name">${item.name}${item.sub?` <span class="row__sub">· ${item.sub}</span>`:""}</span>`+
+    `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
+}
+function findingFor(e){
+  if (e.id==="pr") return prFinding();
+  if (e.id==="gen") return genFinding();
+  return e.f;
+}
+function renderExam(){
+  const core = $("#examCore"); core.innerHTML="";
+  CASE.examCore.forEach(e=>{
+    const done = S.examCore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{ S.examCore.add(e.id); tick(3); renderExam(); };
+    core.appendChild(li);
+  });
+  const more = $("#examMore"); more.innerHTML="";
+  CASE.examMore.forEach(e=>{
+    const done = S.examMore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{
+      S.examMore.add(e.id); tick(4);
+      if(e.id==="pr" && S.prDoneAt===null){ S.prDoneAt = S.clock; S.prBeforeFBC = !S.fbcBack; }
       renderExam();
-    });
-    ul.appendChild(li);
+    };
+    more.appendChild(li);
   });
 }
-renderExam();
+$("#reexamBtn").onclick = ()=>{
+  S.reexamCount++; tick(20);
+  // re-open key dynamic exams so they can be repeated
+  S.examCore.delete("gen"); S.examMore.delete("pr"); S.examMore.delete("post");
+  renderExam(); renderObs();
+  tab("ex"); window.scrollTo({top:0});
+};
 
-/* ============ ddx checkpoint ============ */
-function renderDdx() {
-  const ul = $("#ddxOpts"); ul.innerHTML = "";
-  CASE.ddx.forEach(d => {
-    const i = S.ddx.indexOf(d);
-    const li = document.createElement("li");
-    const b = document.createElement("button");
-    b.className = "opt"; b.dataset.picked = i > -1 ? "yes" : "no";
-    b.innerHTML = "<span class=\"badge\">" + (i > -1 ? (i + 1) : "·") + "</span><span>" + d + "</span>";
-    b.addEventListener("click", () => {
-      if (i > -1) S.ddx.splice(i, 1);
-      else if (S.ddx.length < 3) S.ddx.push(d);
-      $("#ddxNext").disabled = S.ddx.length !== 3;
-      renderDdx();
-    });
-    li.appendChild(b); ul.appendChild(li);
-  });
-}
-renderDdx();
-
-/* ============ investigations ============ */
-function renderIx() {
-  const box = $("#ixGroups"); box.innerHTML = "";
-  Object.keys(CASE.groups).forEach(g => {
-    const h = document.createElement("div");
-    h.className = "grouph"; h.textContent = CASE.groups[g];
-    box.appendChild(h);
-    const ul = document.createElement("ul"); ul.className = "rows";
-    CASE.ix.filter(x => x.g === g).forEach(x => {
-      const sent = S.ordered.has(x.id), inRound = S.picked.has(x.id);
-      const li = document.createElement("li"); li.className = "row";
-      li.innerHTML = "<div class=\"row__head\"><span class=\"row__name\" style=\"font-size: var(--text-sm);\">" + x.name + "</span>" +
-        "<span class=\"row__cost\">" + x.costLabel + "</span>" +
-        "<button class=\"row__act\"" + (sent ? " disabled" : "") + " data-picked=\"" + (inRound ? "yes" : "no") + "\">" +
-        (sent ? "Sent" : (inRound ? "Added" : "Add")) + "</button></div>";
-      if (!sent) li.querySelector("button").addEventListener("click", () => {
-        inRound ? S.picked.delete(x.id) : S.picked.add(x.id);
-        $("#sendRound").disabled = S.picked.size === 0;
-        $("#sendRound").textContent = S.picked.size ? "Send round (" + S.picked.size + ")" : "Send round";
+/* ---------- investigations ---------- */
+function renderIx(){
+  const box = $("#ixGroups"); box.innerHTML="";
+  Object.keys(CASE.ixGroups).forEach(g=>{
+    const h=document.createElement("div"); h.className="grouph"; h.textContent=CASE.ixGroups[g]; box.appendChild(h);
+    const ul=document.createElement("ul"); ul.className="rows";
+    CASE.ix[g].forEach(x=>{
+      const sent=S.ordered.has(x.id), inR=S.picked.has(x.id);
+      const li=document.createElement("li"); li.className="row";
+      li.innerHTML=`<div class="row__head"><span class="row__name">${x.name}</span><span class="row__cost">${x.costL}</span>`+
+        `<button class="act" ${sent?'disabled':''} data-picked="${inR?1:0}">${sent?"Sent":(inR?"Added":"Add")}</button></div>`;
+      if(!sent) li.querySelector("button").onclick=()=>{
+        inR?S.picked.delete(x.id):S.picked.add(x.id);
+        const n=S.picked.size; const b=$("#sendRound");
+        b.disabled=!n; b.textContent=n?`Send round (${n})`:"Send round";
         renderIx();
-      });
+      };
       ul.appendChild(li);
     });
     box.appendChild(ul);
   });
 }
-renderIx();
-
-$("#sendRound").addEventListener("click", () => {
-  if (!S.picked.size) return;
-  const btn = $("#sendRound");
-  btn.dataset.state = "loading";
-  setTimeout(() => {
-    delete btn.dataset.state;
-    S.round += 1;
-    const items = CASE.ix.filter(x => S.picked.has(x.id));
-    tick(Math.max(...items.map(x => x.cost)));
-    const feed = $("#resultsFeed");
-    const rh = document.createElement("div");
-    rh.className = "roundh";
-    rh.textContent = "round " + S.round + " — back at " + fmtClock(S.simMin);
-    feed.appendChild(rh);
-    items.forEach(x => {
-      S.ordered.add(x.id);
-      const d = document.createElement("div"); d.className = "result";
-      d.innerHTML = "<div class=\"rn\">" + x.name + "</div><div class=\"rv\">" + x.r + "</div>";
-      feed.appendChild(d);
-    });
-    S.picked.clear();
-    btn.disabled = true; btn.textContent = "Send round";
-    renderIx();
-    feed.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, 700);
-});
-
-/* ============ commit ============ */
-function renderCommit() {
-  const dxUl = $("#dxOpts"); dxUl.innerHTML = "";
-  CASE.ddx.forEach(d => {
-    const li = document.createElement("li");
-    const b = document.createElement("button");
-    b.className = "opt"; b.dataset.picked = S.dx === d ? "yes" : "no";
-    b.innerHTML = "<span class=\"badge\">" + (S.dx === d ? "✓" : "·") + "</span><span>" + d + "</span>";
-    b.addEventListener("click", () => { S.dx = d; renderCommit(); });
-    li.appendChild(b); dxUl.appendChild(li);
+function labRowHTML(l){
+  const flag = l.flag||"";
+  const arrow = flag==="hi"?" ▲":flag==="lo"?" ▼":"";
+  return `<div class="labrow" data-flag="${flag}"><span class="ln">${l.n}</span>`+
+    `<span class="lv">${l.v}${l.u?" "+l.u:""}<span class="arrow">${arrow}</span></span>`+
+    `<span class="lr">${l.r}</span>`+
+    (l.base?`<span class="base">prior: ${l.base}</span>`:"")+`</div>`;
+}
+function findIx(id){ for(const g of Object.keys(CASE.ix)){ const f=CASE.ix[g].find(x=>x.id===id); if(f) return f; } }
+function processRound(){
+  S.round++;
+  const items=[...S.picked].map(findIx);
+  tick(Math.max(...items.map(x=>x.cost),0));
+  const feed=$("#feed");
+  const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Round ${S.round} · back at ${fmtClock(S.clock)}`; feed.appendChild(rh);
+  items.forEach(x=>{
+    S.ordered.add(x.id);
+    if(x.isFBC && !S.fbcBack){ S.fbcBack=true; S.fbcBackAt=S.clock; }
+    const d=document.createElement("div"); d.className="result";
+    let body = x.labs ? x.labs.map(labRowHTML).join("") : `<div class="labtext">${x.text}</div>`;
+    d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
+    feed.appendChild(d);
   });
-  const mgUl = $("#mgOpts"); mgUl.innerHTML = "";
-  CASE.mgmt.forEach(m => {
-    const on = S.mg.has(m.id);
-    const li = document.createElement("li");
-    const b = document.createElement("button");
-    b.className = "opt"; b.dataset.picked = on ? "yes" : "no";
-    b.innerHTML = "<span class=\"badge\">" + (on ? "✓" : "·") + "</span><span style=\"font-size: var(--text-sm);\">" + m.t + "</span>";
-    b.addEventListener("click", () => {
-      on ? S.mg.delete(m.id) : (S.mg.size < 3 && S.mg.add(m.id));
-      renderCommit();
-    });
-    li.appendChild(b); mgUl.appendChild(li);
+  S.picked.clear();
+  const b=$("#sendRound"); b.disabled=true; b.textContent="Send round";
+  // surface re-examine once results are in
+  $("#reexamWrap").style.display="block";
+  $("#ixDot").classList.add("show"); $("#ixDot").textContent=S.round;
+  renderIx();
+  feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
+}
+$("#sendRound").onclick = ()=>{
+  if(!S.picked.size) return;
+  if(!S.ddxLocked){ go("ddx"); return; }
+  processRound();
+};
+
+/* ---------- differential checkpoint ---------- */
+$("#ddxLock").onclick = ()=>{
+  S.ddx = ["#ddx1","#ddx2","#ddx3"].map(s=>$(s).value.trim()).filter(Boolean);
+  S.ddxLocked = true;
+  go("work"); tab("ix");
+  if(S.picked.size) processRound();
+};
+
+/* ---------- treat / immediate actions ---------- */
+function renderRx(){
+  const ul=$("#rxRows"); ul.innerHTML="";
+  CASE.rx.forEach(m=>{
+    const on=S.rx.has(m.id);
+    const li=document.createElement("li"); li.className="row";
+    li.innerHTML=`<div class="row__head"><span class="row__name">${m.t}</span>`+
+      `<button class="act" data-picked="${on?1:0}">${on?"Given":"Give"}</button></div>`;
+    li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(3); renderRx(); renderObs(); };
+    ul.appendChild(li);
   });
 }
-renderCommit();
 
-/* ============ scoring ============ */
-$("#commitBtn").addEventListener("click", () => {
-  if (!S.dx || S.mg.size !== 3) { $("#commitErr").classList.add("is-on"); return; }
-  $("#commitErr").classList.remove("is-on");
+/* ---------- commit ---------- */
+$("#toCommit").onclick = ()=>go("commit");
+$("#commitBtn").onclick = ()=>{
+  const v=$("#dxInput").value.trim();
+  if(!v){ $("#commitErr").style.display="block"; return; }
+  $("#commitErr").style.display="none";
+  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  go("manage");
+};
 
-  const rows = [];
-  let total = 0;
-  const add = (label, pts) => { rows.push([label, pts]); total += pts; };
-
-  add("Final diagnosis" + (S.dx === CASE.answer ? " — correct" : " — " + S.dx), S.dx === CASE.answer ? 40 : 0);
-  add("GI bleed in your early top 3", S.ddx.includes(CASE.answer) ? 10 : 0);
-
-  let keys = 0;
-  CASE.history.forEach(h => { if (h.key && S.asked.has(h.id)) keys++; });
-  CASE.exam.forEach(e => { if (e.key && S.examined.has(e.id)) keys++; });
-  CASE.ix.forEach(x => { if (x.tag === "key" && S.ordered.has(x.id)) keys++; });
-  add("Discriminators found (" + keys + " of 10)", keys * 4);
-
-  const noise = CASE.ix.filter(x => x.tag === "noise" && S.ordered.has(x.id)).length;
-  if (noise) add("Low-yield tests ordered (" + noise + ")", -4 * noise);
-
-  S.mg.forEach(id => {
-    const m = CASE.mgmt.find(m => m.id === id);
-    if (m.kind === "good") add(m.t, 4);
-    if (m.kind === "bad") add(m.t, -4);
-    if (m.kind === "danger") add(m.t, -8);
+/* ---------- management drill ---------- */
+function renderMgmt(){
+  const box=$("#mqList"); box.innerHTML="";
+  CASE.mgmt.forEach(q=>{
+    const card=document.createElement("div"); card.className="mq";
+    card.innerHTML=`<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
+    const opts=document.createElement("div"); opts.className="opts";
+    q.opts.forEach((o,i)=>{
+      const b=document.createElement("button"); b.className="opt";
+      b.innerHTML=`<span class="mk">${String.fromCharCode(65+i)}</span><span>${o.t}</span>`;
+      b.onclick=()=>{
+        if(S.mg[q.id]!==undefined) return;
+        S.mg[q.id]=o.ok;
+        [...opts.children].forEach((c,j)=>{
+          const oo=q.opts[j];
+          c.setAttribute("disabled","");
+          c.dataset.state = oo.ok?"right":(j===i?"wrong":"dim");
+          if(oo.ok) c.querySelector(".mk").textContent="✓";
+          else if(j===i) c.querySelector(".mk").textContent="✗";
+        });
+        const t=document.createElement("div"); t.className="teach"; t.dataset.tone=o.ok?"right":"wrong";
+        t.innerHTML=(o.ok?"<b>Correct. </b>":"<b>Not quite. </b>")+q.teach;
+        card.appendChild(t);
+      };
+      opts.appendChild(b);
+    });
+    card.appendChild(opts);
+    box.appendChild(card);
   });
+}
 
-  if (S.simMin <= 240) add("Sorted inside 4 ward-hours", 8);
+/* ---------- scoring + outcome ---------- */
+function scoreAndShow(){
+  const rows=[]; let total=0;
+  const add=(l,p)=>{ rows.push([l,p]); total+=p; };
 
-  const table = $("#scoreTable");
-  table.innerHTML = rows.map(r =>
-    "<tr><td>" + r[0] + "</td><td class=\"" + (r[1] > 0 ? "plus" : (r[1] < 0 ? "minus" : "")) + "\">" +
-    (r[1] > 0 ? "+" : "") + r[1] + "</td></tr>"
-  ).join("") + "<tr><td>Total (max 110)</td><td>" + total + "</td></tr>";
+  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
+  const ddxHit = S.ddx.some(d=>CASE.meta.dxAccepted.includes(norm(d)));
+  add("Bleed named in your early top 3", ddxHit?10:0);
 
-  const hit = S.dx === CASE.answer;
-  const rank = total >= 95 ? "Consultant calm." : total >= 75 ? "Registrar instinct." : total >= 50 ? "A safe pair of hands." : "Survived the post-take round.";
-  $("#verdict").innerHTML =
-    "<div class=\"verdict" + (hit ? "" : " verdict--miss") + "\">" +
-    "<div class=\"vt\">" + (hit ? "Upper GI bleed — you got him." : "It was an upper GI bleed.") + "</div>" +
-    "<div class=\"vs\">" + rank + " The iron tablets, the old AF and the troponin were all working against you.</div></div>";
+  let keys=0;
+  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
+  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
+  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
+  ["glu","ecg","vbg","fbc","ue","gs"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
+  add(`Discriminators gathered (${keys})`, keys*3);
 
-  const dangerPicked = CASE.mgmt.filter(m => S.mg.has(m.id) && m.kind !== "good");
-  $("#journey").innerHTML =
-    "Early top 3: <b>" + (S.ddx.join(" · ") || "—") + "</b><br>" +
-    "Final call: <b>" + S.dx + "</b> after <b>" + S.round + "</b> round" + (S.round === 1 ? "" : "s") +
-    " of investigations and <b>" + fmtClock(S.simMin) + "</b> of ward time." +
-    (dangerPicked.length ? "<br>Worth a second look: " + dangerPicked.map(m => "<b>" + m.t + "</b> — " + m.why).join(" ") : "");
+  let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
+  if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
 
-  goTo("out");
-});
+  if(S.rx.has("iv")||S.rx.has("blood")) add("Resuscitated the shocked patient", 8);
+  if(S.rx.has("hold")) add("Stopped the NSAID and aspirin", 4);
+  if(S.rx.has("lmwh")) add("Anticoagulated an active bleed", -12);
+  if(S.reexamCount>0) add("Reassessed after intervention", 6);
 
-$("#again").addEventListener("click", () => location.reload());
+  let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
+  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*7);
 
-goTo("brief");
+  if(elapsed()<=240 && S.dxCorrect) add("Sorted inside 4 ward-hours", 8);
+
+  const MAX=160;
+  const shown=Math.max(0, Math.min(total, MAX));
+  const table=$("#scoreTable");
+  table.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]>0?'plus':r[1]<0?'minus':''}">${r[1]>0?'+':''}${r[1]}</td></tr>`).join("")
+    + `<tr><td>Total</td><td>${shown} / ${MAX}</td></tr>`;
+
+  // hero
+  const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
+  const rank = pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+  $("#rank").textContent = rank;
+  $("#scoreSub").textContent = S.dxCorrect ? "The iron tablets, the old AF and that troponin were all working against you." : "The bleed hid behind the iron and the cardiac story — see where it slipped.";
+  countTo($("#scoreBig"), shown, MAX);
+
+  $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
+    `<div><div class="t">${S.dxCorrect?"Upper GI bleed — you got him.":"It was an upper GI bleed."}</div>`+
+    `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
+
+  // learning objectives
+  const prTxt = S.prDoneAt===null ? {v:"miss",t:"Do a PR — and trust melaena over the iron story",s:"You committed without ever doing a PR. In any collapse with anaemia, that's the miss."}
+    : S.prBeforeFBC ? {v:"hit",t:"Do a PR — and trust melaena over the iron story",s:"You examined at the bedside before the labs told you to. That's the instinct we're training."}
+    : {v:"part",t:"Do a PR — and trust melaena over the iron story",s:"The anaemia sent you back to do the PR. Right call — but the postural drop and the NSAIDs could have got you there first."};
+  const los=[
+    prTxt,
+    S.ordered.has("ue")?{v:"hit",t:"Read the urea:creatinine disproportion",s:"You sent a U&E — urea 14.6 with a normal creatinine is the fingerprint of an upper GI bleed."}:{v:"miss",t:"Read the urea:creatinine disproportion",s:"You never sent a U&E. The disproportionate urea is one of the clearest clues to an upper GI source."},
+    (S.rx.has("iv")||S.rx.has("blood"))?(S.reexamCount>0?{v:"hit",t:"Resuscitate, then reassess the response",s:"You resuscitated and went back to check he was responding — exactly right."}:{v:"part",t:"Resuscitate, then reassess the response",s:"You resuscitated but didn't reassess — always go back and check the sick patient is responding."}):{v:"miss",t:"Resuscitate, then reassess the response",s:"He was shocked and you didn't resuscitate. Fluids and blood come before the diagnosis."},
+    S.rx.has("lmwh")?{v:"miss",t:"Don't anticoagulate undifferentiated collapse",s:"You treated the type-2 troponin as ACS and anticoagulated a bleeding man — the dangerous miss."}:{v:"hit",t:"Don't anticoagulate undifferentiated collapse",s:"You resisted the troponin trap — a type-2 rise on a Hb of 72 is demand, not ACS."},
+    (S.mg.risk&&S.mg.trans)?{v:"hit",t:"Risk-stratify and transfuse correctly",s:"You scored the GBS and got the transfusion threshold and its exception right."}:{v:"part",t:"Risk-stratify and transfuse correctly",s:"Revisit Glasgow-Blatchford and the restrictive-threshold exception in the debrief."},
+    (S.mg.var&&S.mg.citep&&S.mg.scope)?{v:"hit",t:"Manage the bleed: drugs, cautions, endoscopy",s:"Terlipressin plus antibiotics, the cardiac caution, and endoscopy timing — all correct."}:{v:"part",t:"Manage the bleed: drugs, cautions, endoscopy",s:"The terlipressin caution and endoscopy timing are the high-yield revision points here."}
+  ];
+  $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
+
+  // journey
+  $("#journey").innerHTML = `Early top three: <b>${S.ddx.length?S.ddx.join(" · "):"—"}</b>.<br>`+
+    `You did the PR ${S.prDoneAt===null?"<b>not at all</b>":S.prBeforeFBC?"<b>at the bedside, before the bloods</b>":"<b>after the anaemia came back</b>"}, `+
+    `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
+    `${(S.rx.has('iv')||S.rx.has('blood'))?"resuscitated him":"did not resuscitate"}, and `+
+    `reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
+
+  go("out");
+}
+function countTo(el, val, max){
+  const dur=900, t0=performance.now();
+  function step(t){ const k=Math.min(1,(t-t0)/dur); const v=Math.round(val*(1-Math.pow(1-k,3))); el.innerHTML=`${v}<span>/${max}</span>`; if(k<1) requestAnimationFrame(step); }
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.innerHTML=`${val}<span>/${max}</span>`; return; }
+  requestAnimationFrame(step);
+}
+$("#finishBtn").onclick = scoreAndShow;
+$("#replay").onclick = ()=>location.reload();
+
+/* ---------- init ---------- */
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderMgmt();
+$("#clock").textContent = fmtClock(S.clock);
 </script>
 </body>
 </html>
