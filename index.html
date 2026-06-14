@@ -160,7 +160,7 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 
 /* ---------- tabs ---------- */
 .tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
-.tab { flex: 1; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .82rem; font-weight: 500; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .3rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
+.tab { flex: 1; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 500; white-space: nowrap; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .25rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
 .tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
 .tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
 .tab .dot.show { display: inline-flex; }
@@ -287,6 +287,20 @@ details.more .more__body .row:last-child { border-bottom: none; }
 
 footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px)); border-top: 1px solid var(--rule); font-size: .72rem; color: var(--faint); line-height: 1.6; }
 
+/* ---------- commit gate ---------- */
+.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(43,36,29,.45); display: flex; align-items: center; justify-content: center; padding: var(--s4); }
+.overlay[hidden] { display: none; }
+.sheet { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s5); max-width: 26rem; width: 100%; box-shadow: var(--shadow-lg); animation: rise .3s var(--ease); }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet p { color: var(--muted); font-size: .92rem; margin-top: var(--s2); }
+.checklist { list-style: none; padding: 0; margin: var(--s4) 0; display: flex; flex-direction: column; gap: var(--s1); }
+.checklist li { display: flex; align-items: center; gap: var(--s3); font-size: .94rem; padding: var(--s2) 0; }
+.checklist .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .78rem; font-weight: 700; }
+.checklist li[data-done="1"] .mk { background: var(--good); color: #fff; }
+.checklist li[data-done="1"] { color: var(--muted); }
+.checklist li[data-done="0"] .mk { background: var(--warn-bg); color: var(--warn); }
+.sheetbtns { display: flex; flex-direction: column; gap: var(--s2); }
+
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
 </style>
 </head>
@@ -365,10 +379,10 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="tabs" role="tablist">
-        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine</button>
+        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
         <button class="tab" role="tab" aria-selected="false" data-tab="ix">Investigate <span class="dot" id="ixDot"></span></button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="rx">Treat</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="rx">Treat <span class="dot" id="rxDot"></span></button>
       </div>
 
       <div class="panel on" id="p-hx">
@@ -506,6 +520,18 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
   <footer>
     The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
   </footer>
+
+  <div class="overlay" id="commitGate" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+      <h3 id="gateTitle">Before you commit</h3>
+      <p>Safe practice is to complete your assessment first. Here's where you've got to:</p>
+      <ul class="checklist" id="gateList"></ul>
+      <div class="sheetbtns">
+        <button class="btn" id="gateBack">Go back and finish</button>
+        <button class="btn btn--ghost" id="gateGo">Commit anyway</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <datalist id="dxlist"></datalist>
@@ -724,6 +750,7 @@ function renderHx(){
     box.appendChild(b);
   });
   if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
+  updateTabDots();
 }
 
 /* ---------- examination ---------- */
@@ -768,6 +795,7 @@ function renderExam(){
     };
     more.appendChild(li);
   });
+  updateTabDots();
 }
 $("#reexamBtn").onclick = ()=>{
   S.reexamCount++; tick(20);
@@ -826,7 +854,7 @@ function processRound(){
   const b=$("#sendRound"); b.disabled=true; b.textContent="Send round";
   // surface re-examine once results are in
   $("#reexamWrap").style.display="block";
-  $("#ixDot").classList.add("show"); $("#ixDot").textContent=S.round;
+  updateTabDots();
   renderIx();
   feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
 }
@@ -855,10 +883,35 @@ function renderRx(){
     li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(3); renderRx(); renderObs(); };
     ul.appendChild(li);
   });
+  updateTabDots();
 }
 
-/* ---------- commit ---------- */
-$("#toCommit").onclick = ()=>go("commit");
+/* ---------- tab progress dots ---------- */
+function updateTabDots(){
+  const set=(id,n)=>{ const d=$(id); if(!d) return; if(n>0){ d.classList.add("show"); d.textContent=n; } else d.classList.remove("show"); };
+  set("#hxDot", S.asked.size);
+  set("#exDot", S.examCore.size + S.examMore.size);
+  set("#ixDot", S.round);
+  set("#rxDot", S.rx.size);
+}
+
+/* ---------- commit (with completeness reminder) ---------- */
+function assessmentChecklist(){
+  return [
+    { label:"Took a history", done:S.asked.size>0 },
+    { label:"Examined the patient", done:(S.examCore.size+S.examMore.size)>0 },
+    { label:"Ordered investigations", done:S.ordered.size>0 },
+    { label:"Started immediate treatment", done:S.rx.size>0 }
+  ];
+}
+$("#toCommit").onclick = ()=>{
+  const list=assessmentChecklist();
+  if(list.every(x=>x.done)){ go("commit"); return; }
+  $("#gateList").innerHTML=list.map(x=>`<li data-done="${x.done?1:0}"><span class="mk">${x.done?'✓':'!'}</span>${x.label}</li>`).join("");
+  $("#commitGate").hidden=false;
+};
+$("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
+$("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
 $("#commitBtn").onclick = ()=>{
   const v=$("#dxInput").value.trim();
   if(!v){ $("#commitErr").style.display="block"; return; }
