@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Resus">
+<title>The Monday Patient · Resus — ALS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · component: ALS resus simulator · genre: editorial × clinical-instrument
+ * theme: warm editorial shell (Fraunces + Geist) with a dark cardiac-monitor panel
+ */
+:root {
+  color-scheme: light;
+  --paper:#faf6f0; --paper-2:#f3ece1; --paper-3:#ece2d4;
+  --ink:#2b241d; --ink-2:#4a4136; --muted:#7a6f60; --faint:#9c917f;
+  --rule:#e3d8c8; --rule-2:#d4c7b3;
+  --accent:#b8552e; --accent-2:#9c4525; --accent-bg:#f6e6db; --accent-ink:#fdf6f0;
+  --danger:#b23b2e; --danger-bg:#f7e3df; --good:#3f7d52; --good-bg:#e6f0e6;
+  --warn:#9a6a16; --warn-bg:#f6ebd6;
+  --mon-bg:#0e1411; --mon-line:#1d2a23; --mon-faint:#5d7a6b;
+  --ecg:#37e06a; --spo2:#36d3da; --co2:#e7c14a; --shock:#ef9f27;
+  --fd:"Fraunces",Georgia,serif; --fb:"Geist",system-ui,sans-serif; --fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg:0 2px 6px rgba(43,36,29,.06),0 12px 36px rgba(43,36,29,.12);
+}
+@supports (color:oklch(50% 0 0)){:root{
+  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
+  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
+  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
+  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
+  --danger:oklch(52% .17 30);--danger-bg:oklch(94% .045 32);--good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);
+  --warn:oklch(54% .11 75);--warn-bg:oklch(94% .05 82);
+}}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overscroll-behavior-y:contain}
+button{font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none;cursor:pointer}
+.app{max-width:30rem;margin-inline:auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+@media(min-width:32rem){.app{box-shadow:var(--shadow-lg)}}
+
+.top{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3)}
+.top__row{display:flex;align-items:center;justify-content:space-between;gap:var(--s3)}
+.wordmark{font-family:var(--fd);font-weight:600;font-size:1.12rem;letter-spacing:-.01em}
+.wordmark em{font-style:italic;color:var(--accent)}
+.tagchip{font-family:var(--fm);font-size:.72rem;color:var(--accent-2);background:var(--accent-bg);border:1px solid color-mix(in oklab,var(--accent) 22%,transparent);border-radius:999px;padding:.2rem .6rem;letter-spacing:.04em}
+
+main{flex:1;padding:var(--s5) var(--s4) var(--s7)}
+.screen{display:none}
+.screen.on{display:block;animation:in .4s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1{font-family:var(--fd);font-weight:600;font-size:2rem;line-height:1.08;letter-spacing:-.02em}
+h2{font-family:var(--fd);font-weight:600;font-size:1.5rem;line-height:1.12;letter-spacing:-.015em}
+h3{font-family:var(--fd);font-weight:600;font-size:1.12rem}
+.kicker{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s2)}
+.lede{color:var(--muted);margin-top:var(--s2);max-width:38ch}
+.serif{font-family:var(--fd);font-weight:400;font-size:1.04rem;line-height:1.5;color:var(--ink-2)}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:var(--s4);margin-bottom:var(--s4)}
+.card__label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:var(--s3)}
+.points{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.points li{display:flex;gap:var(--s3);font-size:.92rem;color:var(--ink-2)}
+.points .n{flex:none;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent-bg);color:var(--accent-2);font-family:var(--fm);font-size:.78rem;font-weight:600;display:grid;place-items:center}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);width:100%;min-height:52px;padding:var(--s3) var(--s4);background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:1rem;letter-spacing:-.01em;white-space:nowrap;border:1px solid var(--accent);border-radius:var(--r-md);box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .2s var(--ease)}
+@media(hover:hover){.btn:hover{filter:brightness(1.06)}}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule-2);box-shadow:none}
+@media(hover:hover){.btn--ghost:hover{background:var(--paper-2)}}
+.btn--shock{background:var(--shock);border-color:var(--shock);color:#2a1c02}
+.btn--danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.btnrow{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s5)}
+
+/* ---------- monitor ---------- */
+.monitor{position:sticky;top:calc(3.2rem + env(safe-area-inset-top,0px));z-index:10;background:var(--mon-bg);border-radius:var(--r-md);padding:var(--s3);margin-bottom:var(--s4);box-shadow:var(--shadow);overflow:hidden}
+.mon__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)}
+.mon__rhythm{font-family:var(--fm);font-weight:600;font-size:.92rem;letter-spacing:.04em;color:var(--ecg)}
+.mon__rhythm[data-bad=1]{color:#ff5a4d}
+.mon__time{font-family:var(--fm);font-size:.78rem;color:var(--mon-faint)}
+.mon__time b{color:#cdd9d1}
+.ecgwrap{height:74px;border:1px solid var(--mon-line);border-radius:6px;overflow:hidden;background:repeating-linear-gradient(90deg,transparent 0 19px,rgba(93,122,107,.10) 19px 20px),repeating-linear-gradient(0deg,transparent 0 19px,rgba(93,122,107,.10) 19px 20px),var(--mon-bg)}
+.ecgwrap svg{display:block;width:100%;height:100%}
+.scroll{animation:scroll 3s linear infinite}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-1200px)}}
+.mon__vitals{display:flex;gap:var(--s4);margin-top:var(--s2);font-family:var(--fm)}
+.vital{display:flex;flex-direction:column;line-height:1.05}
+.vital .vl{font-size:.6rem;letter-spacing:.08em;color:var(--mon-faint)}
+.vital .vv{font-size:1.15rem;font-weight:600}
+.vital--hr .vv{color:var(--ecg)} .vital--spo2 .vv{color:var(--spo2)} .vital--co2 .vv{color:var(--co2)}
+.cyclepill{margin-left:auto;align-self:center;font-family:var(--fm);font-size:.72rem;color:#cdd9d1;background:var(--mon-line);border-radius:999px;padding:.2rem .6rem}
+
+/* ---------- stage ---------- */
+.stagehead{font-family:var(--fd);font-weight:600;font-size:1.18rem;margin-bottom:var(--s1)}
+.stagesub{font-size:.86rem;color:var(--muted);margin-bottom:var(--s4)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.action{display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;min-height:58px;padding:var(--s3);background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);text-align:left;transition:background-color .15s var(--ease),border-color .15s var(--ease),transform .1s var(--ease)}
+@media(hover:hover){.action:hover:not([disabled]){background:var(--paper-3);border-color:var(--rule-2)}}
+.action:active{transform:translateY(1px)}
+.action:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.action[disabled]{opacity:.5;cursor:default}
+.action .at{font-size:.9rem;font-weight:600;color:var(--ink)}
+.action .ad{font-size:.74rem;color:var(--muted)}
+.action[data-done=1]{background:var(--good-bg);border-color:color-mix(in oklab,var(--good) 30%,transparent)}
+.action[data-done=1] .at::after{content:" ✓";color:var(--good)}
+.grouph{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin:var(--s5) 0 var(--s2)}
+.grouph:first-of-type{margin-top:0}
+
+/* ---------- toast ---------- */
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:60;width:calc(100% - 2rem);max-width:28rem;display:flex;flex-direction:column;gap:var(--s2);pointer-events:none}
+.toast{background:var(--ink);color:var(--paper);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.86rem;line-height:1.4;box-shadow:var(--shadow-lg);animation:rise .3s var(--ease)}
+.toast[data-tone=good]{background:var(--good)} .toast[data-tone=bad]{background:var(--danger)} .toast[data-tone=warn]{background:var(--warn)}
+.toast b{font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ---------- log ---------- */
+.logwrap{margin-top:var(--s5)}
+.log{list-style:none;padding:0;margin:0;display:flex;flex-direction:column}
+.log li{display:flex;gap:var(--s3);font-size:.8rem;padding:var(--s2) 0;border-bottom:1px solid var(--rule);color:var(--ink-2)}
+.log .lt{font-family:var(--fm);font-size:.72rem;color:var(--faint);flex:none;width:3rem}
+.log .li-good{color:var(--good)} .log .li-bad{color:var(--danger)}
+
+/* ---------- rhythm choice ---------- */
+.rcbtns{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s4)}
+
+/* ---------- outcome ---------- */
+.bigout{text-align:center;padding:var(--s5) 0 var(--s3)}
+.bigout .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto var(--s3);color:#fff}
+.bigout[data-r=rosc] .ic{background:var(--good)} .bigout[data-r=dead] .ic{background:var(--danger)}
+.bigout .ttl{font-family:var(--fd);font-weight:600;font-size:2.2rem;letter-spacing:-.02em;line-height:1}
+.bigout .sub{color:var(--muted);font-size:.92rem;margin-top:var(--s2);max-width:32ch;margin-inline:auto}
+.scoreline{text-align:center;font-family:var(--fd);font-style:italic;color:var(--accent-2);font-size:1.2rem;margin-top:var(--s2)}
+.lo{border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2);display:flex;gap:var(--s3)}
+.lo .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.76rem;font-weight:700;color:#fff;margin-top:1px}
+.lo[data-v=hit] .ic{background:var(--good)} .lo[data-v=part] .ic{background:var(--warn)} .lo[data-v=miss] .ic{background:var(--danger)}
+.lo .lt{font-size:.9rem;font-weight:600} .lo .ls{font-size:.84rem;color:var(--muted);margin-top:.15rem;line-height:1.45}
+.pearls{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.pearls li{display:flex;gap:var(--s3);font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.pearls li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:.5rem}
+footer{padding:var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px));border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.6}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}.scroll{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <span class="tagchip">RESUS · ALS 2025</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ BRIEF ============ -->
+    <section class="screen on" id="s-brief">
+      <div class="kicker">Resus module · adult ALS</div>
+      <h1>2222 — adult cardiac arrest</h1>
+      <p class="lede">You are the team leader. Run the resus to the 2025 Resuscitation Council UK algorithm. Good CPR and shocks may not be enough — the patient will keep arresting until you find why.</p>
+
+      <div class="card" style="margin-top:var(--s5)">
+        <div class="card__label">Handover · 14:02 · renal ward</div>
+        <p class="serif" style="margin-bottom:var(--s3)">Raymond Doyle, 58. End-stage renal failure on haemodialysis. Found unresponsive in the dialysis chair. He has <b>missed his last two sessions</b>. Nurses started CPR; you arrive as the team leader with the defibrillator.</p>
+        <p class="serif">Monitor on. No pulse, not breathing. The arrest call is out. It's your floor now.</p>
+      </div>
+
+      <div class="card" style="border:1px solid var(--rule);background:transparent">
+        <div class="card__label">How resus works here</div>
+        <ul class="points">
+          <li><span class="n">1</span><span>Check the rhythm, decide shockable or not, then run 2-minute cycles of CPR.</span></li>
+          <li><span class="n">2</span><span>Give the right drug at the right time. During CPR, work the reversible causes — the 4 Hs and 4 Ts.</span></li>
+          <li><span class="n">3</span><span>Reassess each cycle. Achieve ROSC, or lose him. The clock is real.</span></li>
+        </ul>
+      </div>
+      <div class="btnrow"><button class="btn" id="startBtn">Confirm arrest · start the algorithm</button></div>
+    </section>
+
+    <!-- ============ RESUS ============ -->
+    <section class="screen" id="s-resus">
+      <div class="monitor">
+        <div class="mon__top">
+          <span class="mon__rhythm" id="monRhythm">— ANALYSING —</span>
+          <span class="mon__time">elapsed <b id="monTime">00:00</b></span>
+        </div>
+        <div class="ecgwrap"><svg id="ecg" viewBox="0 0 600 74" preserveAspectRatio="none"></svg></div>
+        <div class="mon__vitals">
+          <div class="vital vital--hr"><span class="vl">RHYTHM</span><span class="vv" id="vHr">VF</span></div>
+          <div class="vital vital--spo2"><span class="vl">SpO₂</span><span class="vv" id="vSpo2">--</span></div>
+          <div class="vital vital--co2"><span class="vl">EtCO₂ kPa</span><span class="vv" id="vCo2">1.9</span></div>
+          <span class="cyclepill" id="cyclePill">cycle 1</span>
+        </div>
+      </div>
+
+      <div id="stage"></div>
+
+      <div class="logwrap">
+        <div class="card__label">Resus log</div>
+        <ul class="log" id="log"></ul>
+      </div>
+    </section>
+
+    <!-- ============ OUTCOME ============ -->
+    <section class="screen" id="s-out">
+      <div class="bigout" id="bigout"></div>
+      <div class="scoreline" id="scoreLine"></div>
+      <div class="card" style="margin-top:var(--s5)">
+        <div class="card__label">Against the algorithm</div>
+        <div id="loList"></div>
+      </div>
+      <div class="card">
+        <div class="card__label">What happened</div>
+        <div id="narr" class="serif" style="font-size:.96rem"></div>
+      </div>
+      <div class="card">
+        <div class="card__label">Teaching — the 2025 essentials</div>
+        <ul class="pearls">
+          <li>In a refractory arrest, the rhythm is a symptom. Good CPR and shocks buy time; you only win by treating the cause — here, hyperkalaemia from missed dialysis.</li>
+          <li>Calcium (gluconate or chloride) is the membrane-stabilising priority in a hyperkalaemic arrest — give it before insulin–dextrose shifts potassium.</li>
+          <li>Adrenaline 1 mg: straight away in non-shockable rhythms, but only after the third shock in VF/pVT — then every 3–5 minutes. Amiodarone 300 mg after three shocks, 150 mg after five.</li>
+          <li>2025 emphases: IV access first (IO only after two failed attempts), highest feasible oxygen with ventilation at 10/min once the airway is secured, and waveform capnography — a sudden EtCO₂ rise is often your first sign of ROSC.</li>
+        </ul>
+      </div>
+      <div class="btnrow"><button class="btn btn--ghost" id="replay">Run the arrest again</button></div>
+    </section>
+  </main>
+
+  <footer>The Monday Patient · Resus — adult ALS to RCUK/ERC 2025. Fictional patient, prototype build. Turn-driven: each cycle represents two minutes of CPR.</footer>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+
+/* ============ ECG WAVEFORMS ============ */
+function wave(type){
+  const W=1200,H=74,mid=38,pts=[];
+  for(let x=0;x<=W;x+=2){
+    let y=mid;
+    if(type==='sinus'||type==='pea'){
+      const T=type==='sinus'?120:150, t=(x%T)/T;
+      if(t<0.10) y=mid-3*Math.sin(t/0.10*Math.PI);
+      else if(t>=0.16&&t<0.24){const u=(t-0.16)/0.08; y=mid+(u<0.25?8*u/0.25:u<0.5?8-34*(u-0.25)/0.25:u<0.75?-26+32*(u-0.5)/0.25:6-6*(u-0.75)/0.25);}
+      else if(t>=0.34&&t<0.50){const u=(t-0.34)/0.16; y=mid-6*Math.sin(u*Math.PI);}
+      else y=mid;
+    } else if(type==='vt'){ y=mid-20*Math.sin(x*2*Math.PI/100);
+    } else if(type==='vf'){ y=mid-(11*Math.sin(x/7.1)+8*Math.sin(x/3.3+1.3)+6*Math.sin(x/13.7+2.1))*(0.62+0.38*Math.sin(x/41));
+    } else if(type==='asystole'){ y=mid+Math.sin(x/17)*1.1+(((x*9301+49297)%233280)/233280-0.5)*2.4;
+    } else if(type==='flat'){ y=mid; }
+    pts.push(x+','+y.toFixed(1));
+  }
+  return pts.join(' ');
+}
+function drawEcg(type){
+  const bad=(type==='vf'||type==='vt'||type==='asystole');
+  const col=bad?'#ff5a4d':'#37e06a';
+  const p=wave(type);
+  $('#ecg').innerHTML=`<g class="scroll"><polyline points="${p}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>`+
+    `<polyline points="${p}" fill="none" stroke="${col}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" transform="translate(1200,0)"/></g>`;
+}
+
+/* ============ STATE ============ */
+const R={
+  cycle:1, phase:'check', rhythm:'vf', t:0,
+  shocks:0, adr:0, lastAdr:-9, amio300:false, amio150:false,
+  access:false, airway:false, vbg:false, history:false,
+  causeId:false, calcium:false, shift:false,
+  actions:new Set(), wrongCause:0,
+  good:[], errs:[], outcome:null
+};
+const RH={ vf:'VF', vt:'PULSELESS VT', asystole:'ASYSTOLE', pea:'PEA', sinus:'SINUS RHYTHM' };
+const SHOCKABLE=r=>r==='vf'||r==='vt';
+
+function fmt(t){return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');}
+function logEvt(txt,cls){const li=document.createElement('li');li.innerHTML=`<span class="lt">${fmt(R.t)}</span><span class="${cls||''}">${txt}</span>`;$('#log').appendChild(li);}
+function toast(msg,tone){const t=document.createElement('div');t.className='toast';if(tone)t.dataset.tone=tone;t.innerHTML=msg;$('#toasts').appendChild(t);setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity='0';setTimeout(()=>t.remove(),320);},3600);}
+
+function updateMonitor(){
+  $('#monRhythm').textContent='— '+RH[R.rhythm]+' —';
+  $('#monRhythm').dataset.bad=SHOCKABLE(R.rhythm)||R.rhythm==='asystole'?1:0;
+  $('#monTime').textContent=fmt(R.t);
+  $('#vHr').textContent=R.rhythm==='sinus'?'78':R.rhythm==='asystole'?'0':RH[R.rhythm];
+  $('#vHr').style.fontSize=R.rhythm==='sinus'||R.rhythm==='asystole'?'1.15rem':'.86rem';
+  $('#vSpo2').textContent=R.rhythm==='sinus'?'96':'--';
+  $('#vCo2').textContent=R.rhythm==='sinus'?'5.1':(R.airway?'2.4':'1.9');
+  $('#cyclePill').textContent='cycle '+R.cycle;
+  drawEcg(R.rhythm);
+}
+
+/* ============ RENDER STAGE ============ */
+function render(){
+  updateMonitor();
+  const st=$('#stage');
+  if(R.phase==='check'){
+    const shock=SHOCKABLE(R.rhythm);
+    st.innerHTML=`<div class="stagehead">Rhythm check — cycle ${R.cycle}</div>`+
+      `<div class="stagesub">Pause compressions, read the monitor. Is this a shockable rhythm?</div>`+
+      `<div class="rcbtns">`+
+        `<button class="btn btn--shock" id="cShock">Charge & shock</button>`+
+        `<button class="btn btn--ghost" id="cNo">Non-shockable — resume CPR</button>`+
+      `</div>`;
+    $('#cShock').onclick=()=>doShock();
+    $('#cNo').onclick=()=>doNoShock();
+  } else {
+    st.innerHTML=cprStageHTML();
+    bindCpr();
+  }
+}
+
+function cprStageHTML(){
+  const a=(id,t,d,done)=>`<button class="action" data-act="${id}" ${done?'data-done=1 disabled':''}><span class="at">${t}</span><span class="ad">${d}</span></button>`;
+  return `<div class="stagehead">2 minutes of CPR — cycle ${R.cycle}</div>`+
+    `<div class="stagesub">Compressions are running. Act now, then reassess.</div>`+
+    `<div class="grouph">Drugs</div><div class="grid2">`+
+      a('adr','Adrenaline 1 mg','IV/IO',false)+
+      a('amio','Amiodarone','300 then 150 mg',R.amio150)+
+    `</div>`+
+    `<div class="grouph">Airway & access</div><div class="grid2">`+
+      a('access','Vascular access','IV first, then IO',R.access)+
+      a('airway','Airway + O₂','ventilate 10/min',R.airway)+
+      a('vbg','Blood gas / bloods','K⁺, pH, glucose',R.vbg)+
+      a('hist','Review handover','dialysis, drugs',R.history)+
+    `</div>`+
+    `<div class="grouph">Reversible causes · 4 Hs &amp; 4 Ts</div><div class="grid2">`+
+      a('hyperk','Treat hyperkalaemia','calcium · insulin–dex',R.calcium&&R.shift)+
+      a('hypox','Hypoxia','airway, oxygen',false)+
+      a('hypov','Hypovolaemia','fluids / blood',false)+
+      a('thromb','Thrombosis','PE / MI — thrombolyse',false)+
+      a('tens','Tension pneumothorax','decompress',false)+
+      a('tamp','Tamponade','pericardiocentesis',false)+
+      a('hypoth','Hypothermia','active warming',false)+
+      a('tox','Toxins','antidote',false)+
+    `</div>`+
+    `<div class="btnrow"><button class="btn" id="reassess">Continue CPR → reassess (2 min)</button></div>`;
+}
+
+function bindCpr(){
+  $('#stage').querySelectorAll('.action').forEach(b=>{ if(!b.disabled) b.onclick=()=>act(b.dataset.act); });
+  $('#reassess').onclick=()=>reassess();
+}
+
+/* ============ RHYTHM CHECK ACTIONS ============ */
+function doShock(){
+  if(SHOCKABLE(R.rhythm)){
+    R.shocks++; R.good.push('defib');
+    logEvt(`Shock #${R.shocks} delivered (150 J biphasic)`,'li-good');
+    toast(`<b>Shock ${R.shocks} delivered.</b> Immediately resume compressions — don't pause to reassess.`,'good');
+  } else {
+    R.errs.push('shock-nonshock');
+    logEvt('Shock delivered to a NON-shockable rhythm','li-bad');
+    toast(`<b>Asystole is not shockable.</b> Shocking it wastes time and interrupts compressions.`,'bad');
+  }
+  R.phase='cpr'; render();
+}
+function doNoShock(){
+  if(SHOCKABLE(R.rhythm)){
+    R.errs.push('missed-defib');
+    logEvt('Shockable rhythm NOT defibrillated','li-bad');
+    toast(`<b>That was ${RH[R.rhythm]} — shockable.</b> Defibrillation is the definitive treatment; you've missed a shock.`,'bad');
+  } else {
+    R.good.push('correct-nonshock');
+    logEvt('Non-shockable rhythm — CPR continued (correct)','li-good');
+  }
+  R.phase='cpr'; render();
+}
+
+/* ============ CPR ACTIONS ============ */
+function act(id){
+  switch(id){
+    case 'adr': giveAdrenaline(); break;
+    case 'amio': giveAmiodarone(); break;
+    case 'access': R.access=true; R.good.push('access'); logEvt('IV access secured','li-good'); toast('IV access — the 2025 guideline prefers IV first, IO only after two failed attempts.','good'); break;
+    case 'airway': R.airway=true; R.good.push('airway'); logEvt('Airway secured, ventilating 10/min','li-good'); toast('Airway secured. Ventilate at 10/min, highest feasible O₂, avoid hyperventilation.','good'); break;
+    case 'vbg': takeVbg(); break;
+    case 'hist': reviewHistory(); break;
+    case 'hyperk': treatHyperK(); break;
+    case 'hypox': R.airway=true; logEvt('Hypoxia addressed — airway & oxygen'); toast('Reasonable — oxygenation matters. But his airway isn\'t the primary cause here.','warn'); break;
+    case 'hypov': wrongCause('Hypovolaemia','Fluids given. He isn\'t hypovolaemic — this isn\'t the cause, and you\'re burning cycles.'); break;
+    case 'thromb': wrongCause('Thrombosis','Thrombolysis is a big call and not indicated here — no PE/MI story. Time lost.'); break;
+    case 'tens': wrongCause('Tension pneumothorax','Chest decompressed — but there are no signs of a tension pneumothorax. A harmful distraction.'); break;
+    case 'tamp': wrongCause('Tamponade','No tamponade here. Pericardiocentesis in arrest is high-risk and wrong for this patient.'); break;
+    case 'hypoth': wrongCause('Hypothermia','He\'s normothermic. Warming won\'t help and the clock is running.'); break;
+    case 'tox': wrongCause('Toxins','No toxidrome here — though note his potassium is, in a sense, the "toxin".'); break;
+  }
+  if(R.phase==='cpr') render();
+}
+
+function giveAdrenaline(){
+  R.actions.add('adr');
+  if(SHOCKABLE(R.rhythm) && R.shocks<3){
+    R.errs.push('adr-early');
+    logEvt('Adrenaline given before the 3rd shock','li-bad');
+    toast(`<b>Too early.</b> In a shockable rhythm, adrenaline waits until <b>after the third shock</b>.`,'bad');
+    return;
+  }
+  if(R.adr>0 && (R.cycle-R.lastAdr)<2){
+    R.errs.push('adr-frequent');
+    logEvt('Adrenaline repeated too soon','li-bad');
+    toast(`<b>Too frequent.</b> Repeat adrenaline every <b>3–5 minutes</b> — about every other cycle.`,'warn');
+    return;
+  }
+  R.adr++; R.lastAdr=R.cycle; R.good.push('adr');
+  logEvt(`Adrenaline 1 mg IV (dose ${R.adr})`,'li-good');
+  toast('Adrenaline 1 mg given.','good');
+}
+function giveAmiodarone(){
+  if(R.shocks<3){ toast(`<b>Not yet.</b> Amiodarone 300 mg is given <b>after three shocks</b> in refractory VF/pVT.`,'warn'); R.errs.push('amio-early'); return; }
+  if(!R.amio300){ R.amio300=true; R.good.push('amio300'); logEvt('Amiodarone 300 mg IV (after 3rd shock)','li-good'); toast('Amiodarone 300 mg given after the third shock.','good'); return; }
+  if(R.shocks<5){ toast('Second dose of amiodarone (150 mg) is due <b>after the fifth shock</b>.','warn'); return; }
+  if(!R.amio150){ R.amio150=true; R.good.push('amio150'); logEvt('Amiodarone 150 mg IV (after 5th shock)','li-good'); toast('Amiodarone 150 mg given after the fifth shock.','good'); }
+}
+function takeVbg(){
+  R.vbg=true; R.causeId=true; R.good.push('vbg');
+  logEvt('VBG: K⁺ 7.8, pH 7.12, HCO₃ 14','li-good');
+  toast(`<b>VBG back: K⁺ 7.8 mmol/L.</b> Severe hyperkalaemia — there's your reversible cause. Treat it now.`,'good');
+}
+function reviewHistory(){
+  R.history=true; R.causeId=true;
+  logEvt('Handover reviewed: missed dialysis, ESRF');
+  toast(`Missed two dialysis sessions, end-stage renal failure — think <b>hyperkalaemia</b>. Confirm on a gas and treat.`,'good');
+}
+function treatHyperK(){
+  if(!R.calcium){
+    R.calcium=true; R.good.push('calcium');
+    logEvt('Calcium gluconate 10% 30 mL IV','li-good');
+    if(!R.causeId) toast(`<b>Calcium given.</b> Bold — you treated hyperkalaemia before confirming it. It happens to be right; ideally confirm on a gas.`,'warn');
+    else toast(`<b>Calcium gluconate given</b> — membrane stabilisation, the priority in a hyperkalaemic arrest. Now shift the potassium.`,'good');
+    return;
+  }
+  if(!R.shift){
+    R.shift=true; R.good.push('shift');
+    logEvt('Insulin 10 u + 50 mL 50% glucose IV','li-good');
+    toast('Insulin–dextrose given to shift potassium intracellularly. Good — calcium protects, insulin shifts.','good');
+  }
+}
+function wrongCause(name,msg){ R.wrongCause++; R.errs.push('wrong-cause'); logEvt(`Pursued ${name} — not the cause`,'li-bad'); toast(msg,'warn'); }
+
+/* ============ REASSESS / OUTCOME ENGINE ============ */
+function reassess(){
+  R.t+=120; R.cycle++;
+  // ROSC gate: the reversible cause (hyperkalaemia) must be treated with calcium.
+  if(R.calcium){
+    // VF additionally needs to have been defibrillated; otherwise organised rhythm but caution
+    R.rhythm='sinus'; R.phase='done'; R.outcome='rosc';
+    R.t-=60; // ROSC detected mid-cycle
+    logEvt('Organised rhythm, palpable pulse — ROSC','li-good');
+    return finish();
+  }
+  // Untreated trajectory: refractory VF degrades to asystole, then death.
+  if(R.cycle>=5 && R.rhythm!=='asystole'){ R.rhythm='asystole'; logEvt('VF has degenerated to asystole','li-bad'); }
+  if(R.cycle>=7){ R.outcome='dead'; return finish(); }
+  // too many harmful errors can also lose him early
+  const harmful=R.errs.filter(e=>e==='wrong-cause'||e==='shock-nonshock'||e==='missed-defib').length;
+  if(harmful>=5){ R.outcome='dead'; logEvt('Cumulative delays — output lost','li-bad'); return finish(); }
+  R.phase='check'; render();
+}
+
+/* ============ FINISH ============ */
+function finish(){
+  updateMonitor();
+  const rosc=R.outcome==='rosc';
+  $('#bigout').dataset.r=R.outcome;
+  $('#bigout').innerHTML=`<div class="ic">${rosc?roscIcon():deadIcon()}</div>`+
+    `<div class="ttl">${rosc?'ROSC achieved':'Time of death called'}</div>`+
+    `<div class="sub">${rosc?`Return of spontaneous circulation at ${fmt(R.t)}. Now move to post-resuscitation care.`:`After ${fmt(R.t)} you were unable to reverse the cause. He arrested from hyperkalaemia that was never treated.`}</div>`;
+
+  // score
+  let s=0; const add=(n)=>s+=n;
+  if(R.good.includes('defib')) add(12);
+  if(!R.errs.includes('shock-nonshock')) add(6);
+  if(!R.errs.includes('missed-defib')) add(6);
+  if(R.good.includes('adr')&&!R.errs.includes('adr-early')) add(10);
+  if(R.amio300) add(8);
+  if(R.access) add(6);
+  if(R.airway) add(6);
+  if(R.causeId) add(14);
+  if(R.calcium) add(20);
+  if(R.shift) add(8);
+  add(-4*R.wrongCause);
+  if(rosc&&R.cycle<=4) add(10);
+  const MAX=110, shown=Math.max(0,Math.min(s,MAX));
+  $('#scoreLine').textContent=rosc?(s>=85?'Textbook resus.':s>=60?'A life saved.':'He made it — just.'):'Run it back — he was saveable.';
+
+  const los=[
+    R.good.includes('defib')?{v:'hit',t:'Defibrillate shockable rhythms',s:'You shocked the VF promptly — defibrillation is the definitive treatment.'}:(R.errs.includes('missed-defib')?{v:'miss',t:'Defibrillate shockable rhythms',s:'You left a shockable rhythm un-shocked. VF needs electricity.'}:{v:'part',t:'Defibrillate shockable rhythms',s:'Mind the rhythm — shock VF/pVT, never asystole.'}),
+    (R.good.includes('adr')&&!R.errs.includes('adr-early'))?{v:'hit',t:'Adrenaline at the right time',s:'After the third shock in VF, then every 3–5 minutes.'}:{v:R.errs.includes('adr-early')?'miss':'part',t:'Adrenaline at the right time',s:R.errs.includes('adr-early')?'You gave it before the third shock — too early in a shockable rhythm.':'Don\'t forget adrenaline — and time it to the rhythm.'},
+    R.causeId?{v:'hit',t:'Hunt the reversible cause',s:'You sought the cause — gas and history pointed straight at hyperkalaemia.'}:{v:'miss',t:'Hunt the reversible cause',s:'You never looked for why he arrested. A gas would have shown K⁺ 7.8.'},
+    R.calcium?{v:R.shift?'hit':'part',t:'Treat hyperkalaemia',s:R.shift?'Calcium to stabilise, insulin–dextrose to shift — textbook.':'Calcium given (the life-saver). Add insulin–dextrose to shift the potassium.'}:{v:'miss',t:'Treat hyperkalaemia',s:'The one thing that would reverse this arrest — calcium — was never given.'},
+    (R.access&&R.airway)?{v:'hit',t:'Access, airway, oxygenation',s:'IV access and a secured airway with controlled ventilation — the 2025 emphasis.'}:{v:'part',t:'Access, airway, oxygenation',s:'Don\'t neglect IV-first access and good oxygenation while you work the cause.'},
+    R.wrongCause===0?{v:'hit',t:'Avoid chasing the wrong cause',s:'You didn\'t waste cycles on causes the story didn\'t support.'}:{v:'part',t:'Avoid chasing the wrong cause',s:`You pursued ${R.wrongCause} cause${R.wrongCause>1?'s':''} the history didn\'t support — each one costs time.`}
+  ];
+  $('#loList').innerHTML=los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join('');
+
+  $('#narr').innerHTML=`He arrested in <b>VF</b>. You ran <b>${R.cycle-1}</b> cycle${R.cycle-1===1?'':'s'}, delivered <b>${R.shocks}</b> shock${R.shocks===1?'':'s'}, gave <b>${R.adr}</b> dose${R.adr===1?'':'s'} of adrenaline${R.amio300?' and amiodarone':''}, and ${R.causeId?'identified':'never identified'} the hyperkalaemia. ${R.calcium?`You treated it with calcium${R.shift?' and insulin–dextrose':''}, and got him back at <b>${fmt(R.t)}</b>.`:`Without calcium, the VF became refractory, degenerated to asystole, and he died at <b>${fmt(R.t)}</b>.`}`;
+
+  $$('.screen').forEach(s=>s.classList.remove('on'));
+  $('#s-out').classList.add('on');
+  window.scrollTo({top:0});
+}
+function $$(s){return document.querySelectorAll(s);}
+function roscIcon(){return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l4 4L19 7"/></svg>';}
+function deadIcon(){return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';}
+
+/* ============ INIT ============ */
+$('#startBtn').onclick=()=>{
+  $$('.screen').forEach(s=>s.classList.remove('on'));
+  $('#s-resus').classList.add('on');
+  logEvt('Cardiac arrest confirmed — CPR in progress');
+  R.phase='check'; render(); window.scrollTo({top:0});
+};
+$('#replay').onclick=()=>location.reload();
+drawEcg('vf');
+</script>
+</body>
+</html>
