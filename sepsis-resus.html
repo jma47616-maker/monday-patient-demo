@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sepsis">
+<title>The Monday Patient · Resus — the deteriorating patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#faf6f0;--paper-2:#f3ece1;--paper-3:#ece2d4;
+  --ink:#2b241d;--ink-2:#4a4136;--muted:#7a6f60;--faint:#9c917f;
+  --rule:#e3d8c8;--rule-2:#d4c7b3;
+  --accent:#b8552e;--accent-2:#9c4525;--accent-bg:#f6e6db;--accent-ink:#fdf6f0;
+  --danger:#b23b2e;--danger-bg:#f7e3df;--good:#3f7d52;--good-bg:#e6f0e6;--warn:#9a6a16;--warn-bg:#f6ebd6;
+  --mon-bg:#0e1411;--mon-line:#1d2a23;--mon-faint:#5d7a6b;
+  --hr:#37e06a;--bp:#e7c14a;--spo2:#36d3da;--temp:#ef8f6a;
+  --fd:"Fraunces",Georgia,serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg:0 2px 6px rgba(43,36,29,.06),0 12px 36px rgba(43,36,29,.12);
+}
+@supports (color:oklch(50% 0 0)){:root{
+  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
+  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
+  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
+  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
+  --danger:oklch(52% .17 30);--danger-bg:oklch(94% .045 32);--good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);--warn:oklch(54% .11 75);--warn-bg:oklch(94% .05 82);
+}}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overscroll-behavior-y:contain}
+button{font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none;cursor:pointer}
+.app{max-width:30rem;margin-inline:auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+@media(min-width:32rem){.app{box-shadow:var(--shadow-lg)}}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3)}
+.top__row{display:flex;align-items:center;justify-content:space-between;gap:var(--s3)}
+.wordmark{font-family:var(--fd);font-weight:600;font-size:1.12rem;letter-spacing:-.01em}.wordmark em{font-style:italic;color:var(--accent)}
+.tagchip{font-family:var(--fm);font-size:.72rem;color:var(--accent-2);background:var(--accent-bg);border:1px solid color-mix(in oklab,var(--accent) 22%,transparent);border-radius:999px;padding:.2rem .6rem;letter-spacing:.04em}
+main{flex:1;padding:var(--s5) var(--s4) var(--s7)}
+.screen{display:none}.screen.on{display:block;animation:in .4s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1{font-family:var(--fd);font-weight:600;font-size:2rem;line-height:1.08;letter-spacing:-.02em}
+h2{font-family:var(--fd);font-weight:600;font-size:1.5rem;line-height:1.12}
+.kicker{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s2)}
+.lede{color:var(--muted);margin-top:var(--s2);max-width:38ch}
+.serif{font-family:var(--fd);font-weight:400;font-size:1.04rem;line-height:1.5;color:var(--ink-2)}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:var(--s4);margin-bottom:var(--s4)}
+.card__label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:var(--s3)}
+.points{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.points li{display:flex;gap:var(--s3);font-size:.92rem;color:var(--ink-2)}
+.points .n{flex:none;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent-bg);color:var(--accent-2);font-family:var(--fm);font-size:.78rem;font-weight:600;display:grid;place-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);width:100%;min-height:52px;padding:var(--s3) var(--s4);background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:1rem;white-space:nowrap;border:1px solid var(--accent);border-radius:var(--r-md);box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .2s var(--ease)}
+@media(hover:hover){.btn:hover{filter:brightness(1.06)}}
+.btn:active{transform:translateY(1px)}.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule-2);box-shadow:none}
+@media(hover:hover){.btn--ghost:hover{background:var(--paper-2)}}
+.btnrow{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s5)}
+
+/* obs monitor */
+.monitor{position:sticky;top:calc(3.2rem + env(safe-area-inset-top,0px));z-index:10;background:var(--mon-bg);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s4);box-shadow:var(--shadow)}
+.mon__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)}
+.mon__news{font-family:var(--fm);font-size:.78rem;color:#cdd9d1}
+.mon__news b{font-size:1rem}
+.mon__news[data-tone=bad] b{color:#ff5a4d}.mon__news[data-tone=warn] b{color:var(--temp)}.mon__news[data-tone=ok] b{color:var(--hr)}
+.mon__t{font-family:var(--fm);font-size:.72rem;color:var(--mon-faint)}
+.obsrow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2) var(--s3);font-family:var(--fm)}
+.ob{line-height:1.1}.ob .ol{font-size:.58rem;letter-spacing:.06em;color:var(--mon-faint)}.ob .ov{font-size:1.05rem;font-weight:600;transition:color .3s}
+.ob--hr .ov{color:var(--hr)}.ob--bp .ov{color:var(--bp)}.ob--rr .ov{color:#cdd9d1}.ob--spo2 .ov{color:var(--spo2)}.ob--temp .ov{color:var(--temp)}.ob--lac .ov{color:#cdd9d1}
+.ov.flash{animation:flash .6s var(--ease)}
+@keyframes flash{0%{background:rgba(55,224,106,.25)}100%{background:transparent}}
+
+/* abcde progress */
+.abcde{display:flex;gap:var(--s1);margin-bottom:var(--s4)}
+.ab{flex:1;text-align:center;padding:var(--s2) 0;border-radius:var(--r-sm);font-family:var(--fm);font-weight:600;font-size:.9rem;color:var(--faint);background:var(--paper-2);border:1px solid var(--rule)}
+.ab[data-s=now]{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+.ab[data-s=done]{color:var(--good);background:var(--good-bg);border-color:color-mix(in oklab,var(--good) 30%,transparent)}
+
+.stagehead{font-family:var(--fd);font-weight:600;font-size:1.25rem;margin-bottom:var(--s1)}
+.stagehead .lt{color:var(--accent)}
+.finding{font-family:var(--fd);font-size:1.02rem;line-height:1.5;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:0 var(--r-md) var(--r-md) 0;padding:var(--s3) var(--s4);margin-bottom:var(--s4)}
+.acts{display:flex;flex-direction:column;gap:var(--s2)}
+.act{display:flex;align-items:flex-start;gap:var(--s3);min-height:52px;padding:var(--s3);background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);text-align:left;transition:background-color .15s var(--ease),border-color .15s}
+@media(hover:hover){.act:hover:not([disabled]){background:var(--paper-3)}}
+.act:active{transform:translateY(1px)}.act:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.act[disabled]{opacity:.55;cursor:default}
+.act .mk{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--rule-2);display:grid;place-items:center;font-size:.78rem;margin-top:1px}
+.act .atx{flex:1}.act .at{font-size:.92rem;font-weight:600;color:var(--ink)}.act .ad{font-size:.76rem;color:var(--muted)}
+.act[data-done=1]{background:var(--good-bg);border-color:color-mix(in oklab,var(--good) 28%,transparent)}
+.act[data-done=1] .mk{background:var(--good);color:#fff;border-color:var(--good)}
+.act[data-kind=harm][data-done=1]{background:var(--danger-bg);border-color:color-mix(in oklab,var(--danger) 30%,transparent)}
+.act[data-kind=harm][data-done=1] .mk{background:var(--danger);border-color:var(--danger)}
+.gate{font-size:.82rem;color:var(--warn);margin-top:var(--s3);display:none}
+.gate.on{display:block}
+
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:60;width:calc(100% - 2rem);max-width:28rem;display:flex;flex-direction:column;gap:var(--s2);pointer-events:none}
+.toast{background:var(--ink);color:var(--paper);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.86rem;line-height:1.4;box-shadow:var(--shadow-lg);animation:rise .3s var(--ease)}
+.toast[data-tone=good]{background:var(--good)}.toast[data-tone=bad]{background:var(--danger)}.toast[data-tone=warn]{background:var(--warn)}
+.toast b{font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.bigout{text-align:center;padding:var(--s5) 0 var(--s3)}
+.bigout .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto var(--s3);color:#fff}
+.bigout[data-r=live] .ic{background:var(--good)}.bigout[data-r=dead] .ic{background:var(--danger)}
+.bigout .ttl{font-family:var(--fd);font-weight:600;font-size:2rem;letter-spacing:-.02em;line-height:1.05}
+.bigout .sub{color:var(--muted);font-size:.92rem;margin-top:var(--s2);max-width:34ch;margin-inline:auto}
+.scoreline{text-align:center;font-family:var(--fd);font-style:italic;color:var(--accent-2);font-size:1.2rem;margin-top:var(--s2)}
+.lo{border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2);display:flex;gap:var(--s3)}
+.lo .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.76rem;font-weight:700;color:#fff;margin-top:1px}
+.lo[data-v=hit] .ic{background:var(--good)}.lo[data-v=part] .ic{background:var(--warn)}.lo[data-v=miss] .ic{background:var(--danger)}
+.lo .lt{font-size:.9rem;font-weight:600}.lo .ls{font-size:.84rem;color:var(--muted);margin-top:.15rem;line-height:1.45}
+.pearls{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.pearls li{display:flex;gap:var(--s3);font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.pearls li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:.5rem}
+.log{list-style:none;padding:0;margin:var(--s5) 0 0;display:flex;flex-direction:column}
+.log li{display:flex;gap:var(--s3);font-size:.8rem;padding:var(--s2) 0;border-bottom:1px solid var(--rule);color:var(--ink-2)}
+.log .lt{font-family:var(--fm);font-size:.72rem;color:var(--faint);flex:none;width:2.6rem}
+.log .li-good{color:var(--good)}.log .li-bad{color:var(--danger)}
+footer{padding:var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px));border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.6}
+footer a{color:var(--accent-2)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <span class="tagchip">RESUS · PERI-ARREST</span>
+    </div>
+  </header>
+  <main>
+    <!-- BRIEF -->
+    <section class="screen on" id="s-brief">
+      <div class="kicker">Resus module · the deteriorating patient</div>
+      <h1>The crash on the ward</h1>
+      <p class="lede">No cardiac arrest — yet. A sick patient and a structured <b>ABCDE</b>. See a problem, treat it directly, then move on. Sequence matters, and the clock is against you.</p>
+      <div class="card" style="margin-top:var(--s5)">
+        <div class="card__label">Bleep · 03:10 · orthopaedic ward</div>
+        <p class="serif" style="margin-bottom:var(--s3)">Margaret Healy, 74. Day 2 after a hemiarthroplasty for a fractured hip. The night nurse is worried — she's “gone off”, drowsy and clammy. “We thought it was the morphine,” she says.</p>
+        <p class="serif">You arrive. She's mottled and barely rousable. The obs are ugly.</p>
+      </div>
+      <div class="card" style="border:1px solid var(--rule);background:transparent">
+        <div class="card__label">How this works</div>
+        <ul class="points">
+          <li><span class="n">A</span><span>Move through Airway → Breathing → Circulation → Disability → Exposure, in order.</span></li>
+          <li><span class="n">!</span><span>Treat each problem before you move on. The app won't let you skip a life threat — and it remembers the order you worked in.</span></li>
+          <li><span class="n">↑</span><span>The obs respond to what you do. Don't anchor on the handover — think laterally.</span></li>
+        </ul>
+      </div>
+      <div class="btnrow"><button class="btn" id="startBtn">Start the ABCDE</button></div>
+    </section>
+
+    <!-- RESUS -->
+    <section class="screen" id="s-resus">
+      <div class="monitor">
+        <div class="mon__top">
+          <span class="mon__news" id="news" data-tone="bad">NEWS2 <b>—</b></span>
+          <span class="mon__t" id="clock">+00:00</span>
+        </div>
+        <div class="obsrow" id="obs"></div>
+      </div>
+      <div class="abcde" id="abcde"></div>
+      <div id="stage"></div>
+      <ul class="log" id="log"></ul>
+    </section>
+
+    <!-- OUTCOME -->
+    <section class="screen" id="s-out">
+      <div class="bigout" id="bigout"></div>
+      <div class="scoreline" id="scoreLine"></div>
+      <div class="card" style="margin-top:var(--s5)"><div class="card__label">Against the approach</div><div id="loList"></div></div>
+      <div class="card"><div class="card__label">What happened</div><div id="narr" class="serif" style="font-size:.96rem"></div></div>
+      <div class="card"><div class="card__label">Teaching — ABCDE &amp; sepsis</div>
+        <ul class="pearls">
+          <li>ABCDE is sequential for a reason: a problem at A or B kills faster than one at D. Find it, treat it, reassess — then move on. Don't jump to the interesting bit.</li>
+          <li>Hypotension in sepsis is treated with fluids first — a 500 mL crystalloid bolus, reassess, repeat to ~30 mL/kg, and escalate to vasopressors and ICU if it stays low.</li>
+          <li>The Sepsis Six in the first hour: oxygen, blood cultures, IV antibiotics, IV fluids, serial lactate, and urine output. Cultures before antibiotics — but never let that delay the antibiotics.</li>
+          <li>Beware the anchor. “It's just the morphine” cost nothing to say and everything to believe — drowsiness here was hypoperfusion. Naloxone doesn't fix shock.</li>
+        </ul>
+      </div>
+      <div class="btnrow"><button class="btn btn--ghost" id="replay">Run it again</button></div>
+    </section>
+  </main>
+  <footer>The Monday Patient · Resus — peri-arrest ABCDE &amp; Sepsis Six (UK Sepsis Trust / RCUK 2025). Fictional patient, prototype. · <a href="als.html">Other resus case →</a></footer>
+</div>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+
+/* ===== obs model ===== */
+const OBS={hr:124,bp:'86/44',rr:26,spo2:90,temp:38.9,lac:'—'};
+function setObs(k,v){const el=document.querySelector('.ob--'+k+' .ov'); OBS[k]=v; if(el){el.textContent=v; el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),600);} computeNews();}
+function renderObs(){
+  $('#obs').innerHTML=[['hr','HR',OBS.hr],['bp','BP',OBS.bp],['rr','RR',OBS.rr],['spo2','SpO₂',OBS.spo2],['temp','Temp',OBS.temp],['lac','Lactate',OBS.lac]]
+    .map(o=>`<div class="ob ob--${o[0]}"><div class="ol">${o[1]}</div><div class="ov">${o[2]}</div></div>`).join('');
+  computeNews();
+}
+function computeNews(){
+  let n=0; const sys=parseInt((''+OBS.bp).split('/')[0])||0;
+  if(OBS.rr>=25)n+=3;else if(OBS.rr>=21)n+=2;
+  if(OBS.spo2<=91)n+=3;else if(OBS.spo2<=93)n+=2;else if(OBS.spo2<=95)n+=1;
+  if(sys<=90)n+=3;else if(sys<=100)n+=2;else if(sys<=110)n+=1;
+  if(OBS.hr>=131)n+=3;else if(OBS.hr>=111)n+=2;else if(OBS.hr>=91)n+=1;
+  if(OBS.temp>=39.1)n+=2;else if(OBS.temp>=38.1)n+=1;
+  const el=$('#news'); el.innerHTML='NEWS2 <b>'+n+'</b>'; el.dataset.tone=n>=7?'bad':n>=5?'warn':'ok';
+  return n;
+}
+
+/* ===== state ===== */
+const S={t:0,stage:0,done:new Set(),order:[],harm:0,fluids:0,sourceId:false,escalated:false,arrest:false,arrestCycle:0,outcome:null};
+const LETTERS=['A','B','C','D','E'];
+function log(t,c){const li=document.createElement('li');li.innerHTML=`<span class="lt">+${fmt(S.t)}</span><span class="${c||''}">${t}</span>`;$('#log').appendChild(li);}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function tick(s){S.t+=s;$('#clock').textContent='+'+fmt(S.t);}
+function toast(m,tone){const t=document.createElement('div');t.className='toast';if(tone)t.dataset.tone=tone;t.innerHTML=m;$('#toasts').appendChild(t);setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity=0;setTimeout(()=>t.remove(),320);},3800);}
+
+/* ===== the ABCDE script ===== */
+const STAGES=[
+ {l:'A',title:'Airway',finding:'She moans to voice — drowsy (GCS 12) but the airway is patent. No stridor, no obstruction, no vomit. She is not protecting it well.',
+  acts:[
+    {id:'help',t:'Call for help — senior + resus trolley',d:'escalate early',k:'key'},
+    {id:'airpos',t:'Airway manoeuvre / recovery position, suction ready',d:'protect the airway',k:'good'},
+    {id:'intubate',t:'Intubate immediately',d:'',k:'decoy',msg:'She is maintaining her own airway for now — premature intubation skips B and C. Reassess as you go.'}
+  ], need:['help']},
+ {l:'B',title:'Breathing',finding:'RR 26, SpO₂ 90% on air. Coarse crackles at the right base, trachea central, expansion equal. She is working hard.',
+  acts:[
+    {id:'o2',t:'High-flow O₂ — 15 L non-rebreathe',d:'titrate to ≥94%',k:'key',fx:()=>{setObs('spo2',95);setObs('rr',24);}},
+    {id:'abg',t:'Arterial blood gas',d:'type 1 failure, lactate',k:'good',fx:()=>{setObs('lac','4.2');},msg:'ABG: pO₂ 7.9, type 1 respiratory failure, lactate 4.2 — tissues are starved.'},
+    {id:'cxr',t:'Portable chest X-ray',d:'?source',k:'good',msg:'Right lower-lobe consolidation — a possible source. Note it and keep moving.'},
+    {id:'furo',t:'Furosemide for the low sats',d:'',k:'harm',fx:()=>{setObs('bp','78/40');setObs('hr',130);},msg:'She is not in pulmonary oedema — she is septic and hypovolaemic. Diuresing a shocked patient drops her further.'}
+  ], need:['o2']},
+ {l:'C',title:'Circulation',finding:'BP 86/44, HR 124, cap refill 4 s, cool mottled knees. This is shock. The order now matters: access, cultures, then fluids — and reassess.',
+  acts:[
+    {id:'access',t:'Two large-bore IV cannulae',d:'do this first',k:'key'},
+    {id:'cultures',t:'Bloods + blood cultures + lactate',d:'cultures before antibiotics',k:'key',fx:()=>{if(OBS.lac==='—')setObs('lac','4.2');}},
+    {id:'fluid',t:'IV fluid bolus — 500 mL crystalloid stat',d:'needs access first · repeatable',k:'key',repeat:true},
+    {id:'cath',t:'Catheterise — hourly urine output',d:'Sepsis Six',k:'good'},
+    {id:'vaso',t:'Start noradrenaline now',d:'',k:'decoy',msg:'Vasopressors come AFTER adequate fluid resuscitation (~30 mL/kg). Fill the tank before you squeeze it.'}
+  ], need:['access','cultures','fluid']},
+ {l:'D',title:'Disability',finding:'GCS 12 (E3 V4 M5), pupils equal and reactive. The nurse repeats: “it must be the morphine.”',
+  acts:[
+    {id:'glu',t:'Capillary glucose',d:'don’t ever forget',k:'good',msg:'Glucose 6.4 — normal. Not hypoglycaemia.'},
+    {id:'naloxone',t:'Give naloxone',d:'?opioid',k:'decoy',msg:'Reasonable to exclude — but she had a normal dose hours ago and is shocked, not narcotised. Her drowsiness is hypoperfusion. It won’t fix her.'},
+    {id:'reassessGcs',t:'Attribute drowsiness to sepsis, keep resuscitating',d:'think laterally',k:'key'}
+  ], need:['reassessGcs']},
+ {l:'E',title:'Exposure',finding:'Temp 38.9. You expose her fully: the hip wound is red, hot, swollen and discharging. There is your source.',
+  acts:[
+    {id:'source',t:'Identify the source — inspect wound, lines, chest',d:'the surgical wound',k:'key',fx:()=>{S.sourceId=true;}},
+    {id:'abx',t:'IV broad-spectrum antibiotics',d:'after cultures',k:'key'},
+    {id:'surg',t:'Refer to orthopaedics — source control',d:'washout',k:'good'},
+    {id:'cover',t:'Keep her warm, preserve dignity',d:'',k:'good'}
+  ], need:['source','abx']}
+];
+
+/* ===== render ===== */
+function renderAbcde(){
+  $('#abcde').innerHTML=LETTERS.map((L,i)=>`<div class="ab" data-s="${i<S.stage?'done':i===S.stage?'now':''}">${L}</div>`).join('');
+}
+function curStage(){return STAGES[S.stage];}
+function renderStage(){
+  renderAbcde();
+  const st=curStage();
+  const a=st.acts.map(x=>{
+    const done=S.done.has(x.id)||(x.id==='fluid'&&S.fluids>0);
+    const label=x.id==='fluid'&&S.fluids>0?`${x.t} <span style="color:var(--good)">×${S.fluids}</span>`:x.t;
+    const dis=(done&&!x.repeat)?'disabled':'';
+    return `<button class="act" data-act="${x.id}" data-kind="${x.k}" ${dis} ${done&&!x.repeat?'data-done=1':''}>`+
+      `<span class="mk">${done&&x.k!=='harm'?'✓':x.k==='harm'&&done?'✕':'+'}</span>`+
+      `<span class="atx"><span class="at">${label}</span><span class="ad">${x.d||''}</span></span></button>`;
+  }).join('');
+  $('#stage').innerHTML=`<div class="stagehead"><span class="lt">${st.l}</span> — ${st.title}</div>`+
+    `<div class="finding">${st.finding}</div>`+
+    `<div class="acts">${a}</div>`+
+    `<div class="gate" id="gate"></div>`+
+    `<div class="btnrow"><button class="btn" id="next">${S.stage<4?`Move to ${LETTERS[S.stage+1]} →`:'Reassess & decide disposition'}</button></div>`;
+  $$('#stage .act').forEach(b=>{ if(!b.disabled||b.dataset.act==='fluid') b.onclick=()=>doAct(b.dataset.act); });
+  $('#next').onclick=()=>proceed();
+}
+
+function doAct(id){
+  const st=curStage(); const x=st.acts.find(a=>a.id===id);
+  if(!x) return;
+  // order rule: antibiotics need cultures first
+  if(id==='abx' && !S.done.has('cultures')){ S.harm++; log('Antibiotics before cultures','li-bad'); toast('<b>Cultures first.</b> Take blood cultures before antibiotics (don’t delay the antibiotics to do it, but here you can).','warn'); }
+  if(id==='fluid' && !S.done.has('access')){ toast('<b>You need IV access first.</b> Site the cannulae, then bolus.','warn'); return; }
+  // record
+  if(id==='fluid'){
+    S.fluids++; S.order.push('fluid'+S.fluids); tick(60);
+    if(S.fluids===1){ setObs('bp','92/50'); setObs('hr',118); toast('500 mL in. BP 92/50 — a partial response. Reassess and give more.','good'); log('Fluid bolus 1 (500 mL) — partial response','li-good'); }
+    else if(S.fluids===2){ setObs('bp','98/56'); setObs('hr',110); setObs('lac','3.4'); toast('Second bolus — BP 98/56, lactate falling. Good resuscitation. Reassess for a third / escalation.','good'); log('Fluid bolus 2 — improving','li-good'); }
+    else { setObs('bp','102/60'); setObs('hr',104); toast('Approaching 30 mL/kg. If she stays vasopressor-dependent she needs ICU.','good'); log('Further fluids — near 30 mL/kg'); }
+    renderStage(); return;
+  }
+  if(S.done.has(id)) return;
+  S.done.add(id); S.order.push(id); tick(30);
+  if(x.k==='harm'){ S.harm++; log('Harmful: '+x.t,'li-bad'); }
+  else if(x.k==='decoy'){ log('Considered: '+x.t); }
+  else log(x.t,'li-good');
+  if(x.fx) x.fx();
+  if(x.msg) toast(x.msg, x.k==='harm'?'bad':x.k==='decoy'?'warn':'good');
+  if(id==='surg'||id==='abx') S.escalated=S.escalated||id==='surg';
+  renderStage();
+}
+
+function proceed(){
+  const st=curStage();
+  const missing=st.need.filter(id=> id==='fluid'? S.fluids<1 : !S.done.has(id));
+  if(missing.length){
+    const names={help:'call for help',o2:'give high-flow oxygen',access:'gain IV access',cultures:'take cultures',fluid:'give a fluid bolus',reassessGcs:'recognise this isn’t the opioids',source:'find the source',abx:'give antibiotics'};
+    $('#gate').classList.add('on');
+    $('#gate').textContent='See and treat before you move on — you haven’t '+missing.map(m=>names[m]||m).join(', ')+'.';
+    toast('<b>Don’t move on yet.</b> There’s an untreated problem at '+st.l+'.','warn');
+    return;
+  }
+  if(S.stage<4){ S.stage++; window.scrollTo({top:0}); renderStage(); return; }
+  disposition();
+}
+
+/* ===== disposition / outcome ===== */
+function disposition(){
+  tick(60);
+  const sixOk = S.done.has('o2')&&S.done.has('cultures')&&S.done.has('abx')&&S.fluids>=1&&S.done.has('cath')&&(OBS.lac!=='—');
+  const fluidsGood = S.fluids>=2;
+  const stabilise = S.done.has('o2')&&S.done.has('abx')&&S.fluids>=2&&S.sourceId&&S.harm<=1;
+  if(stabilise){
+    S.outcome='live'; setObs('bp','104/62'); setObs('hr',98); setObs('spo2',96); setObs('lac','2.4');
+    log('Stabilising — accepted by ICU','li-good');
+    return finish(sixOk,fluidsGood);
+  }
+  // not adequately resuscitated -> she arrests (PEA)
+  S.arrest=true; S.outcome='arrest'; setObs('hr',0); setObs('bp','—');
+  log('Peri-arrest → cardiac arrest, PEA','li-bad');
+  arrestCoda();
+}
+
+/* ===== short PEA arrest coda ===== */
+function arrestCoda(){
+  renderAbcde();
+  $('#abcde').innerHTML='';
+  $('#news').innerHTML='ARREST'; $('#news').dataset.tone='bad';
+  const a=(id,t,d,done)=>`<button class="act" data-act="${id}" ${done?'data-done=1 disabled':''}><span class="mk">${done?'✓':'+'}</span><span class="atx"><span class="at">${t}</span><span class="ad">${d}</span></span></button>`;
+  $('#stage').innerHTML=`<div class="stagehead" style="color:var(--danger)">She's arrested — PEA</div>`+
+    `<div class="finding" style="border-left-color:var(--danger)">No output. The monitor shows an organised rhythm but no pulse — <b>PEA</b>. Non-shockable. The reversible cause is the one you were already fighting: hypovolaemia from sepsis.</div>`+
+    `<div class="acts">`+
+      a('cpr','Continue CPR — do NOT shock',' non-shockable',S.cMoves&&S.cMoves.has('cpr'))+
+      a('adr','Adrenaline 1 mg IV now','immediately in non-shockable',S.cMoves&&S.cMoves.has('adr'))+
+      a('cfluid','Rapid IV fluids — treat the cause','hypovolaemia',S.cMoves&&S.cMoves.has('cfluid'))+
+      a('cabx','IV antibiotics — source',' sepsis',S.cMoves&&S.cMoves.has('cabx'))+
+      a('cshock','Defibrillate','',S.cMoves&&S.cMoves.has('cshock'))+
+    `</div><div class="btnrow"><button class="btn" id="creassess">Continue CPR → reassess (2 min)</button></div>`;
+  S.cMoves=S.cMoves||new Set();
+  $$('#stage .act').forEach(b=>{ if(!b.disabled) b.onclick=()=>{
+    const id=b.dataset.act; S.cMoves.add(id);
+    if(id==='cshock'){ S.harm++; toast('<b>PEA is not shockable.</b> No shock — CPR, adrenaline, and fix the cause.','bad'); log('Shocked PEA','li-bad'); }
+    else if(id==='cfluid'){ S.fluids+=2; log('Aggressive fluids in arrest','li-good'); toast('Fluids running — treating the hypovolaemia driving the PEA.','good'); }
+    else if(id==='adr'){ log('Adrenaline 1 mg (non-shockable, immediate)','li-good'); }
+    else if(id==='cabx'){ log('Antibiotics given','li-good'); S.done.add('abx'); }
+    else log('CPR continued','li-good');
+    arrestCoda();
+  }; });
+  $('#creassess').onclick=()=>{
+    S.arrestCycle++; tick(120);
+    const fixed=S.cMoves.has('cfluid')&&S.cMoves.has('adr');
+    if(fixed){ S.outcome='live'; S.viaArrest=true; setObs('hr',96); setObs('bp','100/60'); log('ROSC after treating the cause','li-good'); return finish(true,true); }
+    if(S.arrestCycle>=2){ S.outcome='dead'; return finish(false,false); }
+    toast('Still PEA. Adrenaline, keep CPR, and <b>treat the hypovolaemia</b> — give fluids.','warn');
+    arrestCoda();
+  };
+  window.scrollTo({top:0});
+}
+
+/* ===== finish / debrief ===== */
+function finish(sixOk,fluidsGood){
+  const live=S.outcome==='live';
+  $('#bigout').dataset.r=live?'live':'dead';
+  $('#bigout').innerHTML=`<div class="ic">${live?tick2():cross()}</div>`+
+    `<div class="ttl">${live?(S.viaArrest?'ROSC — back from the brink':'Stabilised'):'She didn’t make it'}</div>`+
+    `<div class="sub">${live?(S.viaArrest?'You let her arrest, but treating the cause brought her back. She goes to ICU — but earlier sepsis care would have spared the arrest.':'Resuscitated on the ward and accepted by ICU before she ever arrested. That’s the win.'):'Septic shock that wasn’t reversed in time. She arrested in PEA and could not be brought back.'}</div>`;
+
+  let s=0; const add=n=>s+=n;
+  if(S.done.has('help')) add(6);
+  if(S.done.has('o2')) add(12);
+  if(S.done.has('access')&&S.done.has('cultures')) add(10);
+  add(Math.min(S.fluids,3)*10);
+  if(S.done.has('cath')) add(4);
+  if(S.done.has('abx')) add(14);
+  if(S.sourceId) add(10);
+  if(S.done.has('reassessGcs')) add(8);
+  if(OBS.lac!=='—') add(4);
+  add(-8*S.harm);
+  const MAX=120, shown=Math.max(0,Math.min(s,MAX));
+  $('#scoreLine').textContent=live?(shown>=90?'Textbook resuscitation.':shown>=65?'A life saved.':'She made it — just.'):'Run it again — she was saveable.';
+
+  const seqOk = S.order.indexOf('access')<S.order.indexOf('fluid1') && (!S.done.has('abx')||S.order.indexOf('cultures')<S.order.indexOf('abx'));
+  const los=[
+    S.done.has('o2')?{v:'hit',t:'Airway & breathing first',s:'You secured oxygenation before chasing the circulation — ABCDE in order.'}:{v:'miss',t:'Airway & breathing first',s:'B was left untreated. Hypoxia kills faster than anything lower down.'},
+    S.fluids>=2?{v:'hit',t:'Treat shock with fluids, reassess',s:'Access, then boluses, reassessing each time — exactly how you resuscitate septic shock.'}:(S.fluids===1?{v:'part',t:'Treat shock with fluids, reassess',s:'One bolus isn’t enough for shock — reassess and repeat to ~30 mL/kg, then escalate.'}:{v:'miss',t:'Treat shock with fluids, reassess',s:'She was shocked and barely got fluid. Boluses come first, before pressors.'}),
+    seqOk?{v:'hit',t:'Sequence — see and treat in order',s:'Access before fluids, cultures before antibiotics. The order was right.'}:{v:'part',t:'Sequence — see and treat in order',s:'Watch the order: access before fluids, cultures before antibiotics.'},
+    (S.done.has('cultures')&&S.done.has('abx'))?{v:'hit',t:'Sepsis Six',s:'Cultures, antibiotics, fluids, oxygen, lactate and a catheter — the bundle within the hour.'}:{v:'part',t:'Sepsis Six',s:'The bundle wasn’t complete — antibiotics and cultures are the time-critical pair.'},
+    S.done.has('reassessGcs')?{v:'hit',t:'Think laterally — not the morphine',s:'You saw past the handover: her drowsiness was hypoperfusion, not opioids.'}:{v:'part',t:'Think laterally — not the morphine',s:'Don’t anchor on the easy story. The drowsiness was sepsis, not the morphine.'},
+    S.harm===0?{v:'hit',t:'Avoid harm',s:'No furosemide, no premature pressors, no shocking PEA.'}:{v:'miss',t:'Avoid harm',s:`${S.harm} harmful action${S.harm>1?'s':''} — each one set her back when she had no reserve.`}
+  ];
+  $('#loList').innerHTML=los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join('');
+
+  $('#narr').innerHTML=`Behind the “it’s just the morphine” was <b>septic shock</b> from an infected hip wound. You worked through ${S.stage>=4?'the full ABCDE':'ABCDE as far as '+LETTERS[S.stage]}, gave <b>${S.fluids}</b> fluid bolus${S.fluids===1?'':'es'}, ${S.done.has('abx')?'started antibiotics':'did not start antibiotics'}, and ${S.sourceId?'found the source':'never found the source'}. ${live?(S.viaArrest?'She arrested in PEA but you reversed the cause and achieved ROSC.':'She was stabilised on the ward and taken to ICU before any arrest.'):'She deteriorated into a PEA arrest and, with the cause untreated, could not be resuscitated.'}`;
+
+  $$('.screen').forEach(x=>x.classList.remove('on'));
+  $('#s-out').classList.add('on'); window.scrollTo({top:0});
+}
+function tick2(){return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l4 4L19 7"/></svg>';}
+function cross(){return '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>';}
+
+/* ===== init ===== */
+$('#startBtn').onclick=()=>{
+  $$('.screen').forEach(x=>x.classList.remove('on'));
+  $('#s-resus').classList.add('on');
+  renderObs(); renderStage();
+  log('At the bedside — starting ABCDE');
+  window.scrollTo({top:0});
+};
+$('#replay').onclick=()=>location.reload();
+</script>
+</body>
+</html>
