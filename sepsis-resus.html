@@ -151,8 +151,8 @@ footer a{color:var(--accent-2)}
       <div class="card" style="border:1px solid var(--rule);background:transparent">
         <div class="card__label">How this works</div>
         <ul class="points">
-          <li><span class="n">A</span><span>Move through Airway → Breathing → Circulation → Disability → Exposure, in order.</span></li>
-          <li><span class="n">!</span><span>Treat each problem before you move on. The app won't let you skip a life threat — and it remembers the order you worked in.</span></li>
+          <li><span class="n">A</span><span>The whole ABCDE is open — Airway, Breathing, Circulation, Disability, Exposure. Work it your way.</span></li>
+          <li><span class="n">!</span><span>Order still matters: it remembers the sequence you worked in, and a sick patient won't wait while you faff.</span></li>
           <li><span class="n">↑</span><span>The obs respond to what you do. Don't anchor on the handover — think laterally.</span></li>
         </ul>
       </div>
@@ -269,32 +269,34 @@ function renderAbcde(){
   $('#abcde').innerHTML=LETTERS.map((L,i)=>`<div class="ab" data-s="${i<S.stage?'done':i===S.stage?'now':''}">${L}</div>`).join('');
 }
 function curStage(){return STAGES[S.stage];}
+function actBtn(x){
+  const done=S.done.has(x.id)||(x.id==='fluid'&&S.fluids>0);
+  const label=x.id==='fluid'&&S.fluids>0?`${x.t} <span style="color:var(--good)">×${S.fluids}</span>`:x.t;
+  const dis=(done&&!x.repeat)?'disabled':'';
+  return `<button class="act" data-act="${x.id}" data-kind="${x.k}" ${dis} ${done&&!x.repeat?'data-done=1':''}>`+
+    `<span class="mk">${done&&x.k!=='harm'?'✓':x.k==='harm'&&done?'✕':'+'}</span>`+
+    `<span class="atx"><span class="at">${label}</span><span class="ad">${x.d||''}</span></span></button>`;
+}
 function renderStage(){
-  renderAbcde();
-  const st=curStage();
-  const a=st.acts.map(x=>{
-    const done=S.done.has(x.id)||(x.id==='fluid'&&S.fluids>0);
-    const label=x.id==='fluid'&&S.fluids>0?`${x.t} <span style="color:var(--good)">×${S.fluids}</span>`:x.t;
-    const dis=(done&&!x.repeat)?'disabled':'';
-    return `<button class="act" data-act="${x.id}" data-kind="${x.k}" ${dis} ${done&&!x.repeat?'data-done=1':''}>`+
-      `<span class="mk">${done&&x.k!=='harm'?'✓':x.k==='harm'&&done?'✕':'+'}</span>`+
-      `<span class="atx"><span class="at">${label}</span><span class="ad">${x.d||''}</span></span></button>`;
-  }).join('');
-  $('#stage').innerHTML=`<div class="stagehead"><span class="lt">${st.l}</span> — ${st.title}</div>`+
-    `<div class="finding">${st.finding}</div>`+
-    `<div class="acts">${a}</div>`+
-    `<div class="gate" id="gate"></div>`+
-    `<div class="btnrow"><button class="btn" id="next">${S.stage<4?`Move to ${LETTERS[S.stage+1]} →`:'Reassess & decide disposition'}</button></div>`;
+  $('#abcde').innerHTML=LETTERS.map(L=>`<div class="ab" data-s="">${L}</div>`).join('');
+  let html='';
+  STAGES.forEach(st=>{
+    html+=`<div class="stagehead"><span class="lt">${st.l}</span> — ${st.title}</div>`+
+      `<div class="finding">${st.finding}</div>`+
+      `<div class="acts">${st.acts.map(actBtn).join('')}</div>`;
+  });
+  html+=`<div class="btnrow"><button class="btn" id="dispo">Reassess &amp; decide disposition</button></div>`;
+  $('#stage').innerHTML=html;
   $$('#stage .act').forEach(b=>{ if(!b.disabled||b.dataset.act==='fluid') b.onclick=()=>doAct(b.dataset.act); });
-  $('#next').onclick=()=>proceed();
+  $('#dispo').onclick=()=>disposition();
 }
 
 function doAct(id){
-  const st=curStage(); const x=st.acts.find(a=>a.id===id);
+  const x=STAGES.flatMap(s=>s.acts).find(a=>a.id===id);
   if(!x) return;
-  // order rule: antibiotics need cultures first
-  if(id==='abx' && !S.done.has('cultures')){ S.harm++; log('Antibiotics before cultures','li-bad'); toast('<b>Cultures first.</b> Take blood cultures before antibiotics (don’t delay the antibiotics to do it, but here you can).','warn'); }
-  if(id==='fluid' && !S.done.has('access')){ toast('<b>You need IV access first.</b> Site the cannulae, then bolus.','warn'); return; }
+  // sequence is scored, not blocked (free-flowing)
+  if(id==='abx' && !S.done.has('cultures')){ S.harm++; log('Antibiotics before cultures','li-bad'); toast('<b>Cultures first.</b> Take blood cultures before antibiotics where you can — order is scored.','warn'); }
+  if(id==='fluid' && !S.done.has('access')){ toast('Bolus running — though you would normally site access first. Order is tracked.','warn'); }
   // record
   if(id==='fluid'){
     S.fluids++; S.order.push('fluid'+S.fluids); tick(60);
@@ -414,7 +416,7 @@ function finish(sixOk,fluidsGood){
   ];
   $('#loList').innerHTML=los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join('');
 
-  $('#narr').innerHTML=`Behind the “it’s just the morphine” was <b>septic shock</b> from an infected hip wound. You worked through ${S.stage>=4?'the full ABCDE':'ABCDE as far as '+LETTERS[S.stage]}, gave <b>${S.fluids}</b> fluid bolus${S.fluids===1?'':'es'}, ${S.done.has('abx')?'started antibiotics':'did not start antibiotics'}, and ${S.sourceId?'found the source':'never found the source'}. ${live?(S.viaArrest?'She arrested in PEA but you reversed the cause and achieved ROSC.':'She was stabilised on the ward and taken to ICU before any arrest.'):'She deteriorated into a PEA arrest and, with the cause untreated, could not be resuscitated.'}`;
+  $('#narr').innerHTML=`Behind the “it’s just the morphine” was <b>septic shock</b> from an infected hip wound. You worked the ABCDE, gave <b>${S.fluids}</b> fluid bolus${S.fluids===1?'':'es'}, ${S.done.has('abx')?'started antibiotics':'did not start antibiotics'}, and ${S.sourceId?'found the source':'never found the source'}. ${live?(S.viaArrest?'She arrested in PEA but you reversed the cause and achieved ROSC.':'She was stabilised on the ward and taken to ICU before any arrest.'):'She deteriorated into a PEA arrest and, with the cause untreated, could not be resuscitated.'}`;
 
   $$('.screen').forEach(x=>x.classList.remove('on'));
   $('#s-out').classList.add('on'); window.scrollTo({top:0});

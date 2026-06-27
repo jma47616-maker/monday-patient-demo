@@ -168,8 +168,8 @@ footer{padding:var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0
 
       <div class="card" style="margin-top:var(--s5)">
         <div class="card__label">Handover · 14:02 · renal ward</div>
-        <p class="serif" style="margin-bottom:var(--s3)">Raymond Doyle, 58. End-stage renal failure on haemodialysis. Found unresponsive in the dialysis chair. He has <b>missed his last two sessions</b>. Nurses started CPR; you arrive as the team leader with the defibrillator.</p>
-        <p class="serif">Monitor on. No pulse, not breathing. The arrest call is out. It's your floor now.</p>
+        <p class="serif" style="margin-bottom:var(--s3)">Raymond Doyle, 58. End-stage renal failure on haemodialysis. He <b>missed his last two sessions</b> — and the nurses say he'd been <b>feverish and rigoring</b> all afternoon, his tunnelled line site red and weeping, before he slumped in the dialysis chair. CPR is in progress; you arrive as team leader with the defibrillator.</p>
+        <p class="serif">Monitor on. No pulse, not breathing. There may be more than one reason he's here. It's your floor now.</p>
       </div>
 
       <div class="card" style="border:1px solid var(--rule);background:transparent">
@@ -222,7 +222,7 @@ footer{padding:var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0
       <div class="card">
         <div class="card__label">Teaching — the 2025 essentials</div>
         <ul class="pearls">
-          <li>In a refractory arrest, the rhythm is a symptom. Good CPR and shocks buy time; you only win by treating the cause — here, hyperkalaemia from missed dialysis.</li>
+          <li>In a refractory arrest the rhythm is a symptom, and there can be more than one cause. Here there were two — hyperkalaemia from missed dialysis and septic shock from the line — and fixing only one keeps him arrested. Work the whole 4 Hs and 4 Ts.</li>
           <li>Calcium (gluconate or chloride) is the membrane-stabilising priority in a hyperkalaemic arrest — give it before insulin–dextrose shifts potassium.</li>
           <li>Adrenaline 1 mg: straight away in non-shockable rhythms, but only after the third shock in VF/pVT — then every 3–5 minutes. Amiodarone 300 mg after three shocks, 150 mg after five.</li>
           <li>2025 emphases: IV access first (IO only after two failed attempts), highest feasible oxygen with ventilation at 10/min once the airway is secured, and waveform capnography — a sudden EtCO₂ rise is often your first sign of ROSC.</li>
@@ -274,6 +274,7 @@ const R={
   shocks:0, adr:0, lastAdr:-9, amio300:false, amio150:false,
   access:false, airway:false, vbg:false, history:false,
   causeId:false, calcium:false, shift:false, treatedCycle:null,
+  fluids:0, abx:false, source:false,
   recovery:0, checkCorrect:null, post:new Set(),
   actions:new Set(), wrongCause:0,
   good:[], errs:[], outcome:null
@@ -333,13 +334,14 @@ function cprStageHTML(){
     `</div>`+
     `<div class="grouph">Reversible causes · 4 Hs &amp; 4 Ts</div><div class="grid2">`+
       a('hyperk','Treat hyperkalaemia','calcium · insulin–dex',R.calcium&&R.shift)+
+      `<button class="action" data-act="hypov"><span class="at">IV fluid bolus${R.fluids>0?` <span style="color:var(--good)">×${R.fluids}</span>`:''}</span><span class="ad">hypovolaemia · repeat</span></button>`+
+      a('abx','IV antibiotics','sepsis — give early',R.abx)+
+      a('source','Source control','remove &amp; culture line',R.source)+
       a('hypox','Hypoxia','airway, oxygen',false)+
-      a('hypov','Hypovolaemia','fluids / blood',false)+
-      a('thromb','Thrombosis','PE / MI — thrombolyse',false)+
+      a('thromb','Thrombosis','PE / MI',false)+
       a('tens','Tension pneumothorax','decompress',false)+
       a('tamp','Tamponade','pericardiocentesis',false)+
       a('hypoth','Hypothermia','active warming',false)+
-      a('tox','Toxins','antidote',false)+
     `</div>`+
     `<div class="btnrow"><button class="btn" id="reassess">Continue CPR → reassess (2 min)</button></div>`;
 }
@@ -355,7 +357,9 @@ function doShock(){
   if(SHOCKABLE(R.rhythm)){
     R.shocks++; R.good.push('defib');
     logEvt(`Shock #${R.shocks} delivered (150 J biphasic)`,'li-good');
-    toast(`<b>Shock ${R.shocks} delivered.</b> Immediately resume compressions — don't pause to reassess.`,'good');
+    if(R.shocks===3 && !R.amio300) toast(`<b>Three shocks.</b> Now is the moment — adrenaline 1 mg AND amiodarone 300 mg.`,'warn');
+    else if(R.shocks===5 && !R.amio150) toast(`<b>Five shocks.</b> Second dose of amiodarone — 150 mg.`,'warn');
+    else toast(`<b>Shock ${R.shocks} delivered.</b> Immediately resume compressions — don't pause to reassess.`,'good');
   } else {
     R.errs.push('shock-nonshock');
     logEvt(`Shock delivered to ${RH[R.rhythm]} (non-shockable)`,'li-bad');
@@ -386,13 +390,14 @@ function act(id){
     case 'vbg': takeVbg(); break;
     case 'hist': reviewHistory(); break;
     case 'hyperk': treatHyperK(); break;
-    case 'hypox': R.airway=true; logEvt('Hypoxia addressed — airway & oxygen'); toast('Reasonable — oxygenation matters. But his airway isn\'t the primary cause here.','warn'); break;
-    case 'hypov': wrongCause('Hypovolaemia','Fluids given. He isn\'t hypovolaemic — this isn\'t the cause, and you\'re burning cycles.'); break;
+    case 'hypov': giveFluids(); break;
+    case 'abx': if(!R.abx){R.abx=true;R.good.push('abx');logEvt('IV broad-spectrum antibiotics','li-good');toast('Antibiotics in — he\'s septic from the line. Now control the source.','good');} break;
+    case 'source': if(!R.source){R.source=true;R.good.push('source');logEvt('Infected tunnelled line removed & cultured','li-good');toast('Source controlled — the infected dialysis line is out and cultured.','good');} break;
+    case 'hypox': R.airway=true; logEvt('Hypoxia addressed — airway & oxygen'); toast('Reasonable — oxygenation matters, but his airway isn\'t the primary problem here.','warn'); break;
     case 'thromb': wrongCause('Thrombosis','Thrombolysis is a big call and not indicated here — no PE/MI story. Time lost.'); break;
     case 'tens': wrongCause('Tension pneumothorax','Chest decompressed — but there are no signs of a tension pneumothorax. A harmful distraction.'); break;
     case 'tamp': wrongCause('Tamponade','No tamponade here. Pericardiocentesis in arrest is high-risk and wrong for this patient.'); break;
-    case 'hypoth': wrongCause('Hypothermia','He\'s normothermic. Warming won\'t help and the clock is running.'); break;
-    case 'tox': wrongCause('Toxins','No toxidrome here — though note his potassium is, in a sense, the "toxin".'); break;
+    case 'hypoth': wrongCause('Hypothermia','He\'s normothermic — if anything febrile. Warming won\'t help and the clock is running.'); break;
   }
   if(R.phase==='cpr') render();
 }
@@ -423,13 +428,18 @@ function giveAmiodarone(){
 }
 function takeVbg(){
   R.vbg=true; R.causeId=true; R.good.push('vbg');
-  logEvt('VBG: K⁺ 7.8, pH 7.12, HCO₃ 14','li-good');
-  toast(`<b>VBG back: K⁺ 7.8 mmol/L.</b> Severe hyperkalaemia — there's your reversible cause. Treat it now.`,'good');
+  logEvt('VBG: K⁺ 7.8, pH 7.06, lactate 6.1','li-good');
+  toast(`<b>VBG: K⁺ 7.8 AND lactate 6.1.</b> Two problems at once — severe hyperkalaemia and a sepsis-range lactate. You'll have to treat both.`,'good');
 }
 function reviewHistory(){
   R.history=true; R.causeId=true;
-  logEvt('Handover reviewed: missed dialysis, ESRF');
-  toast(`Missed two dialysis sessions, end-stage renal failure — think <b>hyperkalaemia</b>. Confirm on a gas and treat.`,'good');
+  logEvt('Handover: missed dialysis, febrile, red line site');
+  toast(`Missed dialysis → <b>hyperkalaemia</b>; the fever and angry line → <b>line sepsis</b>. He arrested from both.`,'good');
+}
+function giveFluids(){
+  R.fluids++; R.good.push('fluids');
+  logEvt(`IV fluid bolus 500 mL (×${R.fluids})`,'li-good');
+  toast(R.fluids===1?'Fluids running — he\'s septic and intravascularly empty. This is the other half of the cause.':'More volume in. Keep going while you correct the potassium.','good');
 }
 function treatHyperK(){
   if(!R.calcium){
@@ -448,56 +458,65 @@ function treatHyperK(){
 function wrongCause(name,msg){ R.wrongCause++; R.errs.push('wrong-cause'); logEvt(`Pursued ${name} — not the cause`,'li-bad'); toast(msg,'warn'); }
 
 /* ============ REASSESS / OUTCOME ENGINE ============
-   The arrest is a full, evolving resuscitation. Until the cause (hyperkalaemia)
-   is treated with calcium, the rhythm deteriorates VF → PEA → asystole → death.
-   Once calcium is given, the myocardium recovers over several cycles of good ALS
-   (correct shock decisions + adrenaline) before ROSC — it is never instant. */
+   He has TWO reversible causes — hyperkalaemia AND sepsis. ROSC needs BOTH treated:
+   calcium for the potassium, fluids for the septic hypovolaemia. Treat only one and
+   he stays arrested (refractory VF if the K⁺ is still high; PEA if he's still empty).
+   It is a long resuscitation — stays in VF early so amiodarone gets its run-out. */
 function untreatedRhythm(c){
-  if(c<=4) return 'vf';
-  if(c<=6) return 'pea';
+  if(c<=5) return 'vf';   // persistent VF — deliver shocks, give amiodarone at 3 and 5
+  if(c<=7) return 'pea';
   return 'asystole';
 }
 function announceRhythm(prev,next){
   if(prev===next) return;
   const bad = next==='asystole';
   logEvt('Rhythm change → '+RH[next], bad?'li-bad':'');
-  if(next==='pea'||next==='asystole') toast(`<b>Now ${RH[next]} — non-shockable.</b> No shock. Adrenaline straight away, then every 3–5 min, and keep hunting the cause.`,'warn');
+  if(next==='pea'||next==='asystole') toast(`<b>Now ${RH[next]} — non-shockable.</b> No shock. Adrenaline straight away, then every 3–5 min, and keep treating the causes.`,'warn');
   else if(next==='vf'||next==='vt') toast(`<b>${RH[next]} — shockable.</b> Defibrillate, then 2 minutes of CPR.`,'warn');
+}
+function rosc(){
+  R.rhythm='sinus'; R.outcome='rosc'; R.t-=60;
+  logEvt('Organised rhythm, palpable pulse — ROSC','li-good');
+  toast('<b>EtCO₂ surges — pulse present. ROSC!</b> Both causes treated. Post-resuscitation care now.','good');
+  R.phase='postrosc'; updateMonitor(); renderPostRosc(); window.scrollTo({top:0});
 }
 function reassess(){
   R.t+=120; R.cycle++;
-  const adequate = R.checkCorrect!==false;   // correct shock decision this cycle
+  const adequate = R.checkCorrect!==false;
   R.checkCorrect=null;
   const prev=R.rhythm;
+  const both = R.calcium && R.fluids>=1;
 
-  if(R.calcium){
-    // recovery phase — earn ROSC over time with good ALS
+  if(both){
     if(adequate) R.recovery++;
-    const ready = R.recovery>=3;
-    if(ready && R.adr>=1){
-      R.rhythm='sinus'; R.outcome='rosc'; R.t-=60;
-      logEvt('Organised rhythm, palpable pulse — ROSC','li-good');
-      toast('<b>EtCO₂ surges — pulse present. ROSC!</b> Move to post-resuscitation care.','good');
-      R.phase='postrosc'; updateMonitor(); renderPostRosc(); window.scrollTo({top:0}); return;
-    }
-    if(ready && R.adr<1) toast('Organising, but he needs <b>adrenaline</b> to support the circulation.','warn');
-    if(R.cycle>=12){ // prolonged but eventually back
-      R.rhythm='sinus'; R.outcome='rosc';
-      logEvt('ROSC after prolonged resuscitation','li-good');
-      R.phase='postrosc'; updateMonitor(); renderPostRosc(); window.scrollTo({top:0}); return;
-    }
-    // still arrested but organising
-    R.rhythm = R.recovery>=2 ? 'pea' : (SHOCKABLE(prev) ? 'vf' : 'pea');
-    announceRhythm(prev,R.rhythm);
+    const ready = R.recovery>=4;          // longer — earned over many cycles
+    if(ready && R.adr>=1) return rosc();
+    if(ready && R.adr<1) toast('Organising — but give <b>adrenaline</b> to support the circulation.','warn');
+    if(R.cycle>=16) return rosc();        // prolonged but eventually back
+    // refractory VF holds until 5 shocks (so both amiodarone doses get given), then organises
+    if(prev==='pea') R.rhythm='pea';
+    else R.rhythm = (R.recovery>=2 && R.shocks>=5) ? 'pea' : 'vf';
+    announceRhythm(prev,R.rhythm); R.phase='check'; render(); return;
+  }
+  if(R.calcium && R.fluids<1){            // K⁺ fixed, still septic/empty → PEA
+    R.rhythm='pea';
+    if(prev!=='pea') toast('<b>Potassium treated — but now he\'s in PEA.</b> He\'s septic and empty: give <b>fluids</b> (and antibiotics).','warn');
+    announceRhythm(prev,'pea');
+    if(R.cycle>=12){ R.outcome='dead'; return finish(); }
     R.phase='check'; render(); return;
   }
-
-  // untreated — deteriorating trajectory
+  if(R.fluids>=1 && !R.calcium){          // volume restored, K⁺ still high → refractory VF
+    R.rhythm='vf';
+    if(prev!=='vf') toast('<b>Still refractory VF.</b> The fluids are in, but the <b>potassium</b> is still high — give calcium.','warn');
+    if(R.cycle>=12){ R.outcome='dead'; return finish(); }
+    R.phase='check'; render(); return;
+  }
+  // neither cause treated — deteriorating
   const nr=untreatedRhythm(R.cycle);
   R.rhythm=nr; announceRhythm(prev,nr);
-  if(R.cycle>=9){ R.outcome='dead'; return finish(); }
+  if(R.cycle>=10){ R.outcome='dead'; return finish(); }
   const harmful=R.errs.filter(e=>e==='wrong-cause'||e==='shock-nonshock'||e==='missed-defib').length;
-  if(harmful>=6){ R.outcome='dead'; logEvt('Cumulative delays — output lost','li-bad'); return finish(); }
+  if(harmful>=7){ R.outcome='dead'; logEvt('Cumulative delays — output lost','li-bad'); return finish(); }
   R.phase='check'; render();
 }
 
@@ -535,29 +554,39 @@ function finish(){
   if(!R.errs.includes('missed-defib')) add(6);
   if(R.good.includes('adr')&&!R.errs.includes('adr-early')) add(10);
   if(R.amio300) add(8);
+  if(R.amio150) add(6);
   if(R.access) add(6);
   if(R.airway) add(6);
   if(R.causeId) add(14);
-  if(R.calcium) add(20);
-  if(R.shift) add(8);
+  if(R.calcium) add(18);
+  if(R.shift) add(6);
+  if(R.fluids>=1) add(16);
+  if(R.abx) add(10);
+  if(R.source) add(6);
   add(-4*R.wrongCause);
-  if(R.treatedCycle&&R.treatedCycle<=3) add(10);
+  if(R.treatedCycle&&R.treatedCycle<=3) add(8);
   if(rosc) add(2*R.post.size);
-  const MAX=120, shown=Math.max(0,Math.min(s,MAX));
+  const MAX=170, shown=Math.max(0,Math.min(s,MAX));
   $('#scoreLine').textContent=rosc?(s>=85?'Textbook resus.':s>=60?'A life saved.':'He made it — just.'):'Run it back — he was saveable.';
 
   const los=[
     R.good.includes('defib')?{v:'hit',t:'Defibrillate shockable rhythms',s:'You shocked the VF promptly — defibrillation is the definitive treatment.'}:(R.errs.includes('missed-defib')?{v:'miss',t:'Defibrillate shockable rhythms',s:'You left a shockable rhythm un-shocked. VF needs electricity.'}:{v:'part',t:'Defibrillate shockable rhythms',s:'Mind the rhythm — shock VF/pVT, never asystole.'}),
     (R.good.includes('adr')&&!R.errs.includes('adr-early'))?{v:'hit',t:'Adrenaline at the right time',s:'After the third shock in VF, then every 3–5 minutes.'}:{v:R.errs.includes('adr-early')?'miss':'part',t:'Adrenaline at the right time',s:R.errs.includes('adr-early')?'You gave it before the third shock — too early in a shockable rhythm.':'Don\'t forget adrenaline — and time it to the rhythm.'},
     R.causeId?{v:'hit',t:'Hunt the reversible cause',s:'You sought the cause — gas and history pointed straight at hyperkalaemia.'}:{v:'miss',t:'Hunt the reversible cause',s:'You never looked for why he arrested. A gas would have shown K⁺ 7.8.'},
-    R.calcium?{v:R.shift?'hit':'part',t:'Treat hyperkalaemia',s:R.shift?'Calcium to stabilise, insulin–dextrose to shift — textbook.':'Calcium given (the life-saver). Add insulin–dextrose to shift the potassium.'}:{v:'miss',t:'Treat hyperkalaemia',s:'The one thing that would reverse this arrest — calcium — was never given.'},
+    R.calcium?{v:R.shift?'hit':'part',t:'Treat hyperkalaemia',s:R.shift?'Calcium to stabilise, insulin–dextrose to shift — textbook.':'Calcium given (the life-saver). Add insulin–dextrose to shift the potassium.'}:{v:'miss',t:'Treat hyperkalaemia',s:'Calcium — the membrane-stabilising priority — was never given.'},
+    (R.fluids>=1&&R.abx)?{v:'hit',t:'Treat the sepsis too',s:'Fluids for the hypovolaemia and antibiotics for the infected line — you caught the second cause.'}:(R.fluids>=1?{v:'part',t:'Treat the sepsis too',s:'You gave fluids — now antibiotics and source control for the line sepsis.'}:{v:'miss',t:'Treat the sepsis too',s:'He was septic as well as hyperkalaemic. Fluids and antibiotics were the missing half — fix one cause and he stays arrested.'}),
     (R.access&&R.airway)?{v:'hit',t:'Access, airway, oxygenation',s:'IV access and a secured airway with controlled ventilation — the 2025 emphasis.'}:{v:'part',t:'Access, airway, oxygenation',s:'Don\'t neglect IV-first access and good oxygenation while you work the cause.'},
     R.wrongCause===0?{v:'hit',t:'Avoid chasing the wrong cause',s:'You didn\'t waste cycles on causes the story didn\'t support.'}:{v:'part',t:'Avoid chasing the wrong cause',s:`You pursued ${R.wrongCause} cause${R.wrongCause>1?'s':''} the history didn\'t support — each one costs time.`}
   ];
   if(rosc) los.push(R.post.size>=4?{v:'hit',t:'Post-resuscitation care',s:'ABCDE, a 12-lead, controlled oxygenation and definitive potassium control — you finished the job.'}:{v:'part',t:'Post-resuscitation care',s:'ROSC is the start, not the end — 12-lead ECG, target SpO₂ 94–98%, and definitive K⁺ control / dialysis stop him re-arresting.'});
   $('#loList').innerHTML=los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join('');
 
-  $('#narr').innerHTML=`He arrested in <b>VF</b> and the rhythm evolved through ${R.calcium?'VF and PEA':'VF, PEA and asystole'} as you worked. You ran <b>${R.cycle-1}</b> cycle${R.cycle-1===1?'':'s'}, delivered <b>${R.shocks}</b> shock${R.shocks===1?'':'s'}, gave <b>${R.adr}</b> dose${R.adr===1?'':'s'} of adrenaline${R.amio300?' and amiodarone':''}, and ${R.causeId?'identified':'never identified'} the hyperkalaemia${R.treatedCycle?` (treated at cycle ${R.treatedCycle})`:''}. ${R.calcium?`Calcium${R.shift?' and insulin–dextrose':''} reversed the cause, and after sustained ALS he achieved ROSC at <b>${fmt(R.t)}</b>${R.post.size?`, then you began post-resuscitation care`:''}.`:`Without calcium, the rhythm became refractory, degenerated to asystole, and he died at <b>${fmt(R.t)}</b>.`}`;
+  const both=R.calcium&&R.fluids>=1;
+  $('#narr').innerHTML=`He arrested in <b>VF</b> from <b>two</b> causes at once — hyperkalaemia from missed dialysis and septic shock from his line. You ran <b>${R.cycle-1}</b> cycle${R.cycle-1===1?'':'s'}, delivered <b>${R.shocks}</b> shock${R.shocks===1?'':'s'}, gave <b>${R.adr}</b> dose${R.adr===1?'':'s'} of adrenaline${R.amio300?(R.amio150?' and both doses of amiodarone':' and amiodarone'):''}. `+
+    (both?`You treated <b>both</b> — calcium${R.shift?' and insulin–dextrose':''} for the potassium, fluids${R.abx?' and antibiotics':''} for the sepsis — and after a long resuscitation he achieved ROSC at <b>${fmt(R.t)}</b>${R.post.size?`, then you began post-resuscitation care`:''}.`
+     :R.calcium?`You corrected the potassium but never resuscitated the sepsis — he stayed in PEA, and without fluids he died at <b>${fmt(R.t)}</b>.`
+     :R.fluids>=1?`You filled the tank but never gave calcium — the VF stayed refractory and he died at <b>${fmt(R.t)}</b>.`
+     :`Neither cause was treated. The rhythm became refractory, degenerated to asystole, and he died at <b>${fmt(R.t)}</b>.`);
 
   $$('.screen').forEach(s=>s.classList.remove('on'));
   $('#s-out').classList.add('on');
