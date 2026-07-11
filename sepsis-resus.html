@@ -418,6 +418,7 @@ function finish(sixOk,fluidsGood){
 
   $('#narr').innerHTML=`Behind the “it’s just the morphine” was <b>septic shock</b> from an infected hip wound. You worked the ABCDE, gave <b>${S.fluids}</b> fluid bolus${S.fluids===1?'':'es'}, ${S.done.has('abx')?'started antibiotics':'did not start antibiotics'}, and ${S.sourceId?'found the source':'never found the source'}. ${live?(S.viaArrest?'She arrested in PEA but you reversed the cause and achieved ROSC.':'She was stabilised on the ward and taken to ICU before any arrest.'):'She deteriorated into a PEA arrest and, with the cause untreated, could not be resuscitated.'}`;
 
+  mpReturnBtn(shown, MAX);
   $$('.screen').forEach(x=>x.classList.remove('on'));
   $('#s-out').classList.add('on'); window.scrollTo({top:0});
 }
@@ -433,6 +434,15 @@ $('#startBtn').onclick=()=>{
   window.scrollTo({top:0});
 };
 $('#replay').onclick=()=>location.reload();
+/* ---- optional hub handoff: /sepsis-resus.html?return=<hubUrl>&week=<id> ---- */
+const MPQ=new URLSearchParams(location.search);
+function mpReturnBtn(score,max){
+  if(!MPQ.get('return')) return;
+  const rb=$('#replay'), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','sepsis-periarrest'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
 </script>
 </body>
 </html>

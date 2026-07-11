@@ -1018,6 +1018,7 @@ function scoreAndShow(){
     `${(S.rx.has('iv')||S.rx.has('blood'))?"resuscitated him":"did not resuscitate"}, and `+
     `reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
 
+  mpReturnBtn(shown, MAX);
   go("out");
 }
 function countTo(el, val, max){
@@ -1028,6 +1029,15 @@ function countTo(el, val, max){
 }
 $("#finishBtn").onclick = scoreAndShow;
 $("#replay").onclick = ()=>location.reload();
+/* ---- optional hub handoff: ?return=<hubUrl>&week=<id> ---- */
+const MPQ = new URLSearchParams(location.search);
+function mpReturnBtn(score, max){
+  if(!MPQ.get('return')) return;
+  const rb=$("#replay"), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','gi-bleed'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
 
 /* ---------- init ---------- */
 renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderMgmt();
