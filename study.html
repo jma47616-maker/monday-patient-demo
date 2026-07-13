@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Monday Patient">
+<title>The Monday Patient · Study hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#faf6f0;--paper-2:#f3ece1;--paper-3:#ece2d4;
+  --ink:#2b241d;--ink-2:#4a4136;--muted:#7a6f60;--faint:#9c917f;
+  --rule:#e3d8c8;--rule-2:#d4c7b3;
+  --accent:#b8552e;--accent-2:#9c4525;--accent-bg:#f6e6db;--accent-ink:#fdf6f0;
+  --good:#3f7d52;--good-bg:#e6f0e6;--warn:#9a6a16;--warn-bg:#f6ebd6;--danger:#b23b2e;--danger-bg:#f7e3df;
+  --fd:"Fraunces",Georgia,serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg:0 2px 6px rgba(43,36,29,.06),0 12px 36px rgba(43,36,29,.12);
+}
+@supports (color:oklch(50% 0 0)){:root{
+  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
+  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
+  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
+  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
+  --good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);--warn:oklch(54% .11 75);--warn-bg:oklch(94% .05 82);--danger:oklch(52% .17 30);--danger-bg:oklch(94% .045 32);
+}}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font-family:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:var(--accent-2)}
+h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.mono{font-family:var(--fm)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:48px;padding:var(--s3) var(--s5);background:var(--accent);color:var(--accent-ink);font-weight:600;border:1px solid var(--accent);border-radius:var(--r-md);box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .2s var(--ease)}
+.btn:hover{filter:brightness(1.06)}.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule-2);box-shadow:none}
+.btn--ghost:hover{background:var(--paper-2);filter:none}
+.btn--sm{min-height:40px;padding:var(--s2) var(--s4);font-size:.88rem}
+.btn--wide{width:100%}
+
+/* ===== login ===== */
+#login{min-height:100dvh;display:grid;place-items:center;padding:var(--s5)}
+.loginbox{max-width:26rem;width:100%}
+.loginbox .brand{font-family:var(--fd);font-weight:600;font-size:1.6rem}
+.loginbox .brand em{font-style:italic;color:var(--accent)}
+.loginbox h1{font-size:2.1rem;margin:var(--s5) 0 var(--s2)}
+.loginbox p{color:var(--muted);margin-bottom:var(--s5)}
+.field{margin-bottom:var(--s3)}
+.field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:var(--s2)}
+.field input{width:100%;min-height:48px;padding:var(--s3) var(--s4);background:var(--paper);border:1px solid var(--rule-2);border-radius:var(--r-md);font-size:1rem;color:var(--ink);outline:2px solid transparent;outline-offset:1px}
+.field input:focus-visible{outline-color:var(--accent-2)}
+.loginmsg{font-size:.85rem;margin:var(--s3) 0;min-height:1.2em}
+.loginmsg[data-t=err]{color:var(--danger)}.loginmsg[data-t=ok]{color:var(--good)}
+.hr{display:flex;align-items:center;gap:var(--s3);color:var(--faint);font-size:.8rem;margin:var(--s4) 0}
+.hr::before,.hr::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+/* ===== app shell ===== */
+#app{display:none;min-height:100dvh}
+#app.on{display:grid;grid-template-columns:1fr}
+.wrap{max-width:64rem;margin-inline:auto;width:100%;display:grid;grid-template-columns:1fr}
+@media(min-width:860px){ .wrap{grid-template-columns:15rem 1fr;gap:var(--s6);padding:0 var(--s5)} }
+/* sidebar (desktop) */
+.side{display:none}
+@media(min-width:860px){
+  .side{display:block;position:sticky;top:0;height:100dvh;padding:var(--s6) 0;overflow:auto}
+  .side .brand{font-family:var(--fd);font-weight:600;font-size:1.25rem;padding:0 var(--s3);margin-bottom:var(--s6)}
+  .side .brand em{font-style:italic;color:var(--accent)}
+  .nav{display:flex;flex-direction:column;gap:var(--s1)}
+  .nav button{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;background:transparent;border:none;color:var(--muted);font-size:.95rem;font-weight:500;padding:var(--s3);border-radius:var(--r-md)}
+  .nav button:hover{background:var(--paper-2);color:var(--ink)}
+  .nav button[aria-current=true]{background:var(--accent-bg);color:var(--accent-2);font-weight:600}
+  .nav .ico{width:1.1rem;text-align:center}
+  .side .who{margin-top:var(--s6);padding:var(--s3);border-top:1px solid var(--rule);font-size:.82rem;color:var(--muted)}
+  .side .who b{color:var(--ink);font-weight:600;display:block;font-family:var(--fd)}
+  .side .who button{margin-top:var(--s2);font-size:.78rem;color:var(--accent-2);background:none;border:none;padding:0}
+}
+main{padding:calc(var(--s5) + env(safe-area-inset-top,0px)) var(--s4) 7rem}
+@media(min-width:860px){ main{padding:var(--s6) 0 var(--s7)} }
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s5)}
+.topbar .m-brand{font-family:var(--fd);font-weight:600;font-size:1.15rem}
+.topbar .m-brand em{font-style:italic;color:var(--accent)}
+@media(min-width:860px){ .topbar .m-brand{display:none} }
+.bell{position:relative;width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--paper-2);display:grid;place-items:center;color:var(--ink-2)}
+.bell .dot{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--accent);display:none}
+.bell .dot.on{display:block}
+
+/* bottom tabs (mobile) */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;background:color-mix(in oklab,var(--paper) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--rule);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(min-width:860px){ .tabs{display:none} }
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--faint);font-size:.66rem;font-weight:500;padding:var(--s2) 0 var(--s3)}
+.tabs button .ico{font-size:1.15rem}
+.tabs button[aria-current=true]{color:var(--accent-2)}
+
+/* view */
+.view{display:none}.view.on{display:block;animation:in .35s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.kicker{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s2)}
+h2.view-h{font-size:1.9rem;margin-bottom:var(--s2)}
+.lede{color:var(--muted);margin-bottom:var(--s5);max-width:40ch}
+
+/* cards */
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:var(--s5);margin-bottom:var(--s4)}
+.card__label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:var(--s3)}
+.banner{display:flex;align-items:center;gap:var(--s3);background:var(--accent-bg);border:1px solid color-mix(in oklab,var(--accent) 25%,transparent);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s5);font-size:.9rem}
+.banner .x{margin-left:auto;background:none;border:none;color:var(--accent-2);font-size:1.1rem}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-bottom:var(--s5)}
+.stat{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4)}
+.stat .n{font-family:var(--fd);font-weight:600;font-size:1.9rem;line-height:1}
+.stat .l{font-size:.74rem;color:var(--muted);margin-top:var(--s1)}
+
+/* this-week hero */
+.hero{background:var(--ink);color:var(--paper);border-radius:var(--r-lg);padding:var(--s5);margin-bottom:var(--s4)}
+.hero .wk{font-family:var(--fm);font-size:.74rem;color:var(--accent);letter-spacing:.06em}
+.hero h3{color:var(--paper);font-size:1.5rem;margin:var(--s2) 0}
+.hero p{color:color-mix(in oklab,var(--paper) 75%,transparent);font-size:.92rem;margin-bottom:var(--s4)}
+.hero .btn{background:var(--accent);border-color:var(--accent)}
+
+/* week rows */
+.month{font-family:var(--fd);font-weight:600;font-size:1.05rem;color:var(--muted);margin:var(--s5) 0 var(--s3)}
+.wkrow{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2);transition:border-color .15s,transform .1s var(--ease)}
+.wkrow:hover{border-color:var(--rule-2)}.wkrow:active{transform:translateY(1px)}
+.wkrow .num{flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--paper-3);color:var(--muted);font-family:var(--fm);font-size:.8rem;font-weight:600;display:grid;place-items:center}
+.wkrow[data-s=complete] .num{background:var(--good);color:#fff}
+.wkrow[data-s=live] .num{background:var(--accent);color:#fff}
+.wkrow .t{flex:1;min-width:0}
+.wkrow .t b{font-weight:600;display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wkrow .t span{font-size:.78rem;color:var(--muted)}
+.wkrow .badge{flex:none;font-size:.68rem;font-weight:600;padding:.2rem .55rem;border-radius:999px}
+.badge--live{background:var(--accent-bg);color:var(--accent-2)}
+.badge--complete{background:var(--good-bg);color:var(--good)}
+.badge--locked{background:var(--paper-3);color:var(--faint)}
+
+/* reading */
+.readlist{list-style:none;padding:0}
+.readlist li{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--rule);font-size:.9rem}
+.readlist li:last-child{border-bottom:none}
+.readlist .chk{flex:none;width:22px;height:22px;border-radius:6px;border:1.5px solid var(--rule-2);background:var(--paper);display:grid;place-items:center;font-size:.75rem;color:transparent}
+.readlist li[data-done=1] .chk{background:var(--good);border-color:var(--good);color:#fff}
+.readlist li[data-done=1] .rt{color:var(--muted);text-decoration:line-through}
+
+/* progress bar */
+.bar{height:10px;background:var(--paper-3);border-radius:999px;overflow:hidden;margin:var(--s3) 0}
+.bar span{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .5s var(--ease)}
+
+/* cpd breakdown + table */
+.brk{display:flex;flex-direction:column;gap:var(--s2)}
+.brk .row{display:flex;align-items:center;justify-content:space-between;font-size:.9rem;padding:var(--s2) 0;border-bottom:1px solid var(--rule)}
+.brk .row:last-child{border-bottom:none}
+.brk .row .v{font-family:var(--fm);font-weight:600}
+
+/* leaderboard */
+.lb{list-style:none;padding:0}
+.lb li{display:flex;align-items:center;gap:var(--s3);padding:var(--s3) var(--s4);border-bottom:1px solid var(--rule);font-size:.92rem}
+.lb li.me{background:var(--accent-bg);border-radius:var(--r-md)}
+.lb .rk{flex:none;width:1.8rem;font-family:var(--fm);font-weight:600;color:var(--muted)}
+.lb .nm{flex:1;font-weight:500}
+.lb .sc{font-family:var(--fm);font-weight:600}
+.empty{text-align:center;color:var(--muted);padding:var(--s6) var(--s4);font-size:.9rem}
+
+/* reflections */
+.refl{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2)}
+.refl .meta{font-size:.72rem;color:var(--faint);margin-bottom:var(--s1)}
+.refl .body{font-family:var(--fd);font-size:.95rem;color:var(--ink-2)}
+textarea{width:100%;min-height:6rem;padding:var(--s3) var(--s4);background:var(--paper);border:1px solid var(--rule-2);border-radius:var(--r-md);font-family:var(--fd);font-size:.95rem;color:var(--ink);resize:vertical;outline:2px solid transparent}
+textarea:focus-visible{outline-color:var(--accent-2)}
+
+/* modal */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(43,36,29,.45);display:none;align-items:flex-end;justify-content:center;padding:0}
+.overlay.on{display:flex}
+@media(min-width:640px){ .overlay.on{align-items:center;padding:var(--s5)} }
+.sheet{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:var(--s5) var(--s4) calc(var(--s5) + env(safe-area-inset-bottom,0px));max-width:30rem;width:100%;max-height:90dvh;overflow:auto;box-shadow:var(--shadow-lg);animation:rise .3s var(--ease)}
+@media(min-width:640px){ .sheet{border-radius:var(--r-lg)} }
+@keyframes rise{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.sheet .close{float:right;background:none;border:none;font-size:1.4rem;color:var(--faint);line-height:1}
+.sheet h3{font-size:1.4rem;margin-bottom:var(--s1)}
+.objlist{list-style:none;padding:0;margin:var(--s3) 0}
+.objlist li{display:flex;gap:var(--s3);font-size:.9rem;color:var(--ink-2);padding:var(--s2) 0}
+.objlist li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:.5rem}
+.detmeta{font-size:.78rem;color:var(--muted);font-family:var(--fm);margin-bottom:var(--s3)}
+.pill{display:inline-block;font-size:.7rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;margin-bottom:var(--s3)}
+
+@media print{
+  #login,.side,.tabs,.topbar,.nav,.overlay,.banner,.btn{display:none!important}
+  body,#app.on{display:block!important;background:#fff}
+  .cert{display:block!important}
+}
+.cert{display:none;border:2px solid var(--accent);border-radius:var(--r-lg);padding:var(--s7);text-align:center}
+.cert h1{font-size:2.2rem;color:var(--accent-2)}
+.cert .nm{font-family:var(--fd);font-size:1.8rem;margin:var(--s4) 0}
+.cert .dt{color:var(--muted);font-size:.85rem;margin-top:var(--s5)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<section id="login">
+  <div class="loginbox">
+    <div class="brand">The Monday <em>Patient</em></div>
+    <h1>Welcome back</h1>
+    <p>Sign in to save your progress, earn CPD, and see where you sit on the cohort leaderboard.</p>
+    <div id="step-email">
+      <div class="field"><label for="email">NHS or work email</label><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@nhs.net"></div>
+      <div class="loginmsg" id="loginmsg"></div>
+      <button class="btn btn--wide" id="sendCode">Email me a sign-in code</button>
+      <div class="hr">or</div>
+      <button class="btn btn--ghost btn--wide" id="guest">Try it without an account</button>
+    </div>
+    <div id="step-code" style="display:none">
+      <div class="field"><label for="code">6-digit code (check your email)</label><input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6"></div>
+      <div class="loginmsg" id="codemsg"></div>
+      <button class="btn btn--wide" id="verifyCode">Verify &amp; sign in</button>
+      <button class="btn btn--ghost btn--wide" id="backEmail" style="margin-top:var(--s2)">Use a different email</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP ============ -->
+<section id="app">
+  <div class="wrap">
+    <aside class="side">
+      <div class="brand">The Monday <em>Patient</em></div>
+      <nav class="nav" id="nav-d"></nav>
+      <div class="who"><b id="who-name">—</b><span id="who-cohort"></span><br><button id="signout-d">Sign out</button></div>
+    </aside>
+    <main>
+      <div class="topbar">
+        <div class="m-brand">The Monday <em>Patient</em></div>
+        <button class="bell" id="bell" aria-label="Notifications"><span aria-hidden="true">◔</span><span class="dot" id="belldot"></span></button>
+      </div>
+      <div id="views"></div>
+    </main>
+  </div>
+  <nav class="tabs" id="nav-m"></nav>
+</section>
+
+<!-- week detail modal -->
+<div class="overlay" id="weekModal"><div class="sheet" id="weekSheet"></div></div>
+<!-- reflection modal -->
+<div class="overlay" id="reflModal"><div class="sheet" id="reflSheet"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+
+/* ============ config ============ */
+const SB_URL='https://mjldqraifzpncjyafdkd.supabase.co';
+const SB_KEY='sb_publishable_9SqBEM4bxhYgNdaFwe_j9A_yXINlFBF';
+const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+const LS='mp-study-v2';
+const CPD_GOAL=25;
+const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
+
+/* ============ programme ============ */
+const START='2026-06-22'; // week 1 Monday (so the current week lands on a built case)
+function wkDates(n){ const m=new Date(START); m.setDate(m.getDate()+7*(n-1)); const f=new Date(m); f.setDate(f.getDate()+4); return {monday:m,friday:f}; }
+const fmtD=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+const PROGRAM=[
+ {id:'w01',t:'The collapse in the bathroom',sub:'Syncope → upper GI bleed',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
+  obj:['Do a PR in any collapse with anaemia','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
+  read:[{t:'NICE NG12 — acute upper GI bleeding'},{t:'Glasgow-Blatchford score — MDCalc'}]},
+ {id:'w02',t:'Crushing chest pain',sub:'ACS vs PE vs dissection',month:'Month 1',caseId:null,url:null,debrief:'notes',
+  obj:['Use troponin trends, not single values','Know when to CT for dissection','Risk-stratify low-risk chest pain (HEART)'],read:[{t:'ESC 2023 — ACS guideline summary'}]},
+ {id:'w03',t:'The crash on the ward',sub:'Septic shock, peri-arrest',month:'Month 1',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
+  obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
+  read:[{t:'UK Sepsis Trust — Sepsis Six'},{t:'Surviving Sepsis — hour-1 bundle'}]},
+ {id:'w04',t:'Cardiac arrest in the dialysis chair',sub:'Hyperkalaemia + sepsis',month:'Month 1',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
+  obj:['Run the adult ALS algorithm to 2025','Time adrenaline & amiodarone correctly','Find and treat every reversible cause'],
+  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'Treatment of hyperkalaemia — Renal Association'}]},
+ {id:'w05',t:'Acutely breathless',sub:'Oedema vs COPD vs PE',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['BNP and bedside echo','Gas patterns','When to CTPA'],read:[{t:'BTS — acute breathlessness'}]},
+ {id:'w06',t:'The confused elderly patient',sub:'Sepsis vs Na vs subdural',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['A structured delirium work-up','Sodium correction limits','When to CT the head'],read:[{t:'NICE — delirium'}]},
+ {id:'w07',t:'The worst headache',sub:'SAH vs meningitis vs GCA',month:'Month 2',caseId:null,url:null,debrief:'video',obj:['CT timing for SAH','When to LP','ESR and the GCA pathway'],read:[{t:'RCEM — thunderclap headache'}]},
+ {id:'w08',t:'Abdominal pain & vomiting',sub:'DKA vs pancreatitis',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['DKA resolution criteria','Lipase and imaging','Lactate and mesenteric ischaemia'],read:[{t:'JBDS — DKA management'}]},
+ {id:'w09',t:'Hyperkalaemia on the bloods',sub:'AKI: obstruction vs rhabdo vs drugs',month:'Month 3',caseId:null,url:null,debrief:'notes',obj:['Bladder scan & the drug chart','CK and rhabdomyolysis','ECG changes of hyperK'],read:[{t:'Renal Association — AKI'}]},
+ {id:'w10',t:'Drowsy — ?overdose',sub:'Mixed OD vs hypo vs CO',month:'Month 3',caseId:null,url:null,debrief:'video',obj:['Glucose first, always','Paracetamol timing','Carbon monoxide and the gas'],read:[{t:'TOXBASE — approach to the poisoned patient'}]},
+ {id:'w11',t:'Fever in the returning traveller',sub:'Malaria vs typhoid vs viral',month:'Month 3',caseId:null,url:null,debrief:'notes',obj:['The travel history that matters','Thick and thin films','Isolate first, ask later'],read:[{t:'RCP — fever in the returned traveller'}]},
+ {id:'w12',t:'The mystery finale',sub:'Everything you have learned',month:'Month 3',caseId:null,url:null,debrief:'video',obj:['Reason from a constellation','Treat the cause, not the rhythm','Know when to stop'],read:[{t:'Bring it all together — revision'}]}
+];
+PROGRAM.forEach(w=>{const d=wkDates(+w.id.slice(1));w.monday=d.monday;w.friday=d.friday;});
+
+function weekState(w,prog){
+  const now=new Date();
+  const p=prog[w.id]||{};
+  if(p.caseDone) return 'complete';
+  if(now < w.monday) return 'locked';
+  return 'live';
+}
+function debriefLive(w){ return new Date() >= w.friday; }
+
+/* ============ state ============ */
+let USER=null;        // {id, email} when signed in
+let PROFILE=null;     // {pseudonym, cohort}
+let GUEST=false;
+let PROG={};          // { w01:{caseDone,score,debriefDone}, ... }
+let READ={};          // { 'w01:0':true }
+let REFL=[];          // [{week_id,body,created_at}]
+
+function loadLocal(){ try{const d=JSON.parse(localStorage.getItem(LS)||'{}');PROG=d.progress||{};READ=d.reading||{};REFL=d.reflections||[];PROFILE=d.profile||PROFILE;}catch(e){} }
+function saveLocal(){ localStorage.setItem(LS,JSON.stringify({progress:PROG,reading:READ,reflections:REFL,profile:PROFILE})); }
+
+/* ============ auth ============ */
+async function boot(){
+  loadLocal();
+  const params=new URLSearchParams(location.search);
+  if(SB){
+    const {data:{session}}=await SB.auth.getSession();
+    if(session){ await onSignedIn(session.user); await handleReturn(params); return; }
+  }
+  if(localStorage.getItem(LS+'-guest')){ GUEST=true; enterApp(); await handleReturn(params); return; }
+  showLogin();
+}
+function showLogin(){ $('#login').style.display='grid'; $('#app').classList.remove('on'); }
+async function onSignedIn(user){
+  USER={id:user.id,email:user.email}; GUEST=false;
+  // load or create profile
+  const {data:prof}=await SB.from('profiles').select('*').eq('id',user.id).maybeSingle();
+  if(!prof){ const pseud = PROFILE?.pseudonym || (user.email||'trainee').split('@')[0]; PROFILE={pseudonym:pseud,cohort:'2026 cohort'}; await SB.from('profiles').upsert({id:user.id,pseudonym:PROFILE.pseudonym,cohort:PROFILE.cohort}); }
+  else PROFILE={pseudonym:prof.pseudonym,cohort:prof.cohort};
+  await pullData();
+  enterApp();
+}
+async function pullData(){
+  if(!SB||!USER) return;
+  const {data:pg}=await SB.from('progress').select('*').eq('student_id',USER.id);
+  if(pg){ PROG={}; pg.forEach(r=>{PROG[r.week_id]={caseDone:r.case_done,score:r.score,debriefDone:r.debrief_done,readingDone:r.reading_done};}); }
+  const {data:rf}=await SB.from('reflections').select('*').eq('student_id',USER.id).order('created_at',{ascending:false});
+  if(rf) REFL=rf.map(r=>({week_id:r.week_id,body:r.body,created_at:r.created_at}));
+  saveLocal();
+}
+async function upsertProgress(week,patch){
+  PROG[week]={...(PROG[week]||{}),...patch}; saveLocal(); renderActive();
+  if(SB&&USER){ const p=PROG[week]; await SB.from('progress').upsert({student_id:USER.id,week_id:week,case_done:!!p.caseDone,score:p.score??null,debrief_done:!!p.debriefDone,reading_done:!!p.readingDone},{onConflict:'student_id,week_id'}); }
+}
+
+$('#sendCode').onclick=async()=>{
+  const email=$('#email').value.trim(); const m=$('#loginmsg');
+  if(!email){ m.dataset.t='err'; m.textContent='Enter your email first.'; return; }
+  if(!SB){ m.dataset.t='err'; m.textContent='Backend offline — use “Try it without an account”.'; return; }
+  m.dataset.t=''; m.textContent='Sending…'; $('#sendCode').disabled=true;
+  const {error}=await SB.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
+  $('#sendCode').disabled=false;
+  if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
+  window._email=email; $('#step-email').style.display='none'; $('#step-code').style.display='block';
+};
+$('#verifyCode').onclick=async()=>{
+  const token=$('#code').value.trim(); const m=$('#codemsg');
+  m.dataset.t=''; m.textContent='Verifying…'; $('#verifyCode').disabled=true;
+  const {data,error}=await SB.auth.verifyOtp({email:window._email,token,type:'email'});
+  $('#verifyCode').disabled=false;
+  if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
+  await onSignedIn(data.user);
+};
+$('#backEmail').onclick=()=>{ $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
+$('#guest').onclick=()=>{ GUEST=true; localStorage.setItem(LS+'-guest','1'); if(!PROFILE)PROFILE={pseudonym:'Guest',cohort:'demo'}; saveLocal(); enterApp(); };
+function signOut(){ if(SB&&USER)SB.auth.signOut(); localStorage.removeItem(LS+'-guest'); location.reload(); }
+
+/* handle a case coming back with a result */
+async function handleReturn(params){
+  if(!params.get('mp_done')) return;
+  const week=params.get('mp_week'), score=+params.get('mp_score'), max=+params.get('mp_max'), caseId=params.get('mp_case');
+  await upsertProgress(week,{caseDone:true,score});
+  if(SB&&USER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
+  history.replaceState({},'',location.pathname);
+  toast(`Saved — ${score}/${max} on this week's case.`);
+  go('home');
+}
+
+/* ============ app shell ============ */
+const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦']];
+let VIEW='home';
+function buildNav(){
+  const mk=(cont,mobile)=>{cont.innerHTML='';NAV.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
+  mk($('#nav-d')); mk($('#nav-m'));
+}
+function enterApp(){
+  $('#login').style.display='none'; $('#app').classList.add('on');
+  $('#who-name').textContent=PROFILE?.pseudonym||'Trainee';
+  $('#who-cohort').textContent=(GUEST?'guest mode':PROFILE?.cohort||'');
+  buildNav(); go('home'); updateBell();
+}
+function go(v){ VIEW=v; document.querySelectorAll('.nav button,.tabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v))); renderActive(); window.scrollTo({top:0}); }
+$('#signout-d').onclick=signOut;
+
+/* ============ views ============ */
+function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard}[VIEW]; if(f) f(); }
+
+function cpdTotals(){
+  let cases=0,debriefs=0,reflections=REFL.length,reading=0;
+  PROGRAM.forEach(w=>{const p=PROG[w.id]||{};if(p.caseDone)cases++;if(p.debriefDone)debriefs++;});
+  Object.values(READ).forEach(v=>{if(v)reading++;});
+  const total=cases*2+debriefs*1+reflections*1+reading*0.5;
+  return {cases,debriefs,reflections,reading,total:Math.round(total*2)/2};
+}
+function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+String(i).padStart(2,'0');if((PROG[id]||{}).caseDone)s++;else if(s>0)break;} return s; }
+
+function renderHome(){
+  const now=new Date();
+  const cur=PROGRAM.find(w=>now>=w.monday&&now<=w.friday) || [...PROGRAM].reverse().find(w=>now>=w.monday) || PROGRAM[0];
+  const t=cpdTotals();
+  const bannerHtml = (now>=cur.monday && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
+    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>${cur.t}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
+  const v=el('div','view on');
+  v.innerHTML=`${bannerHtml}
+    <div class="kicker">Monday ${fmtD(cur.monday)}</div>
+    <h2 class="view-h">Good to see you, ${PROFILE?.pseudonym||'Trainee'}.</h2>
+    <p class="lede">Twelve weeks of acute medicine, one patient at a time. Here's where you are.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">${t.total}</div><div class="l">CPD hours</div></div>
+      <div class="stat"><div class="n">${t.cases}/12</div><div class="l">cases done</div></div>
+      <div class="stat"><div class="n">${streak()}</div><div class="l">week streak</div></div>
+    </div>
+    <div class="hero">
+      <div class="wk">WEEK ${+cur.id.slice(1)} · ${fmtD(cur.monday)}</div>
+      <h3>${cur.t}</h3>
+      <p>${cur.sub}. ${cur.caseId?'Work him up, commit, and prove you can manage it.':'Case in production — objectives and reading are ready below.'}</p>
+      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the week</button>`}
+    </div>
+    <div class="card">
+      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — unlocks '+fmtD(cur.friday)}</div>
+      <div style="display:flex;align-items:center;gap:var(--s3)">
+        <span style="font-size:1.4rem">${cur.debrief==='video'?'▶':'📄'}</span>
+        <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${cur.sub}</div></div>
+        <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card__label">This week's reading</div>
+      <ul class="readlist" id="homeread"></ul>
+    </div>`;
+  mount(v);
+  renderReadList($('#homeread'),cur);
+  const bx=$('#banx'); if(bx)bx.onclick=()=>{localStorage.setItem('mp-ban-'+cur.id,'1');renderHome();};
+}
+
+function renderReadList(ul,w){
+  ul.innerHTML='';
+  w.read.forEach((r,i)=>{const key=w.id+':'+i;const done=READ[key];const li=el('li');li.dataset.done=done?1:0;
+    li.innerHTML=`<span class="chk">✓</span><span class="rt">${r.t}</span>`;
+    li.onclick=()=>{READ[key]=!READ[key];saveLocal();li.dataset.done=READ[key]?1:0;if(SB&&USER)upsertProgress(w.id,{readingDone:true});};
+    ul.appendChild(li);});
+}
+
+function renderProgramme(){
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">12 weeks · 3 months</div><h2 class="view-h">The programme</h2><p class="lede">Released every Monday at 08:00, debrief every Friday. Tap a week for the detail.</p><div id="weeks"></div>`;
+  mount(v);
+  const box=$('#weeks'); let month='';
+  PROGRAM.forEach(w=>{
+    if(w.month!==month){month=w.month;box.appendChild(el('div','month',month));}
+    const s=weekState(w,PROG);
+    const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
+    const row=el('button','wkrow');row.dataset.s=s;
+    row.innerHTML=`<span class="num">${+w.id.slice(1)}</span><span class="t"><b>${w.t}</b><span>${w.sub}</span></span>${badge}`;
+    row.onclick=()=>openWeek(w.id);
+    box.appendChild(row);
+  });
+}
+
+function openWeek(id){
+  const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{};
+  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Completed · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Unlocks ${fmtD(w.monday)}</span>`;
+  $('#weekSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button>
+    <div class="detmeta">Week ${+id.slice(1)} · ${fmtD(w.monday)} – ${fmtD(w.friday)}</div>
+    ${pill}
+    <h3>${w.t}</h3><p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">${w.sub}</p>
+    <div class="card__label">Learning objectives</div>
+    <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
+    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:s==='locked'?'':'<div style="font-size:.85rem;color:var(--muted);margin:var(--s3) 0">Interactive case in production — objectives and reading are live.</div>'}
+    <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
+    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Fri '+fmtD(w.friday)}</button></div>
+    <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
+  renderReadList($('#mread'),w);
+  $('#weekModal').classList.add('on');
+}
+window.closeModal=()=>{$('#weekModal').classList.remove('on');$('#reflModal').classList.remove('on');};
+$('#weekModal').onclick=e=>{if(e.target.id==='weekModal')closeModal();};
+$('#reflModal').onclick=e=>{if(e.target.id==='reflModal')closeModal();};
+
+function renderActivity(){
+  const v=el('div','view on');
+  const done=PROGRAM.filter(w=>(PROG[w.id]||{}).caseDone);
+  v.innerHTML=`<div class="kicker">Your record</div><h2 class="view-h">Activity</h2><p class="lede">Every case, score and reflection — your evidence trail.</p>
+    <div class="card"><div class="card__label">Weekly streak</div><div style="display:flex;gap:6px;flex-wrap:wrap">${PROGRAM.map(w=>{const c=(PROG[w.id]||{}).caseDone;return `<span title="Week ${+w.id.slice(1)}" style="width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-family:var(--fm);font-size:.7rem;font-weight:600;background:${c?'var(--good)':'var(--paper-3)'};color:${c?'#fff':'var(--faint)'}">${+w.id.slice(1)}</span>`;}).join('')}</div></div>
+    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span class="num" style="width:1.8rem;height:1.8rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.75rem;font-weight:600;display:grid;place-items:center">${+w.id.slice(1)}</span><span style="flex:1;font-size:.9rem">${w.t}</span><span class="mono" style="font-weight:600">${(PROG[w.id]||{}).score??''}</span></div>`).join(''):'<div class="empty">No cases yet — start one on the Home tab.</div>'}</div>
+    <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s3)"><div class="card__label" style="margin:0">Reflections</div><button class="btn btn--sm" id="addRefl">+ Add</button></div><div id="refllist"></div></div>`;
+  mount(v);
+  const rl=$('#refllist');
+  if(!REFL.length) rl.innerHTML='<div class="empty">A line or two after each case is powerful CPD evidence.</div>';
+  else REFL.forEach(r=>{const w=PROGRAM.find(x=>x.id===r.week_id);rl.appendChild(el('div','refl',`<div class="meta">${w?w.t:r.week_id} · ${new Date(r.created_at).toLocaleDateString('en-GB')}</div><div class="body">${escapeHtml(r.body)}</div>`));});
+  $('#addRefl').onclick=openRefl;
+}
+function openRefl(){
+  $('#reflSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button><h3>Add a reflection</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin:var(--s2) 0 var(--s3)">What did this week's case teach you? What will you do differently?</p>
+    <div class="field"><label for="rw">Week</label><select id="rw" style="width:100%;min-height:44px;border:1px solid var(--rule-2);border-radius:var(--r-md);padding:0 var(--s3);background:var(--paper)">${PROGRAM.map(w=>`<option value="${w.id}">Wk ${+w.id.slice(1)} — ${w.t}</option>`).join('')}</select></div>
+    <textarea id="rb" placeholder="I anchored on the cardiac story and nearly missed…"></textarea>
+    <button class="btn btn--wide" id="saveRefl" style="margin-top:var(--s3)">Save reflection</button>`;
+  $('#reflModal').classList.add('on');
+  $('#saveRefl').onclick=async()=>{const week=$('#rw').value,body=$('#rb').value.trim();if(!body)return;const rec={week_id:week,body,created_at:new Date().toISOString()};REFL.unshift(rec);saveLocal();if(SB&&USER)await SB.from('reflections').insert({student_id:USER.id,week_id:week,body});closeModal();renderActivity();};
+}
+
+function renderCPD(){
+  const t=cpdTotals(); const pct=Math.min(100,Math.round(t.total/CPD_GOAL*100));
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">Every case, debrief, reflection and reading builds your portfolio evidence.</p>
+    <div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between"><div class="card__label" style="margin:0">Toward your goal</div><div class="mono" style="font-weight:600">${t.total} / ${CPD_GOAL} h</div></div><div class="bar"><span style="width:${pct}%"></span></div>
+      <div class="brk"><div class="row"><span>Monday cases · 2h each</span><span class="v">${t.cases*2}</span></div><div class="row"><span>Friday debriefs · 1h</span><span class="v">${t.debriefs}</span></div><div class="row"><span>Reflections · 1h</span><span class="v">${t.reflections}</span></div><div class="row"><span>Reading · 0.5h</span><span class="v">${t.reading*0.5}</span></div></div>
+    </div>
+    <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
+    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine study programme</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> of 12 weekly cases, accruing <b>${t.total}</b> hours of CPD.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>`;
+  mount(v);
+}
+
+async function renderLeaderboard(){
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">The cohort</div><h2 class="view-h">Leaderboard</h2><p class="lede">Pseudonymous, so it stays friendly. Ranked by total score across all cases.</p><div class="card" id="lbcard"><div class="empty">Loading…</div></div>`;
+  mount(v);
+  if(GUEST||!SB||!USER){ $('#lbcard').innerHTML='<div class="empty">Sign in with an email to join the cohort leaderboard.</div>'; return; }
+  const {data,error}=await SB.rpc('get_leaderboard');
+  if(error||!data){ $('#lbcard').innerHTML='<div class="empty">Leaderboard unavailable right now.</div>'; return; }
+  const rows=data.filter(r=>r.total_score>0);
+  if(!rows.length){ $('#lbcard').innerHTML='<div class="empty">No scores yet — be the first to complete a case.</div>'; return; }
+  const ul=el('ul','lb');
+  rows.forEach((r,i)=>{const li=el('li',r.pseudonym===PROFILE?.pseudonym?'me':'');li.innerHTML=`<span class="rk">${i+1}</span><span class="nm">${escapeHtml(r.pseudonym)}</span><span class="sc">${r.total_score}</span>`;ul.appendChild(li);});
+  $('#lbcard').innerHTML=''; $('#lbcard').appendChild(ul);
+}
+
+/* ============ shared ============ */
+function mount(v){ const c=$('#views'); c.innerHTML=''; c.appendChild(v); wireLaunchers(c); }
+function wireLaunchers(scope){
+  scope.querySelectorAll('[data-launch]').forEach(b=>b.onclick=()=>launch(b.dataset.launch));
+  scope.querySelectorAll('[data-week]').forEach(b=>b.onclick=()=>openWeek(b.dataset.week));
+  scope.querySelectorAll('[data-debrief]').forEach(b=>b.onclick=()=>{upsertProgress(b.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');});
+}
+document.body.addEventListener('click',e=>{const t=e.target.closest('[data-launch]');if(t&&!$('#views').contains(t))launch(t.dataset.launch);const w=e.target.closest('[data-week]');if(w&&!$('#views').contains(w))openWeek(w.dataset.week);const d=e.target.closest('[data-debrief]');if(d&&!$('#views').contains(d)){upsertProgress(d.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');}});
+function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;} const ret=encodeURIComponent(location.origin+location.pathname); location.href=`${w.url}${w.url.includes('?')?'&':'?'}return=${ret}&week=${id}`; }
+function updateBell(){ const now=new Date(); const cur=PROGRAM.find(w=>now>=w.monday&&now<=w.friday); $('#belldot').classList.toggle('on', !!(cur&&!(PROG[cur.id]||{}).caseDone)); }
+$('#bell').onclick=()=>go('home');
+function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+let toastTimer;
+function toast(msg){ let t=$('#toast'); if(!t){t=el('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:5rem;transform:translateX(-50%);z-index:80;background:var(--ink);color:var(--paper);padding:.7rem 1.1rem;border-radius:12px;font-size:.85rem;box-shadow:var(--shadow-lg);max-width:90%';document.body.appendChild(t);} t.textContent=msg; t.style.opacity='1'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity='0';},2800); }
+
+boot();
+</script>
+</body>
+</html>
