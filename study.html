@@ -320,6 +320,9 @@ function weekState(w,prog){
   return 'live';
 }
 function debriefLive(w){ return new Date() >= w.friday; }
+// A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
+function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
+function caseNo(w){ return +w.id.slice(1); }
 
 /* ============ state ============ */
 let USER=null;        // {id, email} when signed in
@@ -431,8 +434,9 @@ function renderHome(){
   const now=new Date();
   const cur=PROGRAM.find(w=>now>=w.monday&&now<=w.friday) || [...PROGRAM].reverse().find(w=>now>=w.monday) || PROGRAM[0];
   const t=cpdTotals();
+  const rev=revealed(cur), cn=caseNo(cur);
   const bannerHtml = (now>=cur.monday && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
-    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>${cur.t}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
+    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>Case ${cn}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
   const v=el('div','view on');
   v.innerHTML=`${bannerHtml}
     <div class="kicker">Monday ${fmtD(cur.monday)}</div>
@@ -444,25 +448,22 @@ function renderHome(){
       <div class="stat"><div class="n">${streak()}</div><div class="l">week streak</div></div>
     </div>
     <div class="hero">
-      <div class="wk">WEEK ${+cur.id.slice(1)} · ${fmtD(cur.monday)}</div>
-      <h3>${cur.t}</h3>
-      <p>${cur.sub}. ${cur.caseId?'Work him up, commit, and prove you can manage it.':'Case in production — objectives and reading are ready below.'}</p>
-      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the week</button>`}
+      <div class="wk">CASE ${cn} · ${fmtD(cur.monday)}</div>
+      <h3>${rev?cur.t:'Case '+cn}</h3>
+      <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${cur.caseId?'Work them up, commit a diagnosis, and manage it.':'Interactive case in production.'}</p>
+      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`}
     </div>
     <div class="card">
       <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — unlocks '+fmtD(cur.friday)}</div>
       <div style="display:flex;align-items:center;gap:var(--s3)">
         <span style="font-size:1.4rem">${cur.debrief==='video'?'▶':'📄'}</span>
-        <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${cur.sub}</div></div>
+        <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${rev?cur.sub:'Reveals the answer'}</div></div>
         <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
       </div>
     </div>
-    <div class="card">
-      <div class="card__label">This week's reading</div>
-      <ul class="readlist" id="homeread"></ul>
-    </div>`;
+    ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card"><div class="card__label">Reading</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case — no spoilers.</div></div>`}`;
   mount(v);
-  renderReadList($('#homeread'),cur);
+  if(rev) renderReadList($('#homeread'),cur);
   const bx=$('#banx'); if(bx)bx.onclick=()=>{localStorage.setItem('mp-ban-'+cur.id,'1');renderHome();};
 }
 
@@ -483,27 +484,38 @@ function renderProgramme(){
     if(w.month!==month){month=w.month;box.appendChild(el('div','month',month));}
     const s=weekState(w,PROG);
     const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
+    const rev=revealed(w), cn=caseNo(w);
     const row=el('button','wkrow');row.dataset.s=s;
-    row.innerHTML=`<span class="num">${+w.id.slice(1)}</span><span class="t"><b>${w.t}</b><span>${w.sub}</span></span>${badge}`;
+    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Unlocks '+fmtD(w.monday):s==='complete'?'Completed':'Live now — tap to start')}</span></span>${badge}`;
     row.onclick=()=>openWeek(w.id);
     box.appendChild(row);
   });
 }
 
 function openWeek(id){
-  const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{};
-  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Completed · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Unlocks ${fmtD(w.monday)}</span>`;
-  $('#weekSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button>
-    <div class="detmeta">Week ${+id.slice(1)} · ${fmtD(w.monday)} – ${fmtD(w.friday)}</div>
+  const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{}; const rev=revealed(w); const cn=caseNo(w);
+  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Unlocks ${fmtD(w.monday)}</span>`;
+  const head=`<button class="close" onclick="closeModal()">✕</button>
+    <div class="detmeta">Case ${cn} · ${fmtD(w.monday)} – ${fmtD(w.friday)}</div>
     ${pill}
-    <h3>${w.t}</h3><p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">${w.sub}</p>
+    <h3>${rev?w.t:'Case '+cn}</h3>`;
+  let body;
+  if(rev){
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">${w.sub}</p>
     <div class="card__label">Learning objectives</div>
     <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
-    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:s==='locked'?'':'<div style="font-size:.85rem;color:var(--muted);margin:var(--s3) 0">Interactive case in production — objectives and reading are live.</div>'}
+    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:''}
     <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
     <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Fri '+fmtD(w.friday)}</button></div>
     <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
-  renderReadList($('#mread'),w);
+  } else if(s==='locked'){
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Locked. Unlocks Monday ${fmtD(w.monday)}.</p>`;
+  } else {
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">A new patient — you go in blind. Take a history, examine, investigate, then commit a diagnosis. The topic, objectives and reading unlock the moment you solve it.</p>
+    ${w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:'<div style="font-size:.85rem;color:var(--muted)">Interactive case in production for this week.</div>'}`;
+  }
+  $('#weekSheet').innerHTML=head+body;
+  if(rev) renderReadList($('#mread'),w);
   $('#weekModal').classList.add('on');
 }
 window.closeModal=()=>{$('#weekModal').classList.remove('on');$('#reflModal').classList.remove('on');};
@@ -520,13 +532,13 @@ function renderActivity(){
   mount(v);
   const rl=$('#refllist');
   if(!REFL.length) rl.innerHTML='<div class="empty">A line or two after each case is powerful CPD evidence.</div>';
-  else REFL.forEach(r=>{const w=PROGRAM.find(x=>x.id===r.week_id);rl.appendChild(el('div','refl',`<div class="meta">${w?w.t:r.week_id} · ${new Date(r.created_at).toLocaleDateString('en-GB')}</div><div class="body">${escapeHtml(r.body)}</div>`));});
+  else REFL.forEach(r=>{const w=PROGRAM.find(x=>x.id===r.week_id);const lbl=w?(revealed(w)?w.t:'Case '+caseNo(w)):r.week_id;rl.appendChild(el('div','refl',`<div class="meta">${lbl} · ${new Date(r.created_at).toLocaleDateString('en-GB')}</div><div class="body">${escapeHtml(r.body)}</div>`));});
   $('#addRefl').onclick=openRefl;
 }
 function openRefl(){
   $('#reflSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button><h3>Add a reflection</h3>
     <p style="color:var(--muted);font-size:.88rem;margin:var(--s2) 0 var(--s3)">What did this week's case teach you? What will you do differently?</p>
-    <div class="field"><label for="rw">Week</label><select id="rw" style="width:100%;min-height:44px;border:1px solid var(--rule-2);border-radius:var(--r-md);padding:0 var(--s3);background:var(--paper)">${PROGRAM.map(w=>`<option value="${w.id}">Wk ${+w.id.slice(1)} — ${w.t}</option>`).join('')}</select></div>
+    <div class="field"><label for="rw">Week</label><select id="rw" style="width:100%;min-height:44px;border:1px solid var(--rule-2);border-radius:var(--r-md);padding:0 var(--s3);background:var(--paper)">${PROGRAM.map(w=>`<option value="${w.id}">Case ${caseNo(w)}${revealed(w)?' — '+w.t:''}</option>`).join('')}</select></div>
     <textarea id="rb" placeholder="I anchored on the cardiac story and nearly missed…"></textarea>
     <button class="btn btn--wide" id="saveRefl" style="margin-top:var(--s3)">Save reflection</button>`;
   $('#reflModal').classList.add('on');
