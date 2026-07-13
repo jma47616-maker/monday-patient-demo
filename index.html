@@ -495,10 +495,11 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div class="card__label">Teaching pearls</div>
         <ul class="pearls">
           <li>Dark stool blamed on iron is the classic decoy. Iron stains; melaena is black, tarry, sticky and offensive. When in doubt, do the PR and let the urea settle it.</li>
-          <li>Urea 14.6 with a normal creatinine — out of proportion — is the fingerprint of an upper GI bleed. Digested blood is a protein meal.</li>
+          <li>Urea 14.6 with a normal creatinine — out of proportion — is the fingerprint of an upper GI bleed. Digested blood is a protein meal. And iron started for a "low blood count" a month ago is a bleed that has been going on quietly for weeks.</li>
           <li>The troponin of 34 is a type-2 rise from demand on a haemoglobin of 72. Treat it as ACS and you anticoagulate a bleeding man.</li>
-          <li>Glasgow-Blatchford risk-stratifies before endoscopy. A 0 can go home; this man, with a high score, cannot.</li>
-          <li>Terlipressin saves lives in variceal bleeding — but it's a vasoconstrictor. His cardiac history isn't just a diagnostic decoy; it shapes whether you reach for it.</li>
+          <li>Glasgow-Blatchford risk-stratifies before endoscopy — scored on the pre-resuscitation observations. A 0–1 may go home with an urgent outpatient scope; this man scores double figures and stays.</li>
+          <li>Tranexamic acid has no place in GI bleeding — HALT-IT found no survival benefit and more venous clots. Old trauma reflexes die hard.</li>
+          <li>Terlipressin saves lives in variceal bleeding — but it's a vasoconstrictor: caution in ischaemic heart disease, PVD, hyponatraemia and long QTc. His cardiac history isn't just a diagnostic decoy; it shapes whether you reach for it.</li>
         </ul>
       </div>
 
@@ -557,8 +558,8 @@ const CASE = {
     { id:"bowels", q:"Bowels & stool?", a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets.”", key:true },
     { id:"eat",    q:"Appetite, energy?", a:"“Off my food all week. Tired. Dizzy when I stand.”" },
     { id:"gi",     q:"Indigestion?", a:"“Burning up here for a fortnight.” — he points at the epigastrium. “Rennies help.”", key:true },
-    { id:"drugs",  q:"Drug history?", a:"“Naproxen for the knee these six weeks. Aspirin each morning. A statin. And the iron.”", key:true },
-    { id:"pmh",    q:"Past history?", a:"“Blood pressure. The knee. They caught a flutter — AF — on a machine last year, said it settled.”", tag:"cardiac" },
+    { id:"drugs",  q:"Drug history?", a:"“Naproxen for the back these six weeks — slipped disc, they reckon. Aspirin each morning. A statin. And the iron.”", key:true },
+    { id:"pmh",    q:"Past history?", a:"“Blood pressure. The bad back. They caught a flutter — AF — on a machine last year, said it settled. And the GP started the iron a month ago — my blood count was down.”", key:true, tag:"cardiac" },
     { id:"fhx",    q:"Family history?", a:"“Father died of his heart. My brother’s got a pacemaker.”", tag:"cardiac" },
     { id:"etoh",   q:"Alcohol?", a:"“Couple of whiskies most evenings. A good few more on a Saturday.”", key:true, tag:"varices" },
     { id:"base",   q:"Normally fit?", a:"“Fit as a flea. Retired plumber, still do the garden.”" }
@@ -584,7 +585,7 @@ const CASE = {
   ix: {
     bedside: [
       { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"key", labs:[{n:"Glucose", v:"6.2", r:"4.0–7.8", u:"mmol/L"}] },
-      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia, rate 104. No ischaemic changes. No AF. Normal intervals." },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia, rate 104. No ischaemic changes. No AF. QTc normal." },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
         labs:[{n:"pH", v:"7.36", r:"7.35–7.45"},{n:"Hb", v:"76", r:"130–170", u:"g/L", flag:"lo"},{n:"Lactate", v:"2.9", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.2", r:"3.5–5.3", u:"mmol/L"}] },
       { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable." }
@@ -618,6 +619,7 @@ const CASE = {
     { id:"iv",   t:"Two large-bore cannulae + IV crystalloid", kind:"good", resus:true, why:"Resuscitate first — he’s shocked." },
     { id:"o2",   t:"High-flow oxygen, A–E approach", kind:"good", why:"Sound first principles in any unwell patient." },
     { id:"blood",t:"Activate transfusion — give crossmatched blood", kind:"good", resus:true, why:"Hb 72 and bleeding — blood beats clear fluid." },
+    { id:"txa",  t:"Tranexamic acid IV", kind:"danger", why:"HALT-IT: no mortality benefit and more VTE — TXA has no place in GI bleeding." },
     { id:"hold", t:"Stop the naproxen and aspirin", kind:"good", why:"Remove the cause of the bleed." },
     { id:"cath", t:"Catheterise & monitor urine output", kind:"good", why:"Reasonable to track response to resuscitation." },
     { id:"lmwh", t:"Treatment-dose anticoagulation (?PE / cardiac)", kind:"danger", why:"Anticoagulating an active GI bleed — the dangerous miss this case is built around." }
@@ -625,42 +627,54 @@ const CASE = {
 
   /* ----- ACT 2 management drill ----- */
   mgmt: [
-    { id:"risk", tag:"Risk", q:"His urea is up, Hb is 72, he’s tachycardic and he had syncope and melaena. What does the Glasgow-Blatchford score tell you to do?",
+    { id:"risk", tag:"Risk", q:"Before the scope — which score, and why?",
       opts:[
-        { t:"High score — admit, resuscitate, urgent endoscopy", ok:true },
-        { t:"Score is low — discharge with an outpatient endoscopy", ok:false },
-        { t:"The score doesn’t apply before endoscopy", ok:false } ],
-      teach:"The <b>Glasgow-Blatchford score</b> (urea, Hb, BP, pulse, melaena, syncope, liver/cardiac disease) risk-stratifies <b>before</b> endoscopy. A GBS of 0 may go home; his is high on almost every parameter — he is admitted." },
-    { id:"trans", tag:"Transfusion", q:"He’s haemodynamically unstable with a haemoglobin of 72. Transfuse?",
+        { t:"Glasgow-Blatchford — predicts who needs intervention", ok:true },
+        { t:"Full Rockall — the pre-endoscopy score of choice", ok:false },
+        { t:"CHA₂DS₂-VASc — he did have AF", ok:false } ],
+      teach:"The <b>Glasgow-Blatchford score</b> (urea, Hb, systolic BP, pulse &gt;100, melaena, syncope, hepatic disease, cardiac failure) is calculated <b>before endoscopy</b> and predicts the need for transfusion or endotherapy. <b>GBS 0–1</b>: consider discharge with an urgent outpatient scope. <b>≥6</b>: about half need intervention. He scores on urea, Hb, pulse, melaena <i>and</i> syncope — double figures. He stays. The full Rockall predicts mortality and needs endoscopy findings first." },
+    { id:"obs", tag:"Scoring", q:"Two bags of fluid in, BP now 118/74. Which observations go into his score?",
       opts:[
-        { t:"Yes — transfuse, target Hb 70–90", ok:true },
-        { t:"No — restrictive threshold is 70, he’s above it", ok:false },
-        { t:"Only if Hb falls below 50", ok:false } ],
-      teach:"The <b>restrictive threshold is 70 g/L (target 70–90)</b> — but that’s for the stable patient. With haemodynamic instability or massive bleeding you transfuse regardless. He qualifies on instability." },
-    { id:"var", tag:"Drugs", q:"His heavy alcohol history raises varices. If you suspect a variceal bleed, what do you start?",
+        { t:"The first set — before any resuscitation", ok:true },
+        { t:"The current, prettier set", ok:false },
+        { t:"Average the two", ok:false } ],
+      teach:"Score the <b>pre-resuscitation</b> observations — the first ambulance or triage set. Aggressive resuscitation <b>masks severity</b>: a BP normalised by two litres of fluid is not a reassuring BP. The same trap catches NEWS2 on the post-take round." },
+    { id:"trans", tag:"Transfusion", q:"Hb 72 and he’s haemodynamically unstable. Transfuse?",
       opts:[
-        { t:"Terlipressin + prophylactic antibiotics", ok:true },
-        { t:"IV proton-pump inhibitor only", ok:false },
-        { t:"Tranexamic acid for all GI bleeds", ok:false } ],
-      teach:"Suspected variceal bleeding gets <b>terlipressin</b> (splanchnic vasoconstriction) plus <b>prophylactic antibiotics</b> — ceftriaxone — which independently reduce mortality in cirrhotic bleeds. PPIs are for the non-variceal / peptic ulcer arm." },
-    { id:"citep", tag:"Caution", q:"Before you give terlipressin — what about that flutter of AF, the family history and the troponin of 34?",
+        { t:"Yes — instability trumps the threshold", ok:true },
+        { t:"No — 72 is above the restrictive threshold of 70", ok:false },
+        { t:"Wait for the lab Hb to confirm the gas", ok:false } ],
+      teach:"Restrictive thresholds — <b>transfuse if Hb &lt;70 g/L, target 70–100</b>, or <b>&lt;80 with severe cardiovascular disease</b> (which he may have) — are for the <b>stable</b> patient. Shock or active bleeding: transfuse on clinical grounds. But don’t overshoot — <b>over-transfusion increases rebleeding and mortality</b> (Villanueva 2013)." },
+    { id:"txa", tag:"The nurse asks", q:"“Shall I draw up some tranexamic acid, doctor?”",
       opts:[
-        { t:"Terlipressin is a vasoconstrictor — caution in ischaemic heart / vascular disease", ok:true },
-        { t:"No concern — terlipressin is cardiac-safe", ok:false },
-        { t:"It only matters in asthma", ok:false } ],
-      teach:"<b>Terlipressin is cautioned / relatively contraindicated in ischaemic heart disease, peripheral and mesenteric vascular disease, and uncontrolled hypertension</b> — it can precipitate ischaemia. The cardiac story that tried to mislead your diagnosis now genuinely shapes your management." },
-    { id:"scope", tag:"Endoscopy", q:"When does this man need his endoscopy?",
+        { t:"No — TXA doesn’t work in GI bleeding", ok:true },
+        { t:"Yes — it works in trauma, bleeding is bleeding", ok:false },
+        { t:"Yes, plus an IV PPI infusion before the scope", ok:false } ],
+      teach:"<b>HALT-IT</b> (12,000 patients): tranexamic acid gave <b>no survival benefit and doubled venous thromboembolism</b> in GI bleeding — do not give it. And NICE advises <b>no routine PPI before endoscopy</b> either: the IV omeprazole infusion (80 mg bolus, then 8 mg/h for 72 h) is for <b>after</b> endoscopic therapy of a bleeding ulcer." },
+    { id:"var", tag:"Cover", q:"Whisky most evenings. If there’s any suspicion of varices, what starts now — before the scope?",
       opts:[
-        { t:"Within 24 h — and urgently after resuscitation if he stays unstable", ok:true },
-        { t:"Routine outpatient list in a few weeks", ok:false },
+        { t:"Terlipressin + IV broad-spectrum antibiotics", ok:true },
+        { t:"IV proton-pump inhibitor alone", ok:false },
+        { t:"Vitamin K and platelets", ok:false } ],
+      teach:"Suspected variceal bleeding gets <b>terlipressin</b> (2 mg IV, then 1–2 mg QDS — splanchnic vasoconstriction) plus <b>prophylactic IV antibiotics</b> per local microbiology guidance. Antibiotics independently reduce mortality in cirrhotic bleeds. Both continue for up to 3–5 days after haemostasis." },
+    { id:"citep", tag:"Caution", q:"Before the terlipressin goes in — anything about this man giving you pause?",
+      opts:[
+        { t:"Vasoconstrictor — caution in IHD, PVD, low sodium, long QTc", ok:true },
+        { t:"No — terlipressin is cardiac-safe", ok:false },
+        { t:"Only his blood pressure matters", ok:false } ],
+      teach:"Terlipressin is cautioned in <b>ischaemic heart disease, peripheral vascular disease, severe hyponatraemia and prolonged QTc</b> — it can precipitate ischaemia and arrhythmia. The cardiac story that tried to mislead your diagnosis now genuinely shapes the drug decision. You checked his ECG — QTc normal." },
+    { id:"scope", tag:"Endoscopy", q:"When does he get his OGD?",
+      opts:[
+        { t:"Unstable: straight after resuscitation. Everyone else: within 24 h", ok:true },
+        { t:"Within 72 h is the standard", ok:false },
         { t:"Only if he re-bleeds", ok:false } ],
-      teach:"All acute upper GI bleeds get endoscopy <b>within 24 hours of admission</b>. The unstable, actively bleeding patient goes <b>urgently, once resuscitated</b> — and you escalate early to the on-call endoscopist, with interventional radiology or surgery as backup." },
-    { id:"cause", tag:"Cause", q:"Most likely source of the bleed, given six weeks of naproxen and daily aspirin?",
+      teach:"<b>Within 24 hours of presentation</b> for all upper GI bleeds — and <b>immediately after resuscitation</b> for the unstable. The bundle’s practicalities: senior review before referral, keep him <b>nil by mouth</b> (~6 h) for the scope, and the unstable patient belongs in critical care with the endoscopist, interventional radiology and surgery all aware." },
+    { id:"cause", tag:"Cause", q:"Six weeks of naproxen on top of daily aspirin. The likely lesion?",
       opts:[
-        { t:"Peptic ulcer disease", ok:true },
+        { t:"Peptic ulcer", ok:true },
         { t:"Mallory-Weiss tear", ok:false },
-        { t:"Angiodysplasia", ok:false } ],
-      teach:"<b>Peptic ulcer disease</b> is the commonest cause of upper GI bleeding, and NSAIDs + aspirin are the classic culprits here. Varices, oesophagitis, Mallory-Weiss tears and malignancy make up the rest of the differential of the bleed itself." }
+        { t:"Oesophageal varices", ok:false } ],
+      teach:"<b>Peptic ulcer disease</b> is the commonest cause of upper GI bleeding, and NSAID-plus-aspirin is the classic combination. At endoscopy the ulcer is <b>Forrest-classified</b> to predict rebleeding. Afterwards: test for <b>H. pylori</b>, and in a cardiac patient <b>restart aspirin promptly once definitive haemostasis is achieved</b> — post-bleed cardiovascular risk is real." }
   ],
 
   conditions: ["Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Thrombotic thrombocytopenic purpura"]
@@ -973,10 +987,11 @@ function scoreAndShow(){
   if(S.rx.has("iv")||S.rx.has("blood")) add("Resuscitated the shocked patient", 8);
   if(S.rx.has("hold")) add("Stopped the NSAID and aspirin", 4);
   if(S.rx.has("lmwh")) add("Anticoagulated an active bleed", -12);
+  if(S.rx.has("txa")) add("Gave tranexamic acid — HALT-IT says no", -6);
   if(S.reexamCount>0) add("Reassessed after intervention", 6);
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
-  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*7);
+  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
 
   if(elapsed()<=240 && S.dxCorrect) add("Sorted inside 4 ward-hours", 8);
 
@@ -1005,9 +1020,9 @@ function scoreAndShow(){
     prTxt,
     S.ordered.has("ue")?{v:"hit",t:"Read the urea:creatinine disproportion",s:"You sent a U&E — urea 14.6 with a normal creatinine is the fingerprint of an upper GI bleed."}:{v:"miss",t:"Read the urea:creatinine disproportion",s:"You never sent a U&E. The disproportionate urea is one of the clearest clues to an upper GI source."},
     (S.rx.has("iv")||S.rx.has("blood"))?(S.reexamCount>0?{v:"hit",t:"Resuscitate, then reassess the response",s:"You resuscitated and went back to check he was responding — exactly right."}:{v:"part",t:"Resuscitate, then reassess the response",s:"You resuscitated but didn't reassess — always go back and check the sick patient is responding."}):{v:"miss",t:"Resuscitate, then reassess the response",s:"He was shocked and you didn't resuscitate. Fluids and blood come before the diagnosis."},
-    S.rx.has("lmwh")?{v:"miss",t:"Don't anticoagulate undifferentiated collapse",s:"You treated the type-2 troponin as ACS and anticoagulated a bleeding man — the dangerous miss."}:{v:"hit",t:"Don't anticoagulate undifferentiated collapse",s:"You resisted the troponin trap — a type-2 rise on a Hb of 72 is demand, not ACS."},
-    (S.mg.risk&&S.mg.trans)?{v:"hit",t:"Risk-stratify and transfuse correctly",s:"You scored the GBS and got the transfusion threshold and its exception right."}:{v:"part",t:"Risk-stratify and transfuse correctly",s:"Revisit Glasgow-Blatchford and the restrictive-threshold exception in the debrief."},
-    (S.mg.var&&S.mg.citep&&S.mg.scope)?{v:"hit",t:"Manage the bleed: drugs, cautions, endoscopy",s:"Terlipressin plus antibiotics, the cardiac caution, and endoscopy timing — all correct."}:{v:"part",t:"Manage the bleed: drugs, cautions, endoscopy",s:"The terlipressin caution and endoscopy timing are the high-yield revision points here."}
+    (S.rx.has("lmwh")||S.rx.has("txa")||S.mg.txa===false)?{v:"miss",t:"Resist the drugs that harm: anticoagulation & TXA",s:"A type-2 troponin on a Hb of 72 is demand, not ACS — and HALT-IT buried tranexamic acid in GI bleeding (no survival benefit, more clots)."}:{v:"hit",t:"Resist the drugs that harm: anticoagulation & TXA",s:"You dodged both drug traps — no anticoagulation for a demand troponin, no tranexamic acid (HALT-IT)."},
+    (S.mg.risk&&S.mg.obs&&S.mg.trans)?{v:"hit",t:"Risk-stratify and transfuse correctly",s:"Glasgow-Blatchford on the pre-resuscitation numbers, and transfusion on instability with the right thresholds — all correct."}:{v:"part",t:"Risk-stratify and transfuse correctly",s:"Revisit Glasgow-Blatchford, which observations to score, and the transfusion thresholds (70 / 80 with cardiovascular disease, target 70–100) in the debrief."},
+    (S.mg.var&&S.mg.citep&&S.mg.scope)?{v:"hit",t:"Manage the bleed: drugs, cautions, endoscopy",s:"Terlipressin plus antibiotics, the cardiac caution, and endoscopy timing — all correct."}:{v:"part",t:"Manage the bleed: drugs, cautions, endoscopy",s:"The terlipressin cautions (IHD, PVD, hyponatraemia, long QTc) and endoscopy timing are the high-yield revision points here."}
   ];
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
