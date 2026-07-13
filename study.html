@@ -269,29 +269,46 @@ const CPD_GOAL=25;
 const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
 
 /* ============ programme ============ */
-const START='2026-06-22'; // week 1 Monday (so the current week lands on a built case)
+const START='2026-07-13'; // week 1 Monday — CHANGE THIS to your real cohort start (a Monday)
 function wkDates(n){ const m=new Date(START); m.setDate(m.getDate()+7*(n-1)); const f=new Date(m); f.setDate(f.getDate()+4); return {monday:m,friday:f}; }
 const fmtD=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
 const PROGRAM=[
- {id:'w01',t:'The collapse in the bathroom',sub:'Syncope → upper GI bleed',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
-  obj:['Do a PR in any collapse with anaemia','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
+ {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
+  obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
   read:[{t:'NICE NG12 — acute upper GI bleeding'},{t:'Glasgow-Blatchford score — MDCalc'}]},
- {id:'w02',t:'Crushing chest pain',sub:'ACS vs PE vs dissection',month:'Month 1',caseId:null,url:null,debrief:'notes',
-  obj:['Use troponin trends, not single values','Know when to CT for dissection','Risk-stratify low-risk chest pain (HEART)'],read:[{t:'ESC 2023 — ACS guideline summary'}]},
- {id:'w03',t:'The crash on the ward',sub:'Septic shock, peri-arrest',month:'Month 1',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
+ {id:'w02',t:'Atrial fibrillation & flutter',sub:'Rate, rhythm and stroke risk',month:'Month 1',caseId:null,url:null,debrief:'notes',
+  obj:['Rate control vs rhythm control','When to anticoagulate (CHA2DS2-VASc)','The unstable AF that needs cardioversion'],
+  read:[{t:'ESC 2024 — atrial fibrillation'},{t:'NICE NG196 — AF'}]},
+ {id:'w03',t:'Cardiac arrest',sub:'Adult ALS and the reversible causes',month:'Month 1',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
+  obj:['Run the adult ALS algorithm to 2025','Time adrenaline and amiodarone correctly','Find and treat every reversible cause'],
+  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'The 4 Hs and 4 Ts'}]},
+ {id:'w04',t:'Aortic dissection',sub:'The chest pain you cannot miss',month:'Month 1',caseId:null,url:null,debrief:'notes',
+  obj:['Recognise the dissection presentation','Imaging: CT aortogram','Blood-pressure control and who to call'],
+  read:[{t:'ESC — aortic disease'},{t:'RCEM — thoracic aortic dissection'}]},
+ {id:'w05',t:'Headache',sub:'SAH vs meningitis vs GCA',month:'Month 2',caseId:null,url:null,debrief:'video',
+  obj:['CT timing and when to LP for SAH','The meningitis pathway','ESR and the diagnosis of GCA'],
+  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]},
+ {id:'w06',t:'Breathlessness',sub:'Oedema vs COPD vs PE',month:'Month 2',caseId:null,url:null,debrief:'notes',
+  obj:['BNP and bedside echo','Read the blood-gas pattern','When to CTPA'],
+  read:[{t:'BTS — the breathless patient'}]},
+ {id:'w07',t:'Hyponatraemia',sub:'Low sodium, high stakes',month:'Month 2',caseId:null,url:null,debrief:'notes',
+  obj:['Assess volume status first','The work-up: paired osmolalities','Safe correction limits'],
+  read:[{t:'European hyponatraemia guideline'},{t:'Society for Endocrinology — acute hyponatraemia'}]},
+ {id:'w08',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 2',caseId:null,url:null,debrief:'video',
+  obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
+  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]},
+ {id:'w09',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
+  obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
+  read:[{t:'NICE NG148 — acute kidney injury'}]},
+ {id:'w10',t:'Sepsis & the deteriorating patient',sub:'ABCDE and the Sepsis Six',month:'Month 3',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
   obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
   read:[{t:'UK Sepsis Trust — Sepsis Six'},{t:'Surviving Sepsis — hour-1 bundle'}]},
- {id:'w04',t:'Cardiac arrest in the dialysis chair',sub:'Hyperkalaemia + sepsis',month:'Month 1',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
-  obj:['Run the adult ALS algorithm to 2025','Time adrenaline & amiodarone correctly','Find and treat every reversible cause'],
-  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'Treatment of hyperkalaemia — Renal Association'}]},
- {id:'w05',t:'Acutely breathless',sub:'Oedema vs COPD vs PE',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['BNP and bedside echo','Gas patterns','When to CTPA'],read:[{t:'BTS — acute breathlessness'}]},
- {id:'w06',t:'The confused elderly patient',sub:'Sepsis vs Na vs subdural',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['A structured delirium work-up','Sodium correction limits','When to CT the head'],read:[{t:'NICE — delirium'}]},
- {id:'w07',t:'The worst headache',sub:'SAH vs meningitis vs GCA',month:'Month 2',caseId:null,url:null,debrief:'video',obj:['CT timing for SAH','When to LP','ESR and the GCA pathway'],read:[{t:'RCEM — thunderclap headache'}]},
- {id:'w08',t:'Abdominal pain & vomiting',sub:'DKA vs pancreatitis',month:'Month 2',caseId:null,url:null,debrief:'notes',obj:['DKA resolution criteria','Lipase and imaging','Lactate and mesenteric ischaemia'],read:[{t:'JBDS — DKA management'}]},
- {id:'w09',t:'Hyperkalaemia on the bloods',sub:'AKI: obstruction vs rhabdo vs drugs',month:'Month 3',caseId:null,url:null,debrief:'notes',obj:['Bladder scan & the drug chart','CK and rhabdomyolysis','ECG changes of hyperK'],read:[{t:'Renal Association — AKI'}]},
- {id:'w10',t:'Drowsy — ?overdose',sub:'Mixed OD vs hypo vs CO',month:'Month 3',caseId:null,url:null,debrief:'video',obj:['Glucose first, always','Paracetamol timing','Carbon monoxide and the gas'],read:[{t:'TOXBASE — approach to the poisoned patient'}]},
- {id:'w11',t:'Fever in the returning traveller',sub:'Malaria vs typhoid vs viral',month:'Month 3',caseId:null,url:null,debrief:'notes',obj:['The travel history that matters','Thick and thin films','Isolate first, ask later'],read:[{t:'RCP — fever in the returned traveller'}]},
- {id:'w12',t:'The mystery finale',sub:'Everything you have learned',month:'Month 3',caseId:null,url:null,debrief:'video',obj:['Reason from a constellation','Treat the cause, not the rhythm','Know when to stop'],read:[{t:'Bring it all together — revision'}]}
+ {id:'w11',t:'The poisoned patient',sub:'Overdose and the toxidromes',month:'Month 3',caseId:null,url:null,debrief:'notes',
+  obj:['Glucose first, always','Paracetamol timing and the nomogram','TOXBASE and the antidotes'],
+  read:[{t:'TOXBASE — approach to the poisoned patient'}]},
+ {id:'w12',t:'The mystery finale',sub:'Everything you have learned',month:'Month 3',caseId:null,url:null,debrief:'video',
+  obj:['Reason from a constellation','Treat the cause, not the number','Know when to stop'],
+  read:[{t:'Bring it all together — revision'}]}
 ];
 PROGRAM.forEach(w=>{const d=wkDates(+w.id.slice(1));w.monday=d.monday;w.friday=d.friday;});
 
