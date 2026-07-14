@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="COPD">
+<title>The Monday Patient · COPD — the crashing breathless patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#faf6f0;--paper-2:#f3ece1;--paper-3:#ece2d4;
+  --ink:#2b241d;--ink-2:#4a4136;--muted:#7a6f60;--faint:#9c917f;
+  --rule:#e3d8c8;--rule-2:#d4c7b3;
+  --accent:#b8552e;--accent-2:#9c4525;--accent-bg:#f6e6db;--accent-ink:#fdf6f0;
+  --danger:#b23b2e;--danger-bg:#f7e3df;--good:#3f7d52;--good-bg:#e6f0e6;--warn:#9a6a16;--warn-bg:#f6ebd6;
+  --mon-bg:#0e1411;--mon-line:#1d2a23;--mon-faint:#5d7a6b;
+  --hr:#37e06a;--rr:#cdd9d1;--spo2:#36d3da;--co2:#ef8f6a;--ph:#c9a3ff;
+  --fd:"Fraunces",Georgia,serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg:0 2px 6px rgba(43,36,29,.06),0 12px 36px rgba(43,36,29,.12);
+}
+@supports (color:oklch(50% 0 0)){:root{
+  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
+  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
+  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
+  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
+  --danger:oklch(52% .17 30);--danger-bg:oklch(94% .045 32);--good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);--warn:oklch(54% .11 75);--warn-bg:oklch(94% .05 82);
+}}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overscroll-behavior-y:contain}
+button,input{font-family:inherit}button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none;cursor:pointer}
+.app{max-width:30rem;margin-inline:auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+@media(min-width:32rem){.app{box-shadow:var(--shadow-lg)}}
+.top{position:sticky;top:0;z-index:20;background:color-mix(in oklab,var(--paper) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3)}
+.top__row{display:flex;align-items:center;justify-content:space-between;gap:var(--s3)}
+.wordmark{font-family:var(--fd);font-weight:600;font-size:1.12rem;letter-spacing:-.01em}.wordmark em{font-style:italic;color:var(--accent)}
+.tagchip{font-family:var(--fm);font-size:.72rem;color:var(--danger);background:var(--danger-bg);border:1px solid color-mix(in oklab,var(--danger) 25%,transparent);border-radius:999px;padding:.2rem .6rem;letter-spacing:.04em}
+main{flex:1;padding:var(--s5) var(--s4) var(--s7)}
+.screen{display:none}.screen.on{display:block;animation:in .4s var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+h1{font-family:var(--fd);font-weight:600;font-size:2rem;line-height:1.08;letter-spacing:-.02em}
+h2{font-family:var(--fd);font-weight:600;font-size:1.5rem;line-height:1.12}
+.kicker{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s2)}
+.lede{color:var(--muted);margin-top:var(--s2);max-width:38ch}
+.serif{font-family:var(--fd);font-weight:400;font-size:1.04rem;line-height:1.5;color:var(--ink-2)}
+.card{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-lg);padding:var(--s4);margin-bottom:var(--s4)}
+.card__label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:var(--s3)}
+.points{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.points li{display:flex;gap:var(--s3);font-size:.92rem;color:var(--ink-2)}
+.points .n{flex:none;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent-bg);color:var(--accent-2);font-family:var(--fm);font-size:.78rem;font-weight:600;display:grid;place-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);width:100%;min-height:52px;padding:var(--s3) var(--s4);background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:1rem;white-space:nowrap;border:1px solid var(--accent);border-radius:var(--r-md);box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .2s var(--ease)}
+@media(hover:hover){.btn:hover{filter:brightness(1.06)}}
+.btn:active{transform:translateY(1px)}.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.btn[disabled]{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule-2);box-shadow:none}
+@media(hover:hover){.btn--ghost:hover{background:var(--paper-2)}}
+.btnrow{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s5)}
+
+/* CXR */
+.cxrthumb{display:block;width:100%;border:1px solid var(--rule-2);border-radius:var(--r-md);overflow:hidden;background:#0b0f0d;margin-top:var(--s3);position:relative}
+.cxrthumb img,.cxrthumb svg{display:block;width:100%;height:auto}
+.cxrthumb .cap{position:absolute;left:0;right:0;bottom:0;padding:.4rem .6rem;font-size:.7rem;color:#e7efe9;background:linear-gradient(transparent,rgba(0,0,0,.7));font-family:var(--fm)}
+.cxrmodal{position:fixed;inset:0;z-index:80;background:rgba(8,10,9,.92);display:none;flex-direction:column;padding:calc(var(--s4) + env(safe-area-inset-top,0px)) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px))}
+.cxrmodal.on{display:flex}
+.cxrmodal .mh{display:flex;align-items:center;justify-content:space-between;color:#e7efe9;margin-bottom:var(--s3)}
+.cxrmodal .mh b{font-family:var(--fd);font-weight:600;font-size:1.1rem}
+.cxrmodal .close{background:rgba(255,255,255,.12);color:#fff;border:none;border-radius:999px;width:38px;height:38px;font-size:1.2rem}
+.cxrmodal .imgwrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto}
+.cxrmodal img,.cxrmodal svg{max-width:100%;max-height:100%;border-radius:var(--r-sm)}
+.cxrmodal .rep{color:#aebbb2;font-size:.76rem;font-family:var(--fm);margin-top:var(--s3);line-height:1.5}
+
+/* monitor */
+.monitor{position:sticky;top:calc(3.2rem + env(safe-area-inset-top,0px));z-index:10;background:var(--mon-bg);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s3);box-shadow:var(--shadow)}
+.mon__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s2)}
+.mon__news{font-family:var(--fm);font-size:.78rem;color:#cdd9d1}.mon__news b{font-size:1rem}
+.mon__news[data-tone=bad] b{color:#ff5a4d}.mon__news[data-tone=warn] b{color:var(--co2)}.mon__news[data-tone=ok] b{color:var(--hr)}
+.mon__t{font-family:var(--fm);font-size:.72rem;color:var(--mon-faint)}
+.obsrow{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2) var(--s3);font-family:var(--fm)}
+.ob{line-height:1.15}.ob .ol{font-size:.56rem;letter-spacing:.06em;color:var(--mon-faint)}.ob .ov{font-size:1.02rem;font-weight:600;transition:color .3s}.ob .ou{font-size:.56rem;color:var(--mon-faint)}
+.ob--hr .ov{color:var(--hr)}.ob--rr .ov{color:var(--rr)}.ob--spo2 .ov{color:var(--spo2)}.ob--co2 .ov{color:var(--co2)}.ob--ph .ov{color:var(--ph)}.ob--gcs .ov{color:var(--rr)}
+.ov.q{color:var(--mon-faint)!important;font-weight:500}
+.ov.flash{animation:flash .6s var(--ease)}
+@keyframes flash{0%{background:rgba(255,255,255,.18)}100%{background:transparent}}
+.detwrap{margin-top:var(--s3)}
+.detlbl{display:flex;justify-content:space-between;font-family:var(--fm);font-size:.62rem;color:var(--mon-faint);margin-bottom:.2rem}
+.detbar{height:7px;border-radius:99px;background:var(--mon-line);overflow:hidden}
+.detbar i{display:block;height:100%;width:0;border-radius:99px;transition:width .5s var(--ease),background-color .5s}
+/* scrolling trace */
+.wave{height:38px;background:#0a100d;border-radius:var(--r-sm);overflow:hidden;margin-bottom:var(--s2)}
+.wave svg{display:block;width:200%;height:100%}
+.wave .wg{animation:wscroll var(--wdur,3.5s) linear infinite}
+@keyframes wscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* bedside cartoon */
+.bedside{background:linear-gradient(180deg,#101a16,#0c1310);border-radius:var(--r-md);padding:var(--s2) var(--s2) 0;margin-bottom:var(--s3);box-shadow:var(--shadow);overflow:hidden;position:relative}
+.bedside::after{content:"bedside";position:absolute;top:6px;left:10px;font-family:var(--fm);font-size:.56rem;letter-spacing:.1em;color:#4c6157;text-transform:uppercase}
+.bedside svg#avatar{display:block;width:100%;height:auto;max-height:186px;margin-inline:auto}
+#breathGrp{animation:breathe var(--brdur,3s) ease-in-out infinite;transform-origin:100px 150px}
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.bedside.labored #breathGrp{animation-name:breatheHard}
+@keyframes breatheHard{0%,100%{transform:translateY(2px)}44%{transform:translateY(-7px)}56%{transform:translateY(-6px)}}
+.bedside.arrest #breathGrp{animation:none;transform:translateY(4px) rotate(-5deg);transform-origin:100px 150px}
+.eye{transform-box:fill-box;transform-origin:center;transition:transform .45s var(--ease)}
+#sweat{opacity:0;transition:opacity .4s}
+.bedside.sweaty #sweat{opacity:1;animation:drip 1.7s ease-in infinite}
+@keyframes drip{0%{transform:translateY(0);opacity:.9}75%{opacity:.9}100%{transform:translateY(12px);opacity:0}}
+#zzz{opacity:0;transition:opacity .5s}
+.bedside.drowsy #zzz{opacity:1;animation:zfloat 3.2s linear infinite}
+@keyframes zfloat{0%{transform:translateY(0);opacity:0}20%{opacity:.9}100%{transform:translateY(-12px);opacity:0}}
+/* patient speech */
+.speech{position:absolute;top:10px;right:10px;max-width:58%;z-index:2;background:var(--paper);color:var(--ink);border-radius:14px 14px 4px 14px;padding:.4rem .62rem;font-family:var(--fd);font-style:italic;font-size:.82rem;line-height:1.3;box-shadow:var(--shadow);opacity:0;transform:translateY(-4px);transition:opacity .3s,transform .3s}
+.speech.on{opacity:1;transform:none}
+.speech::after{content:"";position:absolute;bottom:-7px;right:16px;width:0;height:0;border:7px solid transparent;border-top-color:var(--paper);border-bottom:0}
+/* COPD management drill */
+.mxnote{font-size:.88rem;color:var(--muted);padding:var(--s4);background:var(--paper-2);border:1px dashed var(--rule-2);border-radius:var(--r-md);line-height:1.5}
+.mxhead{font-family:var(--fd);font-weight:600;font-size:1.1rem;margin-bottom:var(--s1)}
+.mxprog{font-family:var(--fm);font-size:.72rem;color:var(--faint);margin-bottom:var(--s3)}
+.mxq{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3);margin-bottom:var(--s3)}
+.mxq__q{font-family:var(--fd);font-weight:600;font-size:1rem;line-height:1.25;margin-bottom:var(--s2)}
+.mxq__q .tg{font-family:var(--fm);font-size:.66rem;color:var(--accent-2);display:block;font-weight:500;margin-bottom:.2rem;text-transform:uppercase;letter-spacing:.06em}
+.mxopt{display:flex;gap:var(--s2);align-items:flex-start;width:100%;text-align:left;min-height:42px;padding:var(--s2) var(--s3);background:var(--paper);border:1px solid var(--rule-2);border-radius:var(--r-sm);font-size:.86rem;color:var(--ink);margin-bottom:var(--s1)}
+.mxopt .mk{flex:none;width:18px;height:18px;border-radius:50%;border:1px solid var(--rule-2);display:grid;place-items:center;font-size:.66rem;margin-top:1px}
+.mxopt[data-s=right]{border-color:var(--good);background:var(--good-bg)}.mxopt[data-s=right] .mk{background:var(--good);color:#fff;border-color:var(--good)}
+.mxopt[data-s=wrong]{border-color:var(--danger);background:var(--danger-bg)}.mxopt[data-s=wrong] .mk{background:var(--danger);color:#fff;border-color:var(--danger)}
+.mxopt[data-s=dim]{opacity:.5}
+.mxteach{margin-top:var(--s2);padding:var(--s2) var(--s3);background:var(--paper);border:1px solid var(--rule);border-left:3px solid var(--good);border-radius:0 var(--r-sm) var(--r-sm) 0;font-size:.82rem;line-height:1.45;color:var(--ink-2)}
+.mxteach b{color:var(--ink)}
+/* persistent results panel */
+.results{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3);margin-bottom:var(--s3)}
+.results h4{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 var(--s2);display:flex;justify-content:space-between}
+.results ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.32rem;max-height:190px;overflow:auto}
+.results li{display:flex;justify-content:space-between;gap:var(--s2);font-size:.76rem;font-family:var(--fm);border-bottom:1px dashed var(--rule);padding-bottom:.28rem}
+.results li:last-child{border-bottom:none}
+.results li .rl{color:var(--muted)}
+.results li .rv{font-weight:600;text-align:right;white-space:nowrap}
+.results li[data-flag=hi] .rv,.results li[data-flag=lo] .rv{color:var(--danger)}
+.results li.fresh{animation:resflash 1s var(--ease)}
+@keyframes resflash{0%{background:var(--accent-bg)}100%{background:transparent}}
+@media(min-width:62rem){
+  .results{position:fixed;top:5.2rem;left:calc(50vw + 15.6rem);width:14.5rem;max-height:78vh;z-index:8;box-shadow:var(--shadow)}
+  .results h4::after{content:"pinned";font-family:var(--fm);font-weight:500;color:var(--faint);text-transform:none;letter-spacing:0}
+}
+/* nurse dose modal */
+.doseModal{position:fixed;inset:0;z-index:70;background:rgba(43,36,29,.42);display:none;align-items:flex-end;justify-content:center;padding:var(--s4)}
+.doseModal.on{display:flex}
+.doseSheet{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-lg);padding:var(--s4);max-width:26rem;width:100%;box-shadow:var(--shadow-lg);animation:rise .28s var(--ease)}
+.doseSheet .nq{display:flex;gap:var(--s2);align-items:flex-start;margin-bottom:var(--s3)}
+.doseSheet .nq .who{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-bg);color:var(--accent-2);display:grid;place-items:center;font-size:.9rem}
+.doseSheet .nq .qt{font-family:var(--fd);font-weight:600;font-size:1.02rem;line-height:1.25}
+.doseSheet .nq .qt small{display:block;font-family:var(--fb);font-weight:500;font-size:.72rem;color:var(--muted);font-style:normal}
+.doseOpt{display:flex;gap:var(--s2);align-items:center;width:100%;text-align:left;min-height:46px;padding:var(--s2) var(--s3);background:var(--paper-2);border:1px solid var(--rule-2);border-radius:var(--r-md);font-size:.92rem;color:var(--ink);margin-bottom:var(--s2)}
+@media(hover:hover){.doseOpt:hover{background:var(--paper-3)}}
+
+.narr{font-family:var(--fd);font-size:.98rem;line-height:1.45;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:0 var(--r-md) var(--r-md) 0;padding:var(--s3) var(--s4);margin-bottom:var(--s4);min-height:3.4rem}
+.narr[data-tone=bad]{border-left-color:var(--danger);color:var(--danger)}
+.narr[data-tone=good]{border-left-color:var(--good)}
+.planbar{background:var(--paper-2);border:1px solid var(--accent);border-radius:var(--r-md);padding:var(--s3);margin-bottom:var(--s3);box-shadow:0 0 0 2px color-mix(in oklab,var(--accent) 14%,transparent)}
+.plan__h{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:var(--s2)}
+.plan__row{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s3)}
+.planchip{font-size:.8rem;font-weight:600;border-radius:999px;padding:.28rem .7rem;background:var(--paper);border:1px solid var(--rule-2);color:var(--muted)}
+.planchip[data-ok="1"]{background:var(--good-bg);border-color:color-mix(in oklab,var(--good) 30%,transparent);color:var(--good)}
+.planbar .btn{min-height:48px}
+.phasebar{display:flex;align-items:center;gap:var(--s2);font-family:var(--fm);font-size:.68rem;color:var(--muted);margin-bottom:var(--s3);text-transform:uppercase;letter-spacing:.08em}
+.phasebar .dot{width:8px;height:8px;border-radius:50%;background:var(--danger)}
+.phasebar.stable .dot{background:var(--good)}
+
+/* tabs */
+.tabs{display:flex;gap:2px;background:var(--paper-2);border:1px solid var(--rule);border-radius:999px;padding:3px;margin-bottom:var(--s3);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;min-height:36px;padding:0 var(--s3);border:none;background:transparent;color:var(--muted);font-size:.78rem;font-weight:600;white-space:nowrap;border-radius:999px;transition:background-color .15s,color .15s}
+.tab[aria-selected=true]{background:var(--paper);color:var(--ink);box-shadow:var(--shadow)}
+.tab .c{font-family:var(--fm);font-size:.62rem;color:var(--good);margin-left:.2rem}
+
+.acts{display:flex;flex-direction:column;gap:var(--s2)}
+.act{display:flex;align-items:flex-start;gap:var(--s3);width:100%;min-height:48px;padding:var(--s3);background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);text-align:left;transition:background-color .15s var(--ease),border-color .15s}
+@media(hover:hover){.act:hover:not([disabled]){background:var(--paper-3)}}
+.act:active{transform:translateY(1px)}.act:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.act[disabled]{opacity:.5;cursor:default}
+.act .mk{flex:none;width:20px;height:20px;border-radius:50%;border:1px solid var(--rule-2);display:grid;place-items:center;font-size:.72rem;margin-top:2px}
+.act .atx{flex:1}.act .at{font-size:.9rem;font-weight:600;color:var(--ink)}.act .ad{font-size:.74rem;color:var(--muted)}
+.act[data-done=1]{background:var(--good-bg);border-color:color-mix(in oklab,var(--good) 26%,transparent)}
+.act[data-done=1] .mk{background:var(--good);color:#fff;border-color:var(--good)}
+.act[data-done=harm]{background:var(--danger-bg);border-color:color-mix(in oklab,var(--danger) 30%,transparent)}
+.act[data-done=harm] .mk{background:var(--danger);color:#fff;border-color:var(--danger)}
+.subh{font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:var(--s3) 0 var(--s1)}
+.subh:first-child{margin-top:0}
+
+/* diagnosis field */
+.dxbox{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3);margin-top:var(--s3)}
+.dxbox label{font-size:.8rem;font-weight:600;display:block;margin-bottom:var(--s2)}
+.dxbox input{width:100%;min-height:46px;padding:var(--s2) var(--s3);background:var(--paper);border:1px solid var(--rule-2);border-radius:var(--r-sm);font-size:.95rem;color:var(--ink)}
+.dxbox .row{display:flex;gap:var(--s2);margin-top:var(--s2)}
+.dxbox .row .btn{min-height:44px;font-size:.9rem}
+.dxpill{display:inline-flex;align-items:center;gap:.35rem;font-size:.8rem;font-weight:600;color:var(--accent-2);background:var(--accent-bg);border:1px solid color-mix(in oklab,var(--accent) 22%,transparent);border-radius:999px;padding:.25rem .7rem;margin-top:var(--s2)}
+
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:60;width:calc(100% - 2rem);max-width:28rem;display:flex;flex-direction:column;gap:var(--s2);pointer-events:none}
+.toast{background:var(--ink);color:var(--paper);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.84rem;line-height:1.4;box-shadow:var(--shadow-lg);animation:rise .3s var(--ease)}
+.toast[data-tone=good]{background:var(--good)}.toast[data-tone=bad]{background:var(--danger)}.toast[data-tone=warn]{background:var(--warn)}
+.toast b{font-weight:600}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.bigout{text-align:center;padding:var(--s5) 0 var(--s3)}
+.bigout .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;margin:0 auto var(--s3);color:#fff}
+.bigout[data-r=live] .ic{background:var(--good)}.bigout[data-r=dead] .ic{background:var(--danger)}.bigout[data-r=hurt] .ic{background:var(--warn)}
+.bigout .ttl{font-family:var(--fd);font-weight:600;font-size:2rem;letter-spacing:-.02em;line-height:1.05}
+.bigout .sub{color:var(--muted);font-size:.92rem;margin-top:var(--s2);max-width:34ch;margin-inline:auto}
+.scoreline{text-align:center;font-family:var(--fd);font-style:italic;color:var(--accent-2);font-size:1.2rem;margin-top:var(--s2)}
+.lo{border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2);display:flex;gap:var(--s3)}
+.lo .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:.76rem;font-weight:700;color:#fff;margin-top:1px}
+.lo[data-v=hit] .ic{background:var(--good)}.lo[data-v=part] .ic{background:var(--warn)}.lo[data-v=miss] .ic{background:var(--danger)}
+.lo .lt{font-size:.9rem;font-weight:600}.lo .ls{font-size:.84rem;color:var(--muted);margin-top:.15rem;line-height:1.45}
+.pearls{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--s3)}
+.pearls li{display:flex;gap:var(--s3);font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.pearls li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:.5rem}
+.pearls b{color:var(--ink)}
+.log{list-style:none;padding:0;margin:var(--s5) 0 0;display:flex;flex-direction:column}
+.log li{display:flex;gap:var(--s3);font-size:.8rem;padding:var(--s2) 0;border-bottom:1px solid var(--rule);color:var(--ink-2)}
+.log .lt{font-family:var(--fm);font-size:.72rem;color:var(--faint);flex:none;width:3.2rem}
+.log .li-good{color:var(--good)}.log .li-bad{color:var(--danger)}
+footer{padding:var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px));border-top:1px solid var(--rule);font-size:.72rem;color:var(--faint);line-height:1.6}
+footer a{color:var(--accent-2)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <span class="tagchip" id="tag">LIVE · UNDIFFERENTIATED</span>
+    </div>
+  </header>
+  <main>
+
+    <!-- BRIEF -->
+    <section class="screen on" id="s-brief">
+      <div class="kicker">Week 2 · 12 · live resus</div>
+      <h1>“I can’t breathe”</h1>
+      <p class="lede">A crashing, breathless patient — <b>no diagnosis handed to you</b>. The monitor is live and she is dying in real time. Nothing tells you the right move or the right order. Work it out, act, and don’t kill her. When she’s stable, take the history and make the plan.</p>
+      <div class="card" style="margin-top:var(--s5)">
+        <div class="card__label">ED resus · 22:48 · pre-alert</div>
+        <p class="serif" style="margin-bottom:var(--s3)">A 72-year-old woman, blue-lighted with acute severe breathlessness. The paramedics found her at 84% and put her on a <b>15 L non-rebreathe mask</b>; she reads 99% now. She is hunched forward, barely talking, and drowsy. That is the entire handover — the crew have already left.</p>
+        <p class="serif">No notes. No collateral yet. Just her, the mask, and a monitor that won’t wait.</p>
+      </div>
+      <div class="card" style="border:1px solid var(--rule);background:transparent">
+        <div class="card__label">How this works</div>
+        <ul class="points">
+          <li><span class="n">⏱</span><span>Real time. Every few seconds is a couple of minutes. She deteriorates unless you treat the <b>right</b> problem.</span></li>
+          <li><span class="n">?</span><span>The palette is unsorted and full of reasonable-looking wrong answers. There are <b>no hints</b> and no “next step”. Choose, and justify it to yourself.</span></li>
+          <li><span class="n">!</span><span>Get it wrong for too long and she has a <b>respiratory arrest</b>. Stabilise her and the work-up, diagnosis and definitive plan open up — all in one.</span></li>
+        </ul>
+      </div>
+      <div class="btnrow"><button class="btn" id="startBtn">Walk into resus</button></div>
+    </section>
+
+    <!-- RESUS -->
+    <section class="screen" id="s-resus">
+      <div class="monitor">
+        <div class="mon__top">
+          <span class="mon__news" id="news" data-tone="bad">NEWS2 <b>—</b></span>
+          <span class="mon__t"><span id="devlabel">15L NRB</span> · <span id="clock">22:48</span></span>
+        </div>
+        <div class="wave" id="wave"><svg viewBox="0 0 528 38" preserveAspectRatio="none"><g class="wg" id="waveG"><polyline id="ecg" fill="none" stroke="#37e06a" stroke-width="1.6" stroke-linejoin="round" points=""/><polyline id="pleth" fill="none" stroke="#36d3da" stroke-width="1.4" opacity=".8" points=""/></g></svg></div>
+        <div class="obsrow" id="obs"></div>
+        <div class="detwrap">
+          <div class="detlbl"><span>STABLE</span><span id="detTxt">peri-arrest</span><span>ARREST</span></div>
+          <div class="detbar"><i id="detFill"></i></div>
+        </div>
+      </div>
+      <div class="bedside" id="bedside">
+        <svg id="avatar" viewBox="0 0 200 168" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-label="patient at the bedside">
+          <ellipse cx="100" cy="158" rx="88" ry="12" fill="#0a120e"/>
+          <g id="breathGrp">
+            <path class="gown" d="M24,168 Q26,118 66,104 L134,104 Q174,118 176,168 Z" fill="#20716a"/>
+            <path class="gown" d="M82,104 Q100,122 118,104 L118,114 Q100,130 82,114 Z" fill="#1a5852"/>
+            <path class="skin" d="M86,94 L86,114 Q100,124 114,114 L114,94 Z" fill="#e8b89a"/>
+            <g id="head">
+              <path d="M52,62 Q50,18 100,16 Q150,18 148,62 Q150,86 138,92 L62,92 Q50,86 52,62 Z" fill="#cbc6bf"/>
+              <ellipse id="face" class="skin" cx="100" cy="64" rx="40" ry="44" fill="#e8b89a"/>
+              <ellipse class="skin" cx="60" cy="68" rx="7" ry="10" fill="#e8b89a"/>
+              <ellipse class="skin" cx="140" cy="68" rx="7" ry="10" fill="#e8b89a"/>
+              <path d="M58,42 Q100,20 142,42 Q120,36 100,38 Q80,36 58,42 Z" fill="#d5d0c9"/>
+              <!-- forehead furrows (distress) -->
+              <path d="M95,42 q-1,5 0,9" stroke="#cf9d81" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+              <path d="M105,42 q1,5 0,9" stroke="#cf9d81" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+              <!-- worried brows: inner ends raised -->
+              <path id="browL" d="M72,56 Q82,50 93,46" stroke="#8a8078" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+              <path id="browR" d="M107,46 Q118,50 128,56" stroke="#8a8078" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+              <g id="eyeL" class="eye"><ellipse cx="82" cy="65" rx="8.4" ry="6.6" fill="#fff"/><circle cx="82" cy="66" r="3.5" fill="#3a2f28"/></g>
+              <g id="eyeR" class="eye"><ellipse cx="118" cy="65" rx="8.4" ry="6.6" fill="#fff"/><circle cx="118" cy="66" r="3.5" fill="#3a2f28"/></g>
+              <!-- strained lower lids -->
+              <path d="M74,72 q8,3 16,0" stroke="#cf9d81" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".6"/>
+              <path d="M110,72 q8,3 16,0" stroke="#cf9d81" stroke-width="1.4" fill="none" stroke-linecap="round" opacity=".6"/>
+              <path d="M100,68 Q95,79 100,82 Q105,79 100,68" fill="none" stroke="#c98f74" stroke-width="2"/>
+              <!-- flared nostrils -->
+              <path d="M94,83 q-2,2 0,4" stroke="#b5795f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <path d="M106,83 q2,2 0,4" stroke="#b5795f" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <!-- open, gasping mouth (pursed-lip strain) -->
+              <ellipse cx="100" cy="94" rx="6" ry="8" fill="#5b2b2c"/>
+              <ellipse id="lips" cx="100" cy="94" rx="8.2" ry="10.2" fill="none" stroke="#c1796d" stroke-width="3.4"/>
+              <g id="sweat"><path d="M54,55 q-4,8 0,12 q4,-4 0,-12" fill="#7fd0e0"/><path d="M148,58 q-4,8 0,12 q4,-4 0,-12" fill="#7fd0e0" opacity=".85"/></g>
+            </g>
+            <g id="dev"></g>
+          </g>
+          <g id="zzz" font-family="var(--fm)" fill="#9fc0b4"><text x="150" y="42" font-size="13">z</text><text x="162" y="30" font-size="9">z</text></g>
+        </svg>
+        <div class="speech" id="speech"></div>
+      </div>
+      <div class="phasebar" id="phasebar"><span class="dot"></span><span id="phaseTxt">Phase 1 — resuscitate the crashing patient</span></div>
+      <div class="narr" id="narr">She’s working hard and going off in front of you.</div>
+      <div class="results" id="results" style="display:none"></div>
+      <div class="planbar" id="planbar" style="display:none"></div>
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <div id="palette"></div>
+      <div class="btnrow" id="finishRow" style="display:none"><button class="btn" id="finishBtn">Conclude — admit &amp; hand over</button></div>
+      <ul class="log" id="log"></ul>
+    </section>
+
+    <!-- OUTCOME -->
+    <section class="screen" id="s-out">
+      <div class="bigout" id="bigout"></div>
+      <div class="scoreline" id="scoreLine"></div>
+      <div class="card" style="margin-top:var(--s5)"><div class="card__label">Against the learning objectives</div><div id="loList"></div></div>
+      <div class="card"><div class="card__label">What she actually had</div><div id="narrOut" class="serif" style="font-size:.96rem"></div></div>
+      <div class="card"><div class="card__label">How she should have been run</div><ul class="pearls" id="pearls"></ul></div>
+      <div class="btnrow"><button class="btn btn--ghost" id="replay">Run it again</button></div>
+    </section>
+  </main>
+  <footer>The Monday Patient · Week 2 — undifferentiated breathlessness → infective exacerbation of COPD in type-2 respiratory failure. NICE CKS + trust NIV pathway. Fictional patient, prototype. · <a href="resus.html">Resus cases →</a></footer>
+</div>
+
+<div class="cxrmodal" id="cxrModal">
+  <div class="mh"><b>Chest X-ray · resus</b><button class="close" id="cxrClose" aria-label="Close">×</button></div>
+  <div class="imgwrap" id="cxrBig"></div>
+  <div class="rep" id="cxrReport">Your read: what does this film show — and what does it rule out?</div>
+</div>
+
+<div class="doseModal" id="doseModal"><div class="doseSheet"><div class="nq"><span class="who">🩺</span><span class="qt" id="doseQ"></span></div><div id="doseOpts"></div></div></div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+
+/* ============================================================
+   CHEST X-RAY — replace CXR_SRC with a base64 data URI of the
+   real film ("data:image/jpeg;base64,....") to embed it.
+   ============================================================ */
+const CXR_SRC="data:image/jpeg;base64,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";
+const CXR_PLACEHOLDER=`<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chest X-ray placeholder"><rect width="300" height="340" fill="#0b0f0d"/><g fill="none" stroke="#26332b" stroke-width="2"><path d="M150 40 v240"/><path d="M150 70 C110 78 78 120 74 190 C72 240 96 272 128 282"/><path d="M150 70 C190 78 222 120 226 190 C228 240 204 272 172 282"/><path d="M96 110 h44 M160 110 h44 M90 145 h52 M158 145 h54 M88 182 h56 M158 182 h58 M92 218 h52 M158 218 h54"/></g><text x="150" y="162" fill="#4a5a50" font-family="monospace" font-size="12" text-anchor="middle">CXR PLACEHOLDER</text><text x="150" y="182" fill="#3c4a42" font-family="monospace" font-size="8.5" text-anchor="middle">set CXR_SRC to embed the film</text><text x="266" y="26" fill="#4a5a50" font-family="monospace" font-size="11" text-anchor="end">R</text></svg>`;
+function cxrMarkup(){ return CXR_SRC==="PLACEHOLDER"?CXR_PLACEHOLDER:`<img src="${CXR_SRC}" alt="Chest X-ray">`; }
+function openCxr(){ $("#cxrBig").innerHTML=cxrMarkup(); $("#cxrModal").classList.add("on"); }
+$("#cxrClose").onclick=()=>$("#cxrModal").classList.remove("on");
+$("#cxrModal").addEventListener("click",e=>{ if(e.target===$("#cxrModal")) $("#cxrModal").classList.remove("on"); });
+
+/* ============================================================
+   MODEL
+   ============================================================ */
+const P={
+  sev:56, o2:'nrb', nebSalb:false, nebIpra:false, nebCont:false,
+  steroid:false, abx:false, access:false, niv:false, intubated:false,
+  ix:new Set(), ax:new Set(),
+  dx:'', dxCommitted:false, dxCorrect:false, mg:{},
+  nivDecision:null, ceiling:false, admit:null,
+  harm:0, harmList:[], order:[], seqErr:0, done:new Set(),
+  results:[], dosed:new Set(), doseErr:0, nurseIdx:0,
+  phase:'resus', ticks:0, simMin:1368, ended:false, timer:null, plateauNudged:false, outcome:null
+};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const TICK_MS=3000, MAX_TICKS=24;
+const O2FX={none:3.0, nc:-0.9, v24:-1.2, v28:-1.5, v40:1.8, v60:3.2, nrb:3.6};
+const O2SPO2={none:82, nc:89, v24:89, v28:91, v40:95, v60:98, nrb:99};
+const O2LABEL={none:'room air', nc:'nasal 2L', v24:'24% Venturi', v28:'28% Venturi', v40:'40% Venturi', v60:'60% Venturi', nrb:'15L NRB'};
+const CONTROLLED=new Set(['nc','v24','v28']);
+
+function controlledO2(){ return CONTROLLED.has(P.o2); }
+function nebsGiven(){ return P.nebSalb||P.nebCont; }
+function bundleCore(){ return controlledO2() && nebsGiven() && P.steroid; }
+function fmtClock(m){const h=Math.floor(m/60)%24,mm=m%60;return String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0');}
+
+function vitals(){
+  const s=P.sev, hi=(P.o2==='v40'||P.o2==='v60'||P.o2==='nrb');
+  const pH=(7.44-s*0.0028).toFixed(2);
+  const co2=(4.7+s*0.053).toFixed(1);
+  let rr=s<84?Math.round(18+s*0.20):Math.round(Math.max(5,40-(s-84)*2.4));
+  let gcs=s<50?15:s<66?14:s<80?12:s<90?9:s<100?6:3;
+  let hr=s<88?Math.round(96+s*0.34):Math.round(Math.max(40,128-(s-88)*4));
+  let spo2;
+  if(s>=100) spo2=64;
+  else if(hi) spo2=Math.round(clamp(O2SPO2[P.o2]-Math.max(0,s-70)*0.15, 90, 100));
+  else spo2=Math.round(clamp(O2SPO2[P.o2]-Math.max(0,s-46)*0.26, 60, 94));
+  return {pH:+pH,co2:+co2,rr,gcs,hr,spo2};
+}
+
+/* ===== monitor ===== */
+let prevV={};
+function renderMonitor(){
+  const v=vitals();
+  // pH / pCO2 shown as "?" until an ABG (or VBG) is taken — you don't know the gas unless you look
+  const gasKnown=P.ix.has('abg')||P.ix.has('vbg');
+  const cells=[
+    ['spo2','SpO₂',v.spo2,O2LABEL[P.o2].replace(/ .*/,'')||'air',false],
+    ['rr','RR',v.rr,'/min',false],
+    ['hr','HR',v.hr,'/min',false],
+    ['ph','pH',gasKnown?v.pH.toFixed(2):'?','',!gasKnown],
+    ['co2','pCO₂',gasKnown?v.co2.toFixed(1):'?','kPa',!gasKnown],
+    ['gcs','GCS',v.gcs,'/15',false]
+  ];
+  $('#obs').innerHTML=cells.map(c=>`<div class="ob ob--${c[0]}"><div class="ol">${c[1]}</div><div class="ov ${c[4]?'q':''}" data-k="${c[0]}">${c[2]}</div><div class="ou">${c[3]}</div></div>`).join('');
+  cells.forEach(c=>{ if(prevV[c[0]]!==undefined&&prevV[c[0]]!==c[2]){const el=$(`.ob--${c[0]} .ov`); if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),600);}} prevV[c[0]]=c[2]; });
+  $('#devlabel').textContent=O2LABEL[P.o2];
+  let n=0; const onO2=P.o2!=='none';
+  if(v.rr>=25||v.rr<=8)n+=3;else if(v.rr>=21)n+=2;else if(v.rr<=11)n+=1;
+  if(onO2){ if(v.spo2>=97)n+=3;else if(v.spo2>=95)n+=2;else if(v.spo2>=93)n+=1; n+=2; }
+  else { if(v.spo2<=83)n+=3;else if(v.spo2<=85)n+=2;else if(v.spo2<=87)n+=1; }
+  if(v.hr>=131)n+=3;else if(v.hr>=111)n+=2;else if(v.hr>=91)n+=1;
+  if(v.gcs<15)n+=3;
+  const nm=$('#news'); nm.innerHTML='NEWS2 <b>'+n+'</b>'; nm.dataset.tone=n>=7?'bad':n>=5?'warn':'ok';
+  const f=$('#detFill'); f.style.width=clamp(P.sev,0,100)+'%';
+  f.style.background=P.sev>=82?'#ff5a4d':P.sev>=55?'var(--co2)':'var(--hr)';
+  $('#detTxt').textContent=P.sev>=100?'arrest':P.sev>=82?'peri-arrest':P.sev>=55?'tiring':P.sev>=30?'improving':'stable';
+  updateAvatar(); updateWave();
+}
+
+/* ============================================================
+   ANIMATION — bedside cartoon + scrolling trace
+   ============================================================ */
+function deviceArt(){
+  if(P.intubated) return '<rect x="79" y="88" width="14" height="6" rx="2" fill="#e7edea"/><rect x="107" y="88" width="14" height="6" rx="2" fill="#e7edea"/><path d="M100,92 Q101,120 110,166" fill="none" stroke="#cfd8dc" stroke-width="4.5" stroke-linecap="round"/>';
+  if(P.niv) return '<path d="M64,62 Q100,56 136,62 Q146,102 100,116 Q54,102 64,62 Z" fill="rgba(176,204,214,.5)" stroke="#9fb6bd" stroke-width="1.8"/><path d="M64,70 Q26,60 22,100" fill="none" stroke="#8fa7ae" stroke-width="3"/><path d="M136,70 Q174,60 178,100" fill="none" stroke="#8fa7ae" stroke-width="3"/><path d="M70,54 Q100,44 130,54" fill="none" stroke="#8fa7ae" stroke-width="3"/><path d="M100,116 Q100,142 90,168" fill="none" stroke="#b9cbd0" stroke-width="4.5" stroke-dasharray="2 3"/>';
+  const dev=P.o2;
+  if(dev==='none') return '';
+  if(dev==='nc') return '<path d="M66,88 Q100,101 134,88" fill="none" stroke="#d6e4e8" stroke-width="2.4"/><line x1="94" y1="86" x2="94" y2="81" stroke="#d6e4e8" stroke-width="2.4"/><line x1="106" y1="86" x2="106" y2="81" stroke="#d6e4e8" stroke-width="2.4"/><path d="M66,88 Q42,96 46,168" fill="none" stroke="#d6e4e8" stroke-width="2.2"/>';
+  // masks (Venturi tiers + non-rebreathe)
+  const valve={v24:'#3f7dc0',v28:'#e7c14a',v40:'#e0663a',v60:'#7a9c45',nrb:'#c8cdd0'}[dev]||'#c8cdd0';
+  let m='<path d="M72,72 Q100,66 128,72 Q134,99 100,109 Q66,99 72,72 Z" fill="rgba(214,228,232,.5)" stroke="#aebfc4" stroke-width="1.6"/>'+
+        '<path d="M72,78 Q40,74 28,82" fill="none" stroke="#aebfc4" stroke-width="2.4"/><path d="M128,78 Q160,74 172,82" fill="none" stroke="#aebfc4" stroke-width="2.4"/>'+
+        '<circle cx="100" cy="110" r="4" fill="'+valve+'"/><path d="M100,113 Q100,140 94,168" fill="none" stroke="#b9cbd0" stroke-width="4"/>';
+  if(dev==='nrb') m+='<ellipse cx="100" cy="138" rx="15" ry="12" fill="rgba(198,214,220,.45)" stroke="#aebfc4" stroke-width="1.4"/>';
+  return m;
+}
+function updateAvatar(){
+  const bs=$('#bedside'); if(!bs) return;
+  const v=vitals(), arrest=P.ended&&P.outcome==='arrest';
+  let skin='#e8b89a', lip='#c1796d';
+  if(arrest){ skin='#b6c0c6'; lip='#8090a6'; }
+  else if(v.spo2<86){ skin='#bcbcc4'; lip='#6f83ab'; }        // cyanosis
+  else if(v.spo2<91){ skin='#dcc6b4'; lip='#8a7d94'; }         // dusky
+  $$('#avatar .skin').forEach(e=>e.setAttribute('fill',skin));
+  const lp=$('#lips'); if(lp) lp.setAttribute('stroke',lip);
+  // eyes track GCS
+  const g=v.gcs, open=arrest?0.04:g>=15?1:g>=14?.72:g>=12?.48:g>=9?.28:g>=6?.12:0.05;
+  ['#eyeL','#eyeR'].forEach(s=>{const e=$(s); if(e) e.style.transform='scaleY('+open+')';});
+  // breathing speed from RR
+  const dur=clamp(60/Math.max(v.rr,4),.85,13);
+  bs.style.setProperty('--brdur',dur.toFixed(2)+'s');
+  bs.classList.toggle('labored', !arrest && P.sev>50);
+  bs.classList.toggle('sweaty', !arrest && P.sev>52);
+  bs.classList.toggle('drowsy', !arrest && v.gcs<=12 && v.gcs>4);
+  bs.classList.toggle('arrest', arrest);
+  const dev=$('#dev'); if(dev) dev.innerHTML=deviceArt();
+  talk();
+}
+function talk(){
+  const sp=$('#speech'); if(!sp) return;
+  const v=vitals(), arrest=P.ended&&P.outcome==='arrest';
+  let t;
+  if(P._say!==undefined){ t=P._say; }
+  else if(arrest||P.intubated){ t=''; }
+  else if(v.gcs<=8){ t='…'; }
+  else if(v.gcs<=12){ t='So… tired… let me… sleep…'; }
+  else if(P.niv){ t='(muffled under the mask)'; }
+  else if(P.sev>=82){ t='I can’t… I can’t breathe…'; }
+  else if(P.sev<=30){ t='Oh… that’s much better. Thank you.'; }
+  else if(P.sev<=45){ t='A bit… easier now…'; }
+  else { t='Can’t… catch… my breath…'; }
+  if(t){ sp.textContent='“'+t+'”'; sp.classList.add('on'); } else { sp.classList.remove('on'); }
+}
+function saysFor(text,ms){ P._say=text; talk(); clearTimeout(P._sayT); P._sayT=setTimeout(()=>{ P._say=undefined; talk(); }, ms||4000); }
+function ecgPoints(flat){
+  const bw=44,n=12,base=22,pts=[];
+  const beat=[[0,0],[9,0],[12,-3],[16,0],[20,0],[21,3],[22,-14],[24,6],[26,0],[31,0],[35,-5],[40,0],[44,0]];
+  for(let i=0;i<n;i++){ const x=i*bw;
+    if(flat){ pts.push([x,base],[x+bw,base]); }
+    else beat.forEach(p=>pts.push([x+p[0],base+p[1]]));
+  }
+  return pts.map(p=>p[0].toFixed(0)+','+p[1].toFixed(0)).join(' ');
+}
+function plethPoints(flat){
+  const bw=44,n=12,base=32,pts=[];
+  const beat=[[0,0],[6,0],[12,-6],[18,-3],[26,0],[44,0]];
+  for(let i=0;i<n;i++){ const x=i*bw;
+    if(flat){ pts.push([x,base],[x+bw,base]); }
+    else beat.forEach(p=>pts.push([x+p[0],base+p[1]]));
+  }
+  return pts.map(p=>p[0].toFixed(0)+','+p[1].toFixed(0)).join(' ');
+}
+function setTrace(flat){ const e=$('#ecg'),p=$('#pleth'); if(e)e.setAttribute('points',ecgPoints(flat)); if(p)p.setAttribute('points',plethPoints(flat)); }
+function updateWave(){
+  const w=$('#wave'); if(!w) return;
+  const v=vitals(), arrest=P.ended&&P.outcome==='arrest';
+  w.style.setProperty('--wdur',clamp(260/Math.max(v.hr,26),1.1,6).toFixed(2)+'s');
+  const g=$('#waveG'); if(g) g.style.animationPlayState=arrest?'paused':'running';
+  if(arrest){ if(!P._flat){ setTrace(true); P._flat=true; } }
+  else if(P._flat){ setTrace(false); P._flat=false; }
+}
+function log(t,c){const li=document.createElement('li');li.innerHTML=`<span class="lt">${fmtClock(P.simMin)}</span><span class="${c||''}">${t}</span>`;$('#log').appendChild(li);}
+function toast(m,tone){const t=document.createElement('div');t.className='toast';if(tone)t.dataset.tone=tone;t.innerHTML=m;$('#toasts').appendChild(t);setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity=0;setTimeout(()=>t.remove(),320);},4600);}
+
+/* ============================================================
+   ACTIONS — unordered, decoy-rich. No "next step".
+   ============================================================ */
+const TABS=[{id:'ao',n:'Airway/O₂'},{id:'cd',n:'Circ/Drugs'},{id:'ix',n:'Investigate'},{id:'ax',n:'Assess'},{id:'esc',n:'Escalate'},{id:'mx',n:'COPD Mx'}];
+let curTab='ao';
+const A={
+ ao:[
+  {sub:'Oxygen — pick a target'},
+  {id:'o2_off',t:'Take her off oxygen',d:'',k:'harm'},
+  {id:'o2_nc',t:'Nasal cannula 2 L',d:'',k:'o2',o2:'nc'},
+  {id:'o2_v24',t:'Venturi 24%',d:'',k:'o2',o2:'v24'},
+  {id:'o2_v28',t:'Venturi 28%',d:'',k:'o2',o2:'v28'},
+  {id:'o2_v40',t:'Venturi 40%',d:'',k:'o2',o2:'v40'},
+  {id:'o2_v60',t:'Venturi 60%',d:'',k:'o2',o2:'v60'},
+  {id:'o2_nrb',t:'Keep / restart 15 L non-rebreathe',d:'',k:'o2',o2:'nrb'},
+  {sub:'Airway & ventilation'},
+  {id:'airpos',t:'Sit up / airway positioning + suction',d:'',k:'good'},
+  {id:'neb_salb',t:'Salbutamol nebuliser',d:'',k:'neb'},
+  {id:'neb_ipra',t:'Ipratropium nebuliser',d:'',k:'neb'},
+  {id:'neb_o2',t:'Run the nebs on 15 L oxygen',d:'',k:'harm'},
+  {id:'neb_cont',t:'Back-to-back (continuous) nebs',d:'',k:'neb'},
+  {id:'niv',t:'Start NIV (BiPAP)',d:'',k:'niv'},
+  {id:'intubate',t:'Call anaesthetics — intubate & ventilate',d:'',k:'tube'},
+  {id:'needle',t:'Needle decompression, 2nd space',d:'',k:'harm'},
+  {id:'drain',t:'Insert a chest drain',d:'',k:'harm'},
+ ],
+ cd:[
+  {sub:'Access & fluids'},
+  {id:'access',t:'Two large-bore cannulae + bloods',d:'',k:'good'},
+  {id:'fluid_caut',t:'Cautious IV fluids',d:'',k:'good'},
+  {id:'fluid_aggr',t:'Aggressive fluid resuscitation (2 L stat)',d:'',k:'harm'},
+  {id:'furose',t:'IV furosemide 40 mg',d:'',k:'harm'},
+  {id:'gtn',t:'GTN infusion',d:'',k:'harm'},
+  {sub:'Drugs'},
+  {id:'steroid',t:'Corticosteroid — prednisolone / hydrocortisone',d:'',k:'good'},
+  {id:'abx',t:'Antibiotics',d:'',k:'good'},
+  {id:'mag',t:'IV magnesium sulphate',d:'',k:'neutral'},
+  {id:'amino',t:'IV aminophylline',d:'',k:'harm'},
+  {id:'adren',t:'IM adrenaline 0.5 mg',d:'',k:'harm'},
+  {id:'naloxone',t:'Naloxone',d:'',k:'harm'},
+  {id:'sedate',t:'Morphine / benzo for her distress',d:'',k:'harm'},
+ ],
+ ix:[
+  {id:'abg',t:'Arterial blood gas',d:'',k:'ix'},
+  {id:'vbg',t:'Venous blood gas',d:'',k:'ix'},
+  {id:'ecg',t:'12-lead ECG',d:'',k:'ix'},
+  {id:'cxr',t:'Portable chest X-ray — view the film',d:'',k:'ix'},
+  {id:'bloods',t:'FBC · U&E · CRP',d:'',k:'ix'},
+  {id:'bnp',t:'BNP',d:'',k:'ix'},
+  {id:'pocus',t:'Lung + cardiac POCUS',d:'',k:'ix'},
+  {id:'ddimer',t:'D-dimer',d:'',k:'ix'},
+  {id:'ctpa',t:'CT pulmonary angiogram',d:'',k:'ix'},
+  {id:'peak',t:'Peak flow',d:'',k:'ix'},
+ ],
+ ax:[
+  {id:'hxpm',t:'Old notes / GP summary',d:'',k:'ax'},
+  {id:'hxher',t:'Talk to her / her husband',d:'',k:'ax'},
+  {id:'exam',t:'Focused examination',d:'',k:'ax'},
+ ],
+ esc:[
+  {id:'senior',t:'Call the medical registrar',d:'',k:'good'},
+  {id:'icu',t:'Refer ICU / critical care outreach',d:'',k:'good'},
+  {id:'ceiling',t:'Agree ceiling of care + ReSPECT',d:'',k:'good'},
+ ]
+};
+function findA(id){ for(const t in A){ const f=A[t].find(a=>a&&a.id===id); if(f) return f; } }
+
+function renderTabs(){
+  $('#tabs').innerHTML=TABS.map(t=>{
+    const done = t.id==='mx' ? Object.keys(P.mg).length : (A[t.id]||[]).filter(a=>a.id&&P.done.has(a.id)).length;
+    const total = t.id==='mx' ? MGMT.length : 0;
+    const badge = t.id==='mx' ? (done?`<span class="c">${done}/${total}</span>`:'') : (done?`<span class="c">${done}</span>`:'');
+    return `<button class="tab" role="tab" data-tab="${t.id}" aria-selected="${t.id===curTab}">${t.n}${badge}</button>`;
+  }).join('');
+  $$('#tabs .tab').forEach(b=>b.onclick=()=>{ curTab=b.dataset.tab; renderTabs(); renderPalette(); });
+}
+function actHTML(x){
+  const done=P.done.has(x.id);
+  const isO2sel=x.k==='o2'&&P.o2===x.o2;
+  const dm = done?(x.k==='harm'?'harm':'1'):'';
+  const mk = (done||isO2sel)?(x.k==='harm'?'✕':'✓'):(x.k==='ix'||x.k==='ax'?'⊙':'+');
+  const dstate = isO2sel?'1':dm;
+  const dis = (done&&['good','neb','niv','tube'].includes(x.k)) ? 'disabled':'';
+  return `<button class="act" data-act="${x.id}" ${dstate?`data-done=${dstate}`:''} ${dis}><span class="mk">${mk}</span><span class="atx"><span class="at">${x.t}</span>${x.d?`<span class="ad">${x.d}</span>`:''}</span></button>`;
+}
+/* ===== COPD management drill (post-resuscitation teaching) ===== */
+const MGMT=[
+ {id:'define',tag:'The diagnosis',q:'What defines this as an acute exacerbation of COPD?',
+  opts:[{t:'A sustained worsening beyond normal variation — here ↑breathlessness, ↑sputum volume, now purulent',ok:true},{t:'Any breathlessness in someone with COPD',ok:false},{t:'It needs a fall in FEV₁ on spirometry to confirm',ok:false}],
+  teach:'<b>COPD</b> = fixed, largely irreversible airflow obstruction from chronic exposure (overwhelmingly tobacco). An <b>exacerbation</b> is an acute sustained worsening beyond day-to-day variation — the <b>Anthonisen triad</b> is ↑breathlessness, ↑sputum volume, ↑sputum purulence. It’s a clinical diagnosis; spirometry isn’t valid or needed acutely.'},
+ {id:'trigger',tag:'Triggers',q:'Commonest trigger for an exacerbation?',
+  opts:[{t:'Respiratory infection — viral or bacterial (~70%)',ok:true},{t:'Always bacterial pneumonia',ok:false},{t:'Poor inhaler technique',ok:false}],
+  teach:'<b>Infection ~70%</b> — viruses (rhinovirus, influenza) and bacteria (<i>H. influenzae</i>, <i>S. pneumoniae</i>, <i>Moraxella</i>). Also air pollution, cold weather, non-adherence; ~⅓ have no clear cause. Always keep <b>PE and pneumothorax</b> in mind as mimics/precipitants.'},
+ {id:'oxygen',tag:'Oxygen',q:'Target oxygen saturations and how you deliver them?',
+  opts:[{t:'88–92% via a controlled device (24–28% Venturi)',ok:true},{t:'94–98% like any acutely unwell patient',ok:false},{t:'As high as possible — you never withhold oxygen',ok:false}],
+  teach:'Target <b>88–92%</b> with a <b>Venturi</b> in COPD/at-risk-of-hypercapnia. Over-oxygenation worsens hypercapnia (V/Q mismatch, Haldane effect, blunted hypoxic drive) → CO₂ narcosis. But never withhold O₂ from the hypoxic patient — <b>titrate</b> to the window and fit an alert card.'},
+ {id:'neb',tag:'Bronchodilators',q:'First-line inhaled treatment?',
+  opts:[{t:'Nebulised salbutamol + ipratropium, driven by AIR',ok:true},{t:'Salbutamol nebs driven by high-flow oxygen',ok:false},{t:'Continue her own inhalers only',ok:false}],
+  teach:'Nebulised <b>salbutamol (SABA) + ipratropium (SAMA)</b>. In hypercapnia, <b>drive the neb with air</b> (an O₂-driven neb delivers a high FiO₂ for 6–10 min) with controlled nasal O₂ alongside to hold 88–92%. Go <b>back-to-back</b> if she’s not improving.'},
+ {id:'steroid',tag:'Steroids',q:'Corticosteroid — dose and duration?',
+  opts:[{t:'Prednisolone 30 mg OD for 5 days (IV hydrocortisone if she can’t swallow)',ok:true},{t:'Prednisolone 60 mg for 14 days, then taper',ok:false},{t:'Hold steroids unless the wheeze fails to settle',ok:false}],
+  teach:'<b>Prednisolone 30 mg OD for 5 days</b> (NICE) — no taper for a short course. Shortens recovery, improves lung function and oxygenation. Watch the glucose; consider bone/gastric protection with frequent courses.'},
+ {id:'abx',tag:'Antibiotics',q:'Green sputum, fever, CRP 182 — antibiotics?',
+  opts:[{t:'Yes — purulent sputum / raised inflammatory markers; treat per local guideline (e.g. amoxicillin or doxycycline)',ok:true},{t:'No — exacerbations are viral, antibiotics never help',ok:false},{t:'IV meropenem now to cover everything',ok:false}],
+  teach:'Give an antibiotic when sputum is <b>purulent / increased</b> or there is clinical pneumonia. NICE first-line: <b>amoxicillin 500 mg TDS, doxycycline, or clarithromycin, 5 days</b>. Don’t reach for broad-spectrum IV without a reason; escalate on sepsis / non-response.'},
+ {id:'abg',tag:'The blood gas',q:'When should the arterial blood gas be done?',
+  opts:[{t:'On arrival if sats <92% / drowsy / ?hypercapnia — then repeat ~1 h after treatment',ok:true},{t:'Only if she deteriorates further',ok:false},{t:'Only once she’s on NIV',ok:false}],
+  teach:'Do an ABG <b>early</b> — it’s the only way to see the CO₂ and pH. Hers shows <b>type-2 failure</b> with a <b>raised bicarbonate</b> = chronic retention (acute-on-chronic). <b>Repeat after ~1 h</b> of controlled O₂ + treatment: the direction of that gas decides NIV.'},
+ {id:'niv',tag:'NIV / BiPAP',q:'Repeat gas after 1 h of maximal therapy: pH 7.28, pCO₂ 8.6 — still acidotic. Next?',
+  opts:[{t:'Start NIV — persistent respiratory acidosis despite optimal therapy',ok:true},{t:'Continue medical treatment alone; NIV isn’t indicated',ok:false},{t:'Straight to intubation',ok:false}],
+  teach:'<b>NIV is indicated for a persistent respiratory acidosis — pH <7.35 with pCO₂ >6.5 — after ~1 h of maximal medical therapy.</b> Optimise and repeat the gas first: ~1 in 5 improve and avoid NIV. For acidotic hypercapnic COPD, NIV is first-line and reduces intubation and death.'},
+ {id:'settings',tag:'NIV settings',q:'You set up BiPAP. What do IPAP and EPAP do?',
+  opts:[{t:'IPAP clears CO₂ (ventilation); EPAP splints airways / oxygenates — start ~15/5, titrate up',ok:true},{t:'EPAP clears CO₂; IPAP is just comfort',ok:false},{t:'Both at maximum for the fastest correction',ok:false}],
+  teach:'The <b>IPAP–EPAP difference</b> (pressure support) drives tidal volume → raising <b>IPAP clears CO₂</b>. <b>EPAP</b> holds airways open and recruits lung → oxygenation. Start ~<b>IPAP 15 / EPAP 5</b>, titrate IPAP up toward 20–25/5 over the first hour, recheck the gas at 1 h. IPAP >25 risks pneumothorax.'},
+ {id:'ceiling',tag:'Escalation',q:'Before NIV goes on, one decision must be made. Which?',
+  opts:[{t:'Agree the ceiling — NIV the ceiling, or ICU/intubation if it fails? Document ReSPECT/DNACPR',ok:true},{t:'Nothing — decide only if she arrests',ok:false},{t:'Sedate her to tolerate the mask',ok:false}],
+  teach:'NIV without an <b>escalation plan is unsafe</b>. Decide first: is NIV the <b>ceiling</b>, or is she for <b>ICU/intubation if it fails</b>? <b>pH <7.25</b>, rising rate, or failure on NIV → ICU conversation. This independent 72-year-old is a reasonable candidate — likely for escalation. Document <b>ReSPECT/DNACPR</b>; if NIV is the ceiling, involve palliative care early. NIV contraindications: reduced GCS/can’t protect airway, vomiting, undrained pneumothorax, facial trauma, haemodynamic instability — and asthma/pneumonia without COPD points to invasive ventilation, not NIV.'}
+];
+function mxHTML(){
+  if(P.phase==='resus'){
+    return `<div class="mxnote">She’s still crashing. <b>Stabilise her first</b> — controlled oxygen, the bundle, escalation. The definitive COPD management opens the moment she’s out of the immediate crisis.</div>`;
+  }
+  const ans=Object.keys(P.mg).length;
+  let html=`<div class="mxhead">Now manage the COPD</div><div class="mxprog">She’s stable — this is the definitive management, the way you’d teach it. ${ans}/${MGMT.length} reviewed.</div>`;
+  MGMT.forEach(q=>{
+    html+=`<div class="mxq"><div class="mxq__q"><span class="tg">${q.tag}</span>${q.q}</div>`;
+    q.opts.forEach((o,i)=>{
+      let st=''; const answered=P.mg[q.id]!==undefined;
+      if(answered){ st = o.ok?'right':(P.mg[q.id]===('w'+i)?'wrong':'dim'); }
+      const mk = answered ? (o.ok?'✓':(P.mg[q.id]===('w'+i)?'✗':String.fromCharCode(65+i))) : String.fromCharCode(65+i);
+      html+=`<button class="mxopt" data-mx="${q.id}" data-oi="${i}" data-ok="${o.ok?1:0}" ${answered?'disabled':''} ${st?`data-s="${st}"`:''}><span class="mk">${mk}</span><span>${o.t}</span></button>`;
+    });
+    if(P.mg[q.id]!==undefined){ const correct=P.mg[q.id]===true; html+=`<div class="mxteach">${correct?'<b>Correct. </b>':'<b>Not quite. </b>'}${q.teach}</div>`; }
+    html+=`</div>`;
+  });
+  return html;
+}
+function wireMx(){
+  $$('#palette .mxopt').forEach(b=>b.onclick=()=>{
+    const qid=b.dataset.mx, i=+b.dataset.oi, ok=b.dataset.ok==='1';
+    if(P.mg[qid]!==undefined) return;
+    P.mg[qid]= ok?true:('w'+i);
+    log('COPD Mx: '+qid+(ok?' ✓':' ✗'), ok?'li-good':'li-bad');
+    // as the definitive management is delivered, her struggle eases
+    if(P.phase!=='resus' && ok){ P.sev=Math.max(8,P.sev-2.4); renderMonitor(); }
+    renderTabs(); renderPalette();
+  });
+}
+function renderPalette(){
+  if(curTab==='mx'){ $('#palette').innerHTML=mxHTML(); wireMx(); renderPlan(); return; }
+  let html='';
+  A[curTab].forEach(x=>{ if(x.sub){ html+=`<div class="subh">${x.sub}</div>`; } else { html+=actHTML(x); } });
+  if(curTab==='ax'){
+    html+=`<div class="dxbox"><label for="dxIn">Your working diagnosis</label>`+
+      `<input list="dxlist" id="dxIn" placeholder="name it — the box suggests matches" autocomplete="off" ${P.dxCommitted?'disabled':''} value="${P.dx||''}">`+
+      `<div class="row"><button class="btn" id="dxCommit" ${P.dxCommitted?'disabled':''}>Commit diagnosis</button></div>`+
+      (P.dxCommitted?`<div class="dxpill">Committed: ${P.dx}</div>`:'')+`</div>`;
+  }
+  if(curTab==='esc' && P.phase!=='resus'){
+    html+=`<div class="subh">Definitive plan</div>`;
+    html+=`<div class="ad" style="font-size:.78rem;color:var(--muted);margin-bottom:var(--s2)">Respiratory support (NIV / intubation) lives under <b>Airway/O₂</b> — decide it from the gas.</div>`;
+    html+=`<button class="act" data-act="def_admit" ${P.admit?'data-done=1':''}><span class="mk">${P.admit?'✓':'+'}</span><span class="atx"><span class="at">Admission destination</span><span class="ad">ICU / HDU / ward</span></span></button>`;
+  }
+  $('#palette').innerHTML=html;
+  $$('#palette .act').forEach(b=>b.onclick=()=>doAct(b.dataset.act));
+  const dc=$('#dxCommit'); if(dc) dc.onclick=commitDx;
+  renderPlan();
+}
+function renderPlan(){
+  const pb=$('#planbar'); if(!pb) return;
+  if(P.phase==='resus' || P.ended){ pb.style.display='none'; return; }
+  pb.style.display='block';
+  const mxDone=Object.keys(P.mg).length===MGMT.length;
+  const items=[['Diagnosis',P.dxCommitted],['COPD Mx',mxDone],['Ceiling of care',P.ceiling],['Admission',!!P.admit]];
+  const ready=items.every(i=>i[1]);
+  pb.innerHTML=`<div class="plan__h">Finish the plan → hand her over</div>`+
+    `<div class="plan__row">`+items.map(i=>`<span class="planchip" data-ok="${i[1]?1:0}">${i[1]?'✓':'○'} ${i[0]}</span>`).join('')+`</div>`+
+    `<button class="btn ${ready?'':'btn--ghost'}" id="concludeBtn" ${ready?'':'disabled'}>${ready?'Conclude the case → hand over':'Complete the plan above to conclude'}</button>`;
+  const cb=$('#concludeBtn'); if(cb&&ready) cb.onclick=()=>{ P.outcome=nivAppropriate()?'live':'suboptimal'; finish(); };
+}
+
+/* ===== investigations (reveal clues) ===== */
+function ixResult(id){
+  const v=vitals();
+  switch(id){
+    case 'abg': return {tone:'warn', m:`ABG (on ${O2LABEL[P.o2]}): pH ${v.pH.toFixed(2)}, pCO₂ ${v.co2.toFixed(1)} kPa, pO₂ ${(P.o2==='nrb'||P.o2==='v60')?'high':'8.4'}, <b>HCO₃⁻ 33 (raised)</b>, BE +7. Type-2 respiratory failure — and the high bicarbonate means she is a <b>chronic CO₂ retainer</b>. This is acute-on-chronic.`};
+    case 'vbg': return {tone:'warn', m:`VBG: pH ${(v.pH-0.03).toFixed(2)}, pCO₂ high, HCO₃⁻ 33. Suggests hypercapnia — confirm with an arterial gas.`};
+    case 'ecg': return {tone:'', m:'ECG: sinus tachycardia, peaked P waves (P pulmonale). No STEMI, no AF, no S1Q3T3 of note.'};
+    case 'cxr': openCxr(); return {tone:'', m:'CXR: <b>hyperinflated</b> lungs, flattened hemidiaphragms — COPD. <b>No pneumothorax, no pulmonary oedema, no large effusion, no dense consolidation.</b> The infection is a clinical call (purulent sputum, fever, CRP), not a radiographic one.'};
+    case 'bloods': return {tone:'', m:'Bloods: WCC 17.5, neutrophils 14.8, <b>CRP 182</b>, urea 9.1, creatinine 96, K⁺ 4.6. Infection.'};
+    case 'bnp': return {tone:'warn', m:'BNP 240 (mildly raised) — non-specific; right-heart strain from COPD can do this. Not a heart-failure diagnosis on its own.'};
+    case 'pocus': return {tone:'', m:'POCUS: A-line pattern, <b>no B-lines</b> (argues against pulmonary oedema), no pneumothorax; IVC not plethoric, good LV. Not a wet lung.'};
+    case 'ddimer': return {tone:'bad', m:'D-dimer 900 — raised, but she is unwell and it is non-specific. Sending it commits you toward a CTPA you probably don’t need. Time lost.'};
+    case 'ctpa': P.sev=clamp(P.sev+6,0,100); return {tone:'bad', m:'CTPA: <b>no PE.</b> Emphysematous change, no focal consolidation. You took a peri-arrest, hypercapnic patient to the scanner — minutes you did not have.'};
+    case 'peak': return {tone:'', m:'Peak flow: she can barely blow — 140 (usual ~280). Confirms severe airflow obstruction; doesn’t separate COPD from asthma.'};
+  }
+}
+function axResult(id){
+  switch(id){
+    case 'hxpm': return 'Old notes: <b>COPD, ex-heavy-smoker</b>, FEV₁ 40%, two admissions last year, <b>one needed NIV</b>. On Fostair + tiotropium. No documented ceiling. Independent, does her own shopping.';
+    case 'hxher': return 'Between breaths: “Chest infection… green phlegm… three days. Had a cold. I’ve got the smoker’s lung.” Husband: still smokes, forgets her inhalers, had “the mask” once.';
+    case 'exam': return 'Barrel chest, pursed lips, accessory muscles. Widespread wheeze + right-base crackles and bronchial breathing. A coarse CO₂-retention <b>flap</b>. Mild ankle oedema. No urticaria, no calf swelling, trachea central.';
+  }
+}
+
+/* ===== persistent results panel ===== */
+function resFor(id){
+  const v=vitals();
+  const M={
+    abg:[['ABG pH',v.pH.toFixed(2),v.pH<7.35?'lo':''],['pCO₂',v.co2.toFixed(1)+' kPa','hi'],['HCO₃⁻','33 (raised)','hi']],
+    vbg:[['VBG','↑pCO₂, HCO₃ 33','hi']],
+    ecg:[['ECG','sinus tachy, P pulm','']],
+    cxr:[['CXR','hyperinflated; no oedema/PTX','']],
+    bloods:[['WCC','17.5','hi'],['CRP','182','hi'],['Urea','9.1','hi']],
+    bnp:[['BNP','240 (mild↑)','hi']],
+    pocus:[['POCUS','A-lines, dry, no PTX','']],
+    ddimer:[['D-dimer','900 (non-specific)','hi']],
+    ctpa:[['CTPA','no PE','']],
+    peak:[['Peak flow','140 (~280 usual)','lo']],
+    hxpm:[['PMH','COPD, ex-smoker, prior NIV','']],
+    hxher:[['History','3d ↑green sputum, cold','']],
+    exam:[['Exam','wheeze, R-base, CO₂ flap','']]
+  };
+  return M[id];
+}
+function pushResults(rows){
+  if(!rows) return;
+  rows.forEach(r=>{
+    const ex=P.results.find(x=>x.l===r[0]);
+    if(ex){ ex.v=r[1]; ex.f=r[2]; ex.fresh=true; } else P.results.push({l:r[0],v:r[1],f:r[2],fresh:true});
+  });
+  renderResults();
+}
+function renderResults(){
+  const el=$('#results'); if(!el) return;
+  if(!P.results.length){ el.style.display='none'; return; }
+  el.style.display='block';
+  el.innerHTML=`<h4>Results &amp; findings</h4><ul>`+
+    P.results.map(r=>`<li data-flag="${r.f||''}" class="${r.fresh?'fresh':''}"><span class="rl">${r.l}</span><span class="rv">${r.v}</span></li>`).join('')+`</ul>`;
+  P.results.forEach(r=>r.fresh=false);
+}
+
+/* ===== nurse dose pop-ups ===== */
+const DOSE={
+  neb_salb:{q:'Salbutamol — what dose, doctor?',sub:'nurse, drawing it up',opts:[
+    {t:'2.5 mg nebulised',ok:false,note:'Under-dosed for a severe exacerbation — give 5 mg.'},
+    {t:'5 mg nebulised',ok:true,note:'Correct.'},
+    {t:'5 mg back-to-back (continuous)',ok:true,also:'cont',note:'Great for a severe exacerbation — continuous nebs.'}]},
+  neb_ipra:{q:'Ipratropium dose?',sub:'nurse',opts:[
+    {t:'250 micrograms',ok:false,note:'Give 500 micrograms in an acute exacerbation.'},
+    {t:'500 micrograms',ok:true,note:'Correct.'}]},
+  steroid:{q:'Steroids — which, and how?',sub:'nurse',opts:[
+    {t:'Prednisolone 30 mg oral',ok:true,note:'Correct — 30 mg for 5 days.'},
+    {t:'Hydrocortisone 100 mg IV',ok:true,note:'Fine — sensible as she’s drowsy/tiring.'},
+    {t:'Dexamethasone 6 mg',ok:false,note:'Not the standard for COPD — pred 30 mg or IV hydrocortisone.'}]},
+  abx:{q:'Which antibiotic shall I get?',sub:'nurse',opts:[
+    {t:'Amoxicillin 500 mg TDS',ok:true,note:'First-line.'},
+    {t:'Doxycycline 200 mg then 100 mg',ok:true,note:'First-line alternative.'},
+    {t:'Co-amoxiclav',ok:false,note:'Reserve for higher-risk / treatment failure.'},
+    {t:'Meropenem',ok:false,note:'Overkill without a reason — narrow first.'}]}
+};
+function openDose(id){
+  const d=DOSE[id];
+  $('#doseQ').innerHTML=d.q+`<small>${d.sub}</small>`;
+  $('#doseOpts').innerHTML=d.opts.map((o,i)=>`<button class="doseOpt" data-i="${i}"><span>${o.t}</span></button>`).join('');
+  $('#doseModal').classList.add('on');
+  $$('#doseOpts .doseOpt').forEach(b=>b.onclick=()=>{
+    const o=d.opts[+b.dataset.i];
+    $('#doseModal').classList.remove('on');
+    P.dosed.add(id);
+    if(!o.ok){ P.doseErr++; toast('<b>Nurse:</b> right you are. '+o.note,'warn'); log('Dose miss: '+id,'li-bad'); }
+    else { toast('<b>Nurse:</b> '+o.note,'good'); }
+    if(o.also==='cont') P._forceCont=true;
+    doAct(id);
+  });
+}
+
+/* ===== do action ===== */
+function doAct(id){
+  if(P.ended) return;
+  if(id==='def_admit'){ return defAdmit(); }
+  const x=findA(id); if(!x) return;
+
+  // nurse asks the dose before the drug is given
+  if(DOSE[id] && !P.dosed.has(id) && !P.done.has(id)){ return openDose(id); }
+
+  // oxygen: set the target (repeatable)
+  if(x.k==='o2'){
+    const prev=P.o2; P.o2=x.o2; if(!P.done.has(id)){P.done.add(id);} P.order.push('O2:'+x.o2);
+    if(x.o2==='nrb'||x.o2==='v60'){ if(prev!=='nrb'&&prev!=='v60'){P.harm++;P.harmList.push('high-flow O₂ in a retainer');} log('O₂ → '+O2LABEL[x.o2],'li-bad');
+      toast('High FiO₂ in a possible retainer <b>worsens hypercapnia</b> — the sats look great while CO₂ and drowsiness climb. If you don’t know, check a gas and target 88–92%.','bad'); }
+    else if(x.o2==='v40'){ log('O₂ → 40% Venturi','li-bad'); toast('40% is still a lot for a COPD retainer — aim 88–92%, usually 24–28%.','warn'); }
+    else { log('O₂ → '+O2LABEL[x.o2],'li-good'); toast('Controlled oxygen, targeting 88–92%. Right instinct for a possible retainer — the gas will confirm it.','good'); }
+    renderTabs(); renderPalette(); renderMonitor(); checkOutcome(); return;
+  }
+  if(id==='o2_off'){ P.o2='none'; P.harm++; P.harmList.push('removed oxygen'); P.done.add(id); log('Oxygen removed','li-bad');
+    toast('Never take oxygen off a hypoxic patient — she was 84% before the mask. <b>Titrate</b> it down to 88–92%, don’t remove it.','bad'); renderPalette(); renderMonitor(); checkOutcome(); return; }
+
+  if(P.done.has(id) && x.k!=='ix' && x.k!=='ax') return;
+
+  // ----- harmful -----
+  if(x.k==='harm'){
+    P.harm++; P.harmList.push(x.t); P.done.add(id);
+    const bumps={neb_o2:6, furose:10, gtn:10, fluid_aggr:6, amino:9, adren:8, naloxone:4, sedate:18, needle:12, drain:9};
+    P.sev=clamp(P.sev+(bumps[id]||5),0,100);
+    const msgs={
+      neb_o2:'An O₂-driven neb delivers a high FiO₂ for 6–10 min — drive nebs on <b>air</b> in hypercapnia.',
+      furose:'She isn’t in pulmonary oedema (dry lungs, A-lines) — the ankles/BNP are a cardiac decoy. Diuresing her harms.',
+      gtn:'GTN treats acute cardiogenic pulmonary oedema — not this. You’ll drop her pressure for nothing.',
+      fluid_aggr:'She’s not shocked or hypovolaemic — 2 L stat risks tipping a strained right heart. Be judicious.',
+      amino:'Aminophylline is a narrow-therapeutic, senior-led last resort — arrhythmia and toxicity risk. Not a first move.',
+      adren:'No urticaria, no angio-oedema, no exposure — this isn’t anaphylaxis. IM adrenaline is the wrong tree.',
+      naloxone:'She had no opioids — her drowsiness is CO₂ narcosis, not an overdose. Naloxone does nothing here.',
+      sedate:'<b>Dangerous.</b> Sedation depresses respiration and deepens type-2 failure and narcosis.',
+      needle:'There is no tension pneumothorax — you’ve just made an iatrogenic one.',
+      drain:'No pneumothorax and no effusion to drain — an invasive misstep.'
+    };
+    log('Harmful: '+x.t,'li-bad'); toast(msgs[id]||'That harms her.','bad');
+    renderTabs(); renderPalette(); renderMonitor(); checkOutcome(); return;
+  }
+
+  // ----- investigations -----
+  if(x.k==='ix'){
+    if(!P.done.has(id)){ P.done.add(id); P.ix.add(id); }
+    const r=ixResult(id); if(r){ log('Ix: '+x.t); toast(r.m, r.tone); }
+    pushResults(resFor(id));
+    renderTabs(); renderPalette(); renderMonitor(); checkOutcome(); return;
+  }
+  // ----- assess -----
+  if(x.k==='ax'){
+    if(!P.done.has(id)){ P.done.add(id); P.ax.add(id); }
+    log('Assess: '+x.t); toast(axResult(id),'warn');
+    pushResults(resFor(id));
+    if(id==='hxher') saysFor('Chest infection… three days… I’ve got the smoker’s lung…',6000);
+    renderTabs(); renderPalette(); return;
+  }
+  if(x.k==='neutral'){ P.done.add(id); log(x.t); toast('Magnesium is an <b>asthma</b> adjunct — reasonable if you thought asthma, but not what turns this around. No harm, no real gain.','warn'); renderTabs(); renderPalette(); return; }
+
+  // ----- beneficial steps -----
+  P.done.add(id); P.order.push(id);
+  if(id==='neb_salb'){ P.nebSalb=true; if(P._forceCont){ P.nebCont=true; P.done.add('neb_cont'); P._forceCont=false; toast('Salbutamol running back-to-back, air-driven.','good'); log('Back-to-back salbutamol','li-good'); } else { toast('Salbutamol neb up. Pair it with ipratropium and drive on air.','good'); log('Salbutamol neb','li-good'); } }
+  else if(id==='neb_ipra'){ P.nebIpra=true; toast('Ipratropium added.','good'); log('Ipratropium neb','li-good'); }
+  else if(id==='neb_cont'){ P.nebCont=true; P.nebSalb=true; toast('Back-to-back nebs running.','good'); log('Back-to-back nebs','li-good'); }
+  else if(id==='airpos'){ toast('Sat up, secretions cleared.','good'); log('Positioning / suction','li-good'); }
+  else if(id==='access'){ P.access=true; toast('IV access, bloods away.','good'); log('IV access + bloods','li-good'); }
+  else if(id==='fluid_caut'){ toast('Careful fluids — she’s a little dry from the work of breathing, but you avoid overload.','good'); log('Cautious IV fluids','li-good'); }
+  else if(id==='steroid'){ P.steroid=true; toast('Corticosteroid given (pred 30 mg / IV hydrocortisone if drowsy).','good'); log('Corticosteroid','li-good'); }
+  else if(id==='abx'){ P.abx=true; toast('Antibiotics — for the infection (purulent sputum, fever, CRP up).','good'); log('Antibiotics','li-good'); }
+  else if(id==='niv'){ return startNiv(); }
+  else if(id==='intubate'){ return doIntubate(); }
+  else if(id==='senior'){ toast('Med reg coming down.','good'); log('Senior called','li-good'); }
+  else if(id==='icu'){ toast('Critical care outreach reviewing — bed if NIV fails.','good'); log('ICU / outreach','li-good'); }
+  else if(id==='ceiling'){ P.ceiling=true; toast('Ceiling discussed: independent, reasonable ICU candidate if NIV fails. ReSPECT documented.','good'); log('Ceiling of care agreed','li-good'); }
+  renderTabs(); renderPalette(); renderMonitor(); checkOutcome();
+}
+
+function startNiv(){
+  if(!bundleCore()){ P.seqErr++; toast('NIV is for acidosis that <b>persists after optimal medical therapy</b> — get controlled O₂, nebs and steroids in first, and check the gas. Starting anyway.','warn'); log('NIV before optimising','li-bad'); }
+  else if(!P.ix.has('abg')){ toast('Ideally confirm the acidosis on a gas first — but she’s clearly failing. NIV on.','warn'); }
+  else { toast('NIV (BiPAP): IPAP clears CO₂, EPAP splints airways. Start ~15/5, titrate up, recheck gas at 1 h.','good'); }
+  P.niv=true; P.done.add('niv'); P.order.push('niv'); log('NIV started','li-good');
+  renderTabs(); renderPalette(); renderMonitor(); checkOutcome();
+}
+function doIntubate(){
+  const v=vitals();
+  P.done.add('intubate'); P.order.push('intubate');
+  if(v.pH>=7.28 && !P.niv){ P.seqErr++; P.harm++; P.harmList.push('intubated before trying NIV'); log('Intubated prematurely','li-bad');
+    toast('Straight to a tube skips a step: <b>NIV is first-line</b> in acidotic hypercapnic COPD and avoids intubation in most. Reserve RSI for NIV failure / pH <7.25 / can’t protect airway.','warn'); }
+  else { P.intubated=true; toast('Anaesthetics intubate her — appropriate if she’s failing NIV or peri-arrest.','good'); log('Intubated & ventilated','li-good'); }
+  renderTabs(); renderPalette(); renderMonitor(); checkOutcome();
+}
+
+/* ===== diagnosis ===== */
+const DX_OK=["infective exacerbation of copd","acute exacerbation of copd","exacerbation of copd","copd exacerbation","aecopd","infective exacerbation of chronic obstructive pulmonary disease","exacerbation of chronic obstructive pulmonary disease","copd with pneumonia","copd and pneumonia","infective copd exacerbation","type 2 respiratory failure copd","copd type 2 respiratory failure","pneumonia and copd","community acquired pneumonia with copd"];
+const DX_PARTIAL=["community acquired pneumonia","pneumonia","chest infection","lower respiratory tract infection","type 2 respiratory failure"];
+const norm=s=>(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+function commitDx(){
+  const v=$('#dxIn').value.trim(); if(!v){ toast('Name a diagnosis.','warn'); return; }
+  P.dx=v; P.dxCommitted=true;
+  const n=norm(v);
+  P.dxCorrect=DX_OK.includes(n);
+  const partial=!P.dxCorrect && DX_PARTIAL.includes(n);
+  if(P.dxCorrect){ toast('Committed. That’s the diagnosis — infective exacerbation of COPD in type-2 respiratory failure.','good'); log('Diagnosis: '+v,'li-good'); }
+  else if(partial){ P.dxPartial=true; toast('Close — she does have pneumonia, but the driver is her <b>COPD in type-2 failure</b>. That changes the oxygen and NIV plan.','warn'); log('Diagnosis: '+v,''); }
+  else { toast('Committed — but that doesn’t fit the gas, the film and the history. Re-read them.','bad'); log('Diagnosis: '+v,'li-bad'); }
+  renderTabs(); renderPalette();
+}
+
+/* ===== definitive decisions (workup phase) ===== */
+function defAdmit(){
+  P.admit=P.intubated?'ICU':(P.niv?'HDU/ICU (NIV)':'HDU');
+  toast('Admitting to <b>'+P.admit+'</b> with an agreed ceiling. Repeat gas + senior review booked.','good'); log('Admit: '+P.admit,'li-good');
+  renderPalette();
+}
+
+/* ===== live tick ===== */
+function step(){
+  if(P.ended||P.phase!=='resus') return;
+  P.ticks++; P.simMin+=2;
+  let d=3.1 + (O2FX[P.o2]||0);
+  if(P.nebCont) d-=3.4; else if(P.nebSalb) d-=1.4;
+  if(P.nebIpra) d-=0.9;
+  if(P.steroid) d-=0.4;
+  if(P.abx) d-=0.2;
+  if(P.niv) d-=7.5;
+  if(P.intubated) d-=24;
+  P.sev+=d;
+  if(!P.niv && !P.intubated) P.sev=Math.max(P.sev,40); // medical therapy plateaus ACIDOTIC (pH ~7.32) — she needs NIV
+  P.sev=clamp(P.sev,0,100);
+  $('#clock').textContent=fmtClock(P.simMin);
+  // plateaued on medical therapy but still acidotic → signpost the escalation (not the click)
+  if(!P.plateauNudged && !P.niv && !P.intubated && controlledO2() && nebsGiven() && P.sev<=44 && P.ticks>6){
+    P.plateauNudged=true;
+    toast('The gas is <b>still acidotic despite full medical therapy</b> — this is the moment she needs escalation. Don’t just watch her plateau.','warn');
+    if($('#narr')){ $('#narr').textContent='She’s stopped getting worse — but she’s still acidotic and exhausted. Medical therapy has done its bit.'; $('#narr').dataset.tone='bad'; }
+  }
+  renderMonitor(); narrate(d); nurseChatter(); checkOutcome();
+}
+const NURSE=[
+  'Her sats are 99% on the mask — happy with that, doctor?',
+  'Do you want me to draw anything up?',
+  'Shall I bleep the medical registrar?',
+  'Her husband’s outside — what shall I tell him?',
+  'BP’s cycling — back in a sec.',
+  'Line’s in, bloods off to the lab.',
+  'She keeps trying to pull the mask off.',
+  'Do you want obs more often?'
+];
+function nurseChatter(){
+  if(P.ticks>0 && P.ticks%4===0 && P.nurseIdx<NURSE.length){
+    toast('<b>Nurse —</b> ‘'+NURSE[P.nurseIdx]+'’','warn'); P.nurseIdx++;
+  }
+}
+function narrate(d){
+  const n=$('#narr'); let t='',tone='';
+  const hi=(P.o2==='nrb'||P.o2==='v60'||P.o2==='v40');
+  if(P.sev>=92){ t='She’s barely breathing — exhausted, on the edge of arrest.'; tone='bad'; }
+  else if(hi && P.sev>62){ t='Sats look fine but she’s more and more drowsy — something isn’t adding up.'; tone='bad'; }
+  else if(P.niv){ t='Easier on NIV — the tiring is settling.'; tone='good'; }
+  else if(d>0.5){ t='Still going the wrong way. What are you missing?'; tone=P.sev>70?'bad':''; }
+  else if(d<-0.5){ t='A little brighter — less accessory-muscle use.'; tone='good'; }
+  else { t='Holding, but not fixed. She needs more.'; tone=''; }
+  n.textContent=t; n.dataset.tone=tone;
+}
+
+/* ===== outcomes ===== */
+function checkOutcome(){
+  if(P.ended) return;
+  if(P.sev>=100){ return arrest(); }
+  if(P.phase==='resus'){
+    // she only truly stabilises once the acidosis is broken — NIV (or intubation)
+    const nivStable = (P.niv||P.intubated) && P.sev<=26;
+    if(nivStable){ return toWorkup(); }
+    if(P.ticks>=MAX_TICKS){ // clock's up
+      if((P.niv||P.intubated) && P.sev<=40){ return toWorkup(); }
+      return arrest(); // controlled O₂ and drugs alone won't fix a persistent acidosis — she tires and arrests
+    }
+  }
+}
+function endLoop(){ if(P.timer){clearInterval(P.timer);P.timer=null;} }
+
+function toWorkup(){
+  if(P.phase!=='resus') return;
+  endLoop(); P.phase='workup'; P.stabilisedArrested=false;
+  $('#tag').textContent='STABILISED · WORK-UP';
+  $('#phasebar').classList.add('stable');
+  $('#phaseTxt').textContent='Phase 2 — stabilised · history, diagnosis & the definitive plan';
+  $('#narr').textContent='She’s holding — not fixed, but out of the immediate crash. Now work her up and run the definitive COPD management, then hand her over.'; $('#narr').dataset.tone='good';
+  $('#finishRow').style.display='none';
+  curTab='mx';
+  log('Stabilised enough to work up','li-good');
+  toast('<b>She’s stabilised.</b> The clock eases. Now do the <b>COPD management</b> (new tab), take a history, set the diagnosis, ceiling and admission — the <b>plan bar</b> up top tracks it to the end.','good');
+  renderTabs(); renderPalette(); renderMonitor(); window.scrollTo({top:0});
+}
+function updateFinishGate(){
+  const b=$('#finishBtn'); if(!b) return;
+  const ready=P.dxCommitted && P.ceiling && P.admit;
+  b.disabled=!ready;
+  b.textContent = ready?'Conclude — admit & hand over' : 'To conclude: commit a diagnosis, set a ceiling & admit';
+}
+$('#finishBtn').onclick=()=>{ if($('#finishBtn').disabled) return; P.outcome=nivAppropriate()?'live':'suboptimal'; finish(); };
+
+function nivAppropriate(){
+  // good definitive respiratory management: NIV/intubation for the persistent
+  // acidosis, or a gas that corrected on medical therapy alone (the ~1 in 5)
+  if(P.intubated||P.niv) return true;
+  return P.sev<=33;
+}
+
+/* ===== arrest ===== */
+function arrest(){
+  if(P.ended) return;
+  endLoop(); P.ended=true; P.outcome='arrest'; P.sev=100; renderMonitor();
+  $('#tag').textContent='RESP ARREST';
+  $('#news').innerHTML='RESP ARREST'; $('#news').dataset.tone='bad';
+  $('#narr').textContent='She’s stopped breathing — respiratory arrest. She tired out.'; $('#narr').dataset.tone='bad';
+  $('#tabs').style.display='none'; $('#finishRow').style.display='none';
+  log('RESPIRATORY ARREST','li-bad');
+  const R=[{id:'call',t:'Put out a 2222 / peri-arrest call',d:'team + anaesthetist'},{id:'bvm',t:'Bag-valve-mask — ventilate',d:'take over breathing'},{id:'tube',t:'Emergency intubation → ICU',d:'invasive ventilation'}];
+  const rc=new Set();
+  const draw=()=>{ $('#palette').innerHTML=`<div class="subh" style="color:var(--danger)">Respiratory arrest — rescue</div><div class="acts">`+
+    R.map(r=>`<button class="act" data-r="${r.id}" ${rc.has(r.id)?'data-done=1 disabled':''}><span class="mk">${rc.has(r.id)?'✓':'+'}</span><span class="atx"><span class="at">${r.t}</span><span class="ad">${r.d}</span></span></button>`).join('')
+    +`</div><div class="btnrow"><button class="btn" id="rEnd">See what happened</button></div>`;
+    $$('#palette .act').forEach(b=>b.onclick=()=>{ rc.add(b.dataset.r); log('Rescue: '+R.find(x=>x.id===b.dataset.r).t,'li-good'); draw(); });
+    $('#rEnd').onclick=()=>{ P.rescued=rc.has('bvm')&&rc.has('tube'); if(P.rescued)P.outcome='arrest-survived'; finish(); };
+  };
+  draw(); window.scrollTo({top:0});
+}
+
+/* ===== debrief ===== */
+function svg(kind){ return kind==='ok'?'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l4 4L19 7"/></svg>':kind==='hurt'?'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.3v.4"/></svg>':'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18"/></svg>'; }
+function finish(){
+  endLoop(); P.ended=true;
+  const dead=P.outcome==='arrest';
+  const r=P.outcome==='arrest-survived'?'hurt':dead?'dead':'live';
+  const T={live:'Stabilised & sorted',suboptimal:'Alive — but scrappy','arrest-survived':'Arrested — then rescued',arrest:'Respiratory arrest — lost'};
+  const Sb={
+    live:'You cut through the noise, protected her from the oxygen trap, delivered the bundle and escalated correctly — without ever letting her crash.',
+    suboptimal:'She survived, but with wrong turns — she needed tighter oxygen, the bundle, and the right escalation decision.',
+    'arrest-survived':'She tired into a respiratory arrest and was intubated to ICU. Survivable — but this was preventable with earlier controlled oxygen and escalation.',
+    arrest:'Over-oxygenated and under-treated for too long, she tired into a respiratory arrest that wasn’t rescued in time.'
+  };
+  $('#bigout').dataset.r=r;
+  $('#bigout').innerHTML=`<div class="ic">${svg(r==='live'?'ok':r==='hurt'?'hurt':'dead')}</div><div class="ttl">${T[P.outcome]}</div><div class="sub">${Sb[P.outcome]}</div>`;
+
+  let s=0; const add=n=>s+=n;
+  if(controlledO2()) add(14); else if(P.o2==='v40') add(4);
+  if(!P.harmList.some(h=>/high-flow|removed oxygen/.test(h))) add(6);
+  if(P.ix.has('abg')) add(10);
+  if(P.ix.has('cxr')) add(4);
+  if(P.access) add(4);
+  if(nebsGiven()) add(8); if(P.nebCont) add(3);
+  if(P.steroid) add(7);
+  if(P.abx) add(7);
+  if(P.niv||P.intubated) add(12);
+  if(P.dxCorrect) add(14); else if(P.dxPartial) add(6);
+  if(P.ceiling) add(6);
+  if(P.ax.has('hxpm')||P.ax.has('hxher')) add(4);
+  const mgOk=MGMT.filter(q=>P.mg[q.id]===true).length;
+  add(mgOk*3);
+  add(-9*P.harm);
+  add(-2*P.doseErr);
+  if(P.outcome==='live') add(12); if(P.outcome==='suboptimal') add(5);
+  const MAX=180, shown=Math.max(0,Math.min(s,MAX));
+  $('#scoreLine').textContent=dead?'Run it again — she was saveable.':P.outcome==='arrest-survived'?'A near miss. Tighten the first five minutes.':shown>=146?'Flawless. Consultant calm.':shown>=104?'Safe — but she made you work.':'She made it — just.';
+
+  const los=[
+    controlledO2()?{v:'hit',t:'Recognise the retainer — controlled oxygen',s:'You didn’t trust the 99% — you titrated to 88–92% and confirmed retention on the gas.'}:(P.o2==='v40'?{v:'part',t:'Recognise the retainer — controlled oxygen',s:'40% is still too rich — target 88–92% (usually 24–28%) once you suspect a retainer.'}:{v:'miss',t:'Recognise the retainer — controlled oxygen',s:'She was left over-oxygenated — sats 99% while CO₂ and drowsiness climbed. That’s the whole trap.'}),
+    P.ix.has('abg')?{v:'hit',t:'Get the gas — diagnose T2RF',s:'You took an ABG: type-2 failure with a raised bicarbonate = acute-on-chronic retention. That reframes everything.'}:{v:'miss',t:'Get the gas — diagnose T2RF',s:'You never got an arterial gas — the one test that reveals the CO₂ and the chronic retention driving this.'},
+    P.dxCorrect?{v:'hit',t:'Cut through the decoys to the diagnosis',s:'Infective exacerbation of COPD in T2RF — past the LVF, PE, asthma and anaphylaxis red herrings.'}:(P.dxPartial?{v:'part',t:'Cut through the decoys to the diagnosis',s:'Pneumonia is part of it, but the COPD/T2RF is what dictates oxygen and NIV.'}:{v:'miss',t:'Cut through the decoys to the diagnosis',s:'The diagnosis didn’t fit the gas, film and history — anchoring on a decoy leads to the wrong treatment.'}),
+    (nebsGiven()&&P.steroid&&P.abx)?{v:'hit',t:'Deliver the bundle',s:'Air-driven nebs, steroids and antibiotics for the infection — the core of it.'}:{v:'part',t:'Deliver the bundle',s:'Incomplete: nebs (air-driven, back-to-back if needed) + steroids + antibiotics.'},
+    (P.niv||P.intubated||P.sev<=30)?{v:'hit',t:'Escalate correctly + set the ceiling',s:'You matched the support to the acidosis and agreed the ceiling (ICU if NIV fails, ReSPECT).'}:{v:'part',t:'Escalate correctly + set the ceiling',s:'Persistent acidosis needs NIV, with a ceiling agreed before you start it.'},
+    (mgOk>=8)?{v:'hit',t:'Definitive COPD management',s:`${mgOk}/${MGMT.length} of the management drill correct — controlled O₂, the bundle, the gas, NIV indication and settings, and the ceiling.`}:(mgOk>=4?{v:'part',t:'Definitive COPD management',s:`${mgOk}/${MGMT.length} correct — revisit the oxygen target, steroid dose, the repeat-gas→NIV rule and the escalation ceiling.`}:{v:'miss',t:'Definitive COPD management',s:'Work through the COPD Mx drill — the exacerbation bundle, the gas, and when NIV is indicated are the high-yield points.'}),
+    P.harm===0?{v:'hit',t:'Avoid the harms',s:'No high-flow narcosis, no furosemide/GTN for a phantom heart failure, no adrenaline, no sedation, no needle in a normal chest.'}:{v:'miss',t:'Avoid the harms',s:`${P.harm} harmful action${P.harm>1?'s':''}: ${P.harmList.slice(0,4).join('; ')}${P.harmList.length>4?'…':''}.`}
+  ];
+  $('#loList').innerHTML=los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join('');
+
+  $('#narrOut').innerHTML=`An <b>infective exacerbation of COPD in type-2 respiratory failure</b> — acute-on-chronic (bicarbonate already 33). The 99% on the paramedic mask was the trap: a retainer being over-oxygenated toward CO₂ narcosis. The mildly raised BNP and puffy ankles were a cardiac decoy; the wheeze wasn’t asthma; the breathlessness wasn’t a PE. ${dead?'She tired into a respiratory arrest.':P.outcome==='arrest-survived'?'She arrested and was intubated to ICU.':'You stabilised her without an arrest.'}`;
+
+  $('#pearls').innerHTML=[
+    '<b>Don’t trust a reassuring saturation.</b> In a possible COPD retainer, a high SpO₂ on high-flow oxygen can hide a rising CO₂ and falling pH. Target <b>88–92%</b> with a Venturi and <b>get an ABG</b> — a raised bicarbonate tells you the retention is chronic (acute-on-chronic).',
+    '<b>The look-alikes:</b> acute LVF (but lungs are dry — no B-lines, no oedema on film), PE (low yield here — a CTPA costs minutes she hasn’t got), asthma (wrong age/history), anaphylaxis (no trigger, no urticaria). Furosemide, GTN, adrenaline, naloxone and a needle in a normal chest are all traps.',
+    '<b>The bundle:</b> controlled O₂, nebulised salbutamol + ipratropium <b>driven by air</b> (back-to-back if needed), a corticosteroid, and antibiotics for the infection (purulent sputum, fever, raised CRP). Roughly 1 in 5 turn the corner on this alone.',
+    '<b>NIV (BiPAP)</b> for a persistent respiratory acidosis (pH <7.35, pCO₂ >6.5) after optimal therapy — first-line over intubation in acidotic hypercapnic COPD. IPAP clears CO₂, EPAP splints airways; start ~15/5. Never without an <b>escalation ceiling</b>: NIV as the ceiling, or ICU/intubation if it fails (pH <7.25). Document ReSPECT.',
+    '<b>Sequence, but not on rails:</b> oxygen and nebs buy time while you get the gas and film, then steroids/antibiotics and escalation — you choose the order, and wrong turns cost her.'
+  ].map(p=>`<li>${p}</li>`).join('');
+
+  mpReturnBtn(shown,MAX);
+  $$('.screen').forEach(x=>x.classList.remove('on'));
+  $('#s-out').classList.add('on'); window.scrollTo({top:0});
+}
+
+/* ===== init ===== */
+$('#startBtn').onclick=()=>{
+  $$('.screen').forEach(x=>x.classList.remove('on'));
+  $('#s-resus').classList.add('on');
+  setTrace(false);
+  renderTabs(); renderPalette(); renderMonitor();
+  $('#clock').textContent=fmtClock(P.simMin);
+  log('In resus — she’s on 15 L, drowsy, no history','li-bad');
+  P.timer=setInterval(step,TICK_MS);
+  window.scrollTo({top:0});
+};
+$('#replay').onclick=()=>location.reload();
+const MPQ=new URLSearchParams(location.search);
+function mpReturnBtn(score,max){
+  if(!MPQ.get('return')) return;
+  const rb=$('#replay'), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','copd-exacerbation'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
+</script>
+<datalist id="dxlist">
+<option value="Infective exacerbation of COPD"></option><option value="Acute exacerbation of COPD"></option><option value="Community-acquired pneumonia"></option><option value="Acute pulmonary oedema"></option><option value="Acute left ventricular failure"></option><option value="Pulmonary embolism"></option><option value="Pneumothorax"></option><option value="Tension pneumothorax"></option><option value="Acute asthma"></option><option value="Anaphylaxis"></option><option value="Type 2 respiratory failure"></option><option value="Cor pulmonale"></option><option value="Sepsis"></option><option value="Metabolic acidosis"></option><option value="Opioid toxicity"></option>
+</datalist>
+</body>
+</html>
