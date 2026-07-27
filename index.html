@@ -162,6 +162,8 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
 .tab { flex: 1; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 500; white-space: nowrap; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .25rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
 .tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
+.tab[data-locked="1"] { opacity: .35; pointer-events: none; }
+.tab[data-locked="1"]::after { content: "🔒"; font-size: .58rem; margin-left: .1rem; }
 .tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
 .tab .dot.show { display: inline-flex; }
 .panel { display: none; }
@@ -389,9 +391,9 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="card card--plain" style="border:1px solid var(--rule);">
         <div class="card__label">How this case works</div>
         <ul class="points">
-          <li><span class="n">1</span><span>History, examination and investigations live in one workspace — loop between them freely.</span></li>
+          <li><span class="n">1</span><span>Work him up in stages — history, then examination, then investigations. You can step back to any completed stage to reassess him; the case counts how often you do.</span></li>
           <li><span class="n">2</span><span>Order investigations in rounds — the clock jumps by the slowest test. Re-examine when results change the picture.</span></li>
-          <li><span class="n">3</span><span>Commit a diagnosis, then prove you can <em>manage</em> it. Targeted thinking scores; the scattergun costs time.</span></li>
+          <li><span class="n">3</span><span>Commit a diagnosis once the results justify it — only then does treatment open. Then prove you can <em>manage</em> it.</span></li>
         </ul>
       </div>
 
@@ -444,7 +446,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="panel" id="p-rx">
-        <p class="panel__hint">Two jobs: resuscitate him now, then package him up — referral, bed, scope. Reassess after anything you give.</p>
+        <p class="panel__hint">You've called it. Now treat him: resuscitate first — the onward plan unlocks when the resus is right. Reassess after anything you give.</p>
         <div id="rxRows"></div>
         <div id="rxReassessWrap" style="margin-top:var(--s4); display:none;">
           <button class="btn btn--ghost" id="rxReassessBtn">Reassess the patient</button>
@@ -713,7 +715,8 @@ const S = {
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0, fbcBackAt: null,
   dx: "", dxCorrect: false,
-  mg: {}, mgIdx: 0, furtherUnlocked: false
+  mg: {}, mgIdx: 0, furtherUnlocked: false,
+  stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false
 };
 
 const $ = s => document.querySelector(s);
@@ -751,7 +754,7 @@ function go(id){
   $$(".screen").forEach(s=>s.classList.remove("on"));
   $("#s-"+id).classList.add("on");
   const map = { brief:"brief", work:"work", commit:"commit", manage:"manage", out:"manage" };
-  const stage = map[id] || "brief";
+  const stage = (S.dxCommitted && id==="work") ? "manage" : (map[id] || "brief");
   const order = ["brief","work","commit","manage"];
   $$("#actbar .actpill").forEach(p=>{
     const i = order.indexOf(p.dataset.stage), c = order.indexOf(stage);
@@ -761,12 +764,35 @@ function go(id){
 }
 $$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 
-function tab(name){
+/* ---------- staged navigation ---------- */
+const STAGES = ["hx","ex","ix","rx"];
+function tabLocked(name){
+  const i = STAGES.indexOf(name);
+  if (i < 0) return false;
+  return name==="rx" ? !S.dxCommitted : i > S.stageMax;
+}
+function renderTabs(){
+  $$(".tab").forEach(t=>{
+    const n = t.dataset.tab;
+    if (n === "rx") { t.style.display = S.dxCommitted ? "" : "none"; t.dataset.locked = "0"; }
+    else t.dataset.locked = tabLocked(n) ? "1" : "0";
+  });
+}
+function updateBar(){
+  const b = $("#toCommit");
+  if (S.dxCommitted) { b.textContent = "Finish treatment → management drill"; return; }
+  b.textContent = ["Move on → examine him", "Move on → investigate", "Commit a diagnosis"][Math.min(S.stageMax,2)];
+}
+function tab(name, userClick){
+  if (tabLocked(name)) return;
+  const cur = [...$$(".tab")].find(t=>t.getAttribute("aria-selected")==="true");
+  if (userClick && cur && cur.dataset.tab !== name &&
+      STAGES.indexOf(name) < STAGES.indexOf(cur.dataset.tab)) S.revisits++;
   $$(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
   $$(".panel").forEach(p=>p.classList.remove("on"));
   $("#p-"+name).classList.add("on");
 }
-$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab)));
+$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
 
 /* ---------- datalist (shuffled — no positional hints) ---------- */
 $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
@@ -980,21 +1006,28 @@ function assessmentChecklist(){
   return [
     { label:"Took a history", done:S.asked.size>0 },
     { label:"Examined the patient", done:(S.examCore.size+S.examMore.size)>0 },
-    { label:"Ordered investigations", done:S.ordered.size>0 },
-    { label:"Started immediate treatment", done:S.rx.size>0 },
-    { label:"Referred on — gastro, bed, OGD", done:S.rx.has("refer") }
+    { label:"Investigation results back", done:S.round>0 }
   ];
 }
 $("#toCommit").onclick = ()=>{
+  // post-diagnosis: this button leads out of treatment into the drill
+  if(S.dxCommitted){
+    go("manage");
+    if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+    return;
+  }
+  // pre-diagnosis: advance the stage frontier, then the commit flow
+  if(S.stageMax===0){ S.stageMax=1; renderTabs(); tab("ex"); updateBar(); return; }
+  if(S.stageMax===1){ S.stageMax=2; renderTabs(); tab("ix"); updateBar(); return; }
   const list=assessmentChecklist();
-  // hard requirement: results back + treatment started before a diagnosis can be committed
-  const ready = S.round>0 && S.rx.size>0;
+  // hard requirement: results back before a diagnosis can be committed
+  const ready = S.round>0;
   if(ready && list.every(x=>x.done)){ go("commit"); return; }
   $("#gateList").innerHTML=list.map(x=>`<li data-done="${x.done?1:0}"><span class="mk">${x.done?'✓':'!'}</span>${x.label}</li>`).join("");
   $("#gateTitle").textContent = ready ? "Before you commit" : "Too early to call it";
   $("#gateSub").textContent = ready
     ? "Safe practice is to complete your assessment first. Here's where you've got to:"
-    : "No consultant would accept a diagnosis yet — get some results back and start treating him, then call it.";
+    : "No consultant would accept a diagnosis yet — get some results back first, then call it.";
   $("#gateGo").style.display = ready ? "" : "none";
   $("#commitGate").hidden=false;
 };
@@ -1005,7 +1038,9 @@ $("#commitBtn").onclick = ()=>{
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
-  go("manage"); startMgmt();
+  S.dxCommitted = true; S.stageMax = 3;
+  renderTabs(); updateBar();
+  go("work"); tab("rx");
 };
 
 /* ---------- management drill: one question at a time, 30 s each ---------- */
@@ -1143,8 +1178,8 @@ function scoreAndShow(){
   // journey
   $("#journey").innerHTML = `You did the PR ${S.prDoneAt===null?"<b>not at all</b>":S.prBeforeFBC?"<b>at the bedside, before the bloods</b>":"<b>after the anaemia came back</b>"}, `+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
-    `${(S.rx.has('iv')||S.rx.has('blood'))?"resuscitated him":"did not resuscitate"}, and `+
-    `reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
+    `${(S.rx.has('iv')||S.rx.has('blood'))?"resuscitated him":"did not resuscitate"}, `+
+    `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
 
   mpReturnBtn(shown, MAX);
   go("out");
@@ -1168,7 +1203,7 @@ function mpReturnBtn(score, max){
 }
 
 /* ---------- init ---------- */
-renderObs(); renderHx(); renderExam(); renderIx(); renderRx();
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar();
 $("#clock").textContent = fmtClock(S.clock);
 </script>
 </body>
