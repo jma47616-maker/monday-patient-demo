@@ -374,7 +374,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <span class="badge">≈ 15 min</span>
       </div>
       <h1>The man who came back</h1>
-      <p class="lede">Sent home from this department two nights ago. Now he’s back — grey, drenched, and getting worse. Work him up before whatever this is declares itself.</p>
+      <p class="lede">Sent home from this department two nights ago. Now he’s back — febrile, drenched, and getting worse. Five weeks of feeling wrong, and nobody has yet joined it up.</p>
 
       <div class="patient">
         <div class="avatar">MW</div>
@@ -386,16 +386,16 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
       <div class="card">
         <div class="card__label">ED triage · 14:12 · majors</div>
-        <p class="serif-body" style="margin-bottom: var(--s4);">Walked in pale and sweating after nearly fainting at home this morning. Vomiting, loose stools, drenching night sweats. Seen here Saturday night with palpitations and discharged — “the tracing was fine”. His partner Sophie is at the bedside.</p>
+        <p class="serif-body" style="margin-bottom: var(--s4);">Walked in pale and sweating after nearly fainting at home this morning. Vomiting, loose stools, weeks of drenching night sweats, and a back that has been getting worse for a fortnight. Seen here Saturday night with palpitations and discharged — “the tracing was fine”. His partner Sophie is at the bedside.</p>
         <div class="obsgrid">
-          <div class="obs"><div class="k">HR</div><div class="v">108</div><div class="u">/min</div></div>
+          <div class="obs" data-flag="hi"><div class="k">HR</div><div class="v">112</div><div class="u">/min</div></div>
           <div class="obs" data-flag="lo"><div class="k">BP</div><div class="v">92/58</div><div class="u">mmHg</div></div>
           <div class="obs" data-flag="hi"><div class="k">RR</div><div class="v">22</div><div class="u">/min</div></div>
           <div class="obs"><div class="k">SpO₂</div><div class="v">96</div><div class="u">% air</div></div>
-          <div class="obs"><div class="k">Temp</div><div class="v">37.5</div><div class="u">°C</div></div>
+          <div class="obs" data-flag="hi"><div class="k">Temp</div><div class="v">38.4</div><div class="u">°C</div></div>
           <div class="obs"><div class="k">GCS</div><div class="v">15</div><div class="u">/15</div></div>
         </div>
-        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="bad" id="newsBrief">6</span></div>
+        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="bad" id="newsBrief">7</span></div>
       </div>
 
       <div class="card card--plain" style="border:1px solid var(--rule);">
@@ -489,7 +489,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
     <!-- ===================== MANAGE (ACT 2) ===================== -->
     <section class="screen" id="s-manage">
       <div class="kicker">Management</div>
-      <h2 id="manageHead">Now manage the infarct</h2>
+      <h2 id="manageHead">Now manage it</h2>
       <p class="lede" id="manageLede">You've made the diagnosis. This is what separates safe from dangerous — the decisions, with the evidence behind each.</p>
       <div id="mqList" style="margin-top:var(--s5);"></div>
       <div class="btnrow">
@@ -524,12 +524,14 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="card">
         <div class="card__label">Teaching pearls</div>
         <ul class="pearls">
-          <li>The most dangerous ECG is the one filed as normal. Biphasic or deeply inverted T-waves in V2–V3 in a pain-free patient with a quiet troponin are Wellens syndrome — a critical proximal LAD announcing itself. No treadmill test, ever — it can precipitate the infarct. Angiography.</li>
-          <li>Myocardial infarction does not owe you chest pain. He never reported any — sweating, vomiting and a sense of dread were the whole story. The "never-ill" middle-aged smoker is exactly who presents this way.</li>
-          <li>Troponin is a trend, not a number. 148 alone could be demand from any tachycardia; 148 → 892 with evolving anterior changes is a type 1 infarct (Fourth Universal Definition). And never let a raised CRP talk you out of a rising troponin.</li>
-          <li>A murmur you can hear, splinters in the nailbeds and a tender nodule on a finger pulp make a compelling endocarditis picture — and it earns three culture sets before any antibiotic (ESC 2023) and an echo. But a murmur is a finding, not a diagnosis: no vegetation, nothing growing, and a joiner's hands that take a battering every day. What none of it explains is Saturday's tracing, or a troponin going 148 → 892.</li>
-          <li>Every decoy explained part of the picture — the workshop bug the diarrhoea, the trade the splinters, the extraction the endocarditis story. Only the LAD explains Saturday's tracing, the troponin trend and the collapse together.</li>
-          <li>Cardiogenic hypotension is not an empty tank. The reflex fluid bolus floods a failing ventricle, and the reflex non-rebreathe harms too — in ACS, oxygen only below SpO₂ 90% (AVOID, DETO2X-AMI; ESC 2023).</li>
+          <li>When a previously well man collects events in organs that have nothing to do with each other — a coronary, a disc space, a retina, a spleen, a kidney — stop diagnosing organs. Something upstream is seeding them, and upstream of everything is the heart.</li>
+          <li>Fever plus a new regurgitant murmur is endocarditis until proven otherwise, and the proof is three sets of cultures from separate sites, 30–60 minutes apart, <em>before</em> antibiotics. A single premature dose can sterilise them and commit him to six weeks of empirical therapy with no organism and no sensitivities. Only genuine septic shock or neurological compromise overrides that.</li>
+          <li>The diagnosis is made in the peripheries. Osler nodes on the pulps, splinter haemorrhages in the nailbeds, Roth spots in the fundi, splenic and renal infarcts, microscopic haematuria — none needs a machine. In a febrile patient with a murmur, that examination is the investigation.</li>
+          <li>A normal transthoracic echo does not exclude endocarditis. TTE finds around 70% of native-valve vegetations and far fewer with poor windows; TOE exceeds 90% and is the only reliable way to see a root abscess. If the story is convincing, escalate the imaging rather than the reassurance.</li>
+          <li>Coronary embolism from a vegetation is a type 2 infarct (Fourth Universal Definition) — a real infarct, by a non-atherothrombotic mechanism. That label decides the treatment: you sterilise the valve, you do not reflexively stent.</li>
+          <li>Thrombolysis here is the worst thing on the trolley. Septic emboli seed mycotic aneurysms, and lysis turns them into catastrophic haemorrhage. Stenting infected material invites stent infection, so aspiration or balloon alone is preferred, and dual antiplatelets have no role without atherosclerotic disease.</li>
+          <li>New focal back pain with fever is a septic spine until MRI says otherwise — and plain films stay normal for the first two to four weeks, so a reassuring X-ray means nothing. Image the whole spine: seeding is often multi-level, and the question that decides tonight is whether anything is compressing the cord.</li>
+          <li>Spondylodiscitis and endocarditis travel together — vertebral osteomyelitis is found in roughly one in ten patients with endocarditis, and the traffic runs both ways. Find one, echo the other.</li>
           <li>Watch the QT you already own. Sertraline had his QTc at 476 ms before you prescribed anything — ondansetron on top invites torsades. Metoclopramide spares the QT.</li>
         </ul>
       </div>
@@ -537,8 +539,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="card lock">
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
         <div>
-          <div style="font-weight:600; font-size:.9rem;">Saturday debrief — locked</div>
-          <div style="font-size:.78rem; color:var(--faint);">Unlocks Saturday 17:00 · Wellens to the wire — the missed tracing, the decoy murmur, and the golden 120 minutes.</div>
+          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
+          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · One valve, five organs — Duke criteria, the septic infarct you must not thrombolyse, and when the surgeons take him.</div>
         </div>
       </div>
 
@@ -575,46 +577,57 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
 /* ============================================================
    CASE DATA — this object is the weekly authoring template.
-   Week 2: second attendance, evolving anterior MI behind an
-   endocarditis / PE confusion set.
+   Week 2: second attendance. Native-valve infective endocarditis
+   from a dental extraction, showering septic emboli — coronary
+   (the infarct), vertebral (spondylodiscitis), retinal, splenic,
+   renal. Every decoy is a true fragment of the one diagnosis.
    ============================================================ */
 const CASE = {
-  meta: { dxAccepted: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterior mi","evolving stemi","heart attack","type 1 myocardial infarction","anterior myocardial infarction","evolving myocardial infarction"],
-          dxName: "Acute coronary syndrome", startClock: 852 /* 14:12 in minutes */ },
+  meta: { dxAccepted: ["infective endocarditis","endocarditis","bacterial endocarditis","native valve endocarditis","subacute bacterial endocarditis","sbe","acute infective endocarditis","aortic valve endocarditis","infective endocarditis with septic emboli","septic emboli","septic embolism"],
+          // named only part of it — the MI, the spine or the sepsis, without the valve underneath
+          dxPartial: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterior mi","heart attack","coronary embolism","septic coronary embolism","spondylodiscitis","discitis","vertebral osteomyelitis","osteomyelitis","epidural abscess","sepsis","septic shock","bacteraemia","bacteremia","septicaemia"],
+          dxName: "Infective endocarditis", startClock: 852 /* 14:12 in minutes */ },
 
   history: [
     { id:"what",   q:"What happened?", dq:"Marcus, talk me through what happened this morning.", a:"“Walking to the bathroom and the world went grey — sweat just pouring off me, legs like water. Sophie caught me on the door frame.”" },
     { id:"saturday", q:"Saturday's attendance?", dq:"You were here on Saturday night — tell me exactly what happened then.", a:"“Heart went off like a drum — racing, face burning hot, couldn't catch my breath. An hour, maybe. They did a tracing, said it was fine, sent me home.”", key:true, tag:"cardiac" },
-    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — Saturday, or since?", a:"“No. No pain. Everyone keeps asking that. I just feel… wrong. Sick and sweaty and wrong.”", key:true },
-    { id:"sweats", q:"Night sweats?", dq:"Tell me about the sweating at night.", a:"“Three nights running I've soaked the sheets right through. Not warm — drenched.”", key:true },
+    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — Saturday, or since?", a:"“No. No pain. Everyone keeps asking me that. I just feel… wrong. Sick and sweaty and wrong.”", key:true },
+    { id:"fever",  q:"Fevers, shivering?", dq:"Have you had fevers — any episodes of proper shivering you can't stop?", a:"“Three, four weeks on and off. Twice I've had the shakes so bad the bed rattled. Sophie put another blanket on me and I still couldn't get warm.”", key:true, tag:"ie" },
+    { id:"sweats", q:"Night sweats?", dq:"Tell me about the sweating at night.", a:"“I'm wringing the sheets out. Not warm — wet through, night after night, for weeks.”", key:true, tag:"ie" },
+    { id:"back",   q:"The back pain?", dq:"Tell me about your back — I gather it's an old problem.", a:"“Had a dodgy back for years, but this is different. Last fortnight it's been low down and it doesn't stop. Wakes me at three in the morning. Can't find a position. Paracetamol does nothing.”", key:true, tag:"spine" },
+    { id:"weight", q:"Weight & appetite?", dq:"Has your weight or your appetite changed at all?", a:"“Belt's gone in two notches. Sophie says a stone, maybe more. Nothing tastes of anything.”", key:true, tag:"ie" },
     { id:"gut",    q:"Sickness & bowels?", dq:"And the sickness and the diarrhoea — what's that been like?", a:"“Loose since yesterday, and I've been sick twice this morning. Second time there were red streaks in it.”" },
-    { id:"bug",    q:"Anyone else unwell?", dq:"Sophie — has anyone around him been unwell?", a:"Sophie: “Two of the lads at his workshop had a stomach bug last week — I honestly thought it was that.”" },
+    { id:"bug",    q:"Anyone else unwell?", dq:"Sophie — has anyone around him been unwell?", a:"Sophie: “Two of the lads at his workshop had a stomach bug last week — I honestly thought that's all this was.”" },
     { id:"vision", q:"Vision changes?", dq:"Anything odd with your eyes or your vision lately?", a:"“Yesterday my left eye went dark for a minute — like a blind coming down. Came back on its own.”", key:true },
+    { id:"dental", q:"Recent procedures?", dq:"Any procedures recently — dental work, anything like that?", a:"“Had a back tooth out about five weeks ago. Bit of a job, it was. Healed up fine, I thought.”", key:true, tag:"ie" },
     { id:"asp",    q:"Taken anything?", dq:"Have you taken anything yourself before coming in?", a:"“Three aspirin this morning, before we came. Just in case. You hear things.”", key:true },
+    { id:"drugs",  q:"Drugs & allergies?", dq:"What do you take day to day — and any allergies?", a:"“Just the sertraline — two years now, for the black dog. Nothing else. And I'm allergic to penicillin — came out in a rash head to toe as a kid.”", key:true },
+    { id:"ivdu",   q:"Ever inject anything?", dq:"I ask everyone this — have you ever injected anything, prescribed or otherwise?", a:"“Never. Not once. Twenty a day and a few pints, that's my lot.”", tag:"ie" },
     { id:"fhx",    q:"Family history?", dq:"Any heart trouble in the family?", a:"“Dad died of a heart attack at fifty-four. His brother the same. It's why I don't do hospitals.”", tag:"cardiac" },
-    { id:"smoke",  q:"Smoker?", dq:"Do you smoke, Marcus?", a:"“Twenty a day since I was sixteen. I know. Don't.”", key:true },
-    { id:"drugs",  q:"Drugs & allergies?", dq:"What do you take day to day — and any allergies?", a:"“Just the sertraline — two years now, for the black dog. Nothing else. And I'm allergic to penicillin — rash all over as a kid.”", key:true },
-    { id:"dental", q:"Recent procedures?", dq:"Any procedures recently — dental work, anything like that?", a:"“Had a back tooth out a month or so ago. Healed fine, I thought.”", tag:"ie" },
-    { id:"work",   q:"Work & hands?", dq:"What's your line of work — any injuries to your hands?", a:"“I'm a joiner. Hands take a battering — splinters, nicks. There's one in my finger right now, as it happens.”" },
-    { id:"base",   q:"Normally fit?", dq:"Before Saturday, how fit were you day to day?", a:"“Never ill. Six days a week in the workshop. Haven't seen a GP in years.”" }
+    { id:"smoke",  q:"Smoker?", dq:"Do you smoke, Marcus?", a:"“Twenty a day since I was sixteen. I know. Don't.”" },
+    { id:"work",   q:"Work & hands?", dq:"What's your line of work — any injuries to your hands?", a:"“I'm a joiner. Hands take a battering — splinters, nicks, the lot. Wouldn't think twice about it.”" },
+    { id:"base",   q:"Normally fit?", dq:"Before all this started, how fit were you day to day?", a:"“Never ill. Six days a week in the workshop. Hadn't seen a GP in years.”" }
   ],
 
   examCore: [
-    { id:"gen",  name:"General inspection", f:"Pale, grey, clammy. Cool to the elbows. Capillary refill 3 s. He looks frightened.", dyn:true },
+    { id:"gen",  name:"General inspection", f:"Flushed and sweating, but cool to the elbows. Capillary refill 3 s. Thinner than his clothes expect. He looks frightened.", dyn:true },
     { id:"cvs",  name:"Cardiovascular", sub:"auscultate", f:"", audio:"murmur.mp4", audioOnly:true, key:true },
-    { id:"resp", name:"Respiratory", f:"Chest clear. RR 22, SpO₂ 96% on air. No pleural rub." },
-    { id:"abdo", name:"Abdomen", f:"Soft. Mild tenderness in the epigastrium, no guarding. Bowel sounds active." },
-    { id:"cns",  name:"Neurological", f:"GCS 15. No focal deficit. Visual fields full now — both eyes." }
+    { id:"resp", name:"Respiratory", sub:"auscultate", f:"", audio:"lungs.mp3", audioOnly:true, key:true },
+    { id:"abdo", name:"Abdomen", sub:"palpate", f:"", img:"abdo.svg", imgOnly:true, imgAlt:"Abdominal examination", key:true },
+    { id:"cns",  name:"Neurological", f:"GCS 15. No focal deficit. Visual fields full now — both eyes. Power 5/5 in all four limbs." }
   ],
   examMore: [
     { id:"finger", name:"Hands & fingertips", sub:"that red spot", f:"", img:"osler.jpg", fallback:"finger.svg", imgOnly:true, imgAlt:"Fingertip pulps", key:true },
     { id:"nails",  name:"Nailbeds", sub:"", f:"", img:"splinters.jpg", fallback:"splinters.svg", imgOnly:true, imgAlt:"Nailbeds", key:true },
-    { id:"carotid",name:"Carotid auscultation", sub:"the visual loss", f:"Soft bruit over the left carotid. No bruit on the right.", tone:"alert", key:true },
-    { id:"fundi", name:"Fundoscopy", sub:"", f:"No Roth spots. No retinal emboli visible now. Discs normal.", key:true },
-    { id:"temp",  name:"Temperature trend", sub:"", f:"37.5 °C now; 37.4 °C at triage. Low-grade and flat — no spikes, no rigors observed.", supp:true, dyn:true },
-    { id:"mouth", name:"Mouth & dentition", sub:"", f:"Healing extraction site, clean. No abscess, dentition otherwise good." },
+    { id:"spine",  name:"Palpate & percuss the spine", sub:"the back pain", f:"Focal, reproducible tenderness over the L4–L5 spinous processes — he flinches and grips the trolley. Paraspinal muscles in spasm. No step, no deformity.", tone:"alert", key:true, tag:"spine" },
+    { id:"legs",   name:"Lower-limb neurology & perineum", sub:"cord / cauda equina screen", f:"Power, tone and reflexes normal. Sensation intact including saddle. Anal tone normal. No retention — bladder scan 40 mL.", key:true, tag:"spine" },
+    { id:"temp",  name:"Temperature chart", sub:"", f:"38.4 °C now. The nursing chart from the last two hours shows 37.6, then 38.9 with a rigor, now 38.4 — swinging.", tone:"alert", key:true, dyn:true, tag:"ie" },
+    { id:"fundi", name:"Fundoscopy", sub:"", f:"Two small pale-centred retinal haemorrhages in the left fundus. Discs normal.", tone:"alert", key:true, tag:"ie" },
+    { id:"mouth", name:"Mouth & dentition", sub:"", f:"Healed extraction socket, no abscess — but poor dentition overall, with heavy calculus and two carious molars.", key:true, tag:"ie" },
+    { id:"bparms",name:"BP in both arms", sub:"the back pain", f:"Right 92/58, left 94/56. No radio-radial or radio-femoral delay. Pulses symmetrical.", key:true, tag:"dissection" },
     { id:"calf",  name:"Calf / DVT check", sub:"PE thinking", f:"Calves soft, non-tender, equal. No swelling.", tag:"pe" },
-    { id:"pulses",name:"Peripheral pulses", sub:"", f:"Present and symmetrical, low volume. No radio-radial delay." }
+    { id:"skin",  name:"Skin & pressure areas", sub:"", f:"No rash, no purpura, no track marks. A few old workshop scars on the forearms." },
+    { id:"joints",name:"Peripheral joints", sub:"", f:"No hot or swollen joints. No synovitis." }
   ],
 
   ix: {
@@ -626,34 +639,44 @@ const CASE = {
         text:"<div class=\"machine\">Sat 23:12 · 25 mm/s · 10 mm/mV · rate 96 · QT/QTc 388/452 ms · filed: “normal, no acute change”</div><img src=\"ecg-saturday.webp\" onerror=\"this.onerror=null;this.src='ecg-wellens.svg'\" alt=\"Saturday's 12-lead ECG, filed as normal\">" },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
         labs:[{n:"pH", v:"7.33", r:"7.35–7.45", flag:"lo"},{n:"Lactate", v:"3.1", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Hb", v:"149", r:"130–170", u:"g/L"}] },
-      { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable. No blood, no protein." }
+      { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"key", text:"Blood +++ · protein + · nitrites negative · leucocytes negative. Microscopy: 40 red cells, no organisms, occasional red-cell cast." }
     ],
     bloods: [
-      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"Hb", v:"149", r:"130–170", u:"g/L"},{n:"WCC", v:"15.8", r:"4.0–11.0", u:"×10⁹/L", flag:"hi", base:"6.2 (Saturday)"},{n:"Neutrophils", v:"13.1", r:"2.0–7.5", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"385", r:"150–400", u:"×10⁹/L"}] },
+      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"Hb", v:"104", r:"130–170", u:"g/L", flag:"lo", base:"148 (5 weeks ago, pre-extraction)"},{n:"MCV", v:"87", r:"80–99", u:"fL"},{n:"WCC", v:"15.8", r:"4.0–11.0", u:"×10⁹/L", flag:"hi", base:"6.2 (Saturday)"},{n:"Neutrophils", v:"13.1", r:"2.0–7.5", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"385", r:"150–400", u:"×10⁹/L"}] },
       { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"supp",
         labs:[{n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"9.8", r:"2.5–7.8", u:"mmol/L", flag:"hi"},{n:"Creatinine", v:"128", r:"59–104", u:"µmol/L", flag:"hi", base:"84 (Saturday)"}] },
-      { id:"crp",  name:"CRP", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi", base:"2 (Saturday)"}] },
+      { id:"crp",  name:"CRP + ESR", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi", base:"2 (Saturday)"},{n:"ESR", v:"88", r:"<15", u:"mm/h", flag:"hi"}] },
       { id:"lft",  name:"Liver function", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"Bilirubin", v:"24", r:"<21", u:"µmol/L", flag:"hi"},{n:"ALT", v:"68", r:"<41", u:"U/L", flag:"hi"},{n:"ALP", v:"92", r:"30–130", u:"U/L"},{n:"Albumin", v:"36", r:"35–50", u:"g/L"}] },
+        labs:[{n:"Bilirubin", v:"24", r:"<21", u:"µmol/L", flag:"hi"},{n:"ALT", v:"68", r:"<41", u:"U/L", flag:"hi"},{n:"ALP", v:"92", r:"30–130", u:"U/L"},{n:"Albumin", v:"29", r:"35–50", u:"g/L", flag:"lo"}] },
       { id:"trop", name:"Troponin", cost:60, costL:"60 min", tag:"key",
         labs:[{n:"hs-cTnT", v:"148", r:"<14", u:"ng/L", flag:"hi", base:"8 (Saturday)"}] },
       { id:"retrop", name:"Repeat troponin at 3 h", cost:180, costL:"3 h", tag:"key", isTrend:true,
         labs:[{n:"hs-cTnT", v:"892", r:"<14", u:"ng/L", flag:"hi", base:"148 (3 h ago)"}] },
-      { id:"cult", name:"Blood cultures × 3 sets", cost:30, costL:"48 h", tag:"key", text:"Three sets from separate sites, 30 minutes apart, before any antibiotic. Preliminary at 12 h: no growth." },
+      { id:"cult", name:"Blood cultures × 3 sets", cost:300, costL:"5 h to flag", tag:"key", isCult:true,
+        text:"Three sets, separate venepunctures, 30 minutes apart — taken before any antibiotic.<br><br>Microbiology telephones at 5 hours: <b>all three sets flagging positive. Gram-positive cocci in chains.</b> Identification and sensitivities to follow; the consultant microbiologist wants to speak to the team." },
       { id:"ddim", name:"D-dimer", cost:60, costL:"60 min", tag:"trap",
-        labs:[{n:"D-dimer", v:"1.92", r:"<0.50", u:"µg/mL", flag:"hi"}] },
+        labs:[{n:"D-dimer", v:"2.14", r:"<0.50", u:"µg/mL", flag:"hi"}] },
+      { id:"imm",  name:"Vasculitis screen (ANCA, ANA, complement, RF)", cost:60, costL:"send-away", tag:"trap",
+        text:"Sample sent to the regional immunology laboratory. <b>Result not available for 5–7 days.</b> Rheumatoid factor (local assay) 42 IU/mL — weakly positive." },
       { id:"coag", name:"Coagulation", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"INR", v:"1.0", r:"0.9–1.2"},{n:"APTT", v:"28", r:"24–36", u:"s"}] }
+        labs:[{n:"INR", v:"1.2", r:"0.9–1.2"},{n:"APTT", v:"31", r:"24–36", u:"s"},{n:"Fibrinogen", v:"6.1", r:"1.5–4.0", u:"g/L", flag:"hi"}] }
     ],
     imaging: [
       { id:"cxr",  name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", text:"Clear lung fields. Normal cardiac silhouette. Mediastinum not widened." },
-      { id:"ctpa", name:"CT pulmonary angiogram", cost:120, costL:"2 h", tag:"trap", text:"No pulmonary embolus to segmental level. No dissection of the visualised thoracic aorta. Mild dependent atelectasis only." },
-      { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"noise", text:"No acute intracranial abnormality." }
+      { id:"lsx",  name:"Lumbar spine X-ray", cost:45, costL:"45 min", tag:"trap", text:"Mild degenerative change at L4–L5. <b>No bony destruction, no collapse.</b> Reported as within normal limits for age." },
+      { id:"mri",  name:"MRI whole spine", cost:180, costL:"3 h", tag:"key", isMRI:true,
+        text:"<b>L4–L5 discitis with adjacent vertebral osteomyelitis.</b> Marrow oedema in both endplates, disc-space fluid, endplate erosion. Small anterior epidural phlegmon, <b>no drainable collection and no cord or cauda equina compression</b>. No skip lesions elsewhere in the spine." },
+      { id:"cta",  name:"CT aortogram", cost:120, costL:"2 h", tag:"supp", text:"<b>No aortic dissection.</b> No intramural haematoma, no aneurysm. Aortic root normal calibre. Spleen: two peripheral wedge-shaped low-attenuation areas consistent with <b>infarcts</b>. Both kidneys show similar small wedge defects." },
+      { id:"ctpa", name:"CT pulmonary angiogram", cost:120, costL:"2 h", tag:"trap", text:"<b>No pulmonary embolus</b> to segmental level. Mild dependent atelectasis only." },
+      { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"noise", text:"No acute intracranial abnormality. No infarct, no haemorrhage." }
     ],
     special: [
-      { id:"echo", name:"Bedside echocardiogram", cost:90, costL:"90 min", tag:"key", text:"Portable study: hypokinesia of the anterior wall and septum, LV EF ~45%. Trivial-to-mild aortic regurgitation; valve leaflets thin and mobile, no vegetation seen on transthoracic views. RV not dilated. No effusion." },
+      { id:"tte",  name:"Transthoracic echocardiogram", cost:90, costL:"90 min", tag:"key",
+        text:"Portable study, difficult windows. Hypokinesia of the anterior wall and septum, LV EF ~45%. <b>Moderate aortic regurgitation</b>; a possible mobile echodensity on the non-coronary cusp but image quality is poor. <b>A negative or equivocal transthoracic study does not exclude endocarditis — transoesophageal imaging advised.</b>" },
+      { id:"toe",  name:"Transoesophageal echocardiogram", cost:180, costL:"3 h", tag:"key", isTOE:true,
+        text:"<b>12 mm mobile vegetation on the non-coronary cusp of the aortic valve</b>, with a second smaller echodensity on the right coronary cusp. Moderate-to-severe aortic regurgitation. <b>No root abscess.</b> Anterior wall hypokinesia confirmed." },
       { id:"holt", name:"24-hour Holter", cost:0, costL:"2 wk", tag:"noise", text:"Fitted. Report expected in two weeks." }
     ]
   },
@@ -661,73 +684,83 @@ const CASE = {
 
   rx: [
     { id:"iv",   t:"IV access, bloods away, continuous cardiac monitoring", kind:"good", resus:true, why:"He's earned a monitor — ectopics on a long QT is peri-arrest territory." },
-    { id:"asp",  t:"Aspirin 300 mg — confirm the home dose and chart it", kind:"good", resus:true, why:"He loaded himself at home. Confirm it, chart it, don't double it." },
-    { id:"cult", t:"Three sets of blood cultures — before any antibiotic", kind:"good", resus:true, why:"If endocarditis is on the table, cultures come first — and they keep every later decision honest." },
+    { id:"cult", t:"Three sets of blood cultures — before any antibiotic", kind:"good", resus:true, why:"Separate sites, 30–60 min apart. Every decision that follows depends on these being clean." },
+    { id:"asp",  t:"Aspirin 300 mg — confirm the home dose and chart it", kind:"good", why:"He loaded himself at home. Confirm it, chart it, don't double it." },
     { id:"anal", t:"Morphine 2.5–5 mg IV + metoclopramide 10 mg IV", kind:"good", why:"Settles the distress and the vomiting — with an antiemetic that leaves the QT alone." },
     { id:"o2t",  t:"Titrate oxygen — only if SpO₂ falls below 90%", kind:"good", why:"ESC 2023: no routine oxygen above 90% — hyperoxia extends infarction." },
-    { id:"fluid",t:"Rapid 1 L crystalloid bolus for the blood pressure", kind:"danger", why:"This hypotension is a failing pump, not an empty tank — flooding it drowns the lungs." },
+    { id:"fluid",t:"Crystalloid 250–500 mL boluses, reassessing after each", kind:"good", resus:true, why:"He is febrile, vasodilated and lactate 3.1 — but the anterior wall is stunned. Small boluses, eyes on the response." },
+    { id:"flood",t:"Two litres of crystalloid, wide open", kind:"danger", why:"A stunned anterior wall and moderate aortic regurgitation. Open the taps and you fill his lungs." },
     { id:"ond",  t:"Ondansetron 8 mg IV for the vomiting", kind:"danger", why:"QTc 476 on sertraline — ondansetron stacks a third QT-prolonger onto two." },
-    { id:"abx",  t:"Start IV vancomycin + gentamicin now for ?endocarditis", kind:"danger", why:"No cultures taken, no sepsis physiology — anchoring, and it muddies every culture that follows." },
-    { id:"tica", g:"further", t:"Ticagrelor 180 mg loading dose", note:"Charted. NICE NG185: dual antiplatelet therapy on top of the aspirin — ticagrelor unless bleeding risk is high." },
-    { id:"fonda",g:"further", t:"Fondaparinux 2.5 mg s/c", note:"Charted — NICE NG185 says give it unless he's going for immediate angiography. The cardiology reg will make that call; have it drawn either way." },
-    { id:"recg", g:"further", t:"Repeat the 12-lead ECG now", note:"ST elevation V1–V4 with tall, broad T-waves — it is declaring itself.<img class=\"wide\" src=\"ecg-evolve.svg\" alt=\"Repeat ECG: anterior ST elevation with tall T waves\">" },
-    { id:"ccu",  g:"further", t:"Request a monitored CCU bed", note:"Bed requested. He can't sit unmonitored in majors with this tracing." },
-    { id:"refer",g:"further", t:"Call cardiology on-call", sub:"out of hours: via switchboard", isRefer:true }
+    { id:"abx",  t:"IV antibiotics now — don't wait for the cultures", kind:"danger", why:"He is not in septic shock. Half an hour of patience buys a microbiological diagnosis that shapes six weeks of therapy." },
+    { id:"lyse", t:"Thrombolyse the anterior ST elevation", kind:"danger", why:"The single worst thing you can do here — lysing a septic embolus with mycotic aneurysms in the circulation." },
+    { id:"hep",  t:"Therapeutic anticoagulation (treatment-dose LMWH)", kind:"danger", why:"No indication in native-valve endocarditis, and it converts a silent embolus into an intracranial bleed." },
+    { id:"abx2", g:"further", t:"IV vancomycin — severe penicillin allergy", note:"Charted, after the cultures. ESC 2023: with severe penicillin allergy, vancomycin is the empirical backbone for native-valve endocarditis. Microbiology will narrow it once the streptococcus is identified and sensitivities are back." },
+    { id:"recg", g:"further", t:"Repeat the 12-lead ECG now", note:"ST elevation V1–V4 with tall, broad T-waves — the anterior wall is declaring itself.<img class=\"wide\" src=\"ecg-evolve.svg\" alt=\"Repeat ECG: anterior ST elevation with tall T waves\">" },
+    { id:"spine",g:"further", t:"Request the whole-spine MRI", note:"Requested. Radiology ask why not just the lumbar spine — because seeding is often multi-level, and a skip lesion higher up changes the operation." },
+    { id:"toe",  g:"further", t:"Request the transoesophageal echo", note:"Requested. The transthoracic study was equivocal, and that does not exclude a vegetation." },
+    { id:"ccu",  g:"further", t:"Request a monitored bed (CCU / level 2)", note:"Bed requested. Nobody with this tracing and this blood pressure sits unmonitored in majors." },
+    { id:"refer",g:"further", t:"Convene the Endocarditis Team", sub:"out of hours: via switchboard", isRefer:true }
   ],
 
   /* ----- ACT 2 management drill ----- */
   mgmt: [
-    { id:"wellens", tag:"The old tracing", q:"Saturday's ECG is in your hand: biphasic T-waves in V2–V3, patient pain-free, troponin normal. What was it?",
+    { id:"unify", tag:"Join it up", q:"Five weeks of fevers and sweats after a dental extraction. A murmur, Osler node, splinters, Roth spots. New focal spinal pain. A troponin of 892. One diagnosis — what is it?",
       opts:[
-        { t:"A critical proximal LAD warning — admit for urgent inpatient angiography", ok:true },
-        { t:"Non-specific repolarisation change — safe discharge with GP follow-up", ok:false },
-        { t:"Ischaemia excluded by the normal troponin", ok:false } ],
-      teach:"<b>Wellens syndrome</b> (de Zwaan &amp; Wellens, 1982): biphasic (type A, ~25%) or deeply inverted (type B, ~75%) T-waves in V2–V3 in a <b>pain-free</b> patient with <b>normal or barely raised troponin</b> marks a critical proximal LAD stenosis — a pre-infarction state. The pattern appears <i>after</i> the pain settles, which is exactly why it gets filed as “normal”. No exercise testing — it can precipitate the infarct. Admit, treat as ACS, urgent angiography." },
-    { id:"type", tag:"The trend", q:"Troponin 148, then 892 three hours later. The night doctor's note says “probably demand from the tachycardia”. Who's right?",
+        { t:"Infective endocarditis, embolising — to coronary, spine and retina", ok:true },
+        { t:"An anterior MI, with an unrelated back strain and a viral illness", ok:false },
+        { t:"Spondylodiscitis with a demand troponin from the sepsis", ok:false } ],
+      teach:"Each of the wrong answers explains <i>part</i>. Only a <b>seeded valve</b> explains all of it: a <b>dental extraction</b> five weeks ago as the portal, weeks of <b>fever, sweats and a stone of weight loss</b>, a <b>new regurgitant murmur</b>, and then showers of septic emboli — to a <b>coronary</b> (the troponin and the ECG), to the <b>spine</b> (L4–L5 discitis), to the <b>retina</b> (the transient blindness and the Roth spots), and to <b>spleen and kidneys</b> (the wedge infarcts and the haematuria). When a young-ish, previously well man collects embolic events in unconnected organs, the common factor is upstream, in the heart." },
+    { id:"cultures", tag:"Before anything", q:"The nurse has vancomycin drawn up and is waiting on you. What happens first?",
       opts:[
-        { t:"A rise this steep with evolving ischaemic ECG changes is a type 1 infarct", ok:true },
-        { t:"Type 2 demand — treat the heart rate and repeat tomorrow", ok:false },
-        { t:"Uninterpretable while the CRP is raised", ok:false } ],
-      teach:"The <b>Fourth Universal Definition of MI</b> (2018): <b>type 1</b> is a plaque event — rupture or erosion with thrombus; <b>type 2</b> is supply–demand mismatch (tachyarrhythmia, sepsis, anaemia). A dynamic <b>rise and/or fall</b> with evidence of ischaemia (symptoms, ECG evolution, regional wall-motion abnormality) makes type 1. 148 → 892 on a Wellens background is a plaque declaring itself — and CRP never invalidates a troponin." },
-    { id:"drugs", tag:"The chart", q:"NSTEMI on the board, angiography being argued about on the phone. What's on his chart meanwhile?",
+        { t:"Three culture sets, separate venepunctures, 30–60 minutes apart — then antibiotics", ok:true },
+        { t:"Give it now; take cultures alongside the first dose", ok:false },
+        { t:"Give it now; cultures can wait for the microbiology round", ok:false } ],
+      teach:"<b>ESC 2023</b>: <b>three sets from separate sites, 30–60 minutes apart, before antibiotics.</b> He is febrile but not in septic shock, so he can afford the half-hour — and it buys the single most valuable piece of information in the whole admission. One dose of vancomycin can sterilise the cultures for days and leave him on empirical therapy for a six-week course, with no organism, no sensitivities, and no way to de-escalate. <b>Culture-negative endocarditis carries a worse outcome</b>, and here it would be iatrogenic. The exception is genuine septic shock or neurological compromise — treat first, always." },
+    { id:"wellens2", tag:"The old tracing", q:"Saturday's tracing has been filed as normal. Why does pulling it change today?",
       opts:[
-        { t:"Aspirin 300 mg + ticagrelor 180 mg + fondaparinux unless immediate angiography", ok:true },
-        { t:"Aspirin alone until the cath lab decides", ok:false },
-        { t:"Aspirin + full-dose LMWH + a GTN infusion for good measure", ok:false } ],
-      teach:"<b>NICE NG185</b>: load <b>aspirin 300 mg</b>, add a second antiplatelet — <b>ticagrelor</b> (clopidogrel if high bleeding risk; prasugrel if PCI is intended) — and give <b>fondaparinux 2.5 mg</b> unless immediate angiography is planned (then unfractionated heparin in the lab). A GTN infusion on a systolic of 92 takes his preload and drops him — and full-dose LMWH isn't the NSTEMI antithrombin of choice." },
-    { id:"timing", tag:"Tempo", q:"GRACE puts him high-risk. But he's hypotensive with dynamic ECG changes. When does he go to the lab?",
+        { t:"It dates the coronary event — this began two days ago, not this afternoon", ok:true },
+        { t:"It has no bearing once today's troponin is back", ok:false },
+        { t:"It only matters for the discharge letter and the complaint", ok:false } ],
+      teach:"An old tracing turns a snapshot into a <b>trajectory</b>. Saturday's changes with a normal troponin, today's evolving anterior changes with a troponin of 892: this myocardium has been dying since the weekend, which shapes the size of the infarct, the odds of arrhythmia, and how much viable muscle a revascularisation could still save. It also tells you the valve was already showering emboli 48 hours ago. <b>Always get the previous ECG.</b> A tracing filed as “normal” is not the same as a normal tracing — it is one person's reading, at one moment, often in a busy department." },
+    { id:"type", tag:"What type of MI", q:"So how do you classify this infarct in your notes?",
       opts:[
-        { t:"Now — very-high-risk features mean immediate angiography, within 2 hours", ok:true },
-        { t:"Within 72 hours — that's the NICE window", ok:false },
-        { t:"After 48 hours of antibiotics, in case it's the valve", ok:false } ],
-      teach:"<b>ESC 2023 ACS</b>: haemodynamic instability or cardiogenic shock, refractory chest pain, life-threatening arrhythmias, mechanical complications, or <b>recurrent dynamic ST changes</b> = <b>immediate</b> invasive management (&lt;2 h). The <b>72-hour</b> window (NICE NG185) is for the <i>stable</i> intermediate-to-high-risk patient — quoting it here is how this man arrests in a corridor." },
-    { id:"murmur", tag:"The decoy", q:"New murmur, night sweats, CRP up. Before any antibiotic touches him — what has to happen?",
+        { t:"Type 2 — coronary embolism, a non-atherothrombotic supply problem", ok:true },
+        { t:"Type 1 — it is a plaque rupture with thrombus", ok:false },
+        { t:"Not an infarct at all — troponin release from sepsis", ok:false } ],
+      teach:"The <b>Fourth Universal Definition of MI</b> (2018) puts <b>coronary embolism — including from a valve vegetation — under type 2</b>: myocardial injury from an oxygen supply–demand mismatch by a non-atherothrombotic mechanism, alongside spasm, dissection and microvascular dysfunction. It genuinely <i>is</i> an infarct — there is ischaemic ECG evolution and a regional wall-motion abnormality, so this is not mere “troponin release”. The label is not pedantry: type 2 from an embolus is treated by <b>sterilising the valve</b>, not by dual antiplatelets and a stent." },
+    { id:"lyse", tag:"The worst move", q:"Anterior ST elevation on the repeat ECG. The nearest PCI centre is 40 minutes away. Someone suggests thrombolysis. Your answer?",
       opts:[
-        { t:"Three blood-culture sets, separate venepunctures, ~30 minutes apart", ok:true },
-        { t:"Start vancomycin + gentamicin — cultures can follow the first dose", ok:false },
-        { t:"An urgent TOE tonight, before anything else", ok:false } ],
-      teach:"<b>ESC 2023 infective endocarditis</b>: three sets from separate sites, 30–60 minutes apart, <b>before</b> antibiotics — he is not septic, so antibiotics can wait the half-hour that keeps the cultures honest. Then keep reasoning. Echo first: thin, mobile leaflets, trivial regurgitation, <b>no vegetation</b> — with nothing growing and no spiking fevers, that is one minor Duke criterion and a murmur, not endocarditis. Splinter haemorrhages are common and non-specific, especially in a man whose hands are his trade. Keep the cultures running, but do not let the valve story hold up the cath lab." },
-    { id:"oxygen", tag:"The reflex", q:"Sats 96% on air. The student reaches for the non-rebreathe mask. Oxygen?",
+        { t:"Absolutely not — and mechanical options should be discussed with the team", ok:true },
+        { t:"Yes — door-to-needle beats a 40-minute transfer", ok:false },
+        { t:"Yes, then transfer for rescue PCI", ok:false } ],
+      teach:"<b>Thrombolysis in endocarditis-related infarction is contraindicated.</b> Septic emboli seed <b>mycotic aneurysms</b> in the cerebral and systemic circulation, and lysis turns them into catastrophic haemorrhage — the same reasoning that makes septic embolism a contraindication to lysis in stroke. Nor is the reflex PCI pathway straightforward: <b>stenting infected embolic material</b> risks stent infection and mycotic aneurysm formation, so <b>aspiration thrombectomy or balloon angioplasty alone</b> is generally preferred, and <b>dual antiplatelet therapy is not indicated</b> without underlying atherosclerotic disease. This is a conversation with the endocarditis and interventional teams, not a protocol you run alone." },
+    { id:"echo", tag:"Imaging the valve", q:"The transthoracic study is poor-quality and equivocal. What now?",
       opts:[
-        { t:"No — in ACS, oxygen only if SpO₂ falls below 90%", ok:true },
-        { t:"Yes — high-flow for anyone this unwell", ok:false },
-        { t:"Yes, but nasal cannulae will do", ok:false } ],
-      teach:"<b>AVOID</b> (2015) showed routine oxygen in normoxic MI <i>enlarged</i> infarcts; <b>DETO2X-AMI</b> (2017) showed no mortality benefit. <b>ESC 2023</b>: oxygen only for <b>SpO₂ &lt;90%</b>. Hyperoxia is coronary vasoconstriction — the non-rebreathe reflex is treating the team's anxiety, not the patient." },
-    { id:"antiemetic", tag:"The QT", q:"He vomits again. QTc 476 ms, on long-term sertraline. Which antiemetic?",
+        { t:"Transoesophageal echo — a negative or equivocal TTE does not exclude it", ok:true },
+        { t:"Endocarditis is excluded; stand the valve story down", ok:false },
+        { t:"Repeat the transthoracic study tomorrow when he is calmer", ok:false } ],
+      teach:"<b>TTE first, TOE when it matters</b> — and it matters when the transthoracic study is negative or equivocal but clinical suspicion stays high, when there is a prosthetic valve or intracardiac device, or when a complication is suspected. TTE sensitivity for native-valve vegetations is roughly <b>70%</b>, and much worse with poor windows, obesity or ventilation; TOE runs above <b>90%</b>, and is far better for <b>root abscess</b>, leaflet perforation and small vegetations. A vegetation, a new regurgitant jet or a root abscess is a <b>major Duke criterion</b>. Never let a normal-looking TTE talk you out of a clinically convincing endocarditis." },
+    { id:"spine", tag:"The back", q:"Focal L4–L5 tenderness, fever, ESR 88. The lumbar X-ray is reported as normal. What imaging does he need?",
       opts:[
-        { t:"Metoclopramide 10 mg IV", ok:true },
-        { t:"Ondansetron 8 mg IV", ok:false },
-        { t:"Cyclizine 50 mg IV, fast push", ok:false } ],
-      teach:"Sertraline already prolongs the QT and his is <b>476 ms</b> — <b>ondansetron</b> adds dose-dependent QT prolongation (MHRA warning) and invites torsades on a monitor you'd rather keep boring. <b>Metoclopramide</b> spares the QT and is standard with opioids in ACS. Cyclizine's tachycardia and vasoconstriction make it the wrong tool in an ischaemic heart." },
-    { id:"stemi", tag:"Declared", q:"The repeat ECG shows ST elevation V1–V4. The PCI centre is 40 minutes away by blue light. Now what?",
+        { t:"MRI of the whole spine, with contrast", ok:true },
+        { t:"Nothing further — the plain film has excluded bony infection", ok:false },
+        { t:"CT lumbar spine — quicker and he is unstable", ok:false } ],
+      teach:"<b>Plain films are normal for the first 2–4 weeks</b> of vertebral osteomyelitis — bone destruction has to be well advanced before it shows, so a normal X-ray excludes nothing. <b>MRI is the investigation of choice</b> (IDSA 2015), and it should be the <b>whole spine</b>, because haematogenous seeding is frequently multi-level and a <b>skip lesion</b> higher up changes the surgical plan entirely. It also answers the question that actually decides tonight: is there an <b>epidural collection compressing the cord</b>? That is a neurosurgical emergency. CT is far less sensitive for marrow oedema and early discitis." },
+    { id:"abx", tag:"The prescription", q:"Cultures are away and growing Gram-positive cocci in chains. He is severely penicillin-allergic. Empirical therapy?",
       opts:[
-        { t:"Activate primary PCI — deliverable well inside 120 minutes", ok:true },
-        { t:"Thrombolyse here first, then transfer", ok:false },
-        { t:"Repeat the troponin and wait for cardiology to call back", ok:false } ],
-      teach:"<b>ESC 2023 / NICE NG185</b>: STEMI gets <b>primary PCI if achievable within 120 minutes</b> of the ECG diagnosis — a 40-minute transfer qualifies easily. Fibrinolysis is for when PPCI genuinely cannot be delivered in time (then transfer anyway). Waiting on another troponin after the ECG has declared is dead time in dying myocardium: <b>time is muscle</b>." }
+        { t:"IV vancomycin, then narrow it once sensitivities are back", ok:true },
+        { t:"IV benzylpenicillin — the rash as a child was probably not a true allergy", ok:false },
+        { t:"Oral flucloxacillin and discharge on an outpatient pathway", ok:false } ],
+      teach:"<b>ESC 2023</b>: with <b>severe penicillin allergy</b>, <b>vancomycin</b> is the empirical backbone for native-valve endocarditis. Gram-positive cocci <b>in chains</b> after dental work points at the <b>viridans group streptococci</b> — and once the organism and its MICs are known, therapy is narrowed and run <b>intravenously for 4–6 weeks</b>, dated from the first negative culture or from surgery. Note the guideline nuance in the other direction too: where β-lactams are fully active, <b>adding gentamicin is no longer routine</b> — it is nephrotoxic and does not improve outcomes. And nothing about this man is an outpatient." },
+    { id:"team", tag:"Who decides", q:"Endocarditis, an embolic infarct, a septic spine and a regurgitant valve. Whose decision is the plan?",
+      opts:[
+        { t:"The Endocarditis Team — cardiology, microbiology, cardiac surgery, imaging", ok:true },
+        { t:"The on-call medical registrar, overnight, alone", ok:false },
+        { t:"Whichever specialty accepts him first", ok:false } ],
+      teach:"<b>ESC 2023 gives the multidisciplinary “Endocarditis Team” a Class I recommendation</b>, and cases with high suspicion but no microbiological documentation must be discussed with it. It exists because the decisions genuinely conflict: he has a <b>surgical indication</b> forming — severe regurgitation with heart failure, a large mobile vegetation, and an embolic event that has already happened — against the bleeding risk of bypass in someone with septic emboli in his circulation. <b>Recurrent embolism while on appropriate antibiotics, heart failure and uncontrolled infection are the three great triggers for early surgery.</b> Your job tonight is not to resolve that. It is to take the cultures, start the right antibiotic, image the valve and the spine, put him somewhere monitored, and get every one of those specialties onto the same phone call." }
   ],
 
-  conditions: ["Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Thrombotic thrombocytopenic purpura"]
+  conditions: ["Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Spondylodiscitis","Vertebral osteomyelitis","Spinal epidural abscess","Mechanical back pain","Atrial myxoma","ANCA-associated vasculitis","Polyarteritis nodosa","Rheumatic fever","Aortic regurgitation","Mitral regurgitation","Coronary embolism","Lymphoma","Disseminated malignancy","Brucellosis","Q fever","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Thrombotic thrombocytopenic purpura"]
 };
 
 /* ============================================================
@@ -738,7 +771,7 @@ const S = {
   asked: new Set(), examCore: new Set(), examMore: new Set(),
   picked: new Set(), ordered: new Set(), round: 0, trendBack: false,
   rx: new Set(), wellensAt: null, wellensBeforeTrend: null, reexamCount: 0, trendBackAt: null,
-  dx: "", dxCorrect: false,
+  dx: "", dxCorrect: false, dxPart: false,
   mg: {}, mgIdx: 0, furtherUnlocked: false,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false
 };
@@ -753,21 +786,21 @@ function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock);
 
 /* ---------- dynamic obs ---------- */
 function obsState(){
-  // improving if the ACS is being treated; deteriorating if time passes untreated
-  const treated = S.rx.has("asp") && (S.rx.has("tica") || S.rx.has("refer"));
-  if (S.reexamCount === 0) return { hr:108, bp:"92/58", rr:22, spo2:96, news:6, tone:"bad", flag:"lo", appear:"base" };
-  if (treated) return { hr:96, bp:"104/66", rr:18, spo2:97, news:3, tone:"warn", flag:"", appear:"better" };
-  return { hr:124, bp:"78/46", rr:26, spo2:93, news:12, tone:"bad", flag:"lo", appear:"worse" };
+  // improving once cultures are away and the right antibiotic is running; deteriorating if time passes untreated
+  const treated = S.rx.has("cult") && S.rx.has("abx2") && (S.rx.has("fluid") || S.rx.has("refer"));
+  if (S.reexamCount === 0) return { hr:112, bp:"92/58", rr:22, spo2:96, temp:"38.4", news:7, tone:"bad", flag:"lo", appear:"base" };
+  if (treated) return { hr:98, bp:"106/64", rr:19, spo2:97, temp:"37.9", news:4, tone:"warn", flag:"", appear:"better" };
+  return { hr:128, bp:"78/44", rr:28, spo2:92, temp:"39.1", news:13, tone:"bad", flag:"lo", appear:"worse" };
 }
 function renderObs(){
   const o = obsState();
   const cells = [
-    ["HR", o.hr, "/min", ""],
+    ["HR", o.hr, "/min", "hi"],
     ["BP", o.bp, "mmHg", o.flag],
     ["RR", o.rr, "/min", o.rr>20?"hi":""],
     ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
-    ["Lactate", S.reexamCount ? (o.appear==="better"?"2.4":"7.1") : "3.1", "mmol/L", "hi"],
-    ["GCS", "15", "/15", ""]
+    ["Temp", o.temp, "°C", "hi"],
+    ["Lactate", S.reexamCount ? (o.appear==="better"?"2.2":"6.8") : "3.1", "mmol/L", "hi"]
   ];
   $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
   const nl = $("#newsLive"); nl.textContent = o.news; nl.style.color = o.tone==="bad"?"var(--danger)":o.tone==="ok"?"var(--good)":"var(--warn)";
@@ -864,8 +897,8 @@ function askHx(h){
 /* ---------- examination ---------- */
 function genFinding(){
   const o = obsState();
-  if (o.appear==="better") return "Warmer, drier, better colour. The dread has gone out of his face — holding steady on the monitor.";
-  if (o.appear==="worse") return "Grey and drenched, retching again. Runs of ectopics on the monitor now; he grips your wrist and won't let go.";
+  if (o.appear==="better") return "Drier, better colour, temperature settling. The dread has gone out of his face — holding steady on the monitor.";
+  if (o.appear==="worse") return "Rigoring again, drenched, mottled to the knees. Runs of ectopics on the monitor; he grips your wrist and won't let go.";
   return CASE.examCore.find(e=>e.id==="gen").f;
 }
 function rowHTML(item, picked, label){
@@ -977,22 +1010,24 @@ $("#sendRound").onclick = ()=>{ if(S.picked.size) processRound(); };
 /* ---------- treat: first-line care + further mx / referral ---------- */
 function referFinding(){
   const items = [
-    ["Aspirin 300 mg loaded", S.rx.has("asp")],
-    ["Second antiplatelet on board", S.rx.has("tica")],
-    ["ECG repeated — evolution documented", S.rx.has("recg")],
-    ["Troponin trend sent", S.ordered.has("retrop")],
+    ["Three culture sets — taken before antibiotics", S.rx.has("cult") && S.ordered.has("cult")],
+    ["Valve imaged — transoesophageal echo", S.ordered.has("toe") || S.rx.has("toe")],
+    ["Spine imaged — whole-spine MRI", S.ordered.has("mri") || S.rx.has("spine")],
+    ["Troponin trend and repeat ECG documented", S.ordered.has("retrop") && S.rx.has("recg")],
+    ["Empirical antibiotic running", S.rx.has("abx2")],
     ["Monitored bed requested", S.rx.has("ccu")]
   ];
   const done = items.every(i=>i[1]);
-  const fonda = S.rx.has("fonda") ? "Fondaparinux's drawn — hold it if we're going straight to the lab." : "No fondaparinux? If there's any delay to the lab, NICE says it goes up — have it drawn.";
-  return `<div class="reflist"><div class="rq">Cardiology SpR, on call${done?"":" (out of hours — via switchboard)"}: “Right — quick checklist while I pull his tracing up.”</div>`+
+  const lysed = S.rx.has("lyse") || S.rx.has("hep");
+  return `<div class="reflist"><div class="rq">Endocarditis Team${done?"":" (out of hours — convened via switchboard)"}: cardiology, microbiology and the cardiac surgeons dial in. “Talk us through him.”</div>`+
     `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
-    `<div style="margin-bottom:var(--s2);">“${fonda}”</div>`+
+    (lysed?`<div style="margin-bottom:var(--s2); color:var(--danger); font-weight:600;">“You gave him <i>what</i>? With septic emboli in his circulation? Get a CT head now and stop everything else.”</div>`:"")+
     `<div class="verdict">${done
-      ? "“That's an evolving anterior infarct on top of a Wellens tracing you've dug out of Saturday — I'm activating the lab now. Pads on, stay with him, bring the notes.”"
-      : "“Send the trend and get the repeat tracing done, then call me straight back — I can't take him to the lab on one number and a murmur.”"}</div></div>`;
+      ? "“Right — vegetation on the non-coronary cusp, embolised to a coronary and to L4–5, and he is regurgitating hard. Keep the vancomycin going, nothing thrombolytic, nothing anticoagulant. Surgeons will see him tonight: severe regurgitation, a big mobile vegetation and an embolic event already banked is a surgical conversation, not a wait-and-see. Cardiology will decide about the coronary — aspiration, not a stent in infected material. Bring the cultures the moment they speciate.”"
+      : "“You are asking us to plan an operation on half a picture. Cultures, a TOE, an MRI of the whole spine and a monitored bed — then call us back. Do not thrombolyse him, and do not anticoagulate him, whatever the ECG looks like.”"}</div></div>`;
 }
-function resusRight(){ return S.rx.has("iv") && S.rx.has("asp") && S.rx.has("cult") && !S.rx.has("fluid") && !S.rx.has("ond") && !S.rx.has("abx"); }
+function resusRight(){ return S.rx.has("iv") && S.rx.has("cult") && S.rx.has("fluid")
+  && !S.rx.has("flood") && !S.rx.has("ond") && !S.rx.has("abx") && !S.rx.has("lyse") && !S.rx.has("hep"); }
 function renderRx(){
   const wrap=$("#rxRows"); wrap.innerHTML="";
   if(resusRight()) S.furtherUnlocked = true;
@@ -1015,8 +1050,8 @@ function renderRx(){
   });
   if(!S.furtherUnlocked){
     const lock=document.createElement("div"); lock.className="reflist";
-    lock.innerHTML=`<div class="rq">Registrar: “Basics first — antiplatelet on board, access and a monitor, cultures before anyone reaches for an antibiotic. Then we'll talk about the lab.”</div>`+
-      `<div style="color:var(--muted);">Further management unlocks when the first-line care is right: monitor and access on, aspirin confirmed, cultures away${(S.rx.has("fluid")||S.rx.has("ond")||S.rx.has("abx"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
+    lock.innerHTML=`<div class="rq">Registrar: “Basics first — access and a monitor, cultures in the bottles before anyone reaches for an antibiotic, and fluid given in small boluses with your eyes on him. Then we'll talk about the rest.”</div>`+
+      `<div style="color:var(--muted);">Further management unlocks when the first-line care is right: monitor and access on, three culture sets away, measured fluid resuscitation${(S.rx.has("flood")||S.rx.has("ond")||S.rx.has("abx")||S.rx.has("lyse")||S.rx.has("hep"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
     wrap.appendChild(lock);
   }
   $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
@@ -1069,6 +1104,7 @@ $("#commitBtn").onclick = ()=>{
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dxPart = !S.dxCorrect && CASE.meta.dxPartial.includes(norm(v));
   S.dxCommitted = true; S.stageMax = 3;
   renderTabs(); updateBar();
   go("work"); tab("rx");
@@ -1149,32 +1185,35 @@ function scoreAndShow(){
   const rows=[]; let total=0;
   const add=(l,p)=>{ rows.push([l,p]); total+=p; };
 
-  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
+  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`+(S.dxPart?" · part of it":"")), S.dxCorrect?40:(S.dxPart?18:0));
 
   let keys=0;
   CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
   CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
   CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
-  ["ecg","oldecg","vbg","trop","retrop","echo"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
-  add(`Discriminators gathered (${keys})`, keys*3);
+  ["ecg","oldecg","dip","fbc","crp","trop","retrop","cult","tte","toe","mri"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
+  add(`Discriminators gathered (${keys})`, keys*2);
 
   let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
   if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
 
-  if(S.rx.has("asp")&&S.rx.has("iv")) add("Antiplatelet confirmed, monitor and access on", 8);
-  if(S.rx.has("cult")) add("Cultures before any antibiotic", 4);
-  if(S.rx.has("fluid")) add("Fluid-loaded a failing ventricle", -8);
+  if(S.rx.has("cult")&&S.rx.has("iv")) add("Cultures away, monitor and access on", 8);
+  if(S.rx.has("cult")&&S.rx.has("abx2")&&!S.rx.has("abx")) add("Right antibiotic, in the right order", 6);
+  if(S.rx.has("fluid")&&!S.rx.has("flood")) add("Measured fluid resuscitation", 4);
+  if(S.rx.has("lyse")) add("Thrombolysed a septic embolus", -20);
+  if(S.rx.has("hep")) add("Anticoagulated native-valve endocarditis", -10);
+  if(S.rx.has("abx")) add("Antibiotics before the cultures", -8);
+  if(S.rx.has("flood")) add("Two litres wide open into a stunned ventricle", -8);
   if(S.rx.has("ond")) add("Ondansetron on a 476 ms QT", -6);
-  if(S.rx.has("abx")) add("Antibiotics before cultures, on no sepsis physiology", -6);
   if(S.reexamCount>0) add("Reassessed after intervention", 6);
-  const referFull = S.rx.has("refer") && S.rx.has("asp") && S.rx.has("tica") && S.rx.has("recg") && S.ordered.has("retrop") && S.rx.has("ccu");
-  if(referFull) add("Referred to cardiology with the checklist complete", 8);
-  else if(S.rx.has("refer")) add("Referred to cardiology — checklist incomplete", 3);
+  const referFull = S.rx.has("refer") && S.ordered.has("cult") && (S.ordered.has("toe")||S.rx.has("toe")) && (S.ordered.has("mri")||S.rx.has("spine")) && S.rx.has("abx2") && S.rx.has("ccu");
+  if(referFull) add("Endocarditis Team convened with the picture complete", 10);
+  else if(S.rx.has("refer")) add("Endocarditis Team called — picture incomplete", 3);
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
-  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*5);
 
-  if(elapsed()<=240 && S.dxCorrect) add("Sorted inside 4 ward-hours", 8);
+  if(elapsed()<=480 && S.dxCorrect) add("Joined it up inside 8 ward-hours", 8);
 
   const MAX=160;
   const shown=Math.max(0, Math.min(total, MAX));
@@ -1186,31 +1225,63 @@ function scoreAndShow(){
   const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
   const rank = pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
   $("#rank").textContent = rank;
-  $("#scoreSub").textContent = S.dxCorrect ? "Saturday's “normal” tracing, the murmur, the sweats and the stomach bug were all working against you." : "The infarct hid behind a murmur and a stomach bug — see where it slipped.";
+  $("#scoreSub").textContent = S.dxCorrect
+    ? "Four organs, one valve. You found the thing upstream of all of it."
+    : S.dxPart ? "You caught a real part of this — but the thing causing it was still seeding."
+    : "Every decoy was true. Only one diagnosis was underneath them all.";
   countTo($("#scoreBig"), shown, MAX);
 
   $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
-    `<div><div class="t">${S.dxCorrect?"Acute coronary syndrome — you caught it evolving.":"It was an evolving anterior myocardial infarction."}</div>`+
+    `<div><div class="t">${S.dxCorrect
+      ? "Infective endocarditis — and you found it before it took the valve."
+      : S.dxPart
+        ? `“${S.dx}” was real — but it was a complication, not the diagnosis. Native-valve infective endocarditis, embolising.`
+        : "It was native-valve infective endocarditis, showering septic emboli."}</div>`+
     `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
 
   // learning objectives
-  const wellensTxt = S.wellensAt===null ? {v:"miss",t:"Pull the old ECG — and read it yourself",s:"You committed without ever seeing Saturday's tracing. The Wellens pattern that sent him home was sitting in records the whole time."}
-    : S.wellensBeforeTrend ? {v:"hit",t:"Pull the old ECG — and read it yourself",s:"You went hunting for Saturday's tracing before the trend forced your hand. That's the habit that catches Wellens."}
-    : {v:"part",t:"Pull the old ECG — and read it yourself",s:"The rising troponin sent you back to records. Right call — but the second attendance in three days could have got you there first."};
+  const embolicFound = ["finger","nails","fundi","spine"].filter(id=>S.examMore.has(id)).length;
   const los=[
-    wellensTxt,
-    (S.ordered.has("retrop")&&S.mg.type)?{v:"hit",t:"Troponin is a trend — type 1 vs type 2",s:"You trended it and called the rise a plaque event, not demand. Fourth Universal Definition, applied."}:(S.ordered.has("retrop")||S.mg.type)?{v:"part",t:"Troponin is a trend — type 1 vs type 2",s:"Half the habit is there — always pair the repeat sample with the type 1 / type 2 reasoning."}:{v:"miss",t:"Troponin is a trend — type 1 vs type 2",s:"A single 148 was left to speak for itself. Without the trend, demand and infarct look identical."},
-    S.rx.has("abx")?{v:"miss",t:"Work the murmur up without anchoring",s:"Antibiotics went in before cultures on no sepsis physiology — the endocarditis story swallowed the work-up."}:(S.rx.has("cult")&&S.mg.murmur)?{v:"hit",t:"Work the murmur up without anchoring",s:"Cultures first, antibiotics held, and the murmur read against the echo — ischaemic MR, not a vegetation."}:{v:"part",t:"Work the murmur up without anchoring",s:"Revisit the sequence: three culture sets before any antibiotic (ESC 2023), echo before the endocarditis label sticks."},
-    (S.rx.has("asp")&&S.rx.has("tica")&&S.mg.drugs&&!S.rx.has("fluid")&&!S.rx.has("ond"))?{v:"hit",t:"Treat the ACS by the book",s:"Aspirin confirmed, ticagrelor loaded, fondaparinux reasoned about — NG185 as written."}:(S.rx.has("asp"))?{v:"part",t:"Treat the ACS by the book",s:"The aspirin was there — the second antiplatelet, the antithrombin logic and the drug traps are the revision points."}:{v:"miss",t:"Treat the ACS by the book",s:"The antiplatelet backbone never went on. NG185: aspirin 300, ticagrelor, fondaparinux unless the lab is immediate."},
-    (S.rx.has("refer")&&S.mg.timing&&S.mg.stemi)?{v:"hit",t:"Escalate at the right tempo",s:"Immediate angiography for the unstable, PPCI inside 120 minutes once it declared — the tempo was right."}:(S.rx.has("refer")||S.mg.timing||S.mg.stemi)?{v:"part",t:"Escalate at the right tempo",s:"The 72-hour window is for the stable. Instability or dynamic change means the lab now — rehearse the very-high-risk criteria."}:{v:"miss",t:"Escalate at the right tempo",s:"Cardiology never heard about him. High-risk ACS is a phone call, not a plan in the notes."},
-    (!S.rx.has("fluid")&&!S.rx.has("ond")&&S.mg.oxygen&&S.mg.antiemetic)?{v:"hit",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"No reflex bolus, no reflex non-rebreathe, no ondansetron on a long QT — all three quiet harms dodged."}:(S.rx.has("fluid")||S.rx.has("ond"))?{v:"miss",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"A failing ventricle got flooded or a 476 ms QT got another prolonger — these are the errors that never feel like errors at the time."}:{v:"part",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"Close — the oxygen threshold (<90%, ESC 2023) and the QT arithmetic are the details to nail down."}
+    S.dxCorrect
+      ? {v:"hit",t:"Find the thing upstream of everything else",s:"Fever, a murmur, emboli in four organs and a dental extraction — you put the valve underneath all of it instead of treating each fragment separately."}
+      : S.dxPart
+        ? {v:"part",t:"Find the thing upstream of everything else",s:`“${S.dx}” was genuinely happening — but it was one embolus from a seeded valve. When a previously well man collects events in unconnected organs, look upstream at the heart.`}
+        : {v:"miss",t:"Find the thing upstream of everything else",s:"The coronary, the spine, the retina, the spleen and the kidneys were all downstream of one vegetation. Each decoy was true; none of them was the diagnosis."},
+    S.rx.has("abx")
+      ? {v:"miss",t:"Cultures before antibiotics — always",s:"The antibiotic went in first. One dose can sterilise the cultures and commit him to six weeks of empirical therapy with no organism and no sensitivities."}
+      : (S.rx.has("cult")&&S.mg.cultures)
+        ? {v:"hit",t:"Cultures before antibiotics — always",s:"Three sets, separate sites, before the vancomycin. That half-hour of patience is the most valuable thing you did all shift."}
+        : {v:"part",t:"Cultures before antibiotics — always",s:"ESC 2023: three sets from separate sites, 30–60 minutes apart, before antibiotics — unless he is in septic shock or neurologically compromised."},
+    (embolicFound>=3)
+      ? {v:"hit",t:"Examine for the embolic phenomena",s:`You went looking and found them — ${embolicFound} of the four peripheral signs. The hands, the nails, the fundi and the spine are where this diagnosis is made.`}
+      : embolicFound>0
+        ? {v:"part",t:"Examine for the embolic phenomena",s:`You found ${embolicFound} of four. Osler nodes, splinter haemorrhages, Roth spots and focal spinal tenderness are each a minor criterion — and together they are the diagnosis.`}
+        : {v:"miss",t:"Examine for the embolic phenomena",s:"None of the peripheral signs were sought. Hands, nails, fundi and spine — in a febrile patient with a murmur, that examination is not optional."},
+    (S.ordered.has("tte")&&S.ordered.has("toe")&&S.mg.echo)
+      ? {v:"hit",t:"Image the valve properly — TTE then TOE",s:"You escalated from an equivocal transthoracic study to a TOE and found the vegetation. Sensitivity ~70% versus >90% — that step is the whole game."}
+      : (S.ordered.has("toe")||S.mg.echo)
+        ? {v:"part",t:"Image the valve properly — TTE then TOE",s:"Nearly. A negative or equivocal TTE never excludes endocarditis when suspicion is high — TOE is the answer, and it is also how root abscess is found."}
+        : {v:"miss",t:"Image the valve properly — TTE then TOE",s:"The valve was never adequately imaged. A vegetation or new regurgitation is a major Duke criterion; without it you are guessing."},
+    (S.ordered.has("mri")&&S.mg.spine)
+      ? {v:"hit",t:"Take the new back pain seriously",s:"Focal tenderness with fever bought a whole-spine MRI, and it showed the discitis the plain film could not. Skip lesions and cord compression are why it is the whole spine."}
+      : (S.ordered.has("mri")||S.examMore.has("spine")||S.mg.spine)
+        ? {v:"part",t:"Take the new back pain seriously",s:"Plain films stay normal for 2–4 weeks in vertebral osteomyelitis. New focal spinal pain plus fever means MRI of the whole spine, with contrast."}
+        : {v:"miss",t:"Take the new back pain seriously",s:"A fortnight of new night-waking back pain in a febrile bacteraemic man was left as “his usual bad back”. That is how an epidural abscess gets missed."},
+    (S.rx.has("lyse")||S.rx.has("hep"))
+      ? {v:"miss",t:"Know what not to do to an embolic infarct",s:"Thrombolysis or anticoagulation went in. With mycotic aneurysms seeded through the circulation, that is the single most dangerous thing available to you tonight."}
+      : (S.mg.lyse&&S.mg.type)
+        ? {v:"hit",t:"Know what not to do to an embolic infarct",s:"No lysis, no reflex stent into infected material, and you classified it correctly as a type 2 infarct from coronary embolism. Treat the valve and the infarct follows."}
+        : {v:"part",t:"Know what not to do to an embolic infarct",s:"Rehearse this one: no thrombolysis, aspiration rather than stenting infected material, and dual antiplatelets are not indicated without atherosclerotic disease."}
   ];
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
   // journey
-  $("#journey").innerHTML = `You pulled Saturday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
+  $("#journey").innerHTML = `You found <b>${embolicFound}</b> of the four peripheral embolic signs, `+
+    `${S.ordered.has('cult')?"<b>sent cultures</b>":"<b>never sent cultures</b>"}, `+
+    `${S.ordered.has('toe')?"imaged the valve to TOE":S.ordered.has('tte')?"got as far as a transthoracic echo":"never imaged the valve"}, `+
+    `${S.ordered.has('mri')?"and put his spine in the scanner":"and left his back unimaged"}. `+
+    `You pulled Saturday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
-    `${S.ordered.has('retrop')?"trended the troponin":"never trended the troponin"}, `+
     `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
 
   mpReturnBtn(shown, MAX);
