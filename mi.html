@@ -222,6 +222,15 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
 .finding img { width: 100%; max-width: 250px; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
 .finding img.wide, .labtext img { width: 100%; max-width: 100%; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.finding audio { width: 100%; margin-top: var(--s2); display: block; border-radius: 999px; }
+.finding img, .labtext img { cursor: zoom-in; }
+#zoom { position: fixed; inset: 0; z-index: 60; background: rgba(43,36,29,.92); display: none; align-items: center; justify-content: center; padding: var(--s3); cursor: zoom-out; }
+#zoom.on { display: flex; }
+#zoom img { max-width: 100%; max-height: 100%; border-radius: var(--r-sm); box-shadow: var(--shadow-lg); }
+#zoom .hint { position: absolute; bottom: calc(var(--s4) + env(safe-area-inset-bottom,0px)); left: 0; right: 0; text-align: center; color: #f3ece1; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+.stethline { display: flex; align-items: center; gap: var(--s2); font-family: var(--font-body); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-top: var(--s2); }
+.stethline svg { flex: none; }
+.labtext .machine { font-family: var(--font-mono); font-size: .74rem; color: var(--muted); letter-spacing: .01em; }
 .reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
 .reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
 .reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
@@ -365,7 +374,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <span class="badge">≈ 15 min</span>
       </div>
       <h1>The man who came back</h1>
-      <p class="lede">Sent home from this department three nights ago. Now he’s back — grey, drenched, and getting worse. Work him up before whatever this is declares itself.</p>
+      <p class="lede">Sent home from this department two nights ago. Now he’s back — grey, drenched, and getting worse. Work him up before whatever this is declares itself.</p>
 
       <div class="patient">
         <div class="avatar">MW</div>
@@ -377,7 +386,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
       <div class="card">
         <div class="card__label">ED triage · 14:12 · majors</div>
-        <p class="serif-body" style="margin-bottom: var(--s4);">Walked in pale and sweating after nearly fainting at home this morning. Vomiting, loose stools, drenching night sweats. Seen here Friday night with palpitations and discharged — “the tracing was fine”. His partner Sophie is at the bedside.</p>
+        <p class="serif-body" style="margin-bottom: var(--s4);">Walked in pale and sweating after nearly fainting at home this morning. Vomiting, loose stools, drenching night sweats. Seen here Saturday night with palpitations and discharged — “the tracing was fine”. His partner Sophie is at the bedside.</p>
         <div class="obsgrid">
           <div class="obs"><div class="k">HR</div><div class="v">108</div><div class="u">/min</div></div>
           <div class="obs" data-flag="lo"><div class="k">BP</div><div class="v">92/58</div><div class="u">mmHg</div></div>
@@ -518,8 +527,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
           <li>The most dangerous ECG is the one filed as normal. Biphasic or deeply inverted T-waves in V2–V3 in a pain-free patient with a quiet troponin are Wellens syndrome — a critical proximal LAD announcing itself. No treadmill test, ever — it can precipitate the infarct. Angiography.</li>
           <li>Myocardial infarction does not owe you chest pain. He never reported any — sweating, vomiting and a sense of dread were the whole story. The "never-ill" middle-aged smoker is exactly who presents this way.</li>
           <li>Troponin is a trend, not a number. 148 alone could be demand from any tachycardia; 148 → 892 with evolving anterior changes is a type 1 infarct (Fourth Universal Definition). And never let a raised CRP talk you out of a rising troponin.</li>
-          <li>A new murmur has two stories here. Fever, night sweats and a fingertip lesion say endocarditis; anterior hypokinesia with papillary-muscle dysfunction and no vegetations says ischaemic mitral regurgitation. Three culture sets before any antibiotic (ESC 2023) — then keep reasoning.</li>
-          <li>Every decoy explained part of the picture — the workshop bug the diarrhoea, the splinter the fingertip, the extraction the endocarditis story. Only the LAD explains Friday's tracing, the troponin trend and the murmur together.</li>
+          <li>A murmur you can hear, splinters in the nailbeds and a tender nodule on a finger pulp make a compelling endocarditis picture — and it earns three culture sets before any antibiotic (ESC 2023) and an echo. But a murmur is a finding, not a diagnosis: no vegetation, nothing growing, and a joiner's hands that take a battering every day. What none of it explains is Saturday's tracing, or a troponin going 148 → 892.</li>
+          <li>Every decoy explained part of the picture — the workshop bug the diarrhoea, the trade the splinters, the extraction the endocarditis story. Only the LAD explains Saturday's tracing, the troponin trend and the collapse together.</li>
           <li>Cardiogenic hypotension is not an empty tank. The reflex fluid bolus floods a failing ventricle, and the reflex non-rebreathe harms too — in ACS, oxygen only below SpO₂ 90% (AVOID, DETO2X-AMI; ESC 2023).</li>
           <li>Watch the QT you already own. Sertraline had his QTc at 476 ms before you prescribed anything — ondansetron on top invites torsades. Metoclopramide spares the QT.</li>
         </ul>
@@ -528,8 +537,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="card lock">
         <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
         <div>
-          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
-          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · Wellens to the wire — the missed tracing, the decoy murmur, and the golden 120 minutes.</div>
+          <div style="font-weight:600; font-size:.9rem;">Saturday debrief — locked</div>
+          <div style="font-size:.78rem; color:var(--faint);">Unlocks Saturday 17:00 · Wellens to the wire — the missed tracing, the decoy murmur, and the golden 120 minutes.</div>
         </div>
       </div>
 
@@ -557,6 +566,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
   </div>
 </div>
 
+<div id="zoom" hidden><img id="zoomImg" alt=""><div class="hint">tap to close · pinch to zoom</div></div>
+
 <datalist id="dxlist"></datalist>
 
 <script>
@@ -573,8 +584,8 @@ const CASE = {
 
   history: [
     { id:"what",   q:"What happened?", dq:"Marcus, talk me through what happened this morning.", a:"“Walking to the bathroom and the world went grey — sweat just pouring off me, legs like water. Sophie caught me on the door frame.”" },
-    { id:"friday", q:"Friday's attendance?", dq:"You were here on Friday night — tell me exactly what happened then.", a:"“Heart went off like a drum — racing, face burning hot, couldn't catch my breath. An hour, maybe. They did a tracing, said it was fine, sent me home.”", key:true, tag:"cardiac" },
-    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — Friday, or since?", a:"“No. No pain. Everyone keeps asking that. I just feel… wrong. Sick and sweaty and wrong.”", key:true },
+    { id:"saturday", q:"Saturday's attendance?", dq:"You were here on Saturday night — tell me exactly what happened then.", a:"“Heart went off like a drum — racing, face burning hot, couldn't catch my breath. An hour, maybe. They did a tracing, said it was fine, sent me home.”", key:true, tag:"cardiac" },
+    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — Saturday, or since?", a:"“No. No pain. Everyone keeps asking that. I just feel… wrong. Sick and sweaty and wrong.”", key:true },
     { id:"sweats", q:"Night sweats?", dq:"Tell me about the sweating at night.", a:"“Three nights running I've soaked the sheets right through. Not warm — drenched.”", key:true },
     { id:"gut",    q:"Sickness & bowels?", dq:"And the sickness and the diarrhoea — what's that been like?", a:"“Loose since yesterday, and I've been sick twice this morning. Second time there were red streaks in it.”" },
     { id:"bug",    q:"Anyone else unwell?", dq:"Sophie — has anyone around him been unwell?", a:"Sophie: “Two of the lads at his workshop had a stomach bug last week — I honestly thought it was that.”" },
@@ -585,18 +596,19 @@ const CASE = {
     { id:"drugs",  q:"Drugs & allergies?", dq:"What do you take day to day — and any allergies?", a:"“Just the sertraline — two years now, for the black dog. Nothing else. And I'm allergic to penicillin — rash all over as a kid.”", key:true },
     { id:"dental", q:"Recent procedures?", dq:"Any procedures recently — dental work, anything like that?", a:"“Had a back tooth out a month or so ago. Healed fine, I thought.”", tag:"ie" },
     { id:"work",   q:"Work & hands?", dq:"What's your line of work — any injuries to your hands?", a:"“I'm a joiner. Hands take a battering — splinters, nicks. There's one in my finger right now, as it happens.”" },
-    { id:"base",   q:"Normally fit?", dq:"Before Friday, how fit were you day to day?", a:"“Never ill. Six days a week in the workshop. Haven't seen a GP in years.”" }
+    { id:"base",   q:"Normally fit?", dq:"Before Saturday, how fit were you day to day?", a:"“Never ill. Six days a week in the workshop. Haven't seen a GP in years.”" }
   ],
 
   examCore: [
     { id:"gen",  name:"General inspection", f:"Pale, grey, clammy. Cool to the elbows. Capillary refill 3 s. He looks frightened.", dyn:true },
-    { id:"cvs",  name:"Cardiovascular", f:"", dyn:true, key:true },
+    { id:"cvs",  name:"Cardiovascular", sub:"auscultate", f:"", audio:"murmur.mp4", audioOnly:true, key:true },
     { id:"resp", name:"Respiratory", f:"Chest clear. RR 22, SpO₂ 96% on air. No pleural rub." },
     { id:"abdo", name:"Abdomen", f:"Soft. Mild tenderness in the epigastrium, no guarding. Bowel sounds active." },
     { id:"cns",  name:"Neurological", f:"GCS 15. No focal deficit. Visual fields full now — both eyes." }
   ],
   examMore: [
-    { id:"finger", name:"Hands & fingertips", sub:"that red spot", f:"", img:"finger.svg", imgOnly:true, imgAlt:"Left index fingertip: a small red lesion — under magnification, a wood splinter sits at its centre", key:true },
+    { id:"finger", name:"Hands & fingertips", sub:"that red spot", f:"", img:"osler.jpg", fallback:"finger.svg", imgOnly:true, imgAlt:"Fingertip pulps", key:true },
+    { id:"nails",  name:"Nailbeds", sub:"", f:"", img:"splinters.jpg", fallback:"splinters.svg", imgOnly:true, imgAlt:"Nailbeds", key:true },
     { id:"carotid",name:"Carotid auscultation", sub:"the visual loss", f:"Soft bruit over the left carotid. No bruit on the right.", tone:"alert", key:true },
     { id:"fundi", name:"Fundoscopy", sub:"", f:"No Roth spots. No retinal emboli visible now. Discs normal.", key:true },
     { id:"temp",  name:"Temperature trend", sub:"", f:"37.5 °C now; 37.4 °C at triage. Low-grade and flat — no spikes, no rigors observed.", supp:true, dyn:true },
@@ -608,23 +620,25 @@ const CASE = {
   ix: {
     bedside: [
       { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"supp", labs:[{n:"Glucose", v:"7.9", r:"4.0–7.8", u:"mmol/L", flag:"hi"}] },
-      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia 108 with occasional ventricular ectopics. QTc 476 ms. T-wave inversion V2–V4, deepest in V3. No ST elevation." },
-      { id:"oldecg", name:"Pull Friday's ECG from records", cost:20, costL:"20 min", tag:"key", text:"Friday 23:12 — filed as “normal, no acute change”.<img src=\"ecg-wellens.svg\" alt=\"Friday's ECG: biphasic T waves in V2 and V3 — a Wellens pattern\">" },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key",
+        text:"<div class=\"machine\">Today 14:26 · 25 mm/s · 10 mm/mV · rate 108 · PR 152 ms · QRS 94 ms · QT/QTc 402/476 ms</div><img src=\"ecg-today.jpg\" onerror=\"this.onerror=null;this.src='ecg-wellens.svg'\" alt=\"Today's 12-lead ECG\">" },
+      { id:"oldecg", name:"Pull Saturday's ECG from records", cost:20, costL:"20 min", tag:"key",
+        text:"<div class=\"machine\">Sat 23:12 · 25 mm/s · 10 mm/mV · rate 96 · QT/QTc 388/452 ms · filed: “normal, no acute change”</div><img src=\"ecg-saturday.webp\" onerror=\"this.onerror=null;this.src='ecg-wellens.svg'\" alt=\"Saturday's 12-lead ECG, filed as normal\">" },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
         labs:[{n:"pH", v:"7.33", r:"7.35–7.45", flag:"lo"},{n:"Lactate", v:"3.1", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Hb", v:"149", r:"130–170", u:"g/L"}] },
       { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable. No blood, no protein." }
     ],
     bloods: [
       { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"Hb", v:"149", r:"130–170", u:"g/L"},{n:"WCC", v:"15.8", r:"4.0–11.0", u:"×10⁹/L", flag:"hi", base:"6.2 (Friday)"},{n:"Neutrophils", v:"13.1", r:"2.0–7.5", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"385", r:"150–400", u:"×10⁹/L"}] },
+        labs:[{n:"Hb", v:"149", r:"130–170", u:"g/L"},{n:"WCC", v:"15.8", r:"4.0–11.0", u:"×10⁹/L", flag:"hi", base:"6.2 (Saturday)"},{n:"Neutrophils", v:"13.1", r:"2.0–7.5", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"385", r:"150–400", u:"×10⁹/L"}] },
       { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"9.8", r:"2.5–7.8", u:"mmol/L", flag:"hi"},{n:"Creatinine", v:"128", r:"59–104", u:"µmol/L", flag:"hi", base:"84 (Friday)"}] },
+        labs:[{n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"9.8", r:"2.5–7.8", u:"mmol/L", flag:"hi"},{n:"Creatinine", v:"128", r:"59–104", u:"µmol/L", flag:"hi", base:"84 (Saturday)"}] },
       { id:"crp",  name:"CRP", cost:60, costL:"60 min", tag:"supp",
-        labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi", base:"2 (Friday)"}] },
+        labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi", base:"2 (Saturday)"}] },
       { id:"lft",  name:"Liver function", cost:60, costL:"60 min", tag:"supp",
         labs:[{n:"Bilirubin", v:"24", r:"<21", u:"µmol/L", flag:"hi"},{n:"ALT", v:"68", r:"<41", u:"U/L", flag:"hi"},{n:"ALP", v:"92", r:"30–130", u:"U/L"},{n:"Albumin", v:"36", r:"35–50", u:"g/L"}] },
       { id:"trop", name:"Troponin", cost:60, costL:"60 min", tag:"key",
-        labs:[{n:"hs-cTnT", v:"148", r:"<14", u:"ng/L", flag:"hi", base:"8 (Friday)"}] },
+        labs:[{n:"hs-cTnT", v:"148", r:"<14", u:"ng/L", flag:"hi", base:"8 (Saturday)"}] },
       { id:"retrop", name:"Repeat troponin at 3 h", cost:180, costL:"3 h", tag:"key", isTrend:true,
         labs:[{n:"hs-cTnT", v:"892", r:"<14", u:"ng/L", flag:"hi", base:"148 (3 h ago)"}] },
       { id:"cult", name:"Blood cultures × 3 sets", cost:30, costL:"48 h", tag:"key", text:"Three sets from separate sites, 30 minutes apart, before any antibiotic. Preliminary at 12 h: no growth." },
@@ -639,7 +653,7 @@ const CASE = {
       { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"noise", text:"No acute intracranial abnormality." }
     ],
     special: [
-      { id:"echo", name:"Bedside echocardiogram", cost:90, costL:"90 min", tag:"key", text:"Portable study: hypokinesia of the anterior wall and septum, LV EF ~45%. Mild mitral regurgitation — the anterolateral papillary muscle looks dysfunctional. No vegetations on transthoracic views. RV not dilated. No effusion." },
+      { id:"echo", name:"Bedside echocardiogram", cost:90, costL:"90 min", tag:"key", text:"Portable study: hypokinesia of the anterior wall and septum, LV EF ~45%. Trivial-to-mild aortic regurgitation; valve leaflets thin and mobile, no vegetation seen on transthoracic views. RV not dilated. No effusion." },
       { id:"holt", name:"24-hour Holter", cost:0, costL:"2 wk", tag:"noise", text:"Fitted. Report expected in two weeks." }
     ]
   },
@@ -663,7 +677,7 @@ const CASE = {
 
   /* ----- ACT 2 management drill ----- */
   mgmt: [
-    { id:"wellens", tag:"The old tracing", q:"Friday's ECG is in your hand: biphasic T-waves in V2–V3, patient pain-free, troponin normal. What was it?",
+    { id:"wellens", tag:"The old tracing", q:"Saturday's ECG is in your hand: biphasic T-waves in V2–V3, patient pain-free, troponin normal. What was it?",
       opts:[
         { t:"A critical proximal LAD warning — admit for urgent inpatient angiography", ok:true },
         { t:"Non-specific repolarisation change — safe discharge with GP follow-up", ok:false },
@@ -692,7 +706,7 @@ const CASE = {
         { t:"Three blood-culture sets, separate venepunctures, ~30 minutes apart", ok:true },
         { t:"Start vancomycin + gentamicin — cultures can follow the first dose", ok:false },
         { t:"An urgent TOE tonight, before anything else", ok:false } ],
-      teach:"<b>ESC 2023 infective endocarditis</b>: three sets of cultures from separate sites, 30–60 minutes apart, <b>before</b> antibiotics — he is not septic, so antibiotics can wait the half-hour that keeps the cultures honest. Then keep reasoning: transthoracic echo first (no vegetations, but anterior hypokinesia with papillary-muscle dysfunction), no growth, no spiking fevers — the murmur is <b>ischaemic mitral regurgitation</b>, not a vegetation." },
+      teach:"<b>ESC 2023 infective endocarditis</b>: three sets from separate sites, 30–60 minutes apart, <b>before</b> antibiotics — he is not septic, so antibiotics can wait the half-hour that keeps the cultures honest. Then keep reasoning. Echo first: thin, mobile leaflets, trivial regurgitation, <b>no vegetation</b> — with nothing growing and no spiking fevers, that is one minor Duke criterion and a murmur, not endocarditis. Splinter haemorrhages are common and non-specific, especially in a man whose hands are his trade. Keep the cultures running, but do not let the valve story hold up the cath lab." },
     { id:"oxygen", tag:"The reflex", q:"Sats 96% on air. The student reaches for the non-rebreathe mask. Oxygen?",
       opts:[
         { t:"No — in ACS, oxygen only if SpO₂ falls below 90%", ok:true },
@@ -854,23 +868,23 @@ function genFinding(){
   if (o.appear==="worse") return "Grey and drenched, retching again. Runs of ectopics on the monitor now; he grips your wrist and won't let go.";
   return CASE.examCore.find(e=>e.id==="gen").f;
 }
-function cvsFinding(){
-  const o = obsState();
-  if (o.appear==="better") return "Pulse 96, fuller volume. The murmur is still there, softer. No gallop.";
-  if (o.appear==="worse") return "Pulse 124, thready. A gallop rhythm now, and the murmur is louder — the valve is failing with the muscle.";
-  return "Pulse 108, regular, low volume. JVP not raised. A soft systolic murmur at the apex, radiating towards the axilla — Friday's clerking says “heart sounds normal”. No pericardial rub.";
-}
 function rowHTML(item, picked, label){
   return `<div class="row__head"><span class="row__name">${item.name}${item.sub?` <span class="row__sub">· ${item.sub}</span>`:""}</span>`+
     `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
 }
 function findingFor(e){
-  const imgHTML = e.img ? `<img src="${e.img}" alt="${e.imgAlt||''}">` : "";
-  if (e.imgOnly) return imgHTML; // real life: you see it, nobody narrates it
+  const imgHTML = e.img
+    ? `<img src="${e.img}"${e.fallback?` onerror="this.onerror=null;this.src='${e.fallback}'"`:""} alt="${e.imgAlt||''}">`
+    : "";
+  // auscultation: you listen to it, nobody describes it for you
+  const audHTML = e.audio
+    ? `<div class="stethline"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg>listen</div>`+
+      `<audio controls preload="metadata" src="${e.audio}"></audio>`
+    : "";
+  if (e.imgOnly || e.audioOnly) return imgHTML + audHTML; // real life: you see it, you hear it — nobody narrates it
   let txt = e.f;
   if (e.id==="gen") txt = genFinding();
-  if (e.id==="cvs") txt = cvsFinding();
-  return txt + imgHTML;
+  return txt + imgHTML + audHTML;
 }
 function renderExam(){
   const core = $("#examCore"); core.innerHTML="";
@@ -975,7 +989,7 @@ function referFinding(){
     `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
     `<div style="margin-bottom:var(--s2);">“${fonda}”</div>`+
     `<div class="verdict">${done
-      ? "“That's an evolving anterior infarct on top of a Wellens tracing you've dug out of Friday — I'm activating the lab now. Pads on, stay with him, bring the notes.”"
+      ? "“That's an evolving anterior infarct on top of a Wellens tracing you've dug out of Saturday — I'm activating the lab now. Pads on, stay with him, bring the notes.”"
       : "“Send the trend and get the repeat tracing done, then call me straight back — I can't take him to the lab on one number and a murmur.”"}</div></div>`;
 }
 function resusRight(){ return S.rx.has("iv") && S.rx.has("asp") && S.rx.has("cult") && !S.rx.has("fluid") && !S.rx.has("ond") && !S.rx.has("abx"); }
@@ -1172,7 +1186,7 @@ function scoreAndShow(){
   const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
   const rank = pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
   $("#rank").textContent = rank;
-  $("#scoreSub").textContent = S.dxCorrect ? "Friday's “normal” tracing, the murmur, the sweats and the stomach bug were all working against you." : "The infarct hid behind a murmur and a stomach bug — see where it slipped.";
+  $("#scoreSub").textContent = S.dxCorrect ? "Saturday's “normal” tracing, the murmur, the sweats and the stomach bug were all working against you." : "The infarct hid behind a murmur and a stomach bug — see where it slipped.";
   countTo($("#scoreBig"), shown, MAX);
 
   $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
@@ -1180,8 +1194,8 @@ function scoreAndShow(){
     `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
 
   // learning objectives
-  const wellensTxt = S.wellensAt===null ? {v:"miss",t:"Pull the old ECG — and read it yourself",s:"You committed without ever seeing Friday's tracing. The Wellens pattern that sent him home was sitting in records the whole time."}
-    : S.wellensBeforeTrend ? {v:"hit",t:"Pull the old ECG — and read it yourself",s:"You went hunting for Friday's tracing before the trend forced your hand. That's the habit that catches Wellens."}
+  const wellensTxt = S.wellensAt===null ? {v:"miss",t:"Pull the old ECG — and read it yourself",s:"You committed without ever seeing Saturday's tracing. The Wellens pattern that sent him home was sitting in records the whole time."}
+    : S.wellensBeforeTrend ? {v:"hit",t:"Pull the old ECG — and read it yourself",s:"You went hunting for Saturday's tracing before the trend forced your hand. That's the habit that catches Wellens."}
     : {v:"part",t:"Pull the old ECG — and read it yourself",s:"The rising troponin sent you back to records. Right call — but the second attendance in three days could have got you there first."};
   const los=[
     wellensTxt,
@@ -1194,7 +1208,7 @@ function scoreAndShow(){
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
   // journey
-  $("#journey").innerHTML = `You pulled Friday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
+  $("#journey").innerHTML = `You pulled Saturday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `${S.ordered.has('retrop')?"trended the troponin":"never trended the troponin"}, `+
     `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
@@ -1219,6 +1233,18 @@ function mpReturnBtn(score, max){
   b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','acs-mi'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
   br.insertBefore(b, br.firstChild);
 }
+
+/* ---------- tap any finding image to see it full-screen ---------- */
+const zoomBox = $("#zoom");
+document.addEventListener("click", e=>{
+  const img = e.target.closest(".finding img, .labtext img");
+  if(!img) return;
+  $("#zoomImg").src = img.currentSrc || img.src;
+  $("#zoomImg").alt = img.alt || "";
+  zoomBox.hidden = false; zoomBox.classList.add("on");
+});
+zoomBox.onclick = ()=>{ zoomBox.classList.remove("on"); zoomBox.hidden = true; $("#zoomImg").removeAttribute("src"); };
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !zoomBox.hidden) zoomBox.onclick(); });
 
 /* ---------- init ---------- */
 renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar();

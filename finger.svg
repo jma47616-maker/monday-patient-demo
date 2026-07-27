@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Left index fingertip in close-up: a small red lesion on the pulp — under magnification, a wood splinter sits at its centre">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Left index fingertip in close-up: a small raised red nodule on the pulp, shown magnified">
   <defs>
     <linearGradient id="skin" x1="0" y1="1" x2="1" y2="0">
       <stop offset="0" stop-color="#d8bea1"/>
@@ -56,13 +56,12 @@
         <path d="M248 142 q76 -20 152 4"/>
         <path d="M256 168 q68 -16 136 6"/>
       </g>
-      <!-- magnified lesion: tender flush around a punctum -->
-      <circle cx="322" cy="110" r="34" fill="#d96a4a" opacity=".45"/>
-      <circle cx="322" cy="110" r="19" fill="#c24a33" opacity=".8"/>
-      <!-- the splinter -->
-      <path d="M306 122 L340 94 L346 98 L314 128 Z" fill="#6b4a26" stroke="#2b241d" stroke-width="3"/>
-      <path d="M340 94 L350 86" stroke="#6b4a26" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="310" cy="124" r="2.5" fill="#2b241d"/>
+      <!-- magnified lesion: a raised, tender nodule on the pulp -->
+      <circle cx="322" cy="110" r="34" fill="#d96a4a" opacity=".4"/>
+      <circle cx="322" cy="110" r="21" fill="#c24a33" opacity=".8"/>
+      <!-- raised dome, with a highlight to read as three-dimensional -->
+      <circle cx="322" cy="110" r="21" fill="none" stroke="#8f3320" stroke-width="2.5" opacity=".7"/>
+      <ellipse cx="315" cy="102" rx="7" ry="5" fill="#fff" opacity=".35"/>
       <!-- pulse -->
       <circle cx="322" cy="110" r="38" fill="none" stroke="#c24a33" stroke-width="3" opacity=".5">
         <animate attributeName="r" values="32;46" dur="1.6s" repeatCount="indefinite"/>
