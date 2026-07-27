@@ -544,7 +544,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
   <div class="overlay" id="commitGate" hidden>
     <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
       <h3 id="gateTitle">Before you commit</h3>
-      <p>Safe practice is to complete your assessment first. Here's where you've got to:</p>
+      <p id="gateSub">Safe practice is to complete your assessment first. Here's where you've got to:</p>
       <ul class="checklist" id="gateList"></ul>
       <div class="sheetbtns">
         <button class="btn" id="gateBack">Go back and finish</button>
@@ -987,8 +987,15 @@ function assessmentChecklist(){
 }
 $("#toCommit").onclick = ()=>{
   const list=assessmentChecklist();
-  if(list.every(x=>x.done)){ go("commit"); return; }
+  // hard requirement: results back + treatment started before a diagnosis can be committed
+  const ready = S.round>0 && S.rx.size>0;
+  if(ready && list.every(x=>x.done)){ go("commit"); return; }
   $("#gateList").innerHTML=list.map(x=>`<li data-done="${x.done?1:0}"><span class="mk">${x.done?'✓':'!'}</span>${x.label}</li>`).join("");
+  $("#gateTitle").textContent = ready ? "Before you commit" : "Too early to call it";
+  $("#gateSub").textContent = ready
+    ? "Safe practice is to complete your assessment first. Here's where you've got to:"
+    : "No consultant would accept a diagnosis yet — get some results back and start treating him, then call it.";
+  $("#gateGo").style.display = ready ? "" : "none";
   $("#commitGate").hidden=false;
 };
 $("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
