@@ -390,7 +390,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div class="card__label">How this case works</div>
         <ul class="points">
           <li><span class="n">1</span><span>History, examination and investigations live in one workspace — loop between them freely.</span></li>
-          <li><span class="n">2</span><span>Lock an early differential, then order investigations in rounds. Re-examine when results change the picture.</span></li>
+          <li><span class="n">2</span><span>Order investigations in rounds — the clock jumps by the slowest test. Re-examine when results change the picture.</span></li>
           <li><span class="n">3</span><span>Commit a diagnosis, then prove you can <em>manage</em> it. Targeted thinking scores; the scattergun costs time.</span></li>
         </ul>
       </div>
@@ -454,24 +454,6 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="bar">
         <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
         <button class="btn btn--sm" style="flex:2;" id="toCommit">Commit a diagnosis</button>
-      </div>
-    </section>
-
-    <!-- ===================== DIFFERENTIAL CHECKPOINT ===================== -->
-    <section class="screen" id="s-ddx">
-      <div class="kicker">Checkpoint</div>
-      <h2>Your top three — before any results</h2>
-      <p class="lede">Commit to a differential now, from what's in front of you. You'll see how it held up.</p>
-      <div class="field" style="margin-top:var(--s5);">
-        <div class="hint">Start typing — choose the closest match.</div>
-        <div class="ddxnums">
-          <div class="field"><span class="num">1</span><input list="dxlist" id="ddx1" placeholder="Most likely diagnosis" autocomplete="off"></div>
-          <div class="field"><span class="num">2</span><input list="dxlist" id="ddx2" placeholder="Second" autocomplete="off"></div>
-          <div class="field"><span class="num">3</span><input list="dxlist" id="ddx3" placeholder="Third" autocomplete="off"></div>
-        </div>
-      </div>
-      <div class="btnrow">
-        <button class="btn" id="ddxLock">Lock it in — send my first round</button>
       </div>
     </section>
 
@@ -728,7 +710,6 @@ const CASE = {
 const S = {
   clock: CASE.meta.startClock,
   asked: new Set(), examCore: new Set(), examMore: new Set(),
-  ddxLocked: false, ddx: [],
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0, fbcBackAt: null,
   dx: "", dxCorrect: false,
@@ -769,7 +750,7 @@ function renderObs(){
 function go(id){
   $$(".screen").forEach(s=>s.classList.remove("on"));
   $("#s-"+id).classList.add("on");
-  const map = { brief:"brief", work:"work", ddx:"work", commit:"commit", manage:"manage", out:"manage" };
+  const map = { brief:"brief", work:"work", commit:"commit", manage:"manage", out:"manage" };
   const stage = map[id] || "brief";
   const order = ["brief","work","commit","manage"];
   $$("#actbar .actpill").forEach(p=>{
@@ -934,19 +915,7 @@ function processRound(){
   renderIx();
   feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
 }
-$("#sendRound").onclick = ()=>{
-  if(!S.picked.size) return;
-  if(!S.ddxLocked){ go("ddx"); return; }
-  processRound();
-};
-
-/* ---------- differential checkpoint ---------- */
-$("#ddxLock").onclick = ()=>{
-  S.ddx = ["#ddx1","#ddx2","#ddx3"].map(s=>$(s).value.trim()).filter(Boolean);
-  S.ddxLocked = true;
-  go("work"); tab("ix");
-  if(S.picked.size) processRound();
-};
+$("#sendRound").onclick = ()=>{ if(S.picked.size) processRound(); };
 
 /* ---------- treat: initial resus + further mx / referral ---------- */
 function referFinding(){
@@ -1108,8 +1077,6 @@ function scoreAndShow(){
   const add=(l,p)=>{ rows.push([l,p]); total+=p; };
 
   add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
-  const ddxHit = S.ddx.some(d=>CASE.meta.dxAccepted.includes(norm(d)));
-  add("Bleed named in your early top 3", ddxHit?10:0);
 
   let keys=0;
   CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
@@ -1167,8 +1134,7 @@ function scoreAndShow(){
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
   // journey
-  $("#journey").innerHTML = `Early top three: <b>${S.ddx.length?S.ddx.join(" · "):"—"}</b>.<br>`+
-    `You did the PR ${S.prDoneAt===null?"<b>not at all</b>":S.prBeforeFBC?"<b>at the bedside, before the bloods</b>":"<b>after the anaemia came back</b>"}, `+
+  $("#journey").innerHTML = `You did the PR ${S.prDoneAt===null?"<b>not at all</b>":S.prBeforeFBC?"<b>at the bedside, before the bloods</b>":"<b>after the anaemia came back</b>"}, `+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `${(S.rx.has('iv')||S.rx.has('blood'))?"resuscitated him":"did not resuscitate"}, and `+
     `reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
