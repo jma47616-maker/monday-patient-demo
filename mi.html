@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Monday Patient">
+<title>The Monday Patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · component: app platform · genre: editorial × modern-minimal
+ * theme: custom (vibe: "warm editorial clinical, premium teaching" · paper oklch(98% 0.008 75) · accent oklch(58% 0.15 40) terracotta · Fraunces + Geist + Geist Mono)
+ * pre-emit critique: P5 H5 E4 S5 R4 V5
+ */
+:root {
+  color-scheme: light;
+  --paper:   #faf6f0;
+  --paper-2: #f3ece1;
+  --paper-3: #ece2d4;
+  --ink:     #2b241d;
+  --ink-2:   #4a4136;
+  --muted:   #7a6f60;
+  --faint:   #9c917f;
+  --rule:    #e3d8c8;
+  --rule-2:  #d4c7b3;
+  --accent:    #b8552e;
+  --accent-2:  #9c4525;
+  --accent-bg: #f6e6db;
+  --accent-ink:#fdf6f0;
+  --danger:    #b23b2e;
+  --danger-bg: #f7e3df;
+  --good:      #3f7d52;
+  --good-bg:   #e6f0e6;
+  --warn:      #9a6a16;
+  --warn-bg:   #f6ebd6;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2rem; --s7:3rem;
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --shadow: 0 1px 2px rgba(43,36,29,.04), 0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg: 0 2px 6px rgba(43,36,29,.06), 0 12px 36px rgba(43,36,29,.10);
+}
+@supports (color: oklch(50% 0 0)) {
+  :root {
+    --paper:   oklch(98% 0.008 75);
+    --paper-2: oklch(95.5% 0.013 72);
+    --paper-3: oklch(92.5% 0.016 70);
+    --ink:     oklch(26% 0.018 55);
+    --ink-2:   oklch(38% 0.02 52);
+    --muted:   oklch(52% 0.02 58);
+    --faint:   oklch(64% 0.018 62);
+    --rule:    oklch(89% 0.014 72);
+    --rule-2:  oklch(83% 0.018 70);
+    --accent:    oklch(56% 0.135 42);
+    --accent-2:  oklch(48% 0.14 40);
+    --accent-bg: oklch(93% 0.04 50);
+    --accent-ink:oklch(98% 0.01 70);
+    --danger:    oklch(52% 0.17 30);
+    --danger-bg: oklch(94% 0.045 32);
+    --good:      oklch(52% 0.11 150);
+    --good-bg:   oklch(94% 0.035 150);
+    --warn:      oklch(54% 0.11 75);
+    --warn-bg:   oklch(94% 0.05 82);
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+button, input { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+
+.app { max-width: 30rem; margin-inline: auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--paper); }
+@media (min-width: 32rem) { .app { box-shadow: var(--shadow-lg); } }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark em { font-style: italic; color: var(--accent); }
+.clock { display: inline-flex; align-items: center; gap: var(--s2); font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: .28rem .6rem; white-space: nowrap; }
+.clock i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.clock b { color: var(--ink); font-weight: 500; }
+.acts { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.actpill { flex: 1; display: flex; align-items: center; gap: var(--s2); font-size: .72rem; color: var(--faint); padding: .3rem .5rem; border-radius: var(--r-sm); border: 1px solid transparent; }
+.actpill b { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: grid; place-items: center; background: var(--paper-3); color: var(--faint); font-size: .7rem; font-weight: 600; font-family: var(--font-mono); }
+.actpill[data-on="1"] { color: var(--ink); background: var(--accent-bg); border-color: color-mix(in oklab, var(--accent) 25%, transparent); }
+.actpill[data-on="1"] b { background: var(--accent); color: var(--accent-ink); }
+.actpill[data-on="done"] b { background: var(--good); color: #fff; }
+
+/* ---------- screens ---------- */
+main { flex: 1; padding: var(--s5) var(--s4) var(--s7); }
+.screen { display: none; }
+.screen.on { display: block; animation: in .42s var(--ease); }
+@keyframes in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+h1 { font-family: var(--font-display); font-weight: 600; font-size: 2.1rem; line-height: 1.08; letter-spacing: -.02em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; line-height: 1.12; letter-spacing: -.015em; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; line-height: 1.2; }
+.kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; margin-bottom: var(--s2); }
+.lede { color: var(--muted); margin-top: var(--s2); max-width: 36ch; }
+.serif-body { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.5; color: var(--ink-2); }
+
+/* ---------- brief ---------- */
+.badges { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4); }
+.badge { font-size: .72rem; font-weight: 500; border-radius: 999px; padding: .28rem .7rem; background: var(--paper-2); color: var(--muted); border: 1px solid var(--rule); }
+.badge--accent { background: var(--accent-bg); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent) 22%, transparent); }
+.patient { display: flex; align-items: center; gap: var(--s3); margin: var(--s4) 0; }
+.avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; display: grid; place-items: center; box-shadow: var(--shadow); }
+.patient__meta b { font-weight: 500; }
+.patient__meta span { display: block; color: var(--muted); font-size: .85rem; }
+
+.card { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.card--plain { background: transparent; }
+.card__label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: var(--s3); }
+
+.obsgrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--s2); }
+.obs { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s2); text-align: center; }
+.obs .k { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.obs .v { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 500; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+.obs .u { font-size: .62rem; color: var(--faint); }
+.obs[data-flag="hi"] .v, .obs[data-flag="lo"] .v { color: var(--danger); }
+.news { display: flex; align-items: baseline; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s3); border-top: 1px dashed var(--rule-2); }
+.news .lbl { font-size: .8rem; color: var(--muted); }
+.news .val { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
+.news .val[data-tone="warn"] { color: var(--warn); }
+.news .val[data-tone="bad"] { color: var(--danger); }
+.news .val[data-tone="ok"] { color: var(--good); }
+
+.points { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.points li { display: flex; gap: var(--s3); font-size: .92rem; color: var(--ink-2); }
+.points .n { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-size: .78rem; font-weight: 600; display: grid; place-items: center; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: 52px; padding: var(--s3) var(--s4); background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 1rem; letter-spacing: -.01em; white-space: nowrap; border: 1px solid var(--accent); border-radius: var(--r-md); cursor: pointer; box-shadow: var(--shadow); transition: transform .12s var(--ease), background-color .2s var(--ease), filter .2s var(--ease); }
+@media (hover:hover){ .btn:hover { filter: brightness(1.06); } }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule-2); box-shadow: none; }
+@media (hover:hover){ .btn--ghost:hover { background: var(--paper-2); } }
+.btn--sm { min-height: 44px; font-size: .92rem; width: auto; padding: var(--s2) var(--s4); }
+.btnrow { display: flex; flex-direction: column; gap: var(--s3); margin-top: var(--s5); }
+.bar { position: sticky; bottom: 0; z-index: 15; margin: var(--s5) calc(var(--s4) * -1) calc(var(--s7) * -1); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom,0px)); background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--rule); display: flex; gap: var(--s3); }
+.bar .btn { box-shadow: none; }
+
+/* ---------- tabs ---------- */
+.tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
+.tab { flex: 1; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 500; white-space: nowrap; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .25rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
+.tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
+.tab[data-locked="1"] { opacity: .35; pointer-events: none; }
+.tab[data-locked="1"]::after { content: "🔒"; font-size: .58rem; margin-left: .1rem; }
+.tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
+.tab .dot.show { display: inline-flex; }
+.panel { display: none; }
+.panel.on { display: block; animation: in .3s var(--ease); }
+.panel__hint { font-size: .85rem; color: var(--muted); margin-bottom: var(--s4); }
+
+/* ---------- history ---------- */
+.qa { list-style: none; padding: 0; margin: 0 0 var(--s4); display: flex; flex-direction: column; gap: var(--s3); }
+.qa li { animation: pop .3s var(--ease); }
+.qa .q { font-size: .82rem; color: var(--accent-2); font-weight: 600; margin-bottom: .15rem; }
+.qa .a { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.45; color: var(--ink-2); }
+@keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s2); }
+.chip { min-height: 50px; padding: var(--s2) var(--s3); background: var(--paper-2); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--r-md); font-size: .85rem; text-align: left; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .chip:hover { background: var(--paper-3); border-color: var(--rule-2); } }
+.chip:active { transform: translateY(1px); }
+.chip:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* ---------- chat history ---------- */
+.msg { display: flex; gap: var(--s2); align-items: flex-end; }
+.msg--dr { justify-content: flex-end; }
+.msg .bub { max-width: 84%; padding: .55rem .85rem; border-radius: 16px; font-size: .95rem; line-height: 1.45; animation: pop .3s var(--ease); }
+.msg--dr .bub { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg--pt .bub { background: var(--paper-2); border: 1px solid var(--rule); color: var(--ink-2); border-bottom-left-radius: 4px; font-family: var(--font-display); font-size: 1.02rem; }
+.msg .who { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: .2rem; font-family: var(--font-body); font-weight: 600; }
+.msg--dr .who { text-align: right; }
+.msg .pav { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--paper-3); overflow: hidden; border: 1.5px solid var(--rule-2); box-shadow: var(--shadow); margin-bottom: 2px; animation: pop .35s var(--ease); }
+.msg .pav img { width: 100%; height: 100%; display: block; object-fit: cover; }
+#hxScene { margin-bottom: var(--s4); }
+#hxScene img { width: 100%; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); display: block; animation: in .6s var(--ease); }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding: .25rem 0; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: tp 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes tp { 0%,60%,100% { transform: none; opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.chips[data-busy="1"] { opacity: .55; pointer-events: none; }
+
+/* ---------- question timer ---------- */
+.mqprog { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s2); font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tbar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; margin-bottom: var(--s4); }
+.tbar i { display: block; height: 100%; width: 100%; background: var(--good); border-radius: 999px; transition: background-color .3s var(--ease); }
+
+/* ---------- exam + ix rows ---------- */
+.rows { list-style: none; padding: 0; margin: 0; }
+.row { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.row__head { display: flex; align-items: center; gap: var(--s3); }
+.row__name { flex: 1; font-size: .92rem; }
+.row__sub { font-size: .72rem; color: var(--faint); }
+.row__cost { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.act { min-height: 40px; min-width: 76px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .82rem; font-weight: 600; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease); }
+@media (hover:hover){ .act:hover { background: var(--accent-bg); } }
+.act:active { transform: translateY(1px); }
+.act:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.act[data-picked="1"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.act[disabled] { opacity: .5; cursor: default; color: var(--muted); }
+.finding { margin-top: var(--s2); font-family: var(--font-display); font-size: .98rem; line-height: 1.45; color: var(--ink-2); animation: pop .3s var(--ease); }
+.finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
+.finding img { width: 100%; max-width: 250px; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.finding img.wide, .labtext img { width: 100%; max-width: 100%; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
+.reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
+.reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
+.reflist li { display: flex; gap: var(--s2); align-items: baseline; }
+.reflist li b { font-weight: 500; }
+.reflist .ok { color: var(--good); font-weight: 700; }
+.reflist .no { color: var(--danger); font-weight: 700; }
+.reflist .verdict { font-family: var(--font-display); font-style: italic; color: var(--accent-2); }
+.grouph { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: var(--s5) 0 var(--s1); }
+.grouph:first-of-type { margin-top: 0; }
+details.more { margin-top: var(--s4); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--paper-2); overflow: hidden; }
+details.more > summary { list-style: none; cursor: pointer; padding: var(--s3) var(--s4); font-size: .9rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary .chev { transition: transform .2s var(--ease); color: var(--faint); }
+details.more[open] > summary .chev { transform: rotate(180deg); }
+details.more .more__body { padding: 0 var(--s4) var(--s2); }
+details.more .more__body .row:last-child { border-bottom: none; }
+
+/* ---------- results feed (lab report) ---------- */
+.roundh { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); font-weight: 500; margin: var(--s4) 0 var(--s2); display: flex; align-items: center; gap: var(--s2); }
+.roundh::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.result { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); animation: pop .3s var(--ease); }
+.result .rn { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.labrow { display: grid; grid-template-columns: 1fr auto auto; gap: var(--s2) var(--s3); align-items: baseline; font-size: .82rem; }
+.labrow + .labrow { margin-top: .35rem; padding-top: .35rem; border-top: 1px dashed var(--rule); }
+.labrow .ln { color: var(--muted); }
+.labrow .lv { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.labrow .lr { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.labrow[data-flag="hi"] .lv, .labrow[data-flag="lo"] .lv { color: var(--danger); font-weight: 600; }
+.labrow .lv .arrow { font-size: .7rem; }
+.labrow .base { grid-column: 1 / -1; font-size: .72rem; color: var(--faint); }
+.labtext { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-2); line-height: 1.5; }
+
+/* ---------- type-ahead ---------- */
+.field { margin-bottom: var(--s4); }
+.field label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.field .hint { font-size: .76rem; color: var(--faint); margin-bottom: var(--s2); }
+.field input { width: 100%; min-height: 50px; padding: var(--s3) var(--s4); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: 2px solid transparent; outline-offset: 1px; transition: background-color .15s var(--ease); }
+.field input::placeholder { color: var(--faint); }
+.field input:hover { background: var(--paper-2); }
+.field input:focus-visible { outline-color: var(--accent-2); }
+.ddxnums { display: flex; flex-direction: column; gap: var(--s3); }
+.ddxnums .field { margin-bottom: 0; display: flex; align-items: center; gap: var(--s3); }
+.ddxnums .field .num { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-weight: 600; display: grid; place-items: center; }
+.ddxnums .field input { flex: 1; }
+
+/* ---------- management drill (act 2) ---------- */
+.mq { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.mq__q { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin-bottom: var(--s3); }
+.mq__q .tagn { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); display: block; font-weight: 500; margin-bottom: .2rem; }
+.opts { display: flex; flex-direction: column; gap: var(--s2); }
+.opt { display: flex; align-items: center; gap: var(--s3); min-height: 50px; padding: var(--s3); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); text-align: left; font-size: .92rem; color: var(--ink); cursor: pointer; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .opt:hover:not([disabled]) { background: var(--paper-3); } }
+.opt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.opt .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule-2); display: grid; place-items: center; font-size: .8rem; }
+.opt[data-state="right"] { border-color: var(--good); background: var(--good-bg); }
+.opt[data-state="right"] .mk { background: var(--good); color: #fff; border-color: var(--good); }
+.opt[data-state="wrong"] { border-color: var(--danger); background: var(--danger-bg); }
+.opt[data-state="wrong"] .mk { background: var(--danger); color: #fff; border-color: var(--danger); }
+.opt[data-state="dim"] { opacity: .55; }
+.teach { margin-top: var(--s3); padding: var(--s3); border-radius: var(--r-md); background: var(--paper); border: 1px solid var(--rule); font-size: .88rem; line-height: 1.5; color: var(--ink-2); animation: pop .3s var(--ease); }
+.teach b { color: var(--ink); font-weight: 600; }
+.teach[data-tone="right"] { border-left: 3px solid var(--good); border-radius: 0 var(--r-md) var(--r-md) 0; }
+.teach[data-tone="wrong"] { border-left: 3px solid var(--danger); border-radius: 0 var(--r-md) var(--r-md) 0; }
+
+/* ---------- outcome ---------- */
+.scorehero { text-align: center; padding: var(--s5) 0 var(--s4); }
+.scorehero .big { font-family: var(--font-display); font-weight: 600; font-size: 4.2rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.scorehero .big span { font-size: 1.6rem; color: var(--faint); }
+.scorehero .rank { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--accent-2); margin-top: var(--s2); }
+.scorehero .sub { color: var(--muted); font-size: .9rem; margin-top: var(--s2); max-width: 34ch; margin-inline: auto; }
+.dxverdict { display: flex; align-items: center; gap: var(--s3); padding: var(--s4); border-radius: var(--r-md); margin-bottom: var(--s4); }
+.dxverdict[data-hit="1"] { background: var(--good-bg); border: 1px solid color-mix(in oklab, var(--good) 30%, transparent); }
+.dxverdict[data-hit="0"] { background: var(--warn-bg); border: 1px solid color-mix(in oklab, var(--warn) 35%, transparent); }
+.dxverdict .ic { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.dxverdict[data-hit="1"] .ic { background: var(--good); }
+.dxverdict[data-hit="0"] .ic { background: var(--warn); }
+.dxverdict .t { font-weight: 600; }
+.dxverdict .s { font-size: .82rem; color: var(--muted); }
+.lo { border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); display: flex; gap: var(--s3); }
+.lo .ic { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .76rem; font-weight: 700; color: #fff; margin-top: 1px; }
+.lo[data-v="hit"] .ic { background: var(--good); }
+.lo[data-v="part"] .ic { background: var(--warn); }
+.lo[data-v="miss"] .ic { background: var(--danger); }
+.lo .lt { font-size: .9rem; font-weight: 600; }
+.lo .ls { font-size: .84rem; color: var(--muted); margin-top: .15rem; line-height: 1.45; }
+.score { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.score td { padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
+.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.score tr:last-child td { border-bottom: none; font-weight: 600; font-family: var(--font-display); font-size: 1rem; padding-top: var(--s3); }
+.plus { color: var(--good); }
+.minus { color: var(--danger); }
+.pearls { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.pearls li { display: flex; gap: var(--s3); font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.pearls li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: .5rem; }
+.lock { display: flex; align-items: center; gap: var(--s3); }
+.lock .ic { flex: none; color: var(--faint); }
+
+footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px)); border-top: 1px solid var(--rule); font-size: .72rem; color: var(--faint); line-height: 1.6; }
+
+/* ---------- commit gate ---------- */
+.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(43,36,29,.45); display: flex; align-items: center; justify-content: center; padding: var(--s4); }
+.overlay[hidden] { display: none; }
+.sheet { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s5); max-width: 26rem; width: 100%; box-shadow: var(--shadow-lg); animation: rise .3s var(--ease); }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet p { color: var(--muted); font-size: .92rem; margin-top: var(--s2); }
+.checklist { list-style: none; padding: 0; margin: var(--s4) 0; display: flex; flex-direction: column; gap: var(--s1); }
+.checklist li { display: flex; align-items: center; gap: var(--s3); font-size: .94rem; padding: var(--s2) 0; }
+.checklist .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .78rem; font-weight: 700; }
+.checklist li[data-done="1"] .mk { background: var(--good); color: #fff; }
+.checklist li[data-done="1"] { color: var(--muted); }
+.checklist li[data-done="0"] .mk { background: var(--warn-bg); color: var(--warn); }
+.sheetbtns { display: flex; flex-direction: column; gap: var(--s2); }
+
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <div class="clock"><i></i>ward clock <b id="clock">14:12</b></div>
+    </div>
+    <div class="acts" id="actbar">
+      <div class="actpill" data-stage="brief"><b>1</b><span>Brief</span></div>
+      <div class="actpill" data-stage="work"><b>2</b><span>Work-up</span></div>
+      <div class="actpill" data-stage="commit"><b>3</b><span>Diagnose</span></div>
+      <div class="actpill" data-stage="manage"><b>4</b><span>Manage</span></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== BRIEF ===================== -->
+    <section class="screen on" id="s-brief">
+      <div class="badges">
+        <span class="badge badge--accent">Week 2 · 12</span>
+        <span class="badge">Acute medical take</span>
+        <span class="badge">≈ 15 min</span>
+      </div>
+      <h1>The man who came back</h1>
+      <p class="lede">Sent home from this department three nights ago. Now he’s back — grey, drenched, and getting worse. Work him up before whatever this is declares itself.</p>
+
+      <div class="patient">
+        <div class="avatar">MW</div>
+        <div class="patient__meta">
+          <b>Marcus Webb</b>
+          <span>48 · male · self-presented, second attendance</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">ED triage · 14:12 · majors</div>
+        <p class="serif-body" style="margin-bottom: var(--s4);">Walked in pale and sweating after nearly fainting at home this morning. Vomiting, loose stools, drenching night sweats. Seen here Friday night with palpitations and discharged — “the tracing was fine”. His partner Sophie is at the bedside.</p>
+        <div class="obsgrid">
+          <div class="obs"><div class="k">HR</div><div class="v">108</div><div class="u">/min</div></div>
+          <div class="obs" data-flag="lo"><div class="k">BP</div><div class="v">92/58</div><div class="u">mmHg</div></div>
+          <div class="obs" data-flag="hi"><div class="k">RR</div><div class="v">22</div><div class="u">/min</div></div>
+          <div class="obs"><div class="k">SpO₂</div><div class="v">96</div><div class="u">% air</div></div>
+          <div class="obs"><div class="k">Temp</div><div class="v">37.5</div><div class="u">°C</div></div>
+          <div class="obs"><div class="k">GCS</div><div class="v">15</div><div class="u">/15</div></div>
+        </div>
+        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="bad" id="newsBrief">6</span></div>
+      </div>
+
+      <div class="card card--plain" style="border:1px solid var(--rule);">
+        <div class="card__label">How this case works</div>
+        <ul class="points">
+          <li><span class="n">1</span><span>Work him up in stages — history, then examination, then investigations. You can step back to any completed stage to reassess him; the case counts how often you do.</span></li>
+          <li><span class="n">2</span><span>Order investigations in rounds — the clock jumps by the slowest test. Re-examine when results change the picture.</span></li>
+          <li><span class="n">3</span><span>Commit a diagnosis once the results justify it — only then does treatment open. Then prove you can <em>manage</em> it.</span></li>
+        </ul>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn" data-go="work">Begin the assessment</button>
+      </div>
+    </section>
+
+    <!-- ===================== WORKSPACE ===================== -->
+    <section class="screen" id="s-work">
+      <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
+          <div style="font-size:.78rem; color:var(--muted);">Marcus Webb · 48 · majors, bay 2</div>
+          <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--danger);">6</span></div>
+        </div>
+        <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ix">Investigate <span class="dot" id="ixDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="rx">Treat <span class="dot" id="rxDot"></span></button>
+      </div>
+
+      <div class="panel on" id="p-hx">
+        <p class="panel__hint">Tap to ask. Each question costs about 30 seconds.</p>
+        <div id="hxScene"><img src="scene-acs.svg" alt="This morning: Marcus grey and sweating, gripping the bathroom door frame; Sophie reaching for him."></div>
+        <ul class="qa" id="qa"></ul>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel" id="p-ex">
+        <p class="panel__hint">The core systems are quick. Reach for a focused examination when the story calls for it — choosing the right one is the skill.</p>
+        <ul class="rows" id="examCore"></ul>
+        <details class="more" id="moreExam">
+          <summary>Further / focused examinations <span class="chev">▾</span></summary>
+          <div class="more__body"><ul class="rows" id="examMore"></ul></div>
+        </details>
+        <div id="reexamWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="reexamBtn">Re-examine the patient</button>
+        </div>
+      </div>
+
+      <div class="panel" id="p-ix">
+        <p class="panel__hint">Build a round, send it, read the results. Order as many rounds as you need — the clock jumps by the slowest test each round.</p>
+        <div id="ixGroups"></div>
+        <button class="btn" id="sendRound" disabled style="margin-top:var(--s4);">Send round</button>
+        <div id="feed" aria-live="polite" style="margin-top:var(--s4);"></div>
+      </div>
+
+      <div class="panel" id="p-rx">
+        <p class="panel__hint">You've called it. Now treat him: get the first-line care right — the onward plan unlocks when the basics are safe. Reassess after anything you give.</p>
+        <div id="rxRows"></div>
+        <div id="rxReassessWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="rxReassessBtn">Reassess the patient</button>
+        </div>
+      </div>
+
+      <div class="bar">
+        <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
+        <button class="btn btn--sm" style="flex:2;" id="toCommit">Commit a diagnosis</button>
+      </div>
+    </section>
+
+    <!-- ===================== COMMIT ===================== -->
+    <section class="screen" id="s-commit">
+      <div class="kicker">Diagnosis</div>
+      <h2>Commit your diagnosis</h2>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <div class="field" style="margin-top:var(--s5);">
+        <label for="dxInput">Final diagnosis</label>
+        <div class="hint">Type it — the box will suggest matches.</div>
+        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+      </div>
+      <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that's the registrar's call you're being asked to make.</div>
+      <div class="btnrow">
+        <button class="btn btn--ghost" data-go="work">Back to the work-up</button>
+        <button class="btn" id="commitBtn">Lock diagnosis → manage him</button>
+      </div>
+    </section>
+
+    <!-- ===================== MANAGE (ACT 2) ===================== -->
+    <section class="screen" id="s-manage">
+      <div class="kicker">Management</div>
+      <h2 id="manageHead">Now manage the infarct</h2>
+      <p class="lede" id="manageLede">You've made the diagnosis. This is what separates safe from dangerous — the decisions, with the evidence behind each.</p>
+      <div id="mqList" style="margin-top:var(--s5);"></div>
+      <div class="btnrow">
+        <button class="btn" id="finishBtn">Finish the case → see how you did</button>
+      </div>
+    </section>
+
+    <!-- ===================== OUTCOME ===================== -->
+    <section class="screen" id="s-out">
+      <div class="scorehero">
+        <div class="big" id="scoreBig">0<span>/160</span></div>
+        <div class="rank" id="rank"></div>
+        <div class="sub" id="scoreSub"></div>
+      </div>
+      <div id="dxVerdict"></div>
+
+      <div class="card">
+        <div class="card__label">Against the learning objectives</div>
+        <div id="loList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Your diagnostic journey</div>
+        <div id="journey" class="serif-body" style="font-size:.96rem;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Score breakdown</div>
+        <table class="score" id="scoreTable"></table>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Teaching pearls</div>
+        <ul class="pearls">
+          <li>The most dangerous ECG is the one filed as normal. Biphasic or deeply inverted T-waves in V2–V3 in a pain-free patient with a quiet troponin are Wellens syndrome — a critical proximal LAD announcing itself. No treadmill test, ever — it can precipitate the infarct. Angiography.</li>
+          <li>Myocardial infarction does not owe you chest pain. He never reported any — sweating, vomiting and a sense of dread were the whole story. The "never-ill" middle-aged smoker is exactly who presents this way.</li>
+          <li>Troponin is a trend, not a number. 148 alone could be demand from any tachycardia; 148 → 892 with evolving anterior changes is a type 1 infarct (Fourth Universal Definition). And never let a raised CRP talk you out of a rising troponin.</li>
+          <li>A new murmur has two stories here. Fever, night sweats and a fingertip lesion say endocarditis; anterior hypokinesia with papillary-muscle dysfunction and no vegetations says ischaemic mitral regurgitation. Three culture sets before any antibiotic (ESC 2023) — then keep reasoning.</li>
+          <li>Every decoy explained part of the picture — the workshop bug the diarrhoea, the splinter the fingertip, the extraction the endocarditis story. Only the LAD explains Friday's tracing, the troponin trend and the murmur together.</li>
+          <li>Cardiogenic hypotension is not an empty tank. The reflex fluid bolus floods a failing ventricle, and the reflex non-rebreathe harms too — in ACS, oxygen only below SpO₂ 90% (AVOID, DETO2X-AMI; ESC 2023).</li>
+          <li>Watch the QT you already own. Sertraline had his QTc at 476 ms before you prescribed anything — ondansetron on top invites torsades. Metoclopramide spares the QT.</li>
+        </ul>
+      </div>
+
+      <div class="card lock">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+        <div>
+          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
+          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · Wellens to the wire — the missed tracing, the decoy murmur, and the golden 120 minutes.</div>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn btn--ghost" id="replay">Play the case again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
+  </footer>
+
+  <div class="overlay" id="commitGate" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+      <h3 id="gateTitle">Before you commit</h3>
+      <p id="gateSub">Safe practice is to complete your assessment first. Here's where you've got to:</p>
+      <ul class="checklist" id="gateList"></ul>
+      <div class="sheetbtns">
+        <button class="btn" id="gateBack">Go back and finish</button>
+        <button class="btn btn--ghost" id="gateGo">Commit anyway</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<datalist id="dxlist"></datalist>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CASE DATA — this object is the weekly authoring template.
+   Week 2: second attendance, evolving anterior MI behind an
+   endocarditis / PE confusion set.
+   ============================================================ */
+const CASE = {
+  meta: { dxAccepted: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterior mi","evolving stemi","heart attack","type 1 myocardial infarction","anterior myocardial infarction","evolving myocardial infarction"],
+          dxName: "Acute coronary syndrome", startClock: 852 /* 14:12 in minutes */ },
+
+  history: [
+    { id:"what",   q:"What happened?", dq:"Marcus, talk me through what happened this morning.", a:"“Walking to the bathroom and the world went grey — sweat just pouring off me, legs like water. Sophie caught me on the door frame.”" },
+    { id:"friday", q:"Friday's attendance?", dq:"You were here on Friday night — tell me exactly what happened then.", a:"“Heart went off like a drum — racing, face burning hot, couldn't catch my breath. An hour, maybe. They did a tracing, said it was fine, sent me home.”", key:true, tag:"cardiac" },
+    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — Friday, or since?", a:"“No. No pain. Everyone keeps asking that. I just feel… wrong. Sick and sweaty and wrong.”", key:true },
+    { id:"sweats", q:"Night sweats?", dq:"Tell me about the sweating at night.", a:"“Three nights running I've soaked the sheets right through. Not warm — drenched.”", key:true },
+    { id:"gut",    q:"Sickness & bowels?", dq:"And the sickness and the diarrhoea — what's that been like?", a:"“Loose since yesterday, and I've been sick twice this morning. Second time there were red streaks in it.”" },
+    { id:"bug",    q:"Anyone else unwell?", dq:"Sophie — has anyone around him been unwell?", a:"Sophie: “Two of the lads at his workshop had a stomach bug last week — I honestly thought it was that.”" },
+    { id:"vision", q:"Vision changes?", dq:"Anything odd with your eyes or your vision lately?", a:"“Yesterday my left eye went dark for a minute — like a blind coming down. Came back on its own.”", key:true },
+    { id:"asp",    q:"Taken anything?", dq:"Have you taken anything yourself before coming in?", a:"“Three aspirin this morning, before we came. Just in case. You hear things.”", key:true },
+    { id:"fhx",    q:"Family history?", dq:"Any heart trouble in the family?", a:"“Dad died of a heart attack at fifty-four. His brother the same. It's why I don't do hospitals.”", tag:"cardiac" },
+    { id:"smoke",  q:"Smoker?", dq:"Do you smoke, Marcus?", a:"“Twenty a day since I was sixteen. I know. Don't.”", key:true },
+    { id:"drugs",  q:"Drugs & allergies?", dq:"What do you take day to day — and any allergies?", a:"“Just the sertraline — two years now, for the black dog. Nothing else. And I'm allergic to penicillin — rash all over as a kid.”", key:true },
+    { id:"dental", q:"Recent procedures?", dq:"Any procedures recently — dental work, anything like that?", a:"“Had a back tooth out a month or so ago. Healed fine, I thought.”", tag:"ie" },
+    { id:"work",   q:"Work & hands?", dq:"What's your line of work — any injuries to your hands?", a:"“I'm a joiner. Hands take a battering — splinters, nicks. There's one in my finger right now, as it happens.”" },
+    { id:"base",   q:"Normally fit?", dq:"Before Friday, how fit were you day to day?", a:"“Never ill. Six days a week in the workshop. Haven't seen a GP in years.”" }
+  ],
+
+  examCore: [
+    { id:"gen",  name:"General inspection", f:"Pale, grey, clammy. Cool to the elbows. Capillary refill 3 s. He looks frightened.", dyn:true },
+    { id:"cvs",  name:"Cardiovascular", f:"", dyn:true, key:true },
+    { id:"resp", name:"Respiratory", f:"Chest clear. RR 22, SpO₂ 96% on air. No pleural rub." },
+    { id:"abdo", name:"Abdomen", f:"Soft. Mild tenderness in the epigastrium, no guarding. Bowel sounds active." },
+    { id:"cns",  name:"Neurological", f:"GCS 15. No focal deficit. Visual fields full now — both eyes." }
+  ],
+  examMore: [
+    { id:"finger", name:"Hands & fingertips", sub:"that red spot", f:"", img:"finger.svg", imgOnly:true, imgAlt:"Left index fingertip: a small red lesion — under magnification, a wood splinter sits at its centre", key:true },
+    { id:"carotid",name:"Carotid auscultation", sub:"the visual loss", f:"Soft bruit over the left carotid. No bruit on the right.", tone:"alert", key:true },
+    { id:"fundi", name:"Fundoscopy", sub:"", f:"No Roth spots. No retinal emboli visible now. Discs normal.", key:true },
+    { id:"temp",  name:"Temperature trend", sub:"", f:"37.5 °C now; 37.4 °C at triage. Low-grade and flat — no spikes, no rigors observed.", supp:true, dyn:true },
+    { id:"mouth", name:"Mouth & dentition", sub:"", f:"Healing extraction site, clean. No abscess, dentition otherwise good." },
+    { id:"calf",  name:"Calf / DVT check", sub:"PE thinking", f:"Calves soft, non-tender, equal. No swelling.", tag:"pe" },
+    { id:"pulses",name:"Peripheral pulses", sub:"", f:"Present and symmetrical, low volume. No radio-radial delay." }
+  ],
+
+  ix: {
+    bedside: [
+      { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"supp", labs:[{n:"Glucose", v:"7.9", r:"4.0–7.8", u:"mmol/L", flag:"hi"}] },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia 108 with occasional ventricular ectopics. QTc 476 ms. T-wave inversion V2–V4, deepest in V3. No ST elevation." },
+      { id:"oldecg", name:"Pull Friday's ECG from records", cost:20, costL:"20 min", tag:"key", text:"Friday 23:12 — filed as “normal, no acute change”.<img src=\"ecg-wellens.svg\" alt=\"Friday's ECG: biphasic T waves in V2 and V3 — a Wellens pattern\">" },
+      { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
+        labs:[{n:"pH", v:"7.33", r:"7.35–7.45", flag:"lo"},{n:"Lactate", v:"3.1", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Hb", v:"149", r:"130–170", u:"g/L"}] },
+      { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable. No blood, no protein." }
+    ],
+    bloods: [
+      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"Hb", v:"149", r:"130–170", u:"g/L"},{n:"WCC", v:"15.8", r:"4.0–11.0", u:"×10⁹/L", flag:"hi", base:"6.2 (Friday)"},{n:"Neutrophils", v:"13.1", r:"2.0–7.5", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"385", r:"150–400", u:"×10⁹/L"}] },
+      { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.6", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"9.8", r:"2.5–7.8", u:"mmol/L", flag:"hi"},{n:"Creatinine", v:"128", r:"59–104", u:"µmol/L", flag:"hi", base:"84 (Friday)"}] },
+      { id:"crp",  name:"CRP", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi", base:"2 (Friday)"}] },
+      { id:"lft",  name:"Liver function", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"Bilirubin", v:"24", r:"<21", u:"µmol/L", flag:"hi"},{n:"ALT", v:"68", r:"<41", u:"U/L", flag:"hi"},{n:"ALP", v:"92", r:"30–130", u:"U/L"},{n:"Albumin", v:"36", r:"35–50", u:"g/L"}] },
+      { id:"trop", name:"Troponin", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"hs-cTnT", v:"148", r:"<14", u:"ng/L", flag:"hi", base:"8 (Friday)"}] },
+      { id:"retrop", name:"Repeat troponin at 3 h", cost:180, costL:"3 h", tag:"key", isTrend:true,
+        labs:[{n:"hs-cTnT", v:"892", r:"<14", u:"ng/L", flag:"hi", base:"148 (3 h ago)"}] },
+      { id:"cult", name:"Blood cultures × 3 sets", cost:30, costL:"48 h", tag:"key", text:"Three sets from separate sites, 30 minutes apart, before any antibiotic. Preliminary at 12 h: no growth." },
+      { id:"ddim", name:"D-dimer", cost:60, costL:"60 min", tag:"trap",
+        labs:[{n:"D-dimer", v:"1.92", r:"<0.50", u:"µg/mL", flag:"hi"}] },
+      { id:"coag", name:"Coagulation", cost:60, costL:"60 min", tag:"supp",
+        labs:[{n:"INR", v:"1.0", r:"0.9–1.2"},{n:"APTT", v:"28", r:"24–36", u:"s"}] }
+    ],
+    imaging: [
+      { id:"cxr",  name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", text:"Clear lung fields. Normal cardiac silhouette. Mediastinum not widened." },
+      { id:"ctpa", name:"CT pulmonary angiogram", cost:120, costL:"2 h", tag:"trap", text:"No pulmonary embolus to segmental level. No dissection of the visualised thoracic aorta. Mild dependent atelectasis only." },
+      { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"noise", text:"No acute intracranial abnormality." }
+    ],
+    special: [
+      { id:"echo", name:"Bedside echocardiogram", cost:90, costL:"90 min", tag:"key", text:"Portable study: hypokinesia of the anterior wall and septum, LV EF ~45%. Mild mitral regurgitation — the anterolateral papillary muscle looks dysfunctional. No vegetations on transthoracic views. RV not dilated. No effusion." },
+      { id:"holt", name:"24-hour Holter", cost:0, costL:"2 wk", tag:"noise", text:"Fitted. Report expected in two weeks." }
+    ]
+  },
+  ixGroups: { bedside:"Bedside · minutes", bloods:"Bloods · about an hour", imaging:"Imaging", special:"Special tests" },
+
+  rx: [
+    { id:"iv",   t:"IV access, bloods away, continuous cardiac monitoring", kind:"good", resus:true, why:"He's earned a monitor — ectopics on a long QT is peri-arrest territory." },
+    { id:"asp",  t:"Aspirin 300 mg — confirm the home dose and chart it", kind:"good", resus:true, why:"He loaded himself at home. Confirm it, chart it, don't double it." },
+    { id:"cult", t:"Three sets of blood cultures — before any antibiotic", kind:"good", resus:true, why:"If endocarditis is on the table, cultures come first — and they keep every later decision honest." },
+    { id:"anal", t:"Morphine 2.5–5 mg IV + metoclopramide 10 mg IV", kind:"good", why:"Settles the distress and the vomiting — with an antiemetic that leaves the QT alone." },
+    { id:"o2t",  t:"Titrate oxygen — only if SpO₂ falls below 90%", kind:"good", why:"ESC 2023: no routine oxygen above 90% — hyperoxia extends infarction." },
+    { id:"fluid",t:"Rapid 1 L crystalloid bolus for the blood pressure", kind:"danger", why:"This hypotension is a failing pump, not an empty tank — flooding it drowns the lungs." },
+    { id:"ond",  t:"Ondansetron 8 mg IV for the vomiting", kind:"danger", why:"QTc 476 on sertraline — ondansetron stacks a third QT-prolonger onto two." },
+    { id:"abx",  t:"Start IV vancomycin + gentamicin now for ?endocarditis", kind:"danger", why:"No cultures taken, no sepsis physiology — anchoring, and it muddies every culture that follows." },
+    { id:"tica", g:"further", t:"Ticagrelor 180 mg loading dose", note:"Charted. NICE NG185: dual antiplatelet therapy on top of the aspirin — ticagrelor unless bleeding risk is high." },
+    { id:"fonda",g:"further", t:"Fondaparinux 2.5 mg s/c", note:"Charted — NICE NG185 says give it unless he's going for immediate angiography. The cardiology reg will make that call; have it drawn either way." },
+    { id:"recg", g:"further", t:"Repeat the 12-lead ECG now", note:"ST elevation V1–V4 with tall, broad T-waves — it is declaring itself.<img class=\"wide\" src=\"ecg-evolve.svg\" alt=\"Repeat ECG: anterior ST elevation with tall T waves\">" },
+    { id:"ccu",  g:"further", t:"Request a monitored CCU bed", note:"Bed requested. He can't sit unmonitored in majors with this tracing." },
+    { id:"refer",g:"further", t:"Call cardiology on-call", sub:"out of hours: via switchboard", isRefer:true }
+  ],
+
+  /* ----- ACT 2 management drill ----- */
+  mgmt: [
+    { id:"wellens", tag:"The old tracing", q:"Friday's ECG is in your hand: biphasic T-waves in V2–V3, patient pain-free, troponin normal. What was it?",
+      opts:[
+        { t:"A critical proximal LAD warning — admit for urgent inpatient angiography", ok:true },
+        { t:"Non-specific repolarisation change — safe discharge with GP follow-up", ok:false },
+        { t:"Ischaemia excluded by the normal troponin", ok:false } ],
+      teach:"<b>Wellens syndrome</b> (de Zwaan &amp; Wellens, 1982): biphasic (type A, ~25%) or deeply inverted (type B, ~75%) T-waves in V2–V3 in a <b>pain-free</b> patient with <b>normal or barely raised troponin</b> marks a critical proximal LAD stenosis — a pre-infarction state. The pattern appears <i>after</i> the pain settles, which is exactly why it gets filed as “normal”. No exercise testing — it can precipitate the infarct. Admit, treat as ACS, urgent angiography." },
+    { id:"type", tag:"The trend", q:"Troponin 148, then 892 three hours later. The night doctor's note says “probably demand from the tachycardia”. Who's right?",
+      opts:[
+        { t:"A rise this steep with evolving ischaemic ECG changes is a type 1 infarct", ok:true },
+        { t:"Type 2 demand — treat the heart rate and repeat tomorrow", ok:false },
+        { t:"Uninterpretable while the CRP is raised", ok:false } ],
+      teach:"The <b>Fourth Universal Definition of MI</b> (2018): <b>type 1</b> is a plaque event — rupture or erosion with thrombus; <b>type 2</b> is supply–demand mismatch (tachyarrhythmia, sepsis, anaemia). A dynamic <b>rise and/or fall</b> with evidence of ischaemia (symptoms, ECG evolution, regional wall-motion abnormality) makes type 1. 148 → 892 on a Wellens background is a plaque declaring itself — and CRP never invalidates a troponin." },
+    { id:"drugs", tag:"The chart", q:"NSTEMI on the board, angiography being argued about on the phone. What's on his chart meanwhile?",
+      opts:[
+        { t:"Aspirin 300 mg + ticagrelor 180 mg + fondaparinux unless immediate angiography", ok:true },
+        { t:"Aspirin alone until the cath lab decides", ok:false },
+        { t:"Aspirin + full-dose LMWH + a GTN infusion for good measure", ok:false } ],
+      teach:"<b>NICE NG185</b>: load <b>aspirin 300 mg</b>, add a second antiplatelet — <b>ticagrelor</b> (clopidogrel if high bleeding risk; prasugrel if PCI is intended) — and give <b>fondaparinux 2.5 mg</b> unless immediate angiography is planned (then unfractionated heparin in the lab). A GTN infusion on a systolic of 92 takes his preload and drops him — and full-dose LMWH isn't the NSTEMI antithrombin of choice." },
+    { id:"timing", tag:"Tempo", q:"GRACE puts him high-risk. But he's hypotensive with dynamic ECG changes. When does he go to the lab?",
+      opts:[
+        { t:"Now — very-high-risk features mean immediate angiography, within 2 hours", ok:true },
+        { t:"Within 72 hours — that's the NICE window", ok:false },
+        { t:"After 48 hours of antibiotics, in case it's the valve", ok:false } ],
+      teach:"<b>ESC 2023 ACS</b>: haemodynamic instability or cardiogenic shock, refractory chest pain, life-threatening arrhythmias, mechanical complications, or <b>recurrent dynamic ST changes</b> = <b>immediate</b> invasive management (&lt;2 h). The <b>72-hour</b> window (NICE NG185) is for the <i>stable</i> intermediate-to-high-risk patient — quoting it here is how this man arrests in a corridor." },
+    { id:"murmur", tag:"The decoy", q:"New murmur, night sweats, CRP up. Before any antibiotic touches him — what has to happen?",
+      opts:[
+        { t:"Three blood-culture sets, separate venepunctures, ~30 minutes apart", ok:true },
+        { t:"Start vancomycin + gentamicin — cultures can follow the first dose", ok:false },
+        { t:"An urgent TOE tonight, before anything else", ok:false } ],
+      teach:"<b>ESC 2023 infective endocarditis</b>: three sets of cultures from separate sites, 30–60 minutes apart, <b>before</b> antibiotics — he is not septic, so antibiotics can wait the half-hour that keeps the cultures honest. Then keep reasoning: transthoracic echo first (no vegetations, but anterior hypokinesia with papillary-muscle dysfunction), no growth, no spiking fevers — the murmur is <b>ischaemic mitral regurgitation</b>, not a vegetation." },
+    { id:"oxygen", tag:"The reflex", q:"Sats 96% on air. The student reaches for the non-rebreathe mask. Oxygen?",
+      opts:[
+        { t:"No — in ACS, oxygen only if SpO₂ falls below 90%", ok:true },
+        { t:"Yes — high-flow for anyone this unwell", ok:false },
+        { t:"Yes, but nasal cannulae will do", ok:false } ],
+      teach:"<b>AVOID</b> (2015) showed routine oxygen in normoxic MI <i>enlarged</i> infarcts; <b>DETO2X-AMI</b> (2017) showed no mortality benefit. <b>ESC 2023</b>: oxygen only for <b>SpO₂ &lt;90%</b>. Hyperoxia is coronary vasoconstriction — the non-rebreathe reflex is treating the team's anxiety, not the patient." },
+    { id:"antiemetic", tag:"The QT", q:"He vomits again. QTc 476 ms, on long-term sertraline. Which antiemetic?",
+      opts:[
+        { t:"Metoclopramide 10 mg IV", ok:true },
+        { t:"Ondansetron 8 mg IV", ok:false },
+        { t:"Cyclizine 50 mg IV, fast push", ok:false } ],
+      teach:"Sertraline already prolongs the QT and his is <b>476 ms</b> — <b>ondansetron</b> adds dose-dependent QT prolongation (MHRA warning) and invites torsades on a monitor you'd rather keep boring. <b>Metoclopramide</b> spares the QT and is standard with opioids in ACS. Cyclizine's tachycardia and vasoconstriction make it the wrong tool in an ischaemic heart." },
+    { id:"stemi", tag:"Declared", q:"The repeat ECG shows ST elevation V1–V4. The PCI centre is 40 minutes away by blue light. Now what?",
+      opts:[
+        { t:"Activate primary PCI — deliverable well inside 120 minutes", ok:true },
+        { t:"Thrombolyse here first, then transfer", ok:false },
+        { t:"Repeat the troponin and wait for cardiology to call back", ok:false } ],
+      teach:"<b>ESC 2023 / NICE NG185</b>: STEMI gets <b>primary PCI if achievable within 120 minutes</b> of the ECG diagnosis — a 40-minute transfer qualifies easily. Fibrinolysis is for when PPCI genuinely cannot be delivered in time (then transfer anyway). Waiting on another troponin after the ECG has declared is dead time in dying myocardium: <b>time is muscle</b>." }
+  ],
+
+  conditions: ["Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Thrombotic thrombocytopenic purpura"]
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const S = {
+  clock: CASE.meta.startClock,
+  asked: new Set(), examCore: new Set(), examMore: new Set(),
+  picked: new Set(), ordered: new Set(), round: 0, trendBack: false,
+  rx: new Set(), wellensAt: null, wellensBeforeTrend: null, reexamCount: 0, trendBackAt: null,
+  dx: "", dxCorrect: false,
+  mg: {}, mgIdx: 0, furtherUnlocked: false,
+  stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+
+function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+function elapsed(){ return S.clock - CASE.meta.startClock; }
+function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); }
+
+/* ---------- dynamic obs ---------- */
+function obsState(){
+  // improving if the ACS is being treated; deteriorating if time passes untreated
+  const treated = S.rx.has("asp") && (S.rx.has("tica") || S.rx.has("refer"));
+  if (S.reexamCount === 0) return { hr:108, bp:"92/58", rr:22, spo2:96, news:6, tone:"bad", flag:"lo", appear:"base" };
+  if (treated) return { hr:96, bp:"104/66", rr:18, spo2:97, news:3, tone:"warn", flag:"", appear:"better" };
+  return { hr:124, bp:"78/46", rr:26, spo2:93, news:12, tone:"bad", flag:"lo", appear:"worse" };
+}
+function renderObs(){
+  const o = obsState();
+  const cells = [
+    ["HR", o.hr, "/min", ""],
+    ["BP", o.bp, "mmHg", o.flag],
+    ["RR", o.rr, "/min", o.rr>20?"hi":""],
+    ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
+    ["Lactate", S.reexamCount ? (o.appear==="better"?"2.4":"7.1") : "3.1", "mmol/L", "hi"],
+    ["GCS", "15", "/15", ""]
+  ];
+  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
+  const nl = $("#newsLive"); nl.textContent = o.news; nl.style.color = o.tone==="bad"?"var(--danger)":o.tone==="ok"?"var(--good)":"var(--warn)";
+}
+
+/* ---------- screen / tab nav ---------- */
+function go(id){
+  $$(".screen").forEach(s=>s.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  const map = { brief:"brief", work:"work", commit:"commit", manage:"manage", out:"manage" };
+  const stage = (S.dxCommitted && id==="work") ? "manage" : (map[id] || "brief");
+  const order = ["brief","work","commit","manage"];
+  $$("#actbar .actpill").forEach(p=>{
+    const i = order.indexOf(p.dataset.stage), c = order.indexOf(stage);
+    p.dataset.on = i===c ? "1" : (i<c ? "done" : "0");
+  });
+  window.scrollTo({top:0});
+}
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ---------- staged navigation ---------- */
+const STAGES = ["hx","ex","ix","rx"];
+function tabLocked(name){
+  const i = STAGES.indexOf(name);
+  if (i < 0) return false;
+  return name==="rx" ? !S.dxCommitted : i > S.stageMax;
+}
+function renderTabs(){
+  $$(".tab").forEach(t=>{
+    const n = t.dataset.tab;
+    if (n === "rx") { t.style.display = S.dxCommitted ? "" : "none"; t.dataset.locked = "0"; }
+    else t.dataset.locked = tabLocked(n) ? "1" : "0";
+  });
+}
+function updateBar(){
+  const b = $("#toCommit");
+  if (S.dxCommitted) { b.textContent = "Finish treatment → management drill"; return; }
+  b.textContent = ["Move on → examine him", "Move on → investigate", "Commit a diagnosis"][Math.min(S.stageMax,2)];
+}
+function tab(name, userClick){
+  if (tabLocked(name)) return;
+  const cur = [...$$(".tab")].find(t=>t.getAttribute("aria-selected")==="true");
+  if (userClick && cur && cur.dataset.tab !== name &&
+      STAGES.indexOf(name) < STAGES.indexOf(cur.dataset.tab)) S.revisits++;
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
+  $$(".panel").forEach(p=>p.classList.remove("on"));
+  $("#p-"+name).classList.add("on");
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
+
+/* ---------- datalist (shuffled — no positional hints) ---------- */
+$("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
+
+/* ---------- history (chat) ---------- */
+let hxBusy = false;
+function renderHx(){
+  const box = $("#chips"); box.innerHTML = "";
+  CASE.history.filter(h=>!S.asked.has(h.id)).forEach(h=>{
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = h.q;
+    b.onclick = ()=>askHx(h);
+    box.appendChild(b);
+  });
+  if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
+  updateTabDots();
+}
+function askHx(h){
+  if (hxBusy) return;
+  hxBusy = true; $("#chips").dataset.busy = "1";
+  S.asked.add(h.id); tick(0.5);
+  const qa = $("#qa");
+  // doctor bubble
+  const dr = document.createElement("li");
+  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div><span class="pav"><img src="doctor.svg" alt=""></span></div>`;
+  qa.appendChild(dr);
+  renderHx();
+  // patient bubble: typing dots, then the answer
+  const isS = h.a.startsWith("Sophie:");
+  const who = isS ? "Sophie" : "Marcus";
+  const ans = isS ? h.a.replace(/^Sophie:\s*/,"") : h.a;
+  const pt = document.createElement("li");
+  pt.innerHTML = `<div class="msg msg--pt"><span class="pav"><img src="${isS?"sophie":"marcus"}.svg" alt=""></span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
+  setTimeout(()=>{
+    qa.appendChild(pt);
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+  }, 350);
+  setTimeout(()=>{
+    pt.querySelector(".bub").textContent = ans;
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+    hxBusy = false; $("#chips").dataset.busy = "0";
+  }, 950 + Math.min(ans.length*4, 600));
+}
+
+/* ---------- examination ---------- */
+function genFinding(){
+  const o = obsState();
+  if (o.appear==="better") return "Warmer, drier, better colour. The dread has gone out of his face — holding steady on the monitor.";
+  if (o.appear==="worse") return "Grey and drenched, retching again. Runs of ectopics on the monitor now; he grips your wrist and won't let go.";
+  return CASE.examCore.find(e=>e.id==="gen").f;
+}
+function cvsFinding(){
+  const o = obsState();
+  if (o.appear==="better") return "Pulse 96, fuller volume. The murmur is still there, softer. No gallop.";
+  if (o.appear==="worse") return "Pulse 124, thready. A gallop rhythm now, and the murmur is louder — the valve is failing with the muscle.";
+  return "Pulse 108, regular, low volume. JVP not raised. A soft systolic murmur at the apex, radiating towards the axilla — Friday's clerking says “heart sounds normal”. No pericardial rub.";
+}
+function rowHTML(item, picked, label){
+  return `<div class="row__head"><span class="row__name">${item.name}${item.sub?` <span class="row__sub">· ${item.sub}</span>`:""}</span>`+
+    `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
+}
+function findingFor(e){
+  const imgHTML = e.img ? `<img src="${e.img}" alt="${e.imgAlt||''}">` : "";
+  if (e.imgOnly) return imgHTML; // real life: you see it, nobody narrates it
+  let txt = e.f;
+  if (e.id==="gen") txt = genFinding();
+  if (e.id==="cvs") txt = cvsFinding();
+  return txt + imgHTML;
+}
+function renderExam(){
+  const core = $("#examCore"); core.innerHTML="";
+  CASE.examCore.forEach(e=>{
+    const done = S.examCore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{ S.examCore.add(e.id); tick(3); renderExam(); };
+    core.appendChild(li);
+  });
+  const more = $("#examMore"); more.innerHTML="";
+  CASE.examMore.forEach(e=>{
+    const done = S.examMore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{
+      S.examMore.add(e.id); tick(4);
+      renderExam();
+    };
+    more.appendChild(li);
+  });
+  updateTabDots();
+}
+function doReexam(){
+  S.reexamCount++; tick(20);
+  // re-open key dynamic exams so they can be repeated
+  S.examCore.delete("gen"); S.examCore.delete("cvs"); S.examMore.delete("temp");
+  renderExam(); renderObs();
+  tab("ex"); window.scrollTo({top:0});
+}
+$("#reexamBtn").onclick = doReexam;
+$("#rxReassessBtn").onclick = doReexam;
+
+/* ---------- investigations ---------- */
+function renderIx(){
+  const box = $("#ixGroups"); box.innerHTML="";
+  Object.keys(CASE.ixGroups).forEach(g=>{
+    const h=document.createElement("div"); h.className="grouph"; h.textContent=CASE.ixGroups[g]; box.appendChild(h);
+    const ul=document.createElement("ul"); ul.className="rows";
+    CASE.ix[g].forEach(x=>{
+      const sent=S.ordered.has(x.id), inR=S.picked.has(x.id);
+      const li=document.createElement("li"); li.className="row";
+      li.innerHTML=`<div class="row__head"><span class="row__name">${x.name}</span><span class="row__cost">${x.costL}</span>`+
+        `<button class="act" ${sent?'disabled':''} data-picked="${inR?1:0}">${sent?"Sent":(inR?"Added":"Add")}</button></div>`;
+      if(!sent) li.querySelector("button").onclick=()=>{
+        inR?S.picked.delete(x.id):S.picked.add(x.id);
+        const n=S.picked.size; const b=$("#sendRound");
+        b.disabled=!n; b.textContent=n?`Send round (${n})`:"Send round";
+        renderIx();
+      };
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  });
+}
+function labRowHTML(l){
+  const flag = l.flag||"";
+  const arrow = flag==="hi"?" ▲":flag==="lo"?" ▼":"";
+  return `<div class="labrow" data-flag="${flag}"><span class="ln">${l.n}</span>`+
+    `<span class="lv">${l.v}${l.u?" "+l.u:""}<span class="arrow">${arrow}</span></span>`+
+    `<span class="lr">${l.r}</span>`+
+    (l.base?`<span class="base">prior: ${l.base}</span>`:"")+`</div>`;
+}
+function findIx(id){ for(const g of Object.keys(CASE.ix)){ const f=CASE.ix[g].find(x=>x.id===id); if(f) return f; } }
+function processRound(){
+  S.round++;
+  const items=[...S.picked].map(findIx);
+  tick(Math.max(...items.map(x=>x.cost),0));
+  const feed=$("#feed");
+  const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Round ${S.round} · back at ${fmtClock(S.clock)}`; feed.appendChild(rh);
+  items.forEach(x=>{
+    S.ordered.add(x.id);
+    if(x.id==="oldecg" && S.wellensAt===null){ S.wellensAt = S.clock; S.wellensBeforeTrend = !S.trendBack; }
+    if(x.isTrend && !S.trendBack){ S.trendBack=true; S.trendBackAt=S.clock; }
+    const d=document.createElement("div"); d.className="result";
+    let body = x.labs ? x.labs.map(labRowHTML).join("") : `<div class="labtext">${x.text}</div>`;
+    d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
+    feed.appendChild(d);
+  });
+  S.picked.clear();
+  const b=$("#sendRound"); b.disabled=true; b.textContent="Send round";
+  // surface re-examine once results are in
+  $("#reexamWrap").style.display="block";
+  updateTabDots();
+  renderIx();
+  feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
+}
+$("#sendRound").onclick = ()=>{ if(S.picked.size) processRound(); };
+
+/* ---------- treat: first-line care + further mx / referral ---------- */
+function referFinding(){
+  const items = [
+    ["Aspirin 300 mg loaded", S.rx.has("asp")],
+    ["Second antiplatelet on board", S.rx.has("tica")],
+    ["ECG repeated — evolution documented", S.rx.has("recg")],
+    ["Troponin trend sent", S.ordered.has("retrop")],
+    ["Monitored bed requested", S.rx.has("ccu")]
+  ];
+  const done = items.every(i=>i[1]);
+  const fonda = S.rx.has("fonda") ? "Fondaparinux's drawn — hold it if we're going straight to the lab." : "No fondaparinux? If there's any delay to the lab, NICE says it goes up — have it drawn.";
+  return `<div class="reflist"><div class="rq">Cardiology SpR, on call${done?"":" (out of hours — via switchboard)"}: “Right — quick checklist while I pull his tracing up.”</div>`+
+    `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
+    `<div style="margin-bottom:var(--s2);">“${fonda}”</div>`+
+    `<div class="verdict">${done
+      ? "“That's an evolving anterior infarct on top of a Wellens tracing you've dug out of Friday — I'm activating the lab now. Pads on, stay with him, bring the notes.”"
+      : "“Send the trend and get the repeat tracing done, then call me straight back — I can't take him to the lab on one number and a murmur.”"}</div></div>`;
+}
+function resusRight(){ return S.rx.has("iv") && S.rx.has("asp") && S.rx.has("cult") && !S.rx.has("fluid") && !S.rx.has("ond") && !S.rx.has("abx"); }
+function renderRx(){
+  const wrap=$("#rxRows"); wrap.innerHTML="";
+  if(resusRight()) S.furtherUnlocked = true;
+  const groups=[["First-line care", CASE.rx.filter(m=>!m.g)]];
+  if(S.furtherUnlocked) groups.push(["Further management & referral", CASE.rx.filter(m=>m.g==="further")]);
+  groups.forEach(([label,items])=>{
+    const h=document.createElement("div"); h.className="grouph"; h.textContent=label; wrap.appendChild(h);
+    const ul=document.createElement("ul"); ul.className="rows";
+    items.forEach(m=>{
+      const on=S.rx.has(m.id);
+      const li=document.createElement("li"); li.className="row";
+      li.innerHTML=`<div class="row__head"><span class="row__name">${m.t}${m.sub?` <span class="row__sub">· ${m.sub}</span>`:""}</span>`+
+        `<button class="act" data-picked="${on?1:0}">${on?(m.isRefer?"Called":"Given"):(m.isRefer?"Call":"Give")}</button></div>`+
+        (on && m.isRefer ? referFinding() : "")+
+        (on && m.note ? `<div class="finding">${m.note}</div>` : "");
+      li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(m.isRefer?5:3); renderRx(); renderObs(); };
+      ul.appendChild(li);
+    });
+    wrap.appendChild(ul);
+  });
+  if(!S.furtherUnlocked){
+    const lock=document.createElement("div"); lock.className="reflist";
+    lock.innerHTML=`<div class="rq">Registrar: “Basics first — antiplatelet on board, access and a monitor, cultures before anyone reaches for an antibiotic. Then we'll talk about the lab.”</div>`+
+      `<div style="color:var(--muted);">Further management unlocks when the first-line care is right: monitor and access on, aspirin confirmed, cultures away${(S.rx.has("fluid")||S.rx.has("ond")||S.rx.has("abx"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
+    wrap.appendChild(lock);
+  }
+  $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
+  updateTabDots();
+}
+
+/* ---------- tab progress dots ---------- */
+function updateTabDots(){
+  const set=(id,n)=>{ const d=$(id); if(!d) return; if(n>0){ d.classList.add("show"); d.textContent=n; } else d.classList.remove("show"); };
+  set("#hxDot", S.asked.size);
+  set("#exDot", S.examCore.size + S.examMore.size);
+  set("#ixDot", S.round);
+  set("#rxDot", S.rx.size);
+}
+
+/* ---------- commit (with completeness reminder) ---------- */
+function assessmentChecklist(){
+  return [
+    { label:"Took a history", done:S.asked.size>0 },
+    { label:"Examined the patient", done:(S.examCore.size+S.examMore.size)>0 },
+    { label:"Investigation results back", done:S.round>0 }
+  ];
+}
+$("#toCommit").onclick = ()=>{
+  // post-diagnosis: this button leads out of treatment into the drill
+  if(S.dxCommitted){
+    go("manage");
+    if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+    return;
+  }
+  // pre-diagnosis: advance the stage frontier, then the commit flow
+  if(S.stageMax===0){ S.stageMax=1; renderTabs(); tab("ex"); updateBar(); return; }
+  if(S.stageMax===1){ S.stageMax=2; renderTabs(); tab("ix"); updateBar(); return; }
+  const list=assessmentChecklist();
+  // hard requirement: results back before a diagnosis can be committed
+  const ready = S.round>0;
+  if(ready && list.every(x=>x.done)){ go("commit"); return; }
+  $("#gateList").innerHTML=list.map(x=>`<li data-done="${x.done?1:0}"><span class="mk">${x.done?'✓':'!'}</span>${x.label}</li>`).join("");
+  $("#gateTitle").textContent = ready ? "Before you commit" : "Too early to call it";
+  $("#gateSub").textContent = ready
+    ? "Safe practice is to complete your assessment first. Here's where you've got to:"
+    : "No consultant would accept a diagnosis yet — get some results back first, then call it.";
+  $("#gateGo").style.display = ready ? "" : "none";
+  $("#commitGate").hidden=false;
+};
+$("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
+$("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
+$("#commitBtn").onclick = ()=>{
+  const v=$("#dxInput").value.trim();
+  if(!v){ $("#commitErr").style.display="block"; return; }
+  $("#commitErr").style.display="none";
+  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dxCommitted = true; S.stageMax = 3;
+  renderTabs(); updateBar();
+  go("work"); tab("rx");
+};
+
+/* ---------- management drill: one question at a time, 30 s each ---------- */
+const MG_SECS = 30;
+let mgTimer = null;
+function stopMgTimer(){ if(mgTimer){ clearInterval(mgTimer); mgTimer=null; } }
+function startMgmt(){
+  S.mgIdx = 0; S.mg = {};
+  $("#finishBtn").style.display = "none";
+  showMg();
+}
+function showMg(){
+  stopMgTimer();
+  const box=$("#mqList"); box.innerHTML="";
+  const i=S.mgIdx;
+  if(i>=CASE.mgmt.length){
+    const right=CASE.mgmt.filter(q=>S.mg[q.id]===true).length;
+    box.innerHTML=`<div class="mq" style="text-align:center;"><div class="mq__q" style="margin-bottom:var(--s2);">Drill complete</div>`+
+      `<div style="color:var(--muted); font-size:.9rem;">${right} of ${CASE.mgmt.length} under the 30-second clock.</div></div>`;
+    $("#finishBtn").style.display = "";
+    return;
+  }
+  const q=CASE.mgmt[i];
+  const card=document.createElement("div"); card.className="mq";
+  card.innerHTML=`<div class="mqprog"><span>Question ${i+1} / ${CASE.mgmt.length}</span><span id="mgClock">${MG_SECS}s</span></div>`+
+    `<div class="tbar"><i id="mgBar"></i></div>`+
+    `<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
+  const opts=document.createElement("div"); opts.className="opts";
+  // shuffle the answer positions
+  const order=q.opts.map((_,j)=>j);
+  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+  const settle=(pickedPos, timedOut)=>{
+    if(S.mg[q.id]!==undefined) return;
+    stopMgTimer();
+    const picked = pickedPos===null ? null : q.opts[order[pickedPos]];
+    S.mg[q.id] = !!(picked && picked.ok);
+    [...opts.children].forEach((c,pos)=>{
+      const oo=q.opts[order[pos]];
+      c.setAttribute("disabled","");
+      c.dataset.state = oo.ok?"right":(pos===pickedPos?"wrong":"dim");
+      if(oo.ok) c.querySelector(".mk").textContent="✓";
+      else if(pos===pickedPos) c.querySelector(".mk").textContent="✗";
+    });
+    const t=document.createElement("div"); t.className="teach";
+    t.dataset.tone=S.mg[q.id]?"right":"wrong";
+    t.innerHTML=(timedOut?"<b>Time. </b>":(S.mg[q.id]?"<b>Correct. </b>":"<b>Not quite. </b>"))+q.teach;
+    card.appendChild(t);
+    const n=document.createElement("button"); n.className="btn"; n.style.marginTop="var(--s3)";
+    n.textContent = (S.mgIdx+1>=CASE.mgmt.length) ? "See the drill summary" : "Next question";
+    n.onclick=()=>{ S.mgIdx++; showMg(); };
+    card.appendChild(n);
+  };
+  order.forEach((oi,pos)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="mk">${String.fromCharCode(65+pos)}</span><span>${q.opts[oi].t}</span>`;
+    b.onclick=()=>settle(pos,false);
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  box.appendChild(card);
+  window.scrollTo({top:0});
+  // countdown
+  const t0=performance.now(), bar=$("#mgBar"), clk=$("#mgClock");
+  mgTimer=setInterval(()=>{
+    const left=Math.max(0, MG_SECS - (performance.now()-t0)/1000);
+    bar.style.width=(left/MG_SECS*100)+"%";
+    clk.textContent=Math.ceil(left)+"s";
+    bar.style.background = left<=5 ? "var(--danger)" : left<=12 ? "var(--warn)" : "var(--good)";
+    if(left<=0) settle(null,true);
+  },100);
+}
+
+/* ---------- scoring + outcome ---------- */
+function scoreAndShow(){
+  const rows=[]; let total=0;
+  const add=(l,p)=>{ rows.push([l,p]); total+=p; };
+
+  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
+
+  let keys=0;
+  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
+  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
+  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
+  ["ecg","oldecg","vbg","trop","retrop","echo"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
+  add(`Discriminators gathered (${keys})`, keys*3);
+
+  let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
+  if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
+
+  if(S.rx.has("asp")&&S.rx.has("iv")) add("Antiplatelet confirmed, monitor and access on", 8);
+  if(S.rx.has("cult")) add("Cultures before any antibiotic", 4);
+  if(S.rx.has("fluid")) add("Fluid-loaded a failing ventricle", -8);
+  if(S.rx.has("ond")) add("Ondansetron on a 476 ms QT", -6);
+  if(S.rx.has("abx")) add("Antibiotics before cultures, on no sepsis physiology", -6);
+  if(S.reexamCount>0) add("Reassessed after intervention", 6);
+  const referFull = S.rx.has("refer") && S.rx.has("asp") && S.rx.has("tica") && S.rx.has("recg") && S.ordered.has("retrop") && S.rx.has("ccu");
+  if(referFull) add("Referred to cardiology with the checklist complete", 8);
+  else if(S.rx.has("refer")) add("Referred to cardiology — checklist incomplete", 3);
+
+  let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
+  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+
+  if(elapsed()<=240 && S.dxCorrect) add("Sorted inside 4 ward-hours", 8);
+
+  const MAX=160;
+  const shown=Math.max(0, Math.min(total, MAX));
+  const table=$("#scoreTable");
+  table.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]>0?'plus':r[1]<0?'minus':''}">${r[1]>0?'+':''}${r[1]}</td></tr>`).join("")
+    + `<tr><td>Total</td><td>${shown} / ${MAX}</td></tr>`;
+
+  // hero
+  const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
+  const rank = pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+  $("#rank").textContent = rank;
+  $("#scoreSub").textContent = S.dxCorrect ? "Friday's “normal” tracing, the murmur, the sweats and the stomach bug were all working against you." : "The infarct hid behind a murmur and a stomach bug — see where it slipped.";
+  countTo($("#scoreBig"), shown, MAX);
+
+  $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
+    `<div><div class="t">${S.dxCorrect?"Acute coronary syndrome — you caught it evolving.":"It was an evolving anterior myocardial infarction."}</div>`+
+    `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
+
+  // learning objectives
+  const wellensTxt = S.wellensAt===null ? {v:"miss",t:"Pull the old ECG — and read it yourself",s:"You committed without ever seeing Friday's tracing. The Wellens pattern that sent him home was sitting in records the whole time."}
+    : S.wellensBeforeTrend ? {v:"hit",t:"Pull the old ECG — and read it yourself",s:"You went hunting for Friday's tracing before the trend forced your hand. That's the habit that catches Wellens."}
+    : {v:"part",t:"Pull the old ECG — and read it yourself",s:"The rising troponin sent you back to records. Right call — but the second attendance in three days could have got you there first."};
+  const los=[
+    wellensTxt,
+    (S.ordered.has("retrop")&&S.mg.type)?{v:"hit",t:"Troponin is a trend — type 1 vs type 2",s:"You trended it and called the rise a plaque event, not demand. Fourth Universal Definition, applied."}:(S.ordered.has("retrop")||S.mg.type)?{v:"part",t:"Troponin is a trend — type 1 vs type 2",s:"Half the habit is there — always pair the repeat sample with the type 1 / type 2 reasoning."}:{v:"miss",t:"Troponin is a trend — type 1 vs type 2",s:"A single 148 was left to speak for itself. Without the trend, demand and infarct look identical."},
+    S.rx.has("abx")?{v:"miss",t:"Work the murmur up without anchoring",s:"Antibiotics went in before cultures on no sepsis physiology — the endocarditis story swallowed the work-up."}:(S.rx.has("cult")&&S.mg.murmur)?{v:"hit",t:"Work the murmur up without anchoring",s:"Cultures first, antibiotics held, and the murmur read against the echo — ischaemic MR, not a vegetation."}:{v:"part",t:"Work the murmur up without anchoring",s:"Revisit the sequence: three culture sets before any antibiotic (ESC 2023), echo before the endocarditis label sticks."},
+    (S.rx.has("asp")&&S.rx.has("tica")&&S.mg.drugs&&!S.rx.has("fluid")&&!S.rx.has("ond"))?{v:"hit",t:"Treat the ACS by the book",s:"Aspirin confirmed, ticagrelor loaded, fondaparinux reasoned about — NG185 as written."}:(S.rx.has("asp"))?{v:"part",t:"Treat the ACS by the book",s:"The aspirin was there — the second antiplatelet, the antithrombin logic and the drug traps are the revision points."}:{v:"miss",t:"Treat the ACS by the book",s:"The antiplatelet backbone never went on. NG185: aspirin 300, ticagrelor, fondaparinux unless the lab is immediate."},
+    (S.rx.has("refer")&&S.mg.timing&&S.mg.stemi)?{v:"hit",t:"Escalate at the right tempo",s:"Immediate angiography for the unstable, PPCI inside 120 minutes once it declared — the tempo was right."}:(S.rx.has("refer")||S.mg.timing||S.mg.stemi)?{v:"part",t:"Escalate at the right tempo",s:"The 72-hour window is for the stable. Instability or dynamic change means the lab now — rehearse the very-high-risk criteria."}:{v:"miss",t:"Escalate at the right tempo",s:"Cardiology never heard about him. High-risk ACS is a phone call, not a plan in the notes."},
+    (!S.rx.has("fluid")&&!S.rx.has("ond")&&S.mg.oxygen&&S.mg.antiemetic)?{v:"hit",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"No reflex bolus, no reflex non-rebreathe, no ondansetron on a long QT — all three quiet harms dodged."}:(S.rx.has("fluid")||S.rx.has("ond"))?{v:"miss",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"A failing ventricle got flooded or a 476 ms QT got another prolonger — these are the errors that never feel like errors at the time."}:{v:"part",t:"Resist the quiet harms: fluids, oxygen, the QT",s:"Close — the oxygen threshold (<90%, ESC 2023) and the QT arithmetic are the details to nail down."}
+  ];
+  $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
+
+  // journey
+  $("#journey").innerHTML = `You pulled Friday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
+    `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
+    `${S.ordered.has('retrop')?"trended the troponin":"never trended the troponin"}, `+
+    `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
+
+  mpReturnBtn(shown, MAX);
+  go("out");
+}
+function countTo(el, val, max){
+  const dur=900, t0=performance.now();
+  function step(t){ const k=Math.min(1,(t-t0)/dur); const v=Math.round(val*(1-Math.pow(1-k,3))); el.innerHTML=`${v}<span>/${max}</span>`; if(k<1) requestAnimationFrame(step); }
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.innerHTML=`${val}<span>/${max}</span>`; return; }
+  requestAnimationFrame(step);
+}
+$("#finishBtn").onclick = scoreAndShow;
+$("#replay").onclick = ()=>location.reload();
+/* ---- optional hub handoff: ?return=<hubUrl>&week=<id> ---- */
+const MPQ = new URLSearchParams(location.search);
+function mpReturnBtn(score, max){
+  if(!MPQ.get('return')) return;
+  const rb=$("#replay"), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','acs-mi'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
+
+/* ---------- init ---------- */
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar();
+$("#clock").textContent = fmtClock(S.clock);
+</script>
+</body>
+</html>

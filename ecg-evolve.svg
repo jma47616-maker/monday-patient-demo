@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-label="Repeat 12-lead ECG, precordial leads: ST elevation V1 to V4 with tall broad T waves — an evolving anterior STEMI.">
+  <defs>
+    <pattern id="egrid2" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="#fdf4ec"/>
+      <path d="M8 0 V8 M0 8 H8" fill="none" stroke="#e8bfa8" stroke-width=".8"/>
+    </pattern>
+    <pattern id="egridbig2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="url(#egrid2)"/>
+      <path d="M40 0 V40 M0 40 H40" fill="none" stroke="#d99a78" stroke-width="1.6"/>
+    </pattern>
+
+    <!-- ST elevation with a tall broad T -->
+    <path id="eSmall" d="M0 0 h10 q12 -8 24 0 H48 L52 5 L60 -34 L68 12 L74 -14 H92 C104 -36 124 -34 136 0 H160"/>
+    <path id="eBig"   d="M0 0 h10 q12 -9 24 0 H48 L52 6 L60 -50 L68 14 L74 -26 H92 C104 -66 126 -62 138 0 H160"/>
+    <path id="eMid"   d="M0 0 h10 q12 -9 24 0 H48 L52 6 L60 -56 L68 14 L74 -22 H92 C104 -58 126 -54 138 0 H160"/>
+  </defs>
+
+  <rect width="800" height="470" fill="url(#egridbig2)"/>
+
+  <!-- header -->
+  <g font-family="Geist, ui-sans-serif, sans-serif" fill="#2b241d">
+    <text x="24" y="34" font-size="18" font-weight="600">12-lead ECG · precordial leads</text>
+    <text x="24" y="54" font-size="13" fill="#7a6f60">Repeat, now · 25 mm/s · 10 mm/mV · sinus tachycardia 112 bpm</text>
+    <text x="776" y="34" font-size="13" text-anchor="end" fill="#b23b2e" font-weight="600">Compare with Friday</text>
+  </g>
+  <line x1="24" y1="66" x2="776" y2="66" stroke="#2b241d" stroke-width="2" opacity=".35"/>
+
+  <!-- traces -->
+  <g fill="none" stroke="#2b241d" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <g>
+      <path d="M24 130 H44 L44 96 H56 L56 130 H74"/>
+      <use href="#eSmall" transform="translate(74,130)"/>
+      <use href="#eSmall" transform="translate(234,130)"/>
+      <use href="#eSmall" transform="translate(394,130)"/>
+      <use href="#eSmall" transform="translate(554,130)"/>
+      <path d="M714 130 H776"/>
+    </g>
+    <g>
+      <path d="M24 230 H44 L44 196 H56 L56 230 H74"/>
+      <use href="#eBig" transform="translate(74,230)"/>
+      <use href="#eBig" transform="translate(234,230)"/>
+      <use href="#eBig" transform="translate(394,230)"/>
+      <use href="#eBig" transform="translate(554,230)"/>
+      <path d="M714 230 H776"/>
+    </g>
+    <g>
+      <path d="M24 330 H44 L44 296 H56 L56 330 H74"/>
+      <use href="#eBig" transform="translate(74,330)"/>
+      <use href="#eBig" transform="translate(234,330)"/>
+      <use href="#eBig" transform="translate(394,330)"/>
+      <use href="#eBig" transform="translate(554,330)"/>
+      <path d="M714 330 H776"/>
+    </g>
+    <g>
+      <path d="M24 430 H44 L44 396 H56 L56 430 H74"/>
+      <use href="#eMid" transform="translate(74,430)"/>
+      <use href="#eMid" transform="translate(234,430)"/>
+      <use href="#eMid" transform="translate(394,430)"/>
+      <use href="#eMid" transform="translate(554,430)"/>
+      <path d="M714 430 H776"/>
+    </g>
+  </g>
+
+  <!-- lead labels -->
+  <g font-family="Geist Mono, ui-monospace, monospace" font-size="15" font-weight="500" fill="#9c4525">
+    <text x="30" y="118">V1</text>
+    <text x="30" y="218">V2</text>
+    <text x="30" y="318">V3</text>
+    <text x="30" y="418">V4</text>
+  </g>
+</svg>

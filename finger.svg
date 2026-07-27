@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Left index fingertip in close-up: a small red lesion on the pulp — under magnification, a wood splinter sits at its centre">
+  <defs>
+    <linearGradient id="skin" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#d8bea1"/>
+      <stop offset=".5" stop-color="#f0deca"/>
+      <stop offset="1" stop-color="#e3cdb4"/>
+    </linearGradient>
+    <pattern id="dots" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".14"/>
+    </pattern>
+    <clipPath id="lens"><circle cx="322" cy="108" r="80"/></clipPath>
+    <!-- the finger silhouette, reused to clip its own shading -->
+    <path id="fingerShape" d="M25.6 289.4 C60 240 150 150 205.1 104.1 C230.4 75.7 284.2 123.5 258.9 151.9 C210 200 130 300 94.4 350.6 Z"/>
+    <clipPath id="fingerClip"><use href="#fingerShape"/></clipPath>
+  </defs>
+
+  <rect width="440" height="320" fill="#faf6f0"/>
+  <rect width="440" height="320" fill="url(#dots)"/>
+
+  <!-- index finger, pulp toward the viewer, running out of frame at lower left -->
+  <use href="#fingerShape" fill="url(#skin)" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+
+  <!-- shading down the lower edge, clipped to the finger -->
+  <g clip-path="url(#fingerClip)">
+    <path d="M120 360 C170 300 240 200 300 150 L340 210 L160 380 Z" fill="#c9ac8e" opacity=".38"/>
+    <!-- soft highlight along the upper edge -->
+    <path d="M40 280 C80 232 160 148 210 108 L230 128 C176 172 96 262 58 306 Z" fill="#fff" opacity=".25"/>
+  </g>
+
+  <!-- flexion creases across the pulp -->
+  <g fill="none" stroke="#2b241d" stroke-width="3" opacity=".42" stroke-linecap="round">
+    <path d="M88.4 224.5 Q126.2 246.1 152 281.1"/>
+    <path d="M142.3 168.9 Q177.8 188.5 201.3 221.5"/>
+  </g>
+  <!-- distal pulp crease, just behind the tip -->
+  <g fill="none" stroke="#2b241d" stroke-width="2.5" opacity=".3" stroke-linecap="round">
+    <path d="M186 122 Q214 138 232 166"/>
+  </g>
+
+  <!-- the lesion, at true size, on the pad near the tip -->
+  <circle cx="216" cy="150" r="7" fill="#c24a33" stroke="#2b241d" stroke-width="2.5"/>
+
+  <!-- leader up into the lens -->
+  <line x1="224" y1="142" x2="252" y2="118" stroke="#2b241d" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+
+  <!-- ============ magnifier ============ -->
+  <g>
+    <circle cx="322" cy="108" r="80" fill="#fdfaf4" stroke="#2b241d" stroke-width="5"/>
+    <g clip-path="url(#lens)">
+      <rect x="242" y="28" width="160" height="160" fill="url(#skin)"/>
+      <!-- fingerprint whorls -->
+      <g fill="none" stroke="#a8896a" stroke-width="2.5" opacity=".55">
+        <path d="M248 58 q74 -24 152 6"/>
+        <path d="M244 86 q78 -26 160 4"/>
+        <path d="M244 114 q80 -24 160 2"/>
+        <path d="M248 142 q76 -20 152 4"/>
+        <path d="M256 168 q68 -16 136 6"/>
+      </g>
+      <!-- magnified lesion: tender flush around a punctum -->
+      <circle cx="322" cy="110" r="34" fill="#d96a4a" opacity=".45"/>
+      <circle cx="322" cy="110" r="19" fill="#c24a33" opacity=".8"/>
+      <!-- the splinter -->
+      <path d="M306 122 L340 94 L346 98 L314 128 Z" fill="#6b4a26" stroke="#2b241d" stroke-width="3"/>
+      <path d="M340 94 L350 86" stroke="#6b4a26" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="310" cy="124" r="2.5" fill="#2b241d"/>
+      <!-- pulse -->
+      <circle cx="322" cy="110" r="38" fill="none" stroke="#c24a33" stroke-width="3" opacity=".5">
+        <animate attributeName="r" values="32;46" dur="1.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".5;0" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    <!-- lens shine -->
+    <path d="M270 64 q20 -22 48 -26" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+    <!-- handle -->
+    <path d="M378 164 l40 40" stroke="#2b241d" stroke-width="17" stroke-linecap="round"/>
+    <path d="M378 164 l40 40" stroke="#b8552e" stroke-width="9" stroke-linecap="round"/>
+  </g>
+</svg>
