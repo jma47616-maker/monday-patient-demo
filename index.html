@@ -188,7 +188,10 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .msg--pt .bub { background: var(--paper-2); border: 1px solid var(--rule); color: var(--ink-2); border-bottom-left-radius: 4px; font-family: var(--font-display); font-size: 1.02rem; }
 .msg .who { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: .2rem; font-family: var(--font-body); font-weight: 600; }
 .msg--dr .who { text-align: right; }
-.msg--pt .pav { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--paper-3); color: var(--muted); font-size: .64rem; font-weight: 600; display: grid; place-items: center; font-family: var(--font-mono); margin-bottom: 2px; }
+.msg .pav { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--paper-3); overflow: hidden; border: 1.5px solid var(--rule-2); box-shadow: var(--shadow); margin-bottom: 2px; animation: pop .35s var(--ease); }
+.msg .pav img { width: 100%; height: 100%; display: block; object-fit: cover; }
+#hxScene { margin-bottom: var(--s4); }
+#hxScene img { width: 100%; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); display: block; animation: in .6s var(--ease); }
 .typing { display: inline-flex; gap: 4px; align-items: center; padding: .25rem 0; }
 .typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: tp 1s infinite; }
 .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
@@ -415,7 +418,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="panel on" id="p-hx">
-        <p class="panel__hint">Tap to ask. Each question costs about 2 minutes.</p>
+        <p class="panel__hint">Tap to ask. Each question costs about 30 seconds.</p>
+        <div id="hxScene"><img src="scene-collapse.svg" alt="This morning: Arthur collapsed by the bathroom door; Margaret found him grey on the floor."></div>
         <ul class="qa" id="qa"></ul>
         <div class="chips" id="chips"></div>
       </div>
@@ -529,6 +533,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
           <li>Dark stool blamed on iron is the classic decoy. Iron stains; melaena is black, tarry, sticky and offensive. When in doubt, do the PR and let the urea settle it.</li>
           <li>Urea 14.6 with a normal creatinine — out of proportion — is the fingerprint of an upper GI bleed. Digested blood is a protein meal. And iron started for a "low blood count" a month ago is a bleed that has been going on quietly for weeks.</li>
           <li>The troponin of 34 is a type-2 rise from demand on a haemoglobin of 72. Treat it as ACS and you anticoagulate a bleeding man.</li>
+          <li>His faint had three explanations on offer — the ramipril they'd just increased, the strain on the toilet, and the bleed. Decoys explain the collapse; only the bleed explains the melaena and the urea.</li>
           <li>Glasgow-Blatchford risk-stratifies before endoscopy — scored on the pre-resuscitation observations. A 0–1 may go home with an urgent outpatient scope; this man scores double figures and stays.</li>
           <li>Tranexamic acid has no place in GI bleeding — HALT-IT found no survival benefit and more venous clots. Old trauma reflexes die hard.</li>
           <li>Terlipressin saves lives in variceal bleeding — but it's a vasoconstrictor: caution in ischaemic heart disease, PVD, hyponatraemia and long QTc. His cardiac history isn't just a diagnostic decoy; it shapes whether you reach for it.</li>
@@ -581,7 +586,7 @@ const CASE = {
           dxName: "Upper GI bleed", startClock: 522 /* 08:42 in minutes */ },
 
   history: [
-    { id:"what",   q:"What happened?", dq:"Mr Pell, talk me through what happened this morning.", a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute.”" },
+    { id:"what",   q:"What happened?", dq:"Mr Pell, talk me through what happened this morning.", a:"“I’d just got up from the toilet — been straining a bit, truth be told. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute.”" },
     { id:"warn",   q:"Any warning first?", dq:"Was there any warning just before you went down?", a:"“Light-headed and sweaty for a second. Then the floor.”" },
     { id:"after",  q:"How now?", dq:"And how have you felt since you came round?", a:"“Came round quick. Washed out ever since.”" },
     { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — before, during, after?", a:"“No pain. A bit of a flutter when I came round — gone now.”" },
@@ -590,7 +595,7 @@ const CASE = {
     { id:"bowels", q:"Bowels & stool?", dq:"What about your bowels — anything changed down there?", a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets.”", key:true },
     { id:"eat",    q:"Appetite, energy?", dq:"How have your appetite and energy been this week?", a:"“Off my food all week. Tired. Dizzy when I stand.”" },
     { id:"gi",     q:"Indigestion?", dq:"Any indigestion, heartburn, tummy pain?", a:"“Burning up here for a fortnight.” — he points at the epigastrium. “Rennies help.”", key:true },
-    { id:"drugs",  q:"Drug history?", dq:"What tablets are you on at the moment — anything over the counter too?", a:"“Naproxen for the back these six weeks — slipped disc, they reckon. Aspirin each morning. A statin. And the iron.”", key:true },
+    { id:"drugs",  q:"Drug history?", dq:"What tablets are you on at the moment — anything over the counter too?", a:"“Naproxen for the back these six weeks — slipped disc, they reckon. Aspirin each morning. A statin. And the iron. Oh — and they put the ramipril up last month.”", key:true },
     { id:"pmh",    q:"Past history?", dq:"What's in the past medical history? Anything you see a doctor for?", a:"“Blood pressure. The bad back. They caught a flutter — AF — on a machine last year, said it settled. And the GP started the iron a month ago — my blood count was down.”", key:true, tag:"cardiac" },
     { id:"fhx",    q:"Family history?", dq:"Any illnesses that run in the family?", a:"“Father died of his heart. My brother’s got a pacemaker.”", tag:"cardiac" },
     { id:"etoh",   q:"Alcohol?", dq:"And honestly — how much are you drinking, in a normal week?", a:"“Couple of whiskies most evenings. A good few more on a Saturday.”", key:true, tag:"varices" },
@@ -601,11 +606,11 @@ const CASE = {
     { id:"gen",  name:"General inspection", f:"Pale, clammy, cool peripheries. Capillary refill 3 s. He looks unwell.", dyn:true },
     { id:"cvs",  name:"Cardiovascular", f:"Pulse 104, regular. JVP not raised. Heart sounds normal, no murmur. No oedema." },
     { id:"resp", name:"Respiratory", f:"Chest clear. Trachea central. RR 18, SpO₂ 97% on air." },
-    { id:"abdo", name:"Abdomen", f:"Soft. Tender in the epigastrium, no guarding. No masses, no organomegaly. Bowel sounds active.", key:true },
+    { id:"abdo", name:"Abdomen", f:"", img:"abdo.svg", imgOnly:true, imgAlt:"Abdomen: soft, focally tender in the epigastrium, no guarding", key:true },
     { id:"cns",  name:"Neurological", f:"GCS 15, no focal deficit, no tongue trauma. Cranial nerves intact." }
   ],
   examMore: [
-    { id:"pr",    name:"PR examination", sub:"per rectum", f:"On the glove — black, tarry, offensive. Unmistakable melaena.", img:"melaena.jpg", imgAlt:"Black tarry melaena on the examining glove", tone:"alert", key:true, dyn:true, isPR:true },
+    { id:"pr",    name:"PR examination", sub:"per rectum", f:"", img:"melaena.jpg", imgOnly:true, imgAlt:"The examining glove after PR", tone:"alert", key:true, dyn:true, isPR:true },
     { id:"post",  name:"Lying & standing BP", sub:"postural", f:"Lying 102/68, HR 104. Standing one minute: 84/56, HR 126 — he sways.", tone:"alert", key:true },
     { id:"calf",  name:"Calf / DVT check", sub:"PE thinking", f:"Calves soft, non-tender, equal. No swelling.", tag:"pe" },
     { id:"pulses",name:"Peripheral pulses", sub:"", f:"Thready but present and symmetrical." },
@@ -617,7 +622,7 @@ const CASE = {
   ix: {
     bedside: [
       { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"key", labs:[{n:"Glucose", v:"6.2", r:"4.0–7.8", u:"mmol/L"}] },
-      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia, rate 104. No ischaemic changes. No AF. QTc normal." },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus tachycardia, rate 104, with occasional ventricular ectopics. No AF, no ischaemic changes. QTc normal." },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
         labs:[{n:"pH", v:"7.36", r:"7.35–7.45"},{n:"Hb", v:"76", r:"130–170", u:"g/L", flag:"lo"},{n:"Lactate", v:"2.9", r:"0.5–2.0", u:"mmol/L", flag:"hi"},{n:"K⁺", v:"4.2", r:"3.5–5.3", u:"mmol/L"}] },
       { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"noise", text:"Unremarkable." }
@@ -727,14 +732,14 @@ const S = {
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0, fbcBackAt: null,
   dx: "", dxCorrect: false,
-  mg: {}, mgIdx: 0
+  mg: {}, mgIdx: 0, furtherUnlocked: false
 };
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
 
-function fmtClock(min){ const h=Math.floor(min/60)%24, m=min%60; return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
 function elapsed(){ return S.clock - CASE.meta.startClock; }
 function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); }
 
@@ -782,8 +787,8 @@ function tab(name){
 }
 $$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab)));
 
-/* ---------- datalist ---------- */
-$("#dxlist").innerHTML = CASE.conditions.map(c=>`<option value="${c}">`).join("");
+/* ---------- datalist (shuffled — no positional hints) ---------- */
+$("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
 
 /* ---------- history (chat) ---------- */
 let hxBusy = false;
@@ -801,11 +806,11 @@ function renderHx(){
 function askHx(h){
   if (hxBusy) return;
   hxBusy = true; $("#chips").dataset.busy = "1";
-  S.asked.add(h.id); tick(2);
+  S.asked.add(h.id); tick(0.5);
   const qa = $("#qa");
   // doctor bubble
   const dr = document.createElement("li");
-  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div></div>`;
+  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div><span class="pav"><img src="doctor.svg" alt=""></span></div>`;
   qa.appendChild(dr);
   renderHx();
   // patient bubble: typing dots, then the answer
@@ -813,7 +818,7 @@ function askHx(h){
   const who = isM ? "Margaret" : "Arthur";
   const ans = isM ? h.a.replace(/^Margaret:\s*/,"") : h.a;
   const pt = document.createElement("li");
-  pt.innerHTML = `<div class="msg msg--pt"><span class="pav">${isM?"M":"AP"}</span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
+  pt.innerHTML = `<div class="msg msg--pt"><span class="pav"><img src="${isM?"margaret":"arthur"}.svg" alt=""></span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
   setTimeout(()=>{
     qa.appendChild(pt);
     pt.scrollIntoView({behavior:"smooth", block:"end"});
@@ -826,11 +831,6 @@ function askHx(h){
 }
 
 /* ---------- examination ---------- */
-function prFinding(){
-  // dynamic: ongoing loss if not resuscitated and time has passed
-  if (S.reexamCount>0 && !(S.rx.has("iv")||S.rx.has("blood"))) return "Fresh melaena again — he is still losing blood.";
-  return CASE.examMore.find(e=>e.id==="pr").f;
-}
 function genFinding(){
   const o = obsState();
   if (o.appear==="better") return "Warmer, pinker, settling. Capillary refill now 2 s — responding to resuscitation.";
@@ -842,11 +842,11 @@ function rowHTML(item, picked, label){
     `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
 }
 function findingFor(e){
+  const imgHTML = e.img ? `<img src="${e.img}" onerror="this.onerror=null;this.src='${e.id==='pr'?'melaena.svg':e.img}'" alt="${e.imgAlt||''}">` : "";
+  if (e.imgOnly) return imgHTML; // real life: you see it, nobody narrates it
   let txt = e.f;
-  if (e.id==="pr") txt = prFinding();
   if (e.id==="gen") txt = genFinding();
-  if (e.img) txt += `<img src="${e.img}" onerror="this.onerror=null;this.src='melaena.svg'" alt="${e.imgAlt||''}">`;
-  return txt;
+  return txt + imgHTML;
 }
 function renderExam(){
   const core = $("#examCore"); core.innerHTML="";
@@ -966,9 +966,12 @@ function referFinding(){
       ? "“Lovely, that's the bundle done. Keep resuscitating — I'll scope him as soon as he's stable enough. Call me the moment anything changes.”"
       : "“Sort the crosses and call me back — I can't scope a man with no blood ready and no bed to land in.”"}</div></div>`;
 }
+function resusRight(){ return S.rx.has("iv") && S.rx.has("blood") && S.rx.has("hold") && !S.rx.has("txa") && !S.rx.has("lmwh"); }
 function renderRx(){
   const wrap=$("#rxRows"); wrap.innerHTML="";
-  const groups=[["Initial resuscitation", CASE.rx.filter(m=>!m.g)], ["Further management & referral", CASE.rx.filter(m=>m.g==="further")]];
+  if(resusRight()) S.furtherUnlocked = true;
+  const groups=[["Initial resuscitation", CASE.rx.filter(m=>!m.g)]];
+  if(S.furtherUnlocked) groups.push(["Further management & referral", CASE.rx.filter(m=>m.g==="further")]);
   groups.forEach(([label,items])=>{
     const h=document.createElement("div"); h.className="grouph"; h.textContent=label; wrap.appendChild(h);
     const ul=document.createElement("ul"); ul.className="rows";
@@ -984,6 +987,12 @@ function renderRx(){
     });
     wrap.appendChild(ul);
   });
+  if(!S.furtherUnlocked){
+    const lock=document.createElement("div"); lock.className="reflist";
+    lock.innerHTML=`<div class="rq">Registrar: “Resuscitate him properly first — then we'll talk about packaging him up.”</div>`+
+      `<div style="color:var(--muted);">Further management unlocks when the initial resuscitation is right: access and fluid going, blood running, culprit drugs stopped${(S.rx.has("txa")||S.rx.has("lmwh"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
+    wrap.appendChild(lock);
+  }
   $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
   updateTabDots();
 }
