@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Black tarry melaena on a gloved fingertip">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9aa4ad"/>
+      <stop offset=".55" stop-color="#b4bcc2"/>
+      <stop offset="1" stop-color="#8b959e"/>
+    </linearGradient>
+    <linearGradient id="glove" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ddd8cc"/>
+      <stop offset=".42" stop-color="#f4f1e8"/>
+      <stop offset=".8" stop-color="#e9e4d8"/>
+      <stop offset="1" stop-color="#cfc9bb"/>
+    </linearGradient>
+    <radialGradient id="mel" cx=".38" cy=".32" r="1">
+      <stop offset="0" stop-color="#40261a"/>
+      <stop offset=".45" stop-color="#20110a"/>
+      <stop offset="1" stop-color="#0b0503"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <g filter="url(#soft)" opacity=".55">
+    <rect x="18" y="26" width="150" height="96" rx="6" fill="#e9edf0"/>
+    <rect x="196" y="12" width="120" height="72" rx="6" fill="#dfe5e9"/>
+    <rect x="300" y="120" width="90" height="180" rx="8" fill="#77818b"/>
+    <rect x="0" y="380" width="400" height="120" fill="#6d7680"/>
+  </g>
+
+  <!-- gloved hand: curled fingers suggestion -->
+  <g filter="url(#soft)" opacity=".9">
+    <ellipse cx="205" cy="452" rx="150" ry="90" fill="#d9d4c7"/>
+  </g>
+  <path d="M110 500 C104 420 116 384 148 356 C170 338 214 336 240 352 C276 372 296 412 296 500 Z" fill="url(#glove)"/>
+  <!-- knuckle folds -->
+  <path d="M136 420 q34 -22 74 -12" stroke="#c9c2b2" stroke-width="3" fill="none" opacity=".7"/>
+  <path d="M150 456 q40 -20 92 -8" stroke="#c9c2b2" stroke-width="3" fill="none" opacity=".6"/>
+
+  <!-- index finger, pointing up -->
+  <path d="M158 372 C150 316 148 250 152 196 C155 158 162 128 178 118 C196 107 216 116 222 140 C232 180 234 260 230 330 C228 356 222 372 210 382 C192 396 166 392 158 372 Z" fill="url(#glove)"/>
+  <!-- finger sheen -->
+  <path d="M172 350 C166 300 165 230 170 180" stroke="#fbf9f3" stroke-width="7" stroke-linecap="round" opacity=".55" fill="none"/>
+  <!-- joint creases -->
+  <path d="M160 300 q34 12 68 2" stroke="#cfc8b8" stroke-width="2.5" fill="none" opacity=".8"/>
+  <path d="M158 236 q36 12 72 3" stroke="#cfc8b8" stroke-width="2.5" fill="none" opacity=".7"/>
+
+  <!-- melaena on the fingertip -->
+  <path d="M170 152 C164 132 176 114 194 110 C212 106 226 118 228 136 C230 152 222 162 210 168 C196 175 176 170 170 152 Z" fill="url(#mel)"/>
+  <path d="M186 166 c-4 8 -12 12 -20 10 c2 -10 8 -16 14 -20 Z" fill="url(#mel)" opacity=".9"/>
+  <path d="M214 164 c6 6 8 14 6 22 c-8 -2 -14 -10 -16 -18 Z" fill="url(#mel)" opacity=".8"/>
+  <!-- tar gloss -->
+  <ellipse cx="192" cy="128" rx="12" ry="6" fill="#6b4a33" opacity=".85" transform="rotate(-18 192 128)"/>
+  <ellipse cx="205" cy="146" rx="5" ry="3" fill="#8a6a4d" opacity=".6"/>
+  <!-- smear below -->
+  <path d="M176 182 q18 10 40 4 q-6 12 -22 12 q-14 0 -18 -16 Z" fill="#1c0f08" opacity=".55"/>
+
+  <text x="200" y="486" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="13" fill="#f2f4f5" opacity=".85">On the glove — black, tarry, offensive.</text>
+</svg>

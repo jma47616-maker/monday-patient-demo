@@ -180,6 +180,26 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .chip:active { transform: translateY(1px); }
 .chip:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
 
+/* ---------- chat history ---------- */
+.msg { display: flex; gap: var(--s2); align-items: flex-end; }
+.msg--dr { justify-content: flex-end; }
+.msg .bub { max-width: 84%; padding: .55rem .85rem; border-radius: 16px; font-size: .95rem; line-height: 1.45; animation: pop .3s var(--ease); }
+.msg--dr .bub { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg--pt .bub { background: var(--paper-2); border: 1px solid var(--rule); color: var(--ink-2); border-bottom-left-radius: 4px; font-family: var(--font-display); font-size: 1.02rem; }
+.msg .who { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: .2rem; font-family: var(--font-body); font-weight: 600; }
+.msg--dr .who { text-align: right; }
+.msg--pt .pav { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--paper-3); color: var(--muted); font-size: .64rem; font-weight: 600; display: grid; place-items: center; font-family: var(--font-mono); margin-bottom: 2px; }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding: .25rem 0; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: tp 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes tp { 0%,60%,100% { transform: none; opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.chips[data-busy="1"] { opacity: .55; pointer-events: none; }
+
+/* ---------- question timer ---------- */
+.mqprog { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s2); font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tbar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; margin-bottom: var(--s4); }
+.tbar i { display: block; height: 100%; width: 100%; background: var(--good); border-radius: 999px; transition: background-color .3s var(--ease); }
+
 /* ---------- exam + ix rows ---------- */
 .rows { list-style: none; padding: 0; margin: 0; }
 .row { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
@@ -195,6 +215,15 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .act[disabled] { opacity: .5; cursor: default; color: var(--muted); }
 .finding { margin-top: var(--s2); font-family: var(--font-display); font-size: .98rem; line-height: 1.45; color: var(--ink-2); animation: pop .3s var(--ease); }
 .finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
+.finding img { width: 100%; max-width: 250px; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
+.reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
+.reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
+.reflist li { display: flex; gap: var(--s2); align-items: baseline; }
+.reflist li b { font-weight: 500; }
+.reflist .ok { color: var(--good); font-weight: 700; }
+.reflist .no { color: var(--danger); font-weight: 700; }
+.reflist .verdict { font-family: var(--font-display); font-style: italic; color: var(--accent-2); }
 .grouph { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: var(--s5) 0 var(--s1); }
 .grouph:first-of-type { margin-top: 0; }
 details.more { margin-top: var(--s4); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--paper-2); overflow: hidden; }
@@ -411,8 +440,11 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="panel" id="p-rx">
-        <p class="panel__hint">Immediate, real-time actions while you work him up. The definitive, condition-specific plan comes once you've committed a diagnosis.</p>
-        <ul class="rows" id="rxRows"></ul>
+        <p class="panel__hint">Two jobs: resuscitate him now, then package him up — referral, bed, scope. Reassess after anything you give.</p>
+        <div id="rxRows"></div>
+        <div id="rxReassessWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="rxReassessBtn">Reassess the patient</button>
+        </div>
       </div>
 
       <div class="bar">
@@ -549,20 +581,20 @@ const CASE = {
           dxName: "Upper GI bleed", startClock: 522 /* 08:42 in minutes */ },
 
   history: [
-    { id:"what",   q:"What happened?", a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute.”" },
-    { id:"warn",   q:"Any warning first?", a:"“Light-headed and sweaty for a second. Then the floor.”" },
-    { id:"after",  q:"How now?", a:"“Came round quick. Washed out ever since.”" },
-    { id:"chest",  q:"Chest pain?", a:"“No pain. A bit of a flutter when I came round — gone now.”" },
-    { id:"palp",   q:"Palpitations?", a:"“Now and then this week. Heart thumping on the stairs.”", tag:"cardiac" },
-    { id:"fits",   q:"Tongue-biting, shaking?", a:"Margaret: “Nothing like that, doctor, and I was right next to him.”" },
-    { id:"bowels", q:"Bowels & stool?", a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets.”", key:true },
-    { id:"eat",    q:"Appetite, energy?", a:"“Off my food all week. Tired. Dizzy when I stand.”" },
-    { id:"gi",     q:"Indigestion?", a:"“Burning up here for a fortnight.” — he points at the epigastrium. “Rennies help.”", key:true },
-    { id:"drugs",  q:"Drug history?", a:"“Naproxen for the back these six weeks — slipped disc, they reckon. Aspirin each morning. A statin. And the iron.”", key:true },
-    { id:"pmh",    q:"Past history?", a:"“Blood pressure. The bad back. They caught a flutter — AF — on a machine last year, said it settled. And the GP started the iron a month ago — my blood count was down.”", key:true, tag:"cardiac" },
-    { id:"fhx",    q:"Family history?", a:"“Father died of his heart. My brother’s got a pacemaker.”", tag:"cardiac" },
-    { id:"etoh",   q:"Alcohol?", a:"“Couple of whiskies most evenings. A good few more on a Saturday.”", key:true, tag:"varices" },
-    { id:"base",   q:"Normally fit?", a:"“Fit as a flea. Retired plumber, still do the garden.”" }
+    { id:"what",   q:"What happened?", dq:"Mr Pell, talk me through what happened this morning.", a:"“I’d just got up from the toilet. The room went swimmy and my legs folded. Margaret says I was grey and out for half a minute.”" },
+    { id:"warn",   q:"Any warning first?", dq:"Was there any warning just before you went down?", a:"“Light-headed and sweaty for a second. Then the floor.”" },
+    { id:"after",  q:"How now?", dq:"And how have you felt since you came round?", a:"“Came round quick. Washed out ever since.”" },
+    { id:"chest",  q:"Chest pain?", dq:"Any pain in your chest — before, during, after?", a:"“No pain. A bit of a flutter when I came round — gone now.”" },
+    { id:"palp",   q:"Palpitations?", dq:"Have you felt your heart racing or thumping lately?", a:"“Now and then this week. Heart thumping on the stairs.”", tag:"cardiac" },
+    { id:"fits",   q:"Tongue-biting, shaking?", dq:"Margaret — did he shake at all? Bite his tongue, wet himself?", a:"Margaret: “Nothing like that, doctor, and I was right next to him.”" },
+    { id:"bowels", q:"Bowels & stool?", dq:"What about your bowels — anything changed down there?", a:"“Loose these last few days. Darker than usual — I put that down to the iron tablets.”", key:true },
+    { id:"eat",    q:"Appetite, energy?", dq:"How have your appetite and energy been this week?", a:"“Off my food all week. Tired. Dizzy when I stand.”" },
+    { id:"gi",     q:"Indigestion?", dq:"Any indigestion, heartburn, tummy pain?", a:"“Burning up here for a fortnight.” — he points at the epigastrium. “Rennies help.”", key:true },
+    { id:"drugs",  q:"Drug history?", dq:"What tablets are you on at the moment — anything over the counter too?", a:"“Naproxen for the back these six weeks — slipped disc, they reckon. Aspirin each morning. A statin. And the iron.”", key:true },
+    { id:"pmh",    q:"Past history?", dq:"What's in the past medical history? Anything you see a doctor for?", a:"“Blood pressure. The bad back. They caught a flutter — AF — on a machine last year, said it settled. And the GP started the iron a month ago — my blood count was down.”", key:true, tag:"cardiac" },
+    { id:"fhx",    q:"Family history?", dq:"Any illnesses that run in the family?", a:"“Father died of his heart. My brother’s got a pacemaker.”", tag:"cardiac" },
+    { id:"etoh",   q:"Alcohol?", dq:"And honestly — how much are you drinking, in a normal week?", a:"“Couple of whiskies most evenings. A good few more on a Saturday.”", key:true, tag:"varices" },
+    { id:"base",   q:"Normally fit?", dq:"Day to day, before all this — how fit are you?", a:"“Fit as a flea. Retired plumber, still do the garden.”" }
   ],
 
   examCore: [
@@ -573,7 +605,7 @@ const CASE = {
     { id:"cns",  name:"Neurological", f:"GCS 15, no focal deficit, no tongue trauma. Cranial nerves intact." }
   ],
   examMore: [
-    { id:"pr",    name:"PR examination", sub:"per rectum", f:"Black, tarry, offensive melaena on the glove. Unmistakable.", tone:"alert", key:true, dyn:true, isPR:true },
+    { id:"pr",    name:"PR examination", sub:"per rectum", f:"On the glove — black, tarry, offensive. Unmistakable melaena.", img:"melaena.jpg", imgAlt:"Black tarry melaena on the examining glove", tone:"alert", key:true, dyn:true, isPR:true },
     { id:"post",  name:"Lying & standing BP", sub:"postural", f:"Lying 102/68, HR 104. Standing one minute: 84/56, HR 126 — he sways.", tone:"alert", key:true },
     { id:"calf",  name:"Calf / DVT check", sub:"PE thinking", f:"Calves soft, non-tender, equal. No swelling.", tag:"pe" },
     { id:"pulses",name:"Peripheral pulses", sub:"", f:"Thready but present and symmetrical." },
@@ -622,7 +654,12 @@ const CASE = {
     { id:"txa",  t:"Tranexamic acid IV", kind:"danger", why:"HALT-IT: no mortality benefit and more VTE — TXA has no place in GI bleeding." },
     { id:"hold", t:"Stop the naproxen and aspirin", kind:"good", why:"Remove the cause of the bleed." },
     { id:"cath", t:"Catheterise & monitor urine output", kind:"good", why:"Reasonable to track response to resuscitation." },
-    { id:"lmwh", t:"Treatment-dose anticoagulation (?PE / cardiac)", kind:"danger", why:"Anticoagulating an active GI bleed — the dangerous miss this case is built around." }
+    { id:"lmwh", t:"Treatment-dose anticoagulation (?PE / cardiac)", kind:"danger", why:"Anticoagulating an active GI bleed — the dangerous miss this case is built around." },
+    { id:"ppi",  g:"further", t:"IV PPI infusion before endoscopy", note:"Charted — though NICE doesn’t recommend routine PPI pre-endoscopy. The high-dose infusion (80 mg + 8 mg/h) earns its keep after endotherapy. The gastro reg will still ask." },
+    { id:"nbm",  g:"further", t:"Keep nil by mouth for the scope", note:"Nil by mouth — clear views and a safer airway at endoscopy." },
+    { id:"bed",  g:"further", t:"Request a ward bed", note:"Bed requested. He can’t board back in ED after his OGD — sort the bed before the scope." },
+    { id:"ogd",  g:"further", t:"Request the OGD", note:"Request submitted — unstable patients go straight after resuscitation, everyone else within 24 h." },
+    { id:"refer",g:"further", t:"Call gastroenterology on-call", sub:"out of hours: via switchboard", isRefer:true }
   ],
 
   /* ----- ACT 2 management drill ----- */
@@ -690,7 +727,7 @@ const S = {
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0, fbcBackAt: null,
   dx: "", dxCorrect: false,
-  mg: {}
+  mg: {}, mgIdx: 0
 };
 
 const $ = s => document.querySelector(s);
@@ -748,23 +785,44 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab)));
 /* ---------- datalist ---------- */
 $("#dxlist").innerHTML = CASE.conditions.map(c=>`<option value="${c}">`).join("");
 
-/* ---------- history ---------- */
+/* ---------- history (chat) ---------- */
+let hxBusy = false;
 function renderHx(){
   const box = $("#chips"); box.innerHTML = "";
   CASE.history.filter(h=>!S.asked.has(h.id)).forEach(h=>{
     const b = document.createElement("button");
     b.className = "chip"; b.textContent = h.q;
-    b.onclick = ()=>{
-      S.asked.add(h.id); tick(2);
-      const li = document.createElement("li");
-      li.innerHTML = `<div class="q">${h.q}</div><div class="a">${h.a}</div>`;
-      $("#qa").appendChild(li);
-      renderHx();
-    };
+    b.onclick = ()=>askHx(h);
     box.appendChild(b);
   });
   if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
   updateTabDots();
+}
+function askHx(h){
+  if (hxBusy) return;
+  hxBusy = true; $("#chips").dataset.busy = "1";
+  S.asked.add(h.id); tick(2);
+  const qa = $("#qa");
+  // doctor bubble
+  const dr = document.createElement("li");
+  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div></div>`;
+  qa.appendChild(dr);
+  renderHx();
+  // patient bubble: typing dots, then the answer
+  const isM = h.a.startsWith("Margaret:");
+  const who = isM ? "Margaret" : "Arthur";
+  const ans = isM ? h.a.replace(/^Margaret:\s*/,"") : h.a;
+  const pt = document.createElement("li");
+  pt.innerHTML = `<div class="msg msg--pt"><span class="pav">${isM?"M":"AP"}</span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
+  setTimeout(()=>{
+    qa.appendChild(pt);
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+  }, 350);
+  setTimeout(()=>{
+    pt.querySelector(".bub").textContent = ans;
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+    hxBusy = false; $("#chips").dataset.busy = "0";
+  }, 950 + Math.min(ans.length*4, 600));
 }
 
 /* ---------- examination ---------- */
@@ -784,9 +842,11 @@ function rowHTML(item, picked, label){
     `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
 }
 function findingFor(e){
-  if (e.id==="pr") return prFinding();
-  if (e.id==="gen") return genFinding();
-  return e.f;
+  let txt = e.f;
+  if (e.id==="pr") txt = prFinding();
+  if (e.id==="gen") txt = genFinding();
+  if (e.img) txt += `<img src="${e.img}" onerror="this.onerror=null;this.src='melaena.svg'" alt="${e.imgAlt||''}">`;
+  return txt;
 }
 function renderExam(){
   const core = $("#examCore"); core.innerHTML="";
@@ -811,13 +871,15 @@ function renderExam(){
   });
   updateTabDots();
 }
-$("#reexamBtn").onclick = ()=>{
+function doReexam(){
   S.reexamCount++; tick(20);
   // re-open key dynamic exams so they can be repeated
   S.examCore.delete("gen"); S.examMore.delete("pr"); S.examMore.delete("post");
   renderExam(); renderObs();
   tab("ex"); window.scrollTo({top:0});
-};
+}
+$("#reexamBtn").onclick = doReexam;
+$("#rxReassessBtn").onclick = doReexam;
 
 /* ---------- investigations ---------- */
 function renderIx(){
@@ -886,17 +948,43 @@ $("#ddxLock").onclick = ()=>{
   if(S.picked.size) processRound();
 };
 
-/* ---------- treat / immediate actions ---------- */
+/* ---------- treat: initial resus + further mx / referral ---------- */
+function referFinding(){
+  const items = [
+    ["Group & save / crossmatch", S.ordered.has("gs")],
+    ["IV access + fluid/blood going", S.rx.has("iv")||S.rx.has("blood")],
+    ["Ward bed requested", S.rx.has("bed")],
+    ["OGD requested", S.rx.has("ogd")],
+    ["Nil by mouth", S.rx.has("nbm")]
+  ];
+  const done = items.every(i=>i[1]);
+  const ppi = S.rx.has("ppi") ? "PPI's running — fine, though the evidence says it can wait for the scope." : "No PPI? Good — it's not routine before endoscopy anyway.";
+  return `<div class="reflist"><div class="rq">Gastro SpR, on call${done?"":" (out of hours — via switchboard)"}: “Right — quick checklist before I come in.”</div>`+
+    `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
+    `<div style="margin-bottom:var(--s2);">“${ppi}”</div>`+
+    `<div class="verdict">${done
+      ? "“Lovely, that's the bundle done. Keep resuscitating — I'll scope him as soon as he's stable enough. Call me the moment anything changes.”"
+      : "“Sort the crosses and call me back — I can't scope a man with no blood ready and no bed to land in.”"}</div></div>`;
+}
 function renderRx(){
-  const ul=$("#rxRows"); ul.innerHTML="";
-  CASE.rx.forEach(m=>{
-    const on=S.rx.has(m.id);
-    const li=document.createElement("li"); li.className="row";
-    li.innerHTML=`<div class="row__head"><span class="row__name">${m.t}</span>`+
-      `<button class="act" data-picked="${on?1:0}">${on?"Given":"Give"}</button></div>`;
-    li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(3); renderRx(); renderObs(); };
-    ul.appendChild(li);
+  const wrap=$("#rxRows"); wrap.innerHTML="";
+  const groups=[["Initial resuscitation", CASE.rx.filter(m=>!m.g)], ["Further management & referral", CASE.rx.filter(m=>m.g==="further")]];
+  groups.forEach(([label,items])=>{
+    const h=document.createElement("div"); h.className="grouph"; h.textContent=label; wrap.appendChild(h);
+    const ul=document.createElement("ul"); ul.className="rows";
+    items.forEach(m=>{
+      const on=S.rx.has(m.id);
+      const li=document.createElement("li"); li.className="row";
+      li.innerHTML=`<div class="row__head"><span class="row__name">${m.t}${m.sub?` <span class="row__sub">· ${m.sub}</span>`:""}</span>`+
+        `<button class="act" data-picked="${on?1:0}">${on?(m.isRefer?"Called":"Given"):(m.isRefer?"Call":"Give")}</button></div>`+
+        (on && m.isRefer ? referFinding() : "")+
+        (on && m.note ? `<div class="finding">${m.note}</div>` : "");
+      li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(m.isRefer?5:3); renderRx(); renderObs(); };
+      ul.appendChild(li);
+    });
+    wrap.appendChild(ul);
   });
+  $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
   updateTabDots();
 }
 
@@ -915,7 +1003,8 @@ function assessmentChecklist(){
     { label:"Took a history", done:S.asked.size>0 },
     { label:"Examined the patient", done:(S.examCore.size+S.examMore.size)>0 },
     { label:"Ordered investigations", done:S.ordered.size>0 },
-    { label:"Started immediate treatment", done:S.rx.size>0 }
+    { label:"Started immediate treatment", done:S.rx.size>0 },
+    { label:"Referred on — gastro, bed, OGD", done:S.rx.has("refer") }
   ];
 }
 $("#toCommit").onclick = ()=>{
@@ -931,38 +1020,77 @@ $("#commitBtn").onclick = ()=>{
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
-  go("manage");
+  go("manage"); startMgmt();
 };
 
-/* ---------- management drill ---------- */
-function renderMgmt(){
+/* ---------- management drill: one question at a time, 30 s each ---------- */
+const MG_SECS = 30;
+let mgTimer = null;
+function stopMgTimer(){ if(mgTimer){ clearInterval(mgTimer); mgTimer=null; } }
+function startMgmt(){
+  S.mgIdx = 0; S.mg = {};
+  $("#finishBtn").style.display = "none";
+  showMg();
+}
+function showMg(){
+  stopMgTimer();
   const box=$("#mqList"); box.innerHTML="";
-  CASE.mgmt.forEach(q=>{
-    const card=document.createElement("div"); card.className="mq";
-    card.innerHTML=`<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
-    const opts=document.createElement("div"); opts.className="opts";
-    q.opts.forEach((o,i)=>{
-      const b=document.createElement("button"); b.className="opt";
-      b.innerHTML=`<span class="mk">${String.fromCharCode(65+i)}</span><span>${o.t}</span>`;
-      b.onclick=()=>{
-        if(S.mg[q.id]!==undefined) return;
-        S.mg[q.id]=o.ok;
-        [...opts.children].forEach((c,j)=>{
-          const oo=q.opts[j];
-          c.setAttribute("disabled","");
-          c.dataset.state = oo.ok?"right":(j===i?"wrong":"dim");
-          if(oo.ok) c.querySelector(".mk").textContent="✓";
-          else if(j===i) c.querySelector(".mk").textContent="✗";
-        });
-        const t=document.createElement("div"); t.className="teach"; t.dataset.tone=o.ok?"right":"wrong";
-        t.innerHTML=(o.ok?"<b>Correct. </b>":"<b>Not quite. </b>")+q.teach;
-        card.appendChild(t);
-      };
-      opts.appendChild(b);
+  const i=S.mgIdx;
+  if(i>=CASE.mgmt.length){
+    const right=CASE.mgmt.filter(q=>S.mg[q.id]===true).length;
+    box.innerHTML=`<div class="mq" style="text-align:center;"><div class="mq__q" style="margin-bottom:var(--s2);">Drill complete</div>`+
+      `<div style="color:var(--muted); font-size:.9rem;">${right} of ${CASE.mgmt.length} under the 30-second clock.</div></div>`;
+    $("#finishBtn").style.display = "";
+    return;
+  }
+  const q=CASE.mgmt[i];
+  const card=document.createElement("div"); card.className="mq";
+  card.innerHTML=`<div class="mqprog"><span>Question ${i+1} / ${CASE.mgmt.length}</span><span id="mgClock">${MG_SECS}s</span></div>`+
+    `<div class="tbar"><i id="mgBar"></i></div>`+
+    `<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
+  const opts=document.createElement("div"); opts.className="opts";
+  // shuffle the answer positions
+  const order=q.opts.map((_,j)=>j);
+  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+  const settle=(pickedPos, timedOut)=>{
+    if(S.mg[q.id]!==undefined) return;
+    stopMgTimer();
+    const picked = pickedPos===null ? null : q.opts[order[pickedPos]];
+    S.mg[q.id] = !!(picked && picked.ok);
+    [...opts.children].forEach((c,pos)=>{
+      const oo=q.opts[order[pos]];
+      c.setAttribute("disabled","");
+      c.dataset.state = oo.ok?"right":(pos===pickedPos?"wrong":"dim");
+      if(oo.ok) c.querySelector(".mk").textContent="✓";
+      else if(pos===pickedPos) c.querySelector(".mk").textContent="✗";
     });
-    card.appendChild(opts);
-    box.appendChild(card);
+    const t=document.createElement("div"); t.className="teach";
+    t.dataset.tone=S.mg[q.id]?"right":"wrong";
+    t.innerHTML=(timedOut?"<b>Time. </b>":(S.mg[q.id]?"<b>Correct. </b>":"<b>Not quite. </b>"))+q.teach;
+    card.appendChild(t);
+    const n=document.createElement("button"); n.className="btn"; n.style.marginTop="var(--s3)";
+    n.textContent = (S.mgIdx+1>=CASE.mgmt.length) ? "See the drill summary" : "Next question";
+    n.onclick=()=>{ S.mgIdx++; showMg(); };
+    card.appendChild(n);
+  };
+  order.forEach((oi,pos)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="mk">${String.fromCharCode(65+pos)}</span><span>${q.opts[oi].t}</span>`;
+    b.onclick=()=>settle(pos,false);
+    opts.appendChild(b);
   });
+  card.appendChild(opts);
+  box.appendChild(card);
+  window.scrollTo({top:0});
+  // countdown
+  const t0=performance.now(), bar=$("#mgBar"), clk=$("#mgClock");
+  mgTimer=setInterval(()=>{
+    const left=Math.max(0, MG_SECS - (performance.now()-t0)/1000);
+    bar.style.width=(left/MG_SECS*100)+"%";
+    clk.textContent=Math.ceil(left)+"s";
+    bar.style.background = left<=5 ? "var(--danger)" : left<=12 ? "var(--warn)" : "var(--good)";
+    if(left<=0) settle(null,true);
+  },100);
 }
 
 /* ---------- scoring + outcome ---------- */
@@ -989,6 +1117,9 @@ function scoreAndShow(){
   if(S.rx.has("lmwh")) add("Anticoagulated an active bleed", -12);
   if(S.rx.has("txa")) add("Gave tranexamic acid — HALT-IT says no", -6);
   if(S.reexamCount>0) add("Reassessed after intervention", 6);
+  const referFull = S.rx.has("refer") && S.ordered.has("gs") && (S.rx.has("iv")||S.rx.has("blood")) && S.rx.has("bed") && S.rx.has("ogd") && S.rx.has("nbm");
+  if(referFull) add("Referred to gastro with the checklist complete", 8);
+  else if(S.rx.has("refer")) add("Referred to gastro — checklist incomplete", 3);
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
   add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
@@ -1055,7 +1186,7 @@ function mpReturnBtn(score, max){
 }
 
 /* ---------- init ---------- */
-renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderMgmt();
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx();
 $("#clock").textContent = fmtClock(S.clock);
 </script>
 </body>
