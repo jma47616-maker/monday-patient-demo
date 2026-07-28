@@ -736,6 +736,11 @@ const CASE = {
     { id:"hep",  t:"Therapeutic anticoagulation (treatment-dose LMWH)", kind:"danger", why:"No indication in native-valve endocarditis, and it converts a silent embolus into an intracranial bleed." },
     { id:"abx2", g:"further", t:"IV vancomycin — severe penicillin allergy", note:"Charted, after the cultures. ESC 2023: with severe penicillin allergy, vancomycin is the empirical backbone for native-valve endocarditis. Microbiology will narrow it once the streptococcus is identified and sensitivities are back." },
     { id:"cultrep", g:"further", t:"Further cultures at 48 h to document clearance", note:"Requested. Repeat sets while on treatment are how you prove the bloodstream has cleared — and persistently positive cultures on appropriate therapy is one of the triggers for early surgery." },
+    { id:"dapt",  g:"further", cardiacOnly:true, t:"Ticagrelor 180 mg — dual antiplatelet therapy", note:"Charted. <b>NICE NG185</b> puts a second antiplatelet on top of aspirin for every acute coronary syndrome, and if this were a ruptured plaque it would be exactly right. It is not. <b>Dual antiplatelet therapy is not indicated in septic coronary embolism without underlying atherosclerotic disease</b> — and if he needs a valve in three days, the surgeons will have to wait for it to wear off." },
+    { id:"statin",g:"further", cardiacOnly:true, t:"Atorvastatin 80 mg", note:"Charted. High-intensity statin is standard secondary prevention after any infarct and does no harm here — though it is not what is killing him tonight." },
+    { id:"ppci",  g:"further", cardiacOnly:true, t:"Activate primary PCI / discuss the cath lab", note:"Discussed. <b>STEMI gets primary PCI within 120 minutes</b> — but tell the operator what they are going to find. Infected embolic material is <b>aspirated, not stented</b>: a stent placed into a septic embolus invites stent infection and mycotic aneurysm, so aspiration thrombectomy or balloon alone is preferred." },
+    { id:"gtn",   g:"further", cardiacOnly:true, kind:"danger", t:"GTN infusion for the ischaemia", note:"His systolic is 92 and he is vasodilated by sepsis. Nitrates drop his preload and he will not tolerate it — this is how a borderline blood pressure becomes an arrest." },
+    { id:"bblock",g:"further", cardiacOnly:true, kind:"danger", t:"Bisoprolol 2.5 mg for rate control", note:"Beta-blockade in a hypotensive, tachycardic, septic man removes the only compensation he has left. Rate control is not the problem — the vegetation is." },
     { id:"spine",g:"further", t:"Request the whole-spine MRI", note:"Requested. Radiology ask why not just the lumbar spine — because seeding is often multi-level, and a skip lesion higher up changes the operation." },
     { id:"toe",  g:"further", t:"Request the transoesophageal echo", note:"Requested. The transthoracic study was equivocal, and that does not exclude a vegetation." },
     { id:"ccu",  g:"further", t:"Request a monitored bed (CCU / level 2)", note:"Bed requested. Nobody with this tracing and this blood pressure sits unmonitored in majors." },
@@ -880,7 +885,8 @@ function renderTabs(){
 }
 function updateBar(){
   const b = $("#toCommit");
-  if (S.dxCommitted) { b.textContent = "Finish treatment → management drill"; return; }
+  // deliberately neutral — the wording must not reveal whether the diagnosis was right
+  if (S.dxCommitted) { b.textContent = "Finish treatment & hand over"; return; }
   b.textContent = ["Move on → examine him", "Move on → investigate", "Commit a diagnosis"][Math.min(S.stageMax,2)];
 }
 function tab(name, userClick){
@@ -1103,7 +1109,7 @@ function renderRx(){
       li.innerHTML=`<div class="row__head"><span class="row__name">${m.t}${m.sub?` <span class="row__sub">· ${m.sub}</span>`:""}</span>`+
         `<button class="act" data-picked="${on?1:0}">${on?(m.isRefer?"Called":"Given"):(m.isRefer?"Call":"Give")}</button></div>`+
         (on && m.isRefer ? referFinding() : "")+
-        (on && m.note ? `<div class="finding">${m.note}</div>` : "");
+        (on && (m.note||m.why) ? `<div class="finding"${m.kind==="danger"?' data-tone="alert"':''}>${m.note||m.why}</div>` : "");
       li.querySelector("button").onclick=()=>{ on?S.rx.delete(m.id):S.rx.add(m.id); tick(m.isRefer?5:3); renderRx(); renderObs(); };
       ul.appendChild(li);
     });
@@ -1199,6 +1205,8 @@ function assessmentChecklist(){
 $("#toCommit").onclick = ()=>{
   // post-diagnosis: this button leads out of treatment into the drill
   if(S.dxCommitted){
+    // he only earns the management drill if the diagnosis underneath it is right
+    if(!S.dxCorrect){ scoreAndShow(); return; }
     go("manage");
     if(!S.mgStarted){ S.mgStarted=true; startMgmt(); renderDxStrip(); }
     return;
@@ -1347,7 +1355,10 @@ function scoreAndShow(){
   if(S.pushedOn) add("Held the diagnosis against the tracing", -10);
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
-  add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*5);
+  if(S.mgStarted) add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*5);
+  if(S.rx.has("gtn")) add("Nitrates on a systolic of 92", -6);
+  if(S.rx.has("bblock")) add("Beta-blocked a septic, hypotensive patient", -6);
+  if(S.rx.has("dapt") && !S.dxCorrect) add("Dual antiplatelets for an embolus that wasn't a plaque", -4);
 
   if(elapsed()<=480 && S.dxCorrect) add("Joined it up inside 8 ward-hours", 8);
 
@@ -1367,7 +1378,9 @@ function scoreAndShow(){
         ? "You treated the infarct. The lab was activated, the coronary was opened — and none of it touched the valve that had thrown the clot there in the first place."
         : `You were treating <b>${esc(S.dx)}</b>. He was never going to get better on it.`}</p>`+
       `<p>He became agitated at ten past eleven, then unresponsive. The rhythm was pulseless electrical activity. The arrest team ran fifty minutes of advanced life support — adrenaline, one shock when the rhythm turned, alteplase given late on the assumption of a massive pulmonary embolus. There was no return of circulation.</p>`+
-      `<div class="pm"><b>Post-mortem:</b> a 14 mm vegetation on the non-coronary cusp of the aortic valve, with destruction of the leaflet. Septic emboli in the left anterior descending artery, the spleen and both kidneys. Osteomyelitis of L4 and L5 with an early epidural abscess. Cause of death: 1a septic coronary embolism, 1b infective endocarditis of the aortic valve.</div></div>`
+      `<div class="pm"><b>Post-mortem:</b> a 14 mm vegetation on the non-coronary cusp of the aortic valve, with destruction of the leaflet. Septic emboli in the left anterior descending artery, the spleen and both kidneys. Osteomyelitis of L4 and L5 with an early epidural abscess. Cause of death: 1a septic coronary embolism, 1b infective endocarditis of the aortic valve.</div>`+
+      `<p style="margin-top:var(--s4); font-family:var(--font-body); font-size:.9rem; color:var(--muted);">There is no management drill this week. He did not live long enough for one.</p>`+
+      `<button class="btn" id="fateRetry" style="margin-top:var(--s3);">Take the case again</button></div>`
     : `<div class="fate" data-died="0"><div class="stamp">Outcome · day 34</div>`+
       `<h3>Marcus Webb went home.</h3>`+
       `<p>Vancomycin from the moment the cultures were in the bottles. It grew <i>Streptococcus sanguinis</i> in all three sets at 18 hours — his own mouth, by way of a molar. The penicillin allergy closed off the simpler regimens, so vancomycin ran on with levels, for six weeks. Transferred at 02:40 and given a new aortic valve on day three, once the vegetation grew despite treatment. The discitis settled without ever needing to be drained.</p>`+
@@ -1441,6 +1454,9 @@ function scoreAndShow(){
     (S.pushedOn ? `<b>held your diagnosis against an ST-elevation tracing</b>, ` : "")+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
+
+  const retry = $("#fateRetry");
+  if(retry) retry.onclick = ()=>location.reload();
 
   mpReturnBtn(shown, MAX);
   go("out");
