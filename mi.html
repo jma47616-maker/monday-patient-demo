@@ -590,6 +590,8 @@ const CASE = {
   meta: { dxAccepted: ["infective endocarditis","endocarditis","bacterial endocarditis","native valve endocarditis","subacute bacterial endocarditis","sbe","acute infective endocarditis","aortic valve endocarditis","infective endocarditis with septic emboli","septic emboli","septic embolism"],
           // named only part of it — the MI, the spine or the sepsis, without the valve underneath
           dxPartial: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterior mi","heart attack","coronary embolism","septic coronary embolism","spondylodiscitis","discitis","vertebral osteomyelitis","osteomyelitis","epidural abscess","sepsis","septic shock","bacteraemia","bacteremia","septicaemia"],
+          // a diagnosis that puts the heart in the frame — only these open a cardiology referral
+          dxCardiac: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterior mi","anterolateral stemi","heart attack","coronary embolism","septic coronary embolism","unstable angina","myocarditis","pericarditis","cardiac tamponade","aortic dissection","aortic regurgitation","mitral regurgitation","aortic stenosis","atrial myxoma","heart failure","pulmonary oedema","cardiac arrhythmia","atrial fibrillation","ventricular tachycardia","complete heart block","rheumatic fever"],
           dxName: "Infective endocarditis", startClock: 852 /* 14:12 in minutes */ },
 
   history: [
@@ -709,7 +711,7 @@ const CASE = {
     { id:"flood",t:"Two litres of crystalloid, wide open", kind:"danger", why:"A stunned anterior wall and moderate aortic regurgitation. Open the taps and you fill his lungs." },
     { id:"ond",  t:"Ondansetron 8 mg IV for the vomiting", kind:"danger", why:"QTc 476 on sertraline — ondansetron stacks a third QT-prolonger onto two." },
     { id:"abx",  t:"IV antibiotics now — don't wait for the cultures", kind:"danger", why:"He is not in septic shock. Half an hour of patience buys a microbiological diagnosis that shapes six weeks of therapy." },
-    { id:"lyse", t:"Thrombolyse the anterior ST elevation", kind:"danger", why:"The single worst thing you can do here — lysing a septic embolus with mycotic aneurysms in the circulation." },
+    { id:"lyse", t:"Thrombolyse the ST elevation", kind:"danger", needs:"recg", why:"The single worst thing you can do here — lysing a septic embolus with mycotic aneurysms in the circulation." },
     { id:"hep",  t:"Therapeutic anticoagulation (treatment-dose LMWH)", kind:"danger", why:"No indication in native-valve endocarditis, and it converts a silent embolus into an intracranial bleed." },
     { id:"abx2", g:"further", t:"IV vancomycin — severe penicillin allergy", note:"Charted, after the cultures. ESC 2023: with severe penicillin allergy, vancomycin is the empirical backbone for native-valve endocarditis. Microbiology will narrow it once the streptococcus is identified and sensitivities are back." },
     { id:"cultrep", g:"further", t:"Further cultures at 48 h to document clearance", note:"Requested. Repeat sets while on treatment are how you prove the bloodstream has cleared — and persistently positive cultures on appropriate therapy is one of the triggers for early surgery." },
@@ -717,7 +719,7 @@ const CASE = {
     { id:"spine",g:"further", t:"Request the whole-spine MRI", note:"Requested. Radiology ask why not just the lumbar spine — because seeding is often multi-level, and a skip lesion higher up changes the operation." },
     { id:"toe",  g:"further", t:"Request the transoesophageal echo", note:"Requested. The transthoracic study was equivocal, and that does not exclude a vegetation." },
     { id:"ccu",  g:"further", t:"Request a monitored bed (CCU / level 2)", note:"Bed requested. Nobody with this tracing and this blood pressure sits unmonitored in majors." },
-    { id:"refer",g:"further", t:"Call cardiology on-call", sub:"out of hours: via switchboard", isRefer:true }
+    { id:"refer",g:"further", t:"Call cardiology on-call", sub:"out of hours: via switchboard", isRefer:true, cardiacOnly:true }
   ],
 
   /* ----- ACT 2 management drill ----- */
@@ -791,6 +793,7 @@ const S = {
   unlocked: new Set(), cultSets: "3",
   rx: new Set(), wellensAt: null, wellensBeforeTrend: null, reexamCount: 0, trendBackAt: null,
   dx: "", dxCorrect: false, dxPart: false,
+  dxCardiac: false, dxReconsidered: 0, pushedOn: false,
   mg: {}, mgIdx: 0, furtherUnlocked: false,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false
 };
@@ -798,6 +801,7 @@ const S = {
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+const esc = s => String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 
 function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
 function elapsed(){ return S.clock - CASE.meta.startClock; }
@@ -1061,8 +1065,18 @@ function resusRight(){ return S.rx.has("iv") && S.ordered.has("cult") && S.rx.ha
 function renderRx(){
   const wrap=$("#rxRows"); wrap.innerHTML="";
   if(resusRight()) S.furtherUnlocked = true;
-  const groups=[["First-line care", CASE.rx.filter(m=>!m.g)]];
-  if(S.furtherUnlocked) groups.push(["Further management & referral", CASE.rx.filter(m=>m.g==="further")]);
+  // A non-cardiac diagnosis doesn't open a cardiology referral. It does earn a repeat
+  // tracing up front — and then the player has to decide what to do about it.
+  const avail = m => !m.needs || S.rx.has(m.needs);   // some options only make sense once you've seen the tracing
+  const first = CASE.rx.filter(m=>!m.g && avail(m));
+  if(!S.dxCardiac) first.push(CASE.rx.find(m=>m.id==="recg"));
+  const groups=[["First-line care", first]];
+  if(S.furtherUnlocked){
+    const further = CASE.rx.filter(m=>m.g==="further" && avail(m)
+      && !(m.cardiacOnly && !S.dxCardiac)
+      && !(m.id==="recg" && !S.dxCardiac));
+    if(further.length) groups.push(["Further management & referral", further]);
+  }
   groups.forEach(([label,items])=>{
     const h=document.createElement("div"); h.className="grouph"; h.textContent=label; wrap.appendChild(h);
     const ul=document.createElement("ul"); ul.className="rows";
@@ -1084,8 +1098,34 @@ function renderRx(){
       `<div style="color:var(--muted);">Further management unlocks when the first-line care is right: monitor and access on, cultures away${S.ordered.has("cult")?"":" <b>(send them from the investigations tab)</b>"}, measured fluid resuscitation${(S.rx.has("flood")||S.rx.has("ond")||S.rx.has("abx")||S.rx.has("lyse")||S.rx.has("hep"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
     wrap.appendChild(lock);
   }
+  // the non-cardiac path: repeat tracing → reassess → hold or change your mind
+  const panel = rxRethink();
+  if(panel){
+    const d=document.createElement("div"); d.innerHTML=panel; wrap.appendChild(d);
+    const rc=$("#rxReconsider"), po=$("#rxPushOn");
+    if(rc) rc.onclick=()=>{ $("#dxInput").value=""; go("commit"); $("#dxInput").focus(); };
+    if(po) po.onclick=()=>{ S.pushedOn=true; renderRx(); };
+  }
   $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
   updateTabDots();
+}
+
+/* the tracing that argues with the diagnosis */
+function rxRethink(){
+  if(S.dxCardiac) return "";
+  const say = t => `<div class="reflist"><div class="rq">${t}</div></div>`;
+  if(!S.rx.has("recg"))
+    return say("Registrar: “Before you settle on that — he's still on the monitor and I don't like the look of the chest leads. Put another 12-lead through him.”");
+  if(!S.reexamCount)
+    return say("Registrar: “Now go and lay hands on him again before you decide anything about that tracing.”");
+  if(S.pushedOn)
+    return say(`Registrar: “You're the one holding the pen, and you've stayed with <b>${esc(S.dx)}</b>. But that tracing goes in the notes, and somebody will ask why nobody acted on it.”`);
+  return `<div class="reflist">`+
+    `<div class="rq">Registrar: “That is ST elevation across the chest leads, in a man you have written down as <b>${esc(S.dx)}</b>. It may still be right — plenty of things raise a troponin. But you have to decide now, not on the post-take round.”</div>`+
+    `<div class="sheetbtns" style="margin-top:var(--s3);">`+
+    `<button class="btn" id="rxReconsider">Reconsider the diagnosis</button>`+
+    `<button class="btn btn--ghost" id="rxPushOn">Stay with ${esc(S.dx)}</button>`+
+    `</div></div>`;
 }
 
 /* ---------- tab progress dots ---------- */
@@ -1133,10 +1173,14 @@ $("#commitBtn").onclick = ()=>{
   const v=$("#dxInput").value.trim();
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
+  if(S.dxCommitted && norm(v)!==norm(S.dx)) S.dxReconsidered++;
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
   S.dxPart = !S.dxCorrect && CASE.meta.dxPartial.includes(norm(v));
+  // does this diagnosis put the heart in the frame at all?
+  S.dxCardiac = S.dxCorrect || CASE.meta.dxCardiac.includes(norm(v));
+  if(S.dxCardiac) S.pushedOn = false;
   S.dxCommitted = true; S.stageMax = 3;
-  renderTabs(); updateBar();
+  renderTabs(); updateBar(); renderRx();
   go("work"); tab("rx");
 };
 
@@ -1242,6 +1286,8 @@ function scoreAndShow(){
   const referFull = S.rx.has("refer") && S.ordered.has("cult") && (S.ordered.has("toe")||S.rx.has("toe")) && (S.ordered.has("mri")||S.rx.has("spine")) && S.rx.has("abx2") && S.rx.has("ccu");
   if(referFull) add("Referred to cardiology with the picture complete", 10);
   else if(S.rx.has("refer")) add("Referred to cardiology — picture incomplete", 3);
+  if(S.dxReconsidered>0 && S.dxCardiac) add("Changed your mind when the tracing changed", 6);
+  if(S.pushedOn) add("Held the diagnosis against the tracing", -10);
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
   add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*5);
@@ -1314,6 +1360,8 @@ function scoreAndShow(){
     `${S.ordered.has('toe')?"imaged the valve to TOE":S.ordered.has('tte')?"got as far as a transthoracic echo":"never imaged the valve"}, `+
     `${S.ordered.has('mri')?"and put his spine in the scanner":"and left his back unimaged"}. `+
     `You pulled Saturday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
+    (S.dxReconsidered>0 ? `<b>changed your diagnosis ${S.dxReconsidered} time${S.dxReconsidered===1?'':'s'}</b> when the repeat tracing argued with you, ` : "")+
+    (S.pushedOn ? `<b>held your diagnosis against an ST-elevation tracing</b>, ` : "")+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
 
