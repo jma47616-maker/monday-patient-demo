@@ -713,6 +713,7 @@ const CASE = {
 
   rx: [
     { id:"iv",   t:"IV access, bloods away, continuous cardiac monitoring", kind:"good", resus:true, why:"He's earned a monitor — ectopics on a long QT is peri-arrest territory." },
+    { id:"recg", t:"Repeat the 12-lead ECG now", kind:"good", note:"<img class=\"wide\" src=\"ecg-stemi.jpg\" onerror=\"this.onerror=null;this.src='ecg-evolve.svg'\" alt=\"Repeat 12-lead ECG\">" },
     { id:"asp",  t:"Aspirin 300 mg", kind:"good", why:"Reasonable while an infarct is on the table — but it is not the treatment here." },
     { id:"anal", t:"Morphine 2.5–5 mg IV + metoclopramide 10 mg IV", kind:"good", why:"Settles the distress and the vomiting — with an antiemetic that leaves the QT alone." },
     { id:"o2t",  t:"Titrate oxygen — only if SpO₂ falls below 90%", kind:"good", why:"ESC 2023: no routine oxygen above 90% — hyperoxia extends infarction." },
@@ -724,7 +725,6 @@ const CASE = {
     { id:"hep",  t:"Therapeutic anticoagulation (treatment-dose LMWH)", kind:"danger", why:"No indication in native-valve endocarditis, and it converts a silent embolus into an intracranial bleed." },
     { id:"abx2", g:"further", t:"IV vancomycin — severe penicillin allergy", note:"Charted, after the cultures. ESC 2023: with severe penicillin allergy, vancomycin is the empirical backbone for native-valve endocarditis. Microbiology will narrow it once the streptococcus is identified and sensitivities are back." },
     { id:"cultrep", g:"further", t:"Further cultures at 48 h to document clearance", note:"Requested. Repeat sets while on treatment are how you prove the bloodstream has cleared — and persistently positive cultures on appropriate therapy is one of the triggers for early surgery." },
-    { id:"recg", g:"further", t:"Repeat the 12-lead ECG now", note:"<img class=\"wide\" src=\"ecg-stemi.jpg\" onerror=\"this.onerror=null;this.src='ecg-evolve.svg'\" alt=\"Repeat 12-lead ECG\">" },
     { id:"spine",g:"further", t:"Request the whole-spine MRI", note:"Requested. Radiology ask why not just the lumbar spine — because seeding is often multi-level, and a skip lesion higher up changes the operation." },
     { id:"toe",  g:"further", t:"Request the transoesophageal echo", note:"Requested. The transthoracic study was equivocal, and that does not exclude a vegetation." },
     { id:"ccu",  g:"further", t:"Request a monitored bed (CCU / level 2)", note:"Bed requested. Nobody with this tracing and this blood pressure sits unmonitored in majors." },
@@ -1077,13 +1077,9 @@ function renderRx(){
   // A non-cardiac diagnosis doesn't open a cardiology referral. It does earn a repeat
   // tracing up front — and then the player has to decide what to do about it.
   const avail = m => !m.needs || S.rx.has(m.needs);   // some options only make sense once you've seen the tracing
-  const first = CASE.rx.filter(m=>!m.g && avail(m));
-  if(!S.dxCardiac) first.push(CASE.rx.find(m=>m.id==="recg"));
-  const groups=[["First-line care", first]];
+  const groups=[["First-line care", CASE.rx.filter(m=>!m.g && avail(m))]];
   if(S.furtherUnlocked){
-    const further = CASE.rx.filter(m=>m.g==="further" && avail(m)
-      && !(m.cardiacOnly && !S.dxCardiac)
-      && !(m.id==="recg" && !S.dxCardiac));
+    const further = CASE.rx.filter(m=>m.g==="further" && avail(m) && !(m.cardiacOnly && !S.dxCardiac));
     if(further.length) groups.push(["Further management & referral", further]);
   }
   groups.forEach(([label,items])=>{
@@ -1102,9 +1098,20 @@ function renderRx(){
     wrap.appendChild(ul);
   });
   if(!S.furtherUnlocked){
+    const need = [
+      ["Access and a monitor", S.rx.has("iv")],
+      ["Cultures sent — from the Investigate tab", S.ordered.has("cult")],
+      ["Fluid given in measured boluses", S.rx.has("fluid")]
+    ];
+    const harms = CASE.rx.filter(m=>m.kind==="danger" && S.rx.has(m.id));
     const lock=document.createElement("div"); lock.className="reflist";
-    lock.innerHTML=`<div class="rq">Registrar: “Basics first — access and a monitor, cultures in the bottles before anyone reaches for an antibiotic, and fluid given in small boluses with your eyes on him. Then we'll talk about the rest.”</div>`+
-      `<div style="color:var(--muted);">Further management unlocks when the first-line care is right: monitor and access on, cultures away${S.ordered.has("cult")?"":" <b>(send them from the investigations tab)</b>"}, measured fluid resuscitation${(S.rx.has("flood")||S.rx.has("ond")||S.rx.has("abx")||S.rx.has("lyse")||S.rx.has("hep"))?" — <b style='color:var(--danger)'>and something you've given is doing him harm. Rethink it.</b>":"."}</div>`;
+    lock.innerHTML=`<div class="rq">Registrar: “Basics first — access and a monitor, cultures in the bottles before anyone reaches for an antibiotic, and fluid in small boluses with your eyes on him. Then we'll talk about the rest.”</div>`+
+      `<ul>${need.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
+      (harms.length
+        ? `<div style="color:var(--danger); font-weight:600; margin:var(--s3) 0 var(--s2);">Stop this first — tap <b>Given</b> again to withdraw it:</div>`+
+          `<ul>${harms.map(m=>`<li><span class="no">✗</span><b>${m.t}</b></li>`).join("")}</ul>`
+        : "")+
+      `<div style="color:var(--muted);">Further management — including the cardiology referral — unlocks once these are right.</div>`;
     wrap.appendChild(lock);
   }
   // the non-cardiac path: repeat tracing → reassess → hold or change your mind
