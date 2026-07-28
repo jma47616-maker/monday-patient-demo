@@ -235,6 +235,13 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .ixchoice label { font-size: .76rem; color: var(--muted); }
 .ixchoice select { flex: 1; min-width: 11rem; min-height: 40px; padding: 0 var(--s3); background: var(--paper); color: var(--ink); border: 1px solid var(--rule-2); border-radius: var(--r-sm); font-size: .84rem; }
 .ixchoice select:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+.dxstrip { display: flex; align-items: center; gap: var(--s3); background: var(--accent-bg); border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent); border-radius: var(--r-md); padding: var(--s2) var(--s3); margin-bottom: var(--s4); }
+.dxstrip .t { flex: 1; min-width: 0; }
+.dxstrip .k { display: block; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; }
+.dxstrip b { display: block; font-weight: 500; font-size: .92rem; color: var(--ink); overflow-wrap: anywhere; }
+.dxstrip button { flex: none; min-height: 38px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); border-radius: 999px; font-size: .8rem; font-weight: 600; cursor: pointer; }
+@media (hover:hover){ .dxstrip button:hover { background: var(--paper); } }
+.dxstrip button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
 .reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
 .reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
 .reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
@@ -426,6 +433,8 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
       </div>
 
+      <div id="dxStrip"></div>
+
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
         <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
@@ -475,11 +484,11 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
     <!-- ===================== COMMIT ===================== -->
     <section class="screen" id="s-commit">
-      <div class="kicker">Diagnosis</div>
-      <h2>Commit your diagnosis</h2>
-      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <div class="kicker" id="commitKicker">Diagnosis</div>
+      <h2 id="commitHead">Commit your diagnosis</h2>
+      <p class="lede" id="commitLede">No list to pick from. Name it the way you'd write it in the notes.</p>
       <div class="field" style="margin-top:var(--s5);">
-        <label for="dxInput">Final diagnosis</label>
+        <label for="dxInput" id="commitLabel">Final diagnosis</label>
         <div class="hint">Type it — the box will suggest matches.</div>
         <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
       </div>
@@ -793,7 +802,7 @@ const S = {
   unlocked: new Set(), cultSets: "3",
   rx: new Set(), wellensAt: null, wellensBeforeTrend: null, reexamCount: 0, trendBackAt: null,
   dx: "", dxCorrect: false, dxPart: false,
-  dxCardiac: false, dxReconsidered: 0, pushedOn: false,
+  dxCardiac: false, dxReconsidered: 0, pushedOn: false, dxAttempts: [],
   mg: {}, mgIdx: 0, furtherUnlocked: false,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false
 };
@@ -1103,11 +1112,33 @@ function renderRx(){
   if(panel){
     const d=document.createElement("div"); d.innerHTML=panel; wrap.appendChild(d);
     const rc=$("#rxReconsider"), po=$("#rxPushOn");
-    if(rc) rc.onclick=()=>{ $("#dxInput").value=""; go("commit"); $("#dxInput").focus(); };
+    if(rc) rc.onclick=()=>reviseDx();
     if(po) po.onclick=()=>{ S.pushedOn=true; renderRx(); };
   }
   $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
   updateTabDots();
+}
+
+/* the working diagnosis stays on the board, and stays changeable, until the drill starts */
+function renderDxStrip(){
+  const el = $("#dxStrip");
+  if(!S.dxCommitted || S.mgStarted){ el.innerHTML = ""; return; }
+  el.innerHTML = `<div class="dxstrip"><div class="t"><span class="k">Working diagnosis</span><b>${esc(S.dx)}</b></div>`+
+    `<button id="dxRevise" type="button">Revise</button></div>`;
+  $("#dxRevise").onclick = ()=>reviseDx();
+}
+function reviseDx(){
+  const n = S.dxAttempts.length;
+  $("#commitKicker").textContent = "Revision";
+  $("#commitHead").textContent = "Change your diagnosis";
+  $("#commitLede").textContent = n>1
+    ? `You've written ${n} down so far. Changing your mind on new information is not a failure — leaving it unchanged when the evidence has moved is.`
+    : "Changing your mind on new information is not a failure — leaving it unchanged when the evidence has moved is.";
+  $("#commitLabel").textContent = "Revised diagnosis";
+  $("#commitBtn").textContent = "Lock the revised diagnosis";
+  go("commit");
+  const i = $("#dxInput");
+  i.value = S.dx; i.focus(); i.select();
 }
 
 /* the tracing that argues with the diagnosis */
@@ -1149,7 +1180,7 @@ $("#toCommit").onclick = ()=>{
   // post-diagnosis: this button leads out of treatment into the drill
   if(S.dxCommitted){
     go("manage");
-    if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+    if(!S.mgStarted){ S.mgStarted=true; startMgmt(); renderDxStrip(); }
     return;
   }
   // pre-diagnosis: advance the stage frontier, then the commit flow
@@ -1174,13 +1205,14 @@ $("#commitBtn").onclick = ()=>{
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
   if(S.dxCommitted && norm(v)!==norm(S.dx)) S.dxReconsidered++;
+  if(!S.dxAttempts.length || norm(v)!==norm(S.dxAttempts[S.dxAttempts.length-1])) S.dxAttempts.push(v);
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
   S.dxPart = !S.dxCorrect && CASE.meta.dxPartial.includes(norm(v));
   // does this diagnosis put the heart in the frame at all?
   S.dxCardiac = S.dxCorrect || CASE.meta.dxCardiac.includes(norm(v));
   if(S.dxCardiac) S.pushedOn = false;
   S.dxCommitted = true; S.stageMax = 3;
-  renderTabs(); updateBar(); renderRx();
+  renderTabs(); updateBar(); renderRx(); renderDxStrip();
   go("work"); tab("rx");
 };
 
@@ -1259,7 +1291,12 @@ function scoreAndShow(){
   const rows=[]; let total=0;
   const add=(l,p)=>{ rows.push([l,p]); total+=p; };
 
+  // how many times did they write the wrong thing down before they got there?
+  const firstRight = S.dxAttempts.findIndex(d=>CASE.meta.dxAccepted.includes(norm(d)));
+  const wrongBefore = firstRight < 0 ? S.dxAttempts.length : firstRight;
+
   add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`+(S.dxPart?" · part of it":"")), S.dxCorrect?40:(S.dxPart?18:0));
+  if(S.dxCorrect && wrongBefore>0) add(`Wrong diagnoses written before it (${wrongBefore})`, -6*wrongBefore);
 
   let keys=0;
   CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
@@ -1316,7 +1353,8 @@ function scoreAndShow(){
       : S.dxPart
         ? `“${S.dx}” was real — but it was a complication, not the diagnosis. Native-valve infective endocarditis, embolising.`
         : "It was native-valve infective endocarditis, showering septic emboli."}</div>`+
-    `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
+    `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time`+
+    `${S.dxAttempts.length>1?` · <b>${S.dxAttempts.length} diagnoses written</b>, ${wrongBefore} wrong before this one`:" · first and only diagnosis written"}.</div></div></div>`;
 
   // learning objectives
   const embolicFound = ["stig","spine","temp","mouth"].filter(id=>S.examMore.has(id)).length;
@@ -1360,7 +1398,7 @@ function scoreAndShow(){
     `${S.ordered.has('toe')?"imaged the valve to TOE":S.ordered.has('tte')?"got as far as a transthoracic echo":"never imaged the valve"}, `+
     `${S.ordered.has('mri')?"and put his spine in the scanner":"and left his back unimaged"}. `+
     `You pulled Saturday's tracing ${S.wellensAt===null?"<b>not at all</b>":S.wellensBeforeTrend?"<b>early — before the trend forced your hand</b>":"<b>after the rising troponin sent you back</b>"}, `+
-    (S.dxReconsidered>0 ? `<b>changed your diagnosis ${S.dxReconsidered} time${S.dxReconsidered===1?'':'s'}</b> when the repeat tracing argued with you, ` : "")+
+    (S.dxAttempts.length>1 ? `wrote <b>${S.dxAttempts.map(d=>esc(d)).join(" → ")}</b> on the board in that order, ` : "")+
     (S.pushedOn ? `<b>held your diagnosis against an ST-elevation tracing</b>, ` : "")+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
@@ -1399,7 +1437,7 @@ zoomBox.onclick = ()=>{ zoomBox.classList.remove("on"); zoomBox.hidden = true; $
 document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !zoomBox.hidden) zoomBox.onclick(); });
 
 /* ---------- init ---------- */
-renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar();
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar(); renderDxStrip();
 $("#clock").textContent = fmtClock(S.clock);
 </script>
 </body>
