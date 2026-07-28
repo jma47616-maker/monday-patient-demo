@@ -242,6 +242,16 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .dxstrip button { flex: none; min-height: 38px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); border-radius: 999px; font-size: .8rem; font-weight: 600; cursor: pointer; }
 @media (hover:hover){ .dxstrip button:hover { background: var(--paper); } }
 .dxstrip button:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.fate { border-radius: var(--r-lg); padding: var(--s5) var(--s4); margin-bottom: var(--s4); border: 1px solid var(--rule); }
+.fate[data-died="1"] { background: var(--danger-bg); border-color: color-mix(in oklab, var(--danger) 30%, transparent); }
+.fate[data-died="0"] { background: var(--good-bg); border-color: color-mix(in oklab, var(--good) 30%, transparent); }
+.fate .stamp { font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; margin-bottom: var(--s2); }
+.fate[data-died="1"] .stamp { color: var(--danger); }
+.fate[data-died="0"] .stamp { color: var(--good); }
+.fate h3 { font-size: 1.35rem; line-height: 1.15; margin-bottom: var(--s3); }
+.fate p { font-family: var(--font-display); font-size: 1rem; line-height: 1.5; color: var(--ink-2); }
+.fate p + p { margin-top: var(--s3); }
+.fate .pm { margin-top: var(--s3); padding-top: var(--s3); border-top: 1px dashed var(--rule-2); font-family: var(--font-body); font-size: .86rem; color: var(--muted); }
 .reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
 .reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
 .reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
@@ -512,6 +522,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
     <!-- ===================== OUTCOME ===================== -->
     <section class="screen" id="s-out">
+      <div id="outcomeBanner"></div>
       <div class="scorehero">
         <div class="big" id="scoreBig">0<span>/160</span></div>
         <div class="rank" id="rank"></div>
@@ -974,12 +985,13 @@ function renderExam(){
   });
   updateTabDots();
 }
-function doReexam(){
+function doReexam(stay){
   S.reexamCount++; tick(20);
   // re-open key dynamic exams so they can be repeated
   S.examCore.delete("gen"); S.examCore.delete("cvs"); S.examMore.delete("temp");
   renderExam(); renderObs();
-  tab("ex"); window.scrollTo({top:0});
+  if(!stay) tab("ex");
+  window.scrollTo({top:0});
 }
 $("#reexamBtn").onclick = doReexam;
 $("#rxReassessBtn").onclick = doReexam;
@@ -1119,7 +1131,8 @@ function renderRx(){
   if(panel){
     const d=document.createElement("div"); d.innerHTML=panel; wrap.appendChild(d);
     const rc=$("#rxReconsider"), po=$("#rxPushOn");
-    if(rc) rc.onclick=()=>reviseDx();
+    // reassess, then go wherever you like — every stage is open
+    if(rc) rc.onclick=()=>{ doReexam(true); $(".tabs").scrollIntoView({block:"center"}); };
     if(po) po.onclick=()=>{ S.pushedOn=true; renderRx(); };
   }
   $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
@@ -1157,11 +1170,11 @@ function rxRethink(){
   if(!S.reexamCount)
     return say("Registrar: “Now go and lay hands on him again before you decide anything about that tracing.”");
   if(S.pushedOn)
-    return say(`Registrar: “You're the one holding the pen, and you've stayed with <b>${esc(S.dx)}</b>. But that tracing goes in the notes, and somebody will ask why nobody acted on it.”`);
+    return say(`Registrar: “You've stayed with <b>${esc(S.dx)}</b> and I've written that I disagreed. Use <b>Revise</b> at the top if you change your mind — his obs are not going the right way.”`);
   return `<div class="reflist">`+
     `<div class="rq">Registrar: “That is ST elevation across the chest leads, in a man you have written down as <b>${esc(S.dx)}</b>. It may still be right — plenty of things raise a troponin. But you have to decide now, not on the post-take round.”</div>`+
     `<div class="sheetbtns" style="margin-top:var(--s3);">`+
-    `<button class="btn" id="rxReconsider">Reconsider the diagnosis</button>`+
+    `<button class="btn" id="rxReconsider">Go back and reassess him</button>`+
     `<button class="btn btn--ghost" id="rxPushOn">Stay with ${esc(S.dx)}</button>`+
     `</div></div>`;
 }
@@ -1344,13 +1357,32 @@ function scoreAndShow(){
   table.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]>0?'plus':r[1]<0?'minus':''}">${r[1]>0?'+':''}${r[1]}</td></tr>`).join("")
     + `<tr><td>Total</td><td>${shown} / ${MAX}</td></tr>`;
 
+  // did he live? only the valve being found and treated saves him
+  const died = !S.dxCorrect;
+  const treatedMI = S.dxCardiac && !S.dxCorrect;
+  $("#outcomeBanner").innerHTML = died
+    ? `<div class="fate" data-died="1"><div class="stamp">Outcome · 23:14</div>`+
+      `<h3>Marcus Webb died in the resuscitation room.</h3>`+
+      `<p>${treatedMI
+        ? "You treated the infarct. The lab was activated, the coronary was opened — and none of it touched the valve that had thrown the clot there in the first place."
+        : `You were treating <b>${esc(S.dx)}</b>. He was never going to get better on it.`}</p>`+
+      `<p>He became agitated at ten past eleven, then unresponsive. The rhythm was pulseless electrical activity. The arrest team ran fifty minutes of advanced life support — adrenaline, one shock when the rhythm turned, alteplase given late on the assumption of a massive pulmonary embolus. There was no return of circulation.</p>`+
+      `<div class="pm"><b>Post-mortem:</b> a 14 mm vegetation on the non-coronary cusp of the aortic valve, with destruction of the leaflet. Septic emboli in the left anterior descending artery, the spleen and both kidneys. Osteomyelitis of L4 and L5 with an early epidural abscess. Cause of death: 1a septic coronary embolism, 1b infective endocarditis of the aortic valve.</div></div>`
+    : `<div class="fate" data-died="0"><div class="stamp">Outcome · day 34</div>`+
+      `<h3>Marcus Webb went home.</h3>`+
+      `<p>Vancomycin from the moment the cultures were in the bottles. It grew <i>Streptococcus sanguinis</i> in all three sets at 18 hours — his own mouth, by way of a molar. The penicillin allergy closed off the simpler regimens, so vancomycin ran on with levels, for six weeks. Transferred at 02:40 and given a new aortic valve on day three, once the vegetation grew despite treatment. The discitis settled without ever needing to be drained.</p>`+
+      `<p>His ejection fraction is 48% and will probably not fully recover — that territory was already infarcted when he walked in. He has been referred to the dental service, and he has not had a cigarette since.</p>`+
+      `<div class="pm"><b>What saved him:</b> somebody put the fever, the murmur, the back and the troponin into one sentence instead of four.</div></div>`;
+
   // hero
   const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
-  const rank = pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+  const rank = died
+    ? (pct>=60?"He died anyway.":pct>=35?"Missed, and he paid for it.":"This one got away from you.")
+    : (pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You got there in the end.");
   $("#rank").textContent = rank;
   $("#scoreSub").textContent = S.dxCorrect
     ? "Four organs, one valve. You found the thing upstream of all of it."
-    : S.dxPart ? "You caught a real part of this — but the thing causing it was still seeding."
+    : treatedMI ? "You opened the artery. Nobody sterilised the thing that blocked it."
     : "Every decoy was true. Only one diagnosis was underneath them all.";
   countTo($("#scoreBig"), shown, MAX);
 
