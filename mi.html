@@ -577,6 +577,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
   <footer>
     The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
+    <span style="display:block; margin-top:.5rem; font-family:var(--font-mono); font-size:.68rem; opacity:.75;">case 2 · build 12 — if this number is lower than the one you were told, you are on a cached copy: pull down to refresh, or add <b>?v=12</b> to the address.</span>
   </footer>
 
   <div class="overlay" id="commitGate" hidden>
@@ -749,12 +750,12 @@ const CASE = {
 
   /* ----- ACT 2 management drill ----- */
   mgmt: [
-    { id:"unify", tag:"Join it up", q:"Five weeks of fevers and sweats after a dental extraction. A murmur, Osler node, splinters, Roth spots. New focal spinal pain. A troponin of 892. One diagnosis — what is it?",
+    { id:"unify", tag:"Join it up", q:"Five weeks of fevers and sweats after a dental extraction. A murmur, a tender nodule on the wrist, splinters in the nailbeds. New focal spinal pain. A minute of blindness in one eye. A troponin of 892. One diagnosis — what is it?",
       opts:[
         { t:"An anterior MI, with an unrelated back strain and a viral illness", ok:false },
         { t:"Infective endocarditis, embolising — to coronary, spine and retina", ok:true },
         { t:"Spondylodiscitis with a demand troponin from the sepsis", ok:false } ],
-      teach:"Each of the wrong answers explains <i>part</i>. Only a <b>seeded valve</b> explains all of it: a <b>dental extraction</b> five weeks ago as the portal, weeks of <b>fever, sweats and a stone of weight loss</b>, a <b>new regurgitant murmur</b>, and then showers of septic emboli — to a <b>coronary</b> (the troponin and the ECG), to the <b>spine</b> (L4–L5 discitis), to the <b>retina</b> (the transient blindness and the Roth spots), and to <b>spleen and kidneys</b> (the wedge infarcts and the haematuria). When a young-ish, previously well man collects embolic events in unconnected organs, the common factor is upstream, in the heart." },
+      teach:"Each of the wrong answers explains <i>part</i>. Only a <b>seeded valve</b> explains all of it: a <b>dental extraction</b> five weeks ago as the portal, weeks of <b>fever, sweats and a stone of weight loss</b>, a <b>new regurgitant murmur</b>, and then showers of septic emboli — to a <b>coronary</b> (the troponin and the ECG), to the <b>spine</b> (L4–L5 discitis), to the <b>retina</b> (the minute of blindness — and note his fundi were <i>normal</i> by the time you looked, because absent signs never exclude it), and to <b>spleen and kidneys</b> (the wedge infarcts and the haematuria). When a young-ish, previously well man collects embolic events in unconnected organs, the common factor is upstream, in the heart." },
     { id:"cultures", tag:"Before anything", q:"The nurse has vancomycin drawn up and is waiting on you. What happens first?",
       opts:[
         { t:"Give it now; take cultures alongside the first dose", ok:false },
