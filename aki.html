@@ -391,7 +391,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       <div class="card card--plain" style="border:1px solid var(--rule);">
         <div class="card__label">How this case works</div>
         <ul class="points">
-          <li><span class="n">1</span><span>Four days of continuity. Brief history and examination every day, and each evening <em>you write the plan</em> — what you tick is what happens to him overnight, and the next morning's numbers answer for it.</span></li>
+          <li><span class="n">1</span><span>Three days, each <em>locked</em> when it ends. Every morning opens with a brief of what has happened so far; each day runs examine → investigate → <em>write the plan</em>, and the next morning's numbers answer for what you wrote.</span></li>
           <li><span class="n">2</span><span>Bedside tests are a tap; everything else you <em>type</em> like a real order. Nothing is reported for you — ECGs, films, gases and sounds arrive raw, and <em>you commit a read</em>. You find out at the end whether you were right.</span></li>
           <li><span class="n">3</span><span>Name the diagnosis whenever you can prove it — <em>which day</em> matters. And if a night goes wrong, it starts the way it really does: a bleep, a grey patient, and A to E.</span></li>
         </ul>
@@ -733,7 +733,7 @@ const CASE = {
    FOUR-DAY STRUCTURE — follow-ups, continuity, the screen decision
    ============================================================ */
 const DAY_START = { 1:1300, 2:1950, 3:2580, 4:3080 };   // 21:40 · 08:30 · 19:00 · 03:20 (absolute minutes)
-const DAY_LABEL = { 1:"Day 1 · The night take", 2:"Day 2 · Ward round", 3:"Day 3 · Evening review", 4:"Day 4 · 03:20" };
+const DAY_LABEL = { 1:"Day 1 · The night take", 2:"Day 2 · Ward round", 3:"Day 3 · Evening review", 4:"That night · 03:20" };
 
 CASE.impressions = {
   1: { title:"End of the night shift", sub:"The clerking needs an impression. What do you write?",
@@ -1205,9 +1205,9 @@ $$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 /* ---------- staged navigation (staged on Day 1 only; all open after) ---------- */
 const STAGES = ["hx","ex","ix"];
 function tabLocked(name){
-  if (S.day > 1) return false;
+  if (S.day >= 4) return false;
   const i = STAGES.indexOf(name);
-  if (i < 0) return false;
+  if (i <= 0) return false;               // history stays readable — the record survives the lock
   return i > S.stageMax;
 }
 function renderTabs(){
@@ -1215,10 +1215,11 @@ function renderTabs(){
 }
 function updateBar(){
   const b = $("#toCommit");
-  if (S.day === 1){
-    b.textContent = ["Move on → examine him", "Move on → investigate", "End Day 1 → write the plan"][Math.min(S.stageMax,2)];
-  } else if (S.day < 4) {
-    b.textContent = `End ${DAY_LABEL[S.day].split(" · ")[0]} → plan & impression`;
+  if (S.day < 4){
+    const dayName = DAY_LABEL[S.day].split(" · ")[0];
+    b.textContent = S.stageMax < 1 ? "Move on → examine him"
+      : S.stageMax < 2 ? "Move on → investigate"
+      : `End ${dayName} → write the plan`;
   } else {
     b.textContent = "Finish the case → see how the week lands";
   }
@@ -1243,20 +1244,34 @@ function dayNarrative(){
   const iv = S.rx.has("iv");
   if (S.day === 2) {
     const bigHit = S.dmg.creat >= 60;
-    return `<div class="card__label">${DAY_LABEL[2]}</div><p class="serif-body">`+
-      (iv ? (bigHit
-          ? `He's had overnight fluid — and the morning bloods are <b>sharply worse anyway</b>: creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}. Fluid alone doesn't lose ground like this. `
-          : `He's had overnight fluid and looks better for it — but the morning bloods have not followed. Creatinine has <b>stagnated, slightly worse</b> at <b>${S.creat}</b>, despite replacement. The calcium has quietly corrected. `)
-          : `He had <b>no fluid overnight</b>, and he looks it. Creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}, and the calcium is still up. `)+
+    const d1 = [];
+    d1.push(iv ? "volume replaced overnight" : "no fluid ran overnight");
+    d1.push(S.rx.has("stop") ? "nephrotoxins stopped" : "home ibuprofen + ramipril still running");
+    if(S.rx.has("uo")) d1.push("strict I/O charted");
+    if(S.ordered.has("uss")) d1.push("ultrasound — no obstruction");
+    if(S.ordered.has("dip")) d1.push("dipstick bland");
+    if(S.ordered.has("gpr")) d1.push("GP baseline retrieved: creatinine 82");
+    if(S.rx.has("nsd")) d1.push("naproxen on the chart");
+    if(S.rx.has("gent")) d1.push("gentamicin given");
+    return `<div class="card__label">${DAY_LABEL[2]} — the brief</div><p class="serif-body">`+
+      `<b>Day 1, locked:</b> ${d1.join(" · ")}.<br><br>`+
+      `<b>This morning:</b> creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}${iv?" — and the admission calcium has quietly corrected":" — and the calcium is still up"}. `+
       (bigHit
-        ? `The consultant goes down the drug chart line by line, tapping it: <i>“Something we are giving this man is hurting him. Find it — and then tell me what this actually is.”</i></p>`
-        : `The consultant reads the numbers twice and looks at you over the notes: <i>“Dehydration doesn't do this on day two. What is this — and what's going to today to find out?”</i></p>`);
+        ? `<b>Sharply worse.</b> The consultant goes down the drug chart line by line, tapping it: <i>“Something we are giving this man is hurting him. Find it — and then tell me what this actually is.”</i></p>`
+        : iv
+        ? `Stagnated despite replacement. The consultant reads the numbers twice: <i>“Dehydration doesn't do this on day two. What is this — and what's going to the lab today to find out?”</i></p>`
+        : `Worse across the board, and he looks as dry as he did last night. <i>“Why has this man had no fluid?”</i></p>`);
   }
   if (S.day === 3) {
-    return `<div class="card__label">${DAY_LABEL[3]}</div><p class="serif-body">`+
-      (screenBack() ? `The overnight batch is back on the ward list, flagged red: <b>kappa free light chains 2,850 — ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. This has a name now — if you're ready to commit to it. `
-       : screenSent() ? `The renal screen is away — the lab batch runs overnight, back tomorrow morning. `
-                    : `Nothing new has gone to the lab. Nobody else has noticed. `)+
+    const d1line = `${(iv||S.rx.has("stopiv")) ? "volume replaced" : "no fluids given"} · ${S.rx.has("stop")?"nephrotoxins off":"nephrotoxins still running"}${S.ordered.has("uss")?" · obstruction excluded":""}${S.ordered.has("gpr")?" · baseline 82":""}`;
+    const d2line = `calcium corrected with volume · kidneys ${S.dmg.creat>=60?"sharply worse":"stagnant"} · ${screenSent()?"extended renal screen sent to the lab":"<b>no screen sent</b>"}`;
+    return `<div class="card__label">${DAY_LABEL[3]} — the brief</div><p class="serif-body">`+
+      `<b>Day 1, locked:</b> ${d1line}.<br>`+
+      `<b>Day 2, locked:</b> ${d2line}.<br><br>`+
+      `<b>Tonight:</b> `+
+      (screenBack() ? `the overnight batch is back on the ward list, flagged red — <b>kappa free light chains 2,850, ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. This has a name now, if you're ready to commit to it. `
+       : screenSent() ? `the screen is still in the overnight batch — back tomorrow morning. `
+                    : `nothing is coming back, because nothing was sent. Nobody else has noticed. `)+
       `His potassium is ${S.k>=6.3?"<b>climbing</b>":"creeping"} — <b>${S.k.toFixed(1)}</b> on the evening bloods — and the evening nurse catches you in the corridor: <i>“He's had bags running since admission. Can you look at him before the next one goes up?”</i> The fluid that was right on Day 1 needs a decision tonight.</p>`;
   }
   if (S.day === 4) {
@@ -1492,7 +1507,7 @@ function showPlanGate(){
         : `<button class="btn" id="planDone">End the day → impression</button>`)+
       `</div>`;
     const done = $("#planDone");
-    if(done) done.onclick=()=>{ $("#planGate").hidden=true; showImpression(); };
+    if(done) done.onclick=()=>{ $("#planGate").hidden=true; advanceDay(); };
     const am = $("#planAmend");
     if(am) am.onclick=()=>{ amended = true; writeStage(text); };
   };
@@ -1523,12 +1538,12 @@ function advanceDay(){
   if(S.day===2 || S.day===3) applyDayPhysiology();
   S.clock = DAY_START[S.day];
   $("#clock").textContent = fmtClock(S.clock);
-  S.stageMax = 2;
+  S.stageMax = S.day >= 4 ? 2 : 1;        // each day: brief → examine → investigate → plan
   S.examCore.clear(); S.examMore.clear();
   postOvernight();
   renderDayCard(); renderTabs(); updateBar(); renderObs(); renderIx(); renderExam(); renderHx();
   $("#reexamWrap").style.display="block";
-  tab(S.day===4 ? "rx" : "ix");
+  tab("ex");
   go("work");
   window.scrollTo({top:0});
 }
@@ -1536,8 +1551,8 @@ function advanceDay(){
 /* ---------- crisis outcome ---------- */
 function crisisEscalated(){ return S.rx.has("icu") || S.rx.has("filt"); }
 function evaluateDeath(){
-  // The sketch's branch: screen never sent AND the crisis mishandled → dead.
-  S.died = !screenSent() && ( !S.rx.has("cagl") || !crisisEscalated() || S.rx.has("transport") );
+  // The fork: ICU in the plan → he survives. No ICU in the plan → he dies. Both branches.
+  S.died = !crisisEscalated();
   return S.died;
 }
 
@@ -1548,6 +1563,11 @@ $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>
 let hxBusy = false;
 function renderHx(){
   const box = $("#chips"); box.innerHTML = "";
+  if (S.day > 1){
+    box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">Day 1's clerking — filed and locked. The chat above is the record. Today's questions live on the round, in Examine.</div>`;
+    updateTabDots();
+    return;
+  }
   CASE.history.filter(h=>!S.asked.has(h.id) && (h.day||1)===S.day).forEach(h=>{
     const b = document.createElement("button");
     b.className = "chip"; b.textContent = h.q;
@@ -1609,6 +1629,22 @@ function renderExam(){
   if (S.day === 4){ renderAE(); return; }
   $("#moreExam").style.display = "";
   const core = $("#examCore"); core.innerHTML="";
+  /* brief daily history — asked on the round, not in the filed clerking */
+  if (S.day === 2 || S.day === 3){
+    const asks = CASE.history.filter(h=>(h.day||1)===S.day);
+    if (asks.length){
+      const gh=document.createElement("li"); gh.className="grouph"; gh.textContent="Ask — patient, wife, nurse"; core.appendChild(gh);
+      asks.forEach(hx=>{
+        const done = S.asked.has(hx.id);
+        const li=document.createElement("li"); li.className="row";
+        li.innerHTML = `<div class="row__head"><span class="row__name">${hx.q}</span><button class="act" ${done?'disabled':''} data-picked="${done?1:0}">${done?"Asked":"Ask"}</button></div>`+
+          (done?`<div class="finding">${typeof hx.a==="function"?hx.a():hx.a}</div>`:"");
+        if(!done) li.querySelector("button").onclick=()=>{ S.asked.add(hx.id); tick(2); renderExam(); };
+        core.appendChild(li);
+      });
+      const gh2=document.createElement("li"); gh2.className="grouph"; gh2.textContent="Examine"; core.appendChild(gh2);
+    }
+  }
   CASE.examCore.forEach(e=>{
     const done = S.examCore.has(e.id);
     const li = document.createElement("li"); li.className="row";
@@ -1888,7 +1924,7 @@ function updateTabDots(){
 
 /* ---------- day flow + naming the diagnosis ---------- */
 $("#toCommit").onclick = ()=>{
-  if (S.day === 1 && S.stageMax < 2){
+  if (S.day < 4 && S.stageMax < 2){
     S.stageMax++;
     renderTabs(); tab(STAGES[S.stageMax]); updateBar();
     return;
@@ -2007,8 +2043,6 @@ function scoreAndShow(){
   const aeN = Object.values(S.ae).filter(Boolean).length;
   if(S.day>=4 && aeN) add(`A–E assessment at the crisis (${aeN} of 5)`, aeN*2);
 
-  const impRight = [1,2,3].filter(d=>S.impressions[d]&&S.impressions[d].ok).length;
-  add(`Honest daily impressions (${impRight} of 3)`, impRight*4);
   const bh = Object.values(S.bundleHits);
   const bundleHit = bh.reduce((a,b)=>a+b.hit,0), bundleOf = bh.reduce((a,b)=>a+b.of,0);
   if(bundleOf) add(`Plans written against the bundle (${bundleHit} of ${bundleOf} items)`, bundleHit);
@@ -2036,7 +2070,7 @@ function scoreAndShow(){
 
   let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
   if(!S.died) add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
-  if(S.died) add("He died on Day 4", -20);
+  if(S.died) add("He died — no ICU in the plan", -20);
 
   const MAX=160;
   const shown=Math.max(0, Math.min(total, MAX));
@@ -2055,8 +2089,10 @@ function scoreAndShow(){
 
   $("#dxVerdict").innerHTML = S.died
     ? `<div class="dxverdict" data-hit="0"><span class="ic">†</span>`+
-      `<div><div class="t">He arrested at 06:10 on Day 4.</div>`+
-      `<div class="s">Refractory hyperkalaemia, never escalated. The diagnosis — light-chain myeloma — arrives with the post-mortem bloods.</div></div></div>`
+      `<div><div class="t">He arrested at 06:10.</div>`+
+      `<div class="s">${S.dxCorrect
+        ? "Diagnosed — and still dead. The name never replaced the escalation: nobody put ICU in the plan."
+        : "Refractory hyperkalaemia, never escalated — no ICU in the plan. The diagnosis — light-chain myeloma — arrives with the post-mortem bloods."}</div></div></div>`
     : `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
       `<div><div class="t">${S.dxCorrect?"Myeloma — you found the invisible clone.":"It was myeloma — light-chain cast nephropathy."}</div>`+
       `<div class="s">${S.dxCorrect?`Named on Day ${S.dxDay}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`Four days, ${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
@@ -2081,8 +2117,7 @@ function scoreAndShow(){
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
   // journey
-  const impRightN = impRight;
-  $("#journey").innerHTML = `Four days of continuity: your written plans covered <b>${bundleHit} of ${bundleOf}</b> bundle items, your impressions were honest <b>${impRightN} of 3</b> days, `+
+  $("#journey").innerHTML = `Three days and a night: your written plans covered <b>${bundleHit} of ${bundleOf}</b> bundle items, `+
     `you ${S.ordered.has("gpr")?"chased the GP baseline":"<b>never chased a baseline</b>"}, `+
     `the renal screen went ${S.screenDay!==null?`on <b>Day ${S.screenDay}</b>`:"<b>never</b>"}, `+
     `the fluids ${S.rx.has("stopiv")?"were stopped on examination, in time":"<b>were never formally reviewed</b>"}, `+
