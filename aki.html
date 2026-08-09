@@ -1349,14 +1349,14 @@ const PLAN_ITEMS = {
   /* management — enacted onto the chart */
   iv:    { rx:"iv", label:"IV fluids", aliases:["iv fluids","fluids","fluid","ivf","ivi","slow ivi","iv infusion","iv fluid","iv crystalloid","crystalloid","fluid bolus","fluid challenge","drip","hartmanns","normal saline","plasmalyte","fluid resuscitation","rehydrate","rehydration","maintenance fluids","give fluids","continue fluids","fluid replacement","cautious fluids","gentle fluids"] },
   stop:  { rx:"stop", label:"Stop the nephrotoxins", aliases:["stop nephrotoxins","hold nephrotoxins","withhold nephrotoxins","nephrotoxins held","nephrotoxins","stop ibuprofen","hold ibuprofen","stop nsaids","stop nsaid","hold nsaids","no nsaids","avoid nsaids","stop ramipril","hold ramipril","withhold ramipril","withhold acei","hold acei","stop ace inhibitor","suspend ramipril","hold the ace","hold antihypertensives","hold bp meds","medicines review","medication review","review medications","stop the culprit drugs","stop offending drugs","renal dose adjustments","dose adjust medications"] },
-  uo:    { rx:"uo", label:"Strict fluid balance / urine output", aliases:["fluid balance","fluid balance chart","strict input output","input output chart","io chart","i o chart","strict io","urine output monitoring","hourly urine","monitor urine output","strict fluid balance","urometer","catheterise and monitor","measure urine output","urine output","catheterise","catheter","uo monitoring","monitor uo","input output","output monitoring","strict i o","i o chart","io","uo","ins and outs","in out chart"] },
-  ecgk:  { rx:"ecgk", label:"Cardiac monitor + repeat K⁺", aliases:["cardiac monitor","telemetry","cardiac monitoring","monitor potassium","repeat potassium","recheck potassium","monitor k","serial potassium","repeat gas","repeat vbg","monitor news","increase obs","regular obs","monitor the ecg","monitoring","observations","obs","hourly obs","4 hourly obs","close monitoring","monitor him","news monitoring","repeat ecg"] },
+  uo:    { rx:"uo", label:"Strict fluid balance / urine output", aliases:["fluid balance","fluid balance chart","strict input output","input output chart","io chart","i o chart","strict io","urine output monitoring","hourly urine","monitor urine output","strict fluid balance","urometer","catheterise and monitor","measure urine output","urine output","catheterise","catheter","uo monitoring","monitor uo","input output","output monitoring","strict i o","i o chart","io","uo","ins and outs","in out chart","daily weights","weigh daily","daily weight"] },
+  ecgk:  { rx:"ecgk", label:"Cardiac monitor + repeat K⁺", aliases:["cardiac monitor","telemetry","cardiac monitoring","monitor potassium","repeat potassium","recheck potassium","monitor k","serial potassium","repeat gas","repeat vbg","monitor news","increase obs","regular obs","monitor the ecg","monitoring","observations","obs","hourly obs","4 hourly obs","close monitoring","monitor him","news monitoring","repeat ecg","monitor overnight","overnight monitoring","vbg","gas in the morning","morning gas"] },
   para:  { rx:"para", label:"Paracetamol", aliases:["paracetamol","simple analgesia","regular paracetamol","analgesia","pain relief","painkillers","pain killers","analgesics","prn analgesia","pain control","pain management"] },
   vte:   { rx:"vte", label:"VTE prophylaxis (renal dose)", aliases:["vte prophylaxis","vte","thromboprophylaxis","dalteparin","enoxaparin","lmwh","clexane","tinzaparin"] },
-  renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team"] },
+  renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team","renal input","speak to renal","renal advice","involve renal","renal review","refer nephrology"] },
   bed:   { rx:"bed", label:"Monitored bed", aliases:["monitored bed","cardiac bed","bed with monitoring"] },
   chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains","chase","await results","awaiting results","follow up bloods","review results"] },
-  stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","fluid restrict","no more fluids","cautious fluids only"] },
+  stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","stop ivi","hold ivi","stop the ivi","discontinue ivi","wean fluids","wean off fluids","wean ivi","fluids off","ivi off","off the fluids","dc fluids","d c fluids","fluid restrict","no more fluids","cautious fluids only","no further fluids"] },
   stopnsd:{ removes:"nsd", label:"Stop the naproxen", aliases:["stop naproxen","stop the naproxen","discontinue naproxen","take off the naproxen"] },
   /* dangers — pharmacy will ring back */
   nsd:   { rx:"nsd", danger:true, label:"Naproxen", aliases:["naproxen","regular nsaid","nsaid for pain","ibuprofen for the pain","diclofenac"] },
@@ -1367,9 +1367,18 @@ const PLAN_ITEMS = {
   uss:   { ix:"uss", label:"USS renal tract", aliases:["uss","ultrasound","renal ultrasound","uss kub","us kub","renal tract ultrasound","image the renal tract","urgent ultrasound","renal tract imaging","ultrasound kidneys"] },
   blad:  { ix:"bladder", label:"Bladder scan", aliases:["bladder scan","post void residual","scan the bladder"] },
   dip:   { ix:"dip", label:"Urine dipstick", aliases:["urine dip","dipstick","urinalysis","dip the urine","dip urine","urine dipstick","dip","urine test","ward urinalysis"] },
-  pcr:   { ix:"pcr", label:"Urine PCR", aliases:["urine pcr","protein creatinine ratio","quantify proteinuria","quantify the proteinuria","upcr"] },
+  pcr:   { ix:"pcr", label:"Urine PCR", aliases:["urine pcr","protein creatinine ratio","quantify proteinuria","quantify the proteinuria","upcr","urine protein","protein quantification"] },
   msu:   { ix:"msu", label:"Urine culture", aliases:["msu","urine culture","urine mcs","midstream urine"] },
-  screen:{ ixMulti:["sflc","bjp"], label:"Myeloma screen — SFLC + urine electrophoresis", aliases:["myeloma screen","renal screen","free light chains","light chains","sflc","bence jones","urine electrophoresis","serum free light chains","paraprotein screen","serum electrophoresis and light chains","widen the screen","vasculitis screen"] },
+  screen:{ ixMulti:["sflc","bjp"], label:"Myeloma screen — SFLC + urine electrophoresis", aliases:["myeloma screen","renal screen","widen the screen","vasculitis screen","myeloma workup","myeloma work up","myeloma bloods","screen for myeloma","full myeloma screen","serum electrophoresis and light chains"] },
+  sflcI: { ix:"sflc", label:"Serum free light chains", aliases:["serum free light chains","free light chains","light chains","sflc","flc","kappa lambda","kappa and lambda","serum flc"] },
+  bjpI:  { ix:"bjp", label:"Urine electrophoresis (Bence-Jones)", aliases:["urine electrophoresis","bence jones","bjp","urine bence jones","bence jones protein","urine immunofixation","urinary electrophoresis"] },
+  spepI: { ix:"spep", label:"Serum protein electrophoresis", aliases:["spep","serum electrophoresis","protein electrophoresis","electrophoresis","paraprotein","paraprotein screen"] },
+  igsI:  { ix:"igs", label:"Immunoglobulins", aliases:["immunoglobulins","immunoglobulin levels","igs","igg iga igm"] },
+  bone:  { ix:"bone", label:"Bone profile", aliases:["bone profile","calcium","corrected calcium","check calcium","repeat calcium","recheck calcium","bone profile and calcium","repeat bone profile"] },
+  fbcp:  { ix:"fbc", label:"Full blood count", aliases:["fbc","full blood count","blood count","repeat fbc"] },
+  lftI:  { ix:"lft", label:"LFTs", aliases:["lft","lfts","liver function","liver function tests","liver profile"] },
+  hepbI: { ix:"hepb", label:"Hepatitis B screen", aliases:["hep b","hepatitis b","hep b screen","hepatitis b screen","hbsag"] },
+  mrsaI: { ix:"mrsa", label:"MRSA screen", aliases:["mrsa","mrsa screen","mrsa swab","mrsa swabs","mrsa status"] },
   gpr:   { ix:"gpr", label:"GP records / baseline", aliases:["gp records","baseline creatinine","baseline bloods","previous bloods","phone the gp","gp summary","old notes"] },
   lsp:   { ix:"lsp", label:"Lumbar spine X-ray", aliases:["lumbar spine xray","lumbar spine x ray","spine xray","spine x ray","back xray","back x ray","lumbar films","spine imaging","image the spine","l spine xray"] },
   mrisp: { ix:"mrisp", label:"MRI spine", aliases:["mri","mri spine","mri back","mri whole spine","mri lumbar spine"] },
@@ -1408,6 +1417,8 @@ function parsePlan(text){
 }
 function standardHit(k, matched){
   if(k==="fluidrev") return matched.has("stopiv") || !S.rx.has("iv");
+  if(k==="ue2") return matched.has("ue2") || matched.has("bone") || matched.has("fbcp");
+  if(k==="screen") return matched.has("screen") || (matched.has("sflcI") && matched.has("bjpI"));
   return matched.has(k);
 }
 function enactPlan(matched){
