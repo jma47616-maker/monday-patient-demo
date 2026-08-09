@@ -1347,15 +1347,15 @@ function postOvernight(){
 /* ---------- the written plan: free text, matched against ROUND UP ---------- */
 const PLAN_ITEMS = {
   /* management — enacted onto the chart */
-  iv:    { rx:"iv", label:"IV fluids", aliases:["iv fluids","fluids","ivf","iv crystalloid","crystalloid","fluid bolus","fluid challenge","drip","hartmanns","normal saline","plasmalyte","fluid resuscitation","rehydrate","maintenance fluids","give fluids","continue fluids","fluid replacement"] },
-  stop:  { rx:"stop", label:"Stop the nephrotoxins", aliases:["stop nephrotoxins","hold nephrotoxins","stop ibuprofen","stop nsaids","stop nsaid","stop ramipril","hold ramipril","withhold ramipril","withhold acei","hold acei","stop ace inhibitor","suspend ramipril","hold the ace","medicines review","medication review","stop the culprit drugs"] },
-  uo:    { rx:"uo", label:"Strict fluid balance / urine output", aliases:["fluid balance","fluid balance chart","strict input output","input output chart","io chart","i o chart","urine output monitoring","hourly urine","monitor urine output","strict fluid balance","urometer","catheterise and monitor","measure urine output"] },
-  ecgk:  { rx:"ecgk", label:"Cardiac monitor + repeat K⁺", aliases:["cardiac monitor","telemetry","cardiac monitoring","monitor potassium","repeat potassium","recheck potassium","monitor k","serial potassium","repeat gas","repeat vbg","monitor news","increase obs","regular obs","monitor the ecg"] },
-  para:  { rx:"para", label:"Paracetamol", aliases:["paracetamol","simple analgesia","regular paracetamol","analgesia"] },
+  iv:    { rx:"iv", label:"IV fluids", aliases:["iv fluids","fluids","fluid","ivf","ivi","slow ivi","iv infusion","iv fluid","iv crystalloid","crystalloid","fluid bolus","fluid challenge","drip","hartmanns","normal saline","plasmalyte","fluid resuscitation","rehydrate","rehydration","maintenance fluids","give fluids","continue fluids","fluid replacement","cautious fluids","gentle fluids"] },
+  stop:  { rx:"stop", label:"Stop the nephrotoxins", aliases:["stop nephrotoxins","hold nephrotoxins","withhold nephrotoxins","nephrotoxins held","nephrotoxins","stop ibuprofen","hold ibuprofen","stop nsaids","stop nsaid","hold nsaids","no nsaids","avoid nsaids","stop ramipril","hold ramipril","withhold ramipril","withhold acei","hold acei","stop ace inhibitor","suspend ramipril","hold the ace","hold antihypertensives","hold bp meds","medicines review","medication review","review medications","stop the culprit drugs","stop offending drugs","renal dose adjustments","dose adjust medications"] },
+  uo:    { rx:"uo", label:"Strict fluid balance / urine output", aliases:["fluid balance","fluid balance chart","strict input output","input output chart","io chart","i o chart","strict io","urine output monitoring","hourly urine","monitor urine output","strict fluid balance","urometer","catheterise and monitor","measure urine output","urine output","catheterise","catheter","uo monitoring","monitor uo","input output","output monitoring","strict i o","i o chart","io","uo","ins and outs","in out chart"] },
+  ecgk:  { rx:"ecgk", label:"Cardiac monitor + repeat K⁺", aliases:["cardiac monitor","telemetry","cardiac monitoring","monitor potassium","repeat potassium","recheck potassium","monitor k","serial potassium","repeat gas","repeat vbg","monitor news","increase obs","regular obs","monitor the ecg","monitoring","observations","obs","hourly obs","4 hourly obs","close monitoring","monitor him","news monitoring","repeat ecg"] },
+  para:  { rx:"para", label:"Paracetamol", aliases:["paracetamol","simple analgesia","regular paracetamol","analgesia","pain relief","painkillers","pain killers","analgesics","prn analgesia","pain control","pain management"] },
   vte:   { rx:"vte", label:"VTE prophylaxis (renal dose)", aliases:["vte prophylaxis","vte","thromboprophylaxis","dalteparin","enoxaparin","lmwh","clexane","tinzaparin"] },
   renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team"] },
   bed:   { rx:"bed", label:"Monitored bed", aliases:["monitored bed","cardiac bed","bed with monitoring"] },
-  chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains"] },
+  chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains","chase","await results","awaiting results","follow up bloods","review results"] },
   stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","fluid restrict","no more fluids","cautious fluids only"] },
   stopnsd:{ removes:"nsd", label:"Stop the naproxen", aliases:["stop naproxen","stop the naproxen","discontinue naproxen","take off the naproxen"] },
   /* dangers — pharmacy will ring back */
@@ -1363,14 +1363,17 @@ const PLAN_ITEMS = {
   gent:  { rx:"gent", danger:true, label:"Gentamicin", aliases:["gentamicin","gent","aminoglycoside"] },
   furo:  { rx:"furo", danger:true, label:"Furosemide", aliases:["furosemide","frusemide","lasix","diuretic","diurese"] },
   /* investigations — written in the plan, done overnight */
-  ue2:   { creditOnly:true, label:"Repeat bloods", aliases:["repeat bloods","repeat u&e","repeat ues","daily u&e","daily bloods","morning bloods","repeat renal function","bloods in the morning","recheck bloods","repeat u and e","am bloods","repeat uec","repeat creatinine"] },
+  ue2:   { creditOnly:true, label:"Repeat bloods", aliases:["repeat bloods","repeat u&e","repeat ues","daily u&e","daily bloods","morning bloods","repeat renal function","bloods in the morning","recheck bloods","repeat u and e","am bloods","repeat uec","repeat creatinine","bloods","awaiting bloods","check bloods","repeat labs","labs","bloods tomorrow","serial bloods","monitor bloods","monitor renal function","trend the creatinine"] },
   uss:   { ix:"uss", label:"USS renal tract", aliases:["uss","ultrasound","renal ultrasound","uss kub","us kub","renal tract ultrasound","image the renal tract","urgent ultrasound","renal tract imaging","ultrasound kidneys"] },
   blad:  { ix:"bladder", label:"Bladder scan", aliases:["bladder scan","post void residual","scan the bladder"] },
-  dip:   { ix:"dip", label:"Urine dipstick", aliases:["urine dip","dipstick","urinalysis","dip the urine","dip urine","urine dipstick"] },
+  dip:   { ix:"dip", label:"Urine dipstick", aliases:["urine dip","dipstick","urinalysis","dip the urine","dip urine","urine dipstick","dip","urine test","ward urinalysis"] },
   pcr:   { ix:"pcr", label:"Urine PCR", aliases:["urine pcr","protein creatinine ratio","quantify proteinuria","quantify the proteinuria","upcr"] },
   msu:   { ix:"msu", label:"Urine culture", aliases:["msu","urine culture","urine mcs","midstream urine"] },
   screen:{ ixMulti:["sflc","bjp"], label:"Myeloma screen — SFLC + urine electrophoresis", aliases:["myeloma screen","renal screen","free light chains","light chains","sflc","bence jones","urine electrophoresis","serum free light chains","paraprotein screen","serum electrophoresis and light chains","widen the screen","vasculitis screen"] },
-  gpr:   { ix:"gpr", label:"GP records / baseline", aliases:["gp records","baseline creatinine","baseline bloods","previous bloods","phone the gp","gp summary","old notes"] }
+  gpr:   { ix:"gpr", label:"GP records / baseline", aliases:["gp records","baseline creatinine","baseline bloods","previous bloods","phone the gp","gp summary","old notes"] },
+  lsp:   { ix:"lsp", label:"Lumbar spine X-ray", aliases:["lumbar spine xray","lumbar spine x ray","spine xray","spine x ray","back xray","back x ray","lumbar films","spine imaging","image the spine","l spine xray"] },
+  mrisp: { ix:"mrisp", label:"MRI spine", aliases:["mri","mri spine","mri back","mri whole spine","mri lumbar spine"] },
+  cxrp:  { ix:"cxr", label:"Chest X-ray", aliases:["chest xray","chest x ray","cxr","chest film","chest radiograph"] }
 };
 const DAY_STANDARDS = {
   1:[ {k:"ue2",  L:"R", label:"Repeat bloods in the morning"},
@@ -1390,7 +1393,8 @@ const DAY_STANDARDS = {
       {k:"chase",   L:"",  label:"Chase the outstanding screen"} ]
 };
 function parsePlan(text){
-  let t = " " + norm(text) + " ";
+  // newlines, numbering and punctuation become spaces so "1. Monitor urine output\n2. Bloods" keeps its word boundaries
+  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&]+/g, " ")) + " ";
   const matched = new Set();
   const pairs = [];
   Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
