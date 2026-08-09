@@ -608,7 +608,8 @@ const CASE = {
       f: ()=> S.day===1 ? "Lying 104/66, HR 96. Standing one minute: 88/58, HR 110 — he steadies himself on the trolley rail."
         : S.rx.has("iv") ? "Lying 118/72, HR 86. Standing one minute: 114/70, HR 90. The postural drop has resolved with volume."
         : "Lying 96/60, HR 104. Standing: 78/50, HR 122 — worse than admission. He sits back down quickly." },
-    { id:"hydr",  name:"Hydration / volume", sub:"", supp:true, dyn:true,
+    { id:"hydr",  name:"Hydration / volume", sub:"", supp:true, dyn:true, textWithMedia:true,
+      media: ()=> ((S.day===3 && S.rx.has("iv")) || S.day===4) ? "jvp" : null,
       f: ()=> S.day===1 ? "Dry mucous membranes, reduced turgor, cool peripheries, capillary refill 3 s. Intravascularly deplete."
         : S.day===2 ? (S.rx.has("iv") ? "Tongue moist, turgor restored, warm to the wrists. Euvolaemic this morning — keep asking the question daily, because the answer changes."
                                       : "Drier than admission. Tongue like felt, turgor slow, refill 4 s. The deficit is compounding.")
@@ -814,7 +815,7 @@ CASE.rx.push(
   { id:"salb",   g:"crisis", t:"Salbutamol nebuliser, high dose", note:"Shifts a little more. Same loan, same lender." },
   { id:"kbind",  g:"crisis", t:"Potassium binder", note:"Slow — but genuinely removes potassium from him." },
   { id:"furo2",  g:"crisis", t:"Furosemide IV — the chest is wet", note:"Right idea for an overloaded chest — though an oliguric kidney gives less back than it promises. A bridge, not the treatment. The filter is the treatment." },
-  { id:"icu",    g:"crisis", t:"Call critical care outreach", sub:"bleep 3353", note:"They arrive unhurried, which is somehow the most reassuring thing that has happened all night. “Don't move him anywhere. If renal agree, we filter here.”" },
+  { id:"icu",    g:"crisis", t:"Call critical care outreach", sub:"bleep 3353", note:"Picked up on the first ring this time. They take one look and take over: “We've got him. The filter goes up where he lies — nobody is moving this man anywhere.”" },
   { id:"filt",   g:"crisis", t:"Renal reg: refractory hyperkalaemia — ?urgent filtration", sub:"ITU reg via bleep 3333 if no renal bed", note:"“Refractory despite full medical therapy — that's the phrase that opens the unit. Yes. Ours or ICU's, tonight.”" },
   { id:"transport", g:"crisis", kind:"danger", t:"Book blue-light transfer to the renal unit", note:"Potassium, pH and a changing ECG — he fails transfer criteria three ways at once. The most dangerous place in the county for this man is the back of an ambulance." }
 );
@@ -1113,8 +1114,6 @@ CASE.examCore.find(e=>e.id==="resp").media = ()=> (S.day===3 && S.rx.has("iv")) 
 CASE.examMore.push(
   { id:"ankles", name:"Ankles & sacrum", sub:"press and count to five", f:"No pitting at the ankles or sacrum.", key:true, dyn:true,
     media: ()=> (S.day===3 && S.rx.has("iv")) || S.day===4 ? "oedema" : "ankleN" },
-  { id:"jvpx", name:"JVP", sub:"at 45°", f:"JVP not visible lying flat — flat neck veins.", dyn:true,
-    media: ()=> (S.day===3 && S.rx.has("iv")) || S.day===4 ? "jvp" : null },
   { id:"fbc2", name:"Fluid balance chart", sub:"at the end of the bed", day:2,
     f:"There is no chart at the end of the bed. Nobody has been measuring what comes out of him.",
     media: ()=> S.rx.has("uo") ? "fbchart" : null }
@@ -1417,6 +1416,7 @@ const PLAN_ITEMS = {
   renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team","renal input","speak to renal","renal advice","involve renal","renal review","refer nephrology"] },
   bed:   { rx:"bed", label:"Monitored bed", aliases:["monitored bed","cardiac bed","bed with monitoring"] },
   haem:  { rx:"refer", label:"Haematology referral", aliases:["haematology","haematology referral","refer haematology","haem referral","discuss with haematology","hematology","haem review"] },
+  icuCall:{ rx:"icuEarly", label:"Critical care referral", aliases:["icu","itu","critical care","critical care outreach","outreach","icu referral","refer to icu","refer icu","call icu","call outreach","intensive care","hdu"] },
   chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains","chase","await results","awaiting results","follow up bloods","review results"] },
   stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","stop ivi","hold ivi","stop the ivi","discontinue ivi","wean fluids","wean off fluids","wean ivi","fluids off","ivi off","off the fluids","dc fluids","d c fluids","fluid restrict","no more fluids","cautious fluids only","no further fluids"] },
   stopnsd:{ removes:"nsd", label:"Stop the naproxen", aliases:["stop naproxen","stop the naproxen","discontinue naproxen","take off the naproxen"] },
@@ -1514,7 +1514,6 @@ function enactPlan(matched){
 }
 function showPlanGate(){
   const body = $("#planBody");
-  let amended = false;
   const standing = CASE.rx.filter(m=>S.rx.has(m.id)).map(m=>m.t.split(" — ")[0]);
   const writeStage = (prefill)=>{
     body.innerHTML =
@@ -1545,39 +1544,28 @@ function showPlanGate(){
     $("#pharmOff").onclick=()=>{ dangers.forEach(k=>matched.delete(k)); checkStage(text, matched); };
     $("#pharmOn").onclick=()=>{ checkStage(text, matched); };
   };
+  const closeOut = ()=>{
+    $("#planGate").hidden=true;
+    if(S.day===5){ go("manage"); if(!S.mgStarted){ S.mgStarted=true; startMgmt(); } }
+    else advanceDay();
+  };
+  /* an early ICU call is answered — and handed back */
+  const icuStage = ()=>{
+    body.innerHTML =
+      `<div class="reflist"><div class="rq">Critical care SpR, bleep 3353 — picks up on the second ring:</div>`+
+      `<div style="margin:.5rem 0;">“I've had a look at his numbers. Nothing needing organ support tonight — pressures holding, no ventilator, no filter. <b>Optimise him medically, and call us back the moment that changes.</b> Right thing to flag him, though.”</div></div>`+
+      `<div class="sheetbtns"><button class="btn" id="icuOk">Put the phone down → end the day</button></div>`;
+    $("#icuOk").onclick = closeOut;
+  };
+  /* the plan is enacted in silence — the days will tell you what you missed */
   const checkStage = (text, matched)=>{
     enactPlan(matched);
     matched.forEach(k=>{ if(!S.masterTicks.includes(k)) S.masterTicks.push(k); });
     S.planTexts[S.day] = text;
     const extras = DAY_EXTRAS[S.day] || [];
-    const masterHits = MASTER_PLAN.filter(m=>masterHit(m.k)).length;
-    const extraHits = extras.filter(x=>extraHit(x.k, matched)).length;
-    S.bundleHits[S.day] = { hit: extraHits, of: extras.length };
-    body.innerHTML =
-      `<div style="font-size:.85rem; font-weight:600; margin-bottom:.5rem;">The complete plan — covered so far (${masterHits} of ${MASTER_PLAN.length}):</div>`+
-      `<ul class="checklist">`+
-      MASTER_PLAN.map(m=>{
-        const ok = masterHit(m.k);
-        return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span><b style="font-family:var(--font-mono); margin-right:.35rem;">${m.L}</b>${m.label}</li>`;
-      }).join("")+`</ul>`+
-      (extras.length ? `<div style="font-size:.85rem; font-weight:600; margin:.75rem 0 .5rem;">Today specifically:</div><ul class="checklist">`+
-        extras.map(x=>{ const ok = extraHit(x.k, matched);
-          return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span>${x.label}</li>`; }).join("")+`</ul>` : "")+
-      `<div style="font-size:.72rem; color:var(--faint); margin:.25rem 0 .75rem;">HDFT AKI care bundle v3.0 — ROUND UP</div>`+
-      `<div class="sheetbtns">`+
-      (!amended && (masterHits < MASTER_PLAN.length || extraHits < extras.length)
-        ? `<button class="btn" id="planAmend">Add what's missing</button>
-           <button class="btn btn--ghost" id="planDone">That's my plan — end the day</button>`
-        : `<button class="btn" id="planDone">${S.day===5?"Plan locked → the drill":"That's my plan — end the day"}</button>`)+
-      `</div>`;
-    const done = $("#planDone");
-    if(done) done.onclick=()=>{
-      $("#planGate").hidden=true;
-      if(S.day===5){ go("manage"); if(!S.mgStarted){ S.mgStarted=true; startMgmt(); } }
-      else advanceDay();
-    };
-    const am = $("#planAmend");
-    if(am) am.onclick=()=>{ amended = true; writeStage(text); };
+    S.bundleHits[S.day] = { hit: extras.filter(x=>extraHit(x.k, matched)).length, of: extras.length };
+    if (matched.has("icuCall") && S.day < 4){ icuStage(); return; }
+    closeOut();
   };
   writeStage(S.planTexts[S.day] || "");
   $("#planGate").hidden=false;
@@ -1710,7 +1698,8 @@ function rowHTML(item, picked, label){
     `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
 }
 function findingFor(e){
-  if (e.media){ const k = typeof e.media==="function" ? e.media() : e.media; if(k) return mediaBlock(k); }
+  if (e.media){ const k = typeof e.media==="function" ? e.media() : e.media;
+    if(k) return (e.textWithMedia ? (typeof e.f==="function"?e.f():(e.f||"")) : "") + mediaBlock(k); }
   const imgHTML = e.img ? `<img src="${e.img}" alt="${e.imgAlt||''}">` : "";
   if (e.imgOnly) return imgHTML;
   let txt = typeof e.f==="function" ? e.f() : (e.f || "");
@@ -2231,6 +2220,15 @@ function scoreAndShow(){
     `the crisis ${S.earlyCrisis?"<b>came a night early — the nephrotoxins never came off</b> — and ":""}was ${S.died?"<b>lost</b>":S.rx.has("cagl")&&crisisEscalated()?"held and escalated":"survived, untidily"} — `+
     `and you ${S.dxCorrect?`named it <b>${S.dx}</b> on Day ${S.dxDay}`:S.dxCommitted?`committed to <b>${S.dx}</b>`:"never named it"}, `+
     `reading the signs right <b>${goodReads} of ${reads.length}</b>, with <b>${S.revisits}</b> step-back${S.revisits===1?'':'s'} and <b>${S.reexamCount}</b> formal reassessment${S.reexamCount===1?'':'s'} along the way.`;
+
+  // the master plan — revealed only here, at the end
+  const oldMc = document.getElementById("masterCard"); if(oldMc) oldMc.remove();
+  $("#loList").closest(".card").insertAdjacentHTML("afterend",
+    `<div class="card" id="masterCard"><div class="card__label">The complete plan — what you covered</div>`+
+    `<ul class="checklist">`+
+    MASTER_PLAN.map(m=>{ const ok = masterHit(m.k);
+      return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span><b style="font-family:var(--font-mono); margin-right:.35rem;">${m.L}</b>${m.label}</li>`; }).join("")+
+    `</ul><div style="font-size:.72rem; color:var(--faint); margin-top:.4rem;">HDFT AKI care bundle v3.0 — ROUND UP</div></div>`);
 
   mpReturnBtn(shown, MAX);
   go("out");
