@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-label="Two weeks: Ronald grey in his armchair, a full glass of squash untouched beside him, the dog’s lead unused by the door.">
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8d9be"/>
+      <stop offset="1" stop-color="#d9c39d"/>
+    </linearGradient>
+  </defs>
+  <!-- room -->
+  <rect width="800" height="340" fill="#efe4d0"/>
+  <rect y="252" width="800" height="88" fill="#b99e78"/>
+  <path d="M0 252 H800" stroke="#2b241d" stroke-width="4"/>
+  <!-- panel frame -->
+  <rect x="6" y="6" width="788" height="328" fill="none" stroke="#2b241d" stroke-width="6"/>
+
+  <!-- window, evening light -->
+  <rect x="560" y="42" width="150" height="130" fill="url(#dusk)" stroke="#2b241d" stroke-width="5"/>
+  <path d="M635 42 V172 M560 107 H710" stroke="#2b241d" stroke-width="4"/>
+  <circle cx="676" cy="76" r="16" fill="#f0e0b6" stroke="#2b241d" stroke-width="3" opacity=".9"/>
+
+  <!-- door with dog lead hanging, unused -->
+  <rect x="44" y="52" width="104" height="200" fill="#c9b28d" stroke="#2b241d" stroke-width="5"/>
+  <rect x="58" y="66" width="76" height="80" fill="none" stroke="#2b241d" stroke-width="3" opacity=".55"/>
+  <circle cx="136" cy="158" r="5" fill="#2b241d"/>
+  <!-- lead on a hook -->
+  <circle cx="166" cy="84" r="4" fill="#2b241d"/>
+  <path d="M166 88 C158 116 176 128 168 156 C162 176 172 186 166 202" fill="none" stroke="#8a4b32" stroke-width="7" stroke-linecap="round"/>
+  <path d="M166 202 c-2 8 6 12 10 6" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+  <!-- dust motes: the lead hasn't moved -->
+  <g fill="#a2937f" opacity=".8">
+    <circle cx="184" cy="120" r="2.4"><animate attributeName="cy" values="120;114;120" dur="5s" repeatCount="indefinite"/></circle>
+    <circle cx="194" cy="146" r="2"><animate attributeName="cy" values="146;140;146" dur="6.4s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- dog, lying flat by the door, chin on paws, waiting -->
+  <g>
+    <path d="M210 236 C214 220 246 216 266 222 C286 214 306 220 312 232 C316 244 306 250 294 250 L226 250 C214 250 206 244 210 236 Z" fill="#a8896b" stroke="#2b241d" stroke-width="4"/>
+    <path d="M298 226 C310 218 322 220 326 228 C330 236 324 244 314 244" fill="#a8896b" stroke="#2b241d" stroke-width="4"/>
+    <!-- muzzle on paws -->
+    <path d="M318 236 c8 0 12 6 8 10 c-6 4 -14 2 -16 -4" fill="#c4a988" stroke="#2b241d" stroke-width="3.5"/>
+    <circle cx="330" cy="240" r="2.6" fill="#2b241d"/>
+    <!-- closed sad eye -->
+    <path d="M312 230 q5 3 9 0" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round"/>
+    <!-- floppy ear -->
+    <path d="M304 220 c-2 -10 8 -14 12 -6 c2 6 -2 10 -6 12" fill="#8a6b4d" stroke="#2b241d" stroke-width="3.5"/>
+    <!-- front paws -->
+    <path d="M306 250 h20 M282 250 h16" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <!-- slow tail -->
+    <path d="M212 240 c-10 -2 -16 4 -14 10" fill="none" stroke="#2b241d" stroke-width="5" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="0 212 240; -6 212 240; 0 212 240" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- armchair -->
+  <g>
+    <path d="M380 128 C374 96 402 84 428 90 L512 90 C538 84 566 96 560 128 L560 232 C560 248 546 254 534 252 L406 252 C394 254 380 248 380 232 Z" fill="#8f5a44" stroke="#2b241d" stroke-width="5"/>
+    <rect x="398" y="150" width="144" height="60" rx="14" fill="#a9705a" stroke="#2b241d" stroke-width="4"/>
+    <path d="M380 168 c-16 2 -18 26 -2 30 M560 168 c16 2 18 26 2 30" fill="#8f5a44" stroke="#2b241d" stroke-width="5"/>
+  </g>
+
+  <!-- Ronald sunk in the chair: grey, cap on indoors, blanket over knees -->
+  <g>
+    <!-- body slumped -->
+    <path d="M418 158 C420 132 452 122 470 128 C494 122 520 134 520 158 L520 210 L418 210 Z" fill="#7d8b6f" stroke="#2b241d" stroke-width="4.5"/>
+    <!-- blanket over knees -->
+    <path d="M406 208 C440 196 500 196 534 208 L534 250 L406 250 Z" fill="#b0455a" stroke="#2b241d" stroke-width="4.5"/>
+    <path d="M416 222 H524 M420 236 H520" stroke="#2b241d" stroke-width="2.5" opacity=".45"/>
+    <!-- head drooped -->
+    <g>
+      <path d="M442 96 C442 72 456 60 470 60 C484 60 498 72 498 96 C498 112 486 124 470 124 C454 124 442 112 442 96 Z" fill="#ddd0bf" stroke="#2b241d" stroke-width="4.5"/>
+      <!-- grey pallor -->
+      <ellipse cx="456" cy="106" rx="7" ry="4" fill="#b7bfc2" opacity=".55"/>
+      <ellipse cx="484" cy="106" rx="7" ry="4" fill="#b7bfc2" opacity=".55"/>
+      <!-- cap -->
+      <path d="M440 82 C444 62 458 54 470 54 C482 54 496 62 500 82 C486 74 454 74 440 82 Z" fill="#8a7a63" stroke="#2b241d" stroke-width="4"/>
+      <path d="M436 84 C452 76 488 76 504 84 C504 89 499 91 494 89 C478 82 462 82 446 89 C441 91 436 89 436 84 Z" fill="#6e614f" stroke="#2b241d" stroke-width="3.5"/>
+      <!-- closed tired eyes, slow blink open -->
+      <g>
+        <path d="M452 98 q7 5 14 1" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M474 99 q7 4 14 0" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+      <!-- mouth: slightly open, effortful -->
+      <path d="M462 114 q8 3 16 0" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+    <!-- arm resting, hand loose -->
+    <path d="M420 168 C428 184 444 192 460 194" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M460 194 c6 4 12 2 14 -2" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- side table: untouched squash, plate with barely-touched food -->
+  <g>
+    <rect x="596" y="196" width="120" height="10" rx="4" fill="#8a6b4d" stroke="#2b241d" stroke-width="4"/>
+    <path d="M612 206 v46 M700 206 v46" stroke="#2b241d" stroke-width="5"/>
+    <!-- full glass of squash -->
+    <path d="M632 158 l4 38 h16 l4 -38 Z" fill="#efe4d0" stroke="#2b241d" stroke-width="3.5"/>
+    <path d="M635 166 l3 27 h12 l3 -27 Z" fill="#e0913f" opacity=".85">
+      <animate attributeName="opacity" values=".85;.7;.85" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <!-- plate, sandwich one bite gone -->
+    <ellipse cx="686" cy="192" rx="22" ry="6" fill="#efe9dc" stroke="#2b241d" stroke-width="3.5"/>
+    <path d="M672 186 l14 -8 l14 8 Z" fill="#d9b98a" stroke="#2b241d" stroke-width="3"/>
+  </g>
+
+  <!-- caption chip -->
+  <g>
+    <rect x="24" y="286" width="196" height="34" rx="17" fill="#2b241d"/>
+    <text x="122" y="309" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#efe7da" letter-spacing="2">TWO WEEKS LIKE THIS</text>
+  </g>
+  <!-- clock chip -->
+  <g>
+    <rect x="668" y="286" width="108" height="34" rx="17" fill="#2b241d" opacity=".85"/>
+    <text x="722" y="309" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#efe7da" letter-spacing="2">EVENING</text>
+  </g>
+</svg>

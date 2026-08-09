@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="The back, examined: marked tenderness to percussion over the lower lumbar spine, no deformity, no radicular signs.">
+  <defs>
+    <linearGradient id="skinb" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e3cdb4"/>
+      <stop offset=".5" stop-color="#ecd9c2"/>
+      <stop offset="1" stop-color="#e3cdb4"/>
+    </linearGradient>
+  </defs>
+  <rect width="440" height="320" fill="#efe7da"/>
+  <rect x="5" y="5" width="430" height="310" fill="none" stroke="#2b241d" stroke-width="5"/>
+
+  <!-- torso from behind, gown pulled aside -->
+  <g>
+    <!-- gown edges -->
+    <path d="M92 34 C70 90 66 200 84 296 L118 296 C104 200 106 96 122 40 Z" fill="#9db4c0" stroke="#2b241d" stroke-width="4"/>
+    <path d="M348 34 C370 90 374 200 356 296 L322 296 C336 200 334 96 318 40 Z" fill="#9db4c0" stroke="#2b241d" stroke-width="4"/>
+    <!-- back -->
+    <path d="M122 40 C150 22 290 22 318 40 C334 96 336 200 322 296 L118 296 C104 200 106 96 122 40 Z" fill="url(#skinb)" stroke="#2b241d" stroke-width="5"/>
+    <!-- shoulder blades -->
+    <path d="M158 74 C172 64 186 66 194 78" fill="none" stroke="#c6a583" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <path d="M282 74 C268 64 254 66 246 78" fill="none" stroke="#c6a583" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+    <!-- spine: vertebral marks -->
+    <g fill="#c6a583" stroke="#2b241d" stroke-width="2.5">
+      <ellipse cx="220" cy="70" rx="7" ry="5"/>
+      <ellipse cx="220" cy="94" rx="7" ry="5"/>
+      <ellipse cx="220" cy="118" rx="7" ry="5"/>
+      <ellipse cx="220" cy="142" rx="7" ry="5"/>
+      <ellipse cx="220" cy="166" rx="7" ry="5"/>
+      <ellipse cx="220" cy="190" rx="7.5" ry="5.5"/>
+      <ellipse cx="220" cy="214" rx="7.5" ry="5.5"/>
+      <ellipse cx="220" cy="238" rx="7.5" ry="5.5"/>
+    </g>
+    <!-- pelvis line -->
+    <path d="M150 282 C186 268 254 268 290 282" fill="none" stroke="#c6a583" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  </g>
+
+  <!-- examining hand, percussing -->
+  <g stroke="#2b241d" stroke-linecap="round">
+    <path d="M320 176 C300 180 284 192 274 204 L262 216" fill="none" stroke-width="5"/>
+    <path d="M262 216 c-8 2 -12 10 -8 16 c6 8 18 6 22 -2" fill="#ecd9c2" stroke-width="4"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0; -8 6; 0 0" dur="1.6s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- tenderness: pulsing rings over L3–L5 -->
+  <g fill="none" stroke="#b0455a">
+    <circle cx="220" cy="214" r="16" stroke-width="5">
+      <animate attributeName="r" values="12;24;12" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".95;.25;.95" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="220" cy="214" r="30" stroke-width="3" opacity=".5">
+      <animate attributeName="r" values="24;40;24" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".5;.05;.5" dur="1.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- wince marks -->
+  <g stroke="#b0455a" stroke-width="4" stroke-linecap="round">
+    <path d="M186 196 l-12 -8"/>
+    <path d="M182 214 l-14 0"/>
+    <path d="M186 232 l-12 8"/>
+  </g>
+</svg>

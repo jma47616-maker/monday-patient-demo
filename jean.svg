@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Jean">
+  <rect width="200" height="200" fill="#efe7da"/>
+  <!-- shoulders / cardigan -->
+  <path d="M28 200 C34 156 62 140 100 140 C138 140 166 156 172 200 Z" fill="#a3707a" stroke="#2b241d" stroke-width="4"/>
+  <path d="M100 144 L100 200" fill="none" stroke="#2b241d" stroke-width="3" opacity=".55"/>
+  <circle cx="100" cy="158" r="3" fill="#2b241d"/>
+  <circle cx="100" cy="174" r="3" fill="#2b241d"/>
+  <!-- blouse collar -->
+  <path d="M84 144 L100 162 L116 144" fill="#efe9dc" stroke="#2b241d" stroke-width="3"/>
+  <!-- neck -->
+  <path d="M87 118 h26 v26 c0 8 -26 8 -26 0 Z" fill="#e3d0bd" stroke="#2b241d" stroke-width="3.5"/>
+  <!-- head -->
+  <ellipse cx="100" cy="84" rx="44" ry="48" fill="#ecdccb" stroke="#2b241d" stroke-width="4"/>
+  <!-- soft cheeks -->
+  <ellipse cx="78" cy="102" rx="10" ry="6" fill="#d9a9a0" opacity=".5"/>
+  <ellipse cx="122" cy="102" rx="10" ry="6" fill="#d9a9a0" opacity=".5"/>
+  <!-- short curled grey hair -->
+  <path d="M56 84 C50 48 74 28 100 28 C126 28 150 48 144 84 C148 72 146 60 140 52 C142 64 138 70 134 72 C138 58 130 44 120 40 C126 50 124 58 120 62 C120 48 110 38 100 38 C90 38 80 48 80 62 C76 58 74 50 80 40 C70 44 62 58 66 72 C62 70 58 64 60 52 C54 60 52 72 56 84 Z" fill="#cfc9c0" stroke="#2b241d" stroke-width="3.5"/>
+  <path d="M56 84 C54 92 55 98 58 104 L64 98 C61 92 60 88 61 82 Z" fill="#cfc9c0" stroke="#2b241d" stroke-width="3"/>
+  <path d="M144 84 C146 92 145 98 142 104 L136 98 C139 92 140 88 139 82 Z" fill="#cfc9c0" stroke="#2b241d" stroke-width="3"/>
+  <!-- worried raised brows -->
+  <path d="M70 70 q12 -9 24 -3" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M130 70 q-12 -9 -24 -3" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- forehead worry line -->
+  <path d="M84 58 q16 -6 32 0" fill="none" stroke="#2b241d" stroke-width="2.5" stroke-linecap="round" opacity=".45"/>
+  <!-- eyes: alert, anxious -->
+  <ellipse cx="83" cy="84" rx="6" ry="7" fill="#fff" stroke="#2b241d" stroke-width="3"/>
+  <ellipse cx="117" cy="84" rx="6" ry="7" fill="#fff" stroke="#2b241d" stroke-width="3"/>
+  <circle cx="84" cy="85" r="2.6" fill="#2b241d"/>
+  <circle cx="116" cy="85" r="2.6" fill="#2b241d"/>
+  <!-- nose -->
+  <path d="M100 90 C99 96 97 100 96 103 q4 4 8 0" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- small worried mouth, lips pressed -->
+  <path d="M90 116 q10 -3 20 0" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+  <!-- pearl earrings -->
+  <circle cx="55" cy="96" r="3.5" fill="#efe9dc" stroke="#2b241d" stroke-width="2.5"/>
+  <circle cx="145" cy="96" r="3.5" fill="#efe9dc" stroke="#2b241d" stroke-width="2.5"/>
+</svg>

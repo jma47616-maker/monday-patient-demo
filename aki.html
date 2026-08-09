@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Monday Patient">
+<title>The Monday Patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · component: app platform · genre: editorial × modern-minimal
+ * theme: custom (vibe: "warm editorial clinical, premium teaching" · paper oklch(98% 0.008 75) · accent oklch(58% 0.15 40) terracotta · Fraunces + Geist + Geist Mono)
+ * pre-emit critique: P5 H5 E4 S5 R4 V5
+ */
+:root {
+  color-scheme: light;
+  --paper:   #faf6f0;
+  --paper-2: #f3ece1;
+  --paper-3: #ece2d4;
+  --ink:     #2b241d;
+  --ink-2:   #4a4136;
+  --muted:   #7a6f60;
+  --faint:   #9c917f;
+  --rule:    #e3d8c8;
+  --rule-2:  #d4c7b3;
+  --accent:    #b8552e;
+  --accent-2:  #9c4525;
+  --accent-bg: #f6e6db;
+  --accent-ink:#fdf6f0;
+  --danger:    #b23b2e;
+  --danger-bg: #f7e3df;
+  --good:      #3f7d52;
+  --good-bg:   #e6f0e6;
+  --warn:      #9a6a16;
+  --warn-bg:   #f6ebd6;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2rem; --s7:3rem;
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --shadow: 0 1px 2px rgba(43,36,29,.04), 0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg: 0 2px 6px rgba(43,36,29,.06), 0 12px 36px rgba(43,36,29,.10);
+}
+@supports (color: oklch(50% 0 0)) {
+  :root {
+    --paper:   oklch(98% 0.008 75);
+    --paper-2: oklch(95.5% 0.013 72);
+    --paper-3: oklch(92.5% 0.016 70);
+    --ink:     oklch(26% 0.018 55);
+    --ink-2:   oklch(38% 0.02 52);
+    --muted:   oklch(52% 0.02 58);
+    --faint:   oklch(64% 0.018 62);
+    --rule:    oklch(89% 0.014 72);
+    --rule-2:  oklch(83% 0.018 70);
+    --accent:    oklch(56% 0.135 42);
+    --accent-2:  oklch(48% 0.14 40);
+    --accent-bg: oklch(93% 0.04 50);
+    --accent-ink:oklch(98% 0.01 70);
+    --danger:    oklch(52% 0.17 30);
+    --danger-bg: oklch(94% 0.045 32);
+    --good:      oklch(52% 0.11 150);
+    --good-bg:   oklch(94% 0.035 150);
+    --warn:      oklch(54% 0.11 75);
+    --warn-bg:   oklch(94% 0.05 82);
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+button, input { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+
+.app { max-width: 30rem; margin-inline: auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--paper); }
+@media (min-width: 32rem) { .app { box-shadow: var(--shadow-lg); } }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark em { font-style: italic; color: var(--accent); }
+.clock { display: inline-flex; align-items: center; gap: var(--s2); font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: .28rem .6rem; white-space: nowrap; }
+.clock i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.clock b { color: var(--ink); font-weight: 500; }
+.acts { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.actpill { flex: 1; display: flex; align-items: center; gap: var(--s2); font-size: .72rem; color: var(--faint); padding: .3rem .5rem; border-radius: var(--r-sm); border: 1px solid transparent; }
+.actpill b { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: grid; place-items: center; background: var(--paper-3); color: var(--faint); font-size: .7rem; font-weight: 600; font-family: var(--font-mono); }
+.actpill[data-on="1"] { color: var(--ink); background: var(--accent-bg); border-color: color-mix(in oklab, var(--accent) 25%, transparent); }
+.actpill[data-on="1"] b { background: var(--accent); color: var(--accent-ink); }
+.actpill[data-on="done"] b { background: var(--good); color: #fff; }
+
+/* ---------- screens ---------- */
+main { flex: 1; padding: var(--s5) var(--s4) var(--s7); }
+.screen { display: none; }
+.screen.on { display: block; animation: in .42s var(--ease); }
+@keyframes in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+h1 { font-family: var(--font-display); font-weight: 600; font-size: 2.1rem; line-height: 1.08; letter-spacing: -.02em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; line-height: 1.12; letter-spacing: -.015em; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; line-height: 1.2; }
+.kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; margin-bottom: var(--s2); }
+.lede { color: var(--muted); margin-top: var(--s2); max-width: 36ch; }
+.serif-body { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.5; color: var(--ink-2); }
+
+/* ---------- brief ---------- */
+.badges { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4); }
+.badge { font-size: .72rem; font-weight: 500; border-radius: 999px; padding: .28rem .7rem; background: var(--paper-2); color: var(--muted); border: 1px solid var(--rule); }
+.badge--accent { background: var(--accent-bg); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent) 22%, transparent); }
+.patient { display: flex; align-items: center; gap: var(--s3); margin: var(--s4) 0; }
+.avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; display: grid; place-items: center; box-shadow: var(--shadow); }
+.patient__meta b { font-weight: 500; }
+.patient__meta span { display: block; color: var(--muted); font-size: .85rem; }
+
+.card { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.card--plain { background: transparent; }
+.card__label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: var(--s3); }
+
+.obsgrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--s2); }
+.obs { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s2); text-align: center; }
+.obs .k { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.obs .v { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 500; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+.obs .u { font-size: .62rem; color: var(--faint); }
+.obs[data-flag="hi"] .v, .obs[data-flag="lo"] .v { color: var(--danger); }
+.news { display: flex; align-items: baseline; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s3); border-top: 1px dashed var(--rule-2); }
+.news .lbl { font-size: .8rem; color: var(--muted); }
+.news .val { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
+.news .val[data-tone="warn"] { color: var(--warn); }
+.news .val[data-tone="bad"] { color: var(--danger); }
+.news .val[data-tone="ok"] { color: var(--good); }
+
+.points { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.points li { display: flex; gap: var(--s3); font-size: .92rem; color: var(--ink-2); }
+.points .n { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-size: .78rem; font-weight: 600; display: grid; place-items: center; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: 52px; padding: var(--s3) var(--s4); background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 1rem; letter-spacing: -.01em; white-space: nowrap; border: 1px solid var(--accent); border-radius: var(--r-md); cursor: pointer; box-shadow: var(--shadow); transition: transform .12s var(--ease), background-color .2s var(--ease), filter .2s var(--ease); }
+@media (hover:hover){ .btn:hover { filter: brightness(1.06); } }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule-2); box-shadow: none; }
+@media (hover:hover){ .btn--ghost:hover { background: var(--paper-2); } }
+.btn--sm { min-height: 44px; font-size: .92rem; width: auto; padding: var(--s2) var(--s4); }
+.btnrow { display: flex; flex-direction: column; gap: var(--s3); margin-top: var(--s5); }
+.bar { position: sticky; bottom: 0; z-index: 15; margin: var(--s5) calc(var(--s4) * -1) calc(var(--s7) * -1); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom,0px)); background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--rule); display: flex; gap: var(--s3); }
+.bar .btn { box-shadow: none; }
+
+/* ---------- tabs ---------- */
+.tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
+.tab { flex: 1; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 500; white-space: nowrap; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .25rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
+.tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
+.tab[data-locked="1"] { opacity: .35; pointer-events: none; }
+.tab[data-locked="1"]::after { content: "🔒"; font-size: .58rem; margin-left: .1rem; }
+.tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
+.tab .dot.show { display: inline-flex; }
+.panel { display: none; }
+.panel.on { display: block; animation: in .3s var(--ease); }
+.panel__hint { font-size: .85rem; color: var(--muted); margin-bottom: var(--s4); }
+
+/* ---------- history ---------- */
+.qa { list-style: none; padding: 0; margin: 0 0 var(--s4); display: flex; flex-direction: column; gap: var(--s3); }
+.qa li { animation: pop .3s var(--ease); }
+.qa .q { font-size: .82rem; color: var(--accent-2); font-weight: 600; margin-bottom: .15rem; }
+.qa .a { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.45; color: var(--ink-2); }
+@keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s2); }
+.chip { min-height: 50px; padding: var(--s2) var(--s3); background: var(--paper-2); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--r-md); font-size: .85rem; text-align: left; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .chip:hover { background: var(--paper-3); border-color: var(--rule-2); } }
+.chip:active { transform: translateY(1px); }
+.chip:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* ---------- chat history ---------- */
+.msg { display: flex; gap: var(--s2); align-items: flex-end; }
+.msg--dr { justify-content: flex-end; }
+.msg .bub { max-width: 84%; padding: .55rem .85rem; border-radius: 16px; font-size: .95rem; line-height: 1.45; animation: pop .3s var(--ease); }
+.msg--dr .bub { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg--pt .bub { background: var(--paper-2); border: 1px solid var(--rule); color: var(--ink-2); border-bottom-left-radius: 4px; font-family: var(--font-display); font-size: 1.02rem; }
+.msg .who { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: .2rem; font-family: var(--font-body); font-weight: 600; }
+.msg--dr .who { text-align: right; }
+.msg .pav { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--paper-3); overflow: hidden; border: 1.5px solid var(--rule-2); box-shadow: var(--shadow); margin-bottom: 2px; animation: pop .35s var(--ease); }
+.msg .pav img { width: 100%; height: 100%; display: block; object-fit: cover; }
+#hxScene { margin-bottom: var(--s4); }
+#hxScene img { width: 100%; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); display: block; animation: in .6s var(--ease); }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding: .25rem 0; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: tp 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes tp { 0%,60%,100% { transform: none; opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.chips[data-busy="1"] { opacity: .55; pointer-events: none; }
+
+/* ---------- question timer ---------- */
+.mqprog { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s2); font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tbar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; margin-bottom: var(--s4); }
+.tbar i { display: block; height: 100%; width: 100%; background: var(--good); border-radius: 999px; transition: background-color .3s var(--ease); }
+
+/* ---------- exam + ix rows ---------- */
+.rows { list-style: none; padding: 0; margin: 0; }
+.row { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.row__head { display: flex; align-items: center; gap: var(--s3); }
+.row__name { flex: 1; font-size: .92rem; }
+.row__sub { font-size: .72rem; color: var(--faint); }
+.row__cost { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.act { min-height: 40px; min-width: 76px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .82rem; font-weight: 600; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease); }
+@media (hover:hover){ .act:hover { background: var(--accent-bg); } }
+.act:active { transform: translateY(1px); }
+.act:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.act[data-picked="1"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.act[disabled] { opacity: .5; cursor: default; color: var(--muted); }
+.finding { margin-top: var(--s2); font-family: var(--font-display); font-size: .98rem; line-height: 1.45; color: var(--ink-2); animation: pop .3s var(--ease); }
+.finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
+.finding img { width: 100%; max-width: 250px; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
+.reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
+.reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
+.reflist li { display: flex; gap: var(--s2); align-items: baseline; }
+.reflist li b { font-weight: 500; }
+.reflist .ok { color: var(--good); font-weight: 700; }
+.reflist .no { color: var(--danger); font-weight: 700; }
+.reflist .verdict { font-family: var(--font-display); font-style: italic; color: var(--accent-2); }
+.grouph { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: var(--s5) 0 var(--s1); }
+.grouph:first-of-type { margin-top: 0; }
+details.more { margin-top: var(--s4); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--paper-2); overflow: hidden; }
+details.more > summary { list-style: none; cursor: pointer; padding: var(--s3) var(--s4); font-size: .9rem; font-weight: 500; display: flex; align-items: center; justify-content: space-between; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary .chev { transition: transform .2s var(--ease); color: var(--faint); }
+details.more[open] > summary .chev { transform: rotate(180deg); }
+details.more .more__body { padding: 0 var(--s4) var(--s2); }
+details.more .more__body .row:last-child { border-bottom: none; }
+
+/* ---------- results feed (lab report) ---------- */
+.roundh { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); font-weight: 500; margin: var(--s4) 0 var(--s2); display: flex; align-items: center; gap: var(--s2); }
+.roundh::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.result { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); animation: pop .3s var(--ease); }
+.result .rn { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.labrow { display: grid; grid-template-columns: 1fr auto auto; gap: var(--s2) var(--s3); align-items: baseline; font-size: .82rem; }
+.labrow + .labrow { margin-top: .35rem; padding-top: .35rem; border-top: 1px dashed var(--rule); }
+.labrow .ln { color: var(--muted); }
+.labrow .lv { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.labrow .lr { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.labrow[data-flag="hi"] .lv, .labrow[data-flag="lo"] .lv { color: var(--danger); font-weight: 600; }
+.labrow .lv .arrow { font-size: .7rem; }
+.labrow .base { grid-column: 1 / -1; font-size: .72rem; color: var(--faint); }
+.labtext { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-2); line-height: 1.5; }
+
+/* ---------- type-ahead ---------- */
+.field { margin-bottom: var(--s4); }
+.field label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.field .hint { font-size: .76rem; color: var(--faint); margin-bottom: var(--s2); }
+.field input { width: 100%; min-height: 50px; padding: var(--s3) var(--s4); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: 2px solid transparent; outline-offset: 1px; transition: background-color .15s var(--ease); }
+.field input::placeholder { color: var(--faint); }
+.field input:hover { background: var(--paper-2); }
+.field input:focus-visible { outline-color: var(--accent-2); }
+.ddxnums { display: flex; flex-direction: column; gap: var(--s3); }
+.ddxnums .field { margin-bottom: 0; display: flex; align-items: center; gap: var(--s3); }
+.ddxnums .field .num { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-weight: 600; display: grid; place-items: center; }
+.ddxnums .field input { flex: 1; }
+
+/* ---------- management drill (act 2) ---------- */
+.mq { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.mq__q { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin-bottom: var(--s3); }
+.mq__q .tagn { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); display: block; font-weight: 500; margin-bottom: .2rem; }
+.opts { display: flex; flex-direction: column; gap: var(--s2); }
+.opt { display: flex; align-items: center; gap: var(--s3); min-height: 50px; padding: var(--s3); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); text-align: left; font-size: .92rem; color: var(--ink); cursor: pointer; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .opt:hover:not([disabled]) { background: var(--paper-3); } }
+.opt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.opt .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule-2); display: grid; place-items: center; font-size: .8rem; }
+.opt[data-state="right"] { border-color: var(--good); background: var(--good-bg); }
+.opt[data-state="right"] .mk { background: var(--good); color: #fff; border-color: var(--good); }
+.opt[data-state="wrong"] { border-color: var(--danger); background: var(--danger-bg); }
+.opt[data-state="wrong"] .mk { background: var(--danger); color: #fff; border-color: var(--danger); }
+.opt[data-state="dim"] { opacity: .55; }
+.teach { margin-top: var(--s3); padding: var(--s3); border-radius: var(--r-md); background: var(--paper); border: 1px solid var(--rule); font-size: .88rem; line-height: 1.5; color: var(--ink-2); animation: pop .3s var(--ease); }
+.teach b { color: var(--ink); font-weight: 600; }
+.teach[data-tone="right"] { border-left: 3px solid var(--good); border-radius: 0 var(--r-md) var(--r-md) 0; }
+.teach[data-tone="wrong"] { border-left: 3px solid var(--danger); border-radius: 0 var(--r-md) var(--r-md) 0; }
+
+/* ---------- outcome ---------- */
+.scorehero { text-align: center; padding: var(--s5) 0 var(--s4); }
+.scorehero .big { font-family: var(--font-display); font-weight: 600; font-size: 4.2rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.scorehero .big span { font-size: 1.6rem; color: var(--faint); }
+.scorehero .rank { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--accent-2); margin-top: var(--s2); }
+.scorehero .sub { color: var(--muted); font-size: .9rem; margin-top: var(--s2); max-width: 34ch; margin-inline: auto; }
+.dxverdict { display: flex; align-items: center; gap: var(--s3); padding: var(--s4); border-radius: var(--r-md); margin-bottom: var(--s4); }
+.dxverdict[data-hit="1"] { background: var(--good-bg); border: 1px solid color-mix(in oklab, var(--good) 30%, transparent); }
+.dxverdict[data-hit="0"] { background: var(--warn-bg); border: 1px solid color-mix(in oklab, var(--warn) 35%, transparent); }
+.dxverdict .ic { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.dxverdict[data-hit="1"] .ic { background: var(--good); }
+.dxverdict[data-hit="0"] .ic { background: var(--warn); }
+.dxverdict .t { font-weight: 600; }
+.dxverdict .s { font-size: .82rem; color: var(--muted); }
+.lo { border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); display: flex; gap: var(--s3); }
+.lo .ic { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .76rem; font-weight: 700; color: #fff; margin-top: 1px; }
+.lo[data-v="hit"] .ic { background: var(--good); }
+.lo[data-v="part"] .ic { background: var(--warn); }
+.lo[data-v="miss"] .ic { background: var(--danger); }
+.lo .lt { font-size: .9rem; font-weight: 600; }
+.lo .ls { font-size: .84rem; color: var(--muted); margin-top: .15rem; line-height: 1.45; }
+.score { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.score td { padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
+.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.score tr:last-child td { border-bottom: none; font-weight: 600; font-family: var(--font-display); font-size: 1rem; padding-top: var(--s3); }
+.plus { color: var(--good); }
+.minus { color: var(--danger); }
+.pearls { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.pearls li { display: flex; gap: var(--s3); font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.pearls li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: .5rem; }
+.lock { display: flex; align-items: center; gap: var(--s3); }
+.lock .ic { flex: none; color: var(--faint); }
+
+footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px)); border-top: 1px solid var(--rule); font-size: .72rem; color: var(--faint); line-height: 1.6; }
+
+/* ---------- commit gate ---------- */
+.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(43,36,29,.45); display: flex; align-items: center; justify-content: center; padding: var(--s4); }
+.overlay[hidden] { display: none; }
+.sheet { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s5); max-width: 26rem; width: 100%; box-shadow: var(--shadow-lg); animation: rise .3s var(--ease); }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet p { color: var(--muted); font-size: .92rem; margin-top: var(--s2); }
+.checklist { list-style: none; padding: 0; margin: var(--s4) 0; display: flex; flex-direction: column; gap: var(--s1); }
+.checklist li { display: flex; align-items: center; gap: var(--s3); font-size: .94rem; padding: var(--s2) 0; }
+.checklist .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .78rem; font-weight: 700; }
+.checklist li[data-done="1"] .mk { background: var(--good); color: #fff; }
+.checklist li[data-done="1"] { color: var(--muted); }
+.checklist li[data-done="0"] .mk { background: var(--warn-bg); color: var(--warn); }
+.sheetbtns { display: flex; flex-direction: column; gap: var(--s2); }
+
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark">The Monday <em>Patient</em></div>
+      <div class="clock"><i></i>ward clock <b id="clock">08:42</b></div>
+    </div>
+    <div class="acts" id="actbar">
+      <div class="actpill" data-stage="brief"><b>1</b><span>Brief</span></div>
+      <div class="actpill" data-stage="work"><b>2</b><span>Work-up</span></div>
+      <div class="actpill" data-stage="commit"><b>3</b><span>Diagnose</span></div>
+      <div class="actpill" data-stage="manage"><b>4</b><span>Manage</span></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== BRIEF ===================== -->
+    <section class="screen on" id="s-brief">
+      <div class="badges">
+        <span class="badge badge--accent">Week 3 · 12</span>
+        <span class="badge">Acute medical take</span>
+        <span class="badge">≈ 15 min</span>
+      </div>
+      <h1>The referral said dehydration</h1>
+      <p class="lede">A two-line GP letter, an old man off his legs, and a set of admission bloods the letter never mentioned. Work him up properly — the label is not the diagnosis.</p>
+
+      <div class="patient">
+        <div class="avatar">RV</div>
+        <div class="patient__meta">
+          <b>Ronald Verity</b>
+          <span>74 · male · GP referral to the medical take</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">AMU triage · 21:40 · GP letter</div>
+        <p class="serif-body" style="margin-bottom: var(--s4);">“74M, off his legs, drinking poorly. Dehydration / ?UTI. Please assess.” Ronald sits very upright on the trolley — polite, grey, dry-lipped, answering slowly because he is tired rather than confused. His wife Jean has the bag of medication boxes on her lap. The admission bloods are back before you reach the bay: his kidneys are the problem.</p>
+        <div class="obsgrid">
+          <div class="obs"><div class="k">HR</div><div class="v">96</div><div class="u">/min</div></div>
+          <div class="obs" data-flag="lo"><div class="k">BP</div><div class="v">104/66</div><div class="u">mmHg</div></div>
+          <div class="obs"><div class="k">RR</div><div class="v">18</div><div class="u">/min</div></div>
+          <div class="obs"><div class="k">SpO₂</div><div class="v">96</div><div class="u">% air</div></div>
+          <div class="obs"><div class="k">Temp</div><div class="v">36.8</div><div class="u">°C</div></div>
+          <div class="obs"><div class="k">GCS</div><div class="v">15</div><div class="u">/15</div></div>
+        </div>
+        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="warn" id="newsBrief">3</span></div>
+      </div>
+
+      <div class="card card--plain" style="border:1px solid var(--rule);">
+        <div class="card__label">How this case works</div>
+        <ul class="points">
+          <li><span class="n">1</span><span>Four days of continuity. Brief history and examination every day, and each evening <em>you write the plan</em> — what you tick is what happens to him overnight, and the next morning's numbers answer for it.</span></li>
+          <li><span class="n">2</span><span>Bedside tests are a tap; everything else you <em>type</em> like a real order. Nothing is reported for you — ECGs, films, gases and sounds arrive raw, and <em>you commit a read</em>. You find out at the end whether you were right.</span></li>
+          <li><span class="n">3</span><span>Name the diagnosis whenever you can prove it — <em>which day</em> matters. And if a night goes wrong, it starts the way it really does: a bleep, a grey patient, and A to E.</span></li>
+        </ul>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn" data-go="work">Begin the assessment</button>
+      </div>
+    </section>
+
+    <!-- ===================== WORKSPACE ===================== -->
+    <section class="screen" id="s-work">
+      <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
+          <div style="font-size:.78rem; color:var(--muted);"><b id="dayChip" style="color:var(--ink); font-weight:600;">Day 1 · The night take</b> · Ronald Verity · 74 · bay 6</div>
+          <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--warn);">3</span></div>
+        </div>
+        <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
+      </div>
+
+      <div class="card" id="dayCard" style="display:none; border-left:4px solid var(--accent);"></div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ix">Investigate <span class="dot" id="ixDot"></span></button>
+      </div>
+
+      <div class="panel on" id="p-hx">
+        <p class="panel__hint">Tap to ask. Each question costs about 30 seconds.</p>
+        <div id="hxScene"><img src="aki-scene.svg" alt="Two weeks: Ronald grey in his armchair, meals unfinished, the dog’s lead unused by the door."></div>
+        <ul class="qa" id="qa"></ul>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel" id="p-ex">
+        <p class="panel__hint">The core systems are quick. Reach for a focused examination when the story calls for it — choosing the right one is the skill.</p>
+        <ul class="rows" id="examCore"></ul>
+        <details class="more" id="moreExam">
+          <summary>Further / focused examinations <span class="chev">▾</span></summary>
+          <div class="more__body"><ul class="rows" id="examMore"></ul></div>
+        </details>
+        <div id="reexamWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="reexamBtn">Re-examine the patient</button>
+        </div>
+      </div>
+
+      <div class="panel" id="p-ix">
+        <p class="panel__hint">Bedside tests are a tap. Everything else, order it the way you would at a terminal — type it. Rounds still jump the clock by the slowest test; the myeloma labs run overnight.</p>
+        <div id="ixGroups"></div>
+        <button class="btn" id="sendRound" disabled style="margin-top:var(--s4);">Send round</button>
+        <div id="feed" aria-live="polite" style="margin-top:var(--s4);"></div>
+      </div>
+
+      <div class="bar">
+        <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
+        <button class="btn btn--ghost btn--sm" style="flex:1; display:none;" id="nameBtn">Name it</button>
+        <button class="btn btn--sm" style="flex:2;" id="toCommit">Move on</button>
+      </div>
+    </section>
+
+    <!-- ===================== COMMIT ===================== -->
+    <section class="screen" id="s-commit">
+      <div class="kicker">Diagnosis</div>
+      <h2>Commit your diagnosis</h2>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <div class="field" style="margin-top:var(--s5);">
+        <label for="dxInput">Final diagnosis</label>
+        <div class="hint">Type it — the box will suggest matches.</div>
+        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+      </div>
+      <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that's the registrar's call you're being asked to make.</div>
+      <div class="btnrow">
+        <button class="btn btn--ghost" data-go="work">Back to the work-up</button>
+        <button class="btn" id="commitBtn">Lock diagnosis → manage him</button>
+      </div>
+    </section>
+
+    <!-- ===================== MANAGE (ACT 2) ===================== -->
+    <section class="screen" id="s-manage">
+      <div class="kicker">Management</div>
+      <h2 id="manageHead">Now manage the kidney</h2>
+      <p class="lede" id="manageLede">You've made the diagnosis. This is what separates safe from dangerous — the decisions, with the evidence behind each.</p>
+      <div id="mqList" style="margin-top:var(--s5);"></div>
+      <div class="btnrow">
+        <button class="btn" id="finishBtn">Finish the case → see how you did</button>
+      </div>
+    </section>
+
+    <!-- ===================== OUTCOME ===================== -->
+    <section class="screen" id="s-out">
+      <div class="scorehero">
+        <div class="big" id="scoreBig">0<span>/160</span></div>
+        <div class="rank" id="rank"></div>
+        <div class="sub" id="scoreSub"></div>
+      </div>
+      <div id="dxVerdict"></div>
+
+      <div class="card">
+        <div class="card__label">Against the learning objectives</div>
+        <div id="loList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Your diagnostic journey</div>
+        <div id="journey" class="serif-body" style="font-size:.96rem;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Score breakdown</div>
+        <table class="score" id="scoreTable"></table>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Teaching pearls</div>
+        <ul class="pearls">
+          <li>“Dehydration / ?UTI” was a referral label, not a finding — and the dryness was real, which is what made it a good decoy. Correcting the volume was right; letting the label close the differential was the error the whole case was built around.</li>
+          <li>Two tests came back clean and both were lying politely. The dipstick detects albumin — free light chains are invisible to it. SPEP misses light-chain-only disease, which is 15–20% of myeloma. The screen for an unexplained AKI is serum free light chains <em>plus</em> urine electrophoresis.</li>
+          <li>Three findings had each been explained away: anaemia “monitored” since April, a calcium that melted with fluids, back pain called wear-and-tear on X-ray. Each explanation held on its own. Only one disease explained all three at once.</li>
+          <li>Staging needs a baseline, and the baseline lived in a GP filing system 40 minutes away by phone. Creatinine 268 means nothing until 82 sits next to it — then it's stage 3 and the night changes gear.</li>
+          <li>Insulin–dextrose shifts potassium; it removes none. In an oliguric patient the K⁺ rebounds as the shift wears off — a falling potassium after treatment is a loan, not a payment. Plan the removal before the rebound arrives.</li>
+          <li>A patient failing transfer criteria — potassium, ECG, pH, bicarbonate, pressure — is not made safer by an ambulance. Critical care in your own hospital first; the motorway after he's stable.</li>
+          <li>A normal ALP and bland skeletal films are entirely compatible with myeloma — lytic disease without a blastic response. Normal imaging of bone excludes less than it appears to.</li>
+        </ul>
+      </div>
+
+      <div class="card lock">
+        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+        <div>
+          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
+          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · myeloma and the kidney — why two negative tests were both lying, and what light chains do to a nephron.</div>
+        </div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn btn--ghost" id="replay">Play the case again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
+  </footer>
+
+  <div class="overlay" id="commitGate" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+      <h3 id="gateTitle">Before you commit</h3>
+      <p id="gateSub">Safe practice is to complete your assessment first. Here's where you've got to:</p>
+      <ul class="checklist" id="gateList"></ul>
+      <div class="sheetbtns">
+        <button class="btn" id="gateBack">Go back and finish</button>
+        <button class="btn btn--ghost" id="gateGo">Commit anyway</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="planGate" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="planTitle">
+    <h3 id="planTitle">Write the plan</h3>
+    <p id="planSub" style="font-size:.88rem; color:var(--muted); margin:.5rem 0 1rem;">Free text, like the notes. What you write is what happens to him overnight — and he lives with what you leave out.</p>
+    <div id="planBody" style="max-height:65vh; overflow-y:auto;"></div>
+  </div>
+</div>
+
+<div class="overlay" id="impGate" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="impTitle">
+    <h3 id="impTitle">End of the day</h3>
+    <p id="impSub" style="font-size:.88rem; color:var(--muted); margin:.5rem 0 1rem;"></p>
+    <ul id="impList" style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.5rem;"></ul>
+  </div>
+</div>
+
+<datalist id="dxlist"></datalist>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CASE DATA — this object is the weekly authoring template.
+   To build week 2, copy this block and refill it.
+   ============================================================ */
+const CASE = {
+  meta: { dxAccepted: ["myeloma","multiple myeloma","myeloma kidney","cast nephropathy","myeloma cast nephropathy","light chain cast nephropathy","light chain nephropathy","light chain myeloma","light chain only myeloma","plasma cell myeloma","kappa light chain myeloma","bence jones myeloma","aki secondary to myeloma","myeloma with cast nephropathy","myeloma renal failure"],
+          dxName: "Myeloma cast nephropathy", startClock: 1300 /* 21:40 in minutes */ },
+
+  history: [
+    { id:"what",   q:"What's been happening?", dq:"Mr Verity, tell me what's been going on.", a:"“No strength for about a fortnight. Legs like sandbags. I sit down to put my socks on now.” He says it apologetically, as if wasting your time." },
+    { id:"drink",  q:"Eating and drinking?", dq:"Jean — how much is he actually eating and drinking?", a:"Jean: “A cup of tea at breakfast, maybe one after lunch. I keep putting squash next to him and it just sits there. And he's stopped finishing his meals.”" },
+    { id:"back",   q:"The back pain?", dq:"The letter mentions back pain — tell me about that.", a:"“Low back. Since the spring. The doctor did an X-ray — wear and tear, he said, showed me the report. It aches at night too, mind. Never had a back like this before.”", key:true },
+    { id:"pills",  q:"What's he taking for it?", dq:"What have you been taking for the pain — anything from the chemist too?", a:"“Ibuprofen, most days these five or six weeks. Over the counter.” Jean adds: “And he rattles — there's co-codamol in the drawer from last year.”", key:true },
+    { id:"meds",   q:"Prescription medicines?", dq:"And the prescription list — what do you take every day?", a:"Jean lines the boxes up: ramipril — “for blood pressure, years now” — amlodipine, atorvastatin. Nothing new started recently.", key:true },
+    { id:"pee",    q:"Waterworks?", dq:"What about the waterworks — any burning, going more often, blood?", a:"“No burning, nothing like that. Going a bit less than usual, now you mention it. Up once a night, same as the last ten years.”", key:true },
+    { id:"fever",  q:"Fevers, sweats?", dq:"Any fevers, shivers, sweats — anything like an infection?", a:"“No.” Jean: “He's not been ill, doctor. He's just been fading.”" },
+    { id:"eat",    q:"Appetite, bowels?", dq:"Appetite and bowels — anything changed there?", a:"“Off my food. And bunged up these last few weeks — I put that down to sitting about.” No black stools, no bleeding.", key:true },
+    { id:"blood",  q:"Ever told about his blood?", dq:"Has anyone ever mentioned anything about his blood tests before?", a:"Jean: “At Easter the GP said his blood was a bit low. Borderline, he called it. Said they'd keep an eye.”", key:true },
+    { id:"weight", q:"Weight loss?", dq:"Have you lost any weight — clothes looser?", a:"“Maybe a little. Belt's on the same hole.”" },
+    { id:"neuro",  q:"Legs — numbness, weakness?", dq:"Any numbness in the legs, trouble with the bowels or bladder holding on?", a:"“No numbness. Legs are weak-tired, not dead. Everything down there behaves.”" },
+    { id:"fhx",    q:"Family history?", dq:"Any illnesses running in the family?", a:"“Father worked till eighty and dropped in his garden. Nothing that I know of.”" },
+    { id:"social", q:"Day to day, before this?", dq:"Before this fortnight — what could you do, day to day?", a:"“Forty years a joiner. Retired, but I walked the dog every day — hail or shine — till the spring.” Jean, quietly: “He's not missed a walk in fifteen years. Then the back started.”" }
+  ],
+
+  examCore: [
+    { id:"gen",  name:"General inspection", f:"Tired, grey, dry-lipped. Dry tongue, reduced skin turgor, cool hands. Alert and polite throughout. He is behind on fluid.", dyn:true, key:true },
+    { id:"cvs",  name:"Cardiovascular", f:"Pulse 96, regular. JVP not visible lying flat. Heart sounds normal, no murmur. No oedema." },
+    { id:"resp", name:"Respiratory", f:"Chest clear. RR 18, SpO₂ 96% on air." },
+    { id:"abdo", name:"Abdomen", f:"Soft, non-tender. No masses, no organomegaly. Bladder not palpable — nothing at the bedside to suggest retention.", key:true },
+    { id:"cns",  name:"Neurological", f:"GCS 15, orientated. Power grossly normal despite the tiredness, reflexes symmetrical. No asterixis." }
+  ],
+  examMore: [
+    { id:"back",  name:"Examine the back", sub:"he keeps mentioning it", f:"", img:"aki-back.svg", imgOnly:true, imgAlt:"The lumbar spine: marked tenderness to percussion over L3–L5, no deformity, no radicular signs", tone:"alert", key:true },
+    { id:"post",  name:"Lying & standing BP", sub:"postural", f:"Lying 104/66, HR 96. Standing one minute: 88/58, HR 110 — he steadies himself on the trolley rail.", tone:"alert", key:true, dyn:true },
+    { id:"hydr",  name:"Hydration / volume", sub:"", f:"Dry mucous membranes, reduced turgor, cool peripheries, capillary refill 3 s. Intravascularly deplete.", supp:true, dyn:true },
+    { id:"pr",    name:"PR examination", sub:"?obstruction", f:"Prostate moderately enlarged, smooth, benign contour. No mass. Normal tone." },
+    { id:"calf",  name:"Calf / DVT check", sub:"", f:"Calves soft, non-tender, equal." },
+    { id:"fundi", name:"Fundoscopy", sub:"", f:"Normal discs, no papilloedema." }
+  ],
+
+  ix: {
+    bedside: [
+      { id:"glu",     name:"Capillary glucose", cost:2, costL:"2 min", tag:"supp", labs:[{n:"Glucose", v:"6.1", r:"4.0–7.8", u:"mmol/L"}] },
+      { id:"ecg",     name:"ECG", cost:10, costL:"10 min", tag:"key", text:"Sinus rhythm, 96/min. T waves not tented, QRS normal, QTc normal. Worth a baseline — his potassium will not stay where it is." },
+      { id:"vbg",     name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
+        labs:[{n:"pH", v:"7.33", r:"7.35–7.45", flag:"lo"},{n:"HCO₃⁻", v:"17", r:"22–29", u:"mmol/L", flag:"lo"},{n:"K⁺", v:"5.6", r:"3.5–5.3", u:"mmol/L", flag:"hi"},{n:"Hb", v:"97", r:"130–170", u:"g/L", flag:"lo"},{n:"Lactate", v:"1.8", r:"0.5–2.0", u:"mmol/L"}] },
+      { id:"dip",     name:"Urine dipstick", cost:10, costL:"10 min", tag:"trap", text:"Protein negative. Blood negative. Nitrites negative. Leucocytes negative. A clean dipstick — read it carefully: it answers the question you asked, not the one you should be asking." },
+      { id:"bladder", name:"Bladder scan", cost:10, costL:"10 min", tag:"key", text:"Post-void residual 40 ml. No retention." }
+    ],
+    bloods: [
+      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"Hb", v:"96", r:"130–170", u:"g/L", flag:"lo", base:"108 (April — GP: “mild anaemia, monitor”)"},{n:"MCV", v:"89", r:"80–99", u:"fL"},{n:"WCC", v:"8.4", r:"4.0–11.0", u:"×10⁹/L"},{n:"Platelets", v:"322", r:"150–400", u:"×10⁹/L"}] },
+      { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"5.6", r:"3.5–5.3", u:"mmol/L", flag:"hi"},{n:"Urea", v:"21.4", r:"2.5–7.8", u:"mmol/L", flag:"hi"},{n:"Creatinine", v:"268", r:"59–104", u:"µmol/L", flag:"hi", base:"no prior result on file — try the GP records"}] },
+      { id:"bone", name:"Bone profile", cost:60, costL:"60 min", tag:"key",
+        labs:[{n:"Corrected Ca²⁺", v:"2.88", r:"2.20–2.60", u:"mmol/L", flag:"hi"},{n:"Phosphate", v:"1.58", r:"0.80–1.50", u:"mmol/L", flag:"hi"},{n:"ALP", v:"78", r:"30–130", u:"U/L"},{n:"Albumin", v:"33", r:"35–50", u:"g/L", flag:"lo"}] },
+      { id:"crp",  name:"CRP", cost:60, costL:"60 min", tag:"supp", labs:[{n:"CRP", v:"18", r:"<5", u:"mg/L", flag:"hi"}] },
+      { id:"esr",  name:"ESR", cost:120, costL:"2 h", tag:"supp", labs:[{n:"ESR", v:"22", r:"<30 (age-adjusted)", u:"mm/hr"}] },
+      { id:"coag", name:"Coagulation", cost:60, costL:"60 min", tag:"supp", labs:[{n:"INR", v:"1.0", r:"0.9–1.2"},{n:"APTT", v:"29", r:"24–36", u:"s"}] },
+      { id:"spep", name:"Serum protein electrophoresis", cost:240, costL:"4 h (urgent)", tag:"trap", text:"No monoclonal band detected. — It reads like an all-clear. It is an all-clear for the wrong disease." },
+      { id:"igs",  name:"Immunoglobulins", cost:240, costL:"4 h (urgent)", tag:"supp",
+        labs:[{n:"IgG", v:"5.8", r:"6.0–16.0", u:"g/L", flag:"lo"},{n:"IgA", v:"0.7", r:"0.8–4.0", u:"g/L", flag:"lo"},{n:"IgM", v:"0.3", r:"0.5–2.0", u:"g/L", flag:"lo"}] },
+      { id:"sflc", name:"Serum free light chains", cost:240, costL:"4 h (urgent)", tag:"key",
+        labs:[{n:"Kappa FLC", v:"2850", r:"3.3–19.4", u:"mg/L", flag:"hi"},{n:"Lambda FLC", v:"12", r:"5.7–26.3", u:"mg/L"},{n:"κ:λ ratio", v:"237", r:"0.26–1.65", flag:"hi"}] },
+      { id:"film", name:"Blood film", cost:240, costL:"4 h", tag:"supp", text:"Rouleaux formation. Normochromic, normocytic red cells. No blasts, no fragments." }
+    ],
+    urine: [
+      { id:"pcr", name:"Urine protein : creatinine ratio", cost:120, costL:"2 h", tag:"key",
+        labs:[{n:"uPCR", v:"412", r:"<15", u:"mg/mmol", flag:"hi"}] },
+      { id:"bjp", name:"Urine electrophoresis (Bence-Jones)", cost:240, costL:"4 h (urgent)", tag:"key", text:"Bence-Jones protein DETECTED — monoclonal free kappa light chains." },
+      { id:"msu", name:"Urine microscopy & culture", cost:240, costL:"48 h for culture", tag:"supp", text:"Microscopy bland — no cells, no casts seen. Culture to follow: no growth at 48 hours." }
+    ],
+    imaging: [
+      { id:"uss", name:"Ultrasound renal tract", cost:180, costL:"3 h", tag:"key", text:"Both kidneys normal in size (right 10.8 cm, left 11.1 cm), mildly echogenic. No hydronephrosis. Bladder empty. — Obstruction is off the table." },
+      { id:"cxr", name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", text:"Clear lung fields. Normal heart size." },
+      { id:"lsp", name:"Lumbar spine X-ray", cost:90, costL:"90 min", tag:"trap", text:"Degenerative change at L3/4 and L4/5 with marginal osteophytes. No lytic lesion identified. — The same films the GP saw in the spring. They were 'reassuring' then, too." },
+      { id:"ctc", name:"CT abdomen/pelvis with contrast", cost:180, costL:"3 h", tag:"trap", text:"No obstruction, no mass. Radiology rang before protocolling it: “You do know his creatinine, yes?” — a contrast load into an injured kidney, for a question the ultrasound had already answered." }
+    ],
+    special: [
+      { id:"gpr",  name:"GP records — baseline bloods", cost:40, costL:"40 min", tag:"key", text:"Practice faxes the summary. Creatinine 82 µmol/L six months ago. April: Hb 108 — “mild anaemia, monitor.” Spring lumbar spine X-ray: degenerative change. The whole story was sitting in a filing system." },
+      { id:"pth",  name:"PTH", cost:240, costL:"4 h", tag:"supp", labs:[{n:"PTH", v:"1.1", r:"1.6–6.9", u:"pmol/L", flag:"lo"}], },
+      { id:"skel", name:"Skeletal survey", cost:300, costL:"next day", tag:"supp", text:"Reported next morning: generalised osteopenia. No discrete lytic lesion — which, in light-chain disease, excludes nothing." },
+      { id:"psa",  name:"PSA", cost:240, costL:"4 h", tag:"noise", labs:[{n:"PSA", v:"2.1", r:"<4.5 (age)", u:"µg/L"}] },
+      { id:"vitd", name:"Vitamin D", cost:300, costL:"next day", tag:"noise", text:"Reported next day: mildly insufficient, like most of the country." }
+    ]
+  },
+  ixGroups: { bedside:"Bedside · minutes", bloods:"Bloods · an hour, myeloma labs ~4 h", urine:"Urine laboratory", imaging:"Imaging", special:"Special tests & records" },
+
+  rx: [
+    { id:"iv",   t:"IV crystalloid — restore the circulating volume", kind:"good", resus:true, why:"He is volume deplete with an AKI. Fluid is the first treatment — and the treatment for the calcium too." },
+    { id:"stop", t:"Stop the ibuprofen, withhold the ramipril", kind:"good", resus:true, why:"Nephrotoxins off, today, on the drug chart — not just in the plan." },
+    { id:"uo",   t:"Strict fluid balance + hourly urine output", kind:"good", resus:true, why:"Every fluid decision this week stands on this chart. No data, no decisions." },
+    { id:"ecgk", t:"Cardiac monitor + repeat K⁺ on the next gas", kind:"good", why:"A potassium of 5.6 in an oliguric patient is a potassium that is going up." },
+    { id:"gent", t:"Gentamicin for ?urosepsis", kind:"danger", why:"No fever, clean dipstick, bland cultures — and an aminoglycoside into an injured kidney is a permanent hit." },
+    { id:"furo", t:"Furosemide to “get the urine going”", kind:"danger", why:"Diuretics do not treat AKI — in a dry patient they deepen the injury to make the chart look better." },
+    { id:"nsd",  t:"Write up regular naproxen for the back pain", kind:"danger", why:"An NSAID into renal failure. Paracetamol and renally-adjusted opioids exist." },
+    { id:"work", g:"further", t:"Complete the myeloma work-up", note:"Film, immunoglobulins, PTH — and chase everything sent. Unchased tests are how this diagnosis gets missed twice." },
+    { id:"cal",  g:"further", t:"Continue fluids for the calcium — reassess volume first each time", note:"The calcium melts with volume. But fluid is a drug with a dose: examine him before every bag, and stop when he's replete." },
+    { id:"renal",g:"further", t:"Discuss with renal — trend, potassium, ?RRT threshold", note:"Renal want the trajectory, the potassium plan, and to know he exists before 3 am — not after." },
+    { id:"bed",  g:"further", t:"Request a monitored bed", note:"A rising potassium belongs on a monitor, not on a corridor." },
+    { id:"refer",g:"further", t:"Call haematology on-call", sub:"suspected myeloma with renal failure", isRefer:true }
+  ],
+
+  /* ----- ACT 2 management drill ----- */
+  mgmt: [
+    { id:"stage", tag:"Staging", q:"GP records: creatinine 82 six months ago. Tonight it's 268. KDIGO stage?",
+      opts:[
+        { t:"Stage 3 — more than three times baseline", ok:true },
+        { t:"Stage 2 — it's roughly trebled, that's the middle stage", ok:false },
+        { t:"Can't stage an AKI on creatinine alone", ok:false } ],
+      teach:"KDIGO: <b>stage 1</b> = rise ≥26 µmol/L or 1.5–1.9× baseline; <b>stage 2</b> = 2–2.9×; <b>stage 3</b> = ≥3× baseline, creatinine ≥354, or renal replacement. 268 ÷ 82 is <b>3.3× — stage 3</b>. Urine output criteria stage in parallel (&lt;0.5 ml/kg/h). The staging itself was easy — the point is that it was <b>impossible without the baseline</b>, and the baseline was one phone call away. Your trust's bundle walks this ground as <b>ROUND UP</b> — Repeat · Obstruction · Urinalysis · NEWS · Dry or Wet · Urinary I&O · Prescriptions (HDFT AKI care bundle v3.0, May 2025)." },
+    { id:"dip", tag:"The dipstick", q:"His dipstick is protein-negative. His urine PCR is 412 mg/mmol. How do both come from the same kidney?",
+      opts:[
+        { t:"Dipsticks detect albumin — light chains are invisible to them", ok:true },
+        { t:"One of the two results is a lab error — repeat both", ok:false },
+        { t:"Dilute urine has washed out the dipstick", ok:false } ],
+      teach:"The reagent strip is an <b>albumin</b> test. <b>Free light chains (Bence-Jones protein) do not react with it</b> — so myeloma kidney classically presents with a clean dipstick and heavy proteinuria on formal quantification. A negative dipstick in an unexplained AKI <b>excludes nothing</b>: send a <b>protein:creatinine ratio</b> and, if the story fits, <b>urine electrophoresis</b>. This is the first of the case's two falsely reassuring tests." },
+    { id:"spep", tag:"The trap", q:"The serum protein electrophoresis comes back: no monoclonal band. Where does that leave myeloma?",
+      opts:[
+        { t:"Not excluded — send serum free light chains and urine electrophoresis", ok:true },
+        { t:"Effectively excluded — a negative SPEP rules it out", ok:false },
+        { t:"Repeat the electrophoresis in a week and re-review", ok:false } ],
+      teach:"About <b>15–20% of myeloma is light-chain-only</b>: the clone secretes free kappa or lambda without intact immunoglobulin, and <b>SPEP cannot see it</b>. The screen for the renal patient is <b>serum free light chains (with the κ:λ ratio)</b> plus <b>urine electrophoresis</b> — the two tests that name this diagnosis. A negative SPEP that ends the search is this case's registrar-level trap: the test told the truth about the wrong question." },
+    { id:"hyperk", tag:"03:20", q:"You're bleeped: K⁺ 7.2, tented T waves, QRS widening. First drug through the cannula?",
+      opts:[
+        { t:"Calcium gluconate 10% IV", ok:true },
+        { t:"Insulin–dextrose infusion", ok:false },
+        { t:"Salbutamol nebuliser, high dose", ok:false } ],
+      teach:"With <b>ECG changes</b>, protect the myocardium first: <b>10–30 ml calcium gluconate 10% IV</b>, repeated until the ECG improves — it shifts no potassium but buys the time everything else needs. <b>Then</b> shift: insulin–dextrose (10 units in 25 g glucose) and high-dose salbutamol. Monitor the glucose after insulin. Binders and definitive removal come next — but not before the calcium." },
+    { id:"rebound", tag:"Six hours on", q:"Insulin–dextrose is in. K⁺ falls 7.2 → 5.8. The nurse asks what it will be at 6 a.m.",
+      opts:[
+        { t:"Higher — the shift wears off and nothing has removed any potassium", ok:true },
+        { t:"About the same — treated is treated", ok:false },
+        { t:"Lower — the insulin keeps working through the morning", ok:false } ],
+      teach:"Insulin and salbutamol <b>shift potassium into cells; they remove none of it</b>. In an oliguric patient the potassium <b>rebounds as the shift wears off</b> — predictably, within hours. A falling K⁺ after insulin–dextrose is a loan, not a payment. The plan must include <b>removal</b>: restore urine output if you can, binders, and — refractory in an oliguric patient — <b>dialysis</b>. Predicting it stays down means not understanding why it recurs." },
+    { id:"rrt", tag:"Escalate", q:"Which of these is the ring-renal-now indication for renal replacement?",
+      opts:[
+        { t:"Refractory hyperkalaemia or acidosis despite full medical therapy", ok:true },
+        { t:"A creatinine above 250", ok:false },
+        { t:"Six hours of oliguria", ok:false } ],
+      teach:"Your trust's referral triggers to <b>renal in York</b>: AKI stage 3; persistent oliguria or rising creatinine despite the bundle; or complications <b>refractory to medical treatment</b> — hyperkalaemia K⁺ &gt;6.0, pulmonary oedema, acidosis pH &lt;7.15, uraemic encephalopathy or pericarditis. And <b>AKI-Plus</b> — including <b>paraprotein / Bence-Jones protein, referred jointly with haematology</b> — which is exactly this man. A number alone doesn't dial the phone; <b>“refractory despite full therapy”</b> does, at 4 a.m., not saved politely for the day team. (HDFT AKI care bundle v3.0, May 2025)" },
+    { id:"transfer", tag:"Transfer", q:"Renal accept him — their unit is 40 minutes away. K⁺ 6.8, pH 7.19, BP 92 systolic. Transport?",
+      opts:[
+        { t:"No — he fails transfer criteria. Critical care here, stabilise first", ok:true },
+        { t:"Yes — the dialysis machine is the treatment, get him to it", ok:false },
+        { t:"Yes, with a nurse escort and the resus drugs in a bag", ok:false } ],
+      teach:"Your trust's <b>safe transfer criteria</b>: K⁺ &lt;6.5 with <b>no ECG changes</b> (and hyperkalaemia treated must mean knowing <i>how and when</i> — insulin–dextrose alone recurs); pH &gt;7.2, bicarbonate &gt;12, lactate &lt;4; RR 11–26 with sats &gt;94% on ≤35% oxygen; HR 50–130, systolic &gt;100, MAP &gt;65; and Alert. He fails several at once. <b>IF CRITERIA NOT MET — emergency referral to critical care outreach (bleep 3353) or the ITU registrar (bleep 3333)</b>, stabilise where he lies, and transfer once safe. Booking transport instead is the classic overnight error. (HDFT AKI care bundle v3.0, May 2025)" },
+    { id:"fluid", tag:"Fluids", q:"Day 3. Two days of IV fluid — which he needed. Now: JVP up, basal crackles. Creatinine still rising. The next bag?",
+      opts:[
+        { t:"Stop — the examination decides, and it has changed sides", ok:true },
+        { t:"Continue — the creatinine is still rising, so he still needs fluid", ok:false },
+        { t:"Add furosemide and continue the fluids alongside", ok:false } ],
+      teach:"Fluid in AKI is <b>a drug with a dose</b>. It was right on admission because his examination said dry; it is wrong now because his examination says full — <b>creatinine lags days behind volume state</b> and chasing it drowns patients. Reassess volume <b>before every bag</b>, stop when replete, and treat established overload on its merits. Two days of being rewarded for giving fluid is exactly what makes it hard to stop — that momentum is the trap." }
+  ],
+
+  conditions: ["Multiple myeloma","Myeloma cast nephropathy","Monoclonal gammopathy (MGUS)","AL amyloidosis","Waldenström macroglobulinaemia","Lymphoma","Chronic lymphocytic leukaemia","Acute tubular necrosis","Acute interstitial nephritis","NSAID nephropathy","Contrast nephropathy","Glomerulonephritis","Nephrotic syndrome","Vasculitis (ANCA-associated)","Goodpasture disease","Rhabdomyolysis","Tumour lysis syndrome","Obstructive uropathy","Benign prostatic hyperplasia","Prostate cancer","Renal calculi","Bladder cancer","Renal cell carcinoma","Renovascular disease","Chronic kidney disease","Dehydration","Hypovolaemia","Urinary tract infection","Pyelonephritis","Urosepsis","Sepsis","Hypercalcaemia of malignancy","Primary hyperparathyroidism","Vitamin D toxicity","Milk-alkali syndrome","Sarcoidosis","Bone metastases","Paget disease of bone","Osteoporotic vertebral fracture","Spinal stenosis","Discitis","Cord compression","Cauda equina syndrome","Polymyalgia rheumatica","Giant cell arteritis","Rheumatoid arthritis","Gout","Septic arthritis","Iron deficiency anaemia","Anaemia of chronic disease","Haemolytic anaemia","Myelodysplastic syndrome","Aplastic anaemia","Thrombotic thrombocytopenic purpura","Upper GI bleed","Lower GI bleed","Peptic ulcer disease","Colorectal cancer","Coeliac disease","Heart failure","Acute coronary syndrome","Atrial fibrillation","Infective endocarditis","Aortic stenosis","Pulmonary embolism","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Tuberculosis","Lung cancer","Pancreatitis","Cholangitis","Cholecystitis","Bowel obstruction","Mesenteric ischaemia","Ruptured AAA","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Hypoglycaemia","Addisonian crisis","Thyroid storm","Myxoedema coma","Hyponatraemia","Hyperkalaemia","Hypernatraemia","Delirium","Dementia","Depression","Parkinson disease","Stroke","Transient ischaemic attack","Subdural haematoma","Guillain-Barré syndrome","Myasthenia gravis","Motor neurone disease","Alcohol excess","Paracetamol overdose","Lithium toxicity"]
+};
+
+/* ============================================================
+   FOUR-DAY STRUCTURE — follow-ups, continuity, the screen decision
+   ============================================================ */
+const DAY_START = { 1:1300, 2:1950, 3:2580, 4:3080 };   // 21:40 · 08:30 · 19:00 · 03:20 (absolute minutes)
+const DAY_LABEL = { 1:"Day 1 · The night take", 2:"Day 2 · Ward round", 3:"Day 3 · Evening review", 4:"Day 4 · 03:20" };
+
+CASE.impressions = {
+  1: { title:"End of the night shift", sub:"The clerking needs an impression. What do you write?",
+    opts:[
+      { t:"AKI — hypovolaemia contributing; underlying cause not yet identified", ok:true },
+      { t:"Dehydration — rehydrate, home once drinking", ok:false },
+      { t:"Urinary tract infection with acute kidney injury", ok:false },
+      { t:"NSAID nephropathy — that explains it", ok:false },
+      { t:"Obstruction until proven otherwise", ok:false } ] },
+  2: { title:"Ward round entry", sub:"The consultant waits, pen up. Today's impression?",
+    opts:[
+      { t:"AKI not responding as expected — cause still unknown; widen the screen today", ok:true },
+      { t:"Resolving pre-renal AKI — continue fluids, routine bloods tomorrow", ok:false },
+      { t:"Hypercalcaemia of dehydration — resolved with fluids, no further action", ok:false },
+      { t:"Likely progression of undiagnosed CKD — for outpatient follow-up", ok:false } ] },
+  3: { title:"Evening review", sub:"Handover wants one line on him. What is it?",
+    opts:[
+      { t:"Unexplained AKI, now replete — fluids reviewed, potassium creeping, chase the screen overnight", ok:true },
+      { t:"Stable — continue current plan overnight", ok:false },
+      { t:"Improving renal function — for discharge planning", ok:false },
+      { t:"Renal failure secondary to urosepsis — continue fluids", ok:false } ] }
+};
+
+/* Free-text ordering: aliases for everything that must be TYPED.
+   Bedside tests stay as buttons; these are the terminal orders. */
+CASE.ixAliases = {
+  fbc:["fbc","full blood count","cbc","blood count","haemoglobin","hemoglobin"],
+  ue:["u&e","ue","ues","urea and electrolytes","urea electrolytes","renal function","renal profile","creatinine","egfr","bmp","chem 7"],
+  bone:["bone profile","calcium","corrected calcium","phosphate","alk phos","alkaline phosphatase"],
+  crp:["crp","c reactive protein","inflammatory markers"],
+  esr:["esr","sed rate","sedimentation rate","erythrocyte sedimentation rate"],
+  coag:["coag","clotting","clotting screen","coagulation","inr","aptt"],
+  spep:["spep","serum protein electrophoresis","serum electrophoresis","protein electrophoresis","paraprotein","myeloma screen"],
+  igs:["immunoglobulins","igg","iga","igm","ig levels","serum immunoglobulins"],
+  sflc:["sflc","serum free light chains","free light chains","flc","light chains","kappa lambda","kappa","lambda","free light chain assay","serum flc"],
+  film:["blood film","film","peripheral smear","peripheral blood film","smear"],
+  pcr:["urine pcr","protein creatinine ratio","urine protein creatinine ratio","upcr","quantify proteinuria","urine protein"],
+  bjp:["bence jones","bjp","urine electrophoresis","bence jones protein","urine bence jones","urine immunofixation","urinary electrophoresis","urine epep"],
+  msu:["msu","urine culture","urine mcs","midstream urine","urine microscopy"],
+  uss:["uss kub","renal ultrasound","ultrasound renal tract","ultrasound kidneys","us kub","renal tract ultrasound","kidney ultrasound","renal us","uss renal"],
+  cxr:["cxr","chest xray","chest x ray","chest film","chest radiograph"],
+  lsp:["lumbar spine xray","l spine xray","lumbar spine x ray","spine xray","back xray","lumbar films"],
+  ctc:["ct with contrast","contrast ct","ct abdomen pelvis","ct abdo pelvis","ctcap","staging ct","ct scan"],
+  gpr:["gp records","gp summary","baseline bloods","baseline creatinine","previous bloods","old notes","prior results","gp letter","summary care record","phone the gp"],
+  pth:["pth","parathyroid hormone"],
+  skel:["skeletal survey","bone survey"],
+  psa:["psa","prostate specific antigen"],
+  vitd:["vitamin d","vit d","25 oh vitamin d"]
+};
+
+/* Myeloma-lab queue runs overnight: these result next morning, not this round */
+["spep","igs","sflc","film","bjp","pth","skel","vitd"].forEach(id=>{
+  Object.keys(CASE.ix).forEach(g=>{ const x=CASE.ix[g].find(i=>i.id===id); if(x){ x.defer=true; x.costL="back tomorrow"; x.cost=15; } });
+});
+
+/* Repeat bloods arrive automatically each day — but the NUMBERS are computed
+   from the chart. Every prescription, and every omission, has a consequence.
+   See dayDamage()/applyDayPhysiology(). */
+
+/* Re-group the onward rows for the day structure, and add holding + crisis care */
+CASE.rx.find(r=>r.id==="cal").g = "holding";
+CASE.rx.find(r=>r.id==="renal").g = "holding";
+CASE.rx.find(r=>r.id==="bed").g = "holding";
+CASE.rx.push(
+  { id:"stopiv", g:"holding", t:"Reassess volume — stop the fluids when replete", note:"You lay hands on him first: tongue moist, JVP visible, ankles just starting to pit. Replete. The bag comes down — the fluid that was right on Day 1 stops being right exactly here, and only the examination announces it." },
+  { id:"chase",  g:"holding", t:"Chase the outstanding results", note:"The lab, patiently: “The myeloma bloods run as an overnight batch — back tomorrow morning.” Chased is not the same as sent. If nothing was sent, nothing is coming." },
+  { id:"cagl",   g:"crisis", t:"Calcium gluconate 10% IV — now", note:"The ECG settles from lethal to merely frightening. It has shifted no potassium at all — you have bought minutes. Spend them well." },
+  { id:"insdex", g:"crisis", t:"Insulin–dextrose infusion", note:"The potassium falls by more than a unit within the hour. A loan, not a payment — it is back by breakfast unless something removes it." },
+  { id:"salb",   g:"crisis", t:"Salbutamol nebuliser, high dose", note:"Shifts a little more. Same loan, same lender." },
+  { id:"kbind",  g:"crisis", t:"Potassium binder", note:"Slow — but the only drug tonight that actually removes potassium from him." },
+  { id:"icu",    g:"crisis", t:"Call critical care outreach", sub:"bleep 3353", note:"They arrive unhurried, which is somehow the most reassuring thing that has happened all night. “Don't move him anywhere. If renal agree, we filter here.”" },
+  { id:"filt",   g:"crisis", t:"Renal reg: refractory hyperkalaemia — ?urgent filtration", sub:"ITU reg via bleep 3333 if no renal bed", note:"“Refractory despite full medical therapy — that's the phrase that opens the unit. Yes. Ours or ICU's, tonight.”" },
+  { id:"transport", g:"crisis", kind:"danger", t:"Book blue-light transfer to the renal unit", note:"Potassium, pH and a changing ECG — he fails transfer criteria three ways at once. The most dangerous place in the county for this man is the back of an ambulance." }
+);
+CASE.rx.push(
+  { id:"para", t:"Regular paracetamol for the back pain", kind:"good", why:"Analgesia that doesn't cost nephrons." },
+  { id:"vte",  t:"VTE prophylaxis — renally adjusted dose", kind:"good", why:"Prescribed at the reduced dose his kidneys demand." }
+);
+
+/* ---- ICE catalogue expansion: everything a real requesting screen offers.
+   Most of it is deliberately unremarkable — it resolves, costs clock, and
+   teaches nothing except what ordering it says about your differential. ---- */
+CASE.ix.bloods.push(
+  { id:"lft",   name:"Liver function tests", cost:60, costL:"60 min", tag:"supp",
+    labs:[{n:"Bilirubin", v:"9", r:"<21", u:"µmol/L"},{n:"ALT", v:"22", r:"<41", u:"U/L"},{n:"ALP", v:"78", r:"30–130", u:"U/L"},{n:"Albumin", v:"33", r:"35–50", u:"g/L", flag:"lo"}] },
+  { id:"mg",    name:"Magnesium", cost:60, costL:"60 min", tag:"supp", labs:[{n:"Mg²⁺", v:"0.81", r:"0.70–1.00", u:"mmol/L"}] },
+  { id:"urate", name:"Urate", cost:60, costL:"60 min", tag:"supp", labs:[{n:"Urate", v:"468", r:"200–430", u:"µmol/L", flag:"hi"}] },
+  { id:"ldh",   name:"LDH", cost:60, costL:"60 min", tag:"supp", labs:[{n:"LDH", v:"228", r:"135–250", u:"U/L"}] },
+  { id:"ck",    name:"Creatine kinase", cost:60, costL:"60 min", tag:"supp",
+    labs:[{n:"CK", v:"146", r:"40–320", u:"U/L"}], },
+  { id:"hapto", name:"Haptoglobin", cost:240, costL:"4 h", tag:"supp", labs:[{n:"Haptoglobin", v:"1.4", r:"0.3–2.0", u:"g/L"}] },
+  { id:"retics",name:"Reticulocyte count", cost:120, costL:"2 h", tag:"supp",
+    labs:[{n:"Retics", v:"48", r:"25–105", u:"×10⁹/L"}], },
+  { id:"ferritin", name:"Ferritin", cost:120, costL:"2 h", tag:"supp", labs:[{n:"Ferritin", v:"212", r:"30–400", u:"µg/L"}] },
+  { id:"iron",  name:"Iron studies", cost:240, costL:"4 h", tag:"supp",
+    labs:[{n:"Iron", v:"7", r:"10–30", u:"µmol/L", flag:"lo"},{n:"Transferrin", v:"1.8", r:"2.0–3.6", u:"g/L", flag:"lo"},{n:"TSAT", v:"18", r:"16–50", u:"%"}],
+  },
+  { id:"b12",   name:"B12 and folate", cost:240, costL:"4 h", tag:"supp", labs:[{n:"B12", v:"388", r:"180–900", u:"ng/L"},{n:"Folate", v:"6.2", r:">3.0", u:"µg/L"}] },
+  { id:"tft",   name:"Thyroid function", cost:240, costL:"4 h", tag:"noise", labs:[{n:"TSH", v:"2.1", r:"0.3–4.5", u:"mU/L"}] },
+  { id:"hba1c", name:"HbA1c", cost:240, costL:"4 h", tag:"noise", labs:[{n:"HbA1c", v:"39", r:"<42", u:"mmol/mol"}] },
+  { id:"lipids",name:"Lipid profile", cost:240, costL:"4 h", tag:"noise", text:"Within targets for age. Nothing here changes tonight." },
+  { id:"gluc",  name:"Laboratory glucose", cost:60, costL:"60 min", tag:"noise", labs:[{n:"Glucose", v:"6.0", r:"4.0–7.8", u:"mmol/L"}] },
+  { id:"trop",  name:"Troponin", cost:60, costL:"60 min", tag:"noise", labs:[{n:"hs-cTnT", v:"12", r:"<14", u:"ng/L"}] },
+  { id:"bnp",   name:"NT-proBNP", cost:120, costL:"2 h", tag:"noise", labs:[{n:"NT-proBNP", v:"310", r:"<400 (age)", u:"ng/L"}] },
+  { id:"ddim",  name:"D-dimer", cost:60, costL:"60 min", tag:"noise", text:"Raised — as it is in most unwell 74-year-olds. It answers a question nobody asked." },
+  { id:"amylase", name:"Amylase", cost:60, costL:"60 min", tag:"noise", labs:[{n:"Amylase", v:"52", r:"28–100", u:"U/L"}] },
+  { id:"cortisol", name:"Cortisol", cost:240, costL:"4 h", tag:"noise", text:"Within the expected range for the time of day." },
+  { id:"gs",    name:"Group & save", cost:45, costL:"45 min", tag:"noise", text:"Sample received and held." },
+  { id:"cult",  name:"Blood cultures", cost:15, costL:"48 h for growth", tag:"supp", text:"Taken before any antibiotics. No growth at 48 hours." },
+  { id:"hiv",   name:"HIV serology", cost:300, costL:"next day", tag:"supp", text:"Negative.", defer:true },
+  { id:"hepb",  name:"Hepatitis B serology", cost:300, costL:"next day", tag:"supp", text:"No evidence of current or past infection.", defer:true },
+  { id:"hepc",  name:"Hepatitis C serology", cost:300, costL:"next day", tag:"supp", text:"Antibody negative.", defer:true },
+  { id:"ana",   name:"ANA", cost:300, costL:"next day", tag:"supp", text:"Negative.", defer:true },
+  { id:"anca",  name:"ANCA", cost:300, costL:"next day", tag:"supp", text:"Negative — MPO and PR3 not detected.", defer:true },
+  { id:"gbm",   name:"Anti-GBM antibody", cost:300, costL:"next day", tag:"supp", text:"Not detected.", defer:true },
+  { id:"comp",  name:"Complement (C3/C4)", cost:300, costL:"next day", tag:"supp", text:"C3 and C4 within range.", defer:true },
+  { id:"dsdna", name:"Anti-dsDNA", cost:300, costL:"next day", tag:"noise", text:"Not detected.", defer:true },
+  { id:"rf",    name:"Rheumatoid factor", cost:300, costL:"next day", tag:"noise", text:"Negative.", defer:true },
+  { id:"cryo",  name:"Cryoglobulins", cost:300, costL:"next day", tag:"noise", text:"Sample clotted in transit — the lab asks for a warm repeat. (It usually does.)", defer:true },
+  { id:"pct",   name:"Procalcitonin", cost:240, costL:"4 h", tag:"noise", labs:[{n:"PCT", v:"0.12", r:"<0.25", u:"µg/L"}] }
+);
+CASE.ix.urine.push(
+  { id:"acr",   name:"Urine albumin : creatinine ratio", cost:120, costL:"2 h", tag:"supp",
+    labs:[{n:"uACR", v:"4", r:"<3", u:"mg/mmol"}],
+    text:"Near-normal — set against a uPCR of 412, the gap is the lesson: whatever protein is in this urine, it is not albumin." },
+  { id:"una",   name:"Urine sodium", cost:120, costL:"2 h", tag:"noise", text:"Resulted. Interpretation is limited once fluids and time have been at work — it rarely changes what the examination already told you." },
+  { id:"uosm",  name:"Urine & serum osmolality", cost:120, costL:"2 h", tag:"noise", text:"Consistent with the clinical picture. Adds nothing the bedside had not." },
+  { id:"umyo",  name:"Urine myoglobin", cost:300, costL:"next day", tag:"noise", text:"Not detected.", defer:true }
+);
+CASE.ix.imaging.push(
+  { id:"axr",   name:"Abdominal X-ray", cost:90, costL:"90 min", tag:"noise", text:"Non-specific bowel gas pattern. No obstruction." },
+  { id:"cthead",name:"CT head", cost:120, costL:"2 h", tag:"noise", text:"No acute intracranial abnormality." },
+  { id:"ctpa",  name:"CT pulmonary angiogram", cost:180, costL:"3 h", tag:"noise", text:"Vetoed by radiology: “No hypoxia, no chest symptoms, and have you seen his creatinine?”" },
+  { id:"ctkub", name:"CT KUB (non-contrast)", cost:180, costL:"3 h", tag:"supp", text:"No calculi. No hydronephrosis. Kidneys normal in size — the ultrasound had already said so, without the radiation." },
+  { id:"mrisp", name:"MRI whole spine", cost:300, costL:"next day", tag:"supp", text:"Reported next day: degenerative change at L3/4 and L4/5. No cord compression, no collapse.", defer:true },
+  { id:"echo",  name:"Echocardiogram", cost:300, costL:"next working day", tag:"noise", text:"Reported next working day: normal LV, no significant valve disease.", defer:true }
+);
+Object.assign(CASE.ixAliases, {
+  lft:["lft","lfts","liver function","liver function tests","liver profile","alt","bilirubin","liver bloods"],
+  mg:["magnesium","mg level","serum magnesium"],
+  urate:["urate","uric acid"],
+  ldh:["ldh","lactate dehydrogenase"],
+  ck:["ck","creatine kinase","cpk","rhabdo screen"],
+  hapto:["haptoglobin","haemolysis screen","hemolysis screen"],
+  retics:["retics","reticulocytes","reticulocyte count"],
+  ferritin:["ferritin"],
+  iron:["iron studies","iron","transferrin","transferrin saturation","tsat"],
+  b12:["b12","vitamin b12","folate","b12 and folate","haematinics","hematinics"],
+  tft:["tft","tfts","thyroid function","tsh","thyroid"],
+  hba1c:["hba1c","glycated haemoglobin"],
+  lipids:["lipids","lipid profile","cholesterol"],
+  gluc:["lab glucose","laboratory glucose","serum glucose","glucose"],
+  trop:["troponin","trop","hs troponin","high sensitivity troponin"],
+  bnp:["bnp","nt probnp","pro bnp","natriuretic peptide"],
+  ddim:["d dimer","ddimer"],
+  amylase:["amylase","lipase"],
+  cortisol:["cortisol","9am cortisol","random cortisol","short synacthen"],
+  gs:["group and save","g and s","group save","type and screen","crossmatch"],
+  cult:["blood cultures","cultures","bc"],
+  hiv:["hiv","hiv test","hiv serology"],
+  hepb:["hep b","hepatitis b","hbsag"],
+  hepc:["hep c","hepatitis c","hcv"],
+  ana:["ana","antinuclear antibody","autoimmune screen"],
+  anca:["anca","vasculitis screen","anti neutrophil cytoplasmic antibody","mpo","pr3"],
+  gbm:["anti gbm","gbm","goodpasture","glomerular basement membrane antibody"],
+  comp:["complement","c3","c4","c3 c4","complement levels"],
+  dsdna:["dsdna","anti dsdna","double stranded dna"],
+  rf:["rheumatoid factor","rf"],
+  cryo:["cryoglobulins","cryo"],
+  pct:["procalcitonin","pct"],
+  acr:["urine acr","acr","albumin creatinine ratio","urine albumin"],
+  una:["urine sodium","urinary sodium","urine na"],
+  uosm:["osmolality","urine osmolality","serum osmolality","osmolalities"],
+  umyo:["urine myoglobin","myoglobinuria"],
+  axr:["axr","abdominal xray","abdominal x ray","abdo film","abdominal film"],
+  cthead:["ct head","ct brain","head ct"],
+  ctpa:["ctpa","ct pulmonary angiogram","pe study"],
+  ctkub:["ct kub","non contrast ct","stone ct","ct renal tract"],
+  mrisp:["mri spine","mri whole spine","mri lumbar spine","spine mri","mri back"],
+  echo:["echo","echocardiogram","tte"]
+});
+
+
+/* ============================================================
+   SIGNS, NOT WORDINGS — raw media the player must interpret.
+   Nothing is reported. A read is committed; it is only marked
+   at the outcome. Missing files degrade to a text finding.
+   ============================================================ */
+function gasSlipSVG(v){
+  const rows = [
+    ["pH", v.ph, "7.35–7.45"], ["pCO₂", v.pco2, "4.5–6.0"], ["HCO₃⁻", v.hco3, "22–29"],
+    ["BE", v.be, "-2–+2"], ["K⁺", v.k, "3.5–5.3"], ["Na⁺", v.na, "133–146"],
+    ["Lac", v.lac, "0.5–2.0"], ["Hb", v.hb, "130–170"], ["Glu", v.glu, "4.0–7.8"]
+  ];
+  return `<svg viewBox="0 0 300 ${70+rows.length*24}" style="width:100%; max-width:280px; display:block;" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="${70+rows.length*24}" fill="#fdfcf8" stroke="#c9beab"/>
+    <text x="150" y="26" text-anchor="middle" font-family="monospace" font-size="13" fill="#444">*** BLOOD GAS — VENOUS ***</text>
+    <text x="150" y="44" text-anchor="middle" font-family="monospace" font-size="11" fill="#777">${v.time}  ·  VERITY, R  ·  M74</text>
+    ${rows.map((r,i)=>`<text x="18" y="${68+i*24}" font-family="monospace" font-size="13" fill="#222">${r[0]}</text>
+      <text x="150" y="${68+i*24}" text-anchor="end" font-family="monospace" font-size="13" font-weight="bold" fill="#111">${r[1]}</text>
+      <text x="285" y="${68+i*24}" text-anchor="end" font-family="monospace" font-size="10" fill="#999">(${r[2]})</text>`).join("")}
+  </svg>`;
+}
+function fluidChartSVG(){
+  const days = Math.max(1, S.day-1);
+  const inn = S.rx.has("iv") ? 2400*days : 600*days;
+  const out = Math.round((S.rx.has("iv")?750:350)*days);
+  const bal = inn-out;
+  const w = t => Math.min(240, Math.round(t/16));
+  return `<svg viewBox="0 0 320 130" style="width:100%; max-width:320px; display:block;" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="130" fill="#fdfcf8" stroke="#c9beab"/>
+    <text x="14" y="24" font-family="monospace" font-size="12" fill="#444">FLUID BALANCE — cumulative</text>
+    <text x="14" y="52" font-family="monospace" font-size="12" fill="#222">IN</text>
+    <rect x="48" y="41" width="${w(inn)}" height="14" fill="#7d8fb0"/><text x="${52+w(inn)}" y="52" font-family="monospace" font-size="12" fill="#222">${inn} ml</text>
+    <text x="14" y="80" font-family="monospace" font-size="12" fill="#222">OUT</text>
+    <rect x="48" y="69" width="${w(out)}" height="14" fill="#b0455a"/><text x="${52+w(out)}" y="80" font-family="monospace" font-size="12" fill="#222">${out} ml</text>
+    <text x="14" y="112" font-family="monospace" font-size="13" font-weight="bold" fill="#111">BALANCE  ${bal>=0?"+":""}${bal} ml</text>
+  </svg>`;
+}
+const MEDIA = {
+  ecg1:  { img:"aki-ecg-normal.png", label:"12-lead ECG", q:"Commit your read of the ECG:", opts:[
+           {t:"Sinus rhythm — no hyperacute changes, QTc normal", ok:true},
+           {t:"Tented T waves with QRS widening"},
+           {t:"Atrial fibrillation"},
+           {t:"Anterolateral ST elevation"}]},
+  ecg4:  { img:"aki-ecg-hyperk.avif", label:"12-lead ECG", q:"Commit your read of the ECG:", opts:[
+           {t:"Tented T waves, flattened P waves, widening QRS — a potassium emergency", ok:true},
+           {t:"Sinus tachycardia, otherwise unremarkable"},
+           {t:"Acute inferior ST elevation"},
+           {t:"Long-standing bundle branch block"}]},
+  cxr:   { img:"aki-cxr.jpeg", label:"Chest X-ray", q:"Commit your read of the film:", opts:[
+           {t:"Clear lung fields, normal cardiac contour", ok:true},
+           {t:"Interstitial oedema with upper-lobe diversion"},
+           {t:"Right basal consolidation"},
+           {t:"Bilateral pleural effusions"}]},
+  lsp:   { img:"aki-spine-xr.png", label:"Lumbar spine X-ray", q:"Commit your read of the films:", opts:[
+           {t:"Degenerative change; no lytic lesion visible", ok:true},
+           {t:"Lytic deposits in L3 and L4"},
+           {t:"Acute crush fracture of L1"},
+           {t:"Normal lumbar spine for age"}]},
+  gas1:  { svg:()=>gasSlipSVG({time:"22:12", ph:"7.33", pco2:"4.6", hco3:"17", be:"-7", k:"5.6", na:"134", lac:"1.8", hb:"97", glu:"6.1"}),
+           label:"Venous gas", q:"Commit your read of the gas:", opts:[
+           {t:"Metabolic acidosis, potassium at the top edge, anaemia", ok:true},
+           {t:"Respiratory acidosis with CO₂ retention"},
+           {t:"Normal gas for age"},
+           {t:"Diabetic ketoacidosis"}]},
+  gas4:  { svg:()=>{ const cn=crisisNumbers(); return gasSlipSVG({time:"03:26", ph:cn.ph, pco2:"3.1", hco3:String(cn.hco3), be:"-14", k:cn.k, na:"133", lac:"3.1", hb:"95", glu:"6.4"}); },
+           label:"Venous gas", q:"Commit your read of the gas:", opts:[
+           {t:"Severe hyperkalaemia with a significant metabolic acidosis", ok:true},
+           {t:"Compensated respiratory acidosis"},
+           {t:"Mild derangement — recheck in the morning"},
+           {t:"Hyperosmolar hyperglycaemic state"}]},
+  bs:    { audio:"aki-breath-normal.mp3", label:"Auscultate the chest", fallback:"Air entry equal. You listen carefully at both bases.", q:"Commit what you hear:", opts:[
+           {t:"Vesicular breath sounds, clear throughout", ok:true},
+           {t:"Bibasal fine crackles"},
+           {t:"Expiratory wheeze"},
+           {t:"Bronchial breathing at the right base"}]},
+  crack: { audio:"aki-crackles.mp3", label:"Auscultate the chest", fallback:"Fine crackles at both bases — new since admission. (Text stands in until aki-crackles.mp3 is uploaded.)", q:"Commit what you hear:", opts:[
+           {t:"Fine inspiratory crackles at both bases", ok:true},
+           {t:"Clear vesicular breath sounds"},
+           {t:"Coarse monophonic wheeze"},
+           {t:"A pleural rub"}]},
+  hs:    { audio:"aki-hs-normal.mp3", label:"Auscultate the heart", fallback:"You listen at the apex and along the left sternal edge.", q:"Commit what you hear:", opts:[
+           {t:"Normal S1 and S2, no murmur, no rub", ok:true},
+           {t:"Pansystolic murmur loudest at the apex"},
+           {t:"A pericardial friction rub"},
+           {t:"A third heart sound — gallop rhythm"}]},
+  ankleN:{ img:"aki-ankle-normal.jpg", label:"Press over the shins", q:"Commit what you find:", opts:[
+           {t:"Normal legs — no oedema", ok:true},
+           {t:"Pitting oedema"},
+           {t:"Non-pitting lymphoedema"},
+           {t:"Cellulitis"}]},
+  cxrOed:{ img:"aki-cxr-oedema.jpeg", label:"Chest X-ray", q:"Commit your read of the film:", opts:[
+           {t:"Pulmonary oedema — interstitial shadowing, fluid where it shouldn't be", ok:true},
+           {t:"Clear lung fields, normal cardiac contour"},
+           {t:"Right basal consolidation"},
+           {t:"Apical pneumothorax"}]},
+  oedema:{ img:"aki-oedema.webp", label:"Press over the shins", q:"Commit what you find:", opts:[
+           {t:"Pitting oedema", ok:true},
+           {t:"Non-pitting lymphoedema"},
+           {t:"Cellulitis"},
+           {t:"Normal legs — no oedema"}]},
+  dry:   { img:"aki-dry-tongue.jpg", label:"Look in the mouth", fallback:"Dry tongue, tacky mucous membranes. Reduced skin turgor. Cool hands, capillary refill 3 s.", q:"Commit what you see:", opts:[
+           {t:"Dry mucous membranes — volume deplete", ok:true},
+           {t:"Central cyanosis"},
+           {t:"Oral candidiasis"},
+           {t:"Well hydrated"}]},
+  jvp:   { video:"aki-jvp.mp4", label:"Assess the JVP", fallback:"At 45°, the JVP is visible well above the clavicle.", q:"Commit what you see:", opts:[
+           {t:"JVP raised — visible well above the clavicle", ok:true},
+           {t:"JVP not visible — flat neck veins"},
+           {t:"Giant V waves"},
+           {t:"Carotid pulsation, not a JVP"}]},
+  dipimg:{ img:"aki-dipstick.jpg", label:"Urine dipstick", fallback:"Protein negative. Blood negative. Nitrites negative. Leucocytes negative. Specific gravity 1.020.", q:"Commit your read of the dipstick:", opts:[
+           {t:"Bland — no protein, no blood, no markers of infection", ok:true},
+           {t:"Heavy proteinuria"},
+           {t:"Haematuria with proteinuria — glomerular picture"},
+           {t:"Nitrites and leucocytes — infection"}]},
+  fbchart:{ svg:fluidChartSVG, label:"Fluid balance chart", q:"Commit your read of the chart:", opts:[
+           {t:"Cumulative positive balance — input far ahead of output", ok:true},
+           {t:"Balanced — input matching output"},
+           {t:"Net negative — he is drying out"},
+           {t:"Unreadable — no data recorded"}]}
+};
+function mediaBlock(key){
+  const m = MEDIA[key];
+  if(!m) return "";
+  let inner = "";
+  if(m.svg) inner = m.svg();
+  else if(m.img) inner = `<img src="${m.img}" alt="" data-fallback="${(m.fallback||"").replace(/"/g,"&quot;")}" style="width:100%; border-radius:8px; display:block;">`;
+  else if(m.video) inner = `<div style="font-size:.8rem; color:var(--muted); margin-bottom:4px;">${m.label} — watch closely</div><video controls playsinline muted preload="metadata" src="${m.video}" data-fallback="${(m.fallback||"").replace(/"/g,"&quot;")}" style="width:100%; border-radius:8px; display:block;"></video>`;
+  else if(m.audio) inner = `<div style="font-size:.8rem; color:var(--muted); margin-bottom:4px;">${m.label} — press play, use headphones</div><audio controls preload="none" src="${m.audio}" data-fallback="${(m.fallback||"").replace(/"/g,"&quot;")}" style="width:100%;"></audio>`;
+  let q;
+  const done = S.interp[key];
+  if(done) q = `<div class="panel__hint" style="margin-top:6px;">Read committed: “${done.t}”</div>`;
+  else {
+    const order = m.opts.map((_,i)=>i);
+    for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+    q = `<div style="margin-top:8px;"><div style="font-size:.85rem; font-weight:600; margin-bottom:6px;">${m.q}</div>`+
+      order.map(i=>`<button class="chip" data-interp="1" data-key="${key}" data-ok="${m.opts[i].ok?1:0}" style="display:block; width:100%; margin-bottom:6px;">${m.opts[i].t}</button>`).join("")+`</div>`;
+  }
+  return `<div class="media" data-mediakey="${key}">${inner}<div class="interp">${q}</div></div>`;
+}
+/* commit a read — recorded silently, marked only at the outcome */
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-interp]");
+  if(!b) return;
+  const key = b.dataset.key;
+  if(S.interp[key]) return;
+  S.interp[key] = { ok: b.dataset.ok==="1", t: b.textContent };
+  b.closest(".interp").innerHTML = `<div class="panel__hint" style="margin-top:6px;">Read committed: “${S.interp[key].t}”</div>`;
+  updateTabDots();
+  if(S.day===4 && typeof renderAE==="function") renderAE();
+});
+/* missing media degrades honestly to a bedside text finding */
+document.addEventListener("error", e=>{
+  const t = e.target;
+  if(!t || !t.dataset || t.dataset.fallback===undefined) return;
+  const wrap = t.closest(".media");
+  const txt = t.dataset.fallback;
+  if(t.tagName==="AUDIO" || t.tagName==="IMG" || t.tagName==="VIDEO"){ t.outerHTML = `<div class="finding">${txt}</div>`; }
+}, true);
+
+/* ============================================================
+   DAILY CONTINUITY — brief history & examination each day,
+   media wired into findings, HDFT bundle dataset, plan options
+   ============================================================ */
+/* daily history (chips appear on their day; the chat log persists) */
+CASE.history.push(
+  { day:2, id:"d2.night", q:"How was the night?", dq:"Morning, Mr Verity — how was the night?", a:"“Slept in patches. The drip kept me company.” He manages a small smile. “Stronger than yesterday, I think. Not strong.”" },
+  { day:2, id:"d2.diarr", q:"Any diarrhoea or vomiting?", dq:"Any diarrhoea in the last couple of days? Vomiting?", a:"“No, doctor. The opposite, if anything.”", key:true },
+  { day:2, id:"d2.jean", q:"Ask Jean how he seems", dq:"Jean — to your eye, is he better or worse than yesterday?", a:"Jean: “A bit brighter this morning. But he's still not him. He didn't ask about the dog, and he always asks about the dog.”" },
+  { day:3, id:"d3.feel", q:"How is he tonight?", dq:"Evening, Ronald — how are you feeling tonight?", a:"“Puffed out, if I'm honest. And my rings are tight.” He turns the wedding band with his thumb." },
+  { day:3, id:"d3.ortho", q:"Breathless lying flat?", dq:"When you lie back — any trouble with your breathing?", a:"“I've ended up on three pillows. Didn't think to mention it.”", key:true },
+  { day:3, id:"d3.pain", q:"The back tonight?", dq:"And the back — better or worse on our painkillers?", a:"“Bearable. Still wakes me at four. Regular as church.”" }
+);
+/* daily examination — brief, repeatable, findings as signs where media exists */
+CASE.examCore.find(e=>e.id==="gen").media = ()=> S.day===1 ? "dry" : null;
+CASE.examCore.find(e=>e.id==="cvs").media = ()=> "hs";
+CASE.examCore.find(e=>e.id==="resp").media = ()=> (S.day>=3 && S.rx.has("iv")) ? "crack" : "bs";
+CASE.examMore.push(
+  { id:"ankles", name:"Ankles & sacrum", sub:"press and count to five", f:"No pitting at the ankles or sacrum.", key:true, dyn:true,
+    media: ()=> (S.day>=3 && S.rx.has("iv")) ? "oedema" : "ankleN" },
+  { id:"jvpx", name:"JVP", sub:"at 45°", f:"JVP not visible lying flat — flat neck veins.", dyn:true,
+    media: ()=> (S.day>=3 && S.rx.has("iv")) ? "jvp" : null },
+  { id:"fbc2", name:"Fluid balance chart", sub:"at the end of the bed", day:2,
+    f:"There is no chart at the end of the bed. Nobody has been measuring what comes out of him.",
+    media: ()=> S.rx.has("uo") ? "fbchart" : null }
+);
+/* investigations that return signs, not reports */
+CASE.ix.bedside.find(x=>x.id==="ecg").media = ()=> S.day>=4 ? "ecg4" : "ecg1";
+CASE.ix.bedside.find(x=>x.id==="vbg").media = ()=> S.day>=4 ? "gas4" : "gas1";
+CASE.ix.bedside.find(x=>x.id==="dip").media = ()=> "dipimg";
+CASE.ix.imaging.find(x=>x.id==="cxr").media = ()=> (S.day>=3 && S.rx.has("iv")) ? "cxrOed" : "cxr";
+CASE.ix.imaging.find(x=>x.id==="lsp").media = ()=> "lsp";
+/* MRSA screen — the HDFT renal-referral dataset asks for it */
+CASE.ix.bedside.push({ id:"mrsa", name:"MRSA screen (swabs)", cost:5, costL:"5 min", tag:"supp", text:"Nose and groin swabbed. Result to follow — the referral form only asks that it has been sent." });
+CASE.ixAliases.mrsa = ["mrsa","mrsa screen","mrsa swab","mrsa swabs","infection screen swab"];
+
+/* end-of-day plan sheet — the options ARE the treatment; dangers included, unlabelled */
+const PLAN_DAYS = {
+  1:["iv","stop","uo","ecgk","para","vte","nsd","gent","furo"],
+  2:["iv","stop","uo","ecgk","renal","bed","chase","para","vte","nsd","gent","furo"],
+  3:["iv","chase","renal","bed","ecgk","para","nsd","gent","furo"]
+};
+
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const S = {
+  clock: CASE.meta.startClock,
+  day: 1,
+  creat: 268, k: 5.6, creatPrev: 268, kPrev: 5.6,
+  dmg: { creat: 0, k: 0 }, ctcHit: false, orderedDay: {},
+  interp: {}, ae: {A:false,B:false,C:false,D:false,E:false}, aeIx: {ecg:false,gas:false,cxr:false},
+  planTexts: {}, bundleHits: {},
+  examEver: new Set(),
+  asked: new Set(), examCore: new Set(), examMore: new Set(),
+  picked: new Set(), ordered: new Set(), round: 0,
+  rx: new Set(), screenDay: null, screenBackDay: null, spepSeen: false, reexamCount: 0,
+  deferred: [],                    // {id, backDay} — overnight lab queue
+  impressions: {},                 // day -> {t, ok}
+  dx: "", dxCorrect: false, dxDay: null,
+  mg: {}, mgIdx: 0, furtherUnlocked: false,
+  stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false, died: false
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+
+function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+function elapsed(){ return S.clock - CASE.meta.startClock; }
+function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); }
+
+/* ---------- dynamic obs: day by day, better with fluid, worse without ---------- */
+function obsState(){
+  const iv = S.rx.has("iv");
+  const crisisTreated = S.rx.has("cagl") && crisisEscalated();
+  if (S.day === 1){
+    if (S.reexamCount === 0) return { hr:96, bp:"104/66", rr:18, spo2:96, uo:"15", news:3, tone:"warn", flag:"lo", appear:"base" };
+    if (iv) return { hr:84, bp:"118/72", rr:16, spo2:97, uo:"45", news:1, tone:"ok", flag:"", appear:"better" };
+    return { hr:112, bp:"88/56", rr:20, spo2:95, uo:"5", news:6, tone:"bad", flag:"lo", appear:"worse" };
+  }
+  const hurt = S.dmg.creat >= 60;                       // the chart is doing damage
+  if (S.day === 2) return !iv
+    ? { hr:108, bp:"92/60", rr:20, spo2:95, uo:"8", news:5, tone:"bad", flag:"lo", appear:"worse" }
+    : hurt
+    ? { hr:102, bp:"106/62", rr:18, spo2:96, uo:"18", news:4, tone:"bad", flag:"lo", appear:"worse" }
+    : { hr:88, bp:"116/70", rr:16, spo2:97, uo:"40", news:2, tone:"warn", flag:"", appear:"better" };
+  if (S.day === 3) return !iv
+    ? { hr:110, bp:"90/58", rr:20, spo2:94, uo:"6", news:6, tone:"bad", flag:"lo", appear:"worse" }
+    : hurt
+    ? { hr:104, bp:"102/60", rr:20, spo2:95, uo:"10", news:5, tone:"bad", flag:"lo", appear:"worse" }
+    : { hr:86, bp:"122/74", rr:16, spo2:96, uo:"35", news:2, tone:"warn", flag:"", appear:"base" };
+  // Day 4 — the crisis
+  if (crisisTreated) return { hr:100, bp:"104/64", rr:20, spo2:95, uo:"5", news:5, tone:"warn", flag:"lo", appear:"held" };
+  return { hr:118, bp:"92/58", rr:24, spo2:94, uo:"5", news:8, tone:"bad", flag:"lo", appear:"crisis" };
+}
+function renderObs(){
+  const o = obsState();
+  const cells = [
+    ["HR", o.hr, "/min", o.hr>100?"hi":""],
+    ["BP", o.bp, "mmHg", o.flag],
+    ["RR", o.rr, "/min", o.rr>20?"hi":""],
+    ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
+    ["Urine", o.uo, "ml/hr", parseInt(o.uo,10)<20?"lo":""],
+    ["GCS", "15", "/15", ""]
+  ];
+  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
+  const nl = $("#newsLive"); nl.textContent = o.news; nl.style.color = o.tone==="bad"?"var(--danger)":o.tone==="ok"?"var(--good)":"var(--warn)";
+}
+
+/* ---------- screen / tab nav ---------- */
+function go(id){
+  $$(".screen").forEach(s=>s.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  const map = { brief:"brief", work:"work", commit:"commit", manage:"manage", out:"manage" };
+  const stage = (S.dxCommitted && id==="work") ? "manage" : (map[id] || "brief");
+  const order = ["brief","work","commit","manage"];
+  $$("#actbar .actpill").forEach(p=>{
+    const i = order.indexOf(p.dataset.stage), c = order.indexOf(stage);
+    p.dataset.on = i===c ? "1" : (i<c ? "done" : "0");
+  });
+  window.scrollTo({top:0});
+}
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ---------- staged navigation (staged on Day 1 only; all open after) ---------- */
+const STAGES = ["hx","ex","ix"];
+function tabLocked(name){
+  if (S.day > 1) return false;
+  const i = STAGES.indexOf(name);
+  if (i < 0) return false;
+  return i > S.stageMax;
+}
+function renderTabs(){
+  $$(".tab").forEach(t=>{ t.style.display=""; t.dataset.locked = tabLocked(t.dataset.tab) ? "1" : "0"; });
+}
+function updateBar(){
+  const b = $("#toCommit");
+  if (S.day === 1){
+    b.textContent = ["Move on → examine him", "Move on → investigate", "End Day 1 → write the plan"][Math.min(S.stageMax,2)];
+  } else if (S.day < 4) {
+    b.textContent = `End ${DAY_LABEL[S.day].split(" · ")[0]} → plan & impression`;
+  } else {
+    b.textContent = "Finish the case → see how the week lands";
+  }
+  const nb = $("#nameBtn");
+  nb.style.display = (S.day >= 2 && !S.dxCommitted) ? "" : "none";
+}
+function tab(name, userClick){
+  if (tabLocked(name)) return;
+  const cur = [...$$(".tab")].find(t=>t.getAttribute("aria-selected")==="true");
+  if (userClick && cur && cur.dataset.tab !== name &&
+      STAGES.indexOf(name) < STAGES.indexOf(cur.dataset.tab)) S.revisits++;
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
+  $$(".panel").forEach(p=>p.classList.remove("on"));
+  $("#p-"+name).classList.add("on");
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
+
+/* ---------- the day card: continuity narrative at the top of the ward ---------- */
+function screenSent(){ return S.screenDay !== null; }
+function screenBack(){ return S.screenBackDay !== null && S.day >= S.screenBackDay; }
+function dayNarrative(){
+  const iv = S.rx.has("iv");
+  if (S.day === 2) {
+    const bigHit = S.dmg.creat >= 60;
+    return `<div class="card__label">${DAY_LABEL[2]}</div><p class="serif-body">`+
+      (iv ? (bigHit
+          ? `He's had overnight fluid — and the morning bloods are <b>sharply worse anyway</b>: creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}. Fluid alone doesn't lose ground like this. `
+          : `He's had overnight fluid and looks better for it — but the morning bloods have not followed. Creatinine has <b>stagnated, slightly worse</b> at <b>${S.creat}</b>, despite replacement. The calcium has quietly corrected. `)
+          : `He had <b>no fluid overnight</b>, and he looks it. Creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}, and the calcium is still up. `)+
+      (bigHit
+        ? `The consultant goes down the drug chart line by line, tapping it: <i>“Something we are giving this man is hurting him. Find it — and then tell me what this actually is.”</i></p>`
+        : `The consultant reads the numbers twice and looks at you over the notes: <i>“Dehydration doesn't do this on day two. What is this — and what's going to today to find out?”</i></p>`);
+  }
+  if (S.day === 3) {
+    return `<div class="card__label">${DAY_LABEL[3]}</div><p class="serif-body">`+
+      (screenBack() ? `The overnight batch is back on the ward list, flagged red: <b>kappa free light chains 2,850 — ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. This has a name now — if you're ready to commit to it. `
+       : screenSent() ? `The renal screen is away — the lab batch runs overnight, back tomorrow morning. `
+                    : `Nothing new has gone to the lab. Nobody else has noticed. `)+
+      `His potassium is ${S.k>=6.3?"<b>climbing</b>":"creeping"} — <b>${S.k.toFixed(1)}</b> on the evening bloods — and the evening nurse catches you in the corridor: <i>“He's had bags running since admission. Can you look at him before the next one goes up?”</i> The fluid that was right on Day 1 needs a decision tonight.</p>`;
+  }
+  if (S.day === 4) {
+    return `<div class="card__label">${DAY_LABEL[4]}</div><p class="serif-body">`+
+      `Your bleep goes at 03:20. The night nurse is calm in the way that means she is not: <i>“Bed 6. He's grey and breathing fast. Come now.”</i> Nothing is known yet that you don't find with your own eyes and hands.`+
+      (screenBack() && S.screenBackDay===4 ? `<br><br>And flagged red on this morning's list, resulted overnight: <b>kappa free light chains 2,850 — ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. The haematology reg, phoned at four: <i>“That's your answer. Myeloma kidney. Now keep him alive long enough for us to treat it.”</i>`
+       : screenBack() ? `<br><br>The haematology reg, phoned at four, doesn't hesitate: <i>“Myeloma kidney with a potassium like that — filter first, chemotherapy second. Keep him alive for us.”</i>`
+                    : `<br><br>Nothing on the chart explains this. Three days in, he is still an unexplained AKI — and unexplained is now killing him.`)+
+      `</p>`;
+  }
+  return "";
+}
+function renderDayCard(){
+  const c = $("#dayCard");
+  const html = dayNarrative();
+  c.style.display = html ? "" : "none";
+  c.innerHTML = html;
+  $("#dayChip").textContent = DAY_LABEL[S.day];
+}
+
+/* ---------- consequences: tomorrow's numbers come from today's chart ---------- */
+function dayDamage(){
+  let creat=0, k=0;
+  if(S.rx.has("nsd"))  { creat+=70; k+=0.3; }   // naproxen written up: the kidneys pay
+  if(!S.rx.has("stop")){ creat+=35; k+=0.2; }   // home ibuprofen + ramipril never stopped
+  if(S.rx.has("gent")) { creat+=50; k+=0.2; }
+  if(S.rx.has("furo") && !S.rx.has("iv")) { creat+=25; }
+  if(S.ordered.has("ctc") && !S.ctcHit) { creat+=45; S.ctcHit=true; }
+  return {creat, k};
+}
+function applyDayPhysiology(){
+  const iv = S.rx.has("iv");
+  const base = S.day===2 ? (iv?{c:20,k:0.1}:{c:48,k:0.5}) : (iv?{c:9,k:0.2}:{c:26,k:0.3});
+  const dmg = dayDamage();
+  S.creatPrev = S.creat; S.kPrev = S.k; S.dmg = dmg;
+  S.creat = Math.round(S.creat + base.c + dmg.creat);
+  S.k = Math.round((S.k + base.k + dmg.k)*10)/10;
+}
+function crisisNumbers(){
+  const k4 = Math.max(7.2, Math.round((S.k + 0.9)*10)/10);
+  return k4 > 7.5 ? { k:k4.toFixed(1), ph:"7.09", hco3:9 } : { k:k4.toFixed(1), ph:"7.19", hco3:11 };
+}
+function ueLabs(){
+  const urea = (21.4 + (S.creat-268)*0.05).toFixed(1);
+  return [
+    {n:"Sodium", v:"134", r:"133–146", u:"mmol/L"},
+    {n:"Potassium", v:S.k.toFixed(1), r:"3.5–5.3", u:"mmol/L", flag:"hi"},
+    {n:"Urea", v:urea, r:"2.5–7.8", u:"mmol/L", flag:"hi"},
+    {n:"Creatinine", v:String(S.creat), r:"59–104", u:"µmol/L", flag:"hi", base:`${S.creatPrev} ${S.day===2?"on admission":"at the last check"}`}
+  ];
+}
+
+/* ---------- overnight queue + morning bloods ---------- */
+function postOvernight(){
+  const due = S.deferred.filter(d=>d.backDay<=S.day);
+  S.deferred = S.deferred.filter(d=>d.backDay>S.day);
+  const feed=$("#feed");
+  const anyAuto = (S.day===2 || S.day===3);
+  if(!due.length && !anyAuto) return;
+  const rh=document.createElement("div"); rh.className="roundh";
+  rh.textContent=`${DAY_LABEL[S.day]} · results on the ward list`; feed.appendChild(rh);
+  if(anyAuto){
+    const iv = S.rx.has("iv");
+    const labs = [
+      {n:"Creatinine", v:String(S.creat), r:"59–104", u:"µmol/L", flag:"hi", base:`${S.creatPrev} ${S.day===2?"on admission":"this morning"}`},
+      {n:"Potassium", v:S.k.toFixed(1), r:"3.5–5.3", u:"mmol/L", flag:"hi"}
+    ];
+    if(S.day===2) labs.push(iv
+      ? {n:"Corrected Ca²⁺", v:"2.46", r:"2.20–2.60", u:"mmol/L", base:"2.88 on admission — corrected with volume"}
+      : {n:"Corrected Ca²⁺", v:"2.84", r:"2.20–2.60", u:"mmol/L", flag:"hi", base:"2.88 on admission"});
+    else labs.push({n:"Bicarbonate", v:String(iv && S.dmg.creat<50 ? 18 : 15), r:"22–29", u:"mmol/L", flag:"lo"});
+    const d=document.createElement("div"); d.className="result";
+    d.innerHTML=`<div class="rn">${S.day===2?"Morning bloods — repeat U&E":"Evening bloods — repeat U&E"}</div>`+labs.map(labRowHTML).join("");
+    feed.appendChild(d);
+  }
+  due.forEach(q=>{
+    const x=findIx(q.id);
+    if((x.id==="sflc"||x.id==="bjp") && S.screenBackDay===null) S.screenBackDay=S.day;
+    if(x.id==="spep") S.spepSeen=true;
+    const d=document.createElement("div"); d.className="result";
+    let body = (x.labs ? x.labs.map(labRowHTML).join("") : "") + (x.text ? `<div class="labtext">${x.text}</div>` : "");
+    if(x.media){ const mk = typeof x.media==="function" ? x.media() : x.media; if(mk) body = mediaBlock(mk); }
+    d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
+    feed.appendChild(d);
+  });
+}
+
+/* ---------- the written plan: free text, matched against ROUND UP ---------- */
+const PLAN_ITEMS = {
+  /* management — enacted onto the chart */
+  iv:    { rx:"iv", label:"IV fluids", aliases:["iv fluids","fluids","ivf","iv crystalloid","crystalloid","fluid bolus","fluid challenge","drip","hartmanns","normal saline","plasmalyte","fluid resuscitation","rehydrate","maintenance fluids","give fluids","continue fluids","fluid replacement"] },
+  stop:  { rx:"stop", label:"Stop the nephrotoxins", aliases:["stop nephrotoxins","hold nephrotoxins","stop ibuprofen","stop nsaids","stop nsaid","stop ramipril","hold ramipril","withhold ramipril","withhold acei","hold acei","stop ace inhibitor","suspend ramipril","hold the ace","medicines review","medication review","stop the culprit drugs"] },
+  uo:    { rx:"uo", label:"Strict fluid balance / urine output", aliases:["fluid balance","fluid balance chart","strict input output","input output chart","io chart","i o chart","urine output monitoring","hourly urine","monitor urine output","strict fluid balance","urometer","catheterise and monitor","measure urine output"] },
+  ecgk:  { rx:"ecgk", label:"Cardiac monitor + repeat K⁺", aliases:["cardiac monitor","telemetry","cardiac monitoring","monitor potassium","repeat potassium","recheck potassium","monitor k","serial potassium","repeat gas","repeat vbg","monitor news","increase obs","regular obs","monitor the ecg"] },
+  para:  { rx:"para", label:"Paracetamol", aliases:["paracetamol","simple analgesia","regular paracetamol","analgesia"] },
+  vte:   { rx:"vte", label:"VTE prophylaxis (renal dose)", aliases:["vte prophylaxis","vte","thromboprophylaxis","dalteparin","enoxaparin","lmwh","clexane","tinzaparin"] },
+  renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team"] },
+  bed:   { rx:"bed", label:"Monitored bed", aliases:["monitored bed","cardiac bed","bed with monitoring"] },
+  chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains"] },
+  stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","fluid restrict","no more fluids","cautious fluids only"] },
+  stopnsd:{ removes:"nsd", label:"Stop the naproxen", aliases:["stop naproxen","stop the naproxen","discontinue naproxen","take off the naproxen"] },
+  /* dangers — pharmacy will ring back */
+  nsd:   { rx:"nsd", danger:true, label:"Naproxen", aliases:["naproxen","regular nsaid","nsaid for pain","ibuprofen for the pain","diclofenac"] },
+  gent:  { rx:"gent", danger:true, label:"Gentamicin", aliases:["gentamicin","gent","aminoglycoside"] },
+  furo:  { rx:"furo", danger:true, label:"Furosemide", aliases:["furosemide","frusemide","lasix","diuretic","diurese"] },
+  /* investigations — written in the plan, done overnight */
+  ue2:   { creditOnly:true, label:"Repeat bloods", aliases:["repeat bloods","repeat u&e","repeat ues","daily u&e","daily bloods","morning bloods","repeat renal function","bloods in the morning","recheck bloods","repeat u and e","am bloods","repeat uec","repeat creatinine"] },
+  uss:   { ix:"uss", label:"USS renal tract", aliases:["uss","ultrasound","renal ultrasound","uss kub","us kub","renal tract ultrasound","image the renal tract","urgent ultrasound","renal tract imaging","ultrasound kidneys"] },
+  blad:  { ix:"bladder", label:"Bladder scan", aliases:["bladder scan","post void residual","scan the bladder"] },
+  dip:   { ix:"dip", label:"Urine dipstick", aliases:["urine dip","dipstick","urinalysis","dip the urine","dip urine","urine dipstick"] },
+  pcr:   { ix:"pcr", label:"Urine PCR", aliases:["urine pcr","protein creatinine ratio","quantify proteinuria","quantify the proteinuria","upcr"] },
+  msu:   { ix:"msu", label:"Urine culture", aliases:["msu","urine culture","urine mcs","midstream urine"] },
+  screen:{ ixMulti:["sflc","bjp"], label:"Myeloma screen — SFLC + urine electrophoresis", aliases:["myeloma screen","renal screen","free light chains","light chains","sflc","bence jones","urine electrophoresis","serum free light chains","paraprotein screen","serum electrophoresis and light chains","widen the screen","vasculitis screen"] },
+  gpr:   { ix:"gpr", label:"GP records / baseline", aliases:["gp records","baseline creatinine","baseline bloods","previous bloods","phone the gp","gp summary","old notes"] }
+};
+const DAY_STANDARDS = {
+  1:[ {k:"ue2",  L:"R", label:"Repeat bloods in the morning"},
+      {k:"uss",  L:"O", label:"Exclude obstruction — ultrasound the renal tract"},
+      {k:"dip",  L:"U", label:"Urinalysis"},
+      {k:"ecgk", L:"N", label:"Monitoring — NEWS, cardiac monitor, repeat the K⁺"},
+      {k:"iv",   L:"D", label:"Dry — replace the volume"},
+      {k:"uo",   L:"U", label:"Urinary — strict input/output chart"},
+      {k:"stop", L:"P", label:"Prescriptions — stop the nephrotoxins"} ],
+  2:[ {k:"ue2",    L:"R", label:"Repeat bloods"},
+      {k:"screen", L:"",  label:"Widen the screen — myeloma screen, SFLC + urine electrophoresis"},
+      {k:"pcr",    L:"U", label:"Quantify the proteinuria — urine PCR"},
+      {k:"renal",  L:"",  label:"Discuss with renal"} ],
+  3:[ {k:"fluidrev", L:"D", label:"Fluid review — examine him, stop when replete"},
+      {k:"ue2",     L:"R", label:"Repeat bloods — the potassium is moving"},
+      {k:"ecgk",    L:"N", label:"Monitoring overnight — the potassium again"},
+      {k:"chase",   L:"",  label:"Chase the outstanding screen"} ]
+};
+function parsePlan(text){
+  let t = " " + norm(text) + " ";
+  const matched = new Set();
+  const pairs = [];
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
+  pairs.sort((a,b)=>b[1].length-a[1].length);
+  for(const [k,a] of pairs){
+    if(!a) continue;
+    const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
+    if(re.test(t)){ matched.add(k); t = t.replace(re, " ; "); }
+  }
+  return matched;
+}
+function standardHit(k, matched){
+  if(k==="fluidrev") return matched.has("stopiv") || !S.rx.has("iv");
+  return matched.has(k);
+}
+function enactPlan(matched){
+  matched.forEach(k=>{
+    const it = PLAN_ITEMS[k]; if(!it) return;
+    if(it.rx) S.rx.add(it.rx);
+    if(it.removes) S.rx.delete(it.removes);
+    if(it.special==="stopiv" && S.rx.has("iv")){ S.rx.delete("iv"); if(S.day>=3) S.rx.add("stopiv"); }
+    const ids = it.ixMulti || (it.ix ? [it.ix] : []);
+    ids.forEach(id=>{
+      if(S.ordered.has(id) && (S.orderedDay[id]===S.day || findIx(id).defer)) return;
+      S.ordered.add(id); S.orderedDay[id]=S.day;
+      if((id==="sflc"||id==="bjp") && S.screenDay===null) S.screenDay=S.day;
+      if(!S.deferred.some(d=>d.id===id)) S.deferred.push({id, backDay:S.day+1});
+    });
+  });
+}
+function showPlanGate(){
+  const body = $("#planBody");
+  const std = DAY_STANDARDS[S.day] || [];
+  let amended = false;
+  const standing = CASE.rx.filter(m=>S.rx.has(m.id)).map(m=>m.t.split(" — ")[0]);
+  const writeStage = (prefill)=>{
+    body.innerHTML =
+      (standing.length ? `<div style="font-size:.78rem; color:var(--muted); margin-bottom:.5rem;">Already on the chart: ${standing.join(" · ")}</div>` : "")+
+      `<textarea id="planText" style="width:100%; min-height:9rem; padding:.75rem; font-family:inherit; font-size:.95rem; border:1px solid var(--rule); border-radius:10px; background:var(--paper); color:var(--ink); resize:vertical;" placeholder="Write it like the notes — e.g. IV fluids, hold ramipril and ibuprofen, strict I/O…">${prefill||""}</textarea>`+
+      `<div class="sheetbtns" style="margin-top:.75rem;">
+        <button class="btn btn--ghost" id="planCancel">Not yet — back to the ward</button>
+        <button class="btn" id="planSubmit">Submit the plan</button>
+      </div>`;
+    $("#planCancel").onclick=()=>{ $("#planGate").hidden=true; };
+    $("#planSubmit").onclick=()=>{
+      const text = $("#planText").value.trim();
+      if(!text) return;
+      const matched = parsePlan(text);
+      const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
+      if(dangers.length) pharmacyStage(text, matched, dangers);
+      else checkStage(text, matched);
+    };
+  };
+  const pharmacyStage = (text, matched, dangers)=>{
+    body.innerHTML =
+      `<div class="reflist"><div class="rq">Pharmacy rings back before the plan is processed:</div>`+
+      `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, into this renal function… are you sure, doctor?”</div></div>`+
+      `<div class="sheetbtns" style="margin-top:.75rem;">
+        <button class="btn" id="pharmOff">Take it off the plan</button>
+        <button class="btn btn--ghost" id="pharmOn">Give it anyway</button>
+      </div>`;
+    $("#pharmOff").onclick=()=>{ dangers.forEach(k=>matched.delete(k)); checkStage(text, matched); };
+    $("#pharmOn").onclick=()=>{ checkStage(text, matched); };
+  };
+  const checkStage = (text, matched)=>{
+    enactPlan(matched);
+    S.planTexts[S.day] = text;
+    const hits = std.filter(s=>standardHit(s.k, matched));
+    S.bundleHits[S.day] = { hit: hits.length, of: std.length };
+    const extras = [...matched].filter(k=>PLAN_ITEMS[k] && !std.some(s=>s.k===k) && !PLAN_ITEMS[k].danger).map(k=>PLAN_ITEMS[k].label);
+    body.innerHTML =
+      `<div style="font-size:.85rem; font-weight:600; margin-bottom:.5rem;">Against the bundle:</div>`+
+      `<ul class="checklist">`+
+      std.map(s=>{
+        const ok = standardHit(s.k, matched);
+        return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span>${s.L?`<b style="font-family:var(--font-mono); margin-right:.35rem;">${s.L}</b>`:""}${s.label}</li>`;
+      }).join("")+`</ul>`+
+      (extras.length ? `<div style="font-size:.8rem; color:var(--muted); margin:.5rem 0;">Also in your plan: ${extras.join(" · ")}</div>` : "")+
+      `<div style="font-size:.72rem; color:var(--faint); margin:.25rem 0 .75rem;">HDFT AKI care bundle v3.0 — ROUND UP</div>`+
+      `<div class="sheetbtns">`+
+      (!amended && hits.length < std.length
+        ? `<button class="btn" id="planAmend">Add what's missing</button>
+           <button class="btn btn--ghost" id="planDone">That's my plan — end the day</button>`
+        : `<button class="btn" id="planDone">End the day → impression</button>`)+
+      `</div>`;
+    const done = $("#planDone");
+    if(done) done.onclick=()=>{ $("#planGate").hidden=true; showImpression(); };
+    const am = $("#planAmend");
+    if(am) am.onclick=()=>{ amended = true; writeStage(text); };
+  };
+  writeStage(S.planTexts[S.day] || "");
+  $("#planGate").hidden=false;
+}
+
+/* ---------- day advance via the impression sheet ---------- */
+function showImpression(){
+  const imp = CASE.impressions[S.day];
+  $("#impTitle").textContent = imp.title;
+  $("#impSub").textContent = imp.sub;
+  const ul=$("#impList"); ul.innerHTML="";
+  const order = imp.opts.map((_,i)=>i);
+  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+  order.forEach(oi=>{
+    const o=imp.opts[oi];
+    const li=document.createElement("li");
+    const b=document.createElement("button"); b.className="opt"; b.style.width="100%";
+    b.innerHTML=`<span class="mk">✎</span><span>${o.t}</span>`;
+    b.onclick=()=>{ S.impressions[S.day]={t:o.t, ok:!!o.ok}; $("#impGate").hidden=true; advanceDay(); };
+    li.appendChild(b); ul.appendChild(li);
+  });
+  $("#impGate").hidden=false;
+}
+function advanceDay(){
+  S.day++;
+  if(S.day===2 || S.day===3) applyDayPhysiology();
+  S.clock = DAY_START[S.day];
+  $("#clock").textContent = fmtClock(S.clock);
+  S.stageMax = 2;
+  S.examCore.clear(); S.examMore.clear();
+  postOvernight();
+  renderDayCard(); renderTabs(); updateBar(); renderObs(); renderIx(); renderExam(); renderHx();
+  $("#reexamWrap").style.display="block";
+  tab(S.day===4 ? "rx" : "ix");
+  go("work");
+  window.scrollTo({top:0});
+}
+
+/* ---------- crisis outcome ---------- */
+function crisisEscalated(){ return S.rx.has("icu") || S.rx.has("filt"); }
+function evaluateDeath(){
+  // The sketch's branch: screen never sent AND the crisis mishandled → dead.
+  S.died = !screenSent() && ( !S.rx.has("cagl") || !crisisEscalated() || S.rx.has("transport") );
+  return S.died;
+}
+
+/* ---------- datalist (shuffled — no positional hints) ---------- */
+$("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
+
+/* ---------- history (chat) ---------- */
+let hxBusy = false;
+function renderHx(){
+  const box = $("#chips"); box.innerHTML = "";
+  CASE.history.filter(h=>!S.asked.has(h.id) && (h.day||1)===S.day).forEach(h=>{
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = h.q;
+    b.onclick = ()=>askHx(h);
+    box.appendChild(b);
+  });
+  if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
+  updateTabDots();
+}
+function askHx(h){
+  if (hxBusy) return;
+  hxBusy = true; $("#chips").dataset.busy = "1";
+  S.asked.add(h.id); tick(0.5);
+  const qa = $("#qa");
+  // doctor bubble
+  const dr = document.createElement("li");
+  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div><span class="pav"><img src="doctor.svg" alt=""></span></div>`;
+  qa.appendChild(dr);
+  renderHx();
+  // patient bubble: typing dots, then the answer
+  const isM = h.a.startsWith("Jean:");
+  const who = isM ? "Jean" : "Ronald";
+  const ans = isM ? h.a.replace(/^Jean:\s*/,"") : h.a;
+  const pt = document.createElement("li");
+  pt.innerHTML = `<div class="msg msg--pt"><span class="pav"><img src="${isM?"jean":"ronald"}.svg" alt=""></span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
+  setTimeout(()=>{
+    qa.appendChild(pt);
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+  }, 350);
+  setTimeout(()=>{
+    pt.querySelector(".bub").textContent = ans;
+    pt.scrollIntoView({behavior:"smooth", block:"end"});
+    hxBusy = false; $("#chips").dataset.busy = "0";
+  }, 950 + Math.min(ans.length*4, 600));
+}
+
+/* ---------- examination ---------- */
+function genFinding(){
+  const o = obsState();
+  if (o.appear==="crisis") return "Grey, clammy, air hunger. The monitor alarms again while you watch. This is the chemistry, arrived.";
+  if (o.appear==="held") return "Still sick — but held. The ECG has settled, outreach are writing obs every fifteen minutes, and the filter is being primed.";
+  if (o.appear==="better") return "Tongue moist, hands warmer, more colour in his face. The fluid is visibly working — keep examining him, because the day it stops being needed, nothing will announce it.";
+  if (o.appear==="worse") return "Drier and quieter than when you clerked him. The urine bag tells the same story. He is drifting the wrong way.";
+  return CASE.examCore.find(e=>e.id==="gen").f;
+}
+function rowHTML(item, picked, label){
+  return `<div class="row__head"><span class="row__name">${item.name}${item.sub?` <span class="row__sub">· ${item.sub}</span>`:""}</span>`+
+    `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
+}
+function findingFor(e){
+  if (e.media){ const k = typeof e.media==="function" ? e.media() : e.media; if(k) return mediaBlock(k); }
+  const imgHTML = e.img ? `<img src="${e.img}" alt="${e.imgAlt||''}">` : "";
+  if (e.imgOnly) return imgHTML;
+  let txt = e.f || "";
+  if (e.id==="gen") txt = genFinding();
+  return txt + imgHTML;
+}
+function renderExam(){
+  if (S.day === 4){ renderAE(); return; }
+  $("#moreExam").style.display = "";
+  const core = $("#examCore"); core.innerHTML="";
+  CASE.examCore.forEach(e=>{
+    const done = S.examCore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{ S.examCore.add(e.id); S.examEver.add(e.id); tick(3); renderExam(); };
+    core.appendChild(li);
+  });
+  const more = $("#examMore"); more.innerHTML="";
+  CASE.examMore.filter(e=>!e.day || S.day>=e.day).forEach(e=>{
+    const done = S.examMore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{
+      S.examMore.add(e.id); S.examEver.add(e.id); tick(4);
+      renderExam();
+    };
+    more.appendChild(li);
+  });
+  updateTabDots();
+}
+function doReexam(){
+  S.reexamCount++; tick(20);
+  // re-open key dynamic exams so they can be repeated
+  S.examCore.delete("gen"); S.examMore.delete("post"); S.examMore.delete("hydr");
+  renderExam(); renderObs();
+  tab("ex"); window.scrollTo({top:0});
+}
+$("#reexamBtn").onclick = doReexam;
+
+/* ---------- investigations ---------- */
+/* ---------- investigations: bedside taps + typed orders ---------- */
+function findIx(id){ for(const g of Object.keys(CASE.ix)){ const f=CASE.ix[g].find(x=>x.id===id); if(f) return f; } }
+function lev2(a,b){
+  if(Math.abs(a.length-b.length)>2) return 3;
+  const m=Array.from({length:a.length+1},(_,i)=>[i]);
+  for(let j=1;j<=b.length;j++) m[0][j]=j;
+  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++)
+    m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  return m[a.length][b.length];
+}
+function matchIx(query){
+  const q = norm(query.replace(/&/g," and "));
+  if(!q) return {kind:"none"};
+  const ids = Object.keys(CASE.ixAliases);
+  for(const id of ids){
+    const x=findIx(id);
+    if(norm(x.name.replace(/&/g," and "))===q || CASE.ixAliases[id].some(a=>norm(a.replace(/&/g," and "))===q)) return {kind:"one", id};
+  }
+  const qT=q.split(" ");
+  const cands=[];
+  for(const id of ids){
+    const phrases=[findIx(id).name, ...CASE.ixAliases[id]].map(p=>norm(p.replace(/&/g," and ")));
+    const hit=phrases.some(p=>{
+      const pT=p.split(" ");
+      return qT.every(t=>pT.some(x=> t===x || (t.length>=5&&x.length>=5&&lev2(t,x)<=2) ));
+    });
+    if(hit) cands.push(id);
+  }
+  if(cands.length===1) return {kind:"one", id:cands[0]};
+  if(cands.length>=2 && cands.length<=6) return {kind:"amb", ids:cands};
+  return {kind:"none"};
+}
+function addToRound(id){
+  if(S.picked.has(id)) return "dup";
+  // repeats allowed on a new day (monitoring bloods) — except one-off send-aways
+  if(S.ordered.has(id) && (S.orderedDay[id]===S.day || findIx(id).defer)) return "dup";
+  S.picked.add(id);
+  return "ok";
+}
+function roundBtn(){
+  const n=S.picked.size; const b=$("#sendRound");
+  b.disabled=!n; b.textContent=n?`Send round (${n})`:"Send round";
+}
+function renderIx(){
+  const box = $("#ixGroups"); box.innerHTML="";
+  /* bedside: still a tap — these live on the trolley */
+  const h=document.createElement("div"); h.className="grouph"; h.textContent=CASE.ixGroups.bedside; box.appendChild(h);
+  const ul=document.createElement("ul"); ul.className="rows";
+  CASE.ix.bedside.forEach(x=>{
+    const sent=S.ordered.has(x.id) && S.orderedDay[x.id]===S.day, inR=S.picked.has(x.id);
+    const li=document.createElement("li"); li.className="row";
+    li.innerHTML=`<div class="row__head"><span class="row__name">${x.name}</span><span class="row__cost">${x.costL}</span>`+
+      `<button class="act" ${sent?'disabled':''} data-picked="${inR?1:0}">${sent?"Sent":(inR?"Added":"Add")}</button></div>`;
+    if(!sent) li.querySelector("button").onclick=()=>{ inR?S.picked.delete(x.id):S.picked.add(x.id); roundBtn(); renderIx(); };
+    ul.appendChild(li);
+  });
+  box.appendChild(ul);
+  /* everything else: typed, the way you'd order it at a terminal */
+  const h2=document.createElement("div"); h2.className="grouph"; h2.textContent="Everything else — type the order"; box.appendChild(h2);
+  const wrap=document.createElement("div");
+  wrap.innerHTML=`<div style="display:flex; gap:var(--s2);">`+
+    `<input id="ixType" type="text" placeholder="e.g. the blood test you want…" autocomplete="off" `+
+    `style="flex:1; min-height:48px; padding:var(--s2) var(--s3); background:var(--paper); border:1px solid var(--rule-2); border-radius:var(--r-md); font-size:1rem; font-family:var(--font-body); color:var(--ink);">`+
+    `<button class="btn btn--sm" id="ixAdd" style="min-height:48px;">Order</button></div>`+
+    `<div id="ixMsg" style="font-size:.82rem; color:var(--muted); margin-top:var(--s2); min-height:1.2em;"></div>`+
+    `<div id="ixCands" style="display:flex; flex-direction:column; gap:var(--s2); margin-top:var(--s2);"></div>`+
+    `<div id="ixPicked" style="display:flex; flex-wrap:wrap; gap:var(--s2); margin-top:var(--s2);"></div>`;
+  box.appendChild(wrap);
+  const typed=[...S.picked].filter(id=>!CASE.ix.bedside.some(b=>b.id===id));
+  const pk=wrap.querySelector("#ixPicked");
+  typed.forEach(id=>{
+    const x=findIx(id);
+    const b=document.createElement("button"); b.className="act"; b.dataset.picked="1";
+    b.textContent=`${x.name} · ${x.costL} ✕`;
+    b.title="Remove from this round";
+    b.onclick=()=>{ S.picked.delete(id); roundBtn(); renderIx(); };
+    pk.appendChild(b);
+  });
+  const input=wrap.querySelector("#ixType"), msg=wrap.querySelector("#ixMsg"), cands=wrap.querySelector("#ixCands");
+  const commit=(id)=>{
+    const r=addToRound(id);
+    const x=findIx(id);
+    const txt = r==="dup" ? `${x.name} — already ${S.ordered.has(id)?"sent":"in this round"}.` : `${x.name} added to the round · ${x.costL}.`;
+    roundBtn(); renderIx();
+    const nm=$("#ixMsg"); if(nm) nm.textContent = txt;
+    const ni=$("#ixType"); if(ni) ni.focus();
+  };
+  const goMatch=()=>{
+    cands.innerHTML="";
+    const m=matchIx(input.value);
+    if(m.kind==="one") commit(m.id);
+    else if(m.kind==="amb"){
+      msg.textContent="Did you mean:";
+      m.ids.forEach(id=>{
+        const b=document.createElement("button"); b.className="act";
+        b.textContent=findIx(id).name;
+        b.onclick=()=>commit(id);
+        cands.appendChild(b);
+      });
+    }
+    else msg.textContent="Not available / not recognised.";
+  };
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); goMatch(); } });
+  wrap.querySelector("#ixAdd").onclick=goMatch;
+}
+function labRowHTML(l){
+  const flag = l.flag||"";
+  const arrow = flag==="hi"?" ▲":flag==="lo"?" ▼":"";
+  return `<div class="labrow" data-flag="${flag}"><span class="ln">${l.n}</span>`+
+    `<span class="lv">${l.v}${l.u?" "+l.u:""}<span class="arrow">${arrow}</span></span>`+
+    `<span class="lr">${l.r}</span>`+
+    (l.base?`<span class="base">prior: ${l.base}</span>`:"")+`</div>`;
+}
+function processRound(){
+  S.round++;
+  const items=[...S.picked].map(findIx);
+  tick(Math.max(...items.filter(x=>!x.defer).map(x=>x.cost), 15));
+  const feed=$("#feed");
+  const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Round ${S.round} · ${fmtClock(S.clock)}`; feed.appendChild(rh);
+  items.forEach(x=>{
+    S.ordered.add(x.id);
+    S.orderedDay[x.id]=S.day;
+    if(x.defer){
+      if((x.id==="sflc"||x.id==="bjp") && S.screenDay===null) S.screenDay=S.day;
+      S.deferred.push({id:x.id, backDay:S.day+1});
+      const d=document.createElement("div"); d.className="result";
+      d.innerHTML=`<div class="rn">${x.name}</div><div class="labtext">Sample away — the lab batch runs overnight. Result expected tomorrow morning.</div>`;
+      feed.appendChild(d);
+      return;
+    }
+    const d=document.createElement("div"); d.className="result";
+    let body = (x.labs ? x.labs.map(labRowHTML).join("") : "") + (x.text ? `<div class="labtext">${x.text}</div>` : "");
+    if(x.media){ const mk = typeof x.media==="function" ? x.media() : x.media; if(mk) body = mediaBlock(mk); }
+    if(x.id==="ue" && S.day>1) body = ueLabs().map(labRowHTML).join("");
+    d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
+    feed.appendChild(d);
+  });
+  S.picked.clear();
+  roundBtn();
+  $("#reexamWrap").style.display="block";
+  updateTabDots();
+  renderIx();
+  feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
+}
+$("#sendRound").onclick = ()=>{ if(S.picked.size) processRound(); };
+
+/* ---------- treat: initial resus + further mx / referral ---------- */
+function referFinding(){
+  const items = [
+    ["Presentation & co-morbidities", true],
+    ["ABCDE assessment + current NEWS", Object.values(S.ae).every(Boolean)],
+    ["Urine output over the last 24 h", S.rx.has("uo")],
+    ["Bloods incl. bicarbonate, FBC, LFTs, bone profile", S.ordered.has("ue")&&S.ordered.has("bone")&&S.ordered.has("fbc")&&S.ordered.has("lft")],
+    ["ECG — and hyperkalaemia treatment given, how and when", S.aeIx.ecg && S.rx.has("cagl")],
+    ["Urinalysis", S.ordered.has("dip")],
+    ["USS report", S.ordered.has("uss")],
+    ["MRSA status", S.ordered.has("mrsa")],
+    ["Hepatitis B screen", S.ordered.has("hepb")],
+    ["Diarrhoea in the last 48 hours — asked", S.asked.has("d2.diarr")],
+    ["Serum free light chains + urine electrophoresis", S.ordered.has("sflc")&&S.ordered.has("bjp")]
+  ];
+  const done = items.every(i=>i[1]);
+  return `<div class="reflist"><div class="rq">Haematology & renal, conferenced${done?"":" (overnight — via switchboard)"}: “Suspected myeloma kidney — run me the York dataset.”</div>`+
+    `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
+    `<div class="verdict">${done
+      ? "“That's the full dataset — textbook referral. He comes under AKI-Plus with haematology attached. Keep him alive tonight and he's ours tomorrow.”"
+      : "“The dataset's not complete — get the gaps closed and call back. Every hole in that list is a phone call York makes to us at 2 am.”"}</div>`+
+    `<div style="font-size:.72rem; color:var(--faint); margin-top:6px;">Dataset per HDFT AKI care bundle v3.0, May 2025</div></div>`;
+}
+function resusRight(){ return S.rx.has("iv") && S.rx.has("stop") && S.rx.has("uo") && !S.rx.has("gent") && !S.rx.has("furo") && !S.rx.has("nsd"); }
+/* ---------- Day 4, 03:20 — A to E. Assess everything, then treat. ---------- */
+const AE = [
+  { id:"A", name:"Airway", find: ()=> `<div class="finding">Talking to you — short sentences, a breath between each. Airway his own.</div>` },
+  { id:"B", name:"Breathing", find: ()=> `<div class="finding">RR 24. SpO₂ 94% on air. Symmetrical expansion, working harder than he should be.</div>` + mediaBlock((S.rx.has("iv"))?"crack":"bs") +
+      `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+        <button class="btn btn--sm" data-aeix="cxr" ${S.aeIx.cxr?"disabled":""}>${S.aeIx.cxr?"CXR done":"Portable CXR"}</button>
+      </div><div id="aeBResults">${S.aeIx.cxr?mediaBlock(S.rx.has("iv")?"cxrOed":"cxr"):""}</div>` },
+  { id:"C", name:"Circulation", find: ()=> `<div class="finding">HR 118. BP 92/58. Cool to the elbows, capillary refill 4 s. Catheter bag: scant, dark.</div>` + mediaBlock("hs") +
+      `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+        <button class="btn btn--sm" data-aeix="ecg" ${S.aeIx.ecg?"disabled":""}>${S.aeIx.ecg?"ECG done":"12-lead ECG"}</button>
+        <button class="btn btn--sm" data-aeix="gas" ${S.aeIx.gas?"disabled":""}>${S.aeIx.gas?"Gas done":"Venous gas"}</button>
+      </div><div id="aeCResults">${S.aeIx.ecg?mediaBlock("ecg4"):""}${S.aeIx.gas?mediaBlock("gas4"):""}</div>` },
+  { id:"D", name:"Disability", find: ()=> `<div class="finding">Alert — answers slowly but correctly. Pupils equal. Glucose 6.4. Arms outstretched: a coarse, irregular flap.</div>` },
+  { id:"E", name:"Exposure", find: ()=> `<div class="finding">Temp 36.2. Abdomen soft. No rashes, no bleeding.</div>` + mediaBlock(S.rx.has("iv") ? "oedema" : "ankleN") }
+];
+function aeComplete(){ return AE.every(a=>S.ae[a.id]) && S.aeIx.ecg && S.aeIx.gas && S.interp.ecg4 && S.interp.gas4; }
+function renderAE(){
+  const core = $("#examCore"); core.innerHTML="";
+  $("#moreExam").style.display="none";
+  $("#reexamWrap").style.display="none";
+  const intro=document.createElement("li"); intro.className="row";
+  intro.innerHTML=`<div class="finding" style="border-left:3px solid var(--danger); padding-left:10px;">03:20. Nobody hands you anything. Assess him — A to E — and only then decide.</div>`;
+  core.appendChild(intro);
+  AE.forEach(a=>{
+    const done = S.ae[a.id];
+    const li=document.createElement("li"); li.className="row";
+    li.innerHTML = `<div class="row__head"><span class="row__name"><b>${a.id}</b> — ${a.name}</span>`+
+      `<button class="act" ${done?'disabled':''} data-picked="${done?1:0}">${done?"Assessed":"Assess"}</button></div>`+
+      (done ? a.find() : "");
+    if(!done) li.querySelector("button.act").onclick = ()=>{ S.ae[a.id]=true; tick(2); renderAE(); };
+    core.appendChild(li);
+  });
+  /* treatment unlocks only once the picture is complete */
+  const rxLi=document.createElement("li"); rxLi.className="row";
+  if(!aeComplete()){
+    rxLi.innerHTML = `<div class="panel__hint" style="padding:10px 0;">Treatment opens when the assessment is complete — all five letters, the ECG and the gas, with your reads committed.</div>`;
+  } else {
+    const groups = [["Treat — in the order you believe in", CASE.rx.filter(m=>m.g==="crisis")]];
+    if(screenBack()) groups.push(["Definitive referral", CASE.rx.filter(m=>m.g==="further")]);
+    let html = "";
+    groups.forEach(([label,items])=>{
+      html += `<div class="grouph">${label}</div>`;
+      items.forEach(m=>{
+        const on=S.rx.has(m.id);
+        html += `<div class="row__head" style="margin-bottom:6px;"><span class="row__name">${m.t}${m.sub?` <span class="row__sub">· ${m.sub}</span>`:""}</span>`+
+          `<button class="act" data-crisis="${m.id}" data-picked="${on?1:0}">${on?(m.isRefer?"Called":"Given"):(m.isRefer?"Call":"Give")}</button></div>`+
+          (on && m.isRefer ? referFinding() : "")+
+          (on && m.note ? `<div class="finding">${m.note}</div>` : "");
+      });
+    });
+    if(!screenSent()){
+      html += `<div class="reflist"><div class="rq">Renal reg, 04:10: “Normal-sized kidneys, no obstruction, calcium settled — and no cause. What have you actually sent?”</div>`+
+        `<div style="color:var(--muted);">Silence on the line while you check the orders. Nothing. Three days, and the tests that could name this were never sent.</div></div>`;
+    }
+    rxLi.innerHTML = html;
+    rxLi.querySelectorAll("[data-crisis]").forEach(b=>{
+      b.onclick=()=>{ const id=b.dataset.crisis; S.rx.has(id)?S.rx.delete(id):S.rx.add(id); tick(3); renderAE(); renderObs(); };
+    });
+  }
+  core.appendChild(rxLi);
+  updateTabDots();
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-aeix]");
+  if(!b || b.disabled) return;
+  S.aeIx[b.dataset.aeix]=true; tick(b.dataset.aeix==="ecg"?8:b.dataset.aeix==="cxr"?15:12);
+  renderAE();
+});
+
+/* ---------- tab progress dots ---------- */
+function updateTabDots(){
+  const set=(id,n)=>{ const d=$(id); if(!d) return; if(n>0){ d.classList.add("show"); d.textContent=n; } else d.classList.remove("show"); };
+  set("#hxDot", S.asked.size);
+  set("#exDot", S.examCore.size + S.examMore.size);
+  set("#ixDot", S.round);
+}
+
+/* ---------- day flow + naming the diagnosis ---------- */
+$("#toCommit").onclick = ()=>{
+  if (S.day === 1 && S.stageMax < 2){
+    S.stageMax++;
+    renderTabs(); tab(STAGES[S.stageMax]); updateBar();
+    return;
+  }
+  if (S.day < 4){ showPlanGate(); return; }
+  evaluateDeath();
+  if (S.died){ scoreAndShow(); return; }
+  go("manage");
+  if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+};
+$("#nameBtn").onclick = ()=>{ go("commit"); };
+$("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
+$("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
+$("#commitBtn").onclick = ()=>{
+  const v=$("#dxInput").value.trim();
+  if(!v){ $("#commitErr").style.display="block"; return; }
+  $("#commitErr").style.display="none";
+  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dxCommitted = true; S.dxDay = S.day;
+  updateBar();
+  go("work");
+};
+
+/* ---------- management drill: one question at a time, 30 s each ---------- */
+const MG_SECS = 30;
+let mgTimer = null;
+function stopMgTimer(){ if(mgTimer){ clearInterval(mgTimer); mgTimer=null; } }
+function startMgmt(){
+  S.mgIdx = 0; S.mg = {};
+  $("#finishBtn").style.display = "none";
+  showMg();
+}
+function showMg(){
+  stopMgTimer();
+  const box=$("#mqList"); box.innerHTML="";
+  const i=S.mgIdx;
+  if(i>=CASE.mgmt.length){
+    const right=CASE.mgmt.filter(q=>S.mg[q.id]===true).length;
+    box.innerHTML=`<div class="mq" style="text-align:center;"><div class="mq__q" style="margin-bottom:var(--s2);">Drill complete</div>`+
+      `<div style="color:var(--muted); font-size:.9rem;">${right} of ${CASE.mgmt.length} under the 30-second clock.</div></div>`;
+    $("#finishBtn").style.display = "";
+    return;
+  }
+  const q=CASE.mgmt[i];
+  const card=document.createElement("div"); card.className="mq";
+  card.innerHTML=`<div class="mqprog"><span>Question ${i+1} / ${CASE.mgmt.length}</span><span id="mgClock">${MG_SECS}s</span></div>`+
+    `<div class="tbar"><i id="mgBar"></i></div>`+
+    `<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
+  const opts=document.createElement("div"); opts.className="opts";
+  // shuffle the answer positions
+  const order=q.opts.map((_,j)=>j);
+  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+  const settle=(pickedPos, timedOut)=>{
+    if(S.mg[q.id]!==undefined) return;
+    stopMgTimer();
+    const picked = pickedPos===null ? null : q.opts[order[pickedPos]];
+    S.mg[q.id] = !!(picked && picked.ok);
+    [...opts.children].forEach((c,pos)=>{
+      const oo=q.opts[order[pos]];
+      c.setAttribute("disabled","");
+      c.dataset.state = oo.ok?"right":(pos===pickedPos?"wrong":"dim");
+      if(oo.ok) c.querySelector(".mk").textContent="✓";
+      else if(pos===pickedPos) c.querySelector(".mk").textContent="✗";
+    });
+    const t=document.createElement("div"); t.className="teach";
+    t.dataset.tone=S.mg[q.id]?"right":"wrong";
+    t.innerHTML=(timedOut?"<b>Time. </b>":(S.mg[q.id]?"<b>Correct. </b>":"<b>Not quite. </b>"))+q.teach;
+    card.appendChild(t);
+    const n=document.createElement("button"); n.className="btn"; n.style.marginTop="var(--s3)";
+    n.textContent = (S.mgIdx+1>=CASE.mgmt.length) ? "See the drill summary" : "Next question";
+    n.onclick=()=>{ S.mgIdx++; showMg(); };
+    card.appendChild(n);
+  };
+  order.forEach((oi,pos)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="mk">${String.fromCharCode(65+pos)}</span><span>${q.opts[oi].t}</span>`;
+    b.onclick=()=>settle(pos,false);
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  box.appendChild(card);
+  window.scrollTo({top:0});
+  // countdown
+  const t0=performance.now(), bar=$("#mgBar"), clk=$("#mgClock");
+  mgTimer=setInterval(()=>{
+    const left=Math.max(0, MG_SECS - (performance.now()-t0)/1000);
+    bar.style.width=(left/MG_SECS*100)+"%";
+    clk.textContent=Math.ceil(left)+"s";
+    bar.style.background = left<=5 ? "var(--danger)" : left<=12 ? "var(--warn)" : "var(--good)";
+    if(left<=0) settle(null,true);
+  },100);
+}
+
+/* ---------- scoring + outcome ---------- */
+function scoreAndShow(){
+  const rows=[]; let total=0;
+  const add=(l,p)=>{ rows.push([l,p]); total+=p; };
+
+  add("Final diagnosis"+(S.dxCorrect?` — correct, named Day ${S.dxDay}`:S.dxCommitted?` — “${S.dx}”`:" — never named"), S.dxCorrect?40:0);
+
+  let keys=0;
+  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
+  CASE.examCore.forEach(e=>{ if(e.key&&S.examEver.has(e.id)) keys++; });
+  CASE.examMore.forEach(e=>{ if(e.key&&S.examEver.has(e.id)) keys++; });
+  ["vbg","bladder","fbc","ue","bone","uss","pcr","sflc","bjp","gpr"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
+  add(`Discriminators gathered (${keys})`, keys*3);
+
+  let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
+  if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
+  if(S.ordered.has("ctc")) add("Contrast load into an AKI", -6);
+
+  const reads = Object.values(S.interp);
+  const goodReads = reads.filter(r=>r.ok).length, badReads = reads.length - goodReads;
+  if(goodReads) add(`Signs read correctly (${goodReads})`, goodReads*2);
+  if(badReads) add(`Signs misread (${badReads})`, -3*badReads);
+  const aeN = Object.values(S.ae).filter(Boolean).length;
+  if(S.day>=4 && aeN) add(`A–E assessment at the crisis (${aeN} of 5)`, aeN*2);
+
+  const impRight = [1,2,3].filter(d=>S.impressions[d]&&S.impressions[d].ok).length;
+  add(`Honest daily impressions (${impRight} of 3)`, impRight*4);
+  const bh = Object.values(S.bundleHits);
+  const bundleHit = bh.reduce((a,b)=>a+b.hit,0), bundleOf = bh.reduce((a,b)=>a+b.of,0);
+  if(bundleOf) add(`Plans written against the bundle (${bundleHit} of ${bundleOf} items)`, bundleHit);
+  if(S.screenDay!==null) add(S.screenDay<=2 ? "Renal screen away on the ward round" : "Renal screen sent — late, but sent", S.screenDay<=2?8:4);
+
+  if(S.rx.has("iv")) add("Resuscitated the volume-deplete kidney", 8);
+  if(S.rx.has("stop")) add("Stopped the nephrotoxins", 6);
+  if(S.rx.has("uo")) add("Charted the urine output", 4);
+  if(S.rx.has("para")) add("Analgesia without nephrons", 2);
+  if(S.rx.has("vte")) add("VTE prophylaxis, renally adjusted", 2);
+  if(S.rx.has("stopiv")) add("Reassessed volume and stopped the fluids in time", 4);
+  if(S.rx.has("gent")) add("Gentamicin into an injured kidney", -12);
+  if(S.rx.has("furo")) add("Furosemide to chase a number", -6);
+  if(S.rx.has("nsd")) add("Prescribed an NSAID in renal failure", -8);
+  if(S.reexamCount>0) add("Reassessed after intervention", 6);
+
+  if(S.day>=4){
+    if(S.rx.has("cagl")) add("Protected the myocardium first", 6);
+    if(crisisEscalated()) add("Escalated the refractory crisis", 6);
+    if(S.rx.has("transport")) add("Booked transport for an unsafe patient", -10);
+  }
+  const referFull = S.rx.has("refer") && S.ordered.has("sflc") && S.ordered.has("bjp") && S.ordered.has("uss") && S.rx.has("stop") && S.rx.has("iv");
+  if(referFull) add("Referred to haematology with the checklist complete", 8);
+  else if(S.rx.has("refer")) add("Referred to haematology — checklist incomplete", 3);
+
+  let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
+  if(!S.died) add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+  if(S.died) add("He died on Day 4", -20);
+
+  const MAX=160;
+  const shown=Math.max(0, Math.min(total, MAX));
+  const table=$("#scoreTable");
+  table.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]>0?'plus':r[1]<0?'minus':''}">${r[1]>0?'+':''}${r[1]}</td></tr>`).join("")
+    + `<tr><td>Total</td><td>${shown} / ${MAX}</td></tr>`;
+
+  // hero
+  const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
+  const rank = S.died ? "The morbidity meeting." : pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the week. Barely.";
+  $("#rank").textContent = rank;
+  $("#scoreSub").textContent = S.died
+    ? "Four days of an unexplained patient, and the tests that could have named it were never sent. The crisis did the naming instead."
+    : S.dxCorrect ? "The clean dipstick, the negative electrophoresis and the “degenerative” films were all telling the truth about the wrong question." : "It hid behind three normal-looking results — see where the search stopped.";
+  countTo($("#scoreBig"), shown, MAX);
+
+  $("#dxVerdict").innerHTML = S.died
+    ? `<div class="dxverdict" data-hit="0"><span class="ic">†</span>`+
+      `<div><div class="t">He arrested at 06:10 on Day 4.</div>`+
+      `<div class="s">Refractory hyperkalaemia, never escalated. The diagnosis — light-chain myeloma — arrives with the post-mortem bloods.</div></div></div>`
+    : `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
+      `<div><div class="t">${S.dxCorrect?"Myeloma — you found the invisible clone.":"It was myeloma — light-chain cast nephropathy."}</div>`+
+      `<div class="s">${S.dxCorrect?`Named on Day ${S.dxDay}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`Four days, ${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
+
+  // learning objectives
+  const baseTxt = S.ordered.has("gpr")
+    ? {v:"hit",t:"Chase the baseline before you stage",s:"You rang for the GP record — creatinine 82 made admission night stage 3, and April's “mild anaemia, monitor” was the disease's first footprint."}
+    : {v:"miss",t:"Chase the baseline before you stage",s:"You staged him against no baseline. The cheapest investigation in the case was a phone call to the practice."};
+  const screenTxt = S.screenDay!==null
+    ? {v:S.screenDay<=2?"hit":"part",t:"See through the two falsely reassuring tests",s:S.screenDay<=2?"Screen away on Day 2 — the moment the kidneys failed to respond, you widened the net. The clean dipstick and the negative SPEP didn't stop you.":"The screen went — late. Every day it waited was a day of supportive care standing in for treatment."}
+    : S.spepSeen
+    ? {v:"miss",t:"See through the two falsely reassuring tests",s:"The SPEP came back clean and the search stopped there. Light-chain-only myeloma is invisible to SPEP — the renal screen is serum free light chains plus urine electrophoresis."}
+    : {v:"miss",t:"See through the two falsely reassuring tests",s:"The myeloma screen never went at all. Anaemia + hypercalcaemia + renal failure + bone pain in a 74-year-old is the textbook prompt to send it."};
+  const los=[
+    baseTxt,
+    S.ordered.has("uss")?{v:"hit",t:"Exclude obstruction early",s:"Renal tract imaged, no hydronephrosis — obstruction dead early. That's the bundle working."}:{v:"miss",t:"Exclude obstruction early",s:"You never imaged the renal tract. An elderly man with an enlarged prostate and an unexplained AKI keeps obstruction on the table until an ultrasound takes it off."},
+    (S.rx.has("iv")&&S.rx.has("stop"))?((S.reexamCount>0||S.rx.has("stopiv"))?{v:"hit",t:"Volume in, toxins out — then keep reassessing",s:"Fluid in, nephrotoxins off — and you re-examined him as the days went on, stopping the fluids when he was replete. Exactly the shape of good AKI care."}:{v:"part",t:"Volume in, toxins out — then keep reassessing",s:"Right treatment on night one, never revisited. The fluid that was right on Day 1 was wrong by Day 3, and only the examination could have told you."}):{v:"miss",t:"Volume in, toxins out — then keep reassessing",s:"He was dry with an AKI on two nephrotoxins. Restore volume and stop the culprits before anything cleverer."},
+    screenTxt,
+    (S.rx.has("cagl")&&(S.died?false:(S.mg.hyperk&&S.mg.rebound)))?{v:"hit",t:"Hyperkalaemia: protect, shift — and expect the rebound",s:"Calcium first with ECG changes, and you knew the potassium comes back when the shift wears off. That prediction is the understanding."}:{v:S.rx.has("cagl")?"part":"miss",t:"Hyperkalaemia: protect, shift — and expect the rebound",s:"The sequence is calcium → insulin–dextrose → salbutamol; the shifting drugs remove nothing, and oliguric potassium returns within hours. Plan the removal before the rebound."},
+    (crisisEscalated()&&!S.rx.has("transport")&&(S.died?false:(S.mg.rrt&&S.mg.transfer)))?{v:"hit",t:"Escalate safely: RRT triggers and transfer safety",s:"Refractoriness — not a number — dialled renal, and a patient failing transfer criteria got critical care, not a motorway. Both right."}:{v:crisisEscalated()?"part":"miss",t:"Escalate safely: RRT triggers and transfer safety",s:"RRT is for the refractory (K⁺, acidosis, overload, uraemic complications) — and a patient failing transfer criteria is stabilised by critical care where he lies, not moved."}
+  ];
+  $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
+
+  // journey
+  const impRightN = impRight;
+  $("#journey").innerHTML = `Four days of continuity: your written plans covered <b>${bundleHit} of ${bundleOf}</b> bundle items, your impressions were honest <b>${impRightN} of 3</b> days, `+
+    `you ${S.ordered.has("gpr")?"chased the GP baseline":"<b>never chased a baseline</b>"}, `+
+    `the renal screen went ${S.screenDay!==null?`on <b>Day ${S.screenDay}</b>`:"<b>never</b>"}, `+
+    `the fluids ${S.rx.has("stopiv")?"were stopped on examination, in time":"<b>were never formally reviewed</b>"}, `+
+    `the crisis was ${S.died?"<b>lost</b>":S.rx.has("cagl")&&crisisEscalated()?"held and escalated":"survived, untidily"} — `+
+    `and you ${S.dxCorrect?`named it <b>${S.dx}</b> on Day ${S.dxDay}`:S.dxCommitted?`committed to <b>${S.dx}</b>`:"never named it"}, `+
+    `reading the signs right <b>${goodReads} of ${reads.length}</b>, with <b>${S.revisits}</b> step-back${S.revisits===1?'':'s'} and <b>${S.reexamCount}</b> formal reassessment${S.reexamCount===1?'':'s'} along the way.`;
+
+  mpReturnBtn(shown, MAX);
+  go("out");
+}
+function countTo(el, val, max){
+  const dur=900, t0=performance.now();
+  function step(t){ const k=Math.min(1,(t-t0)/dur); const v=Math.round(val*(1-Math.pow(1-k,3))); el.innerHTML=`${v}<span>/${max}</span>`; if(k<1) requestAnimationFrame(step); }
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.innerHTML=`${val}<span>/${max}</span>`; return; }
+  requestAnimationFrame(step);
+}
+$("#finishBtn").onclick = scoreAndShow;
+$("#replay").onclick = ()=>location.reload();
+/* ---- optional hub handoff: ?return=<hubUrl>&week=<id> ---- */
+const MPQ = new URLSearchParams(location.search);
+function mpReturnBtn(score, max){
+  if(!MPQ.get('return')) return;
+  const rb=$("#replay"), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','aki-myeloma'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
+
+/* ---------- init ---------- */
+renderObs(); renderHx(); renderExam(); renderIx(); renderTabs(); updateBar(); renderDayCard();
+$("#clock").textContent = fmtClock(S.clock);
+</script>
+</body>
+</html>
