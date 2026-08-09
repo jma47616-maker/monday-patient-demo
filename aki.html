@@ -604,8 +604,17 @@ const CASE = {
   ],
   examMore: [
     { id:"back",  name:"Examine the back", sub:"he keeps mentioning it", f:"", img:"aki-back.svg", imgOnly:true, imgAlt:"The lumbar spine: marked tenderness to percussion over L3–L5, no deformity, no radicular signs", tone:"alert", key:true },
-    { id:"post",  name:"Lying & standing BP", sub:"postural", f:"Lying 104/66, HR 96. Standing one minute: 88/58, HR 110 — he steadies himself on the trolley rail.", tone:"alert", key:true, dyn:true },
-    { id:"hydr",  name:"Hydration / volume", sub:"", f:"Dry mucous membranes, reduced turgor, cool peripheries, capillary refill 3 s. Intravascularly deplete.", supp:true, dyn:true },
+    { id:"post",  name:"Lying & standing BP", sub:"postural", tone:"alert", key:true, dyn:true,
+      f: ()=> S.day===1 ? "Lying 104/66, HR 96. Standing one minute: 88/58, HR 110 — he steadies himself on the trolley rail."
+        : S.rx.has("iv") ? "Lying 118/72, HR 86. Standing one minute: 114/70, HR 90. The postural drop has resolved with volume."
+        : "Lying 96/60, HR 104. Standing: 78/50, HR 122 — worse than admission. He sits back down quickly." },
+    { id:"hydr",  name:"Hydration / volume", sub:"", supp:true, dyn:true,
+      f: ()=> S.day===1 ? "Dry mucous membranes, reduced turgor, cool peripheries, capillary refill 3 s. Intravascularly deplete."
+        : S.day===2 ? (S.rx.has("iv") ? "Tongue moist, turgor restored, warm to the wrists. Euvolaemic this morning — keep asking the question daily, because the answer changes."
+                                      : "Drier than admission. Tongue like felt, turgor slow, refill 4 s. The deficit is compounding.")
+        : S.day===5 ? "Filter running; balance managed hourly by the machine and the nurse at the end of the bed."
+        : (S.rx.has("iv") ? "JVP visible above the clavicle, warm and well filled — and the ankles have started to pit. Yesterday's answer is no longer today's."
+                          : "Still dry — turgor poor, membranes tacky. Two days without correction.") },
     { id:"pr",    name:"PR examination", sub:"?obstruction", f:"Prostate moderately enlarged, smooth, benign contour. No mass. Normal tone." },
     { id:"calf",  name:"Calf / DVT check", sub:"", f:"Calves soft, non-tender, equal." },
     { id:"fundi", name:"Fundoscopy", sub:"", f:"Normal discs, no papilloedema." }
@@ -732,8 +741,8 @@ const CASE = {
 /* ============================================================
    FOUR-DAY STRUCTURE — follow-ups, continuity, the screen decision
    ============================================================ */
-const DAY_START = { 1:1300, 2:1950, 3:2580, 4:3080 };   // 21:40 · 08:30 · 19:00 · 03:20 (absolute minutes)
-const DAY_LABEL = { 1:"Day 1 · The night take", 2:"Day 2 · Ward round", 3:"Day 3 · Evening review", 4:"That night · 03:20" };
+const DAY_START = { 1:1300, 2:1950, 3:2580, 4:3080, 5:4860 };   // 21:40 · 08:30 · 19:00 · 03:20 · ICU 09:00
+const DAY_LABEL = { 1:"Day 1 · The night take", 2:"Day 2 · Ward round", 3:"Day 3 · Evening review", 4:"That night · 03:20", 5:"ICU · the next morning" };
 
 CASE.impressions = {
   1: { title:"End of the night shift", sub:"The clerking needs an impression. What do you write?",
@@ -803,7 +812,8 @@ CASE.rx.push(
   { id:"cagl",   g:"crisis", t:"Calcium gluconate 10% IV — now", note:"The ECG settles from lethal to merely frightening. It has shifted no potassium at all — you have bought minutes. Spend them well." },
   { id:"insdex", g:"crisis", t:"Insulin–dextrose infusion", note:"The potassium falls by more than a unit within the hour. A loan, not a payment — it is back by breakfast unless something removes it." },
   { id:"salb",   g:"crisis", t:"Salbutamol nebuliser, high dose", note:"Shifts a little more. Same loan, same lender." },
-  { id:"kbind",  g:"crisis", t:"Potassium binder", note:"Slow — but the only drug tonight that actually removes potassium from him." },
+  { id:"kbind",  g:"crisis", t:"Potassium binder", note:"Slow — but genuinely removes potassium from him." },
+  { id:"furo2",  g:"crisis", t:"Furosemide IV — the chest is wet", note:"Right idea for an overloaded chest — though an oliguric kidney gives less back than it promises. A bridge, not the treatment. The filter is the treatment." },
   { id:"icu",    g:"crisis", t:"Call critical care outreach", sub:"bleep 3353", note:"They arrive unhurried, which is somehow the most reassuring thing that has happened all night. “Don't move him anywhere. If renal agree, we filter here.”" },
   { id:"filt",   g:"crisis", t:"Renal reg: refractory hyperkalaemia — ?urgent filtration", sub:"ITU reg via bleep 3333 if no renal bed", note:"“Refractory despite full medical therapy — that's the phrase that opens the unit. Yes. Ours or ICU's, tonight.”" },
   { id:"transport", g:"crisis", kind:"danger", t:"Book blue-light transfer to the renal unit", note:"Potassium, pH and a changing ECG — he fails transfer criteria three ways at once. The most dangerous place in the county for this man is the back of an ambulance." }
@@ -974,7 +984,14 @@ const MEDIA = {
            {t:"Lytic deposits in L3 and L4"},
            {t:"Acute crush fracture of L1"},
            {t:"Normal lumbar spine for age"}]},
-  gas1:  { svg:()=>gasSlipSVG({time:"22:12", ph:"7.33", pco2:"4.6", hco3:"17", be:"-7", k:"5.6", na:"134", lac:"1.8", hb:"97", glu:"6.1"}),
+  gas1:  { svg:()=>{
+           if(S.day===1) return gasSlipSVG({time:"22:12", ph:"7.33", pco2:"4.6", hco3:"17", be:"-7", k:"5.6", na:"134", lac:"1.8", hb:"97", glu:"6.1"});
+           const iv = S.rx.has("iv");
+           const hco3 = S.day===2 ? (iv?18:15) : S.day===5 ? 21 : (iv?17:13);
+           return gasSlipSVG({time: S.day===5?"08:40":(S.day===2?"09:10":"19:40"),
+             ph: S.day===5?"7.36":(iv?"7.32":"7.27"), pco2:"4.4", hco3:String(hco3), be:String(hco3-24),
+             k: S.day===5?"4.6":S.k.toFixed(1), na:"134", lac: iv?"1.6":"2.4", hb:"95", glu:"6.2"});
+         },
            label:"Venous gas", q:"Commit your read of the gas:", opts:[
            {t:"Metabolic acidosis, potassium at the top edge, anaemia", ok:true},
            {t:"Respiratory acidosis with CO₂ retention"},
@@ -1092,12 +1109,12 @@ CASE.history.push(
 /* daily examination — brief, repeatable, findings as signs where media exists */
 CASE.examCore.find(e=>e.id==="gen").media = ()=> S.day===1 ? "dry" : null;
 CASE.examCore.find(e=>e.id==="cvs").media = ()=> "hs";
-CASE.examCore.find(e=>e.id==="resp").media = ()=> (S.day>=3 && S.rx.has("iv")) ? "crack" : "bs";
+CASE.examCore.find(e=>e.id==="resp").media = ()=> (S.day===3 && S.rx.has("iv")) || S.day===4 ? "crack" : "bs";
 CASE.examMore.push(
   { id:"ankles", name:"Ankles & sacrum", sub:"press and count to five", f:"No pitting at the ankles or sacrum.", key:true, dyn:true,
-    media: ()=> (S.day>=3 && S.rx.has("iv")) ? "oedema" : "ankleN" },
+    media: ()=> (S.day===3 && S.rx.has("iv")) || S.day===4 ? "oedema" : "ankleN" },
   { id:"jvpx", name:"JVP", sub:"at 45°", f:"JVP not visible lying flat — flat neck veins.", dyn:true,
-    media: ()=> (S.day>=3 && S.rx.has("iv")) ? "jvp" : null },
+    media: ()=> (S.day===3 && S.rx.has("iv")) || S.day===4 ? "jvp" : null },
   { id:"fbc2", name:"Fluid balance chart", sub:"at the end of the bed", day:2,
     f:"There is no chart at the end of the bed. Nobody has been measuring what comes out of him.",
     media: ()=> S.rx.has("uo") ? "fbchart" : null }
@@ -1129,7 +1146,7 @@ const S = {
   creat: 268, k: 5.6, creatPrev: 268, kPrev: 5.6,
   dmg: { creat: 0, k: 0 }, ctcHit: false, orderedDay: {},
   interp: {}, ae: {A:false,B:false,C:false,D:false,E:false}, aeIx: {ecg:false,gas:false,cxr:false},
-  planTexts: {}, bundleHits: {},
+  planTexts: {}, bundleHits: {}, masterTicks: [], rxDay: {}, earlyCrisis: false,
   examEver: new Set(),
   asked: new Set(), examCore: new Set(), examMore: new Set(),
   picked: new Set(), ordered: new Set(), round: 0,
@@ -1169,6 +1186,7 @@ function obsState(){
     : hurt
     ? { hr:104, bp:"102/60", rr:20, spo2:95, uo:"10", news:5, tone:"bad", flag:"lo", appear:"worse" }
     : { hr:86, bp:"122/74", rr:16, spo2:96, uo:"35", news:2, tone:"warn", flag:"", appear:"base" };
+  if (S.day === 5) return { hr:88, bp:"112/64", rr:16, spo2:96, uo:"55", news:3, tone:"warn", flag:"", appear:"held" };
   // Day 4 — the crisis
   if (crisisTreated) return { hr:100, bp:"104/64", rr:20, spo2:95, uo:"5", news:5, tone:"warn", flag:"lo", appear:"held" };
   return { hr:118, bp:"92/58", rr:24, spo2:94, uo:"5", news:8, tone:"bad", flag:"lo", appear:"crisis" };
@@ -1180,7 +1198,7 @@ function renderObs(){
     ["BP", o.bp, "mmHg", o.flag],
     ["RR", o.rr, "/min", o.rr>20?"hi":""],
     ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
-    ["Urine", o.uo, "ml/hr", parseInt(o.uo,10)<20?"lo":""],
+    ["Urine", S.rx.has("uo") ? o.uo : "—", "ml/hr", S.rx.has("uo") && parseInt(o.uo,10)<20 ? "lo" : ""],
     ["GCS", "15", "/15", ""]
   ];
   $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
@@ -1220,6 +1238,8 @@ function updateBar(){
     b.textContent = S.stageMax < 1 ? "Move on → examine him"
       : S.stageMax < 2 ? "Move on → investigate"
       : `End ${dayName} → write the plan`;
+  } else if (S.day === 5){
+    b.textContent = "End the ICU round → write the plan";
   } else {
     b.textContent = "Finish the case → see how the week lands";
   }
@@ -1251,32 +1271,48 @@ function dayNarrative(){
     if(S.ordered.has("uss")) d1.push("ultrasound — no obstruction");
     if(S.ordered.has("dip")) d1.push("dipstick bland");
     if(S.ordered.has("gpr")) d1.push("GP baseline retrieved: creatinine 82");
+    if(S.rx.has("para")) d1.push("paracetamol for the pain");
+    if(S.rx.has("vte")) d1.push("VTE prophylaxis, renal dose");
     if(S.rx.has("nsd")) d1.push("naproxen on the chart");
     if(S.rx.has("gent")) d1.push("gentamicin given");
+    const uoLine = S.rx.has("uo")
+      ? `Urine output <b>${parseInt(obsState().uo,10)*24} ml</b> over the last 24 hours. `
+      : `Urine output unknown — no chart was written. `;
     return `<div class="card__label">${DAY_LABEL[2]} — the brief</div><p class="serif-body">`+
+      `<b>The story so far:</b> 74, two weeks off his legs; months of night-waking back pain on five weeks of ibuprofen; ramipril at home; anaemia "watched" since April; constipated. Admitted dry with an AKI — creatinine 268, corrected calcium 2.88, dipstick bland.<br>`+
       `<b>Day 1, locked:</b> ${d1.join(" · ")}.<br><br>`+
-      `<b>This morning:</b> creatinine <b>${S.creat}</b> from ${S.creatPrev}, potassium ${S.k.toFixed(1)}${iv?" — and the admission calcium has quietly corrected":" — and the calcium is still up"}. `+
-      (bigHit
-        ? `<b>Sharply worse.</b> The consultant goes down the drug chart line by line, tapping it: <i>“Something we are giving this man is hurting him. Find it — and then tell me what this actually is.”</i></p>`
-        : iv
-        ? `Stagnated despite replacement. The consultant reads the numbers twice: <i>“Dehydration doesn't do this on day two. What is this — and what's going to the lab today to find out?”</i></p>`
-        : `Worse across the board, and he looks as dry as he did last night. <i>“Why has this man had no fluid?”</i></p>`);
+      `<b>This morning:</b> creatinine <b>${S.creat}</b> from ${S.creatPrev} · potassium ${S.k.toFixed(1)} · calcium ${iv?"corrected with volume":"<b>still raised</b>"}. ${uoLine}`+
+      (bigHit ? `<b>Sharply worse</b> — fluid alone does not lose ground like this; something on the chart is doing damage.`
+       : iv ? `Stagnant despite replacement — this is not behaving like simple dehydration.`
+       : `Worse across the board, still uncorrected.`)+
+      `</p>`;
   }
   if (S.day === 3) {
     const d1line = `${(iv||S.rx.has("stopiv")) ? "volume replaced" : "no fluids given"} · ${S.rx.has("stop")?"nephrotoxins off":"nephrotoxins still running"}${S.ordered.has("uss")?" · obstruction excluded":""}${S.ordered.has("gpr")?" · baseline 82":""}`;
-    const d2line = `calcium corrected with volume · kidneys ${S.dmg.creat>=60?"sharply worse":"stagnant"} · ${screenSent()?"extended renal screen sent to the lab":"<b>no screen sent</b>"}`;
+    const d2line = `calcium ${iv?"corrected with volume":"<b>still raised</b>"} · kidneys ${S.dmg.creat>=60?"sharply worse":"stagnant"} · ${screenSent()?"extended renal screen sent to the lab":"<b>no screen sent</b>"}`;
+    const uoLine = S.rx.has("uo")
+      ? `Urine output <b>${parseInt(obsState().uo,10)*24} ml</b> over the last 24 hours. `
+      : `Urine output unknown — still no chart. `;
     return `<div class="card__label">${DAY_LABEL[3]} — the brief</div><p class="serif-body">`+
       `<b>Day 1, locked:</b> ${d1line}.<br>`+
       `<b>Day 2, locked:</b> ${d2line}.<br><br>`+
       `<b>Tonight:</b> `+
-      (screenBack() ? `the overnight batch is back on the ward list, flagged red — <b>kappa free light chains 2,850, ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. This has a name now, if you're ready to commit to it. `
+      (screenBack() ? `the batch is back on the ward list, flagged red — <b>kappa free light chains 2,850, ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. This has a name now, if you're ready to commit to it. `
        : screenSent() ? `the screen is still in the overnight batch — back tomorrow morning. `
-                    : `nothing is coming back, because nothing was sent. Nobody else has noticed. `)+
-      `His potassium is ${S.k>=6.3?"<b>climbing</b>":"creeping"} — <b>${S.k.toFixed(1)}</b> on the evening bloods — and the evening nurse catches you in the corridor: <i>“He's had bags running since admission. Can you look at him before the next one goes up?”</i> The fluid that was right on Day 1 needs a decision tonight.</p>`;
+                    : `nothing is coming back, because nothing was sent. `)+
+      `Potassium <b>${S.k.toFixed(1)}</b> and ${S.k>=6.3?"<b>climbing</b>":"creeping"}. ${uoLine}`+
+      `The next bag is due at 20:00 — the fluid question is tonight's decision.</p>`;
+  }
+  if (S.day === 5) {
+    return `<div class="card__label">${DAY_LABEL[5]} — the brief</div><p class="serif-body">`+
+      `He crashed at 03:20 — refractory hyperkalaemia on a chart where the nephrotoxins never stopped — and critical care took him. Overnight: filtration, lines, the chemistry pulled back from the edge.<br><br>`+
+      `<b>This morning:</b> potassium 4.6 on the filter · pressures holding · sedation lightening. Stable — and <b>still unexplained</b>. `+
+      `ICU keeps him alive; naming what did this is still the medics' job. The lab fast-tracks anything sent from this unit today.</p>`;
   }
   if (S.day === 4) {
     return `<div class="card__label">${DAY_LABEL[4]}</div><p class="serif-body">`+
       `Your bleep goes at 03:20. The night nurse is calm in the way that means she is not: <i>“Bed 6. He's grey and breathing fast. Come now.”</i> Nothing is known yet that you don't find with your own eyes and hands.`+
+      (S.earlyCrisis ? `<br><br><b>Day 2 locked with the ibuprofen and ramipril still on the chart.</b> The night has done the arithmetic.` : ``)+
       (screenBack() && S.screenBackDay===4 ? `<br><br>And flagged red on this morning's list, resulted overnight: <b>kappa free light chains 2,850 — ratio 237</b>${S.ordered.has("bjp")?", <b>Bence-Jones protein detected</b>":""}. The haematology reg, phoned at four: <i>“That's your answer. Myeloma kidney. Now keep him alive long enough for us to treat it.”</i>`
        : screenBack() ? `<br><br>The haematology reg, phoned at four, doesn't hesitate: <i>“Myeloma kidney with a potassium like that — filter first, chemotherapy second. Keep him alive for us.”</i>`
                     : `<br><br>Nothing on the chart explains this. Three days in, he is still an unexplained AKI — and unexplained is now killing him.`)+
@@ -1313,6 +1349,16 @@ function applyDayPhysiology(){
 function crisisNumbers(){
   const k4 = Math.max(7.2, Math.round((S.k + 0.9)*10)/10);
   return k4 > 7.5 ? { k:k4.toFixed(1), ph:"7.09", hco3:9 } : { k:k4.toFixed(1), ph:"7.19", hco3:11 };
+}
+function boneLabs(){
+  const iv = S.rx.has("iv");
+  return [
+    iv ? {n:"Corrected Ca²⁺", v:"2.46", r:"2.20–2.60", u:"mmol/L", base:"2.88 on admission — corrected with volume"}
+       : {n:"Corrected Ca²⁺", v:"2.84", r:"2.20–2.60", u:"mmol/L", flag:"hi", base:"2.88 on admission"},
+    {n:"Phosphate", v:"1.62", r:"0.80–1.50", u:"mmol/L", flag:"hi"},
+    {n:"ALP", v:"78", r:"30–130", u:"U/L"},
+    {n:"Albumin", v:"32", r:"35–50", u:"g/L", flag:"lo"}
+  ];
 }
 function ueLabs(){
   const urea = (21.4 + (S.creat-268)*0.05).toFixed(1);
@@ -1370,13 +1416,14 @@ const PLAN_ITEMS = {
   vte:   { rx:"vte", label:"VTE prophylaxis (renal dose)", aliases:["vte prophylaxis","vte","thromboprophylaxis","dalteparin","enoxaparin","lmwh","clexane","tinzaparin"] },
   renal: { rx:"renal", label:"Discuss with renal", aliases:["discuss with renal","renal referral","refer to renal","refer renal","call renal","renal opinion","nephrology referral","discuss with nephrology","renal team","renal input","speak to renal","renal advice","involve renal","renal review","refer nephrology"] },
   bed:   { rx:"bed", label:"Monitored bed", aliases:["monitored bed","cardiac bed","bed with monitoring"] },
+  haem:  { rx:"refer", label:"Haematology referral", aliases:["haematology","haematology referral","refer haematology","haem referral","discuss with haematology","hematology","haem review"] },
   chase: { rx:"chase", label:"Chase results", aliases:["chase results","chase the screen","chase bloods","chase the myeloma screen","follow up results","chase outstanding results","chase the light chains","chase","await results","awaiting results","follow up bloods","review results"] },
   stopiv:{ special:"stopiv", label:"Stop the IV fluids", aliases:["stop fluids","stop iv fluids","stop the fluids","hold fluids","hold the fluids","stop the drip","take the bag down","discontinue fluids","stop ivf","stop ivi","hold ivi","stop the ivi","discontinue ivi","wean fluids","wean off fluids","wean ivi","fluids off","ivi off","off the fluids","dc fluids","d c fluids","fluid restrict","no more fluids","cautious fluids only","no further fluids"] },
   stopnsd:{ removes:"nsd", label:"Stop the naproxen", aliases:["stop naproxen","stop the naproxen","discontinue naproxen","take off the naproxen"] },
   /* dangers — pharmacy will ring back */
   nsd:   { rx:"nsd", danger:true, label:"Naproxen", aliases:["naproxen","regular nsaid","nsaid for pain","ibuprofen for the pain","diclofenac"] },
   gent:  { rx:"gent", danger:true, label:"Gentamicin", aliases:["gentamicin","gent","aminoglycoside"] },
-  furo:  { rx:"furo", danger:true, label:"Furosemide", aliases:["furosemide","frusemide","lasix","diuretic","diurese"] },
+  furo:  { rx:"furo", danger: ()=> S.day===1 || !S.rx.has("iv"), label:"Furosemide", aliases:["furosemide","frusemide","lasix","diuretic","diurese"] },
   /* investigations — written in the plan, done overnight */
   ue2:   { creditOnly:true, label:"Repeat bloods", aliases:["repeat bloods","repeat u&e","repeat ues","daily u&e","daily bloods","morning bloods","repeat renal function","bloods in the morning","recheck bloods","repeat u and e","am bloods","repeat uec","repeat creatinine","bloods","awaiting bloods","check bloods","repeat labs","labs","bloods tomorrow","serial bloods","monitor bloods","monitor renal function","trend the creatinine"] },
   uss:   { ix:"uss", label:"USS renal tract", aliases:["uss","ultrasound","renal ultrasound","uss kub","us kub","renal tract ultrasound","image the renal tract","urgent ultrasound","renal tract imaging","ultrasound kidneys"] },
@@ -1399,22 +1446,28 @@ const PLAN_ITEMS = {
   mrisp: { ix:"mrisp", label:"MRI spine", aliases:["mri","mri spine","mri back","mri whole spine","mri lumbar spine"] },
   cxrp:  { ix:"cxr", label:"Chest X-ray", aliases:["chest xray","chest x ray","cxr","chest film","chest radiograph"] }
 };
-const DAY_STANDARDS = {
-  1:[ {k:"ue2",  L:"R", label:"Repeat bloods in the morning"},
-      {k:"uss",  L:"O", label:"Exclude obstruction — ultrasound the renal tract"},
-      {k:"dip",  L:"U", label:"Urinalysis"},
-      {k:"ecgk", L:"N", label:"Monitoring — NEWS, cardiac monitor, repeat the K⁺"},
-      {k:"iv",   L:"D", label:"Dry — replace the volume"},
-      {k:"uo",   L:"U", label:"Urinary — strict input/output chart"},
-      {k:"stop", L:"P", label:"Prescriptions — stop the nephrotoxins"} ],
-  2:[ {k:"ue2",    L:"R", label:"Repeat bloods"},
-      {k:"screen", L:"",  label:"Widen the screen — myeloma screen, SFLC + urine electrophoresis"},
-      {k:"pcr",    L:"U", label:"Quantify the proteinuria — urine PCR"},
-      {k:"renal",  L:"",  label:"Discuss with renal"} ],
-  3:[ {k:"fluidrev", L:"D", label:"Fluid review — examine him, stop when replete"},
-      {k:"ue2",     L:"R", label:"Repeat bloods — the potassium is moving"},
-      {k:"ecgk",    L:"N", label:"Monitoring overnight — the potassium again"},
-      {k:"chase",   L:"",  label:"Chase the outstanding screen"} ]
+/* ONE complete plan for the diagnosis — ticks accumulate across the days.
+   Each day adds its own bits and bobs beneath it. */
+const MASTER_PLAN = [
+  {k:"ue2",   L:"R", label:"Repeat bloods daily — U&E, bone profile, FBC"},
+  {k:"uss",   L:"O", label:"Exclude obstruction — ultrasound the renal tract"},
+  {k:"dip",   L:"U", label:"Urinalysis"},
+  {k:"ecgk",  L:"N", label:"Monitoring — NEWS, cardiac monitor, repeat the K⁺"},
+  {k:"iv",    L:"D", label:"Dry or wet — fluids matched to the examination"},
+  {k:"uo",    L:"U", label:"Urinary — strict input/output chart"},
+  {k:"stop",  L:"P", label:"Prescriptions — nephrotoxins stopped"},
+  {k:"gpr",   L:"+", label:"Baseline bloods from the GP"},
+  {k:"pcr",   L:"+", label:"Quantify the proteinuria — urine PCR"},
+  {k:"screen",L:"+", label:"Extended renal screen — SFLC + urine electrophoresis"},
+  {k:"renal", L:"+", label:"Renal discussion"}
+];
+const DAY_EXTRAS = {
+  1: [],
+  2: [ {k:"volrev", label:"Reassess the volume — fluids adjusted to today's examination"} ],
+  3: [ {k:"fluidrev", label:"Fluid review — examine him, stop when replete"},
+       {k:"chase", label:"Chase the outstanding screen"} ],
+  5: [ {k:"screen", label:"Complete the diagnostic screen — SFLC + urine electrophoresis"},
+       {k:"haem", label:"Refer haematology"} ]
 };
 function parsePlan(text){
   // newlines, numbering and punctuation become spaces so "1. Monitor urine output\n2. Bloods" keeps its word boundaries
@@ -1430,16 +1483,24 @@ function parsePlan(text){
   }
   return matched;
 }
-function standardHit(k, matched){
+function masterHit(k){
+  const t = new Set(S.masterTicks);
+  if(k==="iv") return t.has("iv") || t.has("stopiv");
+  if(k==="ue2") return t.has("ue2") || t.has("bone") || t.has("fbcp");
+  if(k==="screen") return t.has("screen") || (t.has("sflcI") && t.has("bjpI"));
+  return t.has(k);
+}
+function extraHit(k, matched){
+  if(k==="volrev") return matched.has("iv") || matched.has("stopiv") || matched.has("furo");
   if(k==="fluidrev") return matched.has("stopiv") || !S.rx.has("iv");
-  if(k==="ue2") return matched.has("ue2") || matched.has("bone") || matched.has("fbcp");
-  if(k==="screen") return matched.has("screen") || (matched.has("sflcI") && matched.has("bjpI"));
+  if(k==="screen") return masterHit("screen");
+  if(k==="haem") return matched.has("haem") || S.rx.has("refer");
   return matched.has(k);
 }
 function enactPlan(matched){
   matched.forEach(k=>{
     const it = PLAN_ITEMS[k]; if(!it) return;
-    if(it.rx) S.rx.add(it.rx);
+    if(it.rx){ S.rx.add(it.rx); if(!S.rxDay[it.rx]) S.rxDay[it.rx]=S.day; }
     if(it.removes) S.rx.delete(it.removes);
     if(it.special==="stopiv" && S.rx.has("iv")){ S.rx.delete("iv"); if(S.day>=3) S.rx.add("stopiv"); }
     const ids = it.ixMulti || (it.ix ? [it.ix] : []);
@@ -1453,7 +1514,6 @@ function enactPlan(matched){
 }
 function showPlanGate(){
   const body = $("#planBody");
-  const std = DAY_STANDARDS[S.day] || [];
   let amended = false;
   const standing = CASE.rx.filter(m=>S.rx.has(m.id)).map(m=>m.t.split(" — ")[0]);
   const writeStage = (prefill)=>{
@@ -1469,7 +1529,7 @@ function showPlanGate(){
       const text = $("#planText").value.trim();
       if(!text) return;
       const matched = parsePlan(text);
-      const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
+      const dangers = [...matched].filter(k=>{ const d=PLAN_ITEMS[k].danger; return typeof d==="function" ? d() : !!d; });
       if(dangers.length) pharmacyStage(text, matched, dangers);
       else checkStage(text, matched);
     };
@@ -1487,27 +1547,35 @@ function showPlanGate(){
   };
   const checkStage = (text, matched)=>{
     enactPlan(matched);
+    matched.forEach(k=>{ if(!S.masterTicks.includes(k)) S.masterTicks.push(k); });
     S.planTexts[S.day] = text;
-    const hits = std.filter(s=>standardHit(s.k, matched));
-    S.bundleHits[S.day] = { hit: hits.length, of: std.length };
-    const extras = [...matched].filter(k=>PLAN_ITEMS[k] && !std.some(s=>s.k===k) && !PLAN_ITEMS[k].danger).map(k=>PLAN_ITEMS[k].label);
+    const extras = DAY_EXTRAS[S.day] || [];
+    const masterHits = MASTER_PLAN.filter(m=>masterHit(m.k)).length;
+    const extraHits = extras.filter(x=>extraHit(x.k, matched)).length;
+    S.bundleHits[S.day] = { hit: extraHits, of: extras.length };
     body.innerHTML =
-      `<div style="font-size:.85rem; font-weight:600; margin-bottom:.5rem;">Against the bundle:</div>`+
+      `<div style="font-size:.85rem; font-weight:600; margin-bottom:.5rem;">The complete plan — covered so far (${masterHits} of ${MASTER_PLAN.length}):</div>`+
       `<ul class="checklist">`+
-      std.map(s=>{
-        const ok = standardHit(s.k, matched);
-        return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span>${s.L?`<b style="font-family:var(--font-mono); margin-right:.35rem;">${s.L}</b>`:""}${s.label}</li>`;
+      MASTER_PLAN.map(m=>{
+        const ok = masterHit(m.k);
+        return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span><b style="font-family:var(--font-mono); margin-right:.35rem;">${m.L}</b>${m.label}</li>`;
       }).join("")+`</ul>`+
-      (extras.length ? `<div style="font-size:.8rem; color:var(--muted); margin:.5rem 0;">Also in your plan: ${extras.join(" · ")}</div>` : "")+
+      (extras.length ? `<div style="font-size:.85rem; font-weight:600; margin:.75rem 0 .5rem;">Today specifically:</div><ul class="checklist">`+
+        extras.map(x=>{ const ok = extraHit(x.k, matched);
+          return `<li data-done="${ok?1:0}"><span class="mk">${ok?"✓":"✗"}</span>${x.label}</li>`; }).join("")+`</ul>` : "")+
       `<div style="font-size:.72rem; color:var(--faint); margin:.25rem 0 .75rem;">HDFT AKI care bundle v3.0 — ROUND UP</div>`+
       `<div class="sheetbtns">`+
-      (!amended && hits.length < std.length
+      (!amended && (masterHits < MASTER_PLAN.length || extraHits < extras.length)
         ? `<button class="btn" id="planAmend">Add what's missing</button>
            <button class="btn btn--ghost" id="planDone">That's my plan — end the day</button>`
-        : `<button class="btn" id="planDone">End the day → impression</button>`)+
+        : `<button class="btn" id="planDone">${S.day===5?"Plan locked → the drill":"That's my plan — end the day"}</button>`)+
       `</div>`;
     const done = $("#planDone");
-    if(done) done.onclick=()=>{ $("#planGate").hidden=true; advanceDay(); };
+    if(done) done.onclick=()=>{
+      $("#planGate").hidden=true;
+      if(S.day===5){ go("manage"); if(!S.mgStarted){ S.mgStarted=true; startMgmt(); } }
+      else advanceDay();
+    };
     const am = $("#planAmend");
     if(am) am.onclick=()=>{ amended = true; writeStage(text); };
   };
@@ -1534,15 +1602,37 @@ function showImpression(){
   $("#impGate").hidden=false;
 }
 function advanceDay(){
-  S.day++;
-  if(S.day===2 || S.day===3) applyDayPhysiology();
+  if (S.day === 2 && !S.rx.has("stop")){
+    // The simple rule: nephrotoxins still running when Day 2 locks → the bleep comes that night.
+    S.earlyCrisis = true;
+    S.day = 4;
+  } else {
+    S.day++;
+  }
+  if(S.day===2 || S.day===3 || (S.day===4 && S.earlyCrisis)) applyDayPhysiology();
   S.clock = DAY_START[S.day];
   $("#clock").textContent = fmtClock(S.clock);
   S.stageMax = S.day >= 4 ? 2 : 1;        // each day: brief → examine → investigate → plan
   S.examCore.clear(); S.examMore.clear();
-  postOvernight();
+  if(!(S.day===4 && S.earlyCrisis)) postOvernight();   // at 03:20 the overnight batch is not back yet
   renderDayCard(); renderTabs(); updateBar(); renderObs(); renderIx(); renderExam(); renderHx();
   $("#reexamWrap").style.display="block";
+  tab("ex");
+  go("work");
+  window.scrollTo({top:0});
+}
+
+/* Early-crisis survivors: stabilised overnight — the ICU round, medics' side */
+function enterICU(){
+  S.day = 5;
+  S.kPrev = S.k; S.k = 4.6;               // the filter does what filters do
+  S.clock = DAY_START[5];
+  $("#clock").textContent = fmtClock(S.clock);
+  S.stageMax = 2;
+  S.examCore.clear(); S.examMore.clear();
+  S.deferred.forEach(d=>{ d.backDay = 5; });   // the lab fast-tracks ICU samples
+  postOvernight();
+  renderDayCard(); renderTabs(); updateBar(); renderObs(); renderIx(); renderExam(); renderHx();
   tab("ex");
   go("work");
   window.scrollTo({top:0});
@@ -1606,11 +1696,13 @@ function askHx(h){
 
 /* ---------- examination ---------- */
 function genFinding(){
-  const o = obsState();
-  if (o.appear==="crisis") return "Grey, clammy, air hunger. The monitor alarms again while you watch. This is the chemistry, arrived.";
-  if (o.appear==="held") return "Still sick — but held. The ECG has settled, outreach are writing obs every fifteen minutes, and the filter is being primed.";
-  if (o.appear==="better") return "Tongue moist, hands warmer, more colour in his face. The fluid is visibly working — keep examining him, because the day it stops being needed, nothing will announce it.";
-  if (o.appear==="worse") return "Drier and quieter than when you clerked him. The urine bag tells the same story. He is drifting the wrong way.";
+  if (S.day===2) return S.rx.has("iv")
+    ? "Brighter than last night. Tongue moist, hands warm, more colour in his face. The fluid has done its first job — the question is what it hasn't fixed."
+    : "Drier and quieter than when you clerked him. He is running down in front of you.";
+  if (S.day===3) return S.rx.has("iv")
+    ? "Puffy-eyed tonight, and he turns his wedding ring with his thumb — it's tight. The man who needed fluid two days ago no longer looks like a man who needs fluid."
+    : "Dry still, and exhausted. Nothing about him has been corrected today.";
+  if (S.day===5) return "Sedation light, the filter humming beside the bed. He squeezes your hand when asked. The chemistry is safe this morning; the question is not answered.";
   return CASE.examCore.find(e=>e.id==="gen").f;
 }
 function rowHTML(item, picked, label){
@@ -1621,7 +1713,7 @@ function findingFor(e){
   if (e.media){ const k = typeof e.media==="function" ? e.media() : e.media; if(k) return mediaBlock(k); }
   const imgHTML = e.img ? `<img src="${e.img}" alt="${e.imgAlt||''}">` : "";
   if (e.imgOnly) return imgHTML;
-  let txt = e.f || "";
+  let txt = typeof e.f==="function" ? e.f() : (e.f || "");
   if (e.id==="gen") txt = genFinding();
   return txt + imgHTML;
 }
@@ -1797,7 +1889,11 @@ function processRound(){
   items.forEach(x=>{
     S.ordered.add(x.id);
     S.orderedDay[x.id]=S.day;
-    if(x.defer){
+    if(x.id==="sflc"||x.id==="bjp"){
+      if(S.screenDay===null) S.screenDay=S.day;
+      if(S.day===5 && S.screenBackDay===null) S.screenBackDay=5;   // ICU priority: resulted today
+    }
+    if(x.defer && S.day!==5){
       if((x.id==="sflc"||x.id==="bjp") && S.screenDay===null) S.screenDay=S.day;
       S.deferred.push({id:x.id, backDay:S.day+1});
       const d=document.createElement("div"); d.className="result";
@@ -1809,6 +1905,7 @@ function processRound(){
     let body = (x.labs ? x.labs.map(labRowHTML).join("") : "") + (x.text ? `<div class="labtext">${x.text}</div>` : "");
     if(x.media){ const mk = typeof x.media==="function" ? x.media() : x.media; if(mk) body = mediaBlock(mk); }
     if(x.id==="ue" && S.day>1) body = ueLabs().map(labRowHTML).join("");
+    if(x.id==="bone" && S.day>1) body = boneLabs().map(labRowHTML).join("");
     d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
     feed.appendChild(d);
   });
@@ -1848,17 +1945,17 @@ function resusRight(){ return S.rx.has("iv") && S.rx.has("stop") && S.rx.has("uo
 /* ---------- Day 4, 03:20 — A to E. Assess everything, then treat. ---------- */
 const AE = [
   { id:"A", name:"Airway", find: ()=> `<div class="finding">Talking to you — short sentences, a breath between each. Airway his own.</div>` },
-  { id:"B", name:"Breathing", find: ()=> `<div class="finding">RR 24. SpO₂ 94% on air. Symmetrical expansion, working harder than he should be.</div>` + mediaBlock((S.rx.has("iv"))?"crack":"bs") +
+  { id:"B", name:"Breathing", find: ()=> `<div class="finding">RR 24. SpO₂ 94% on air. Symmetrical expansion, working harder than he should be.</div>` + mediaBlock("crack") +
       `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
         <button class="btn btn--sm" data-aeix="cxr" ${S.aeIx.cxr?"disabled":""}>${S.aeIx.cxr?"CXR done":"Portable CXR"}</button>
-      </div><div id="aeBResults">${S.aeIx.cxr?mediaBlock(S.rx.has("iv")?"cxrOed":"cxr"):""}</div>` },
+      </div><div id="aeBResults">${S.aeIx.cxr?mediaBlock("cxrOed"):""}</div>` },
   { id:"C", name:"Circulation", find: ()=> `<div class="finding">HR 118. BP 92/58. Cool to the elbows, capillary refill 4 s. Catheter bag: scant, dark.</div>` + mediaBlock("hs") +
       `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
         <button class="btn btn--sm" data-aeix="ecg" ${S.aeIx.ecg?"disabled":""}>${S.aeIx.ecg?"ECG done":"12-lead ECG"}</button>
         <button class="btn btn--sm" data-aeix="gas" ${S.aeIx.gas?"disabled":""}>${S.aeIx.gas?"Gas done":"Venous gas"}</button>
       </div><div id="aeCResults">${S.aeIx.ecg?mediaBlock("ecg4"):""}${S.aeIx.gas?mediaBlock("gas4"):""}</div>` },
   { id:"D", name:"Disability", find: ()=> `<div class="finding">Alert — answers slowly but correctly. Pupils equal. Glucose 6.4. Arms outstretched: a coarse, irregular flap.</div>` },
-  { id:"E", name:"Exposure", find: ()=> `<div class="finding">Temp 36.2. Abdomen soft. No rashes, no bleeding.</div>` + mediaBlock(S.rx.has("iv") ? "oedema" : "ankleN") }
+  { id:"E", name:"Exposure", find: ()=> `<div class="finding">Temp 36.2. Abdomen soft. No rashes, no bleeding.</div>` + mediaBlock("oedema") }
 ];
 function aeComplete(){ return AE.every(a=>S.ae[a.id]) && S.aeIx.ecg && S.aeIx.gas && S.interp.ecg4 && S.interp.gas4; }
 function renderAE(){
@@ -1901,7 +1998,7 @@ function renderAE(){
     }
     rxLi.innerHTML = html;
     rxLi.querySelectorAll("[data-crisis]").forEach(b=>{
-      b.onclick=()=>{ const id=b.dataset.crisis; S.rx.has(id)?S.rx.delete(id):S.rx.add(id); tick(3); renderAE(); renderObs(); };
+      b.onclick=()=>{ const id=b.dataset.crisis; if(S.rx.has(id)){ S.rx.delete(id); } else { S.rx.add(id); if(!S.rxDay[id]) S.rxDay[id]=S.day; } tick(3); renderAE(); renderObs(); };
     });
   }
   core.appendChild(rxLi);
@@ -1930,8 +2027,10 @@ $("#toCommit").onclick = ()=>{
     return;
   }
   if (S.day < 4){ showPlanGate(); return; }
+  if (S.day === 5){ showPlanGate(); return; }
   evaluateDeath();
   if (S.died){ scoreAndShow(); return; }
+  if (S.earlyCrisis){ enterICU(); return; }
   go("manage");
   if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
 };
@@ -2043,9 +2142,11 @@ function scoreAndShow(){
   const aeN = Object.values(S.ae).filter(Boolean).length;
   if(S.day>=4 && aeN) add(`A–E assessment at the crisis (${aeN} of 5)`, aeN*2);
 
+  const masterCovered = MASTER_PLAN.filter(m=>masterHit(m.k)).length;
+  add(`The complete plan, covered (${masterCovered} of ${MASTER_PLAN.length})`, masterCovered);
   const bh = Object.values(S.bundleHits);
-  const bundleHit = bh.reduce((a,b)=>a+b.hit,0), bundleOf = bh.reduce((a,b)=>a+b.of,0);
-  if(bundleOf) add(`Plans written against the bundle (${bundleHit} of ${bundleOf} items)`, bundleHit);
+  const dayHit = bh.reduce((a,b)=>a+b.hit,0), dayOf = bh.reduce((a,b)=>a+b.of,0);
+  if(dayOf) add(`Day-specific plan items (${dayHit} of ${dayOf})`, dayHit*2);
   if(S.screenDay!==null) add(S.screenDay<=2 ? "Renal screen away on the ward round" : "Renal screen sent — late, but sent", S.screenDay<=2?8:4);
 
   if(S.rx.has("iv")) add("Resuscitated the volume-deplete kidney", 8);
@@ -2055,13 +2156,19 @@ function scoreAndShow(){
   if(S.rx.has("vte")) add("VTE prophylaxis, renally adjusted", 2);
   if(S.rx.has("stopiv")) add("Reassessed volume and stopped the fluids in time", 4);
   if(S.rx.has("gent")) add("Gentamicin into an injured kidney", -12);
-  if(S.rx.has("furo")) add("Furosemide to chase a number", -6);
+  if(S.rx.has("furo")){
+    const fd = S.rxDay.furo || 1;
+    if(fd <= 1) add("Furosemide into a dry kidney", -6);
+    else if(S.rx.has("iv")) add("Furosemide for the overload — reasonable", 2);
+    else add("Furosemide without a volume assessment", -4);
+  }
   if(S.rx.has("nsd")) add("Prescribed an NSAID in renal failure", -8);
   if(S.reexamCount>0) add("Reassessed after intervention", 6);
 
   if(S.day>=4){
     if(S.rx.has("cagl")) add("Protected the myocardium first", 6);
     if(crisisEscalated()) add("Escalated the refractory crisis", 6);
+    if(S.rx.has("furo2")) add("Furosemide for the wet chest — a fair bridge", 2);
     if(S.rx.has("transport")) add("Booked transport for an unsafe patient", -10);
   }
   const referFull = S.rx.has("refer") && S.ordered.has("sflc") && S.ordered.has("bjp") && S.ordered.has("uss") && S.rx.has("stop") && S.rx.has("iv");
@@ -2095,7 +2202,7 @@ function scoreAndShow(){
         : "Refractory hyperkalaemia, never escalated — no ICU in the plan. The diagnosis — light-chain myeloma — arrives with the post-mortem bloods."}</div></div></div>`
     : `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
       `<div><div class="t">${S.dxCorrect?"Myeloma — you found the invisible clone.":"It was myeloma — light-chain cast nephropathy."}</div>`+
-      `<div class="s">${S.dxCorrect?`Named on Day ${S.dxDay}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`Four days, ${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
+      `<div class="s">${S.dxCorrect?`Named on ${S.dxDay===5?"the ICU round":`Day ${S.dxDay}`}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
 
   // learning objectives
   const baseTxt = S.ordered.has("gpr")
@@ -2117,11 +2224,11 @@ function scoreAndShow(){
   $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
 
   // journey
-  $("#journey").innerHTML = `Three days and a night: your written plans covered <b>${bundleHit} of ${bundleOf}</b> bundle items, `+
+  $("#journey").innerHTML = `Three days and a night: your written plans covered <b>${masterCovered} of ${MASTER_PLAN.length}</b> of the complete plan, `+
     `you ${S.ordered.has("gpr")?"chased the GP baseline":"<b>never chased a baseline</b>"}, `+
     `the renal screen went ${S.screenDay!==null?`on <b>Day ${S.screenDay}</b>`:"<b>never</b>"}, `+
     `the fluids ${S.rx.has("stopiv")?"were stopped on examination, in time":"<b>were never formally reviewed</b>"}, `+
-    `the crisis was ${S.died?"<b>lost</b>":S.rx.has("cagl")&&crisisEscalated()?"held and escalated":"survived, untidily"} — `+
+    `the crisis ${S.earlyCrisis?"<b>came a night early — the nephrotoxins never came off</b> — and ":""}was ${S.died?"<b>lost</b>":S.rx.has("cagl")&&crisisEscalated()?"held and escalated":"survived, untidily"} — `+
     `and you ${S.dxCorrect?`named it <b>${S.dx}</b> on Day ${S.dxDay}`:S.dxCommitted?`committed to <b>${S.dx}</b>`:"never named it"}, `+
     `reading the signs right <b>${goodReads} of ${reads.length}</b>, with <b>${S.revisits}</b> step-back${S.revisits===1?'':'s'} and <b>${S.reexamCount}</b> formal reassessment${S.reexamCount===1?'':'s'} along the way.`;
 
