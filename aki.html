@@ -448,7 +448,6 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
       <div class="bar">
         <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
-        <button class="btn btn--ghost btn--sm" style="flex:1; display:none;" id="nameBtn">Name it</button>
         <button class="btn btn--sm" style="flex:2;" id="toCommit">Move on</button>
       </div>
     </section>
@@ -1146,6 +1145,7 @@ const S = {
   dmg: { creat: 0, k: 0 }, ctcHit: false, orderedDay: {},
   interp: {}, ae: {A:false,B:false,C:false,D:false,E:false}, aeIx: {ecg:false,gas:false,cxr:false},
   planTexts: {}, bundleHits: {}, masterTicks: [], rxDay: {}, earlyCrisis: false,
+  aeStep: 0, aeGiven: {}, aeAsking: false, aeFailNote: "", aeFails: 0, referralNote: "",
   examEver: new Set(),
   asked: new Set(), examCore: new Set(), examMore: new Set(),
   picked: new Set(), ordered: new Set(), round: 0,
@@ -1242,8 +1242,6 @@ function updateBar(){
   } else {
     b.textContent = "Finish the case → see how the week lands";
   }
-  const nb = $("#nameBtn");
-  nb.style.display = (S.day >= 2 && !S.dxCommitted) ? "" : "none";
 }
 function tab(name, userClick){
   if (tabLocked(name)) return;
@@ -1521,9 +1519,11 @@ function showPlanGate(){
       `<textarea id="planText" style="width:100%; min-height:9rem; padding:.75rem; font-family:inherit; font-size:.95rem; border:1px solid var(--rule); border-radius:10px; background:var(--paper); color:var(--ink); resize:vertical;" placeholder="Write it like the notes — e.g. IV fluids, hold ramipril and ibuprofen, strict I/O…">${prefill||""}</textarea>`+
       `<div class="sheetbtns" style="margin-top:.75rem;">
         <button class="btn btn--ghost" id="planCancel">Not yet — back to the ward</button>
+        <button class="btn btn--ghost" id="planRefer">📞 Refer</button>
         <button class="btn" id="planSubmit">Submit the plan</button>
       </div>`;
     $("#planCancel").onclick=()=>{ $("#planGate").hidden=true; };
+    $("#planRefer").onclick=()=>{ referStage($("#planText").value); };
     $("#planSubmit").onclick=()=>{
       const text = $("#planText").value.trim();
       if(!text) return;
@@ -1546,8 +1546,20 @@ function showPlanGate(){
   };
   const closeOut = ()=>{
     $("#planGate").hidden=true;
-    if(S.day===5){ go("manage"); if(!S.mgStarted){ S.mgStarted=true; startMgmt(); } }
+    if(S.day===5){ askDx(); }
     else advanceDay();
+  };
+  const referStage = (prevText)=>{
+    body.innerHTML = referralGridHTML() + `<div id="refOut"></div>` +
+      `<div class="sheetbtns" style="margin-top:.75rem;"><button class="btn" id="refBack">Back to the plan</button></div>`;
+    body.querySelectorAll("[data-refspec]").forEach(b=>{
+      b.onclick = ()=>{
+        const r = referralResponse(b.dataset.refspec);
+        document.getElementById("refOut").innerHTML = `<div class="reflist" style="margin-top:.75rem;">${r}</div>`;
+        b.disabled = true;
+      };
+    });
+    $("#refBack").onclick = ()=> writeStage(prevText);
   };
   /* an early ICU call is answered — and handed back */
   const icuStage = ()=>{
@@ -1931,10 +1943,108 @@ function referFinding(){
     `<div style="font-size:.72rem; color:var(--faint); margin-top:6px;">Dataset per HDFT AKI care bundle v3.0, May 2025</div></div>`;
 }
 function resusRight(){ return S.rx.has("iv") && S.rx.has("stop") && S.rx.has("uo") && !S.rx.has("gent") && !S.rx.has("furo") && !S.rx.has("nsd"); }
-/* ---------- Day 4, 03:20 — A to E. Assess everything, then treat. ---------- */
+/* ---------- referrals: one button, every speciality, answered in character ---------- */
+const SPECIALTIES = [
+  {id:"renal",  name:"Renal"},
+  {id:"haem",   name:"Haematology"},
+  {id:"icu",    name:"Critical care / ICU"},
+  {id:"cardio", name:"Cardiology"},
+  {id:"resp",   name:"Respiratory"},
+  {id:"gastro", name:"Gastroenterology"},
+  {id:"uro",    name:"Urology"},
+  {id:"endo",   name:"Endocrinology"},
+  {id:"neuro",  name:"Neurology"},
+  {id:"gensurg",name:"General surgery"},
+  {id:"elderly",name:"Elderly medicine"},
+  {id:"micro",  name:"Microbiology"},
+  {id:"pall",   name:"Palliative care"},
+  {id:"ortho",  name:"Orthopaedics"}
+];
+function referralResponse(spec){
+  const crisis = S.day === 4;
+  switch(spec){
+    case "renal":
+      if(crisis){ S.rx.add("filt"); if(!S.rxDay.filt) S.rxDay.filt = S.day;
+        return `“Refractory hyperkalaemia despite full therapy — that's the phrase that opens the unit. Yes. Ours or ICU's, tonight.”`; }
+      S.rx.add("renal"); if(!S.masterTicks.includes("renal")) S.masterTicks.push("renal");
+      return `“Unexplained AKI, not responding as expected — right to call. Run the bundle, get the extended screen away, and phone me with the trend tomorrow. I want urine output numbers when you do.”`;
+    case "haem":
+      S.rx.add("refer"); if(!S.rxDay.refer) S.rxDay.refer = S.day;
+      if(screenBack()) return referFinding();
+      if(screenSent()) return `“Light chains are in the overnight batch? Good. The moment the ratio's back, call me — if it's what you think it is, he's AKI-Plus and we share him with renal.”`;
+      return `“What's the paraprotein question? I can't own a suspicion. Send serum free light chains and a urine electrophoresis — then call me back.”`;
+    case "icu":
+      if(crisis){ S.rx.add("icu"); if(!S.rxDay.icu) S.rxDay.icu = S.day;
+        return `Picked up on the first ring. They take one look and take over: “We've got him. The filter goes up where he lies — nobody is moving this man anywhere.”`; }
+      S.rx.add("icuEarly");
+      return `“I've had a look at his numbers. Nothing needing organ support tonight — pressures holding, no ventilator, no filter. Optimise him medically, and call us back the moment that changes. Right thing to flag him, though.”`;
+    case "uro":
+      return S.ordered.has("uss")
+        ? `“Normal-sized kidneys, no hydronephrosis — he's not obstructed, so he's not ours. Good that you checked.”`
+        : `“Has he had an ultrasound? Scan him first — if there's hydro, we're very interested. Until then there's nothing for us to do.”`;
+    case "cardio":
+      return `“The ECG changes are the potassium talking, not the coronaries. Fix the chemistry — call us if anything ischaemic appears once the K⁺ is safe.”`;
+    case "resp":
+      return `“A wet chest from a failing kidney is a renal problem wearing a respiratory coat. Treat the cause — we've nothing to add.”`;
+    case "micro":
+      return `“Afebrile, clean dipstick, cultures with no growth — there's no antimicrobial question here. Please don't start anything on our account.”`;
+    case "pall":
+      return `“Happy to help with symptoms any time — but this reads as potentially reversible. Treat it first; call us if the goals change.”`;
+    case "endo":
+      return `“Calcium's your lead, but with that renal picture it isn't an endocrine story — check a PTH if you haven't, and look harder at the kidney.”`;
+    default:
+      return `A polite registrar hears you out and hands it back: “I can't see a question for our team in this one. Happy to look again if something changes.”`;
+  }
+}
+function referralGridHTML(){
+  return `<div style="font-size:.85rem; font-weight:600; margin-bottom:.5rem;">Refer — who do you want?</div>`+
+    `<div style="display:grid; grid-template-columns:1fr 1fr; gap:.5rem;">`+
+    SPECIALTIES.map(s=>`<button class="chip" data-refspec="${s.id}">${s.name}</button>`).join("")+
+    `</div>`;
+}
+
+/* ---------- The 03:20 A–E: assess, then ACT, letter by letter.
+   B and C do not let you past until the treatment is real.
+   Wrong or missing gets no hint — only the patient. ---------- */
+const AE_ITEMS = {
+  o2:    { rx:"o2",     label:"Oxygen", fb:"Sats climb to 96% on the mask. Breathing still fast, but fed.", aliases:["oxygen","o2","15l","15 litres","non rebreathe","nrb","high flow","high flow oxygen","venturi","face mask oxygen","nasal cannulae","oxygen mask"] },
+  situp: { rx:"situp",  label:"Sat upright", fb:"Sat forward on the pillows — a little easier to watch.", aliases:["sit him up","sit up","sit upright","prop him up","position upright"] },
+  cagl:  { rx:"cagl",   label:"Calcium gluconate", fb:"The ECG settles from lethal to merely frightening. You have bought minutes — spend them well.", aliases:["calcium gluconate","calcium","iv calcium","calcium chloride","10ml calcium","30ml calcium","cardiac protection"] },
+  insdex:{ rx:"insdex", label:"Insulin–dextrose", fb:"The potassium starts to shift. A loan, not a payment.", aliases:["insulin dextrose","insulin and dextrose","insulin glucose","dextrose insulin","actrapid","10 units actrapid","insulin infusion"] },
+  salb:  { rx:"salb",   label:"Salbutamol nebuliser", fb:"A little more potassium shifted. Same loan, same lender.", aliases:["salbutamol","salbutamol neb","nebuliser","nebs","back to back nebs"] },
+  kbind: { rx:"kbind",  label:"Potassium binder", fb:"Slow — but it genuinely removes.", aliases:["potassium binder","binder","lokelma","sodium zirconium","calcium resonium","resonium","patiromer"] },
+  bicarb:{ rx:"bicarb", label:"Sodium bicarbonate", fb:"The acidosis eases a fraction.", aliases:["sodium bicarbonate","bicarbonate","bicarb"] },
+  furo2: { rx:"furo2",  label:"Furosemide", fb:"Right idea for a wet chest — though the oliguric kidney gives back less than it promises.", aliases:["furosemide","frusemide","lasix","iv furosemide","diuretic"] },
+  fluid: { rx:"crisisFluid", label:"IV fluid", fb:"Into an overloaded chest. The sats dip, and the nurse says nothing at all.", aliases:["fluids","fluid bolus","ivf","crystalloid","saline","fluid challenge"] },
+  icuT:  { refer:"icu",   label:"Critical care", aliases:["icu","itu","critical care","outreach","intensive care","hdu","critical care outreach"] },
+  renalT:{ refer:"renal", label:"Renal", aliases:["renal","nephrology","dialysis","filter","filtration","haemofiltration","rrt","renal registrar"] }
+};
+const AE_FAILS = [
+  "“He's not getting better, doctor.” The monitor alarms again.",
+  "The QRS widens a fraction more. The nurse looks at you, and waits.",
+  "Still grey. Still breathing at 24. The night is not passing on its own."
+];
+function parseAE(text){
+  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&]+/g," ")) + " ";
+  const matched = [];
+  const pairs = [];
+  Object.entries(AE_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
+  pairs.sort((a,b)=>b[1].length-a[1].length);
+  for(const [k,a] of pairs){
+    if(!a) continue;
+    const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
+    if(re.test(t) && !matched.includes(k)){ matched.push(k); t = t.replace(re, " ; "); }
+  }
+  return matched;
+}
+function aeGate(letter){
+  if(letter==="B") return S.rx.has("o2");
+  if(letter==="C") return S.aeIx.ecg && S.aeIx.gas && S.interp.ecg4 && S.interp.gas4 && S.rx.has("cagl") && (S.rx.has("insdex")||S.rx.has("salb"));
+  return true;
+}
 const AE = [
   { id:"A", name:"Airway", find: ()=> `<div class="finding">Talking to you — short sentences, a breath between each. Airway his own.</div>` },
-  { id:"B", name:"Breathing", find: ()=> `<div class="finding">RR 24. SpO₂ 94% on air. Symmetrical expansion, working harder than he should be.</div>` + mediaBlock("crack") +
+  { id:"B", name:"Breathing", find: ()=> `<div class="finding">RR 24. SpO₂ ${S.rx.has("o2")?"96% on high-flow":"94% on air"}. Symmetrical expansion, working harder than he should be.</div>` + mediaBlock("crack") +
       `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
         <button class="btn btn--sm" data-aeix="cxr" ${S.aeIx.cxr?"disabled":""}>${S.aeIx.cxr?"CXR done":"Portable CXR"}</button>
       </div><div id="aeBResults">${S.aeIx.cxr?mediaBlock("cxrOed"):""}</div>` },
@@ -1946,53 +2056,117 @@ const AE = [
   { id:"D", name:"Disability", find: ()=> `<div class="finding">Alert — answers slowly but correctly. Pupils equal. Glucose 6.4. Arms outstretched: a coarse, irregular flap.</div>` },
   { id:"E", name:"Exposure", find: ()=> `<div class="finding">Temp 36.2. Abdomen soft. No rashes, no bleeding.</div>` + mediaBlock("oedema") }
 ];
-function aeComplete(){ return AE.every(a=>S.ae[a.id]) && S.aeIx.ecg && S.aeIx.gas && S.interp.ecg4 && S.interp.gas4; }
+function aeLetterCard(a, idx){
+  const li = document.createElement("li"); li.className="row";
+  const state = idx < S.aeStep ? "done" : idx === S.aeStep ? "open" : "locked";
+  if(state==="locked"){
+    li.innerHTML = `<div class="row__head"><span class="row__name" style="opacity:.4;"><b>${a.id}</b> — ${a.name}</span></div>`;
+    return li;
+  }
+  const assessed = S.ae[a.id];
+  let html = `<div class="row__head"><span class="row__name"><b>${a.id}</b> — ${a.name}</span>`+
+    (assessed ? `` : `<button class="act" data-aeassess="${a.id}">Assess</button>`)+`</div>`;
+  if(assessed){
+    html += a.find();
+    const given = (S.aeGiven[a.id]||[]);
+    if(given.length) html += `<div class="finding" style="border-left:3px solid var(--good); padding-left:10px;">Given: ${given.join(" · ")}</div>`;
+    if(state==="open"){
+      if(!S.aeAsking){
+        html += `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+          <button class="btn btn--sm" data-aeyes="${a.id}">Do something</button>
+          <button class="btn btn--sm btn--ghost" data-aeno="${a.id}">Nothing here — move on</button>
+          <button class="btn btn--sm btn--ghost" data-aerefer="1">📞 Refer</button>
+        </div>`;
+      } else {
+        html += `<div style="margin-top:8px;">
+          <textarea id="aeText" style="width:100%; min-height:4.5rem; padding:.6rem; font-family:inherit; font-size:.95rem; border:1px solid var(--rule); border-radius:10px; background:var(--paper); color:var(--ink);" placeholder="What do you want to do — drugs, doses, positions…"></textarea>
+          <div style="display:flex; gap:8px; margin-top:6px; flex-wrap:wrap;">
+            <button class="btn btn--sm" data-aedo="${a.id}">Do it</button>
+            <button class="btn btn--sm btn--ghost" data-aeno="${a.id}">Move on</button>
+          </div>
+          <div id="aeMsg" style="font-size:.82rem; color:var(--muted); margin-top:4px; min-height:1.1em;"></div>
+        </div>`;
+      }
+      if(S.aeFailNote) html += `<div class="finding" data-tone="alert" style="margin-top:8px;">${S.aeFailNote}</div>`;
+    }
+  }
+  li.innerHTML = html;
+  return li;
+}
 function renderAE(){
   const core = $("#examCore"); core.innerHTML="";
   $("#moreExam").style.display="none";
   $("#reexamWrap").style.display="none";
   const intro=document.createElement("li"); intro.className="row";
-  intro.innerHTML=`<div class="finding" style="border-left:3px solid var(--danger); padding-left:10px;">03:20. Nobody hands you anything. Assess him — A to E — and only then decide.</div>`;
+  intro.innerHTML=`<div class="finding" style="border-left:3px solid var(--danger); padding-left:10px;">03:20. Nobody hands you anything. A to E — and you treat as you find, because that is what A to E is for.</div>`;
   core.appendChild(intro);
-  AE.forEach(a=>{
-    const done = S.ae[a.id];
+  AE.forEach((a,idx)=>core.appendChild(aeLetterCard(a,idx)));
+  if(S.aeStep >= AE.length){
     const li=document.createElement("li"); li.className="row";
-    li.innerHTML = `<div class="row__head"><span class="row__name"><b>${a.id}</b> — ${a.name}</span>`+
-      `<button class="act" ${done?'disabled':''} data-picked="${done?1:0}">${done?"Assessed":"Assess"}</button></div>`+
-      (done ? a.find() : "");
-    if(!done) li.querySelector("button.act").onclick = ()=>{ S.ae[a.id]=true; tick(2); renderAE(); };
+    li.innerHTML = `<div class="finding">A to E complete. He is oliguric on a failing kidney, with shifted potassium waiting to come back. <b>Who owns the next hour?</b></div>`+
+      `<div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+        <button class="btn btn--sm" data-aerefer="1">📞 Refer</button>
+      </div><div id="aeReferHost"></div>`+
+      (S.referralNote ? `<div class="reflist" style="margin-top:8px;">${S.referralNote}</div>` : "");
     core.appendChild(li);
-  });
-  /* treatment unlocks only once the picture is complete */
-  const rxLi=document.createElement("li"); rxLi.className="row";
-  if(!aeComplete()){
-    rxLi.innerHTML = `<div class="panel__hint" style="padding:10px 0;">Treatment opens when the assessment is complete — all five letters, the ECG and the gas, with your reads committed.</div>`;
-  } else {
-    const groups = [["Treat — in the order you believe in", CASE.rx.filter(m=>m.g==="crisis")]];
-    if(screenBack()) groups.push(["Definitive referral", CASE.rx.filter(m=>m.g==="further")]);
-    let html = "";
-    groups.forEach(([label,items])=>{
-      html += `<div class="grouph">${label}</div>`;
-      items.forEach(m=>{
-        const on=S.rx.has(m.id);
-        html += `<div class="row__head" style="margin-bottom:6px;"><span class="row__name">${m.t}${m.sub?` <span class="row__sub">· ${m.sub}</span>`:""}</span>`+
-          `<button class="act" data-crisis="${m.id}" data-picked="${on?1:0}">${on?(m.isRefer?"Called":"Given"):(m.isRefer?"Call":"Give")}</button></div>`+
-          (on && m.isRefer ? referFinding() : "")+
-          (on && m.note ? `<div class="finding">${m.note}</div>` : "");
-      });
-    });
-    if(!screenSent()){
-      html += `<div class="reflist"><div class="rq">Renal reg, 04:10: “Normal-sized kidneys, no obstruction, calcium settled — and no cause. What have you actually sent?”</div>`+
-        `<div style="color:var(--muted);">Silence on the line while you check the orders. Nothing. Three days, and the tests that could name this were never sent.</div></div>`;
-    }
-    rxLi.innerHTML = html;
-    rxLi.querySelectorAll("[data-crisis]").forEach(b=>{
-      b.onclick=()=>{ const id=b.dataset.crisis; if(S.rx.has(id)){ S.rx.delete(id); } else { S.rx.add(id); if(!S.rxDay[id]) S.rxDay[id]=S.day; } tick(3); renderAE(); renderObs(); };
-    });
   }
-  core.appendChild(rxLi);
   updateTabDots();
 }
+/* letter events */
+document.addEventListener("click", e=>{
+  const asBtn = e.target.closest("[data-aeassess]");
+  if(asBtn){ S.ae[asBtn.dataset.aeassess]=true; S.aeFailNote=""; tick(2); renderAE(); return; }
+  const yes = e.target.closest("[data-aeyes]");
+  if(yes){ S.aeAsking=true; S.aeFailNote=""; renderAE(); const t=$("#aeText"); if(t) t.focus(); return; }
+  const doBtn = e.target.closest("[data-aedo]");
+  if(doBtn){
+    const t = $("#aeText"); const txt = (t&&t.value.trim())||"";
+    if(!txt) return;
+    const found = parseAE(txt);
+    if(!found.length){ const m=$("#aeMsg"); if(m) m.textContent="Not recognised — write it the way you'd say it to the nurse."; return; }
+    const fbs = [];
+    found.forEach(k=>{
+      const it = AE_ITEMS[k];
+      if(it.refer){ S.referralNote = referralResponse(it.refer); return; }
+      if(!S.rx.has(it.rx)){
+        S.rx.add(it.rx); if(!S.rxDay[it.rx]) S.rxDay[it.rx]=S.day;
+        const L = AE[S.aeStep] ? AE[S.aeStep].id : "E";
+        (S.aeGiven[L] = S.aeGiven[L]||[]).push(it.label);
+        if(it.fb) fbs.push(it.fb);
+      }
+    });
+    S.aeAsking=false;
+    S.aeFailNote = fbs.length ? `<span style="color:var(--good);">${fbs.join("<br>")}</span>` : "";
+    tick(4); renderAE(); return;
+  }
+  const no = e.target.closest("[data-aeno]");
+  if(no){
+    const letter = AE[S.aeStep] ? AE[S.aeStep].id : null;
+    if(letter && !aeGate(letter)){
+      S.aeFails = (S.aeFails||0)+1;
+      S.aeFailNote = AE_FAILS[Math.min(S.aeFails-1, AE_FAILS.length-1)];
+      S.aeAsking = true;                       // the letter stays open
+      tick(3); renderAE(); return;
+    }
+    S.aeAsking=false; S.aeFailNote=""; S.aeFails=0;
+    S.aeStep++;
+    tick(2); renderAE(); return;
+  }
+  const rf = e.target.closest("[data-aerefer]");
+  if(rf){
+    const host = document.getElementById("aeReferHost") || rf.parentElement.parentElement;
+    const wrap = document.createElement("div");
+    wrap.innerHTML = referralGridHTML();
+    host.appendChild(wrap);
+    rf.disabled = true;
+    return;
+  }
+  const spec = e.target.closest("[data-refspec]");
+  if(spec && S.day===4){
+    S.referralNote = referralResponse(spec.dataset.refspec);
+    tick(5); renderAE(); return;
+  }
+});
 document.addEventListener("click", e=>{
   const b = e.target.closest("[data-aeix]");
   if(!b || b.disabled) return;
@@ -2020,10 +2194,17 @@ $("#toCommit").onclick = ()=>{
   evaluateDeath();
   if (S.died){ scoreAndShow(); return; }
   if (S.earlyCrisis){ enterICU(); return; }
-  go("manage");
-  if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+  askDx();
 };
-$("#nameBtn").onclick = ()=>{ go("commit"); };
+
+/* The diagnosis, asked once, at the end — no naming mid-case */
+function askDx(){
+  const kick = document.querySelector("#s-commit .kicker"); if(kick) kick.textContent = "The question";
+  const h = document.querySelector("#s-commit h2"); if(h) h.textContent = "What was this?";
+  const l = document.querySelector("#s-commit .lede"); if(l) l.textContent = "One attempt. Right or wrong — write it the way you'd write it in the notes.";
+  const back = document.querySelector('#s-commit [data-go="work"]'); if(back) back.style.display = "none";
+  go("commit");
+}
 $("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
 $("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
 $("#commitBtn").onclick = ()=>{
@@ -2032,8 +2213,8 @@ $("#commitBtn").onclick = ()=>{
   $("#commitErr").style.display="none";
   S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
   S.dxCommitted = true; S.dxDay = S.day;
-  updateBar();
-  go("work");
+  go("manage");
+  if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
 };
 
 /* ---------- management drill: one question at a time, 30 s each ---------- */
@@ -2158,6 +2339,8 @@ function scoreAndShow(){
     if(S.rx.has("cagl")) add("Protected the myocardium first", 6);
     if(crisisEscalated()) add("Escalated the refractory crisis", 6);
     if(S.rx.has("furo2")) add("Furosemide for the wet chest — a fair bridge", 2);
+    if(S.rx.has("crisisFluid")) add("Fluids into an overloaded crisis", -4);
+    if(S.rx.has("o2")) add("Oxygen on at B", 2);
     if(S.rx.has("transport")) add("Booked transport for an unsafe patient", -10);
   }
   const referFull = S.rx.has("refer") && S.ordered.has("sflc") && S.ordered.has("bjp") && S.ordered.has("uss") && S.rx.has("stop") && S.rx.has("iv");
@@ -2191,7 +2374,7 @@ function scoreAndShow(){
         : "Refractory hyperkalaemia, never escalated — no ICU in the plan. The diagnosis — light-chain myeloma — arrives with the post-mortem bloods."}</div></div></div>`
     : `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'!'}</span>`+
       `<div><div class="t">${S.dxCorrect?"Myeloma — you found the invisible clone.":"It was myeloma — light-chain cast nephropathy."}</div>`+
-      `<div class="s">${S.dxCorrect?`Named on ${S.dxDay===5?"the ICU round":`Day ${S.dxDay}`}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
+      `<div class="s">${S.dxCorrect?`Named ${S.dxDay===5?"on the ICU round":"at the crisis"}, after ${S.round} round${S.round===1?'':'s'} of investigations.`:`${S.round} round${S.round===1?'':'s'} of investigations — and it left the ward with him.`}</div></div></div>`;
 
   // learning objectives
   const baseTxt = S.ordered.has("gpr")
@@ -2218,7 +2401,7 @@ function scoreAndShow(){
     `the renal screen went ${S.screenDay!==null?`on <b>Day ${S.screenDay}</b>`:"<b>never</b>"}, `+
     `the fluids ${S.rx.has("stopiv")?"were stopped on examination, in time":"<b>were never formally reviewed</b>"}, `+
     `the crisis ${S.earlyCrisis?"<b>came a night early — the nephrotoxins never came off</b> — and ":""}was ${S.died?"<b>lost</b>":S.rx.has("cagl")&&crisisEscalated()?"held and escalated":"survived, untidily"} — `+
-    `and you ${S.dxCorrect?`named it <b>${S.dx}</b> on Day ${S.dxDay}`:S.dxCommitted?`committed to <b>${S.dx}</b>`:"never named it"}, `+
+    `and you ${S.dxCorrect?`named it <b>${S.dx}</b> ${S.dxDay===5?"on the ICU round":"at the crisis"}`:S.dxCommitted?`committed to <b>${S.dx}</b>`:"never named it"}, `+
     `reading the signs right <b>${goodReads} of ${reads.length}</b>, with <b>${S.revisits}</b> step-back${S.revisits===1?'':'s'} and <b>${S.reexamCount}</b> formal reassessment${S.reexamCount===1?'':'s'} along the way.`;
 
   // the master plan — revealed only here, at the end
