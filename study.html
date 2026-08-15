@@ -118,7 +118,7 @@ h2.view-h{font-size:1.9rem;margin-bottom:var(--s2)}
 .banner .x{margin-left:auto;background:none;border:none;color:var(--accent-2);font-size:1.1rem}
 
 /* stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-bottom:var(--s5)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--s3);margin-bottom:var(--s5)}
 .stat{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4)}
 .stat .n{font-family:var(--fd);font-weight:600;font-size:1.9rem;line-height:1}
 .stat .l{font-size:.74rem;color:var(--muted);margin-top:var(--s1)}
@@ -277,12 +277,26 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    ============================================================ */
 const OPEN_WEEKS    = ['w01'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
-const SHOWN         = 3;         // how many cases appear in the Programme list (bump as you add more)
+const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 const isOpen    = w => OPEN_WEEKS.includes(w.id);
+
+/* ============================================================
+   THE CASE LIST. To add a case, append one entry to PROGRAM:
+     { id:'wNN',                 // unique, keep the wNN format (w13, w14, …)
+       t:'The revealed title',   // shown ONLY after the trainee solves it
+       sub:'one-line subtitle',  // also hidden until solved
+       caseId:'slug',            // must match the case file's mp_case id
+       url:BASE+'file.html',     // deployed case URL, or null if not built yet
+       debrief:'video',          // 'video' or 'notes'
+       obj:['objective one','objective two'],
+       read:[{t:'reading one'},{t:'reading two'}] },
+   Then release it to trainees by adding its id to OPEN_WEEKS above.
+   The Programme shows every released case automatically.
+   ============================================================ */
 const PROGRAM=[
  {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
   obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
-  read:[{t:'NICE NG12 — acute upper GI bleeding'},{t:'Glasgow-Blatchford score — MDCalc'}]},
+  read:[{t:'NICE CG141 — acute upper GI bleeding',url:'https://www.nice.org.uk/guidance/cg141'},{t:'Glasgow-Blatchford score — MDCalc',url:'https://www.mdcalc.com/calc/518/glasgow-blatchford-bleeding-score-gbs'}]},
  {id:'w02',t:'The second attendance',sub:'One valve, five organs',month:'Month 1',caseId:'acs-mi',url:BASE+'mi.html',debrief:'video',
   obj:['Find the thing upstream of everything else','Cultures before antibiotics, always','Examine for the embolic phenomena','Image the valve properly: TTE then TOE','Know what not to do to an embolic infarct'],
   read:[{t:'ESC 2023 — infective endocarditis'},{t:'Fourth Universal Definition of MI — type 2'},{t:'IDSA 2015 — native vertebral osteomyelitis'}]},
@@ -445,7 +459,6 @@ function renderHome(){
     <h2 class="view-h">Good to see you, ${PROFILE?.pseudonym||'Trainee'}.</h2>
     <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
     <div class="stats">
-      <div class="stat"><div class="n">${t.points}</div><div class="l">CPD points</div></div>
       <div class="stat"><div class="n">${t.cases}</div><div class="l">cases completed</div></div>
       <div class="stat"><div class="n">${streak()}</div><div class="l">streak</div></div>
     </div>
@@ -471,10 +484,15 @@ function renderHome(){
 
 function renderReadList(ul,w){
   ul.innerHTML='';
-  w.read.forEach((r,i)=>{const key=w.id+':'+i;const done=READ[key];const li=el('li');li.dataset.done=done?1:0;
-    li.innerHTML=`<span class="chk">✓</span><span class="rt">${r.t}</span>`;
-    li.onclick=()=>{READ[key]=!READ[key];saveLocal();li.dataset.done=READ[key]?1:0;if(SB&&USER)upsertProgress(w.id,{readingDone:true});};
-    ul.appendChild(li);});
+  w.read.forEach((r,i)=>{
+    const key=w.id+':'+i; const li=el('li'); li.dataset.done=READ[key]?1:0;
+    const title = r.url ? `<a href="${r.url}" target="_blank" rel="noopener" class="rt">${r.t} ↗</a>` : `<span class="rt">${r.t}</span>`;
+    li.innerHTML=`<span class="chk" role="button" aria-label="Mark read">✓</span>${title}`;
+    const mark=v=>{READ[key]=v;saveLocal();li.dataset.done=v?1:0;if(v&&SB&&USER)upsertProgress(w.id,{readingDone:true});};
+    li.querySelector('.chk').onclick=()=>mark(!READ[key]);          // tick to mark read
+    const a=li.querySelector('a'); if(a) a.addEventListener('click',e=>{e.stopPropagation();mark(true);}); // opening it counts as read
+    ul.appendChild(li);
+  });
 }
 
 function renderProgramme(){
@@ -482,7 +500,14 @@ function renderProgramme(){
   v.innerHTML=`<div class="kicker">The cases</div><h2 class="view-h">Cases</h2><p class="lede">Case 1 is live. New cases are released one at a time — tap any case for the detail.</p><div id="weeks"></div>`;
   mount(v);
   const box=$('#weeks');
-  PROGRAM.slice(0,SHOWN).forEach(w=>{
+  // Show every released case (grows automatically as OPEN_WEEKS grows) + a couple of "coming soon" teasers.
+  let teaser=0;
+  const shownCases=PROGRAM.filter(w=>{
+    if(isOpen(w) || (PROG[w.id]||{}).caseDone) return true;
+    if(teaser<TEASERS){ teaser++; return true; }
+    return false;
+  });
+  shownCases.forEach(w=>{
     const s=weekState(w,PROG);
     const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
     const rev=revealed(w), cn=caseNo(w);
