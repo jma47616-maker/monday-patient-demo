@@ -269,9 +269,15 @@ const CPD_GOAL=25;
 const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
 
 /* ============ programme ============ */
-const START='2026-07-13'; // week 1 Monday — CHANGE THIS to your real cohort start (a Monday)
-function wkDates(n){ const m=new Date(START); m.setDate(m.getDate()+7*(n-1)); const f=new Date(m); f.setDate(f.getDate()+4); return {monday:m,friday:f}; }
-const fmtD=d=>d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+/* ============================================================
+   RELEASE CONTROL — no cohort start date, no calendar maths.
+   Weeks are opened by hand, one at a time. To release a week,
+   add its id to OPEN_WEEKS. To drop its Friday debrief, add the
+   id to OPEN_DEBRIEFS. That is the only edit required.
+   ============================================================ */
+const OPEN_WEEKS    = ['w01'];   // playable now
+const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
+const isOpen    = w => OPEN_WEEKS.includes(w.id);
 const PROGRAM=[
  {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
   obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
@@ -310,16 +316,12 @@ const PROGRAM=[
   obj:['Reason from a constellation','Treat the cause, not the number','Know when to stop'],
   read:[{t:'Bring it all together — revision'}]}
 ];
-PROGRAM.forEach(w=>{const d=wkDates(+w.id.slice(1));w.monday=d.monday;w.friday=d.friday;});
-
 function weekState(w,prog){
-  const now=new Date();
   const p=prog[w.id]||{};
   if(p.caseDone) return 'complete';
-  if(now < w.monday) return 'locked';
-  return 'live';
+  return isOpen(w) ? 'live' : 'locked';
 }
-function debriefLive(w){ return new Date() >= w.friday; }
+function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
 // A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
 function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
 function caseNo(w){ return +w.id.slice(1); }
@@ -431,15 +433,15 @@ function cpdTotals(){
 function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+String(i).padStart(2,'0');if((PROG[id]||{}).caseDone)s++;else if(s>0)break;} return s; }
 
 function renderHome(){
-  const now=new Date();
-  const cur=PROGRAM.find(w=>now>=w.monday&&now<=w.friday) || [...PROGRAM].reverse().find(w=>now>=w.monday) || PROGRAM[0];
+  // the current week is the last one released, not whatever the calendar says
+  const cur=[...PROGRAM].reverse().find(isOpen) || PROGRAM[0];
   const t=cpdTotals();
   const rev=revealed(cur), cn=caseNo(cur);
-  const bannerHtml = (now>=cur.monday && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
+  const bannerHtml = (isOpen(cur) && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
     ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>Case ${cn}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
   const v=el('div','view on');
   v.innerHTML=`${bannerHtml}
-    <div class="kicker">Monday ${fmtD(cur.monday)}</div>
+    <div class="kicker">This week</div>
     <h2 class="view-h">Good to see you, ${PROFILE?.pseudonym||'Trainee'}.</h2>
     <p class="lede">Twelve weeks of acute medicine, one patient at a time. Here's where you are.</p>
     <div class="stats">
@@ -448,13 +450,13 @@ function renderHome(){
       <div class="stat"><div class="n">${streak()}</div><div class="l">week streak</div></div>
     </div>
     <div class="hero">
-      <div class="wk">CASE ${cn} · ${fmtD(cur.monday)}</div>
+      <div class="wk">CASE ${cn}</div>
       <h3>${rev?cur.t:'Case '+cn}</h3>
       <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${cur.caseId?'Work them up, commit a diagnosis, and manage it.':'Interactive case in production.'}</p>
       ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`}
     </div>
     <div class="card">
-      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — unlocks '+fmtD(cur.friday)}</div>
+      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
       <div style="display:flex;align-items:center;gap:var(--s3)">
         <span style="font-size:1.4rem">${cur.debrief==='video'?'▶':'📄'}</span>
         <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${rev?cur.sub:'Reveals the answer'}</div></div>
@@ -486,7 +488,7 @@ function renderProgramme(){
     const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
     const rev=revealed(w), cn=caseNo(w);
     const row=el('button','wkrow');row.dataset.s=s;
-    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Unlocks '+fmtD(w.monday):s==='complete'?'Completed':'Live now — tap to start')}</span></span>${badge}`;
+    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Not released yet':s==='complete'?'Completed':'Live now — tap to start')}</span></span>${badge}`;
     row.onclick=()=>openWeek(w.id);
     box.appendChild(row);
   });
@@ -494,9 +496,9 @@ function renderProgramme(){
 
 function openWeek(id){
   const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{}; const rev=revealed(w); const cn=caseNo(w);
-  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Unlocks ${fmtD(w.monday)}</span>`;
+  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Coming soon</span>`;
   const head=`<button class="close" onclick="closeModal()">✕</button>
-    <div class="detmeta">Case ${cn} · ${fmtD(w.monday)} – ${fmtD(w.friday)}</div>
+    <div class="detmeta">Case ${cn}</div>
     ${pill}
     <h3>${rev?w.t:'Case '+cn}</h3>`;
   let body;
@@ -506,10 +508,10 @@ function openWeek(id){
     <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
     ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:''}
     <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
-    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Fri '+fmtD(w.friday)}</button></div>
+    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Friday'}</button></div>
     <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
   } else if(s==='locked'){
-    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Locked. Unlocks Monday ${fmtD(w.monday)}.</p>`;
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Not released yet — this one arrives in a future week.</p>`;
   } else {
     body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">A new patient — you go in blind. Take a history, examine, investigate, then commit a diagnosis. The topic, objectives and reading unlock the moment you solve it.</p>
     ${w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:'<div style="font-size:.85rem;color:var(--muted)">Interactive case in production for this week.</div>'}`;
@@ -580,7 +582,7 @@ function wireLaunchers(scope){
 }
 document.body.addEventListener('click',e=>{const t=e.target.closest('[data-launch]');if(t&&!$('#views').contains(t))launch(t.dataset.launch);const w=e.target.closest('[data-week]');if(w&&!$('#views').contains(w))openWeek(w.dataset.week);const d=e.target.closest('[data-debrief]');if(d&&!$('#views').contains(d)){upsertProgress(d.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');}});
 function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;} const ret=encodeURIComponent(location.origin+location.pathname); location.href=`${w.url}${w.url.includes('?')?'&':'?'}return=${ret}&week=${id}`; }
-function updateBell(){ const now=new Date(); const cur=PROGRAM.find(w=>now>=w.monday&&now<=w.friday); $('#belldot').classList.toggle('on', !!(cur&&!(PROG[cur.id]||{}).caseDone)); }
+function updateBell(){ const cur=[...PROGRAM].reverse().find(isOpen); $('#belldot').classList.toggle('on', !!(cur&&!(PROG[cur.id]||{}).caseDone)); }
 $('#bell').onclick=()=>go('home');
 function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 let toastTimer;

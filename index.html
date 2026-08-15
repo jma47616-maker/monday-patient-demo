@@ -675,13 +675,7 @@ IV fluids
         </ul>
       </div>
 
-      <div class="card lock">
-        <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-        <div>
-          <div style="font-weight:600; font-size:.9rem;">Friday debrief — locked</div>
-          <div style="font-size:.78rem; color:var(--faint);">Unlocks Friday 17:00 · the full work-up and management of upper GI bleeding, and why the decoys nearly won.</div>
-        </div>
-      </div>
+      <div class="card lock" id="debriefCard"></div>
 
       <div class="btnrow">
         <button class="btn btn--ghost" id="replay">Play the case again</button>
@@ -691,7 +685,7 @@ IV fluids
   </main>
 
   <footer>
-    The Monday Patient · weekly acute-medicine case series. Prototype build with a fictional patient — no real patient data. Scores, accounts and the leaderboard arrive with the full platform.
+    The Monday Patient · weekly acute medicine cases. Fictional patient — no real patient data. For education only; follow your local policy.
   </footer>
 
   <div class="overlay" id="commitGate" hidden>
@@ -1976,8 +1970,38 @@ function mpReturnBtn(score, max){
   br.insertBefore(b, br.firstChild);
 }
 
+/* ============================================================
+   FRIDAY DEBRIEF
+   To release it: set DEBRIEF.url to the file (e.g. "ugib-debrief.mp4"
+   or a debrief page) and DEBRIEF.live = true. Nothing else to change.
+   ============================================================ */
+const DEBRIEF = {
+  live: false,
+  url:  "",                       // e.g. "ugib-debrief.mp4"
+  blurb:"The full work-up and management of upper gastrointestinal bleeding, and why the decoys nearly won."
+};
+function renderDebrief(){
+  const c = $("#debriefCard"); if(!c) return;
+  if(DEBRIEF.live && DEBRIEF.url){
+    c.innerHTML =
+      `<span class="ic" style="color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>`+
+      `<div style="flex:1;">
+         <div style="font-weight:600; font-size:.9rem;">Friday debrief — out now</div>
+         <div style="font-size:.78rem; color:var(--faint);">${DEBRIEF.blurb}</div>
+       </div>
+       <a class="btn btn--sm" style="width:auto; text-decoration:none;" href="${DEBRIEF.url}" target="_blank" rel="noopener">Watch</a>`;
+  } else {
+    c.innerHTML =
+      `<span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>`+
+      `<div>
+         <div style="font-weight:600; font-size:.9rem;">Friday debrief — coming Friday</div>
+         <div style="font-size:.78rem; color:var(--faint);">${DEBRIEF.blurb}</div>
+       </div>`;
+  }
+}
+
 /* ---------- init ---------- */
-renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar(); sceneMini(false);
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar(); sceneMini(false); renderDebrief();
 $("#clock").textContent = fmtClock(S.clock);
 </script>
 </body>
