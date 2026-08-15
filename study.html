@@ -277,6 +277,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    ============================================================ */
 const OPEN_WEEKS    = ['w01'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
+const SHOWN         = 3;         // how many cases appear in the Programme list (bump as you add more)
 const isOpen    = w => OPEN_WEEKS.includes(w.id);
 const PROGRAM=[
  {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
@@ -424,11 +425,10 @@ $('#signout-d').onclick=signOut;
 function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard}[VIEW]; if(f) f(); }
 
 function cpdTotals(){
-  let cases=0,debriefs=0,reflections=REFL.length,reading=0;
-  PROGRAM.forEach(w=>{const p=PROG[w.id]||{};if(p.caseDone)cases++;if(p.debriefDone)debriefs++;});
-  Object.values(READ).forEach(v=>{if(v)reading++;});
-  const total=cases*2+debriefs*1+reflections*1+reading*0.5;
-  return {cases,debriefs,reflections,reading,total:Math.round(total*2)/2};
+  // One CPD point per completed case. Finished = finished; no hours.
+  let cases=0;
+  PROGRAM.forEach(w=>{if((PROG[w.id]||{}).caseDone)cases++;});
+  return {cases, points:cases};
 }
 function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+String(i).padStart(2,'0');if((PROG[id]||{}).caseDone)s++;else if(s>0)break;} return s; }
 
@@ -443,11 +443,11 @@ function renderHome(){
   v.innerHTML=`${bannerHtml}
     <div class="kicker">This week</div>
     <h2 class="view-h">Good to see you, ${PROFILE?.pseudonym||'Trainee'}.</h2>
-    <p class="lede">Twelve weeks of acute medicine, one patient at a time. Here's where you are.</p>
+    <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
     <div class="stats">
-      <div class="stat"><div class="n">${t.total}</div><div class="l">CPD hours</div></div>
-      <div class="stat"><div class="n">${t.cases}/12</div><div class="l">cases done</div></div>
-      <div class="stat"><div class="n">${streak()}</div><div class="l">week streak</div></div>
+      <div class="stat"><div class="n">${t.points}</div><div class="l">CPD points</div></div>
+      <div class="stat"><div class="n">${t.cases}/${SHOWN}</div><div class="l">cases done</div></div>
+      <div class="stat"><div class="n">${streak()}</div><div class="l">streak</div></div>
     </div>
     <div class="hero">
       <div class="wk">CASE ${cn}</div>
@@ -479,11 +479,10 @@ function renderReadList(ul,w){
 
 function renderProgramme(){
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">12 weeks · 3 months</div><h2 class="view-h">The programme</h2><p class="lede">Released every Monday at 08:00, debrief every Friday. Tap a week for the detail.</p><div id="weeks"></div>`;
+  v.innerHTML=`<div class="kicker">The cases</div><h2 class="view-h">Cases</h2><p class="lede">Case 1 is live. New cases are released one at a time — tap any case for the detail.</p><div id="weeks"></div>`;
   mount(v);
-  const box=$('#weeks'); let month='';
-  PROGRAM.forEach(w=>{
-    if(w.month!==month){month=w.month;box.appendChild(el('div','month',month));}
+  const box=$('#weeks');
+  PROGRAM.slice(0,SHOWN).forEach(w=>{
     const s=weekState(w,PROG);
     const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
     const rev=revealed(w), cn=caseNo(w);
@@ -548,14 +547,17 @@ function openRefl(){
 }
 
 function renderCPD(){
-  const t=cpdTotals(); const pct=Math.min(100,Math.round(t.total/CPD_GOAL*100));
+  const t=cpdTotals();
+  const done=PROGRAM.filter(w=>(PROG[w.id]||{}).caseDone);
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">Every case, debrief, reflection and reading builds your portfolio evidence.</p>
-    <div class="card"><div style="display:flex;align-items:baseline;justify-content:space-between"><div class="card__label" style="margin:0">Toward your goal</div><div class="mono" style="font-weight:600">${t.total} / ${CPD_GOAL} h</div></div><div class="bar"><span style="width:${pct}%"></span></div>
-      <div class="brk"><div class="row"><span>Monday cases · 2h each</span><span class="v">${t.cases*2}</span></div><div class="row"><span>Friday debriefs · 1h</span><span class="v">${t.debriefs}</span></div><div class="row"><span>Reflections · 1h</span><span class="v">${t.reflections}</span></div><div class="row"><span>Reading · 0.5h</span><span class="v">${t.reading*0.5}</span></div></div>
+  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">One CPD point for every case you complete — your portfolio evidence.</p>
+    <div class="card" style="text-align:center;padding:var(--s6) var(--s4)">
+      <div style="font-family:var(--fd);font-weight:600;font-size:3.4rem;line-height:1">${t.points}</div>
+      <div style="color:var(--muted);font-size:.9rem;margin-top:var(--s2)">CPD point${t.points===1?'':'s'} earned · 1 per completed case</div>
     </div>
+    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+1</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
     <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
-    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine study programme</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> of 12 weekly cases, accruing <b>${t.total}</b> hours of CPD.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>`;
+    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>`;
   mount(v);
 }
 
