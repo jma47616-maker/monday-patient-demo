@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Monday Patient">
-<title>The Monday Patient · Study hub</title>
+<title>The Monday Patient Â· Study hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -70,7 +70,10 @@ h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height
 /* ===== app shell ===== */
 #app{display:none;min-height:100dvh}
 #app.on{display:grid;grid-template-columns:1fr}
-.wrap{max-width:64rem;margin-inline:auto;width:100%;display:grid;grid-template-columns:1fr}
+/* min-width:0 on both grid items: without it their automatic minimum is min-content,
+   so any long unbroken string widens the whole column instead of wrapping inside it. */
+.wrap{max-width:64rem;margin-inline:auto;width:100%;display:grid;grid-template-columns:1fr;min-width:0}
+.wrap>*{min-width:0}
 @media(min-width:860px){ .wrap{grid-template-columns:15rem 1fr;gap:var(--s6);padding:0 var(--s5)} }
 /* sidebar (desktop) */
 .side{display:none}
@@ -194,10 +197,31 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 .detmeta{font-size:.78rem;color:var(--muted);font-family:var(--fm);margin-bottom:var(--s3)}
 .pill{display:inline-block;font-size:.7rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;margin-bottom:var(--s3)}
 
+/* governance: Caldicott + medical-simulation disclaimer */
+.disclaimer{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.78rem;line-height:1.5;color:var(--muted);display:flex;flex-direction:column;gap:var(--s2);text-align:left}
+.disclaimer p{margin:0;display:flex;gap:var(--s2);align-items:flex-start}
+.disclaimer .ico{flex:none;line-height:1.5}
+.disclaimer b{color:var(--ink-2);font-weight:600}
+.disclaimer--login{margin-top:var(--s5)}
+.disclaimer--app{margin-top:var(--s7)}
+.disclaimer--cert{margin-top:var(--s5);background:none;border-color:var(--rule-2)}
+
+/* guideline evidence stamp */
+.evidence-badge{display:flex;align-items:flex-start;gap:.4rem;font-size:.72rem;line-height:1.4;color:var(--muted);background:var(--paper-3);border:1px solid var(--rule);border-radius:var(--r-md);padding:.28rem .6rem;margin-top:var(--s2)}
+.evidence-badge .ico{flex:none;font-size:.78rem;line-height:1.4}
+.evidence-badge b{color:var(--ink-2);font-weight:600}
+/* On a week row the citation must WRAP, never nowrap+ellipsis: a nowrap child sets
+   the row's min-content width, and .wrap/main are grid items, so a long citation
+   silently pushed the whole column past the viewport (overflow-x:clip hid it).
+   Wrapping keeps min-content at one word; the clamp keeps the row compact. */
+.evidence-badge--inline{align-items:flex-start;padding:.2rem .5rem;margin-top:.3rem;min-width:0}
+.evidence-badge--inline b{font-size:inherit;white-space:normal;text-overflow:clip;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
 @media print{
-  #login,.side,.tabs,.topbar,.nav,.overlay,.banner,.btn{display:none!important}
+  #login,.side,.tabs,.topbar,.nav,.overlay,.banner,.btn,.disclaimer--app{display:none!important}
   body,#app.on{display:block!important;background:#fff}
   .cert{display:block!important}
+  .disclaimer--cert{border-color:#999;color:#333}
 }
 .cert{display:none;border:2px solid var(--accent);border-radius:var(--r-lg);padding:var(--s7);text-align:center}
 .cert h1{font-size:2.2rem;color:var(--accent-2)}
@@ -227,6 +251,7 @@ textarea:focus-visible{outline-color:var(--accent-2)}
       <button class="btn btn--wide" id="verifyCode">Verify &amp; sign in</button>
       <button class="btn btn--ghost btn--wide" id="backEmail" style="margin-top:var(--s2)">Use a different email</button>
     </div>
+    <div class="disclaimer disclaimer--login" data-disclaimer></div>
   </div>
 </section>
 
@@ -236,14 +261,15 @@ textarea:focus-visible{outline-color:var(--accent-2)}
     <aside class="side">
       <div class="brand">The Monday <em>Patient</em></div>
       <nav class="nav" id="nav-d"></nav>
-      <div class="who"><b id="who-name">—</b><span id="who-cohort"></span><br><button id="signout-d">Sign out</button></div>
+      <div class="who"><b id="who-name">â€”</b><span id="who-cohort"></span><br><button id="signout-d">Sign out</button></div>
     </aside>
     <main>
       <div class="topbar">
         <div class="m-brand">The Monday <em>Patient</em></div>
-        <button class="bell" id="bell" aria-label="Notifications"><span aria-hidden="true">◔</span><span class="dot" id="belldot"></span></button>
+        <button class="bell" id="bell" aria-label="Notifications"><span aria-hidden="true">â—”</span><span class="dot" id="belldot"></span></button>
       </div>
       <div id="views"></div>
+      <footer class="disclaimer disclaimer--app" data-disclaimer></footer>
     </main>
   </div>
   <nav class="tabs" id="nav-m"></nav>
@@ -267,10 +293,25 @@ const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null
 const LS='mp-study-v2';
 const CPD_GOAL=25;
 const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
+/* Release stamp. Bumped by build.ps1 -Version. Phones cache GitHub Pages hard,
+   so every case link and the return URL carry ?v=<APP_VERSION>: a trainee who
+   played last week's build gets this week's file instead of the cached one.
+   The cases parse the return URL with `new URL()`, so an existing ?v= is
+   preserved when they append mp_done/mp_score. */
+const APP_VERSION='1.0.1';
+
+/* ============ governance notice ============
+   One source of truth for the Caldicott / simulation-only wording.
+   Injected into every [data-disclaimer] node, and interpolated into the
+   printable certificate. Change it here and it changes everywhere. */
+const DISCLAIMER_HTML=`
+  <p><span class="ico" aria-hidden="true">ðŸ”’</span><span><b>Caldicott Compliant &amp; Fictionalized</b>: All clinical scenarios, laboratory values, imaging, and patient names are 100% fictionalized composite cases. No real patient data is stored or processed.</span></p>
+  <p><span class="ico" aria-hidden="true">ðŸ©º</span><span><b>Medical Simulation Only</b>: For medical education and clinical simulation only. Clinical decision-making in live patient care must adhere to local trust protocols and senior consultation.</span></p>`;
+document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIMER_HTML;});
 
 /* ============ programme ============ */
 /* ============================================================
-   RELEASE CONTROL — no cohort start date, no calendar maths.
+   RELEASE CONTROL â€” no cohort start date, no calendar maths.
    Weeks are opened by hand, one at a time. To release a week,
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
@@ -282,12 +323,16 @@ const isOpen    = w => OPEN_WEEKS.includes(w.id);
 
 /* ============================================================
    THE CASE LIST. To add a case, append one entry to PROGRAM:
-     { id:'wNN',                 // unique, keep the wNN format (w13, w14, …)
+     { id:'wNN',                 // unique, keep the wNN format (w13, w14, â€¦)
        t:'The revealed title',   // shown ONLY after the trainee solves it
        sub:'one-line subtitle',  // also hidden until solved
        caseId:'slug',            // must match the case file's mp_case id
        url:BASE+'file.html',     // deployed case URL, or null if not built yet
        debrief:'video',          // 'video' or 'notes'
+       evidence:'NICE NGxxx Â· â€¦',// REQUIRED. The national guidance the case is written against,
+                                 // ' Â· '-separated. Shown as the evidence stamp â€” but only once
+                                 // the case is revealed, since naming the guideline names the
+                                 // diagnosis. Re-verify it is current whenever the case is refreshed.
        obj:['objective one','objective two'],
        read:[{t:'reading one'},{t:'reading two'}] },
    Then release it to trainees by adding its id to OPEN_WEEKS above.
@@ -295,41 +340,53 @@ const isOpen    = w => OPEN_WEEKS.includes(w.id);
    ============================================================ */
 const PROGRAM=[
  {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
+  evidence:'BSG AUGIB care bundle 2025 Â· NICE CG141 Â· Worcestershire WAHT-GAS-012 v2 2025',
   obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
-  read:[{t:'NICE CG141 — acute upper GI bleeding',url:'https://www.nice.org.uk/guidance/cg141'},{t:'Glasgow-Blatchford score — MDCalc',url:'https://www.mdcalc.com/calc/518/glasgow-blatchford-bleeding-score-gbs'}]},
+  read:[{t:'NICE CG141 â€” acute upper GI bleeding',url:'https://www.nice.org.uk/guidance/cg141'},{t:'Glasgow-Blatchford score â€” MDCalc',url:'https://www.mdcalc.com/calc/518/glasgow-blatchford-bleeding-score-gbs'}]},
  {id:'w02',t:'The second attendance',sub:'One valve, five organs',month:'Month 1',caseId:'acs-mi',url:BASE+'mi.html',debrief:'video',
+  evidence:'ESC 2023 infective endocarditis Â· Fourth Universal Definition of MI (type 2) Â· IDSA 2015 native vertebral osteomyelitis',
   obj:['Find the thing upstream of everything else','Cultures before antibiotics, always','Examine for the embolic phenomena','Image the valve properly: TTE then TOE','Know what not to do to an embolic infarct'],
-  read:[{t:'ESC 2023 — infective endocarditis'},{t:'Fourth Universal Definition of MI — type 2'},{t:'IDSA 2015 — native vertebral osteomyelitis'}]},
+  read:[{t:'ESC 2023 â€” infective endocarditis'},{t:'Fourth Universal Definition of MI â€” type 2'},{t:'IDSA 2015 â€” native vertebral osteomyelitis'}]},
  {id:'w03',t:'Cardiac arrest',sub:'Adult ALS and the reversible causes',month:'Month 1',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
+  evidence:'RCUK Adult Advanced Life Support 2025 Â· ERC 2021 Â· ILCOR CoSTR',
   obj:['Run the adult ALS algorithm to 2025','Time adrenaline and amiodarone correctly','Find and treat every reversible cause'],
-  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'The 4 Hs and 4 Ts'}]},
+  read:[{t:'RCUK 2025 â€” Adult Advanced Life Support'},{t:'The 4 Hs and 4 Ts'}]},
  {id:'w04',t:'Aortic dissection',sub:'The chest pain you cannot miss',month:'Month 1',caseId:null,url:null,debrief:'notes',
+  evidence:'ESC 2024 aortic and peripheral arterial disease Â· RCEM thoracic aortic dissection Â· AHA/ACC 2022 aortic disease',
   obj:['Recognise the dissection presentation','Imaging: CT aortogram','Blood-pressure control and who to call'],
-  read:[{t:'ESC — aortic disease'},{t:'RCEM — thoracic aortic dissection'}]},
+  read:[{t:'ESC â€” aortic disease'},{t:'RCEM â€” thoracic aortic dissection'}]},
  {id:'w05',t:'Headache',sub:'SAH vs meningitis vs GCA',month:'Month 2',caseId:null,url:null,debrief:'video',
+  evidence:'NICE NG240 meningitis Â· RCEM thunderclap headache Â· BSR 2020 giant cell arteritis',
   obj:['CT timing and when to LP for SAH','The meningitis pathway','ESR and the diagnosis of GCA'],
-  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]},
+  read:[{t:'RCEM â€” thunderclap headache'},{t:'NICE NG240 â€” meningitis'}]},
  {id:'w06',t:'Breathlessness',sub:'Infective exacerbation of COPD',month:'Month 2',caseId:'copd-exacerbation',url:BASE+'copd.html',debrief:'notes',
-  obj:['Controlled oxygen and the 88–92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
-  read:[{t:'NICE CKS — acute exacerbation of COPD'},{t:'BTS/ICS — NIV in acute respiratory failure'}]},
+  evidence:'NICE NG114 Â· GOLD 2025 Â· BTS/ICS 2016 NIV in acute respiratory failure Â· BTS emergency oxygen',
+  obj:['Controlled oxygen and the 88â€“92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
+  read:[{t:'NICE CKS â€” acute exacerbation of COPD'},{t:'BTS/ICS â€” NIV in acute respiratory failure'}]},
  {id:'w07',t:'Hyponatraemia',sub:'Low sodium, high stakes',month:'Month 2',caseId:null,url:null,debrief:'notes',
+  evidence:'European hyponatraemia guideline 2014 Â· Society for Endocrinology 2016 acute hyponatraemia',
   obj:['Assess volume status first','The work-up: paired osmolalities','Safe correction limits'],
-  read:[{t:'European hyponatraemia guideline'},{t:'Society for Endocrinology — acute hyponatraemia'}]},
+  read:[{t:'European hyponatraemia guideline'},{t:'Society for Endocrinology â€” acute hyponatraemia'}]},
  {id:'w08',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 2',caseId:null,url:null,debrief:'video',
+  evidence:'UK Kidney Association 2023 treatment of acute hyperkalaemia Â· RCUK 2025 peri-arrest arrhythmias',
   obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
-  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]},
+  read:[{t:'Renal Association â€” treatment of hyperkalaemia'},{t:'RCUK â€” peri-arrest'}]},
  {id:'w09',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
+  evidence:'NICE NG148 Â· KDIGO 2012 AKI Â· UK Kidney Association acute kidney injury',
   obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
-  read:[{t:'NICE NG148 — acute kidney injury'}]},
+  read:[{t:'NICE NG148 â€” acute kidney injury'}]},
  {id:'w10',t:'Sepsis & the deteriorating patient',sub:'ABCDE and the Sepsis Six',month:'Month 3',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
+  evidence:'NICE NG51 Â· UK Sepsis Trust Sepsis Six Â· Surviving Sepsis Campaign 2021 hour-1 bundle',
   obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
-  read:[{t:'UK Sepsis Trust — Sepsis Six'},{t:'Surviving Sepsis — hour-1 bundle'}]},
+  read:[{t:'UK Sepsis Trust â€” Sepsis Six'},{t:'Surviving Sepsis â€” hour-1 bundle'}]},
  {id:'w11',t:'The poisoned patient',sub:'Overdose and the toxidromes',month:'Month 3',caseId:null,url:null,debrief:'notes',
+  evidence:'TOXBASE / NPIS Â· MHRA paracetamol overdose guidance Â· NICE NG225 self-harm',
   obj:['Glucose first, always','Paracetamol timing and the nomogram','TOXBASE and the antidotes'],
-  read:[{t:'TOXBASE — approach to the poisoned patient'}]},
+  read:[{t:'TOXBASE â€” approach to the poisoned patient'}]},
  {id:'w12',t:'The mystery finale',sub:'Everything you have learned',month:'Month 3',caseId:null,url:null,debrief:'video',
+  evidence:'Synthesis across the series â€” NICE, RCUK and specialty-society guidance',
   obj:['Reason from a constellation','Treat the cause, not the number','Know when to stop'],
-  read:[{t:'Bring it all together — revision'}]}
+  read:[{t:'Bring it all together â€” revision'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};
@@ -337,12 +394,21 @@ function weekState(w,prog){
   return isOpen(w) ? 'live' : 'locked';
 }
 function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
-// A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
+// A case's topic stays hidden ("Case N") until the trainee solves it â€” or the Friday debrief drops.
 function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
 function caseNo(w){ return +w.id.slice(1); }
+/* The evidence stamp names the guidance the case is written against â€” which also
+   names the diagnosis. It therefore rides the same reveal gate as the title,
+   objectives and reading: nothing until the trainee has solved it or the Friday
+   debrief has dropped. */
+function evidenceBadge(w,inline){
+  if(!w.evidence||!revealed(w)) return '';
+  return `<div class="evidence-badge${inline?' evidence-badge--inline':''}"><span class="ico" aria-hidden="true">ðŸ“š</span> Evidence-Base: <b>${escapeHtml(w.evidence)}</b></div>`;
+}
 
 /* ============ state ============ */
-let USER=null;        // {id, email} when signed in
+let USER=null;        // {id} when signed in â€” the email is never held here
+let PENDING_EMAIL=''; // the address awaiting an OTP; module-scoped, never on window, never rendered
 let PROFILE=null;     // {pseudonym, cohort}
 let GUEST=false;
 let PROG={};          // { w01:{caseDone,score,debriefDone}, ... }
@@ -364,12 +430,30 @@ async function boot(){
   showLogin();
 }
 function showLogin(){ $('#login').style.display='grid'; $('#app').classList.remove('on'); }
+/* ============================================================
+   PSEUDONYMITY â€” the trainee's email address never reaches the UI.
+   A trainee with no pseudonym of their own gets a neutral clinical
+   handle; we never derive one from the address. 'Guest' is the demo
+   placeholder rather than a chosen name, and anything containing '@'
+   is an address, so neither is treated as a custom pseudonym.
+   ============================================================ */
+function newPseudonym(){ return `Doctor_${Math.floor(1000+Math.random()*9000)}`; }
+function customPseudonym(p){ const s=(p||'').trim(); return (!s||s.includes('@')||s.toLowerCase()==='guest')?null:s; }
+
 async function onSignedIn(user){
-  USER={id:user.id,email:user.email}; GUEST=false;
-  // load or create profile
-  const {data:prof}=await SB.from('profiles').select('*').eq('id',user.id).maybeSingle();
-  if(!prof){ const pseud = PROFILE?.pseudonym || (user.email||'trainee').split('@')[0]; PROFILE={pseudonym:pseud,cohort:'2026 cohort'}; await SB.from('profiles').upsert({id:user.id,pseudonym:PROFILE.pseudonym,cohort:PROFILE.cohort}); }
-  else PROFILE={pseudonym:prof.pseudonym,cohort:prof.cohort};
+  USER={id:user.id}; GUEST=false;              // email deliberately not held in client state
+  // load or create profile â€” select only the pseudonymous columns
+  const {data:prof}=await SB.from('profiles').select('id,pseudonym,cohort').eq('id',user.id).maybeSingle();
+  if(!prof){
+    const pseud=customPseudonym(PROFILE?.pseudonym)||newPseudonym();
+    PROFILE={pseudonym:pseud,cohort:'2026 cohort'};
+    await SB.from('profiles').upsert({id:user.id,pseudonym:PROFILE.pseudonym,cohort:PROFILE.cohort});
+  } else {
+    let pseud=customPseudonym(prof.pseudonym);
+    // retire any address-derived handle left by an earlier version, and persist the replacement
+    if(!pseud){ pseud=newPseudonym(); await SB.from('profiles').upsert({id:user.id,pseudonym:pseud,cohort:prof.cohort}); }
+    PROFILE={pseudonym:pseud,cohort:prof.cohort};
+  }
   await pullData();
   enterApp();
 }
@@ -389,19 +473,20 @@ async function upsertProgress(week,patch){
 $('#sendCode').onclick=async()=>{
   const email=$('#email').value.trim(); const m=$('#loginmsg');
   if(!email){ m.dataset.t='err'; m.textContent='Enter your email first.'; return; }
-  if(!SB){ m.dataset.t='err'; m.textContent='Backend offline — use “Try it without an account”.'; return; }
-  m.dataset.t=''; m.textContent='Sending…'; $('#sendCode').disabled=true;
+  if(!SB){ m.dataset.t='err'; m.textContent='Backend offline â€” use â€œTry it without an accountâ€.'; return; }
+  m.dataset.t=''; m.textContent='Sendingâ€¦'; $('#sendCode').disabled=true;
   const {error}=await SB.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
   $('#sendCode').disabled=false;
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
-  window._email=email; $('#step-email').style.display='none'; $('#step-code').style.display='block';
+  PENDING_EMAIL=email; $('#step-email').style.display='none'; $('#step-code').style.display='block';
 };
 $('#verifyCode').onclick=async()=>{
   const token=$('#code').value.trim(); const m=$('#codemsg');
-  m.dataset.t=''; m.textContent='Verifying…'; $('#verifyCode').disabled=true;
-  const {data,error}=await SB.auth.verifyOtp({email:window._email,token,type:'email'});
+  m.dataset.t=''; m.textContent='Verifyingâ€¦'; $('#verifyCode').disabled=true;
+  const {data,error}=await SB.auth.verifyOtp({email:PENDING_EMAIL,token,type:'email'});
   $('#verifyCode').disabled=false;
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
+  PENDING_EMAIL=''; $('#email').value=''; $('#code').value='';   // clear the address off the page once it has been used
   await onSignedIn(data.user);
 };
 $('#backEmail').onclick=()=>{ $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
@@ -415,12 +500,12 @@ async function handleReturn(params){
   await upsertProgress(week,{caseDone:true,score});
   if(SB&&USER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
   history.replaceState({},'',location.pathname);
-  toast(`Saved — ${score}/${max} on this week's case.`);
+  toast(`Saved â€” ${score}/${max} on this week's case.`);
   go('home');
 }
 
 /* ============ app shell ============ */
-const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦']];
+const NAV=[['home','Home','âŒ‚'],['programme','Programme','â–¦'],['activity','Activity','â—·'],['cpd','CPD','âœŽ'],['leaderboard','Board','â™¦']];
 let VIEW='home';
 function buildNav(){
   const mk=(cont,mobile)=>{cont.innerHTML='';NAV.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
@@ -452,7 +537,7 @@ function renderHome(){
   const t=cpdTotals();
   const rev=revealed(cur), cn=caseNo(cur);
   const bannerHtml = (isOpen(cur) && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
-    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>Case ${cn}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
+    ? `<div class="banner"><span aria-hidden="true">â—†</span><div>This week's case is live â€” <b>Case ${cn}</b>.</div><button class="x" id="banx" aria-label="Dismiss">âœ•</button></div>`:'';
   const v=el('div','view on');
   v.innerHTML=`${bannerHtml}
     <div class="kicker">This week</div>
@@ -465,18 +550,18 @@ function renderHome(){
     <div class="hero">
       <div class="wk">CASE ${cn}</div>
       <h3>${rev?cur.t:'Case '+cn}</h3>
-      <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${cur.caseId?'Work them up, commit a diagnosis, and manage it.':'Interactive case in production.'}</p>
-      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`}
+      <p>${rev?cur.sub+'. ':'A new patient this week â€” you go in blind. '}${cur.caseId?'Work them up, commit a diagnosis, and manage it.':'Interactive case in production.'}</p>
+      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case â†—</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`}
     </div>
     <div class="card">
-      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
+      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief â€” arriving Friday'}</div>
       <div style="display:flex;align-items:center;gap:var(--s3)">
-        <span style="font-size:1.4rem">${cur.debrief==='video'?'▶':'📄'}</span>
+        <span style="font-size:1.4rem">${cur.debrief==='video'?'â–¶':'ðŸ“„'}</span>
         <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${rev?cur.sub:'Reveals the answer'}</div></div>
-        <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
+        <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed âœ“':'Open'}</button>
       </div>
     </div>
-    ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card"><div class="card__label">Reading</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case — no spoilers.</div></div>`}`;
+    ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card"><div class="card__label">Reading</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case â€” no spoilers.</div></div>`}`;
   mount(v);
   if(rev) renderReadList($('#homeread'),cur);
   const bx=$('#banx'); if(bx)bx.onclick=()=>{localStorage.setItem('mp-ban-'+cur.id,'1');renderHome();};
@@ -486,8 +571,8 @@ function renderReadList(ul,w){
   ul.innerHTML='';
   w.read.forEach((r,i)=>{
     const key=w.id+':'+i; const li=el('li'); li.dataset.done=READ[key]?1:0;
-    const title = r.url ? `<a href="${r.url}" target="_blank" rel="noopener" class="rt">${r.t} ↗</a>` : `<span class="rt">${r.t}</span>`;
-    li.innerHTML=`<span class="chk" role="button" aria-label="Mark read">✓</span>${title}`;
+    const title = r.url ? `<a href="${r.url}" target="_blank" rel="noopener" class="rt">${r.t} â†—</a>` : `<span class="rt">${r.t}</span>`;
+    li.innerHTML=`<span class="chk" role="button" aria-label="Mark read">âœ“</span>${title}`;
     const mark=v=>{READ[key]=v;saveLocal();li.dataset.done=v?1:0;if(v&&SB&&USER)upsertProgress(w.id,{readingDone:true});};
     li.querySelector('.chk').onclick=()=>mark(!READ[key]);          // tick to mark read
     const a=li.querySelector('a'); if(a) a.addEventListener('click',e=>{e.stopPropagation();mark(true);}); // opening it counts as read
@@ -497,7 +582,7 @@ function renderReadList(ul,w){
 
 function renderProgramme(){
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">The cases</div><h2 class="view-h">Cases</h2><p class="lede">Case 1 is live. New cases are released one at a time — tap any case for the detail.</p><div id="weeks"></div>`;
+  v.innerHTML=`<div class="kicker">The cases</div><h2 class="view-h">Cases</h2><p class="lede">Case 1 is live. New cases are released one at a time â€” tap any case for the detail.</p><div id="weeks"></div>`;
   mount(v);
   const box=$('#weeks');
   // Show every released case (grows automatically as OPEN_WEEKS grows) + a couple of "coming soon" teasers.
@@ -512,7 +597,7 @@ function renderProgramme(){
     const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
     const rev=revealed(w), cn=caseNo(w);
     const row=el('button','wkrow');row.dataset.s=s;
-    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Not released yet':s==='complete'?'Completed':'Live now — tap to start')}</span></span>${badge}`;
+    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Not released yet':s==='complete'?'Completed':'Live now â€” tap to start')}</span>${evidenceBadge(w,true)}</span>${badge}`;
     row.onclick=()=>openWeek(w.id);
     box.appendChild(row);
   });
@@ -520,25 +605,26 @@ function renderProgramme(){
 
 function openWeek(id){
   const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{}; const rev=revealed(w); const cn=caseNo(w);
-  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Coming soon</span>`;
-  const head=`<button class="close" onclick="closeModal()">✕</button>
+  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved Â· ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Coming soon</span>`;
+  const head=`<button class="close" onclick="closeModal()">âœ•</button>
     <div class="detmeta">Case ${cn}</div>
     ${pill}
     <h3>${rev?w.t:'Case '+cn}</h3>`;
   let body;
   if(rev){
-    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">${w.sub}</p>
-    <div class="card__label">Learning objectives</div>
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s3)">${w.sub}</p>
+    ${evidenceBadge(w)}
+    <div class="card__label" style="margin-top:var(--s4)">Learning objectives</div>
     <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
-    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:''}
+    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again â†—':'Start case â†—'}</button>`:''}
     <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
-    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Friday'}</button></div>
+    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'â–¶':'ðŸ“„'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed âœ“':debriefLive(w)?'Open':'Friday'}</button></div>
     <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
   } else if(s==='locked'){
-    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Not released yet — this one arrives in a future week.</p>`;
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Not released yet â€” this one arrives in a future week.</p>`;
   } else {
-    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">A new patient — you go in blind. Take a history, examine, investigate, then commit a diagnosis. The topic, objectives and reading unlock the moment you solve it.</p>
-    ${w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:'<div style="font-size:.85rem;color:var(--muted)">Interactive case in production for this week.</div>'}`;
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">A new patient â€” you go in blind. Take a history, examine, investigate, then commit a diagnosis. The topic, objectives and reading unlock the moment you solve it.</p>
+    ${w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case â†—</button>`:'<div style="font-size:.85rem;color:var(--muted)">Interactive case in production for this week.</div>'}`;
   }
   $('#weekSheet').innerHTML=head+body;
   if(rev) renderReadList($('#mread'),w);
@@ -551,21 +637,21 @@ $('#reflModal').onclick=e=>{if(e.target.id==='reflModal')closeModal();};
 function renderActivity(){
   const v=el('div','view on');
   const done=PROGRAM.filter(w=>(PROG[w.id]||{}).caseDone);
-  v.innerHTML=`<div class="kicker">Your record</div><h2 class="view-h">Activity</h2><p class="lede">Every case, score and reflection — your evidence trail.</p>
+  v.innerHTML=`<div class="kicker">Your record</div><h2 class="view-h">Activity</h2><p class="lede">Every case, score and reflection â€” your evidence trail.</p>
     <div class="card"><div class="card__label">Weekly streak</div><div style="display:flex;gap:6px;flex-wrap:wrap">${PROGRAM.map(w=>{const c=(PROG[w.id]||{}).caseDone;return `<span title="Week ${+w.id.slice(1)}" style="width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-family:var(--fm);font-size:.7rem;font-weight:600;background:${c?'var(--good)':'var(--paper-3)'};color:${c?'#fff':'var(--faint)'}">${+w.id.slice(1)}</span>`;}).join('')}</div></div>
-    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span class="num" style="width:1.8rem;height:1.8rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.75rem;font-weight:600;display:grid;place-items:center">${+w.id.slice(1)}</span><span style="flex:1;font-size:.9rem">${w.t}</span><span class="mono" style="font-weight:600">${(PROG[w.id]||{}).score??''}</span></div>`).join(''):'<div class="empty">No cases yet — start one on the Home tab.</div>'}</div>
+    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span class="num" style="width:1.8rem;height:1.8rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.75rem;font-weight:600;display:grid;place-items:center">${+w.id.slice(1)}</span><span style="flex:1;font-size:.9rem">${w.t}</span><span class="mono" style="font-weight:600">${(PROG[w.id]||{}).score??''}</span></div>`).join(''):'<div class="empty">No cases yet â€” start one on the Home tab.</div>'}</div>
     <div class="card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s3)"><div class="card__label" style="margin:0">Reflections</div><button class="btn btn--sm" id="addRefl">+ Add</button></div><div id="refllist"></div></div>`;
   mount(v);
   const rl=$('#refllist');
   if(!REFL.length) rl.innerHTML='<div class="empty">A line or two after each case is powerful CPD evidence.</div>';
-  else REFL.forEach(r=>{const w=PROGRAM.find(x=>x.id===r.week_id);const lbl=w?(revealed(w)?w.t:'Case '+caseNo(w)):r.week_id;rl.appendChild(el('div','refl',`<div class="meta">${lbl} · ${new Date(r.created_at).toLocaleDateString('en-GB')}</div><div class="body">${escapeHtml(r.body)}</div>`));});
+  else REFL.forEach(r=>{const w=PROGRAM.find(x=>x.id===r.week_id);const lbl=w?(revealed(w)?w.t:'Case '+caseNo(w)):r.week_id;rl.appendChild(el('div','refl',`<div class="meta">${lbl} Â· ${new Date(r.created_at).toLocaleDateString('en-GB')}</div><div class="body">${escapeHtml(r.body)}</div>`));});
   $('#addRefl').onclick=openRefl;
 }
 function openRefl(){
-  $('#reflSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button><h3>Add a reflection</h3>
+  $('#reflSheet').innerHTML=`<button class="close" onclick="closeModal()">âœ•</button><h3>Add a reflection</h3>
     <p style="color:var(--muted);font-size:.88rem;margin:var(--s2) 0 var(--s3)">What did this week's case teach you? What will you do differently?</p>
-    <div class="field"><label for="rw">Week</label><select id="rw" style="width:100%;min-height:44px;border:1px solid var(--rule-2);border-radius:var(--r-md);padding:0 var(--s3);background:var(--paper)">${PROGRAM.map(w=>`<option value="${w.id}">Case ${caseNo(w)}${revealed(w)?' — '+w.t:''}</option>`).join('')}</select></div>
-    <textarea id="rb" placeholder="I anchored on the cardiac story and nearly missed…"></textarea>
+    <div class="field"><label for="rw">Week</label><select id="rw" style="width:100%;min-height:44px;border:1px solid var(--rule-2);border-radius:var(--r-md);padding:0 var(--s3);background:var(--paper)">${PROGRAM.map(w=>`<option value="${w.id}">Case ${caseNo(w)}${revealed(w)?' â€” '+w.t:''}</option>`).join('')}</select></div>
+    <textarea id="rb" placeholder="I anchored on the cardiac story and nearly missedâ€¦"></textarea>
     <button class="btn btn--wide" id="saveRefl" style="margin-top:var(--s3)">Save reflection</button>`;
   $('#reflModal').classList.add('on');
   $('#saveRefl').onclick=async()=>{const week=$('#rw').value,body=$('#rb').value.trim();if(!body)return;const rec={week_id:week,body,created_at:new Date().toISOString()};REFL.unshift(rec);saveLocal();if(SB&&USER)await SB.from('reflections').insert({student_id:USER.id,week_id:week,body});closeModal();renderActivity();};
@@ -575,28 +661,34 @@ function renderCPD(){
   const t=cpdTotals();
   const done=PROGRAM.filter(w=>(PROG[w.id]||{}).caseDone);
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">One CPD point for every case you complete — your portfolio evidence.</p>
+  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">One CPD point for every case you complete â€” your portfolio evidence.</p>
     <div class="card" style="text-align:center;padding:var(--s6) var(--s4)">
       <div style="font-family:var(--fd);font-weight:600;font-size:3.4rem;line-height:1">${t.points}</div>
-      <div style="color:var(--muted);font-size:.9rem;margin-top:var(--s2)">CPD point${t.points===1?'':'s'} earned · 1 per completed case</div>
+      <div style="color:var(--muted);font-size:.9rem;margin-top:var(--s2)">CPD point${t.points===1?'':'s'} earned Â· 1 per completed case</div>
     </div>
-    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+1</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
-    <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
-    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>`;
+    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+1</span></div>`).join(''):'<div class="empty">No points yet â€” finish a case to earn your first.</div>'}</div>
+    <button class="btn btn--wide" onclick="window.print()">Export certificate (print â†’ PDF)</button>
+    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient â€” acute medicine case series</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} Â· issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+      <div class="disclaimer disclaimer--cert">${DISCLAIMER_HTML}</div></div>`;
   mount(v);
 }
 
 async function renderLeaderboard(){
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">The cohort</div><h2 class="view-h">Leaderboard</h2><p class="lede">Pseudonymous, so it stays friendly. Ranked by total score across all cases.</p><div class="card" id="lbcard"><div class="empty">Loading…</div></div>`;
+  v.innerHTML=`<div class="kicker">The cohort</div><h2 class="view-h">Leaderboard</h2><p class="lede">Pseudonymous, so it stays friendly. Ranked by total score across all cases.</p><div class="card" id="lbcard"><div class="empty">Loadingâ€¦</div></div>`;
   mount(v);
   if(GUEST||!SB||!USER){ $('#lbcard').innerHTML='<div class="empty">Sign in with an email to join the cohort leaderboard.</div>'; return; }
   const {data,error}=await SB.rpc('get_leaderboard');
   if(error||!data){ $('#lbcard').innerHTML='<div class="empty">Leaderboard unavailable right now.</div>'; return; }
-  const rows=data.filter(r=>r.total_score>0);
-  if(!rows.length){ $('#lbcard').innerHTML='<div class="empty">No scores yet — be the first to complete a case.</div>'; return; }
+  /* Project the RPC result down to exactly three fields before anything is rendered:
+     rank (positional), pseudonym and total_score. Nothing else from the row â€”
+     no id, no email, no cohort â€” can reach the DOM, whatever the RPC returns. */
+  const rows=data
+    .filter(r=>r.total_score>0)
+    .map((r,i)=>({rank:i+1,pseudonym:customPseudonym(r.pseudonym)||'A colleague',total_score:Number(r.total_score)||0}));
+  if(!rows.length){ $('#lbcard').innerHTML='<div class="empty">No scores yet â€” be the first to complete a case.</div>'; return; }
   const ul=el('ul','lb');
-  rows.forEach((r,i)=>{const li=el('li',r.pseudonym===PROFILE?.pseudonym?'me':'');li.innerHTML=`<span class="rk">${i+1}</span><span class="nm">${escapeHtml(r.pseudonym)}</span><span class="sc">${r.total_score}</span>`;ul.appendChild(li);});
+  rows.forEach(r=>{const li=el('li',r.pseudonym===PROFILE?.pseudonym?'me':'');li.innerHTML=`<span class="rk">${r.rank}</span><span class="nm">${escapeHtml(r.pseudonym)}</span><span class="sc">${r.total_score}</span>`;ul.appendChild(li);});
   $('#lbcard').innerHTML=''; $('#lbcard').appendChild(ul);
 }
 
@@ -608,7 +700,7 @@ function wireLaunchers(scope){
   scope.querySelectorAll('[data-debrief]').forEach(b=>b.onclick=()=>{upsertProgress(b.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');});
 }
 document.body.addEventListener('click',e=>{const t=e.target.closest('[data-launch]');if(t&&!$('#views').contains(t))launch(t.dataset.launch);const w=e.target.closest('[data-week]');if(w&&!$('#views').contains(w))openWeek(w.dataset.week);const d=e.target.closest('[data-debrief]');if(d&&!$('#views').contains(d)){upsertProgress(d.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');}});
-function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;} const ret=encodeURIComponent(location.origin+location.pathname); location.href=`${w.url}${w.url.includes('?')?'&':'?'}return=${ret}&week=${id}`; }
+function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;} const ret=encodeURIComponent(location.origin+location.pathname+'?v='+APP_VERSION); location.href=`${w.url}${w.url.includes('?')?'&':'?'}v=${APP_VERSION}&return=${ret}&week=${id}`; }
 function updateBell(){ const cur=[...PROGRAM].reverse().find(isOpen); $('#belldot').classList.toggle('on', !!(cur&&!(PROG[cur.id]||{}).caseDone)); }
 $('#bell').onclick=()=>go('home');
 function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
