@@ -399,6 +399,48 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 .sheetbtns { display: flex; flex-direction: column; gap: var(--s2); }
 
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+
+/* ============================================================
+   DESKTOP — phone-first below 62rem, two-pane workspace above.
+   The patient (observations + guide rail) stays put on the left
+   while you work in the right-hand pane, the way a ward system
+   would show it. Reading screens stay a comfortable measure.
+   ============================================================ */
+@media (min-width: 62rem) {
+  .app { max-width: 68rem; }
+  main { padding: var(--s5) var(--s5) var(--s7); }
+
+  /* narrative screens shouldn't stretch to 68rem — keep them readable */
+  #s-brief, #s-commit, #s-death, #s-manage, #s-out { max-width: 44rem; margin-inline: auto; }
+
+  /* the work-up becomes two columns */
+  #s-work.on {
+    display: grid;
+    grid-template-columns: 22rem minmax(0, 1fr);
+    column-gap: var(--s5);
+    align-items: start;
+  }
+  .wsleft { grid-column: 1; position: sticky; top: 7.5rem; }
+  .wsmain { grid-column: 2; min-width: 0; }
+  #s-work > .bar { grid-column: 1 / -1; margin-inline: calc(var(--s5) * -1); padding-inline: var(--s5); }
+
+  /* the left column has room for a roomier obs grid and a taller rail */
+  .wsleft .obsgrid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s3); }
+  .rail { flex-direction: column; gap: var(--s2); }
+
+  /* more room to work in the right-hand pane */
+  .chips { grid-template-columns: repeat(3, minmax(0,1fr)); min-height: 0; }
+  .qa { max-height: clamp(14rem, 46vh, 32rem); }
+  #hxScene img { max-height: 22vh; }
+  .finding img { max-width: 340px; }
+  .finding img.wide { max-width: 640px; }
+  #deathArt img { max-width: 620px; margin-inline: auto; }
+  .bar .btn { max-width: 26rem; margin-inline-start: auto; }
+  .bar .btn--ghost { margin-inline-start: 0; }
+}
+
+/* very large screens: stop the line length growing further */
+@media (min-width: 92rem) { .app { max-width: 76rem; } }
 </style>
 </head>
 <body>
@@ -467,16 +509,19 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
     <!-- ===================== WORKSPACE ===================== -->
     <section class="screen" id="s-work">
-      <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
-          <div style="font-size:.78rem; color:var(--muted);">Arthur Pell · 68 · bay 4</div>
-          <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--warn);">3</span></div>
+      <div class="wsleft">
+        <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
+            <div style="font-size:.78rem; color:var(--muted);">Arthur Pell · 68 · bay 4</div>
+            <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--warn);">3</span></div>
+          </div>
+          <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
         </div>
-        <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
+
+        <div class="rail" id="rail"></div>
       </div>
 
-      <div class="rail" id="rail"></div>
-
+      <div class="wsmain">
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
         <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
@@ -540,6 +585,7 @@ IV fluids
           <button class="btn btn--ghost" id="rxReassessBtn">Reassess the patient</button>
         </div>
       </div>
+      </div><!-- /.wsmain -->
 
       <div class="bar">
         <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
