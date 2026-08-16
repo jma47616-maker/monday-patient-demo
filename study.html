@@ -298,7 +298,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.2';
+const APP_VERSION='1.0.3';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -408,7 +408,17 @@ function evidenceBadge(w,inline){
 
 /* ============ state ============ */
 let USER=null;        // {id} when signed in — the email is never held here
-let PENDING_EMAIL=''; // the address awaiting an OTP; module-scoped, never on window, never rendered
+/* The address awaiting an OTP. Kept out of `window`, never rendered, and held
+   in sessionStorage ONLY for the seconds between requesting a code and typing
+   it: on a phone, switching to the mail app to read the code can reload the
+   page, and an in-memory-only value would be gone, failing a perfectly valid
+   code. sessionStorage is same-origin and dies with the tab; we also clear it
+   the instant verification succeeds or the trainee goes back. */
+const PENDING_KEY=LS+'-pending';
+let PENDING_EMAIL='';
+function setPending(e){ PENDING_EMAIL=e; try{sessionStorage.setItem(PENDING_KEY,e);}catch(_){} }
+function getPending(){ if(PENDING_EMAIL) return PENDING_EMAIL; try{return sessionStorage.getItem(PENDING_KEY)||'';}catch(_){return '';} }
+function clearPending(){ PENDING_EMAIL=''; try{sessionStorage.removeItem(PENDING_KEY);}catch(_){} }
 let PROFILE=null;     // {pseudonym, cohort}
 let GUEST=false;
 let PROG={};          // { w01:{caseDone,score,debriefDone}, ... }
@@ -429,7 +439,15 @@ async function boot(){
   if(localStorage.getItem(LS+'-guest')){ GUEST=true; enterApp(); await handleReturn(params); return; }
   showLogin();
 }
-function showLogin(){ $('#login').style.display='grid'; $('#app').classList.remove('on'); }
+function showLogin(){
+  $('#login').style.display='grid'; $('#app').classList.remove('on');
+  // Came back from the mail app and the page reloaded? Resume at the code step
+  // instead of dumping them back to "enter your email" with the code in hand.
+  if(getPending()){
+    $('#step-email').style.display='none'; $('#step-code').style.display='block';
+    const m=$('#codemsg'); m.dataset.t=''; m.textContent='Enter the code we emailed you.';
+  }
+}
 /* ============================================================
    PSEUDONYMITY — the trainee's email address never reaches the UI.
    A trainee with no pseudonym of their own gets a neutral clinical
@@ -478,18 +496,21 @@ $('#sendCode').onclick=async()=>{
   const {error}=await SB.auth.signInWithOtp({email,options:{shouldCreateUser:true}});
   $('#sendCode').disabled=false;
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
-  PENDING_EMAIL=email; $('#step-email').style.display='none'; $('#step-code').style.display='block';
+  setPending(email); $('#step-email').style.display='none'; $('#step-code').style.display='block';
 };
 $('#verifyCode').onclick=async()=>{
   const token=$('#code').value.trim(); const m=$('#codemsg');
+  const email=getPending();
+  if(!email){ m.dataset.t='err'; m.textContent='Session expired — go back and request a new code.'; return; }
+  if(!token){ m.dataset.t='err'; m.textContent='Enter the 6-digit code from your email.'; return; }
   m.dataset.t=''; m.textContent='Verifying…'; $('#verifyCode').disabled=true;
-  const {data,error}=await SB.auth.verifyOtp({email:PENDING_EMAIL,token,type:'email'});
+  const {data,error}=await SB.auth.verifyOtp({email,token,type:'email'});
   $('#verifyCode').disabled=false;
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
-  PENDING_EMAIL=''; $('#email').value=''; $('#code').value='';   // clear the address off the page once it has been used
+  clearPending(); $('#email').value=''; $('#code').value='';   // clear the address off the page once it has been used
   await onSignedIn(data.user);
 };
-$('#backEmail').onclick=()=>{ $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
+$('#backEmail').onclick=()=>{ clearPending(); $('#code').value=''; $('#codemsg').textContent=''; $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
 $('#guest').onclick=()=>{ GUEST=true; localStorage.setItem(LS+'-guest','1'); if(!PROFILE)PROFILE={pseudonym:'Guest',cohort:'demo'}; saveLocal(); enterApp(); };
 function signOut(){ if(SB&&USER)SB.auth.signOut(); localStorage.removeItem(LS+'-guest'); location.reload(); }
 
