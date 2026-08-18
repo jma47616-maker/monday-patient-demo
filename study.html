@@ -241,12 +241,13 @@ textarea:focus-visible{outline-color:var(--accent-2)}
     <div id="step-email">
       <div class="field"><label for="email">NHS or work email</label><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@nhs.net"></div>
       <div class="loginmsg" id="loginmsg"></div>
-      <button class="btn btn--wide" id="sendCode">Email me a sign-in code</button>
+      <button class="btn btn--wide" id="sendCode">Email me a sign-in link</button>
       <div class="hr">or</div>
       <button class="btn btn--ghost btn--wide" id="guest">Try it without an account</button>
     </div>
     <div id="step-code" style="display:none">
-      <div class="field"><label for="code">6-digit code (check your email)</label><input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6"></div>
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--s3)">Open the email we just sent and <b>tap the sign-in link</b> — that is all you need to do.</p>
+      <div class="field"><label for="code">Got a 6-digit code instead? Enter it here</label><input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6"></div>
       <div class="loginmsg" id="codemsg"></div>
       <button class="btn btn--wide" id="verifyCode">Verify &amp; sign in</button>
       <button class="btn btn--ghost btn--wide" id="backEmail" style="margin-top:var(--s2)">Use a different email</button>
@@ -298,7 +299,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.3';
+const APP_VERSION='1.0.4';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -429,13 +430,29 @@ function loadLocal(){ try{const d=JSON.parse(localStorage.getItem(LS)||'{}');PRO
 function saveLocal(){ localStorage.setItem(LS,JSON.stringify({progress:PROG,reading:READ,reflections:REFL,profile:PROFILE})); }
 
 /* ============ auth ============ */
+/* A failed magic link comes back as #error=access_denied&error_code=otp_expired&...
+   Without this the trainee lands on a bare login screen with no idea what went
+   wrong, retries the same dead link, and fails again. Read it, say something
+   useful, then strip the hash so a reload does not resurrect a stale error. */
+function readAuthHashError(){
+  if(!location.hash || location.hash.indexOf('error')<0) return '';
+  const h=new URLSearchParams(location.hash.slice(1));
+  const code=h.get('error_code')||'', desc=h.get('error_description')||h.get('error')||'';
+  history.replaceState({},'',location.pathname+location.search);
+  if(/expired|invalid|not_found/i.test(code+' '+desc))
+    return 'That sign-in link had already been used or has expired. Tap "Email me a sign-in link" for a fresh one, and open it from your email app.';
+  return desc.replace(/\+/g,' ') || 'Sign-in failed. Please request a new link.';
+}
+
 async function boot(){
   loadLocal();
   const params=new URLSearchParams(location.search);
+  const authErr=readAuthHashError();
   if(SB){
     const {data:{session}}=await SB.auth.getSession();
     if(session){ await onSignedIn(session.user); await handleReturn(params); return; }
   }
+  if(authErr){ showLogin(); const m=$('#codemsg')&&getPending()?$('#codemsg'):$('#loginmsg'); m.dataset.t='err'; m.textContent=authErr; return; }
   if(localStorage.getItem(LS+'-guest')){ GUEST=true; enterApp(); await handleReturn(params); return; }
   showLogin();
 }
