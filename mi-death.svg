@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Marcus has arrested: the monitor has flatlined with the fever still showing, the crash trolley has arrived too late, and his soul drifts up with a thought bubble of the heart valve nobody looked at">
+  <defs>
+    <pattern id="dgrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".06"/>
+    </pattern>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20262b"/>
+      <stop offset="1" stop-color="#141a1e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#7ee08a" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#7ee08a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="560" fill="#faf6f0"/>
+  <!-- floor -->
+  <rect y="468" width="900" height="92" fill="#f3ece1"/>
+  <path d="M0 468 H900" fill="none" stroke="#2b241d" stroke-width="3" opacity=".18"/>
+  <rect width="900" height="560" fill="url(#dgrain)"/>
+
+  <!-- ================= monitor ================= -->
+  <g>
+    <rect x="512" y="46" width="330" height="212" rx="16" fill="#2b241d"/>
+    <rect x="526" y="60" width="302" height="168" rx="8" fill="url(#screen)"/>
+    <!-- the last few beats, fading away -->
+    <path d="M536 148 h30 l9 -28 l11 54 l11 -26 h24" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35">
+      <animate attributeName="opacity" values=".45;0;0;.45" keyTimes="0;0.25;0.9;1" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <!-- the flatline -->
+    <path d="M630 150 H820" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- sweep dot, going nowhere -->
+    <circle r="6" fill="#a9f2b3">
+      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="16" fill="url(#glow)">
+      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- dead numbers, and the one that never was -->
+    <text x="544" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">0</text>
+    <text x="544" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">HR</text>
+    <text x="624" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">--/--</text>
+    <text x="624" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">NIBP</text>
+    <text x="752" y="200" font-family="ui-monospace, monospace" font-size="28" fill="#b8552e">39.2</text>
+    <text x="752" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">TEMP</text>
+    <!-- alarm lamp -->
+    <circle cx="806" cy="82" r="9" fill="#b23b2e">
+      <animate attributeName="opacity" values="1;.15;1" dur=".85s" repeatCount="indefinite"/>
+    </circle>
+    <!-- stand -->
+    <rect x="668" y="258" width="18" height="86" fill="#2b241d"/>
+    <rect x="628" y="344" width="98" height="14" rx="7" fill="#2b241d"/>
+  </g>
+
+  <!-- ================= bed ================= -->
+  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
+    <rect x="70" y="330" width="470" height="34" rx="10" fill="#cfd8dc"/>
+    <rect x="88" y="364" width="16" height="96" fill="#9aa4ac"/>
+    <rect x="506" y="364" width="16" height="96" fill="#9aa4ac"/>
+    <!-- headboard -->
+    <rect x="46" y="236" width="18" height="130" rx="8" fill="#9aa4ac"/>
+  </g>
+  <!-- blanket -->
+  <path d="M176 330 C186 292 260 280 340 284 C420 288 500 296 522 330 Z" fill="#a9bcc4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#7f939c" stroke-width="3.5" opacity=".8">
+    <path d="M240 292 C246 306 246 318 240 330"/>
+    <path d="M330 286 C336 302 336 316 330 330"/>
+    <path d="M420 292 C426 306 426 318 420 330"/>
+  </g>
+  <!-- pillow -->
+  <path d="M78 300 C74 268 110 250 148 254 C186 258 200 284 192 312 C184 336 106 338 78 300 Z" fill="#f2ede4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- ================= Marcus, definitively unwell ================= -->
+  <g>
+    <!-- head -->
+    <ellipse cx="150" cy="280" rx="52" ry="50" fill="#e6cfb6" stroke="#2b241d" stroke-width="6"/>
+    <!-- pallor -->
+    <ellipse cx="123" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <ellipse cx="177" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <!-- short dark hair -->
+    <path d="M100 266 C100 242 121 228 150 228 C179 228 200 242 200 266 C193 250 177 242 150 242 C123 242 107 250 100 266 Z" fill="#4a4136" stroke="#2b241d" stroke-width="4"/>
+    <!-- stubble -->
+    <path d="M112 306 C118 328 134 336 150 336 C166 336 182 328 188 306 C179 322 164 328 150 328 C136 328 123 322 112 306 Z" fill="#4a4136" opacity=".18"/>
+    <!-- X eyes -->
+    <g stroke="#2b241d" stroke-width="7" stroke-linecap="round">
+      <path d="M118 266 l20 20 M138 266 l-20 20"/>
+      <path d="M164 266 l20 20 M184 266 l-20 20"/>
+    </g>
+    <!-- open mouth + lolling tongue -->
+    <ellipse cx="151" cy="308" rx="15" ry="11" fill="#7d5647" stroke="#2b241d" stroke-width="5"/>
+    <path d="M148 314 q10 16 20 4 q-4 -8 -14 -8 Z" fill="#c9737a" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- the soul, leaving, with a late realisation -->
+  <g opacity=".92">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -46; 0 0" dur="5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;.95;.5" dur="5s" repeatCount="indefinite"/>
+    <path d="M258 214 C258 176 288 152 320 152 C352 152 382 176 382 214 L382 268 L366 252 L350 268 L334 252 L318 268 L302 252 L286 268 L270 252 L258 268 Z"
+          fill="#f4f1ea" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <g fill="#2b241d">
+      <ellipse cx="302" cy="204" rx="7" ry="9"/>
+      <ellipse cx="340" cy="204" rx="7" ry="9"/>
+    </g>
+    <path d="M310 230 q11 10 22 0" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- halo -->
+    <ellipse cx="320" cy="132" rx="34" ry="10" fill="none" stroke="#d8a13a" stroke-width="6"/>
+
+    <!-- thought bubble: the valve nobody looked at -->
+    <g>
+      <circle cx="394" cy="246" r="7" fill="#faf6f0" stroke="#2b241d" stroke-width="4"/>
+      <circle cx="410" cy="228" r="5" fill="#faf6f0" stroke="#2b241d" stroke-width="3.5"/>
+      <circle cx="452" cy="182" r="52" fill="#faf6f0" stroke="#2b241d" stroke-width="5"/>
+      <!-- little heart -->
+      <path d="M452 218 C418 197 408 177 413 164 C419 150 438 151 452 167 C466 151 485 150 491 164 C496 177 486 197 452 218 Z"
+            fill="#b23b2e" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+      <!-- the valve -->
+      <ellipse cx="452" cy="181" rx="15" ry="10" fill="#f3ece1" stroke="#2b241d" stroke-width="3.4"/>
+      <g stroke="#2b241d" stroke-width="2.8" stroke-linecap="round">
+        <path d="M452 181 L452 170"/>
+        <path d="M452 181 L440 189"/>
+        <path d="M452 181 L464 189"/>
+      </g>
+      <!-- the vegetation, quietly wobbling -->
+      <g fill="#f3ece1" stroke="#2b241d" stroke-width="3" stroke-linejoin="round">
+        <animateTransform attributeName="transform" type="translate" values="0 0; 1.6 -1.8; 0 0; -1.3 1.3; 0 0" dur="3.4s" repeatCount="indefinite"/>
+        <circle cx="437" cy="169" r="7.5"/>
+        <circle cx="446" cy="161" r="6"/>
+        <circle cx="429" cy="160" r="5"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- oxygen cylinder, still full -->
+  <g stroke="#2b241d" stroke-width="5" stroke-linejoin="round">
+    <rect x="552" y="424" width="40" height="80" rx="14" fill="#3f7d52"/>
+    <rect x="564" y="408" width="16" height="20" rx="5" fill="#2b241d"/>
+    <path d="M552 452 H592" stroke-width="3.5"/>
+  </g>
+
+  <!-- crash trolley, arrived -->
+  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
+    <rect x="596" y="392" width="150" height="112" rx="10" fill="#b23b2e"/>
+    <path d="M596 428 H746 M596 464 H746" stroke-width="4"/>
+    <path d="M614 446 h28 M614 482 h28" stroke="#b8552e" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="626" cy="518" r="14" fill="#2b241d"/>
+    <circle cx="716" cy="518" r="14" fill="#2b241d"/>
+  </g>
+  <text x="671" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="bold" fill="#faf6f0">CRASH</text>
+
+  <!-- time of the call -->
+  <g>
+    <rect x="60" y="486" width="230" height="42" rx="8" fill="#2b241d" opacity=".9"/>
+    <text x="175" y="514" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#faf6f0">crash call</text>
+  </g>
+</svg>
