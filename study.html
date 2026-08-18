@@ -246,10 +246,10 @@ textarea:focus-visible{outline-color:var(--accent-2)}
       <button class="btn btn--ghost btn--wide" id="guest">Try it without an account</button>
     </div>
     <div id="step-code" style="display:none">
-      <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--s3)">Open the email we just sent and <b>tap the sign-in link</b> — that is all you need to do.</p>
-      <div class="field"><label for="code">Got a 6-digit code instead? Enter it here</label><input id="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6"></div>
+      <h1 style="font-size:1.6rem;margin:0 0 var(--s2)">Check your email</h1>
+      <p style="font-size:.92rem;color:var(--muted);margin-bottom:var(--s4)">We’ve sent you a sign-in link. <b>Tap it on this device</b> and you’ll land back here, signed in. Links are single-use — if it says expired, send a fresh one below.</p>
       <div class="loginmsg" id="codemsg"></div>
-      <button class="btn btn--wide" id="verifyCode">Verify &amp; sign in</button>
+      <button class="btn btn--ghost btn--wide" id="resendLink">Send a new link</button>
       <button class="btn btn--ghost btn--wide" id="backEmail" style="margin-top:var(--s2)">Use a different email</button>
     </div>
     <div class="disclaimer disclaimer--login" data-disclaimer></div>
@@ -262,12 +262,12 @@ textarea:focus-visible{outline-color:var(--accent-2)}
     <aside class="side">
       <div class="brand">The Monday <em>Patient</em></div>
       <nav class="nav" id="nav-d"></nav>
-      <div class="who"><b id="who-name">—</b><span id="who-cohort"></span><br><button id="signout-d">Sign out</button></div>
+      <div class="who"><b id="who-name">—</b><span id="who-cohort"></span><br><button id="editprof-d">Edit profile</button> · <button id="signout-d">Sign out</button></div>
     </aside>
     <main>
       <div class="topbar">
         <div class="m-brand">The Monday <em>Patient</em></div>
-        <button class="bell" id="bell" aria-label="Notifications"><span aria-hidden="true">◔</span><span class="dot" id="belldot"></span></button>
+        <button class="bell" id="acctBtn" aria-label="Your account" style="margin-right:var(--s2)"><span aria-hidden="true">✎</span></button><button class="bell" id="bell" aria-label="Notifications"><span aria-hidden="true">◔</span><span class="dot" id="belldot"></span></button>
       </div>
       <div id="views"></div>
       <footer class="disclaimer disclaimer--app" data-disclaimer></footer>
@@ -280,6 +280,8 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 <div class="overlay" id="weekModal"><div class="sheet" id="weekSheet"></div></div>
 <!-- reflection modal -->
 <div class="overlay" id="reflModal"><div class="sheet" id="reflSheet"></div></div>
+<!-- account modal -->
+<div class="overlay" id="acctModal"><div class="sheet" id="acctSheet"></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -299,7 +301,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.5';
+const APP_VERSION='1.0.6';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -462,7 +464,7 @@ function showLogin(){
   // instead of dumping them back to "enter your email" with the code in hand.
   if(getPending()){
     $('#step-email').style.display='none'; $('#step-code').style.display='block';
-    const m=$('#codemsg'); m.dataset.t=''; m.textContent='Enter the code we emailed you.';
+    const m=$('#codemsg'); m.dataset.t=''; m.textContent='';
   }
 }
 /* ============================================================
@@ -520,19 +522,16 @@ $('#sendCode').onclick=async()=>{
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
   setPending(email); $('#step-email').style.display='none'; $('#step-code').style.display='block';
 };
-$('#verifyCode').onclick=async()=>{
-  const token=$('#code').value.trim(); const m=$('#codemsg');
-  const email=getPending();
-  if(!email){ m.dataset.t='err'; m.textContent='Session expired — go back and request a new code.'; return; }
-  if(!token){ m.dataset.t='err'; m.textContent='Enter the 6-digit code from your email.'; return; }
-  m.dataset.t=''; m.textContent='Verifying…'; $('#verifyCode').disabled=true;
-  const {data,error}=await SB.auth.verifyOtp({email,token,type:'email'});
-  $('#verifyCode').disabled=false;
+$('#resendLink').onclick=async()=>{
+  const email=getPending(); const m=$('#codemsg');
+  if(!email){ m.dataset.t='err'; m.textContent='Go back and enter your email first.'; return; }
+  m.dataset.t=''; m.textContent='Sending…'; $('#resendLink').disabled=true;
+  const {error}=await SB.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}});
+  $('#resendLink').disabled=false;
   if(error){ m.dataset.t='err'; m.textContent=error.message; return; }
-  clearPending(); $('#email').value=''; $('#code').value='';   // clear the address off the page once it has been used
-  await onSignedIn(data.user);
+  m.dataset.t='ok'; m.textContent='New link sent — check your inbox.';
 };
-$('#backEmail').onclick=()=>{ clearPending(); $('#code').value=''; $('#codemsg').textContent=''; $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
+$('#backEmail').onclick=()=>{ clearPending(); $('#codemsg').textContent=''; $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
 $('#guest').onclick=()=>{ GUEST=true; localStorage.setItem(LS+'-guest','1'); if(!PROFILE)PROFILE={pseudonym:'Guest',cohort:'demo'}; saveLocal(); enterApp(); };
 function signOut(){ if(SB&&USER)SB.auth.signOut(); localStorage.removeItem(LS+'-guest'); location.reload(); }
 
@@ -563,6 +562,39 @@ function enterApp(){
 function go(v){ VIEW=v; document.querySelectorAll('.nav button,.tabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v))); renderActive(); window.scrollTo({top:0}); }
 $('#signout-d').onclick=signOut;
 
+/* ============ account editor ============ */
+/* The pseudonym is the trainee's public identity on the leaderboard, so the
+   same rules apply as at creation: no blanks, nothing containing '@' (that is
+   an email address), not the 'Guest' placeholder. Saved through the profiles
+   RLS policy (update own row only). */
+function openAcct(){
+  $('#acctSheet').innerHTML=`<button class="close" onclick="closeModal()">✕</button><h3>Your account</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin:var(--s2) 0 var(--s4)">Your pseudonym is what the cohort sees on the leaderboard. Pick something that isn’t your name or email.</p>
+    <div class="field"><label for="pseud">Pseudonym</label><input id="pseud" maxlength="24" autocomplete="off" value="${escapeHtml(PROFILE?.pseudonym||'')}"></div>
+    <div class="loginmsg" id="acctmsg"></div>
+    <button class="btn btn--wide" id="savePseud">Save</button>
+    ${GUEST?`<p style="font-size:.78rem;color:var(--faint);margin-top:var(--s3)">Guest mode — saved on this device only.</p>`:''}
+    <button class="btn btn--ghost btn--wide" id="signout-m" style="margin-top:var(--s4)">Sign out</button>`;
+  $('#acctModal').classList.add('on');
+  $('#savePseud').onclick=async()=>{
+    const v=$('#pseud').value.trim(); const m=$('#acctmsg');
+    if(v.length<2 || v.length>24){ m.dataset.t='err'; m.textContent='2–24 characters.'; return; }
+    if(!customPseudonym(v)){ m.dataset.t='err'; m.textContent='No email addresses — pick a pseudonym.'; return; }
+    if(SB&&USER){
+      $('#savePseud').disabled=true;
+      const {error}=await SB.from('profiles').upsert({id:USER.id,pseudonym:v,cohort:PROFILE?.cohort||null});
+      $('#savePseud').disabled=false;
+      if(error){ m.dataset.t='err'; m.textContent='Could not save — try again.'; return; }
+    }
+    PROFILE={...(PROFILE||{}),pseudonym:v}; saveLocal();
+    $('#who-name').textContent=v;
+    closeModal(); renderActive(); toast('Pseudonym updated.');
+  };
+  $('#signout-m').onclick=signOut;
+}
+$('#acctBtn').onclick=openAcct;
+const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
+
 /* ============ views ============ */
 function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard}[VIEW]; if(f) f(); }
 
@@ -584,7 +616,7 @@ function renderHome(){
   const v=el('div','view on');
   v.innerHTML=`${bannerHtml}
     <div class="kicker">This week</div>
-    <h2 class="view-h">Good to see you, ${PROFILE?.pseudonym||'Trainee'}.</h2>
+    <h2 class="view-h">Good to see you, ${escapeHtml(PROFILE?.pseudonym||'Trainee')}.</h2>
     <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
     <div class="stats">
       <div class="stat"><div class="n">${t.cases}</div><div class="l">cases completed</div></div>
@@ -673,9 +705,10 @@ function openWeek(id){
   if(rev) renderReadList($('#mread'),w);
   $('#weekModal').classList.add('on');
 }
-window.closeModal=()=>{$('#weekModal').classList.remove('on');$('#reflModal').classList.remove('on');};
+window.closeModal=()=>{$('#weekModal').classList.remove('on');$('#reflModal').classList.remove('on');$('#acctModal').classList.remove('on');};
 $('#weekModal').onclick=e=>{if(e.target.id==='weekModal')closeModal();};
 $('#reflModal').onclick=e=>{if(e.target.id==='reflModal')closeModal();};
+$('#acctModal').onclick=e=>{if(e.target.id==='acctModal')closeModal();};
 
 function renderActivity(){
   const v=el('div','view on');
@@ -711,7 +744,7 @@ function renderCPD(){
     </div>
     <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+1</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
     <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
-    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${PROFILE?.pseudonym||'Trainee'}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="cert"><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${escapeHtml(PROFILE?.pseudonym||'Trainee')}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
       <div class="disclaimer disclaimer--cert">${DISCLAIMER_HTML}</div></div>`;
   mount(v);
 }
