@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Monday Patient">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <title>The Monday Patient</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,7 +91,12 @@ button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -
 /* ---------- top bar ---------- */
 .top { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3); }
 .top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
-.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark { display: flex; align-items: center; gap: .5rem; font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark .mp-mark { height: 1.35em; width: auto; flex: none; }
+.wordmark span { white-space: nowrap; }
+/* On narrow phones the full lockup collides with the ward clock; the mark
+   carries the identity alone and the name returns from 480px up. */
+@media (max-width: 479px){ .wordmark span { display: none; } .wordmark .mp-mark { height: 1.7em; } }
 .wordmark em { font-style: italic; color: var(--accent); }
 .clock { display: inline-flex; align-items: center; gap: var(--s2); font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: .28rem .6rem; white-space: nowrap; }
 .clock i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
@@ -448,7 +454,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
   <header class="top">
     <div class="top__row">
-      <div class="wordmark">The Monday <em>Patient</em></div>
+      <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em></span></div>
       <div class="clock"><i></i>ward clock <b id="clock">08:42</b></div>
     </div>
     <div class="acts" id="actbar">

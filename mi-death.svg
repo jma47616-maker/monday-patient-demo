@@ -172,23 +172,18 @@
       <ellipse cx="214" cy="172" rx="8" ry="9"/>
       <ellipse cx="256" cy="172" rx="8" ry="9"/>
     </g>
-    <!-- anger mark -->
-    <g stroke="#b23b2e" stroke-width="4.5" stroke-linecap="round" fill="none">
-      <path d="M191 116 l17 13 M208 116 l-17 13"/>
-      <path d="M199 104 l0 9"/>
-      <path d="M177 128 l10 3"/>
-    </g>
+    <!-- the scowl and the folded arms carry the mood; no forehead mark needed -->
   </g>
 
   <!-- ============ gag 2: the smug vegetation ============ -->
   <g>
     <!-- speech bubble -->
-    <path d="M424 148 L444 190 L460 146 Z" fill="#faf6f0" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
-    <rect x="352" y="46" width="222" height="106" rx="16" fill="#faf6f0" stroke="#2b241d" stroke-width="5"/>
-    <g font-family="ui-monospace, monospace" font-size="21" fill="#2b241d" text-anchor="middle">
-      <text x="463" y="82">I WAS RIGHT</text>
-      <text x="463" y="108">HERE THE</text>
-      <text x="463" y="134">WHOLE TIME</text>
+    <path d="M418 152 L450 198 L480 152 Z" fill="#faf6f0" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="350" y="42" width="232" height="114" rx="16" fill="#faf6f0" stroke="#2b241d" stroke-width="5"/>
+    <g font-family="ui-monospace, monospace" font-size="23" fill="#2b241d" text-anchor="middle">
+      <text x="466" y="80">I WAS RIGHT</text>
+      <text x="466" y="109">HERE THE</text>
+      <text x="466" y="138">WHOLE TIME</text>
     </g>
 
     <!-- the heart it was sitting in all along -->
@@ -196,31 +191,35 @@
           fill="#b23b2e" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
     <path d="M475 290 C414 254 396 224 403 203 C409 188 424 185 437 190 C418 214 434 254 475 280 Z" fill="#2b241d" opacity=".18"/>
     <!-- the valve, with its uninvited guest sitting on a cusp -->
-    <ellipse cx="502" cy="240" rx="25" ry="17" fill="#f3ece1" stroke="#2b241d" stroke-width="4"/>
+    <ellipse cx="500" cy="250" rx="27" ry="19" fill="#f3ece1" stroke="#2b241d" stroke-width="4"/>
     <g stroke="#2b241d" stroke-width="3.2" stroke-linecap="round" fill="none">
-      <path d="M502 240 L502 223"/>
-      <path d="M502 240 L483 252"/>
-      <path d="M502 240 L521 252"/>
+      <path d="M500 231 Q506 250 523 260"/>
+      <path d="M523 260 Q500 255 477 260"/>
+      <path d="M477 260 Q494 250 500 231"/>
     </g>
     <g>
       <animateTransform attributeName="transform" type="translate" values="0 0; 1.6 -2.2; 0 0; -1.4 1.6; 0 0" dur="3.6s" repeatCount="indefinite"/>
       <g fill="#f3ece1" stroke="#2b241d" stroke-width="3.6" stroke-linejoin="round">
-        <circle cx="429" cy="219" r="13"/>
-        <circle cx="452" cy="203" r="12"/>
-        <circle cx="475" cy="211" r="11"/>
-        <circle cx="426" cy="242" r="11"/>
-        <circle cx="452" cy="230" r="21"/>
+        <circle cx="435" cy="222" r="13"/>
+        <circle cx="455" cy="203" r="12"/>
+        <circle cx="478" cy="214" r="11"/>
+        <circle cx="432" cy="246" r="11"/>
+        <circle cx="458" cy="232" r="20"/>
       </g>
       <g stroke="#b8552e" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".5">
-        <path d="M436 214 q7 6 14 1"/>
-        <path d="M466 208 q6 6 12 2"/>
-        <path d="M420 240 q6 5 12 0"/>
+        <path d="M440 216 q7 6 14 1"/>
+        <path d="M470 209 q6 6 12 2"/>
+        <path d="M426 244 q6 5 12 0"/>
       </g>
-      <!-- self-satisfied little face -->
+      <!-- self-satisfied little face: half-closed eyes, lopsided smirk -->
       <g stroke="#2b241d" stroke-width="3.2" fill="none" stroke-linecap="round">
-        <path d="M440 226 q6 -7 12 0"/>
-        <path d="M456 225 q6 -7 12 0"/>
-        <path d="M441 238 q11 11 21 -4"/>
+        <path d="M446 226 Q453 220 460 226"/>
+        <path d="M463 224 Q470 218 477 224"/>
+        <path d="M448 240 Q457 248 471 236"/>
+      </g>
+      <g fill="#2b241d">
+        <ellipse cx="453" cy="230" rx="2.8" ry="2.4"/>
+        <ellipse cx="470" cy="228" rx="2.8" ry="2.4"/>
       </g>
     </g>
   </g>
