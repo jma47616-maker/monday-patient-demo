@@ -321,7 +321,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.8';
+const APP_VERSION='1.0.9';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -495,6 +495,22 @@ function showLogin(){
    is an address, so neither is treated as a custom pseudonym.
    ============================================================ */
 function newPseudonym(){ return `Doctor_${Math.floor(1000+Math.random()*9000)}`; }
+/* Pseudonyms are UNIQUE in the DB (case-insensitive index), so a collision on
+   the auto-minted Doctor_<4 digits> is a normal outcome, not a bug — retry with
+   a fresh number rather than failing the sign-in. Non-collision errors are
+   tolerated the way they always were: the local name stands, the next write
+   through catches up. */
+async function claimPseudonym(id,preferred,cohort){
+  let name=preferred||newPseudonym();
+  for(let i=0;i<6;i++){
+    const {error}=await SB.from('profiles').upsert({id,pseudonym:name,cohort});
+    if(!error||error.code!=='23505') return name;
+    name=newPseudonym();
+  }
+  name='Doctor_'+String(Date.now()).slice(-6);   // 6 straight collisions: fall back to a timestamp tail
+  await SB.from('profiles').upsert({id,pseudonym:name,cohort});
+  return name;
+}
 function customPseudonym(p){ const s=(p||'').trim(); return (!s||s.includes('@')||s.toLowerCase()==='guest')?null:s; }
 
 async function onSignedIn(user){
@@ -502,13 +518,12 @@ async function onSignedIn(user){
   // load or create profile — select only the pseudonymous columns
   const {data:prof}=await SB.from('profiles').select('id,pseudonym,cohort').eq('id',user.id).maybeSingle();
   if(!prof){
-    const pseud=customPseudonym(PROFILE?.pseudonym)||newPseudonym();
+    const pseud=await claimPseudonym(user.id, customPseudonym(PROFILE?.pseudonym), '2026 cohort');
     PROFILE={pseudonym:pseud,cohort:'2026 cohort'};
-    await SB.from('profiles').upsert({id:user.id,pseudonym:PROFILE.pseudonym,cohort:PROFILE.cohort});
   } else {
     let pseud=customPseudonym(prof.pseudonym);
     // retire any address-derived handle left by an earlier version, and persist the replacement
-    if(!pseud){ pseud=newPseudonym(); await SB.from('profiles').upsert({id:user.id,pseudonym:pseud,cohort:prof.cohort}); }
+    if(!pseud) pseud=await claimPseudonym(user.id, null, prof.cohort);
     PROFILE={pseudonym:pseud,cohort:prof.cohort};
   }
   await pullData();
@@ -635,7 +650,7 @@ function openAcct(){
       $('#savePseud').disabled=true;
       const {error}=await SB.from('profiles').upsert({id:USER.id,pseudonym:v,cohort:PROFILE?.cohort||null});
       $('#savePseud').disabled=false;
-      if(error){ m.dataset.t='err'; m.textContent='Could not save — try again.'; return; }
+      if(error){ m.dataset.t='err'; m.textContent=(error.code==='23505')?'That name is taken — try another.':'Could not save — try again.'; return; }
     }
     PROFILE={...(PROFILE||{}),pseudonym:v}; saveLocal();
     $('#who-name').textContent=v;

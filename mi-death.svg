@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Marcus has arrested: the monitor has flatlined with the fever still showing, the crash trolley has arrived too late, and his soul drifts up with a thought bubble of the heart valve nobody looked at">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" role="img" aria-label="Marcus has arrested. His soul hovers over the bed with arms folded, halo knocked askew and one foot tapping impatiently, glaring down at him. Beside it a smug cauliflower-like vegetation perched on a heart valve says I WAS RIGHT HERE THE WHOLE TIME. The flatlined monitor, still showing a temperature of 39.2, prints a long till receipt reading TOLD YOU. Four small ghosts carrying a molar tooth, a splinter-haemorrhage fingernail, a high thermometer and a rolled-up ECG queue patiently past the foot of the bed.">
   <defs>
     <pattern id="dgrain" width="7" height="7" patternUnits="userSpaceOnUse">
       <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".06"/>
@@ -13,143 +13,303 @@
     </radialGradient>
   </defs>
 
-  <rect width="900" height="560" fill="#faf6f0"/>
+  <rect width="960" height="620" fill="#faf6f0"/>
   <!-- floor -->
-  <rect y="468" width="900" height="92" fill="#f3ece1"/>
-  <path d="M0 468 H900" fill="none" stroke="#2b241d" stroke-width="3" opacity=".18"/>
-  <rect width="900" height="560" fill="url(#dgrain)"/>
+  <rect y="470" width="960" height="150" fill="#f3ece1"/>
+  <path d="M0 470 H960" fill="none" stroke="#2b241d" stroke-width="3" opacity=".18"/>
+  <rect width="960" height="620" fill="url(#dgrain)"/>
 
   <!-- ================= monitor ================= -->
   <g>
-    <rect x="512" y="46" width="330" height="212" rx="16" fill="#2b241d"/>
-    <rect x="526" y="60" width="302" height="168" rx="8" fill="url(#screen)"/>
+    <rect x="600" y="40" width="330" height="210" rx="16" fill="#2b241d"/>
+    <rect x="614" y="54" width="302" height="168" rx="8" fill="url(#screen)"/>
     <!-- the last few beats, fading away -->
-    <path d="M536 148 h30 l9 -28 l11 54 l11 -26 h24" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35">
+    <path d="M624 132 h28 l9 -28 l11 54 l11 -26 h20" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35">
       <animate attributeName="opacity" values=".45;0;0;.45" keyTimes="0;0.25;0.9;1" dur="6s" repeatCount="indefinite"/>
     </path>
     <!-- the flatline -->
-    <path d="M630 150 H820" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M706 132 H900" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round"/>
     <!-- sweep dot, going nowhere -->
     <circle r="6" fill="#a9f2b3">
-      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+      <animateMotion path="M706 132 H900" dur="2.6s" repeatCount="indefinite"/>
     </circle>
     <circle r="16" fill="url(#glow)">
-      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+      <animateMotion path="M706 132 H900" dur="2.6s" repeatCount="indefinite"/>
     </circle>
-    <!-- dead numbers, and the one that never was -->
-    <text x="544" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">0</text>
-    <text x="544" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">HR</text>
-    <text x="624" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">--/--</text>
-    <text x="624" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">NIBP</text>
-    <text x="752" y="200" font-family="ui-monospace, monospace" font-size="28" fill="#b8552e">39.2</text>
-    <text x="752" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">TEMP</text>
+    <!-- dead numbers, and the one nobody acted on -->
+    <text x="630" y="196" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">0</text>
+    <text x="630" y="216" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">HR</text>
+    <text x="700" y="196" font-family="ui-monospace, monospace" font-size="30" fill="#b23b2e">--/--</text>
+    <text x="700" y="216" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">NIBP</text>
+    <text x="820" y="196" font-family="ui-monospace, monospace" font-size="28" fill="#b8552e">39.2</text>
+    <text x="820" y="216" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">TEMP</text>
     <!-- alarm lamp -->
-    <circle cx="806" cy="82" r="9" fill="#b23b2e">
+    <circle cx="896" cy="72" r="9" fill="#b23b2e">
       <animate attributeName="opacity" values="1;.15;1" dur=".85s" repeatCount="indefinite"/>
     </circle>
+    <!-- printer slot -->
+    <rect x="826" y="240" width="104" height="12" rx="4" fill="#100d0a"/>
     <!-- stand -->
-    <rect x="668" y="258" width="18" height="86" fill="#2b241d"/>
-    <rect x="628" y="344" width="98" height="14" rx="7" fill="#2b241d"/>
+    <rect x="736" y="250" width="18" height="88" fill="#2b241d"/>
+    <rect x="700" y="338" width="92" height="14" rx="7" fill="#2b241d"/>
+  </g>
+
+  <!-- ============ gag 3: the monitor prints a receipt ============ -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-1.7 876 250; 1.7 876 250; -1.7 876 250" dur="6.5s" repeatCount="indefinite"/>
+    <path d="M826 250 C812 302 842 338 826 392 C812 440 840 470 828 516 L844 524 L854 512 L868 526 L882 514 L896 528 L910 516 L928 526 C942 480 914 448 926 398 C942 344 912 306 926 250 Z"
+          fill="#faf6f0" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <!-- printed rubbish above the punchline -->
+    <g stroke="#2b241d" stroke-width="3" stroke-linecap="round" opacity=".28">
+      <path d="M840 292 H912"/>
+      <path d="M836 310 H906"/>
+      <path d="M838 328 H900"/>
+      <path d="M836 470 H908"/>
+      <path d="M840 490 H900"/>
+    </g>
+    <g transform="rotate(3 876 420)">
+      <text x="876" y="404" text-anchor="middle" font-family="ui-monospace, monospace" font-size="31" fill="#2b241d">TOLD</text>
+      <text x="876" y="440" text-anchor="middle" font-family="ui-monospace, monospace" font-size="31" fill="#2b241d">YOU</text>
+    </g>
   </g>
 
   <!-- ================= bed ================= -->
   <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
-    <rect x="70" y="330" width="470" height="34" rx="10" fill="#cfd8dc"/>
-    <rect x="88" y="364" width="16" height="96" fill="#9aa4ac"/>
-    <rect x="506" y="364" width="16" height="96" fill="#9aa4ac"/>
+    <rect x="30" y="336" width="466" height="34" rx="10" fill="#cfd8dc"/>
+    <rect x="48" y="370" width="16" height="96" fill="#9aa4ac"/>
+    <rect x="462" y="370" width="16" height="96" fill="#9aa4ac"/>
     <!-- headboard -->
-    <rect x="46" y="236" width="18" height="130" rx="8" fill="#9aa4ac"/>
+    <rect x="6" y="244" width="18" height="128" rx="8" fill="#9aa4ac"/>
   </g>
   <!-- blanket -->
-  <path d="M176 330 C186 292 260 280 340 284 C420 288 500 296 522 330 Z" fill="#a9bcc4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
-  <g stroke="#7f939c" stroke-width="3.5" opacity=".8">
-    <path d="M240 292 C246 306 246 318 240 330"/>
-    <path d="M330 286 C336 302 336 316 330 330"/>
-    <path d="M420 292 C426 306 426 318 420 330"/>
+  <path d="M150 336 C160 296 240 286 320 290 C400 294 470 302 496 336 Z" fill="#a9bcc4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#7f939c" stroke-width="3.5" opacity=".8" fill="none">
+    <path d="M212 298 C218 312 218 324 212 336"/>
+    <path d="M300 292 C306 308 306 322 300 336"/>
+    <path d="M390 298 C396 312 396 324 390 336"/>
   </g>
   <!-- pillow -->
-  <path d="M78 300 C74 268 110 250 148 254 C186 258 200 284 192 312 C184 336 106 338 78 300 Z" fill="#f2ede4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M38 306 C34 274 70 256 108 260 C146 264 160 290 152 318 C144 342 66 344 38 306 Z" fill="#f2ede4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
 
   <!-- ================= Marcus, definitively unwell ================= -->
   <g>
-    <!-- head -->
-    <ellipse cx="150" cy="280" rx="52" ry="50" fill="#e6cfb6" stroke="#2b241d" stroke-width="6"/>
+    <ellipse cx="110" cy="286" rx="52" ry="50" fill="#e6cfb6" stroke="#2b241d" stroke-width="6"/>
     <!-- pallor -->
-    <ellipse cx="123" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
-    <ellipse cx="177" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <ellipse cx="83" cy="306" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <ellipse cx="137" cy="306" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
     <!-- short dark hair -->
-    <path d="M100 266 C100 242 121 228 150 228 C179 228 200 242 200 266 C193 250 177 242 150 242 C123 242 107 250 100 266 Z" fill="#4a4136" stroke="#2b241d" stroke-width="4"/>
+    <path d="M60 272 C60 248 81 234 110 234 C139 234 160 248 160 272 C153 256 137 248 110 248 C83 248 67 256 60 272 Z" fill="#4a4136" stroke="#2b241d" stroke-width="4"/>
     <!-- stubble -->
-    <path d="M112 306 C118 328 134 336 150 336 C166 336 182 328 188 306 C179 322 164 328 150 328 C136 328 123 322 112 306 Z" fill="#4a4136" opacity=".18"/>
+    <path d="M74 310 C80 330 94 336 110 336 C126 336 140 330 146 310 C137 324 124 330 110 330 C96 330 83 324 74 310 Z" fill="#4a4136" opacity=".18"/>
     <!-- X eyes -->
     <g stroke="#2b241d" stroke-width="7" stroke-linecap="round">
-      <path d="M118 266 l20 20 M138 266 l-20 20"/>
-      <path d="M164 266 l20 20 M184 266 l-20 20"/>
+      <path d="M78 272 l20 20 M98 272 l-20 20"/>
+      <path d="M124 272 l20 20 M144 272 l-20 20"/>
     </g>
     <!-- open mouth + lolling tongue -->
-    <ellipse cx="151" cy="308" rx="15" ry="11" fill="#7d5647" stroke="#2b241d" stroke-width="5"/>
-    <path d="M148 314 q10 16 20 4 q-4 -8 -14 -8 Z" fill="#c9737a" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="111" cy="314" rx="15" ry="11" fill="#7d5647" stroke="#2b241d" stroke-width="5"/>
+    <path d="M108 320 q10 16 20 4 q-4 -8 -14 -8 Z" fill="#c9737a" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
   </g>
 
-  <!-- the soul, leaving, with a late realisation -->
-  <g opacity=".92">
-    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -46; 0 0" dur="5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values=".5;.95;.5" dur="5s" repeatCount="indefinite"/>
-    <path d="M258 214 C258 176 288 152 320 152 C352 152 382 176 382 214 L382 268 L366 252 L350 268 L334 252 L318 268 L302 252 L286 268 L270 252 L258 268 Z"
-          fill="#f4f1ea" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
-    <g fill="#2b241d">
-      <ellipse cx="302" cy="204" rx="7" ry="9"/>
-      <ellipse cx="340" cy="204" rx="7" ry="9"/>
-    </g>
-    <path d="M310 230 q11 10 22 0" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
-    <!-- halo -->
-    <ellipse cx="320" cy="132" rx="34" ry="10" fill="none" stroke="#d8a13a" stroke-width="6"/>
-
-    <!-- thought bubble: the valve nobody looked at -->
-    <g>
-      <circle cx="394" cy="246" r="7" fill="#faf6f0" stroke="#2b241d" stroke-width="4"/>
-      <circle cx="410" cy="228" r="5" fill="#faf6f0" stroke="#2b241d" stroke-width="3.5"/>
-      <circle cx="452" cy="182" r="52" fill="#faf6f0" stroke="#2b241d" stroke-width="5"/>
-      <!-- little heart -->
-      <path d="M452 218 C418 197 408 177 413 164 C419 150 438 151 452 167 C466 151 485 150 491 164 C496 177 486 197 452 218 Z"
-            fill="#b23b2e" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
-      <!-- the valve -->
-      <ellipse cx="452" cy="181" rx="15" ry="10" fill="#f3ece1" stroke="#2b241d" stroke-width="3.4"/>
-      <g stroke="#2b241d" stroke-width="2.8" stroke-linecap="round">
-        <path d="M452 181 L452 170"/>
-        <path d="M452 181 L440 189"/>
-        <path d="M452 181 L464 189"/>
-      </g>
-      <!-- the vegetation, quietly wobbling -->
-      <g fill="#f3ece1" stroke="#2b241d" stroke-width="3" stroke-linejoin="round">
-        <animateTransform attributeName="transform" type="translate" values="0 0; 1.6 -1.8; 0 0; -1.3 1.3; 0 0" dur="3.4s" repeatCount="indefinite"/>
-        <circle cx="437" cy="169" r="7.5"/>
-        <circle cx="446" cy="161" r="6"/>
-        <circle cx="429" cy="160" r="5"/>
-      </g>
-    </g>
-  </g>
-
-  <!-- oxygen cylinder, still full -->
-  <g stroke="#2b241d" stroke-width="5" stroke-linejoin="round">
-    <rect x="552" y="424" width="40" height="80" rx="14" fill="#3f7d52"/>
-    <rect x="564" y="408" width="16" height="20" rx="5" fill="#2b241d"/>
-    <path d="M552 452 H592" stroke-width="3.5"/>
-  </g>
-
-  <!-- crash trolley, arrived -->
-  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
-    <rect x="596" y="392" width="150" height="112" rx="10" fill="#b23b2e"/>
-    <path d="M596 428 H746 M596 464 H746" stroke-width="4"/>
-    <path d="M614 446 h28 M614 482 h28" stroke="#b8552e" stroke-width="6" stroke-linecap="round"/>
-    <circle cx="626" cy="518" r="14" fill="#2b241d"/>
-    <circle cx="716" cy="518" r="14" fill="#2b241d"/>
-  </g>
-  <text x="671" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="bold" fill="#faf6f0">CRASH</text>
-
-  <!-- time of the call -->
+  <!-- ============ gag 1: the soul, and it is not happy ============ -->
   <g>
-    <rect x="60" y="486" width="230" height="42" rx="8" fill="#2b241d" opacity=".9"/>
-    <text x="175" y="514" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#faf6f0">crash call</text>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -16; 0 0" dur="6s" repeatCount="indefinite"/>
+
+    <!-- halo, knocked askew and still wobbling -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-21 242 76; -7 242 76; -21 242 76" dur="2.9s" repeatCount="indefinite"/>
+      <ellipse cx="242" cy="76" rx="38" ry="11" fill="none" stroke="#d8a13a" stroke-width="7"/>
+      <ellipse cx="242" cy="76" rx="38" ry="11" fill="none" stroke="#f0cf86" stroke-width="2.5"/>
+    </g>
+
+    <!-- body -->
+    <path d="M162 190 C162 130 194 96 242 96 C290 96 322 130 322 190 L322 246 L306 234 L290 246 L274 234 L258 246 L242 234 L226 246 L210 234 L194 246 L178 234 L162 244 Z"
+          fill="#f4f1ea" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <!-- cel shading -->
+    <path d="M162 190 C162 134 188 100 224 96 C198 116 186 148 186 190 L186 240 L178 234 L162 244 Z" fill="#c9cfd4" opacity=".35"/>
+
+    <!-- arms, very much folded -->
+    <g stroke-linecap="round" fill="none">
+      <path d="M204 234 L278 218" stroke="#2b241d" stroke-width="21"/>
+      <path d="M204 234 L278 218" stroke="#e9e2d6" stroke-width="12"/>
+    </g>
+    <g>
+      <path d="M212 224 q-14 -4 -22 4 q-8 8 2 14 q10 6 18 -4 Z" fill="#e9e2d6" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g stroke="#2b241d" stroke-width="2.6" stroke-linecap="round" fill="none">
+        <path d="M194 228 l9 -3"/><path d="M197 236 l9 -3"/>
+      </g>
+    </g>
+    <g stroke-linecap="round" fill="none">
+      <path d="M202 214 L276 232" stroke="#2b241d" stroke-width="21"/>
+      <path d="M202 214 L276 232" stroke="#e9e2d6" stroke-width="12"/>
+    </g>
+    <g>
+      <path d="M270 222 q14 -5 22 3 q9 8 -1 14 q-10 7 -19 -3 Z" fill="#e9e2d6" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g stroke="#2b241d" stroke-width="2.6" stroke-linecap="round" fill="none">
+        <path d="M280 226 l9 3"/><path d="M277 234 l9 3"/>
+      </g>
+    </g>
+
+    <!-- tapping foot, mid-air, impatient -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 262 246; -22 262 246; 0 262 246; -7 262 246; 0 262 246" dur=".95s" repeatCount="indefinite"/>
+      <path d="M252 242 L274 242 L274 262 Q298 265 302 273 Q304 282 293 282 L262 282 Q250 282 249 269 Q248 254 252 242 Z"
+            fill="#f4f1ea" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M274 262 Q288 264 294 270" fill="none" stroke="#2b241d" stroke-width="3" opacity=".35"/>
+    </g>
+    <g stroke="#b8552e" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".85">
+      <path d="M312 264 q9 6 5 15"/>
+      <path d="M324 256 q13 9 8 21"/>
+    </g>
+
+    <!-- furious face, glaring down at the bed -->
+    <g stroke="#2b241d" stroke-linecap="round" fill="none">
+      <path d="M192 142 L224 160" stroke-width="7.5"/>
+      <path d="M282 142 L252 160" stroke-width="7.5"/>
+      <path d="M210 196 Q238 178 264 196" stroke-width="5.5"/>
+    </g>
+    <g fill="#2b241d">
+      <ellipse cx="214" cy="172" rx="8" ry="9"/>
+      <ellipse cx="256" cy="172" rx="8" ry="9"/>
+    </g>
+    <!-- anger mark -->
+    <g stroke="#b23b2e" stroke-width="4.5" stroke-linecap="round" fill="none">
+      <path d="M191 116 l17 13 M208 116 l-17 13"/>
+      <path d="M199 104 l0 9"/>
+      <path d="M177 128 l10 3"/>
+    </g>
+  </g>
+
+  <!-- ============ gag 2: the smug vegetation ============ -->
+  <g>
+    <!-- speech bubble -->
+    <path d="M424 148 L444 190 L460 146 Z" fill="#faf6f0" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="352" y="46" width="222" height="106" rx="16" fill="#faf6f0" stroke="#2b241d" stroke-width="5"/>
+    <g font-family="ui-monospace, monospace" font-size="21" fill="#2b241d" text-anchor="middle">
+      <text x="463" y="82">I WAS RIGHT</text>
+      <text x="463" y="108">HERE THE</text>
+      <text x="463" y="134">WHOLE TIME</text>
+    </g>
+
+    <!-- the heart it was sitting in all along -->
+    <path d="M475 290 C414 254 396 224 403 203 C410 184 439 184 475 217 C511 184 540 184 547 203 C554 224 536 254 475 290 Z"
+          fill="#b23b2e" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+    <path d="M475 290 C414 254 396 224 403 203 C409 188 424 185 437 190 C418 214 434 254 475 280 Z" fill="#2b241d" opacity=".18"/>
+    <!-- the valve, with its uninvited guest sitting on a cusp -->
+    <ellipse cx="502" cy="240" rx="25" ry="17" fill="#f3ece1" stroke="#2b241d" stroke-width="4"/>
+    <g stroke="#2b241d" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <path d="M502 240 L502 223"/>
+      <path d="M502 240 L483 252"/>
+      <path d="M502 240 L521 252"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0; 1.6 -2.2; 0 0; -1.4 1.6; 0 0" dur="3.6s" repeatCount="indefinite"/>
+      <g fill="#f3ece1" stroke="#2b241d" stroke-width="3.6" stroke-linejoin="round">
+        <circle cx="429" cy="219" r="13"/>
+        <circle cx="452" cy="203" r="12"/>
+        <circle cx="475" cy="211" r="11"/>
+        <circle cx="426" cy="242" r="11"/>
+        <circle cx="452" cy="230" r="21"/>
+      </g>
+      <g stroke="#b8552e" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".5">
+        <path d="M436 214 q7 6 14 1"/>
+        <path d="M466 208 q6 6 12 2"/>
+        <path d="M420 240 q6 5 12 0"/>
+      </g>
+      <!-- self-satisfied little face -->
+      <g stroke="#2b241d" stroke-width="3.2" fill="none" stroke-linecap="round">
+        <path d="M440 226 q6 -7 12 0"/>
+        <path d="M456 225 q6 -7 12 0"/>
+        <path d="M441 238 q11 11 21 -4"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ================= crash trolley, arrived ================= -->
+  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
+    <rect x="520" y="376" width="164" height="128" rx="10" fill="#b23b2e"/>
+    <path d="M520 414 H684 M520 456 H684" stroke-width="4"/>
+    <path d="M538 436 h28 M538 478 h28" stroke="#b8552e" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="550" cy="518" r="14" fill="#2b241d"/>
+    <circle cx="654" cy="518" r="14" fill="#2b241d"/>
+  </g>
+  <text x="602" y="404" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="bold" fill="#faf6f0">CRASH</text>
+
+  <!-- ============ gag 4: the queue of ignored clues ============ -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 15 0; 0 0" dur="14s" repeatCount="indefinite"/>
+
+    <!-- 1: the tooth -->
+    <g transform="translate(38 502)">
+      <animateTransform attributeName="transform" type="translate" values="38 502; 38 494; 38 502" dur="4.2s" repeatCount="indefinite"/>
+      <path d="M4 44 C4 18 18 4 32 4 C46 4 60 18 60 44 L60 72 L50 61 L41 72 L32 61 L23 72 L14 61 L4 70 Z" fill="#f4f1ea" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g fill="#2b241d"><ellipse cx="22" cy="38" rx="4" ry="4.5"/><ellipse cx="43" cy="38" rx="4" ry="4.5"/></g>
+      <g stroke="#2b241d" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M15 29 l13 -4"/><path d="M37 26 h11"/>
+        <path d="M24 53 q5 -5 9 0 q4 5 8 0"/>
+      </g>
+      <g transform="translate(60 22)">
+        <path d="M3 11 C3 2 9 -3 16 -3 C23 -3 29 2 29 11 C29 18 25 21 24 29 L22 42 L17 26 L14 42 L11 27 C10 20 3 18 3 11 Z" fill="#f7f2ea" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M9 8 q7 5 14 0" fill="none" stroke="#2b241d" stroke-width="2.6" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- 2: the splinter haemorrhage -->
+    <g transform="translate(160 502)">
+      <animateTransform attributeName="transform" type="translate" values="160 502; 160 496; 160 502" dur="5.1s" repeatCount="indefinite"/>
+      <path d="M4 44 C4 18 18 4 32 4 C46 4 60 18 60 44 L60 72 L50 61 L41 72 L32 61 L23 72 L14 61 L4 70 Z" fill="#f4f1ea" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g fill="#2b241d"><ellipse cx="22" cy="38" rx="4" ry="4.5"/><ellipse cx="43" cy="38" rx="4" ry="4.5"/></g>
+      <g stroke="#2b241d" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M16 27 h11"/><path d="M38 25 l12 4"/>
+        <path d="M24 54 q5 -5 9 0 q4 5 8 0"/>
+      </g>
+      <g transform="translate(62 20)">
+        <path d="M4 44 L4 18 C4 7 10 0 17 0 C24 0 30 7 30 18 L30 44 Z" fill="#e6cfb6" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+        <rect x="8" y="8" width="18" height="26" rx="8" fill="#f2e2d6" stroke="#2b241d" stroke-width="3"/>
+        <g stroke="#b23b2e" stroke-width="2.6" stroke-linecap="round">
+          <path d="M13 15 l1 12"/><path d="M18 14 l1 13"/><path d="M23 17 l0 10"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- 3: the fever -->
+    <g transform="translate(282 502)">
+      <animateTransform attributeName="transform" type="translate" values="282 502; 282 495; 282 502" dur="4.6s" repeatCount="indefinite"/>
+      <path d="M4 44 C4 18 18 4 32 4 C46 4 60 18 60 44 L60 72 L50 61 L41 72 L32 61 L23 72 L14 61 L4 70 Z" fill="#f4f1ea" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g fill="#2b241d"><ellipse cx="22" cy="38" rx="4" ry="4.5"/><ellipse cx="43" cy="38" rx="4" ry="4.5"/></g>
+      <g stroke="#2b241d" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M15 28 l13 -3"/><path d="M37 25 h11"/>
+        <path d="M24 53 q5 -5 9 0 q4 5 8 0"/>
+      </g>
+      <g transform="translate(64 8)">
+        <path d="M10 8 a8 8 0 0 1 16 0 L26 40 L10 40 Z" fill="#faf6f0" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="18" cy="48" r="11" fill="#b23b2e" stroke="#2b241d" stroke-width="4"/>
+        <rect x="14" y="10" width="8" height="34" fill="#b23b2e"/>
+        <g stroke="#2b241d" stroke-width="2.4" stroke-linecap="round">
+          <path d="M26 18 h-5"/><path d="M26 26 h-5"/><path d="M26 34 h-5"/>
+        </g>
+        <g stroke="#b8552e" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8">
+          <path d="M6 4 q4 -6 0 -12"/>
+          <path d="M30 4 q4 -6 0 -12"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- 4: the ECG nobody unrolled -->
+    <g transform="translate(404 502)">
+      <animateTransform attributeName="transform" type="translate" values="404 502; 404 494; 404 502" dur="5.6s" repeatCount="indefinite"/>
+      <path d="M4 44 C4 18 18 4 32 4 C46 4 60 18 60 44 L60 72 L50 61 L41 72 L32 61 L23 72 L14 61 L4 70 Z" fill="#f4f1ea" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <g fill="#2b241d"><ellipse cx="22" cy="38" rx="4" ry="4.5"/><ellipse cx="43" cy="38" rx="4" ry="4.5"/></g>
+      <g stroke="#2b241d" stroke-width="3" fill="none" stroke-linecap="round">
+        <path d="M16 26 h11"/><path d="M38 26 l12 -3"/>
+        <path d="M24 54 q5 -5 9 0 q4 5 8 0"/>
+      </g>
+      <g transform="translate(62 24)">
+        <path d="M12 4 h26 a12 12 0 0 1 0 24 h-26 Z" fill="#faf6f0" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="12" cy="16" r="12" fill="#faf6f0" stroke="#2b241d" stroke-width="4"/>
+        <circle cx="12" cy="16" r="4.5" fill="none" stroke="#2b241d" stroke-width="3"/>
+        <path d="M24 18 h5 l3 -9 l4 17 l3 -8 h5" fill="none" stroke="#b23b2e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
   </g>
 </svg>
