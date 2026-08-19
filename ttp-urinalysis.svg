@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 470" role="img" aria-label="Urinalysis result slip: dark brown urine, blood +++, urobilinogen raised, protein +, leucocytes and nitrites negative; microscopy shows no erythrocytes, no leucocytes and no organisms">
+  <defs>
+    <filter id="pshadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="4" dy="7" stdDeviation="6" flood-color="#2b241d" flood-opacity=".22"/>
+    </filter>
+    <pattern id="ugrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+    <linearGradient id="pot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6b4420"/>
+      <stop offset=".45" stop-color="#8a5a28"/>
+      <stop offset="1" stop-color="#5c3a1b"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="620" height="470" fill="#efe9df"/>
+
+  <!-- ============ the sample pot, standing on the side ============ -->
+  <g transform="translate(492,244)">
+    <path d="M-44 -74 h88 v122 a10 10 0 0 1 -10 10 h-68 a10 10 0 0 1 -10 -10 Z"
+          fill="#e9f1f2" stroke="#2b241d" stroke-width="5" stroke-linejoin="round" opacity=".9"/>
+    <!-- the urine: dark brown, like strong tea -->
+    <path d="M-40 -30 h80 v78 a8 8 0 0 1 -8 8 h-64 a8 8 0 0 1 -8 -8 Z" fill="url(#pot)"/>
+    <path d="M-40 -30 h80" stroke="#3d2611" stroke-width="4"/>
+    <!-- lid -->
+    <rect x="-50" y="-88" width="100" height="18" rx="6" fill="#c9d6d8" stroke="#2b241d" stroke-width="4.5"/>
+    <!-- highlight -->
+    <path d="M-30 -20 v58" stroke="#faf6f0" stroke-width="6" opacity=".22" stroke-linecap="round"/>
+    <text x="0" y="76" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#7a6f60">the sample</text>
+  </g>
+
+  <!-- ============ the slip of paper ============ -->
+  <g transform="translate(30,26) rotate(-1.5)" filter="url(#pshadow)">
+    <rect width="418" height="418" rx="4" fill="#fdfcf8" stroke="#cfc6b6" stroke-width="2"/>
+    <!-- torn top edge -->
+    <path d="M0 0 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5
+             l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l3 -1 V0 Z"
+          fill="#efe9df"/>
+
+    <!-- header -->
+    <text x="24" y="40" font-family="'Geist Mono', ui-monospace, monospace" font-size="17" font-weight="600" letter-spacing="2" fill="#2b241d">URINALYSIS</text>
+    <text x="24" y="58" font-family="'Geist Mono', ui-monospace, monospace" font-size="10.5" fill="#7a6f60">REAGENT STRIP · BEDSIDE · 10 PARAMETER</text>
+    <path d="M24 68 H394" stroke="#2b241d" stroke-width="2"/>
+
+    <!-- patient label, stuck on -->
+    <g transform="translate(24,78)">
+      <rect width="230" height="46" rx="2" fill="#f3efe4" stroke="#b9ae9a" stroke-width="1.6"/>
+      <text x="8" y="18" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#2b241d">HALE, Lauren</text>
+      <text x="8" y="32" font-family="'Geist Mono', ui-monospace, monospace" font-size="9.5" fill="#5b5145">32F · BAY 6 · ED MAJORS</text>
+      <text x="8" y="42" font-family="'Geist Mono', ui-monospace, monospace" font-size="9.5" fill="#5b5145">COLLECTED 20:25</text>
+    </g>
+    <g transform="translate(266,78)" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#5b5145">
+      <text x="0" y="14">APPEARANCE</text>
+      <text x="0" y="30" font-size="12.5" font-weight="600" fill="#6b4420">DARK BROWN</text>
+      <text x="0" y="44" font-size="9.5">"like strong tea"</text>
+    </g>
+
+    <path d="M24 136 H394" stroke="#cfc6b6" stroke-width="1.6"/>
+
+    <!-- ===== results, printed ===== -->
+    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12.5">
+      <!-- row helper: label | pad | value -->
+      <g transform="translate(24,158)">
+        <text y="0" fill="#2b241d">BLOOD</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#2f6b52" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" font-weight="600" fill="#a02c42">+++</text>
+      </g>
+      <g transform="translate(24,182)">
+        <text y="0" fill="#2b241d">UROBILINOGEN</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#d4693f" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" font-weight="600" fill="#a02c42">RAISED</text>
+        <text x="268" y="0" font-size="10" fill="#7a6f60">(66 µmol/L)</text>
+      </g>
+      <g transform="translate(24,206)">
+        <text y="0" fill="#2b241d">PROTEIN</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#8fae64" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" font-weight="600" fill="#9a6a16">+</text>
+      </g>
+      <g transform="translate(24,230)">
+        <text y="0" fill="#2b241d">LEUCOCYTES</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#f0e6cf" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
+      </g>
+      <g transform="translate(24,254)">
+        <text y="0" fill="#2b241d">NITRITE</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#fbf6ea" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
+      </g>
+      <g transform="translate(24,278)">
+        <text y="0" fill="#2b241d">GLUCOSE</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#4a7fa5" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
+      </g>
+      <g transform="translate(24,302)">
+        <text y="0" fill="#2b241d">KETONES</text>
+        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#f2e3cb" stroke="#8d8474" stroke-width="1.2"/>
+        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
+      </g>
+      <g transform="translate(24,326)" font-size="11.5" fill="#5b5145">
+        <text y="0">pH 6.0</text>
+        <text x="150" y="0">SG 1.020</text>
+      </g>
+    </g>
+
+    <path d="M24 342 H394" stroke="#2b241d" stroke-width="2"/>
+
+    <!-- ===== laboratory microscopy, added by hand ===== -->
+    <g transform="translate(24,360)">
+      <text font-family="'Geist Mono', ui-monospace, monospace" font-size="10" letter-spacing="1" fill="#7a6f60">LABORATORY MICROSCOPY</text>
+      <g font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#2b3a6b">
+        <text y="22" font-style="italic">No erythrocytes seen.  No leucocytes.  No organisms.</text>
+      </g>
+      <text y="42" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#2b3a6b" opacity=".85">BMS 21:04</text>
+    </g>
+  </g>
+
+  <!-- ============ the strip itself, laid on the slip ============ -->
+  <g transform="translate(466,352) rotate(-76)">
+    <rect x="0" y="0" width="196" height="20" rx="2" fill="#fdfcf8" stroke="#2b241d" stroke-width="3"/>
+    <g stroke="#6d6555" stroke-width="1.2">
+      <rect x="12"  y="2.5" width="18" height="15" fill="#2f6b52"/>
+      <rect x="34"  y="2.5" width="18" height="15" fill="#d4693f"/>
+      <rect x="56"  y="2.5" width="18" height="15" fill="#8fae64"/>
+      <rect x="78"  y="2.5" width="18" height="15" fill="#f0e6cf"/>
+      <rect x="100" y="2.5" width="18" height="15" fill="#fbf6ea"/>
+      <rect x="122" y="2.5" width="18" height="15" fill="#4a7fa5"/>
+      <rect x="144" y="2.5" width="18" height="15" fill="#f2e3cb"/>
+      <rect x="166" y="2.5" width="18" height="15" fill="#c9c07f"/>
+    </g>
+  </g>
+
+  <rect width="620" height="470" fill="url(#ugrain)"/>
+</svg>

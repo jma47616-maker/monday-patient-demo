@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Monday Patient">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<title>The Monday Patient</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Hallmark · component: app platform · genre: editorial × modern-minimal
+ * theme: custom (vibe: "warm editorial clinical, premium teaching" · paper oklch(98% 0.008 75) · accent oklch(58% 0.15 40) terracotta · Fraunces + Geist + Geist Mono)
+ * pre-emit critique: P5 H5 E4 S5 R4 V5
+ */
+:root {
+  color-scheme: light;
+  --paper:   #faf6f0;
+  --paper-2: #f3ece1;
+  --paper-3: #ece2d4;
+  --ink:     #2b241d;
+  --ink-2:   #4a4136;
+  --muted:   #7a6f60;
+  --faint:   #9c917f;
+  --rule:    #e3d8c8;
+  --rule-2:  #d4c7b3;
+  --accent:    #b8552e;
+  --accent-2:  #9c4525;
+  --accent-bg: #f6e6db;
+  --accent-ink:#fdf6f0;
+  --danger:    #b23b2e;
+  --danger-bg: #f7e3df;
+  --good:      #3f7d52;
+  --good-bg:   #e6f0e6;
+  --warn:      #9a6a16;
+  --warn-bg:   #f6ebd6;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+  --s1:.25rem; --s2:.5rem; --s3:.75rem; --s4:1rem; --s5:1.5rem; --s6:2rem; --s7:3rem;
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --shadow: 0 1px 2px rgba(43,36,29,.04), 0 4px 16px rgba(43,36,29,.06);
+  --shadow-lg: 0 2px 6px rgba(43,36,29,.06), 0 12px 36px rgba(43,36,29,.10);
+}
+@supports (color: oklch(50% 0 0)) {
+  :root {
+    --paper:   oklch(98% 0.008 75);
+    --paper-2: oklch(95.5% 0.013 72);
+    --paper-3: oklch(92.5% 0.016 70);
+    --ink:     oklch(26% 0.018 55);
+    --ink-2:   oklch(38% 0.02 52);
+    --muted:   oklch(52% 0.02 58);
+    --faint:   oklch(64% 0.018 62);
+    --rule:    oklch(89% 0.014 72);
+    --rule-2:  oklch(83% 0.018 70);
+    --accent:    oklch(56% 0.135 42);
+    --accent-2:  oklch(48% 0.14 40);
+    --accent-bg: oklch(93% 0.04 50);
+    --accent-ink:oklch(98% 0.01 70);
+    --danger:    oklch(52% 0.17 30);
+    --danger-bg: oklch(94% 0.045 32);
+    --good:      oklch(52% 0.11 150);
+    --good-bg:   oklch(94% 0.035 150);
+    --warn:      oklch(54% 0.11 75);
+    --warn-bg:   oklch(94% 0.05 82);
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: contain;
+}
+button, input { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+
+.app { max-width: 30rem; margin-inline: auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--paper); }
+@media (min-width: 32rem) { .app { box-shadow: var(--shadow-lg); } }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--paper) 86%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: calc(var(--s3) + env(safe-area-inset-top,0px)) var(--s4) var(--s3); }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.wordmark { display: flex; align-items: center; gap: .5rem; font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; letter-spacing: -.01em; line-height: 1; }
+.wordmark .mp-mark { height: 1.35em; width: auto; flex: none; }
+.wordmark span { white-space: nowrap; position: relative; padding-bottom: .55em; }
+/* The ECG rule hugs the text: absolutely positioned so the TEXT sets the width
+   (a flow svg's 300px intrinsic default would inflate the span instead). */
+.wordmark .wm-ecg { position: absolute; left: 0; right: 0; bottom: 0; height: auto; display: block; }
+/* On narrow phones the full lockup collides with the ward clock; the mark
+   carries the identity alone and the name returns from 480px up. */
+@media (max-width: 479px){ .wordmark span { display: none; } .wordmark .mp-mark { height: 1.7em; } }
+.wordmark em { font-style: italic; color: var(--accent); }
+.clock { display: inline-flex; align-items: center; gap: var(--s2); font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: .28rem .6rem; white-space: nowrap; }
+.clock i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.clock b { color: var(--ink); font-weight: 500; }
+.acts { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.actpill { flex: 1; display: flex; align-items: center; gap: var(--s2); font-size: .72rem; color: var(--faint); padding: .3rem .5rem; border-radius: var(--r-sm); border: 1px solid transparent; }
+.actpill b { width: 1.15rem; height: 1.15rem; border-radius: 50%; display: grid; place-items: center; background: var(--paper-3); color: var(--faint); font-size: .7rem; font-weight: 600; font-family: var(--font-mono); }
+.actpill[data-on="1"] { color: var(--ink); background: var(--accent-bg); border-color: color-mix(in oklab, var(--accent) 25%, transparent); }
+.actpill[data-on="1"] b { background: var(--accent); color: var(--accent-ink); }
+.actpill[data-on="done"] b { background: var(--good); color: #fff; }
+
+/* ---------- screens ---------- */
+main { flex: 1; padding: var(--s5) var(--s4) var(--s7); }
+.screen { display: none; }
+.screen.on { display: block; animation: in .42s var(--ease); }
+@keyframes in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+h1 { font-family: var(--font-display); font-weight: 600; font-size: 2.1rem; line-height: 1.08; letter-spacing: -.02em; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.55rem; line-height: 1.12; letter-spacing: -.015em; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; line-height: 1.2; }
+.kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; margin-bottom: var(--s2); }
+.lede { color: var(--muted); margin-top: var(--s2); max-width: 36ch; }
+.byline { margin-top: var(--s3); font-family: var(--font-display); font-style: italic; font-size: .95rem; color: var(--muted); }
+.byline b { font-style: normal; font-weight: 600; color: var(--accent-2); }
+.serif-body { font-family: var(--font-display); font-weight: 400; font-size: 1.06rem; line-height: 1.5; color: var(--ink-2); }
+
+/* ---------- brief ---------- */
+.badges { display: flex; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s4); }
+.badge { font-size: .72rem; font-weight: 500; border-radius: 999px; padding: .28rem .7rem; background: var(--paper-2); color: var(--muted); border: 1px solid var(--rule); }
+.badge--accent { background: var(--accent-bg); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent) 22%, transparent); }
+.patient { display: flex; align-items: center; gap: var(--s3); margin: var(--s4) 0; }
+.avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; display: grid; place-items: center; box-shadow: var(--shadow); }
+.patient__meta b { font-weight: 500; }
+.patient__meta span { display: block; color: var(--muted); font-size: .85rem; }
+
+.card { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.card--plain { background: transparent; }
+.card__label { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: var(--s3); }
+
+.obsgrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--s2); }
+.obs { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s2); text-align: center; }
+.obs .k { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.obs .v { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 500; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+.obs .u { font-size: .62rem; color: var(--faint); }
+.obs[data-flag="hi"] .v, .obs[data-flag="lo"] .v { color: var(--danger); }
+.news { display: flex; align-items: baseline; justify-content: space-between; margin-top: var(--s3); padding-top: var(--s3); border-top: 1px dashed var(--rule-2); }
+.news .lbl { font-size: .8rem; color: var(--muted); }
+.news .val { font-family: var(--font-mono); font-weight: 600; font-size: 1.1rem; }
+.news .val[data-tone="warn"] { color: var(--warn); }
+.news .val[data-tone="bad"] { color: var(--danger); }
+.news .val[data-tone="ok"] { color: var(--good); }
+
+.points { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+.points li { display: flex; gap: var(--s3); font-size: .92rem; color: var(--ink-2); }
+.points .n { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent-2); font-family: var(--font-mono); font-size: .78rem; font-weight: 600; display: grid; place-items: center; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); width: 100%; min-height: 52px; padding: var(--s3) var(--s4); background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 1rem; letter-spacing: -.01em; white-space: nowrap; border: 1px solid var(--accent); border-radius: var(--r-md); cursor: pointer; box-shadow: var(--shadow); transition: transform .12s var(--ease), background-color .2s var(--ease), filter .2s var(--ease); }
+@media (hover:hover){ .btn:hover { filter: brightness(1.06); } }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule-2); box-shadow: none; }
+@media (hover:hover){ .btn--ghost:hover { background: var(--paper-2); } }
+.btn--sm { min-height: 44px; font-size: .92rem; width: auto; padding: var(--s2) var(--s4); }
+.btnrow { display: flex; flex-direction: column; gap: var(--s3); margin-top: var(--s5); }
+.bar { position: sticky; bottom: 0; z-index: 15; margin: var(--s5) calc(var(--s4) * -1) calc(var(--s7) * -1); padding: var(--s3) var(--s4) calc(var(--s3) + env(safe-area-inset-bottom,0px)); background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--rule); display: flex; gap: var(--s3); }
+.bar .btn { box-shadow: none; }
+
+/* ---------- tabs ---------- */
+.tabs { display: flex; gap: var(--s1); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: var(--s1); margin-bottom: var(--s4); position: sticky; top: calc(var(--s7) + env(safe-area-inset-top,0px)); z-index: 10; }
+.tab { flex: 1; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--muted); font-size: .8rem; font-weight: 500; white-space: nowrap; border-radius: 999px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .25rem; transition: background-color .2s var(--ease), color .2s var(--ease); }
+.tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); font-weight: 600; }
+.tab[data-locked="1"] { opacity: .35; pointer-events: none; }
+.tab[data-locked="1"]::after { content: "🔒"; font-size: .58rem; margin-left: .1rem; }
+.tab .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: .62rem; font-weight: 600; font-family: var(--font-mono); display: none; align-items: center; justify-content: center; }
+.tab .dot.show { display: inline-flex; }
+.panel { display: none; }
+.panel.on { display: block; animation: in .3s var(--ease); }
+.panel__hint { font-size: .85rem; color: var(--muted); margin-bottom: var(--s4); }
+
+/* ---------- history ---------- */
+/* NB: no scroll-behavior:smooth here — it swallows programmatic scrollTop assignment,
+   leaving the log stuck at the top. The in-log jump is invisible anyway. */
+.qa { list-style: none; padding: 0 2px var(--s2) 0; margin: 0 0 var(--s3); display: flex; flex-direction: column; gap: var(--s3);
+      max-height: clamp(8rem, 32vh, 20rem); overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin; }
+.qa:empty { display: none; }
+/* the chip grid keeps its footprint as questions are used up, so nothing reflows mid-answer */
+.chips { min-height: 12.5rem; align-content: start; }
+.qa li { animation: pop .3s var(--ease); }
+.qa .q { font-size: .82rem; color: var(--accent-2); font-weight: 600; margin-bottom: .15rem; }
+.qa .a { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.45; color: var(--ink-2); }
+@keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s2); }
+.chip { min-height: 50px; padding: var(--s2) var(--s3); background: var(--paper-2); color: var(--ink); border: 1px solid var(--rule); border-radius: var(--r-md); font-size: .85rem; text-align: left; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .chip:hover { background: var(--paper-3); border-color: var(--rule-2); } }
+.chip:active { transform: translateY(1px); }
+.chip:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+
+/* ---------- chat history ---------- */
+.msg { display: flex; gap: var(--s2); align-items: flex-end; }
+.msg--dr { justify-content: flex-end; }
+.msg .bub { max-width: 84%; padding: .55rem .85rem; border-radius: 16px; font-size: .95rem; line-height: 1.45; animation: pop .3s var(--ease); }
+.msg--dr .bub { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg--pt .bub { background: var(--paper-2); border: 1px solid var(--rule); color: var(--ink-2); border-bottom-left-radius: 4px; font-family: var(--font-display); font-size: 1.02rem; }
+.msg .who { font-size: .62rem; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); margin-bottom: .2rem; font-family: var(--font-body); font-weight: 600; }
+.msg--dr .who { text-align: right; }
+.msg .pav { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--paper-3); overflow: hidden; border: 1.5px solid var(--rule-2); box-shadow: var(--shadow); margin-bottom: 2px; animation: pop .35s var(--ease); }
+.msg .pav img { width: 100%; height: 100%; display: block; object-fit: cover; }
+/* the container does the clipping — clamping the <img> itself proved unreliable */
+#hxScene { margin-bottom: var(--s3); position: relative; cursor: pointer; overflow: hidden;
+           border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow);
+           max-height: 34vh; transition: max-height .45s var(--ease); }
+#hxScene img { width: 100%; display: block; animation: in .6s var(--ease); }
+/* once the conversation starts the scene has done its job — shrink it to a strip */
+#hxScene.mini { max-height: 4.4rem; }
+#hxScene::after { content: attr(data-hint); position: absolute; right: .5rem; bottom: .5rem;
+  font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 600;
+  color: var(--accent-ink); background: color-mix(in oklab, var(--ink) 62%, transparent);
+  padding: .18rem .5rem; border-radius: 999px; pointer-events: none; }
+.typing { display: inline-flex; gap: 4px; align-items: center; padding: .25rem 0; }
+.typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: tp 1s infinite; }
+.typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes tp { 0%,60%,100% { transform: none; opacity: .4; } 30% { transform: translateY(-4px); opacity: 1; } }
+.chips[data-busy="1"] { opacity: .55; pointer-events: none; }
+
+/* ---------- the death card ---------- */
+#deathArt img { width: 100%; display: block; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); }
+#s-death h2 { color: var(--danger); }
+
+/* ---------- guide rail: always says what you are doing and what comes next ---------- */
+.rail { display: flex; align-items: flex-start; gap: var(--s3); background: var(--accent-bg); border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s4); }
+.rail .rk { flex: none; font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; color: var(--accent-2); padding-top: .12rem; }
+.rail .rn { font-size: .88rem; line-height: 1.45; color: var(--ink-2); }
+.rail .rn b { color: var(--ink); font-weight: 600; }
+
+/* ---------- typed order rows ---------- */
+.typerow { display: flex; gap: var(--s2); margin-bottom: var(--s3); }
+.typerow input { flex: 1; min-width: 0; min-height: 46px; padding: var(--s2) var(--s3); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: 2px solid transparent; outline-offset: 1px; }
+.typerow input::placeholder { color: var(--faint); }
+.typerow input:focus-visible { outline-color: var(--accent-2); }
+.typerow .btn { width: auto; flex: none; }
+.notefound { font-size: .86rem; color: var(--muted); background: var(--paper-2); border: 1px solid var(--rule); border-left: 3px solid var(--warn); border-radius: var(--r-md); padding: var(--s2) var(--s3); margin-bottom: var(--s3); animation: pop .3s var(--ease); }
+.ambwrap { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3); margin-bottom: var(--s3); animation: pop .3s var(--ease); }
+.ambwrap .aq { font-size: .86rem; color: var(--ink-2); margin-bottom: var(--s2); }
+.ambchips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.ambchips button { min-height: 38px; padding: .3rem .7rem; background: var(--paper); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .84rem; color: var(--accent-2); font-weight: 600; cursor: pointer; }
+@media (hover:hover){ .ambchips button:hover { background: var(--accent-bg); } }
+
+/* ---------- written plan ---------- */
+#planText { width: 100%; min-height: 9rem; padding: var(--s3); font-family: inherit; font-size: .96rem; line-height: 1.5;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--rule-2); border-radius: var(--r-md); resize: vertical;
+  outline: 2px solid transparent; outline-offset: 1px; }
+#planText::placeholder { color: var(--faint); }
+#planText:focus-visible { outline-color: var(--accent-2); }
+.planbtns { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.planbtns .btn { width: auto; flex: 1; }
+.planbtns .btn--ghost { flex: none; padding-inline: var(--s4); }
+.refwrap { margin-top: var(--s4); animation: pop .3s var(--ease); }
+.refwrap .rteam { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s3); }
+.refwrap .rteam button { min-height: 40px; padding: .3rem .8rem; background: var(--paper); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .86rem; color: var(--accent-2); font-weight: 600; cursor: pointer; }
+@media (hover:hover){ .refwrap .rteam button:hover { background: var(--accent-bg); } }
+.chart { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s4); }
+.chart .ct { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: var(--s2); }
+.chart ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .3rem; }
+.chart li { font-size: .9rem; color: var(--ink-2); display: flex; gap: var(--s2); }
+.chart li::before { content: "✓"; color: var(--good); font-weight: 700; }
+.chart li[data-harm="1"]::before { content: "!"; color: var(--danger); }
+.chart li[data-harm="1"] { color: var(--danger); }
+.bundle { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s4); margin-top: var(--s4); animation: pop .3s var(--ease); }
+.bundle h4 { font-family: var(--font-display); font-size: 1.02rem; margin-bottom: var(--s1); }
+.bundle .bsub { font-size: .8rem; color: var(--muted); margin-bottom: var(--s3); }
+.bundle ul { list-style: none; padding: 0; margin: 0 0 var(--s3); display: flex; flex-direction: column; gap: .45rem; }
+.bundle li { display: flex; gap: var(--s3); align-items: baseline; font-size: .88rem; }
+.bundle .mk { flex: none; width: 20px; text-align: center; font-weight: 700; }
+.bundle li[data-ok="1"] .mk { color: var(--good); }
+.bundle li[data-ok="0"] .mk { color: var(--danger); }
+.bundle li[data-ok="0"] .bl { color: var(--ink); }
+.bundle li .bw { color: var(--muted); font-size: .84rem; }
+
+/* ---------- question timer ---------- */
+.mqprog { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s2); font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tbar { height: 6px; border-radius: 999px; background: var(--paper-3); overflow: hidden; margin-bottom: var(--s4); }
+.tbar i { display: block; height: 100%; width: 100%; background: var(--good); border-radius: 999px; transition: background-color .3s var(--ease); }
+
+/* ---------- exam + ix rows ---------- */
+.rows { list-style: none; padding: 0; margin: 0; }
+.row { padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+.row__head { display: flex; align-items: center; gap: var(--s3); }
+.row__name { flex: 1; font-size: .92rem; }
+.row__sub { font-size: .72rem; color: var(--faint); }
+.row__cost { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.act { min-height: 40px; min-width: 76px; padding: 0 var(--s3); background: transparent; color: var(--accent-2); border: 1px solid var(--rule-2); border-radius: 999px; font-size: .82rem; font-weight: 600; cursor: pointer; transition: background-color .15s var(--ease), transform .1s var(--ease); }
+@media (hover:hover){ .act:hover { background: var(--accent-bg); } }
+.act:active { transform: translateY(1px); }
+.act:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.act[data-picked="1"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.act[disabled] { opacity: .5; cursor: default; color: var(--muted); }
+.finding { margin-top: var(--s2); font-family: var(--font-display); font-size: .98rem; line-height: 1.45; color: var(--ink-2); animation: pop .3s var(--ease); }
+.finding[data-tone="alert"] { color: var(--danger); font-weight: 500; }
+.finding img { width: 100%; max-width: 250px; border-radius: var(--r-md); border: 1px solid var(--rule-2); display: block; margin-top: var(--s2); box-shadow: var(--shadow); }
+.finding img.wide { max-width: 100%; }
+audio.ausc { display: block; width: 100%; max-width: 320px; margin-top: var(--s3); height: 38px; }
+.reflist { margin-top: var(--s2); font-family: var(--font-body); font-size: .84rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); animation: pop .3s var(--ease); }
+.reflist .rq { font-family: var(--font-display); font-style: italic; color: var(--ink-2); margin-bottom: var(--s2); }
+.reflist ul { list-style: none; padding: 0; margin: 0 0 var(--s2); display: flex; flex-direction: column; gap: .3rem; }
+.reflist li { display: flex; gap: var(--s2); align-items: baseline; }
+.reflist li b { font-weight: 500; }
+.reflist .ok { color: var(--good); font-weight: 700; }
+.reflist .no { color: var(--danger); font-weight: 700; }
+.reflist .verdict { font-family: var(--font-display); font-style: italic; color: var(--accent-2); }
+.grouph { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; margin: var(--s5) 0 var(--s1); }
+.grouph:first-of-type { margin-top: 0; }
+
+/* ---------- results feed (lab report) ---------- */
+.roundh { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); font-weight: 500; margin: var(--s4) 0 var(--s2); display: flex; align-items: center; gap: var(--s2); }
+.roundh::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.result { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); animation: pop .3s var(--ease); }
+.result .rn { font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.labrow { display: grid; grid-template-columns: 1fr auto auto; gap: var(--s2) var(--s3); align-items: baseline; font-size: .82rem; }
+.labrow + .labrow { margin-top: .35rem; padding-top: .35rem; border-top: 1px dashed var(--rule); }
+.labrow .ln { color: var(--muted); }
+.labrow .lv { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+.labrow .lr { font-family: var(--font-mono); font-size: .72rem; color: var(--faint); white-space: nowrap; }
+.labrow[data-flag="hi"] .lv, .labrow[data-flag="lo"] .lv { color: var(--danger); font-weight: 600; }
+.labrow .lv .arrow { font-size: .7rem; }
+.labrow .base { grid-column: 1 / -1; font-size: .72rem; color: var(--faint); }
+.labtext { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-2); line-height: 1.5; }
+
+/* ---------- type-ahead ---------- */
+.field { margin-bottom: var(--s4); }
+.field label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); margin-bottom: var(--s2); }
+.field .hint { font-size: .76rem; color: var(--faint); margin-bottom: var(--s2); }
+.field input { width: 100%; min-height: 50px; padding: var(--s3) var(--s4); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: 2px solid transparent; outline-offset: 1px; transition: background-color .15s var(--ease); }
+.field input::placeholder { color: var(--faint); }
+.field input:hover { background: var(--paper-2); }
+.field input:focus-visible { outline-color: var(--accent-2); }
+
+/* ---------- management drill (act 2) ---------- */
+.mq { background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s4); margin-bottom: var(--s4); }
+.mq__q { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin-bottom: var(--s3); }
+.mq__q .tagn { font-family: var(--font-mono); font-size: .74rem; color: var(--accent-2); display: block; font-weight: 500; margin-bottom: .2rem; }
+.opts { display: flex; flex-direction: column; gap: var(--s2); }
+.opt { display: flex; align-items: center; gap: var(--s3); min-height: 50px; padding: var(--s3); background: var(--paper); border: 1px solid var(--rule-2); border-radius: var(--r-md); text-align: left; font-size: .92rem; color: var(--ink); cursor: pointer; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+@media (hover:hover){ .opt:hover:not([disabled]) { background: var(--paper-3); } }
+.opt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
+.opt .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule-2); display: grid; place-items: center; font-size: .8rem; }
+.opt[data-state="right"] { border-color: var(--good); background: var(--good-bg); }
+.opt[data-state="right"] .mk { background: var(--good); color: #fff; border-color: var(--good); }
+.opt[data-state="wrong"] { border-color: var(--danger); background: var(--danger-bg); }
+.opt[data-state="wrong"] .mk { background: var(--danger); color: #fff; border-color: var(--danger); }
+.opt[data-state="dim"] { opacity: .55; }
+.teach { margin-top: var(--s3); padding: var(--s3); border-radius: var(--r-md); background: var(--paper); border: 1px solid var(--rule); font-size: .88rem; line-height: 1.5; color: var(--ink-2); animation: pop .3s var(--ease); }
+.teach b { color: var(--ink); font-weight: 600; }
+.teach[data-tone="right"] { border-left: 3px solid var(--good); border-radius: 0 var(--r-md) var(--r-md) 0; }
+.teach[data-tone="wrong"] { border-left: 3px solid var(--danger); border-radius: 0 var(--r-md) var(--r-md) 0; }
+
+/* ---------- outcome ---------- */
+.scorehero { text-align: center; padding: var(--s5) 0 var(--s4); }
+.scorehero .big { font-family: var(--font-display); font-weight: 600; font-size: 4.2rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.scorehero .big span { font-size: 1.6rem; color: var(--faint); }
+.scorehero .rank { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--accent-2); margin-top: var(--s2); }
+.scorehero .sub { color: var(--muted); font-size: .9rem; margin-top: var(--s2); max-width: 34ch; margin-inline: auto; }
+.dxverdict { display: flex; align-items: center; gap: var(--s3); padding: var(--s4); border-radius: var(--r-md); margin-bottom: var(--s4); }
+.dxverdict[data-hit="1"] { background: var(--good-bg); border: 1px solid color-mix(in oklab, var(--good) 30%, transparent); }
+.dxverdict[data-hit="0"] { background: var(--warn-bg); border: 1px solid color-mix(in oklab, var(--warn) 35%, transparent); }
+.dxverdict .ic { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; }
+.dxverdict[data-hit="1"] .ic { background: var(--good); }
+.dxverdict[data-hit="0"] .ic { background: var(--warn); }
+.dxverdict .t { font-weight: 600; }
+.dxverdict .s { font-size: .82rem; color: var(--muted); }
+.lo { border: 1px solid var(--rule); border-radius: var(--r-md); padding: var(--s3) var(--s4); margin-bottom: var(--s2); display: flex; gap: var(--s3); }
+.lo .ic { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .76rem; font-weight: 700; color: #fff; margin-top: 1px; }
+.lo[data-v="hit"] .ic { background: var(--good); }
+.lo[data-v="part"] .ic { background: var(--warn); }
+.lo[data-v="miss"] .ic { background: var(--danger); }
+.lo .lt { font-size: .9rem; font-weight: 600; }
+.lo .ls { font-size: .84rem; color: var(--muted); margin-top: .15rem; line-height: 1.45; }
+.score { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.score td { padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
+.score td:last-child { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.score tr:last-child td { border-bottom: none; font-weight: 600; font-family: var(--font-display); font-size: 1rem; padding-top: var(--s3); }
+.plus { color: var(--good); }
+.minus { color: var(--danger); }
+.pearls { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s3); }
+/* NB: not display:flex — a flex li turns every child node into its own column,
+   so any inline <em>/<b> inside a pearl shattered it into side-by-side text blocks */
+.pearls li { position: relative; padding-left: 1.15rem; font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.pearls li::before { content: ""; position: absolute; left: 0; top: .52rem; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.lock { display: flex; align-items: center; gap: var(--s3); }
+.lock .ic { flex: none; color: var(--faint); }
+
+footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-bottom,0px)); border-top: 1px solid var(--rule); font-size: .72rem; color: var(--faint); line-height: 1.6; }
+
+/* ---------- commit gate ---------- */
+.overlay { position: fixed; inset: 0; z-index: 50; background: rgba(43,36,29,.45); display: flex; align-items: center; justify-content: center; padding: var(--s4); }
+.overlay[hidden] { display: none; }
+.sheet { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: var(--s5); max-width: 26rem; width: 100%; box-shadow: var(--shadow-lg); animation: rise .3s var(--ease); }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet p { color: var(--muted); font-size: .92rem; margin-top: var(--s2); }
+.checklist { list-style: none; padding: 0; margin: var(--s4) 0; display: flex; flex-direction: column; gap: var(--s1); }
+.checklist li { display: flex; align-items: center; gap: var(--s3); font-size: .94rem; padding: var(--s2) 0; }
+.checklist .mk { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .78rem; font-weight: 700; }
+.checklist li[data-done="1"] .mk { background: var(--good); color: #fff; }
+.checklist li[data-done="1"] { color: var(--muted); }
+.checklist li[data-done="0"] .mk { background: var(--warn-bg); color: var(--warn); }
+.sheetbtns { display: flex; flex-direction: column; gap: var(--s2); }
+
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: 1ms !important; transition-duration: 1ms !important; } }
+
+/* ============================================================
+   DESKTOP — phone-first below 62rem, two-pane workspace above.
+   The patient (observations + guide rail) stays put on the left
+   while you work in the right-hand pane, the way a ward system
+   would show it. Reading screens stay a comfortable measure.
+   ============================================================ */
+@media (min-width: 62rem) {
+  .app { max-width: 68rem; }
+  main { padding: var(--s5) var(--s5) var(--s7); }
+
+  /* narrative screens shouldn't stretch to 68rem — keep them readable */
+  #s-brief, #s-commit, #s-death, #s-manage, #s-out { max-width: 44rem; margin-inline: auto; }
+
+  /* the work-up becomes two columns */
+  #s-work.on {
+    display: grid;
+    grid-template-columns: 22rem minmax(0, 1fr);
+    column-gap: var(--s5);
+    align-items: start;
+  }
+  .wsleft { grid-column: 1; position: sticky; top: 7.5rem; }
+  .wsmain { grid-column: 2; min-width: 0; }
+  #s-work > .bar { grid-column: 1 / -1; margin-inline: calc(var(--s5) * -1); padding-inline: var(--s5); }
+
+  /* the left column has room for a roomier obs grid and a taller rail */
+  .wsleft .obsgrid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--s3); }
+  .rail { flex-direction: column; gap: var(--s2); }
+
+  /* more room to work in the right-hand pane */
+  .chips { grid-template-columns: repeat(3, minmax(0,1fr)); min-height: 0; }
+  .qa { max-height: clamp(14rem, 46vh, 32rem); }
+  #hxScene img { max-height: 22vh; }
+  .finding img { max-width: 340px; }
+  .finding img.wide { max-width: 640px; }
+  #deathArt img { max-width: 620px; margin-inline: auto; }
+  .bar .btn { max-width: 26rem; margin-inline-start: auto; }
+  .bar .btn--ghost { margin-inline-start: 0; }
+}
+
+/* very large screens: stop the line length growing further */
+@media (min-width: 92rem) { .app { max-width: 76rem; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="top__row">
+      <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="clock"><i></i>ward clock <b id="clock">08:42</b></div>
+    </div>
+    <div class="acts" id="actbar">
+      <div class="actpill" data-stage="brief"><b>1</b><span>Brief</span></div>
+      <div class="actpill" data-stage="work"><b>2</b><span>Work-up</span></div>
+      <div class="actpill" data-stage="commit"><b>3</b><span>Diagnose</span></div>
+      <div class="actpill" data-stage="manage"><b>4</b><span>Manage</span></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== BRIEF ===================== -->
+    <section class="screen on" id="s-brief">
+      <div class="badges">
+        <span class="badge badge--accent">Week 4 · 12</span>
+        <span class="badge">Acute medical take</span>
+        <span class="badge">≈ 15 min</span>
+      </div>
+      <h1>She isn't making sense</h1>
+      <p class="byline">A case by <b>Dr Mollie Ward</b></p>
+      <p class="lede">Work her up the way you would on the take — examine, investigate, treat as you go. Every move costs ward time, and the clock is watching.</p>
+
+      <div class="patient">
+        <div class="avatar">LH</div>
+        <div class="patient__meta">
+          <b>Lauren Hale</b>
+          <span>32 · female · brought in by her partner</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">ED triage · 20:10 · majors</div>
+        <p class="serif-body" style="margin-bottom: var(--s4);">Twenty-four hours of worsening confusion. Yesterday she was "a bit out of it"; tonight she doesn't know where she is. Agitated and frightened, and very pale. Seen by her GP three days ago and started on nitrofurantoin for a urine infection. Her girlfriend is at the bedside.</p>
+        <div class="obsgrid">
+          <div class="obs"><div class="k">HR</div><div class="v">98</div><div class="u">/min reg</div></div>
+          <div class="obs"><div class="k">BP</div><div class="v">123/84</div><div class="u">mmHg</div></div>
+          <div class="obs"><div class="k">RR</div><div class="v">18</div><div class="u">/min</div></div>
+          <div class="obs"><div class="k">SpO₂</div><div class="v">97</div><div class="u">% air</div></div>
+          <div class="obs"><div class="k">Temp</div><div class="v">37.9</div><div class="u">°C</div></div>
+          <div class="obs" data-flag="lo"><div class="k">GCS</div><div class="v">14</div><div class="u">/15</div></div>
+        </div>
+        <div class="news"><span class="lbl">NEWS2 on arrival</span><span class="val" data-tone="warn" id="newsBrief">4</span></div>
+      </div>
+
+      <div class="card card--plain" style="border:1px solid var(--rule);">
+        <div class="card__label">How this case works</div>
+        <ul class="points">
+          <li><span class="n">1</span><span>Work her up in stages — history, then examination, then investigations. You can step back to any completed stage to reassess her; the case counts how often you do.</span></li>
+          <li><span class="n">2</span><span>Order investigations in rounds — the clock jumps by the slowest test. Re-examine when results change the picture.</span></li>
+          <li><span class="n">3</span><span>Commit a diagnosis once the results justify it — only then does treatment open. Then prove you can <em>manage</em> it.</span></li>
+        </ul>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn" data-go="work">Begin the assessment</button>
+      </div>
+    </section>
+
+    <!-- ===================== WORKSPACE ===================== -->
+    <section class="screen" id="s-work">
+      <div class="wsleft">
+        <div class="card" style="padding: var(--s3) var(--s4); margin-bottom: var(--s4);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--s3);">
+            <div style="font-size:.78rem; color:var(--muted);">Lauren Hale · 32 · bay 6</div>
+            <div style="font-size:.74rem; color:var(--faint);" id="newsLiveWrap">NEWS2 <span class="val" id="newsLive" style="font-family:var(--font-mono); font-weight:600; color:var(--warn);">3</span></div>
+          </div>
+          <div class="obsgrid" id="obsLive" style="margin-top:var(--s3);"></div>
+        </div>
+
+        <div class="rail" id="rail"></div>
+      </div>
+
+      <div class="wsmain">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-tab="hx">History <span class="dot" id="hxDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ex">Examine <span class="dot" id="exDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="ix">Investigate <span class="dot" id="ixDot"></span></button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="rx">Treat <span class="dot" id="rxDot"></span></button>
+      </div>
+
+      <div class="panel on" id="p-hx">
+        <p class="panel__hint">Tap to ask. Each question costs about 30 seconds.</p>
+        <div id="hxScene"><img src="ttp-scene.svg" alt="Tonight in majors: Lauren sits agitated on the trolley, very pale, while her girlfriend holds her hand."></div>
+        <ul class="qa" id="qa"></ul>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="panel" id="p-ex">
+        <p class="panel__hint">The core systems are quick. Reach for a focused examination when the story calls for it — choosing the right one is the skill.</p>
+        <ul class="rows" id="examCore"></ul>
+
+        <div class="grouph">Focused examination</div>
+        <p class="panel__hint" style="margin-bottom:var(--s3);">Nothing is listed — type the examination you want, the way you'd say it on the ward.</p>
+        <form class="typerow" id="examForm" autocomplete="off">
+          <input id="examInput" placeholder="e.g. volume status, cranial nerves…" autocomplete="off" enterkeyhint="go" spellcheck="false">
+          <button class="btn btn--sm" type="submit">Examine</button>
+        </form>
+        <div id="examMsg"></div>
+        <ul class="rows" id="examMore"></ul>
+      </div>
+
+      <div class="panel" id="p-ix">
+        <p class="panel__hint">Bedside tests are on the trolley. Everything else is ordered on ICE — type it the way you would at the terminal. Build a round, send it; the clock jumps by the slowest test.</p>
+        <div id="ixGroups"></div>
+        <div class="grouph">Order on ICE</div>
+        <form class="typerow" id="ixForm" autocomplete="off">
+          <input id="ixInput" placeholder="e.g. FBC, group and save, chest X-ray…" autocomplete="off" enterkeyhint="go" spellcheck="false">
+          <button class="btn btn--sm" type="submit">Add</button>
+        </form>
+        <div id="ixMsg"></div>
+        <div id="ixBasket"></div>
+        <div id="reexamWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="reexamBtn">Re-examine the patient</button>
+        </div>
+        <button class="btn" id="sendRound" disabled style="margin-top:var(--s4);">Send round</button>
+        <div id="feed" aria-live="polite" style="margin-top:var(--s4);"></div>
+      </div>
+
+      <div class="panel" id="p-rx">
+        <p class="panel__hint">You've called it. Now write the plan — free text, the way you'd write it in the notes. Nothing is listed; what you write is what gets done.</p>
+        <div id="rxChart"></div>
+        <form id="planForm" autocomplete="off">
+          <textarea id="planText" rows="7" placeholder="e.g.
+Cannula
+IV fluids
+…"></textarea>
+          <div class="planbtns">
+            <button class="btn btn--ghost" type="button" id="planRefer">📞 Refer</button>
+            <button class="btn" type="submit" id="planSubmit">Submit the plan</button>
+          </div>
+        </form>
+        <div id="planOut"></div>
+        <div id="rxReassessWrap" style="margin-top:var(--s4); display:none;">
+          <button class="btn btn--ghost" id="rxReassessBtn">Reassess the patient</button>
+        </div>
+      </div>
+      </div><!-- /.wsmain -->
+
+      <div class="bar">
+        <button class="btn btn--ghost btn--sm" style="flex:1;" data-go="brief">Brief</button>
+        <button class="btn btn--sm" style="flex:2;" id="toCommit">Commit a diagnosis</button>
+      </div>
+    </section>
+
+    <!-- ===================== COMMIT ===================== -->
+    <section class="screen" id="s-commit">
+      <div class="kicker">Diagnosis</div>
+      <h2>Commit your diagnosis</h2>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <div class="field" style="margin-top:var(--s5);">
+        <label for="dxInput">Final diagnosis</label>
+        <div class="hint">Type it — the box will suggest matches.</div>
+        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+      </div>
+      <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that's the registrar's call you're being asked to make.</div>
+      <div class="btnrow">
+        <button class="btn btn--ghost" data-go="work">Back to the work-up</button>
+        <button class="btn" id="commitBtn">Lock diagnosis → manage her</button>
+      </div>
+    </section>
+
+    <!-- ===================== HE DIED ===================== -->
+    <section class="screen" id="s-death">
+      <div class="kicker">14:20 · bay 4</div>
+      <h2 id="deathHead">You called it wrong.</h2>
+      <p class="lede" id="deathLede"></p>
+      <div id="deathArt" style="margin:var(--s5) 0;"></div>
+      <div class="card" style="border-left:3px solid var(--danger);">
+        <div class="card__label">What actually happened</div>
+        <div class="serif-body" id="deathStory"></div>
+      </div>
+      <div class="btnrow">
+        <button class="btn" id="deathOn">See where it went wrong</button>
+      </div>
+    </section>
+
+    <!-- ===================== MANAGE (ACT 2) ===================== -->
+    <section class="screen" id="s-manage">
+      <div class="kicker">Management</div>
+      <h2 id="manageHead">Now manage it</h2>
+      <p class="lede" id="manageLede">You've made the diagnosis. This is what separates safe from dangerous — the decisions, with the evidence behind each.</p>
+      <div id="mqList" style="margin-top:var(--s5);"></div>
+      <div class="btnrow">
+        <button class="btn" id="finishBtn">Finish the case → see how you did</button>
+      </div>
+    </section>
+
+    <!-- ===================== OUTCOME ===================== -->
+    <section class="screen" id="s-out">
+      <div class="scorehero">
+        <div class="big" id="scoreBig">0<span>/160</span></div>
+        <div class="rank" id="rank"></div>
+        <div class="sub" id="scoreSub"></div>
+      </div>
+      <div id="dxVerdict"></div>
+
+      <div class="card">
+        <div class="card__label">Against the learning objectives</div>
+        <div id="loList"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Your diagnostic journey</div>
+        <div id="journey" class="serif-body" style="font-size:.96rem;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Score breakdown</div>
+        <table class="score" id="scoreTable"></table>
+      </div>
+
+      <div class="card">
+        <div class="card__label">Teaching pearls</div>
+        <ul class="pearls">
+          <li>Anaemia plus thrombocytopenia plus <em>any</em> organ dysfunction is a microangiopathy until proven otherwise. The test that settles it is the cheapest one you can order — ask the lab to look at the film.</li>
+          <li>Schistocytes are red cells that have been shredded by fibrin strands in small vessels. Add a platelet count of 18, an LDH of 1800, an undetectable haptoglobin and a <em>negative</em> DAT, and you have mechanical haemolysis. A positive DAT would have sent you to autoimmune haemolysis instead; a negative one is the point.</li>
+          <li>The pentad — fever, neurology, renal impairment, MAHA, thrombocytopenia — is a historical description, not a diagnostic checklist. Fewer than one in ten have all five, and waiting for the set is how people die. MAHA plus thrombocytopenia with no other explanation is enough to act.</li>
+          <li>The visible haematuria without dysuria, frequency or fever was never a urine infection — the cultures were negative and the dip showed no red cells. That "UTI" was the disease announcing itself, and the nitrofurantoin was a red herring three days long.</li>
+          <li>Nitrofurantoin genuinely causes haemolysis in G6PD deficiency — but that is oxidative haemolysis, which gives you bite cells and Heinz bodies, not fragments, and it does not drop the platelets to 18. A fair decoy explains part of the picture; only one diagnosis explains all of it.</li>
+          <li><b>Never transfuse platelets in TTP.</b> It is the single most harmful thing you can do here — it feeds the microvascular thrombosis and is associated with a significant increase in mortality. The low count is consumption, not a deficiency to be topped up. Central line insertion for the exchange does not need them either.</li>
+          <li>Plasma exchange takes mortality from about 90% down to 10–20%, and the clock matters: BSH says PEX within four hours of a suspected diagnosis, and certainly by eight. Treat on clinical suspicion — the ADAMTS13 sample is taken <em>before</em> exchange, but the result must never gate the treatment.</li>
+          <li>A normal clotting screen is not reassurance here — it is a discriminator. TTP consumes platelets, not clotting factors; deranged INR, APTT and fibrinogen would have pointed you at DIC instead.</li>
+          <li>Dialysis-requiring renal failure is rare in TTP and should make you think HUS, especially with a diarrhoeal prodrome and Shiga-toxin <em>E. coli</em>. Lauren's creatinine of 118 is the mild renal involvement that fits TTP.</li>
+          <li>This is a designated-centre disease. In England all TTP is managed in regional centres under NHSE highly specialised services — so the job in a district ED is to recognise it, take the samples, avoid the harm, and get her moved with an airway escort.</li>
+        </ul>
+      </div>
+
+      <div class="card lock" id="debriefCard"></div>
+
+      <div class="btnrow">
+        <button class="btn btn--ghost" id="replay">Play the case again</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    The Monday Patient · weekly acute medicine cases. Fictional patient — no real patient data. For education only; follow your local policy.
+  </footer>
+
+  <div class="overlay" id="commitGate" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+      <h3 id="gateTitle">Before you commit</h3>
+      <p id="gateSub">Safe practice is to complete your assessment first. Here's where you've got to:</p>
+      <ul class="checklist" id="gateList"></ul>
+      <div class="sheetbtns">
+        <button class="btn" id="gateBack">Go back and finish</button>
+        <button class="btn btn--ghost" id="gateGo">Commit anyway</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<datalist id="dxlist"></datalist>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CASE DATA — this object is the weekly authoring template.
+   To build week 2, copy this block and refill it.
+   ============================================================ */
+const CASE = {
+  meta: { dxAccepted: ["ttp","thrombotic thrombocytopenic purpura","immune ttp","ittp","acquired ttp","immune mediated ttp","immune thrombotic thrombocytopenic purpura","acquired thrombotic thrombocytopenic purpura","thrombotic thrombocytopaenic purpura","maha secondary to ttp","thrombotic microangiopathy ttp"],
+          dxName: "Thrombotic thrombocytopenic purpura", startClock: 1210 /* 20:10 in minutes */,
+          /* The source case says only "her partner" — no name, no gender. Her girlfriend is
+             drawn as written; put a first name here when we have one and it appears
+             everywhere. Left empty, the chat attributes her answers to "Her partner". */
+          partnerName: "" },
+
+  history: [
+    { id:"onset",  q:"How did the confusion start?", dq:"Talk me through how the confusion started — was it sudden?", a:"Partner: “Not sudden, no. Yesterday she said she felt a bit out of it, but she knew where she was. It's got worse and worse through today. Tonight she asked me whose house we were in.”", key:true },
+    { id:"urine",  q:"Urinary symptoms?", dq:"You were treated for a urine infection — what were the symptoms exactly?", a:"Partner: “There weren't really any. She saw blood in her water, that was all. No stinging, no going all the time, no temperature at home. The GP said blood in the urine is usually infection and gave her three days of antibiotics.”", key:true },
+    { id:"head",   q:"Headache?", dq:"Lauren, have you had any headache?", a:"“All day. All over.” She rubs her forehead. “It's not… it doesn't stop.”", key:true },
+    { id:"neck",   q:"Neck stiffness, light?", dq:"Any stiff neck, or does the light bother your eyes?", a:"Partner: “No. She's been under the big light in here without complaining, and she's been turning her head fine.”", key:true },
+    { id:"pain",   q:"Pain anywhere else?", dq:"Any other pain at all — tummy, back, waterworks?", a:"Partner: “Nothing she's mentioned. No tummy pain, nothing in her sides or her back.”" },
+    { id:"bowels", q:"Bowels & stool?", dq:"What have her bowels been doing — any diarrhoea?", a:"Partner: “Normal. She went yesterday, nothing unusual. No diarrhoea, definitely no blood.”", key:true },
+    { id:"bruise", q:"Bruising or bleeding?", dq:"Has she noticed any bruising, or bleeding from anywhere?", a:"Partner: “Now you say it — there are little marks on her arms and her legs. I thought she'd caught herself on something. And her gums bled when she did her teeth yesterday.”", key:true },
+    { id:"fever",  q:"Fevers at home?", dq:"Has she been feverish or sweaty at home?", a:"Partner: “She's felt a bit warm tonight, that's all. Nothing like a proper fever, no shivering.”" },
+    { id:"drugs",  q:"Drug history?", dq:"What medication is she taking — including anything over the counter?", a:"Partner: “Just the mini pill, she's been on that for years. And the three days of nitrofurantoin from the GP — she's had all of those. Nothing else, no painkillers, and she's not allergic to anything.”", key:true },
+    { id:"rec",    q:"Recreational drugs?", dq:"I have to ask — any recreational drugs, ever?", a:"Partner: “No. Never. She doesn't even smoke.”" },
+    { id:"preg",   q:"Could she be pregnant?", dq:"Is there any chance she could be pregnant?", a:"Partner: “She's on the pill and her periods have been regular. Last one was a fortnight ago — heavier than usual, she said.”", key:true },
+    { id:"pmh",    q:"Normally fit?", dq:"Before all this, how well is she normally?", a:"Partner: “Fit as anything. Runs, works full time, never sees a doctor. That's why the last few days have been so odd.”" },
+    { id:"fhx",    q:"Family history?", dq:"Anything that runs in the family?", a:"Partner: “Her mum's got an underactive thyroid. That's it, as far as I know.”" },
+    { id:"trav",   q:"Travel, contacts?", dq:"Any travel recently, or anyone else at home unwell?", a:"Partner: “No travel since last summer. Nobody else is ill — I've been fine.”" },
+    { id:"etoh",   q:"Alcohol?", dq:"And what's she drinking in a normal week?", a:"Partner: “Glass of wine at the weekend. That's honestly it.”" }
+  ],
+
+  examCore: [
+    /* no image here — she is dressed. The purpura is only seen if you examine the skin. */
+    { id:"gen",  name:"General inspection", key:true,
+      f:"Fatigued and agitated, plucking at the blanket. Striking pallor. Warm peripheries, capillary refill under 2 s." },
+    { id:"cvs",  name:"Cardiovascular", sub:"listen", f:"Pulse 98, regular, good volume at the radial. JVP not raised. Mucous membranes moist. No peripheral oedema.", audio:"ttp-hs-normal.mp3" },
+    { id:"resp", name:"Respiratory", sub:"listen", f:"Trachea central. Equal air entry throughout, no increased work of breathing.", audio:"ttp-breath-normal.mp3" },
+    { id:"abdo", name:"Abdomen", f:"Soft, no tenderness anywhere — specifically none suprapubically and none in either loin. Bowel sounds audible. No masses, no renal angle tenderness. Neither liver edge nor spleen tip is palpable.", img:"ttp-abdo.svg", imgAlt:"Abdominal examination: soft and non-tender, no organomegaly" },
+    { id:"cns",  name:"Neurological", key:true, f:"Moving all four limbs, power 5/5 throughout, sensation grossly intact. Pupils equal and reactive at 2 mm. No facial droop, cerebellar examination normal. She keeps losing the thread of your instructions and has to be asked twice." }
+  ],
+  /* Focused examinations — TYPED, never listed. Knowing what to reach for is the skill.
+     Only five carry signal; everything else is a genuine, unremarkable normal.
+     NB: item names appear in the ambiguity chips, so no name may give the case away. */
+  examMore: [
+    /* ---- the discriminators ---- */
+    { id:"skin", name:"Skin", key:true, tone:"alert",
+      f:"Non-blanching.",
+      img:"ttp-petechiae.jpg", imgFallback:"ttp-petechiae.svg", imgAlt:"The skin of her forearm and both shins",
+      aliases:["skin","rash","purpura","petechiae","petechial rash","non blanching rash","blanching","glass test","tumbler test","bruising","bruises","bleeding spots","spots","skin examination"] },
+    { id:"eyes", name:"Conjunctivae and sclerae", key:true, tone:"alert",
+      f:"Conjunctivae strikingly pale. Sclerae faintly icteric.",
+      aliases:["eyes","conjunctiva","conjunctivae","conjunctival pallor","sclera","sclerae","pallor","jaundice","icterus","yellow eyes"] },
+    { id:"mening", name:"Signs of meningism", key:true,
+      f:"Neck fully supple with no discomfort. Kernig's and Brudzinski's both negative. She tolerates the overhead light without complaint. No rash on the trunk.",
+      aliases:["meningism","neck stiffness","kernig","brudzinski","meningeal irritation","photophobia","nuchal rigidity","neck","stiff neck","signs of meningism"] },
+    { id:"cog", name:"Cognitive screen", key:true, tone:"alert",
+      f:"AMTS 6/10 — she gives the wrong year, cannot name the place, and cannot hold the address. 4AT scores 4: positive for delirium. No focal deficit to explain it.",
+      aliases:["cognitive screen","amts","4at","abbreviated mental test","confusion screen","orientation","delirium screen","mmse","cognition","gcs","glasgow coma scale","confusion assessment"] },
+    { id:"obsrep", name:"Repeat the observations", key:true, f:"", dynObs:true,
+      aliases:["repeat the observations","repeat obs","recheck obs","observations","obs","vital signs","vitals","news","news2","repeat the obs","re-check observations"] },
+
+    /* ---- everything else: real examinations, genuinely normal ---- */
+    { id:"pr",    name:"Digital rectal examination", f:"Normal brown stool on the glove. No melaena, no fresh blood, no mass. She has not been bleeding from the bowel.", aliases:["pr","pr exam","per rectum","rectal","rectal exam","rectal examination","dre","digital rectal","digital rectal exam","back passage","stool","stool inspection","inspect the stool","melaena","malena"] },
+    { id:"post",  name:"Lying and standing blood pressure", f:"Lying 123/84, pulse 98. Standing at one minute: 119/80, pulse 104 — no postural drop. She is unsteady, but from confusion rather than her pressure.", aliases:["lying and standing bp","lying standing bp","postural bp","postural blood pressure","orthostatic bp","orthostatic blood pressure","lying and standing blood pressure","postural drop","standing bp","lying standing"] },
+    { id:"hydr",  name:"Volume status", f:"Mucous membranes moist, skin turgor normal, JVP visible at 2 cm. Capillary refill under 2 s, peripheries warm. Euvolaemic.", aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration"] },
+    { id:"pulse", name:"Pulse character", f:"Regular, 98, normal volume and character at the radial. No deficit, no collapsing pulse.", aliases:["pulse","pulse character","radial pulse","feel the pulse","apex radial","heart rate","rhythm","pulse rate"] },
+    { id:"cld",   name:"Stigmata of chronic liver disease", f:"No spider naevi, no palmar erythema, no caput medusae, no asterixis. No ascites. Nothing to suggest chronic liver disease.", aliases:["stigmata of chronic liver disease","liver stigmata","chronic liver disease","signs of liver disease","cld","spider naevi","palmar erythema","asterixis","flap","ascites","shifting dullness","fluid thrill"] },
+    { id:"hands", name:"Hands", f:"Palmar creases pale. No clubbing, no koilonychia, no splinter haemorrhages, no Dupuytren's.", aliases:["hands","hand examination","nails","clubbing","koilonychia","palms","palmar creases"] },
+    { id:"calf",  name:"Calves", f:"Calves soft, non-tender and equal. No swelling, no cords.", aliases:["calf","calves","dvt","dvt check","legs","leg swelling","homans"] },
+    { id:"pulses",name:"Peripheral pulses", f:"All peripheral pulses present and symmetrical. No radio-radial or radio-femoral delay. No bruits.", aliases:["peripheral pulses","foot pulses","pedal pulses","dorsalis pedis","femoral pulses","radio femoral delay","radio radial delay","bruits","carotid"] },
+    { id:"fundi", name:"Fundoscopy", f:"Discs sharp, no papilloedema. No retinal haemorrhages, no Roth spots.", aliases:["fundoscopy","fundi","ophthalmoscopy","eye fundus","retina","roth spots","papilloedema"] },
+    { id:"cn",    name:"Cranial nerves", f:"Cranial nerves II–XII intact. Pupils equal and reactive at 2 mm. No nystagmus, no visual field defect.", aliases:["cranial nerves","cranial nerve exam","pupils","eye movements","facial nerve","visual fields"] },
+    { id:"ul",    name:"Upper limb neurology", f:"Normal tone, power 5/5 throughout, reflexes present and symmetrical, sensation intact.", aliases:["upper limb neurology","upper limbs","arm neurology","arms","power","reflexes","upper limb neuro"] },
+    { id:"ll",    name:"Lower limb neurology", f:"Normal tone, power 5/5 throughout, reflexes present and symmetrical, plantars downgoing, sensation intact.", aliases:["lower limb neurology","lower limbs","leg neurology","lower limb neuro","plantars","babinski"] },
+    { id:"cbl",   name:"Cerebellar examination", f:"No nystagmus, no intention tremor, no past-pointing, normal heel–shin, no dysdiadochokinesis.", aliases:["cerebellar","cerebellar exam","coordination","finger nose","heel shin","dysdiadochokinesis"] },
+    { id:"gait",  name:"Gait", f:"She can stand and walk a few steps, but is distractible and needs steadying — unsteady from inattention rather than any weakness or ataxia.", aliases:["gait","walking","mobility","stand her up","walk her"] },
+    { id:"spine", name:"Spine and back", f:"Spine non-tender throughout, full range of movement, no bony step, no percussion tenderness.", aliases:["spine","back","back examination","lumbar spine","spinal","percussion tenderness","back pain exam"] },
+    { id:"mouth", name:"Mouth and oropharynx", f:"A little dried blood at the gum margins where she has brushed. No ulceration, no thrush, tonsils normal, dentition intact.", aliases:["mouth","oral","oropharynx","tongue","teeth","dentition","oral cavity","gums","gum bleeding"] },
+    { id:"lymph", name:"Lymph nodes", f:"No cervical, axillary, supraclavicular or inguinal lymphadenopathy.", aliases:["lymph nodes","lymphadenopathy","nodes","cervical nodes","virchow","supraclavicular","troisier"] },
+    { id:"thy",   name:"Thyroid", f:"No goitre, no thyroid mass, no bruit. Clinically euthyroid.", aliases:["thyroid","goitre","neck lump","thyroid exam"] },
+    { id:"breast",name:"Breast examination", f:"No masses, no skin changes, no nipple discharge.", aliases:["breast","breasts","breast exam","chest wall lump"] },
+    { id:"pelvic",name:"Gynaecological examination", f:"Chaperoned. No abnormal discharge, no cervical excitation, no adnexal tenderness, no active bleeding. Not a gynaecological presentation.", aliases:["gynaecological examination","gynae exam","pelvic exam","pelvic examination","vaginal examination","pv","pv exam","speculum","bimanual","cervical excitation"] },
+    { id:"msk",   name:"Joints", f:"No active synovitis, no effusions, full range of movement in all major joints.", aliases:["joints","musculoskeletal","msk","gals","joint exam","arthritis","synovitis"] },
+    { id:"perc",  name:"Chest percussion and expansion", f:"Resonant throughout, equal expansion, vocal resonance normal, no effusion.", aliases:["percussion","chest","chest percussion","chest expansion","expansion","vocal resonance","tactile fremitus","dullness","chest wall"] },
+    { id:"pfl",   name:"Peak flow", f:"Not attempted — she cannot reliably follow the instruction, and it would add nothing here.", aliases:["peak flow","pefr","spirometry"] },
+    { id:"temp2", name:"Peripheral temperature", f:"Warm to the fingers and toes. No temperature gradient.", aliases:["peripheral temperature","peripheries","temperature gradient","cold peripheries","warm or cold"] },
+    { id:"press", name:"Pressure areas", f:"Skin intact over sacrum and heels.", aliases:["pressure areas","pressure sores","sacrum","heels","skin integrity"] },
+    { id:"urine", name:"Urine inspection / catheter", f:"She passed urine into a bottle in triage — it sits on the side, dark brown, like strong tea. No catheter in place.", aliases:["urine output","catheter","urine","inspect the urine","urine colour","fluid balance","io chart","input output"] },
+    { id:"ie",     name:"Peripheral stigmata of infective endocarditis", f:"No splinter haemorrhages, no Osler's nodes, no Janeway lesions. No murmur.", aliases:["peripheral stigmata","stigmata","stigmata of infective endocarditis","endocarditis stigmata","splinter haemorrhages","splinters","osler nodes","oslers nodes","janeway lesions","peripheral signs","endocarditis"] },
+    { id:"apex",   name:"Apex beat and praecordium", f:"Apex beat undisplaced, no heaves, no thrills.", aliases:["apex beat","praecordium","precordium","heaves","thrills","palpate the chest","cardiac palpation"] },
+    { id:"oedema", name:"Peripheral and sacral oedema", f:"No pitting oedema at the ankles, none over the sacrum.", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles"] },
+    { id:"bparms", name:"Blood pressure in both arms", f:"Equal in both arms, no significant differential.", aliases:["blood pressure both arms","bp both arms","both arms","blood pressure in both arms","bp differential","arm bp difference"] },
+    { id:"organo", name:"Liver and spleen", f:"No hepatomegaly, no splenomegaly, no masses. Liver edge not palpable.", aliases:["liver","spleen","hepatomegaly","splenomegaly","organomegaly","hepatosplenomegaly","liver edge","palpate the liver","palpate the spleen"] },
+    { id:"kidneys",name:"Ballot the kidneys", f:"Kidneys not ballotable. No renal angle tenderness on either side.", aliases:["ballot the kidneys","kidneys","ballotable","renal angle","renal angle tenderness","loin tenderness","loins"] },
+    { id:"suprapubic", name:"Suprapubic palpation", f:"Soft and completely non-tender. Bladder not palpable.", aliases:["suprapubic","suprapubic tenderness","suprapubic palpation","bladder","palpable bladder"] },
+    { id:"aorta",  name:"Aortic pulsation", f:"Aorta not expansile, no palpable aneurysm, no bruit.", aliases:["aorta","aortic pulsation","aaa","abdominal aorta","aneurysm","expansile mass"] },
+    { id:"bs",     name:"Bowel sounds", f:"Bowel sounds present and normal in character.", aliases:["bowel sounds","auscultate the abdomen","abdominal auscultation","borborygmi"] },
+    { id:"murphy", name:"Murphy's sign", f:"Negative. No right upper quadrant tenderness on inspiration.", aliases:["murphys sign","murphy","murphys","right upper quadrant","ruq"] },
+    { id:"ent",    name:"Nose and throat", f:"No epistaxis and no blood in the nasal passages. Posterior pharynx normal, no exudate.", aliases:["ent","nose","nasal","epistaxis","nosebleed","throat","posterior pharynx","nasopharynx","ent examination","tonsils"] },
+    { id:"ears",   name:"Otoscopy", f:"Both canals clear, tympanic membranes intact.", aliases:["otoscopy","ears","ear examination","tympanic membranes","auroscopy"] },
+    { id:"romberg",name:"Romberg's test", f:"Not interpretable — she cannot reliably follow the instruction to close her eyes and stand still.", aliases:["romberg","rombergs","rombergs test","balance"] },
+    { id:"sens",   name:"Sensation, proprioception and vibration", f:"Light touch, pinprick, proprioception and vibration sense all intact in all four limbs, as far as she can cooperate.", aliases:["sensation","sensory examination","proprioception","vibration sense","pinprick","light touch","peripheral neuropathy","sensory"] },
+    { id:"speech", name:"Speech and language", f:"Speech fluent and articulate, no dysarthria and no dysphasia — but the content wanders and she loses the thread mid-sentence.", aliases:["speech","language","dysarthria","dysphasia","aphasia"] },
+    { id:"nutri",  name:"Nutritional status", f:"Well nourished, no temporal wasting, no cachexia. MUST score low risk.", aliases:["nutritional status","nutrition","cachexia","malnutrition","must score","temporal wasting","muscle bulk"] },
+    { id:"weight", name:"Weight and BMI", f:"64 kg, BMI 23. Her partner says her weight has been steady.", aliases:["weight","bmi","body mass index","weigh her"] },
+    { id:"trach",  name:"Tracheal position", f:"Central, no deviation, cricosternal distance normal.", aliases:["trachea","tracheal position","tracheal deviation","cricosternal"] },
+    { id:"sputum", name:"Sputum pot", f:"No sputum pot at the bedside; she has not been coughing.", aliases:["sputum","sputum pot","cough","expectoration","haemoptysis"] },
+    { id:"vomit",  name:"Inspect the vomit", f:"Nothing to inspect — she has not vomited, and there is no bowl at the bedside.", aliases:["vomit","vomitus","inspect the vomit","coffee ground","coffee grounds","haematemesis","emesis","bowl"] },
+    { id:"feet",   name:"Feet", f:"No ulceration, no deformity. Sensation intact to monofilament.", aliases:["feet","foot","diabetic foot","foot check","monofilament","ulcers on the feet"] },
+    { id:"varic",  name:"Varicose veins", f:"No varicosities, no venous eczema, no lipodermatosclerosis.", aliases:["varicose veins","varicosities","venous eczema","venous insufficiency"] },
+    { id:"inject", name:"Injection sites", f:"No injection marks, no track marks, no evidence of intravenous drug use.", aliases:["injection sites","track marks","needle marks","drug use","ivdu","injection marks"] },
+    { id:"ortho",  name:"Tolerance of lying flat", f:"She lies flat without distress — no orthopnoea.", aliases:["lying flat","orthopnoea","orthopnea","can she lie flat","pnd","paroxysmal nocturnal dyspnoea"] },
+    { id:"hern",   name:"Hernial orifices", f:"No herniae, no groin lumps.", aliases:["hernial orifices","hernia","herniae","groin","groin lumps"] }
+  ],
+
+  ix: {
+    bedside: [
+      { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"key",
+        aliases:["glucose","bm","capillary glucose","blood sugar","cbg","finger prick glucose","hypoglycaemia"],
+        labs:[{n:"Glucose", v:"5.8", r:"4.0–7.8", u:"mmol/L"}] },
+      /* the slip is the result — you read it the way you would on the ward, nobody narrates it */
+      { id:"dip",  name:"Urine dipstick", cost:10, costL:"10 min", tag:"key",
+        aliases:["urine dip","urine dipstick","dipstick","urinalysis","urine test","urine microscopy"],
+        img:"ttp-urinalysis.svg", imgAlt:"Urinalysis result slip and the sample pot" },
+      { id:"preg", name:"Pregnancy test", cost:5, costL:"5 min", tag:"key",
+        aliases:["pregnancy test","bhcg","hcg","beta hcg","urine pregnancy test","upt","is she pregnant"],
+        text:"Negative." },
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"supp",
+        img:"ttp-ecg.jpg", imgFallback:"ttp-ecg-normal.png", imgAlt:"12-lead ECG",
+        aliases:["ecg","12 lead ecg","twelve lead ecg","electrocardiogram","ekg"] },
+      { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
+        aliases:["vbg","venous blood gas","gas","blood gas","abg","arterial blood gas","venous gas","lactate"],
+        labs:[{n:"pH", v:"7.38", r:"7.35–7.45"},{n:"Hb", v:"74", r:"120–160", u:"g/L", flag:"lo"},{n:"Lactate", v:"1.4", r:"0.5–2.0", u:"mmol/L"},{n:"K⁺", v:"4.2", r:"3.5–5.3", u:"mmol/L"}] }
+    ],
+    bloods: [
+      { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true,
+        aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets","platelet count","full blood picture"],
+        labs:[{n:"Hb", v:"72", r:"120–160", u:"g/L", flag:"lo", base:"134 (18 months ago)"},{n:"RBC", v:"2.4", r:"4.0–5.2", u:"×10¹²/L", flag:"lo"},{n:"Hct", v:"0.22", r:"0.36–0.46", u:"L/L", flag:"lo"},{n:"MCV", v:"91", r:"80–100", u:"fL", base:"88 (18 months ago)"},{n:"MCH", v:"30", r:"27–33", u:"pg"},{n:"MCHC", v:"330", r:"320–360", u:"g/L"},{n:"WCC", v:"8.7", r:"4.0–11.0", u:"×10⁹/L", base:"6.4 (18 months ago)"},{n:"Neutrophils", v:"6.2", r:"2.0–7.5", u:"×10⁹/L"},{n:"Lymphocytes", v:"1.8", r:"1.0–4.0", u:"×10⁹/L"},{n:"Platelets", v:"18", r:"150–400", u:"×10⁹/L", flag:"lo", base:"268 (18 months ago)"},{n:"Reticulocytes", v:"180", r:"25–100", u:"×10⁹/L", flag:"hi"}] },
+      { id:"fbc2", name:"Repeat full blood count", cost:60, costL:"60 min", tag:"key", repeatable:true, dynLabs:true,
+        aliases:["repeat fbc","repeat full blood count","recheck the platelets","repeat bloods","repeat the fbc","recheck fbc","second fbc","serial fbc","recheck the haemoglobin"] },
+      { id:"film", name:"Blood film", cost:60, costL:"60 min", tag:"key",
+        aliases:["blood film","film","peripheral smear","smear","peripheral blood film","morphology","ask the lab to look at the film","urgent film"],
+        img:"ttp-film.jpg", imgFallback:"ttp-film.svg", imgAlt:"Peripheral blood film",
+        text:"Haematology BMS reports urgently by phone:\n\n• Numerous schistocytes (red cell fragments)\n• Polychromasia\n• Marked thrombocytopenia, confirmed on the film — not a clumping artefact\n• No blasts seen" },
+      { id:"hapt", name:"Haemolysis screen", cost:90, costL:"90 min", tag:"key",
+        aliases:["haemolysis screen","hemolysis screen","haptoglobin","ldh","lactate dehydrogenase","dat","coombs","direct antiglobulin test","direct coombs","haemolysis markers","screen for haemolysis"],
+        labs:[{n:"LDH", v:"1800", r:"135–225", u:"U/L", flag:"hi"},{n:"Bilirubin (total)", v:"62", r:"<21", u:"µmol/L", flag:"hi", base:"11 (18 months ago)"},{n:"— unconjugated", v:"54", r:"<17", u:"µmol/L", flag:"hi"},{n:"Haptoglobin", v:"undetectable", r:"0.3–2.0 g/L", flag:"lo"},{n:"DAT (Coombs)", v:"NEGATIVE", r:"negative"}] },
+      { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key",
+        aliases:["ue","u and e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","egfr"],
+        labs:[{n:"Sodium", v:"138", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.2", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"8.1", r:"2.5–7.8", u:"mmol/L", flag:"hi", base:"4.1 (18 months ago)"},{n:"Creatinine", v:"118", r:"45–90", u:"µmol/L", flag:"hi", base:"64 (18 months ago)"},{n:"eGFR", v:"78", r:">90", u:"mL/min/1.73m²", flag:"lo", base:">90 (18 months ago)"}] },
+      { id:"coag", name:"Coagulation screen", cost:60, costL:"60 min", tag:"key",
+        aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen","dic screen"],
+        labs:[{n:"PT", v:"11.8", r:"11.0–13.5", u:"s"},{n:"INR", v:"1.0", r:"0.9–1.2"},{n:"APTT", v:"30", r:"24–36", u:"s"},{n:"Fibrinogen", v:"3.4", r:"2.0–4.0", u:"g/L"}] },
+      { id:"adamts", name:"ADAMTS13 activity & inhibitor", cost:60, costL:"send-away", tag:"key", defer:true,
+        aliases:["adamts13","adamts 13","adamts13 activity","adamts13 level","adamts13 assay","adamts13 inhibitor","von willebrand cleaving protease","vwf cleaving protease"],
+        text:"Sample accepted and sent to the reference laboratory. Result not available for several days." },
+      { id:"gs",   name:"Group & save + crossmatch", cost:45, costL:"45 min", tag:"key",
+        aliases:["group and save","gs","g and s","crossmatch","cross match","xmatch","group and screen","blood bank","transfusion sample","type and screen","antibody screen"],
+        text:"Group O positive, antibody screen negative. Two units of red cells crossmatched and available.\n\nThe blood bank asks whether you also want platelets — “most people ask, with a count of 18.”" },
+      { id:"viro", name:"Virology screen (HIV, HBV, HCV)", cost:240, costL:"send-away", tag:"key", defer:true,
+        aliases:["virology","virology screen","hiv","hepatitis","hepatitis b","hepatitis c","hbv","hcv","bbv","blood borne virus","viral screen","hiv test"],
+        text:"Sent. Results follow in a few days." },
+      { id:"lft",  name:"Liver function tests", cost:60, costL:"60 min", tag:"supp",
+        aliases:["lft","lfts","liver function","liver function tests","liver","bilirubin","alt","alp","albumin"],
+        labs:[{n:"Bilirubin", v:"62", r:"<21", u:"µmol/L", flag:"hi", base:"11 (18 months ago)"},{n:"ALT", v:"32", r:"<33", u:"U/L", base:"24 (18 months ago)"},{n:"ALP", v:"78", r:"30–130", u:"U/L"},{n:"Albumin", v:"39", r:"35–50", u:"g/L"}] },
+      { id:"trop", name:"Troponin", cost:60, costL:"60 min", tag:"supp",
+        aliases:["troponin","trop","hs troponin","high sensitivity troponin","cardiac enzymes","tnt","tni"],
+        labs:[{n:"hs-cTnT", v:"42", r:"<14", u:"ng/L", flag:"hi"}] },
+      { id:"crp",  name:"C-reactive protein", cost:60, costL:"60 min", tag:"supp",
+        aliases:["crp","c reactive protein","inflammatory markers","esr"],
+        labs:[{n:"CRP", v:"18", r:"<5", u:"mg/L", flag:"hi"}] },
+      { id:"haem", name:"Haematinics (B12, folate, iron)", cost:240, costL:"send-away", tag:"supp", defer:true,
+        aliases:["haematinics","ferritin","iron studies","iron","b12","folate","vitamin b12","transferrin","tsat"],
+        text:"B12 412 ng/L, folate 6.8 µg/L, ferritin 210 µg/L — all within normal limits." },
+      { id:"g6pd", name:"G6PD assay", cost:1440, costL:"send-away", tag:"supp", defer:true,
+        aliases:["g6pd","g6pd assay","g6pd level","glucose 6 phosphate dehydrogenase","g6pd deficiency","heinz bodies","oxidative haemolysis"],
+        text:"Normal enzyme activity — no G6PD deficiency." },
+      { id:"auto", name:"Autoimmune screen (ANA, ANCA, antiphospholipid)", cost:1440, costL:"send-away", tag:"supp", defer:true,
+        aliases:["autoimmune screen","vasculitis screen","ana","anca","immunology","autoantibodies","lupus","antiphospholipid","lupus anticoagulant","connective tissue screen"],
+        text:"Sent. Result in several days." },
+      { id:"cult", name:"Blood cultures", cost:1440, costL:"24–48 h", tag:"supp", defer:true,
+        aliases:["blood cultures","cultures","bc","septic screen","sepsis screen"],
+        text:"No growth at 48 hours." },
+      { id:"ucult",name:"Urine culture", cost:1440, costL:"48 h", tag:"supp", defer:true,
+        aliases:["urine culture","msu","mid stream urine","urine mcs","urine sample","culture the urine"],
+        text:"No significant growth — as with the sample the GP sent three days ago." },
+      { id:"bone", name:"Bone profile", cost:60, costL:"60 min", tag:"noise",
+        aliases:["bone profile","calcium","corrected calcium","phosphate","bone"],
+        labs:[{n:"Corrected Ca²⁺", v:"2.28", r:"2.20–2.60", u:"mmol/L"},{n:"Phosphate", v:"1.05", r:"0.80–1.50", u:"mmol/L"}] },
+      { id:"mg",   name:"Magnesium", cost:60, costL:"60 min", tag:"noise",
+        aliases:["magnesium","serum magnesium"],
+        labs:[{n:"Magnesium", v:"0.84", r:"0.70–1.00", u:"mmol/L"}] },
+      { id:"amy",  name:"Amylase", cost:60, costL:"60 min", tag:"noise",
+        aliases:["amylase","lipase","pancreatic enzymes"],
+        labs:[{n:"Amylase", v:"58", r:"28–100", u:"U/L"}] },
+      { id:"ck",   name:"Creatine kinase", cost:60, costL:"60 min", tag:"noise",
+        aliases:["ck","creatine kinase","cpk","rhabdo screen"],
+        labs:[{n:"CK", v:"132", r:"40–320", u:"U/L"}] },
+      { id:"dd",   name:"D-dimer", cost:60, costL:"60 min", tag:"noise",
+        aliases:["d dimer","ddimer","dimers"],
+        labs:[{n:"D-dimer", v:"940", r:"<500", u:"ng/mL", flag:"hi"}] },
+      { id:"bnp",  name:"BNP", cost:120, costL:"2 h", tag:"noise",
+        aliases:["bnp","nt probnp","brain natriuretic peptide","natriuretic peptide"],
+        labs:[{n:"NT-proBNP", v:"180", r:"<400", u:"ng/L"}] },
+      { id:"tft",  name:"Thyroid function", cost:120, costL:"2 h", tag:"noise",
+        aliases:["tft","tfts","thyroid function","thyroid function tests","tsh","t4"],
+        labs:[{n:"TSH", v:"2.4", r:"0.3–4.2", u:"mU/L"},{n:"Free T4", v:"15.1", r:"9.0–19.0", u:"pmol/L"}] },
+      { id:"ammon",name:"Ammonia", cost:120, costL:"2 h", tag:"noise",
+        aliases:["ammonia","serum ammonia","nh3"],
+        labs:[{n:"Ammonia", v:"28", r:"<50", u:"µmol/L"}] },
+      { id:"para", name:"Paracetamol & salicylate levels", cost:120, costL:"2 h", tag:"noise",
+        aliases:["paracetamol level","salicylate","overdose screen","paracetamol","toxicology","tox screen","drug screen"],
+        text:"Both undetectable." },
+      { id:"etohl",name:"Ethanol level", cost:120, costL:"2 h", tag:"noise",
+        aliases:["ethanol","alcohol level","blood alcohol"],
+        text:"Undetectable." },
+      { id:"cort", name:"Short Synacthen / random cortisol", cost:240, costL:"send-away", tag:"noise", defer:true,
+        aliases:["cortisol","synacthen","short synacthen","adrenal","addisons"],
+        text:"Random cortisol 480 nmol/L — no evidence of adrenal insufficiency." }
+    ],
+    imaging: [
+      { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"supp",
+        aliases:["ct head","ct brain","head ct","ct scan head","ct","urgent ct head","non contrast ct head"],
+        text:"No acute intracranial haemorrhage, extra-axial collection, mass lesion or midline shift. Grey–white matter differentiation preserved, no acute territorial infarction. Ventricles, sulci and basal cisterns normal — no hydrocephalus. Calvarium intact, sinuses and mastoids clear.\n\nIMPRESSION: No acute intracranial abnormality." },
+      { id:"cxr",  name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", img:"ttp-cxr-normal.jpeg", imgAlt:"Chest radiograph",
+        aliases:["cxr","chest x ray","chest xray","chest radiograph","chest film","portable chest"] },
+      { id:"mri",  name:"MRI head", cost:1440, costL:"next day", tag:"noise", defer:true,
+        aliases:["mri","mri head","mri brain","mr brain","diffusion weighted imaging","mri scan"],
+        text:"Radiology decline overnight: MRI is not available out of hours for this indication, and she could not lie still for it. Bookable for the morning list." },
+      { id:"mrv",  name:"CT venogram (cerebral veins)", cost:150, costL:"2.5 h", tag:"noise",
+        aliases:["ct venogram","ctv","cerebral venous sinus thrombosis","venous sinus thrombosis","mr venogram","venogram"],
+        text:"Dural venous sinuses patent throughout. No cerebral venous sinus thrombosis." },
+      { id:"uss",  name:"Abdominal ultrasound", cost:240, costL:"4 h", tag:"noise",
+        aliases:["uss","ultrasound","abdominal ultrasound","uss abdomen","liver ultrasound","abdo uss","renal ultrasound","kidneys ultrasound"],
+        text:"Normal liver echotexture. Kidneys normal size with preserved corticomedullary differentiation, no hydronephrosis. Spleen not enlarged. No free fluid." },
+      { id:"ctap", name:"CT abdomen & pelvis", cost:150, costL:"2.5 h", tag:"noise",
+        aliases:["ct abdomen","ct abdo pelvis","ct ap","ct abdomen and pelvis","ct abdo"],
+        text:"No collection, no mass, no free fluid. No source of sepsis identified." },
+      { id:"ctpa", name:"CT pulmonary angiogram", cost:120, costL:"2 h", tag:"noise",
+        aliases:["ctpa","ct pulmonary angiogram","pe scan","ct pa"],
+        text:"No pulmonary embolus." },
+      { id:"dopp", name:"Doppler ultrasound of the legs", cost:180, costL:"3 h", tag:"noise",
+        aliases:["doppler","leg doppler","dvt scan","venous doppler","leg ultrasound"],
+        text:"No deep vein thrombosis." }
+    ],
+    special: [
+      /* The LP is the trap. It is available — the doc's own work-up includes it — but once the
+         platelet count is known it is a needle into the spine of a patient with 18 platelets. */
+      { id:"lp",   name:"Lumbar puncture", cost:75, costL:"75 min", tag:"trap", isLP:true,
+        aliases:["lp","lumbar puncture","spinal tap","csf","csf sample","tap her","do an lp","send csf"],
+        text:()=> S.fbcBack
+          ? "The registrar stops you at the trolley: “Her platelets are 18. You are about to put a needle next to her spinal cord in someone who cannot clot — that is how people get a spinal haematoma and never walk again. What are you actually looking for?”\n\nIt is done anyway, carefully, by the most senior person available.\n\nCSF: clear, normal opening pressure, normal cell count, protein and glucose. Microbiology negative. No evidence of CNS infection or subarachnoid haemorrhage.\n\nNo neurological harm this time. It cost you 75 minutes, and it did not change a thing."
+          : "CSF: clear, normal opening pressure, normal cell count, protein and glucose. Microbiology negative. No evidence of CNS infection or subarachnoid haemorrhage.\n\nThe headache, the fever and the confusion are not meningitis or encephalitis." },
+      { id:"eeg",  name:"EEG", cost:1440, costL:"next day", tag:"noise", defer:true,
+        aliases:["eeg","electroencephalogram","seizure monitoring","non convulsive status"],
+        text:"Not available overnight. Booked for the morning — long after the decisions that mattered." },
+      { id:"echo", name:"Echocardiogram", cost:240, costL:"next day", tag:"supp",
+        aliases:["echo","echocardiogram","echocardiography","cardiac echo","tte"],
+        text:"Reported next working day: normal LV function, no regional wall motion abnormality, no vegetations, no pericardial effusion." },
+      { id:"stec", name:"Stool culture + Shiga toxin PCR", cost:1440, costL:"48 h", tag:"supp", defer:true,
+        aliases:["stool culture","stool mcs","stool sample","faecal culture","shiga toxin","stec","e coli o157","o157","cdiff","c diff","stool pcr"],
+        text:"No pathogens isolated. Shiga toxin PCR negative, no E. coli O157." },
+      { id:"marrow",name:"Bone marrow aspirate & trephine", cost:1440, costL:"days", tag:"noise", defer:true,
+        aliases:["bone marrow","bone marrow biopsy","marrow aspirate","trephine","bma","bone marrow aspirate"],
+        text:"Haematology decline: not an out-of-hours procedure, and not in a patient with a platelet count of 18." },
+      { id:"renbx",name:"Renal biopsy", cost:1440, costL:"days", tag:"noise", defer:true,
+        aliases:["renal biopsy","kidney biopsy","biopsy the kidney"],
+        text:"Nephrology decline: absolutely contraindicated with a platelet count of 18, and her renal impairment is mild." },
+      { id:"skinbx",name:"Skin biopsy", cost:1440, costL:"days", tag:"noise", defer:true,
+        aliases:["skin biopsy","punch biopsy","biopsy the rash"],
+        text:"Dermatology decline: no out-of-hours service, and she has a platelet count of 18." },
+      { id:"mrsa", name:"MRSA screen", cost:1440, costL:"48 h", tag:"noise", defer:true,
+        aliases:["mrsa","mrsa screen","mrsa swab","admission swabs"],
+        text:"Negative." }
+    ]
+  },
+  ixGroups: { bedside:"Bedside · minutes", bloods:"Bloods", imaging:"Imaging", special:"Procedures" },
+
+  rx: [
+    { id:"pex",   t:"Plasma exchange — arranged, 1.5 volume, starting now", kind:"good", resus:true },
+    { id:"steroid",t:"High-dose corticosteroid (methylprednisolone)", kind:"good" },
+    { id:"capla", t:"Caplacizumab 10 mg IV pre-exchange, then 10 mg SC daily", kind:"good" },
+    { id:"refer", t:"Referred to haematology / regional TTP centre", kind:"good", isRefer:true },
+    { id:"transfer",t:"Time-critical transfer to the designated TTP centre", kind:"good" },
+    { id:"plt",   t:"Platelet transfusion", kind:"danger" },
+    { id:"heparin",t:"Treatment-dose anticoagulation", kind:"danger" },
+    { id:"asp",   t:"Aspirin / antiplatelet", kind:"danger" },
+    { id:"waitad",t:"Hold treatment until the ADAMTS13 result is back", kind:"danger" },
+    { id:"iv",    g:"further", t:"IV access and maintenance fluid" },
+    { id:"rbc",   g:"further", t:"Red cell transfusion" },
+    { id:"stopnitro", g:"further", t:"Stop the nitrofurantoin" },
+    { id:"folate",g:"further", t:"Folic acid" },
+    { id:"rituximab", g:"further", t:"Rituximab discussed with haematology" },
+    { id:"vte",   g:"further", t:"Thromboprophylaxis — deferred until platelets >50" },
+    { id:"itu",   g:"further", t:"Critical care / anaesthetic review before transfer" },
+    { id:"neuro", g:"further", t:"Hourly neurological observations" },
+    { id:"line",  g:"further", t:"Wide-bore venous access for exchange" },
+    { id:"abx",   g:"further", t:"Empirical antibiotics continued" },
+    { id:"acyc",  g:"further", t:"Aciclovir for possible encephalitis" },
+    { id:"bed",   g:"further", t:"Bed / admission arranged" },
+    { id:"obs",   g:"further", t:"Close observation and monitoring" },
+    { id:"esc",   g:"further", t:"Escalation plan documented" },
+    { id:"nephro",g:"further", t:"Nephrology contacted" },
+    { id:"neurol",g:"further", t:"Neurology contacted" }
+  ],
+
+  /* ----- ACT 2 management drill ----- */
+  mgmt: [
+    { id:"first", tag:"First move", q:"Film shows schistocytes, platelets 18. What happens first?",
+      opts:[
+        { t:"Ring haematology now — this is a medical emergency", ok:true },
+        { t:"Send ADAMTS13 and review when it returns", ok:false },
+        { t:"Start broad-spectrum antibiotics and reassess in the morning", ok:false },
+        { t:"Transfuse platelets to make her safe for procedures", ok:false } ],
+      teach:"Microangiopathic haemolytic anaemia with thrombocytopenia and no other explanation <b>is</b> TTP until proven otherwise, and untreated it kills about <b>90%</b> of patients. BSH: <b>“The suspected diagnosis of TTP is a medical emergency requiring urgent referral and time-critical transfer to a dedicated centre.”</b> The phone call is the treatment that starts everything else." },
+    { id:"pex", tag:"Timing", q:"How quickly must plasma exchange start?",
+      opts:[
+        { t:"Within 4 hours, and certainly by 8", ok:true },
+        { t:"Within 24 hours of admission", ok:false },
+        { t:"Once ADAMTS13 confirms activity below 10 IU/dL", ok:false },
+        { t:"On the next available apheresis list", ok:false } ],
+      teach:"BSH (1A): <b>“From referral of a suspected diagnosis of TTP and transfer, PEX should be initiated within four to eight hours.”</b> Daily 1.5-volume exchange on the first three days, then 1.0 volume, continuing to clinical remission (platelets &gt;150). Exchange repletes ADAMTS13 and removes the autoantibody — it takes mortality from ~90% to <b>10–20%</b>. If exchange is genuinely unavailable and transfer is delayed, plasma <i>infusion</i> is the holding measure — inferior, but better than nothing." },
+    { id:"plt", tag:"The nurse asks", q:"“Platelets are 18, doctor. Shall I order a pool of platelets?”",
+      opts:[
+        { t:"No — platelet transfusion is avoided in TTP", ok:true },
+        { t:"Yes — anything under 20 gets transfused", ok:false },
+        { t:"Yes, but only to cover the line insertion", ok:false },
+        { t:"Yes, and give tranexamic acid as well", ok:false } ],
+      teach:"<b>Platelet transfusion should be avoided (BSH 1B)</b> — it is associated with a <b>significant increase in mortality</b>, because you are feeding platelets into an ongoing microvascular thrombotic process. The count is low from <i>consumption</i>, not production failure. And note specifically: <b>“Insertion of central venous catheters does not require platelet transfusion.”</b> The only exception anyone entertains is life-threatening haemorrhage — which she does not have." },
+    { id:"adamts", tag:"The assay", q:"What is the role of ADAMTS13 here?",
+      opts:[
+        { t:"Send it before exchange — but never wait for it", ok:true },
+        { t:"It must confirm the diagnosis before PEX begins", ok:false },
+        { t:"It is only useful for congenital TTP", ok:false },
+        { t:"A normal level excludes all thrombotic microangiopathy", ok:false } ],
+      teach:"<b>Samples are taken before the first exchange</b> — afterwards you are assaying donor plasma — <b>but treatment must not be delayed pending the result</b> (BSH 1A). Activity <b>&lt;10 IU/dL</b> confirms TTP, with <b>97% sensitivity and 100% specificity</b> against other microangiopathies. Interestingly, BSH now recommends <b>early ADAMTS13 measurement over scoring systems</b> (2C) — the scores are triage aids, not the diagnosis." },
+    { id:"plasmic", tag:"Scoring", q:"Her PLASMIC score — which single component does she NOT earn a point for?",
+      opts:[
+        { t:"MCV — hers is 91, and the point needs <90 fL", ok:true },
+        { t:"Platelet count — hers is above the threshold", ok:false },
+        { t:"INR — hers is above 1.5", ok:false },
+        { t:"Creatinine — hers is above 2.0 mg/dL (177 µmol/L)", ok:false } ],
+      teach:"PLASMIC gives a point each for platelets <b>&lt;30</b> (18 ✓), <b>haemolysis</b> (retics ↑, haptoglobin undetectable, bilirubin ↑ ✓), <b>no active cancer</b> ✓, <b>no transplant</b> ✓, <b>MCV &lt;90</b> (hers is 91 ✗), <b>INR &lt;1.5</b> (1.0 ✓) and <b>creatinine &lt;2.0 mg/dL</b> (118 µmol/L = 1.3 ✓). She scores <b>6 — high risk</b>, which means send ADAMTS13, get expert help and exchange immediately. Note she reaches high risk <i>despite</i> missing a component: no score is a checklist to be completed." },
+    { id:"immuno", tag:"Alongside exchange", q:"What else goes in alongside plasma exchange?",
+      opts:[
+        { t:"Corticosteroids, plus caplacizumab on confirmation", ok:true },
+        { t:"Steroids alone — caplacizumab is for relapse only", ok:false },
+        { t:"Nothing; exchange is monotherapy until remission", ok:false },
+        { t:"IV immunoglobulin and eculizumab", ok:false } ],
+      teach:"iTTP is an <b>autoantibody disease</b>, so exchange alone treats the effect, not the cause. <b>High-dose methylprednisolone</b> (10 mg/kg/day for three days, then 2.5 mg/kg/day) achieved remission in <b>76.6% vs 46.6%</b> for standard dosing. <b>Caplacizumab</b> — an anti-VWF nanobody blocking platelet binding to the A1 domain — is recommended by <b>NICE TA667</b> with plasma exchange and immunosuppression for adults and those aged 12+ over 40 kg: 10 mg IV before exchange, then 10 mg SC daily for up to 30 days after exchange ends. <b>Rituximab</b> given early (within 3 days) reduces exchanges, ICU days, relapse and mortality." },
+    { id:"hus", tag:"Differential", q:"Which feature would push you towards HUS rather than TTP?",
+      opts:[
+        { t:"Renal failure needing dialysis, after bloody diarrhoea", ok:true },
+        { t:"Schistocytes on the film", ok:false },
+        { t:"A negative direct antiglobulin test", ok:false },
+        { t:"An undetectable haptoglobin", ok:false } ],
+      teach:"Both are microangiopathies, so fragments, a negative DAT and consumed haptoglobin appear in each. The discriminators are the <b>organ</b> and the <b>prodrome</b>: <b>“Acute renal failure requiring haemodialysis is rare in TTP and highly suggestive of HUS.”</b> Typical HUS follows Shiga-toxin <i>E. coli</i> (O157:H7) with a diarrhoeal illness; without that prodrome, consider complement-mediated HUS. ADAMTS13 activity in HUS is <b>rarely below 20 IU/dL</b>. Lauren's creatinine of 118 and her entirely normal bowels fit TTP." },
+    { id:"dic", tag:"Differential", q:"Her clotting screen is completely normal. What does that tell you?",
+      opts:[
+        { t:"It argues against DIC — TTP consumes platelets, not factors", ok:true },
+        { t:"It rules out a microangiopathy", ok:false },
+        { t:"It means the thrombocytopenia is artefactual", ok:false },
+        { t:"It makes bleeding impossible despite the count", ok:false } ],
+      teach:"<b>“The coagulation screen is typically normal”</b> in TTP — and that is a positive finding, not a negative one. DIC is the other fragmentation syndrome, and there the PT, APTT, fibrinogen and D-dimer are all deranged because the coagulation cascade itself is being consumed. In TTP the pathology is <b>platelet–VWF</b> microthrombi: platelets vanish, clotting factors do not. A normal screen with fragments and a platelet count of 18 points straight at TTP." },
+    { id:"vte", tag:"Supportive care", q:"When does she get thromboprophylaxis?",
+      opts:[
+        { t:"Once the platelet count is above 50", ok:true },
+        { t:"Immediately — she is immobile and at risk", ok:false },
+        { t:"Never during the admission", ok:false },
+        { t:"Only after the ADAMTS13 normalises", ok:false } ],
+      teach:"BSH (1B): <b>“All hospitalised/immobilised patients should receive thromboprophylaxis once platelet counts are &gt;50 × 10⁹/L, even when treated with caplacizumab.”</b> VTE risk is real in TTP, but you do not give LMWH to someone with 18 platelets. Related caution: <b>low-dose aspirin is avoided while caplacizumab is running</b>, because caplacizumab already produces a significant reduction in von Willebrand factor activity and carries a bleeding risk." },
+    { id:"where", tag:"Where", q:"You are in a district general hospital at 22:00. Where is she managed?",
+      opts:[
+        { t:"Blue-light transfer to the designated regional TTP centre", ok:true },
+        { t:"On your own medical ward, with telephone advice", ok:false },
+        { t:"Wait until the morning and transfer in daylight", ok:false },
+        { t:"Local ICU indefinitely — she is too unstable to move", ok:false } ],
+      teach:"<b>“Within England, all TTP cases should be managed within designated regional centres as per NHSE commissioning for highly specialised services.”</b> BSH asks for urgent (“blue light”) transfer, a <b>pre-transfer review by an appropriately skilled team</b>, and consideration of <b>intubation for the clinically unstable or threatened airway</b> — ideally travelling with an airway escort, because neurological deterioration en route is a real risk. And note the other priority: <b>“Priority should be to initiate PEX over investigations such as neuroimaging.”</b>" },
+    { id:"uti", tag:"Looking back", q:"So what was the visible haematuria the GP treated three days ago?",
+      opts:[
+        { t:"Haemoglobinuria from intravascular haemolysis", ok:true },
+        { t:"A genuine urinary tract infection, partly treated", ok:false },
+        { t:"Bleeding from the low platelet count", ok:false },
+        { t:"A nitrofurantoin side effect", ok:false } ],
+      teach:"The dipstick reads “blood” because it detects <b>haem</b>, and it cannot tell red cells from free haemoglobin. Microscopy showed <b>no erythrocytes</b> — so there were no red cells to see, only the pigment from cells being destroyed in her small vessels. Add the raised urobilinogen and the dark brown colour and you have <b>haemoglobinuria</b>. She had no dysuria, no frequency, no fever and negative cultures: there was never a urinary tract infection. The disease had been announcing itself for three days, and the antibiotic was treating a diagnosis that did not exist." }
+  ],
+  conditions: ["Thrombotic thrombocytopenic purpura","Haemolytic uraemic syndrome","Atypical (complement-mediated) HUS","Disseminated intravascular coagulation","Immune thrombocytopenic purpura","Evans syndrome","Autoimmune haemolytic anaemia","Drug-induced immune haemolysis","G6PD deficiency haemolysis","Aplastic anaemia","Acute leukaemia","Myelodysplastic syndrome","Paroxysmal nocturnal haemoglobinuria","Hereditary spherocytosis","Sickle cell crisis","Megaloblastic anaemia","Antiphospholipid syndrome","Catastrophic antiphospholipid syndrome","Systemic lupus erythematosus","Scleroderma renal crisis","HELLP syndrome","Pre-eclampsia","Malignant hypertension","Posterior reversible encephalopathy syndrome","Cerebral venous sinus thrombosis","Cerebral vasculitis","Herpes simplex encephalitis","Autoimmune encephalitis","Viral encephalitis","Neuroleptic malignant syndrome","Serotonin syndrome","Haemophagocytic lymphohistiocytosis","Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia"]
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const S = {
+  clock: CASE.meta.startClock,
+  asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
+  picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
+  rx: new Set(), skinDoneAt: null, skinBeforeFBC: null, reexamCount: 0, lpAfterFBC: false,
+  dx: "", dxCorrect: false,
+  mg: {}, mgIdx: 0,
+  stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
+  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
+};
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const norm = s => (s||"").toLowerCase().replace(/[^a-z0-9 ]/g,"").replace(/\s+/g," ").trim();
+/* Words that say nothing about WHAT is being asked for. They are stripped from the typed
+   query (never from the catalogue), so "look at her skin" and "the rash" both reach the skin,
+   while a bare "look" or "check" reduces to nothing and is honestly refused instead of
+   offering a menu of candidates — which is how a vague query used to leak a discriminator. */
+const NOISE_WORDS = new Set(["the","a","an","her","his","him","she","he","they","them","for","of","to","at","in","on",
+  "and","or","with","please","can","could","you","do","does","did","done","some","any","is","it","its","that","this",
+  "have","has","had","lets","let","us","we","i","want","would","like","need","just","now","then","also","again",
+  "look","looking","looks","check","checking","checks","examine","examining","examined","examination","exam","exams",
+  "inspect","inspecting","assess","assessing","assessment","perform","performing","review","reviewing",
+  "test","testing","tests","screen","screening","order","send","get","request","requesting","patient","patients"]);
+function queryTokens(q){ return q.split(" ").filter(t=>t && !NOISE_WORDS.has(t)); }
+
+function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+/* rounded: history questions cost half a minute each, and a raw subtraction
+   surfaced as "2h 38.5m" in the outcome */
+function elapsed(){ return Math.round(S.clock - CASE.meta.startClock); }
+function tick(min){ S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); }
+
+/* ---------- dynamic obs ----------
+   Untreated TTP progresses. Her numbers barely move — it is the GCS that falls,
+   which is exactly how this disease declares itself while everyone watches the BP. */
+function treated(){ return S.rx.has("pex"); }
+function obsState(){
+  if (S.reexamCount === 0) return { hr:98, bp:"123/84", rr:18, spo2:97, temp:"37.9", gcs:14, news:4, tone:"warn", appear:"base" };
+  if (treated())            return { hr:88, bp:"118/76", rr:16, spo2:98, temp:"37.2", gcs:15, news:0, tone:"ok",   appear:"better" };
+  return { hr:112, bp:"128/86", rr:20, spo2:96, temp:"38.2", gcs:12, news:7, tone:"bad", appear:"worse" };
+}
+function renderObs(){
+  const o = obsState();
+  const cells = [
+    ["HR", o.hr, "/min", o.hr>110?"hi":""],
+    ["BP", o.bp, "mmHg", ""],
+    ["RR", o.rr, "/min", o.rr>20?"hi":""],
+    ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
+    ["Temp", o.temp, "°C", parseFloat(o.temp)>38?"hi":""],
+    ["GCS", o.gcs, "/15", o.gcs<15?"lo":""]
+  ];
+  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
+  const nl = $("#newsLive"); nl.textContent = o.news; nl.style.color = o.tone==="bad"?"var(--danger)":o.tone==="ok"?"var(--good)":"var(--warn)";
+}
+
+/* ---------- screen / tab nav ---------- */
+function go(id){
+  $$(".screen").forEach(s=>s.classList.remove("on"));
+  $("#s-"+id).classList.add("on");
+  const map = { brief:"brief", work:"work", commit:"commit", manage:"manage", death:"manage", out:"manage" };
+  const stage = (S.dxCommitted && id==="work") ? "manage" : (map[id] || "brief");
+  const order = ["brief","work","commit","manage"];
+  $$("#actbar .actpill").forEach(p=>{
+    const i = order.indexOf(p.dataset.stage), c = order.indexOf(stage);
+    p.dataset.on = i===c ? "1" : (i<c ? "done" : "0");
+  });
+  window.scrollTo({top:0});
+}
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ---------- staged navigation ---------- */
+const STAGES = ["hx","ex","ix","rx"];
+function tabLocked(name){
+  const i = STAGES.indexOf(name);
+  if (i < 0) return false;
+  return name==="rx" ? !S.dxCommitted : i > S.stageMax;
+}
+function renderTabs(){
+  $$(".tab").forEach(t=>{
+    const n = t.dataset.tab;
+    if (n === "rx") { t.style.display = S.dxCommitted ? "" : "none"; t.dataset.locked = "0"; }
+    else t.dataset.locked = tabLocked(n) ? "1" : "0";
+  });
+}
+function updateBar(){
+  const b = $("#toCommit");
+  if (S.dxCommitted) b.textContent = S.planWritten ? "Finish treatment → management drill" : "Write the plan first";
+  else b.textContent = ["Move on → examine her", "Move on → investigate", "Commit a diagnosis"][Math.min(S.stageMax,2)];
+  updateRail();
+}
+/* one line, always visible: where you are and what to do next */
+function railState(){
+  if (S.dxCommitted){
+    return S.planWritten
+      ? { k:"Manage", n:"The plan is on the chart. <b>Reassess her or call another team if you need to</b> — then finish and move on to the management questions." }
+      : { k:"Manage", n:"Diagnosis committed. <b>Write the management plan</b> in your own words — free text, the way you'd write it in the notes. Use 📞 Refer to call a team." };
+  }
+  if (S.stageMax === 0)
+    return { k:"History", n:"Take a history — tap a question to ask it. <b>When you've heard enough, move on to examine her.</b>" };
+  if (S.stageMax === 1)
+    return { k:"Examine", n:"Examine her. The core systems are one tap; <b>for anything focused, type what you want to examine</b>. Then move on to investigations." };
+  if (S.round === 0)
+    return { k:"Investigate", n:"Bedside tests are a tap. <b>Everything else is typed on ICE</b> — build a round and send it." };
+  return { k:"Investigate", n:"Results are back. <b>Re-examine her if the picture has changed</b>, order more if you need to — then commit a diagnosis." };
+}
+function updateRail(){
+  const r = $("#rail"); if(!r) return;
+  const s = railState();
+  r.innerHTML = `<span class="rk">${s.k}</span><span class="rn">${s.n}</span>`;
+}
+function tab(name, userClick){
+  if (tabLocked(name)) return;
+  const cur = [...$$(".tab")].find(t=>t.getAttribute("aria-selected")==="true");
+  if (userClick && cur && cur.dataset.tab !== name &&
+      STAGES.indexOf(name) < STAGES.indexOf(cur.dataset.tab)) S.revisits++;
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===name)));
+  $$(".panel").forEach(p=>p.classList.remove("on"));
+  $("#p-"+name).classList.add("on");
+}
+$$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
+
+/* ---------- datalist (shuffled — no positional hints) ---------- */
+$("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
+
+/* ---------- history (chat) ---------- */
+let hxBusy = false;
+function renderHx(){
+  const box = $("#chips"); box.innerHTML = "";
+  CASE.history.filter(h=>!S.asked.has(h.id)).forEach(h=>{
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = h.q;
+    b.onclick = ()=>askHx(h);
+    box.appendChild(b);
+  });
+  if (!box.children.length) box.innerHTML = `<div class="panel__hint" style="grid-column:1/-1;">You’ve asked everything worth asking.</div>`;
+  updateTabDots();
+}
+/* keep the newest message in view by scrolling the LOG, never the page —
+   scrollIntoView moved the whole document and fought the chip-grid reflow */
+function qaToBottom(){
+  const qa = $("#qa");
+  qa.scrollTop = qa.scrollHeight;
+}
+/* the scene panel sets the scene, then gets out of the way of the conversation */
+function sceneMini(on){
+  const s = $("#hxScene");
+  s.classList.toggle("mini", !!on);
+  s.dataset.hint = on ? "tap to enlarge" : "tap to shrink";
+}
+$("#hxScene").onclick = ()=> sceneMini(!$("#hxScene").classList.contains("mini"));
+function askHx(h){
+  if (hxBusy) return;
+  hxBusy = true; $("#chips").dataset.busy = "1";
+  if (S.asked.size === 0) sceneMini(true);
+  S.asked.add(h.id); tick(0.5);
+  const qa = $("#qa");
+  // doctor bubble
+  const dr = document.createElement("li");
+  dr.innerHTML = `<div class="msg msg--dr"><div><div class="who">You</div><div class="bub">${h.dq||h.q}</div></div><span class="pav"><img src="doctor.svg" alt=""></span></div>`;
+  qa.appendChild(dr);
+  renderHx();
+  // patient bubble: typing dots, then the answer
+  const isP = h.a.startsWith("Partner:");
+  const who = isP ? (CASE.meta.partnerName || "Her partner") : "Lauren";
+  const ans = isP ? h.a.replace(/^Partner:\s*/,"") : h.a;
+  const pt = document.createElement("li");
+  pt.innerHTML = `<div class="msg msg--pt"><span class="pav"><img src="${isP?"ttp-partner":"ttp-lauren"}.svg" alt=""></span><div><div class="who">${who}</div><div class="bub"><span class="typing"><i></i><i></i><i></i></span></div></div></div>`;
+  qaToBottom();
+  setTimeout(()=>{
+    qa.appendChild(pt);
+    qaToBottom();
+  }, 350);
+  setTimeout(()=>{
+    pt.querySelector(".bub").textContent = ans;
+    qaToBottom();
+    hxBusy = false; $("#chips").dataset.busy = "0";
+  }, 950 + Math.min(ans.length*4, 600));
+}
+
+/* ---------- examination ---------- */
+function genFinding(){
+  const o = obsState();
+  if (o.appear==="better") return "Calmer and more settled, and beginning to take in what you say. Still pale, but no new purpura since this morning.";
+  if (o.appear==="worse") return "Drowsier now, and rousing only to voice. More purpura than there was an hour ago, and fresh bruising where the cuff has been.";
+  return CASE.examCore.find(e=>e.id==="gen").f;
+}
+function cnsFinding(){
+  const o = obsState();
+  if (o.appear==="better") return "GCS 15. Orientated to place and to the year. Still tired, but following two-step instructions without difficulty. No focal deficit.";
+  if (o.appear==="worse") return "GCS 12 — eyes to voice, confused speech, localising. Intermittently agitated. Still no focal deficit and the pupils remain equal, but she is losing ground in front of you.";
+  return CASE.examCore.find(e=>e.id==="cns").f;
+}
+function rowHTML(item, picked, label){
+  return `<div class="row__head"><span class="row__name">${item.name}${item.sub?` <span class="row__sub">· ${item.sub}</span>`:""}</span>`+
+    `<button class="act" ${picked?'disabled':''} data-picked="${picked?1:0}">${picked?(label||"Done"):"Examine"}</button></div>`;
+}
+/* imgFallback lets a real photograph be dropped into the folder later: the case asks for the
+   photo and quietly falls back to the drawn SVG until it exists. Misses are remembered, so a
+   panel that re-renders does not re-request a file already known to be absent. */
+const IMG_MISSING = new Set();
+function imgFail(el, fallback){ IMG_MISSING.add(el.dataset.want); el.onerror = null; el.src = fallback; }
+function imgHTML(item, cls){
+  if (!item.img) return "";
+  const missing = item.imgFallback && IMG_MISSING.has(item.img);
+  const src = missing ? item.imgFallback : item.img;
+  const hook = (item.imgFallback && !missing)
+    ? ` data-want="${item.img}" onerror="imgFail(this,'${item.imgFallback}')"` : "";
+  return `<img${cls?` class="${cls}"`:""} src="${src}" alt="${item.imgAlt||''}"${hook}>`;
+}
+function mediaHTML(e){
+  let h = imgHTML(e);
+  if (e.audio) h += `<audio class="ausc" controls preload="none" src="${e.audio}"></audio>`;
+  return h;
+}
+/* the discriminators respond to treatment, so re-examining after exchange means something */
+const DYN_FINDINGS = {
+  skin: { better:"Fading. No new spots.",
+          worse: "More than an hour ago, and over the trunk now too. Fresh bruising at every venepuncture site." },
+  eyes: { better:"Conjunctivae still pale but less strikingly so. The scleral tinge has faded.",
+          worse: "Conjunctivae almost white. The sclerae are more definitely yellow than when you first looked." },
+  cog:  { better:"AMTS 9/10, 4AT 0 — she knows where she is and who her partner is. The delirium is lifting.",
+          worse: "AMTS 3/10. She cannot tell you the year, the place or her own age, and is drifting off mid-answer. 4AT 6." }
+};
+function findingFor(e){
+  const media = mediaHTML(e);
+  if (e.imgOnly) return media; // real life: you see it, nobody narrates it
+  if (e.dynObs){ const o = obsState();
+    return `HR ${o.hr} regular · BP ${o.bp} · RR ${o.rr} · SpO₂ ${o.spo2}% on air · temp ${o.temp} °C · GCS ${o.gcs}. NEWS2 ${o.news}.`; }
+  let txt = e.f;
+  if (e.id==="gen") txt = genFinding();
+  if (e.id==="cns") txt = cnsFinding();
+  const dyn = DYN_FINDINGS[e.id];
+  if (dyn){ const o = obsState(); if (o.appear!=="base" && dyn[o.appear]) txt = dyn[o.appear]; }
+  return txt + media;
+}
+function renderExam(){
+  const core = $("#examCore"); core.innerHTML="";
+  CASE.examCore.forEach(e=>{
+    const done = S.examCore.has(e.id);
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = rowHTML(e, done) + (done?`<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`:"");
+    if(!done) li.querySelector("button").onclick=()=>{ S.examCore.add(e.id); tick(3); renderExam(); };
+    core.appendChild(li);
+  });
+  /* focused examinations appear only once performed — they are never listed */
+  const more = $("#examMore"); more.innerHTML="";
+  S.examOrder.forEach(id=>{
+    const e = CASE.examMore.find(x=>x.id===id); if(!e) return;
+    const li = document.createElement("li"); li.className="row";
+    li.innerHTML = `<div class="row__head"><span class="row__name">${e.name}</span><span class="row__cost">done</span></div>`+
+      `<div class="finding" data-tone="${e.tone||''}">${findingFor(e)}</div>`;
+    more.appendChild(li);
+  });
+  updateTabDots();
+}
+
+/* ---------- typed focused examination ---------- */
+function lev2(a,b){
+  if(Math.abs(a.length-b.length)>2) return 3;
+  const m=Array.from({length:a.length+1},(_,i)=>[i]);
+  for(let j=1;j<=b.length;j++) m[0][j]=j;
+  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++)
+    m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  return m[a.length][b.length];
+}
+function examPhrases(e){ return [e.name, ...(e.aliases||[])].map(norm); }
+function matchExam(query){
+  const q = norm(query);
+  if(!q) return {kind:"none"};
+  // exact name or alias
+  for(const e of CASE.examMore){ if(examPhrases(e).includes(q)) return {kind:"one", id:e.id}; }
+  // token match with typo tolerance scaled to word length —
+  // a flat tolerance of 2 made "chest" match "check", offering the PR to someone who never asked for it
+  const tol = t => t.length>=8 ? 2 : t.length>=5 ? 1 : 0;
+  const qT = queryTokens(q);
+  if(!qT.length) return {kind:"none"};   // nothing but filler words — refuse rather than guess
+  const cands = CASE.examMore.filter(e=>examPhrases(e).some(p=>{
+    const pT = p.split(" ");
+    return qT.every(t=>pT.some(x=>{
+      if(t===x) return true;
+      const k = tol(t);
+      return k>0 && Math.abs(t.length-x.length)<=k && lev2(t,x)<=k;
+    }));
+  })).map(e=>e.id);
+  if(cands.length===1) return {kind:"one", id:cands[0]};
+  if(cands.length>=2 && cands.length<=6) return {kind:"amb", ids:cands};
+  return {kind:"none"};
+}
+function doFocusExam(id){
+  const e = CASE.examMore.find(x=>x.id===id); if(!e) return;
+  $("#examMsg").innerHTML = "";
+  $("#examInput").value = "";
+  if(S.examMore.has(id)){
+    // already done — re-performing is allowed, it just moves to the end of the record
+    S.examOrder = S.examOrder.filter(x=>x!==id);
+  }
+  S.examMore.add(id);
+  S.examOrder.push(id);
+  tick(4);
+  if(e.id==="skin" && S.skinDoneAt===null){ S.skinDoneAt = S.clock; S.skinBeforeFBC = !S.fbcBack; }
+  renderExam();
+}
+function submitExam(){
+  const raw = $("#examInput").value.trim();
+  if(!raw) return;
+  const m = matchExam(raw);
+  const msg = $("#examMsg");
+  if(m.kind==="one"){ doFocusExam(m.id); return; }
+  if(m.kind==="amb"){
+    msg.innerHTML = `<div class="ambwrap"><div class="aq">Which one did you mean?</div><div class="ambchips">`+
+      m.ids.map(id=>`<button type="button" data-id="${id}">${CASE.examMore.find(x=>x.id===id).name}</button>`).join("")+
+      `</div></div>`;
+    msg.querySelectorAll("button").forEach(b=>b.onclick=()=>doFocusExam(b.dataset.id));
+    return;
+  }
+  msg.innerHTML = `<div class="notefound">“${raw}” isn't something you can examine here — try naming it another way.</div>`;
+}
+$("#examForm").addEventListener("submit", e=>{ e.preventDefault(); submitExam(); });
+function doReexam(){
+  S.reexamCount++; tick(20);
+  // re-open key dynamic exams so they can be repeated
+  // the dynamic findings can be repeated — clear them so they can be re-elicited
+  S.examCore.delete("gen"); S.examCore.delete("cns");
+  ["skin","eyes","cog","obsrep"].forEach(id=>{ S.examMore.delete(id); S.examOrder = S.examOrder.filter(x=>x!==id); });
+  renderExam(); renderObs();
+  tab("ex"); window.scrollTo({top:0});
+}
+$("#reexamBtn").onclick = doReexam;
+$("#rxReassessBtn").onclick = doReexam;
+
+/* ---------- investigations ---------- */
+/* bedside stays a tap — it is on the trolley. Everything else is typed on ICE. */
+function allIx(){ return Object.keys(CASE.ix).flatMap(g=>CASE.ix[g]); }
+function ixPhrases(x){ return [x.name, ...(x.aliases||[])].map(norm); }
+function matchIx(query){
+  const q = norm(String(query).replace(/&/g," and "));
+  if(!q) return {kind:"none"};
+  const all = allIx();
+  for(const x of all){ if(ixPhrases(x).includes(q)) return {kind:"one", id:x.id}; }
+  const tol = t => t.length>=8 ? 2 : t.length>=5 ? 1 : 0;
+  const qT = queryTokens(q);
+  if(!qT.length) return {kind:"none"};
+  const cands = all.filter(x=>ixPhrases(x).some(p=>{
+    const pT = p.split(" ");
+    return qT.every(t=>pT.some(y=>{
+      if(t===y) return true;
+      const k = tol(t);
+      return k>0 && Math.abs(t.length-y.length)<=k && lev2(t,y)<=k;
+    }));
+  })).map(x=>x.id);
+  if(cands.length===1) return {kind:"one", id:cands[0]};
+  if(cands.length>=2 && cands.length<=6) return {kind:"amb", ids:cands};
+  return {kind:"none"};
+}
+function roundBtn(){
+  const n=S.picked.size, b=$("#sendRound");
+  b.disabled=!n; b.textContent = n ? `Send round (${n})` : "Send round";
+}
+function addToRound(id){
+  const x = findIx(id);
+  if(S.picked.has(id)) return {ok:false, why:`${x.name} is already in this round.`};
+  if(S.ordered.has(id) && !x.repeatable) return {ok:false, why:`${x.name} has already been sent.`};
+  S.picked.add(id); renderIx(); roundBtn();
+  return {ok:true, name:x.name};
+}
+function renderIx(){
+  const box = $("#ixGroups"); box.innerHTML="";
+  const h=document.createElement("div"); h.className="grouph"; h.textContent=CASE.ixGroups.bedside; box.appendChild(h);
+  const ul=document.createElement("ul"); ul.className="rows";
+  CASE.ix.bedside.forEach(x=>{
+    const sent=S.ordered.has(x.id) && !x.repeatable, inR=S.picked.has(x.id);
+    const li=document.createElement("li"); li.className="row";
+    li.innerHTML=`<div class="row__head"><span class="row__name">${x.name}</span><span class="row__cost">${x.costL}</span>`+
+      `<button class="act" ${sent?'disabled':''} data-picked="${inR?1:0}">${sent?"Sent":(inR?"Added":"Add")}</button></div>`;
+    if(!sent) li.querySelector("button").onclick=()=>{
+      inR ? S.picked.delete(x.id) : S.picked.add(x.id);
+      renderIx(); roundBtn();
+    };
+    ul.appendChild(li);
+  });
+  box.appendChild(ul);
+  renderBasket();
+}
+/* what is queued for this round, so a typed order is visible before you send */
+function renderBasket(){
+  const b = $("#ixBasket"); if(!b) return;
+  const typed = [...S.picked].map(findIx).filter(x=>x && !CASE.ix.bedside.includes(x));
+  if(!typed.length){ b.innerHTML=""; return; }
+  b.innerHTML = `<ul class="rows">`+typed.map(x=>
+    `<li class="row"><div class="row__head"><span class="row__name">${x.name}</span>`+
+    `<span class="row__cost">${x.costL}</span>`+
+    `<button class="act" data-drop="${x.id}">Remove</button></div></li>`).join("")+`</ul>`;
+  b.querySelectorAll("[data-drop]").forEach(btn=>btn.onclick=()=>{
+    S.picked.delete(btn.dataset.drop); renderIx(); roundBtn();
+  });
+}
+function submitIx(){
+  const raw = $("#ixInput").value.trim();
+  if(!raw) return;
+  const msg = $("#ixMsg");
+  const m = matchIx(raw);
+  const place = (id)=>{
+    const r = addToRound(id);
+    $("#ixInput").value = "";
+    msg.innerHTML = r.ok ? "" : `<div class="notefound">${r.why}</div>`;
+  };
+  if(m.kind==="one"){ place(m.id); return; }
+  if(m.kind==="amb"){
+    msg.innerHTML = `<div class="ambwrap"><div class="aq">Which did you mean?</div><div class="ambchips">`+
+      m.ids.map(id=>`<button type="button" data-id="${id}">${findIx(id).name}</button>`).join("")+
+      `</div></div>`;
+    msg.querySelectorAll("button").forEach(btn=>btn.onclick=()=>place(btn.dataset.id));
+    return;
+  }
+  msg.innerHTML = `<div class="notefound">“${raw}” — not available on ICE, or not recognised. Try another wording.</div>`;
+}
+$("#ixForm").addEventListener("submit", e=>{ e.preventDefault(); submitIx(); });
+function labRowHTML(l){
+  const flag = l.flag||"";
+  const arrow = flag==="hi"?" ▲":flag==="lo"?" ▼":"";
+  return `<div class="labrow" data-flag="${flag}"><span class="ln">${l.n}</span>`+
+    `<span class="lv">${l.v}${l.u?" "+l.u:""}<span class="arrow">${arrow}</span></span>`+
+    `<span class="lr">${l.r}</span>`+
+    (l.base?`<span class="base">prior: ${l.base}</span>`:"")+`</div>`;
+}
+function findIx(id){ for(const g of Object.keys(CASE.ix)){ const f=CASE.ix[g].find(x=>x.id===id); if(f) return f; } }
+/* the repeat count is the case's clock made visible: untreated, the platelets keep falling */
+function repeatFBC(){
+  const better = treated();
+  return [
+    {n:"Hb", v:better?"84":"66", r:"120–160", u:"g/L", flag:"lo", base:"72 on admission"},
+    {n:"Platelets", v:better?"46":"11", r:"150–400", u:"×10⁹/L", flag:"lo", base:"18 on admission"},
+    {n:"Reticulocytes", v:better?"150":"210", r:"25–100", u:"×10⁹/L", flag:"hi", base:"180 on admission"},
+    {n:"LDH", v:better?"780":"2240", r:"135–225", u:"U/L", flag:"hi", base:"1800 on admission"}
+  ];
+}
+function processRound(){
+  S.round++;
+  const items=[...S.picked].map(findIx);
+  // send-away tests are sent, not waited for — the ward clock only stops for results
+  // you would actually stand and wait for. Otherwise doing the right thing (ADAMTS13 and
+  // virology before exchange) would cost four hours in a disease measured in hours.
+  tick(Math.max(...items.filter(x=>!x.defer).map(x=>x.cost),0));
+  const feed=$("#feed");
+  const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Round ${S.round} · back at ${fmtClock(S.clock)}`; feed.appendChild(rh);
+  items.forEach(x=>{
+    // an LP ordered once the platelet count is known is a different act from one ordered blind
+    if(x.isLP && S.fbcBack) S.lpAfterFBC = true;
+    S.ordered.add(x.id);
+    if(x.isFBC) S.fbcBack = true;
+    const d=document.createElement("div"); d.className="result";
+    let body = "";
+    // labs and text may each be a function, so a result can depend on what has already happened
+    const labs = x.dynLabs ? repeatFBC() : x.labs;
+    if(labs) body = labs.map(labRowHTML).join("");
+    if(x.img) body += `<div class="finding">${imgHTML(x,"wide")}</div>`;
+    if(x.text) body += `<div class="labtext">${typeof x.text==="function" ? x.text() : x.text}</div>`;
+    d.innerHTML=`<div class="rn">${x.name}</div>${body}`;
+    feed.appendChild(d);
+  });
+  S.picked.clear();
+  $("#ixMsg").innerHTML=""; renderBasket();
+  roundBtn();
+  // surface re-examine once results are in
+  $("#reexamWrap").style.display="block";
+  updateTabDots(); updateBar();
+  renderIx();
+  feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
+}
+$("#sendRound").onclick = ()=>{ if(S.picked.size) processRound(); };
+
+/* ---------- treat: initial resus + further mx / referral ---------- */
+function referFinding(){
+  const items = [
+    ["Blood film reported", S.ordered.has("film")],
+    ["ADAMTS13 sample sent — before any exchange", S.ordered.has("adamts")],
+    ["Group & save / crossmatch", S.ordered.has("gs")],
+    ["Virology sent before plasma exposure", S.ordered.has("viro")],
+    ["Corticosteroid started", S.rx.has("steroid")],
+    ["No platelets given", !S.rx.has("plt")]
+  ];
+  const done = items.every(i=>i[1]);
+  const plt = S.rx.has("plt")
+    ? "“Stop. Who gave her platelets? Take the rest of that pool down now — in TTP it is associated with a significant increase in mortality. I need to know exactly how much went in.”"
+    : "“Good — nobody's given her platelets. That's the one thing I most need to hear.”";
+  return `<div class="reflist"><div class="rq">Haematology SpR at the regional TTP centre${done?"":" (out of hours — via switchboard)"}: “Right. Talk me through it and I'll get the exchange team in.”</div>`+
+    `<ul>${items.map(i=>`<li><span class="${i[1]?'ok':'no'}">${i[1]?'✓':'✗'}</span><b>${i[0]}</b></li>`).join("")}</ul>`+
+    `<div style="margin-bottom:var(--s2);">${plt}</div>`+
+    `<div class="verdict">${done
+      ? "“That is exactly what I needed. Accepted — blue light her over, and get anaesthetics to review her before she travels; if that GCS drops again she needs an airway escort. We'll be exchanging within the hour.”"
+      : "“I'll take her, but chase the rest of that list while transport is coming. And whatever else happens between now and then — no platelets.”"}</div></div>`;
+}
+const RX_DANGERS = ["plt","heparin","asp","waitad"];
+/* ============================================================
+   THE WRITTEN PLAN — free text, parsed, enacted, then marked
+   against the BSH TTP guideline (Scully et al., BJH 2023) and NICE TA667.
+   ============================================================ */
+const PLAN_ITEMS = {
+  /* --- the treatment --- */
+  pex:     { label:"Plasma exchange", rx:"pex", aliases:["plasma exchange","plasmapheresis","pex","plex","plx","tpe","therapeutic plasma exchange","exchange","apheresis","plasma exchange within 4 hours","urgent plasma exchange","start plasma exchange","arrange plasma exchange","plasma infusion","octaplas","fresh frozen plasma","ffp"] },
+  steroid: { label:"Corticosteroid", rx:"steroid", aliases:["methylprednisolone","methylpred","methyl pred","high dose methylprednisolone","steroids","steroid","corticosteroids","corticosteroid","prednisolone","iv steroids","immunosuppression","pulsed methylprednisolone"] },
+  capla:   { label:"Caplacizumab", rx:"capla", aliases:["caplacizumab","cablivi","anti vwf nanobody"] },
+  rituximab:{ label:"Rituximab", rx:"rituximab", aliases:["rituximab","anti cd20","mabthera","obinutuzumab"] },
+
+  /* --- referral and transfer --- */
+  refer:   { label:"Refer to haematology", rx:"refer", aliases:["refer to haematology","refer haematology","call haematology","discuss with haematology","haematology referral","bleep haematology","phone haematology","haematology advice","refer to the ttp centre","call the ttp centre","discuss with the regional centre","refer to the regional centre","haematology","haem","haem reg","haem review","haematology review","refer to haem","refer haem","call haem","dw haem","dw haematology"] },
+  transfer:{ label:"Transfer to the designated TTP centre", rx:"transfer", aliases:["transfer","blue light transfer","urgent transfer","transfer to the regional centre","transfer to a ttp centre","time critical transfer","arrange transfer","retrieval","move her to the tertiary centre","tertiary centre"] },
+  itu:     { label:"Critical care / anaesthetic review", rx:"itu", aliases:["critical care","itu","icu","hdu","intensive care","anaesthetics","anaesthetic review","airway escort","intubation","outreach","critical care outreach","level 2 bed"] },
+
+  /* --- samples that must go before treatment --- */
+  adamts:  { label:"ADAMTS13 sample", ix:"adamts", aliases:["adamts13","adamts 13","adamts13 sample","send adamts13","adamts13 level","adamts13 activity","adamts13 before exchange","adamts13 assay"] },
+  gs:      { label:"Group & save / crossmatch", ix:"gs", aliases:["group and save","group & save","crossmatch","cross match","g and s","gs","xmatch","x match","transfusion sample","type and screen"] },
+  viro:    { label:"Virology screen", ix:"viro", aliases:["virology","virology screen","viral screen","bbv","bbvs","bbv screen","blood borne virus","blood borne viruses","blood borne virus screen","hiv","hepatitis serology","hepatitis b","hepatitis c","hbv","hcv","hepatitis b status"] },
+  film:    { label:"Blood film", ix:"film", aliases:["blood film","urgent blood film","film","peripheral smear","ask the lab to review the film"] },
+
+  /* --- supportive --- */
+  iv:      { label:"IV access and fluid", rx:"iv", aliases:["iv access","cannula","cannulate","iv fluids","intravenous fluids","maintenance fluids","crystalloid","hartmanns","saline"] },
+  line:    { label:"Wide-bore venous access for exchange", rx:"line", aliases:["vascath","wide bore access","central line","central venous catheter","dialysis line","apheresis line","femoral line","large bore access"] },
+  rbc:     { label:"Red cell transfusion", rx:"rbc", aliases:["red cells","packed red cells","transfuse red cells","blood transfusion","transfuse","units of blood","prbc","transfuse two units"] },
+  stopnitro:{ label:"Stop the nitrofurantoin", rx:"stopnitro", aliases:["stop the nitrofurantoin","stop nitrofurantoin","withhold the nitrofurantoin","stop the antibiotic she is on","discontinue nitrofurantoin","nitrofurantoin"] },
+  folate:  { label:"Folic acid", rx:"folate", aliases:["folic acid","folate","folate replacement","folate supplementation"] },
+  neuro:   { label:"Hourly neurological observations", rx:"neuro", aliases:["neuro obs","neurological observations","hourly neuro obs","gcs monitoring","monitor the gcs","neuro observations"] },
+  obs:     { label:"Close observation", rx:"obs", aliases:["close monitoring","hourly obs","regular observations","frequent obs","continuous monitoring","cardiac monitoring","monitor observations","news2 monitoring"] },
+  repeat:  { label:"Repeat bloods", ix:"fbc2", aliases:["repeat bloods","repeat the bloods","repeat fbc","recheck the platelets","serial platelet counts","repeat full blood count","daily bloods","recheck the haemoglobin"] },
+  bed:     { label:"Admission / bed", rx:"bed", aliases:["admit","admission","ward bed","request a bed","find a bed","admit her","monitored bed"] },
+  esc:     { label:"Escalation plan", rx:"esc", aliases:["escalation plan","treatment escalation plan","document a plan","ceiling of care","tep"] },
+
+  /* --- reasonable, but with a caveat --- */
+  abx:     { label:"Empirical antibiotics", rx:"abx", teach:"Not unreasonable to cover an unwell, febrile patient while you are still unsure — but the culture results are already negative, there is no source, and antibiotics must not become the reason nobody rang haematology. The temperature here is the disease.", aliases:["antibiotics","iv antibiotics","empirical antibiotics","broad spectrum antibiotics","ceftriaxone","tazocin","co amoxiclav","antibiotic cover","continue the antibiotics","sepsis six"] },
+  acyc:    { label:"Aciclovir", rx:"acyc", teach:"Defensible while encephalitis is still on your list — but the CSF is normal, there is no meningism, and the film has already given you the answer. Do not let it delay the exchange.", aliases:["aciclovir","acyclovir","antiviral","cover for encephalitis","hsv cover"] },
+  nephro:  { label:"Nephrology", rx:"nephro", aliases:["nephrology","renal team","refer nephrology","call renal","renal referral"] },
+  neurol:  { label:"Neurology", rx:"neurol", aliases:["neurology","refer neurology","call neurology","neurology referral","neuro team"] },
+  vte:     { label:"Thromboprophylaxis", rx:"vte", teach:"Right instinct, wrong moment. BSH: thromboprophylaxis once the platelet count is <b>above 50</b> — hers is 18. Chart it to start when the count recovers, and note that low-dose aspirin is avoided while caplacizumab is running.", aliases:["thromboprophylaxis","vte prophylaxis","dalteparin","enoxaparin","clexane","lmwh","prophylactic lmwh","teds","ted stockings","mechanical prophylaxis","tinzaparin"] },
+
+  /* --- dangers --- */
+  plt:     { label:"Platelet transfusion", rx:"plt", danger:true, aliases:["platelets","platelet transfusion","transfuse platelets","give platelets","pool of platelets","platelet pool","one adult dose of platelets","top up the platelets","platelet cover"] },
+  heparin: { label:"Treatment-dose anticoagulation", rx:"heparin", danger:true, aliases:["treatment dose anticoagulation","therapeutic anticoagulation","heparin infusion","treatment dose lmwh","therapeutic enoxaparin","anticoagulate her","start anticoagulation","warfarin","doac","apixaban"] },
+  asp:     { label:"Aspirin / antiplatelet", rx:"asp", danger:true, aliases:["aspirin","antiplatelet","clopidogrel","dipyridamole","dual antiplatelet"] },
+  waitad:  { label:"Waiting for the ADAMTS13 result before treating", rx:"waitad", danger:true, aliases:["wait for the adamts13","await the adamts13","hold treatment until adamts13","wait for adamts13 before","await adamts13 result","wait for the result before starting","defer treatment until the result"] }
+};
+const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold","hold off","omit","refrain from","stop the"];
+/* One verb may sit between the negator and the drug — "do not GIVE aspirin", "avoid TRANSFUSING
+   platelets" — but only these, and only one. Allowing any word would make "no platelets, give
+   steroids" negate the steroids too. */
+const NEG_VERBS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|"+
+  "administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for)";
+function parsePlan(text){
+  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
+  const matched = new Set(), negated = new Set();
+  const pairs = [];
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
+  pairs.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "stop the nitrofurantoin" beats "nitrofurantoin"
+  for(const [k,a] of pairs){
+    if(!a) continue;
+    const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
+    let m;
+    while((m = re.exec(t)) !== null){
+      // long enough for the longest negator plus the longest intervening verb
+      const before = t.slice(Math.max(0, m.index-32), m.index);
+      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_VERBS+"\\s+)?$").test(before));
+      if(isNeg) negated.add(k); else matched.add(k);
+      break;
+    }
+    if(matched.has(k) || negated.has(k)) t = t.replace(re, " ; ");
+  }
+  return { matched, negated };
+}
+/* the chart is cumulative — anything already enacted still counts when the plan is amended */
+function effectivePlan(matched){
+  const eff = new Set(matched);
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>{
+    if(it.rx && S.rx.has(it.rx)) eff.add(k);
+    if(it.ix && S.ordered.has(it.ix)) eff.add(k);
+  });
+  return eff;
+}
+function enactPlan(matched){
+  matched.forEach(k=>{
+    const it = PLAN_ITEMS[k]; if(!it) return;
+    if(it.rx) S.rx.add(it.rx);
+    if(it.ix && !S.ordered.has(it.ix)) S.ordered.add(it.ix);
+  });
+}
+/* The BSH TTP standard (Scully et al., BJH 2023) + NICE TA667 */
+const BUNDLE = [
+  { k:"Recognise",      want:"Name it — MAHA with thrombocytopenia is TTP until proven otherwise",
+    ok:()=> S.dxCorrect, why:"Recognition is the step everything else hangs off." },
+  { k:"Refer",          want:"Urgent discussion with haematology and the designated regional TTP centre",
+    ok:(m)=> m.has("refer"),
+    why:"BSH: a suspected diagnosis of TTP is a medical emergency requiring urgent referral. In England every case is managed in a designated centre." },
+  { k:"Sample first",   want:"ADAMTS13 taken before exchange, with group &amp; save",
+    ok:(m)=> m.has("adamts") && (m.has("gs")||S.ordered.has("gs")),
+    /* named per gap: one flat message here read as "you never sent the ADAMTS13" to
+       someone who had sent it and only missed the group & save */
+    why:(m)=> !m.has("adamts")
+      ? "The ADAMTS13 sample has to be in the tube <b>before</b> the first exchange — afterwards you are assaying donor plasma. Send it, then treat: the result must never delay anything."
+      : "ADAMTS13 is sent, and sent in time — that part is right. What is missing is the <b>group &amp; save</b>: her haemoglobin is 72 and she is going for exchange, so the laboratory needs a sample either way." },
+  { k:"Exchange",       want:"Plasma exchange arranged and started within 4–8 hours",
+    ok:(m)=> m.has("pex") && !S.rx.has("waitad"),
+    why:"Daily plasma exchange takes mortality from about 90% to 10–20%. BSH asks for it within four hours of a suspected diagnosis, certainly by eight." },
+  { k:"Immunosuppress", want:"Corticosteroid, with caplacizumab on confirmation (NICE TA667)",
+    ok:(m)=> m.has("steroid"),
+    why:"Immune TTP is an autoantibody disease — exchange alone treats the consequence, not the cause." },
+  { k:"Do no harm",     want:"No platelet transfusion, and transfer arranged with senior support",
+    ok:(m)=> !S.rx.has("plt") && (m.has("transfer")||m.has("itu")),
+    why:"Platelet transfusion is associated with a significant increase in mortality. Transfer needs a pre-transfer review, and an airway escort if the GCS falls." }
+];
+function chartHTML(){
+  const on = CASE.rx.filter(m=>S.rx.has(m.id));
+  if(!on.length) return `<div class="chart"><div class="ct">The chart</div><div style="font-size:.9rem;color:var(--muted);">Nothing is prescribed yet.</div></div>`;
+  return `<div class="chart"><div class="ct">The chart — as written</div><ul>`+
+    on.map(m=>`<li data-harm="${RX_DANGERS.includes(m.id)?1:0}">${m.t}</li>`).join("")+`</ul></div>`;
+}
+function renderRx(){
+  $("#rxChart").innerHTML = chartHTML();
+  $("#rxReassessWrap").style.display = S.rx.size ? "block" : "none";
+  updateTabDots();
+  if(S.dxCommitted) updateBar();
+}
+function submitPlan(){
+  const text = $("#planText").value.trim();
+  if(!text) return;
+  const { matched, negated } = parsePlan(text);
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
+  if(dangers.length && !S.planWarned){ pharmacyCallback(text, matched, negated, dangers); return; }
+  closePlan(text, matched, negated);
+}
+function pharmacyCallback(text, matched, negated, dangers){
+  S.planWarned = true;
+  const out = $("#planOut");
+  out.innerHTML = `<div class="reflist"><div class="rq">Pharmacy rings the ward before the plan is processed:</div>`+
+    `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, in a woman with a platelet count of 18 and fragments on her film… are you sure, doctor?”</div></div>`+
+    `<div class="sheetbtns" style="margin-top:var(--s3);">
+       <button class="btn" id="pharmOff">Take it off the plan</button>
+       <button class="btn btn--ghost" id="pharmOn">Give it anyway</button>
+     </div>`;
+  out.scrollIntoView({block:"nearest"});
+  $("#pharmOff").onclick = ()=>{ dangers.forEach(k=>matched.delete(k)); closePlan(text, matched, negated); };
+  $("#pharmOn").onclick  = ()=>{ closePlan(text, matched, negated); };
+}
+function closePlan(text, matched, negated){
+  enactPlan(matched);
+  tick(10);
+  S.planWritten = true;
+  const eff = effectivePlan(matched);   // judge the chart as it now stands, not just this submission
+  renderRx(); renderObs();
+  const covered = BUNDLE.filter(b=>b.ok(eff)).length;
+  S.bundleCovered = covered;
+  const teaches = [...matched, ...negated].filter(k=>PLAN_ITEMS[k].teach);
+  const out = $("#planOut");
+  out.innerHTML =
+    `<div class="bundle"><h4>Your plan against the care bundle</h4>`+
+    `<div class="bsub">BSH TTP guideline (2023) + NICE TA667 — ${covered} of ${BUNDLE.length} domains covered.</div><ul>`+
+    BUNDLE.map(b=>{ const ok=b.ok(eff);
+      const why = typeof b.why==="function" ? b.why(eff) : b.why;
+      return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
+             (ok?``:`<br><span class="bw">${why}</span>`)+`</span></li>`; }).join("")+
+    `</ul>`+
+    (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
+    (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
+    (eff.has("refer") ? referFinding() : ``)+
+    `</div>`;
+  const amend = $("#planAmend");
+  if(amend) amend.onclick = ()=>{ S.planAmended = true; $("#planOut").innerHTML=""; $("#planText").focus(); };
+  out.scrollIntoView({block:"nearest"});
+}
+$("#planForm").addEventListener("submit", e=>{ e.preventDefault(); submitPlan(); });
+
+/* ---------- referral: who you call, and what they say back ---------- */
+const REFERRALS = {
+  haem:   { name:"Haematology / TTP centre", rx:"refer", isChecklist:true },
+  itu:    { name:"Critical care", rx:"itu",
+    reply:()=> (obsState().gcs < 14
+      ? "“A GCS of 12 and falling, going out of the building — yes, I'll come now. If she drops any further she is not travelling without a tube and an escort. Get the transfer team moving while I review her.”"
+      : "“She's talking to me at the moment, so she doesn't need intubating this minute — but I'll do the pre-transfer review, and I want to know the second that GCS moves. Neurological deterioration in the back of an ambulance is the thing we're all trying to avoid.”") },
+  neuro:  { name:"Neurology", rx:"neurol",
+    reply:()=> (S.ordered.has("film")
+      ? "“I've seen the film — fragments and a platelet count of 18. That's not a neurology problem, that's microvascular thrombosis in her brain, and the treatment is exchange, not an EEG. Ring haematology, not me. Happy to review after she's been exchanged.”"
+      : "“Confusion, headache, a fever and a clean CT? Before I take her, send a blood film and a platelet count. If there are fragments on that film you are in entirely different territory and you need haematology tonight, not me.”") },
+  renal:  { name:"Nephrology", rx:"nephro",
+    reply:"“Creatinine of 118 and an eGFR of 78 — that is mild, and it is not why she is confused. Renal failure bad enough to need dialysis would make me think haemolytic uraemic syndrome instead, and she hasn't had the diarrhoeal illness for that. This is a haematology emergency. And please don't biopsy anything with 18 platelets.”" },
+  micro:  { name:"Microbiology", rx:"abx",
+    reply:"“Urine culture negative three days ago, negative again now, no dysuria, no source on examination — I don't think she has an infection. Cover her overnight if it makes you comfortable, but a temperature of 37.9 is not what's making her confused, and antibiotics are not the reason to stop looking.”" },
+  obs:    { name:"Transfusion laboratory", rx:"gs",
+    reply:()=> (S.rx.has("plt")
+      ? "“We've issued the platelets you asked for. For the record, our haematologist wants you to know that platelet transfusion in TTP is associated with a significant increase in mortality — please confirm you still want them running.”"
+      : "“Two units of red cells are crossmatched and ready whenever you want them for a haemoglobin of 72. And we have platelets on the shelf if you want them — though I'd check with haematology first, given what the film showed.”") }
+};
+function doRefer(){
+  const out = $("#planOut");
+  out.innerHTML = `<div class="refwrap reflist"><div class="rq">Who are you referring to?</div><div class="rteam">`+
+    Object.entries(REFERRALS).map(([k,r])=>`<button type="button" data-team="${k}">${r.name}</button>`).join("")+
+    `</div><div style="font-size:.8rem;color:var(--faint);">Out of hours, all of these go via switchboard.</div></div>`;
+  out.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>placeCall(b.dataset.team));
+  out.scrollIntoView({block:"nearest"});
+}
+function placeCall(team){
+  const r = REFERRALS[team];
+  S.rx.add(r.rx); tick(5); renderRx();
+  const body = r.isChecklist ? referFinding()
+    : `<div class="reflist"><div class="rq">${r.name} registrar, on call:</div><div>${typeof r.reply==="function"?r.reply():r.reply}</div></div>`;
+  $("#planOut").innerHTML = body +
+    `<button class="btn btn--ghost" id="referAgain" style="margin-top:var(--s3);">Call someone else</button>`;
+  $("#referAgain").onclick = doRefer;
+  $("#planOut").scrollIntoView({block:"nearest"});
+}
+$("#planRefer").onclick = doRefer;
+
+/* ---------- tab progress dots ---------- */
+function updateTabDots(){
+  const set=(id,n)=>{ const d=$(id); if(!d) return; if(n>0){ d.classList.add("show"); d.textContent=n; } else d.classList.remove("show"); };
+  set("#hxDot", S.asked.size);
+  set("#exDot", S.examCore.size + S.examMore.size);
+  set("#ixDot", S.round);
+  set("#rxDot", S.rx.size);
+}
+
+/* ---------- commit (with completeness reminder) ---------- */
+function assessmentChecklist(){
+  return [
+    { label:"Took a history", done:S.asked.size>0 },
+    { label:"Examined the patient", done:(S.examCore.size+S.examMore.size)>0 },
+    { label:"Investigation results back", done:S.round>0 }
+  ];
+}
+$("#toCommit").onclick = ()=>{
+  // post-diagnosis: this button leads out of treatment into the drill
+  if(S.dxCommitted){
+    if(!S.planWritten){ tab("rx", false); $("#planText").focus(); return; }
+    go("manage");
+    if(!S.mgStarted){ S.mgStarted=true; startMgmt(); }
+    return;
+  }
+  // pre-diagnosis: advance the stage frontier, then the commit flow
+  if(S.stageMax===0){ S.stageMax=1; renderTabs(); tab("ex"); updateBar(); return; }
+  if(S.stageMax===1){ S.stageMax=2; renderTabs(); tab("ix"); updateBar(); return; }
+  const list=assessmentChecklist();
+  // hard requirement: results back before a diagnosis can be committed
+  const ready = S.round>0;
+  if(ready && list.every(x=>x.done)){ go("commit"); return; }
+  $("#gateList").innerHTML=list.map(x=>`<li data-done="${x.done?1:0}"><span class="mk">${x.done?'✓':'!'}</span>${x.label}</li>`).join("");
+  $("#gateTitle").textContent = ready ? "Before you commit" : "Too early to call it";
+  $("#gateSub").textContent = ready
+    ? "Safe practice is to complete your assessment first. Here's where you've got to:"
+    : "No consultant would accept a diagnosis yet — get some results back first, then call it.";
+  $("#gateGo").style.display = ready ? "" : "none";
+  $("#commitGate").hidden=false;
+};
+$("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
+$("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
+$("#commitBtn").onclick = ()=>{
+  const v=$("#dxInput").value.trim();
+  if(!v){ $("#commitErr").style.display="block"; return; }
+  $("#commitErr").style.display="none";
+  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dxCommitted = true;
+  // a wrong diagnosis is not survivable here — she is treated for the wrong thing and never exchanged
+  if(!S.dxCorrect){ S.died = true; showDeath(); return; }
+  S.stageMax = 3;
+  renderTabs(); updateBar();
+  go("work"); tab("rx");
+};
+
+/* ---------- the wrong call ---------- */
+function showDeath(){
+  const gotFilm = S.ordered.has("film");
+  const gaveP = S.rx.has("plt");
+  $("#deathLede").textContent =
+    `You committed to “${S.dx}”. She was treated for that, and nobody rang haematology.`;
+  $("#deathArt").innerHTML = `<img src="ttp-death.svg" alt="Lauren has arrested; the monitor has flatlined and resuscitation was unsuccessful">`;
+  $("#deathStory").innerHTML =
+    `She went up to the ward on your plan. ${gaveP
+      ? "The platelets you prescribed ran in over an hour. Everybody felt better for having done something about a count of 18."
+      : "Nobody arranged plasma exchange, because nobody had asked for it."} `+
+    `By <b>02:00</b> she was rousing only to pain, and the nurses had stopped being able to get a sentence out of her. `+
+    `At <b>04:35</b> she had a generalised seizure and did not wake up from it. The crash call went out at <b>04:50</b>. `+
+    `Her platelets that morning were <b>6</b>, her LDH was over three thousand, and the microvascular thrombi had been closing down her brain all night. `+
+    `They ran it for forty minutes. She did not come back.<br><br>`+
+    `<b>It was thrombotic thrombocytopenic purpura.</b> ${gotFilm
+      ? "The film you ordered said <i>numerous schistocytes</i> — red cells shredded in small vessels — next to a platelet count of 18, an LDH of 1800, an undetectable haptoglobin and a negative Coombs. Every word of it was on the screen before you called it."
+      : "Nobody ever asked the laboratory to look at the film. The platelet count of 18 with a haemoglobin of 72, the LDH of 1800, the undetectable haptoglobin and the negative Coombs were all reported, and all of it pointed one way."}<br><br>`+
+    `Plasma exchange would have taken her chance of dying from about <b>90%</b> to <b>10–20%</b>. It never happened. `+
+    `She was thirty-two.`;
+  go("death");
+}
+$("#deathOn").onclick = ()=> scoreAndShow();
+
+/* ---------- management drill: one question at a time, 30 s each ---------- */
+const MG_SECS = 30;
+let mgTimer = null;
+function stopMgTimer(){ if(mgTimer){ clearInterval(mgTimer); mgTimer=null; } }
+function startMgmt(){
+  S.mgIdx = 0; S.mg = {};
+  $("#finishBtn").style.display = "none";
+  showMg();
+}
+function showMg(){
+  stopMgTimer();
+  const box=$("#mqList"); box.innerHTML="";
+  const i=S.mgIdx;
+  if(i>=CASE.mgmt.length){
+    const right=CASE.mgmt.filter(q=>S.mg[q.id]===true).length;
+    box.innerHTML=`<div class="mq" style="text-align:center;"><div class="mq__q" style="margin-bottom:var(--s2);">Drill complete</div>`+
+      `<div style="color:var(--muted); font-size:.9rem;">${right} of ${CASE.mgmt.length} under the 30-second clock.</div></div>`;
+    $("#finishBtn").style.display = "";
+    return;
+  }
+  const q=CASE.mgmt[i];
+  const card=document.createElement("div"); card.className="mq";
+  card.innerHTML=`<div class="mqprog"><span>Question ${i+1} / ${CASE.mgmt.length}</span><span id="mgClock">${MG_SECS}s</span></div>`+
+    `<div class="tbar"><i id="mgBar"></i></div>`+
+    `<div class="mq__q"><span class="tagn">${q.tag}</span>${q.q}</div>`;
+  const opts=document.createElement("div"); opts.className="opts";
+  // shuffle the answer positions
+  const order=q.opts.map((_,j)=>j);
+  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
+  const settle=(pickedPos, timedOut)=>{
+    if(S.mg[q.id]!==undefined) return;
+    stopMgTimer();
+    const picked = pickedPos===null ? null : q.opts[order[pickedPos]];
+    S.mg[q.id] = !!(picked && picked.ok);
+    [...opts.children].forEach((c,pos)=>{
+      const oo=q.opts[order[pos]];
+      c.setAttribute("disabled","");
+      c.dataset.state = oo.ok?"right":(pos===pickedPos?"wrong":"dim");
+      if(oo.ok) c.querySelector(".mk").textContent="✓";
+      else if(pos===pickedPos) c.querySelector(".mk").textContent="✗";
+    });
+    const t=document.createElement("div"); t.className="teach";
+    t.dataset.tone=S.mg[q.id]?"right":"wrong";
+    t.innerHTML=(timedOut?"<b>Time. </b>":(S.mg[q.id]?"<b>Correct. </b>":"<b>Not quite. </b>"))+q.teach;
+    card.appendChild(t);
+    const n=document.createElement("button"); n.className="btn"; n.style.marginTop="var(--s3)";
+    n.textContent = (S.mgIdx+1>=CASE.mgmt.length) ? "See the drill summary" : "Next question";
+    n.onclick=()=>{ S.mgIdx++; showMg(); };
+    card.appendChild(n);
+  };
+  order.forEach((oi,pos)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="mk">${String.fromCharCode(65+pos)}</span><span>${q.opts[oi].t}</span>`;
+    b.onclick=()=>settle(pos,false);
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  box.appendChild(card);
+  window.scrollTo({top:0});
+  // countdown
+  const t0=performance.now(), bar=$("#mgBar"), clk=$("#mgClock");
+  mgTimer=setInterval(()=>{
+    const left=Math.max(0, MG_SECS - (performance.now()-t0)/1000);
+    bar.style.width=(left/MG_SECS*100)+"%";
+    clk.textContent=Math.ceil(left)+"s";
+    bar.style.background = left<=5 ? "var(--danger)" : left<=12 ? "var(--warn)" : "var(--good)";
+    if(left<=0) settle(null,true);
+  },100);
+}
+
+/* ---------- scoring + outcome ---------- */
+function scoreAndShow(){
+  const rows=[]; let total=0;
+  const add=(l,p)=>{ rows.push([l,p]); total+=p; };
+
+  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
+
+  let keys=0;
+  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
+  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
+  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
+  ["fbc","film","hapt","ue","coag","dip","gs","adamts","viro","preg","glu"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
+  add(`Discriminators gathered (${keys})`, keys*3);
+
+  let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
+  if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
+  if(S.lpAfterFBC) add("Lumbar puncture with a platelet count of 18", -8);
+
+  if(S.rx.has("pex")) add("Arranged plasma exchange", 12);
+  if(S.rx.has("steroid")) add("Started corticosteroid", 5);
+  if(S.rx.has("capla")) add("Caplacizumab per NICE TA667", 4);
+  if(S.ordered.has("adamts")) add("ADAMTS13 sampled before exchange", 5);
+  if(S.rx.has("transfer")||S.rx.has("itu")) add("Transfer to a designated centre arranged", 5);
+  if(S.rx.has("stopnitro")) add("Stopped the nitrofurantoin", 3);
+  if(S.rx.has("plt")) add("Transfused platelets in TTP", -14);
+  if(S.rx.has("waitad")) add("Held treatment for the ADAMTS13 result", -10);
+  if(S.rx.has("heparin")) add("Anticoagulated a platelet count of 18", -10);
+  if(S.rx.has("asp")) add("Antiplatelet with a platelet count of 18", -6);
+  if(S.rx.has("vte")) add("Chemical thromboprophylaxis below 50 platelets", -4);
+  if(S.reexamCount>0) add("Reassessed after intervention", 6);
+  const referFull = S.rx.has("refer") && S.ordered.has("film") && S.ordered.has("adamts") && S.ordered.has("gs") && S.ordered.has("viro") && S.rx.has("steroid") && !S.rx.has("plt");
+  if(referFull) add("Referred with the checklist complete", 8);
+  else if(S.rx.has("refer")) add("Referred to haematology — checklist incomplete", 3);
+  if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} guideline domains`, S.bundleCovered*4);
+
+  if(S.died){
+    add("She arrested at 04:50 and could not be resuscitated", 0);
+  } else {
+    let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
+    add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+  }
+
+  if(elapsed()<=240 && S.dxCorrect) add("Recognised it inside 4 ward-hours", 10);
+
+  const MAX=160;
+  const shown=Math.max(0, Math.min(total, MAX));
+  const table=$("#scoreTable");
+  table.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]>0?'plus':r[1]<0?'minus':''}">${r[1]>0?'+':''}${r[1]}</td></tr>`).join("")
+    + `<tr><td>Total</td><td>${shown} / ${MAX}</td></tr>`;
+
+  // hero
+  const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
+  const rank = S.died ? "The morbidity meeting."
+    : pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+  $("#rank").textContent = rank;
+  $("#scoreSub").textContent = S.died
+    ? "She died overnight because nobody named the microangiopathy. Everything you needed was already on the screen."
+    : "The GP's UTI label, the new antibiotic and a temperature of 37.9 were all working against you.";
+  countTo($("#scoreBig"), shown, MAX);
+
+  $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'✗'}</span>`+
+    `<div><div class="t">${S.dxCorrect?"Thrombotic thrombocytopenic purpura — you got her.":`It was thrombotic thrombocytopenic purpura. You said “${S.dx}”.`}</div>`+
+    `<div class="s">Committed after ${S.round} round${S.round===1?'':'s'} and ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m of ward time.</div></div></div>`;
+
+  // learning objectives
+  const gotFilm = S.ordered.has("film"), gotHaem = S.ordered.has("hapt");
+  const maha = (gotFilm && gotHaem) ? {v:"hit",t:"Recognise microangiopathic haemolytic anaemia",
+      s:"You asked for the film and the haemolysis screen. Schistocytes with a platelet count of 18, an LDH of 1800, an undetectable haptoglobin and a negative DAT is mechanical haemolysis — that is the whole diagnosis in four results."}
+    : (gotFilm||gotHaem) ? {v:"part",t:"Recognise microangiopathic haemolytic anaemia",
+      s:`You sent ${gotFilm?"the film but never the haemolysis screen":"the haemolysis screen but never asked anyone to look at the film"}. You need both: the film shows you the fragments, the screen proves the cells are being destroyed and that it is not autoimmune.`}
+    : {v:"miss",t:"Recognise microangiopathic haemolytic anaemia",
+      s:"Neither a blood film nor a haemolysis screen was sent. Anaemia plus thrombocytopenia plus organ dysfunction demands both — and the film is the cheapest test in the hospital."};
+
+  const los=[
+    maha,
+    S.dxCorrect ? {v:"hit",t:"Suspect TTP without waiting for the full pentad",
+        s:"MAHA and thrombocytopenia with no other explanation was enough, and you called it. Fewer than one patient in ten has all five of the classical pentad."}
+      : {v:"miss",t:"Suspect TTP without waiting for the full pentad",
+        s:"The pentad — fever, neurology, renal impairment, MAHA, thrombocytopenia — is a historical description, not a checklist to complete. She had all the fragments, the count and the confusion; waiting for the set is how people die."},
+    (S.rx.has("pex") && !S.rx.has("waitad")) ? (S.rx.has("refer")
+        ? {v:"hit",t:"Treat it as the emergency it is",s:"Haematology called and exchange arranged, without waiting for the ADAMTS13. BSH asks for exchange within four to eight hours, and it takes mortality from about 90% to 10–20%."}
+        : {v:"part",t:"Treat it as the emergency it is",s:"You arranged exchange but never rang haematology. In England every case is managed in a designated regional centre — the phone call is not a formality, it is how the exchange actually happens."})
+      : {v:"miss",t:"Treat it as the emergency it is",
+        s:"Plasma exchange was never arranged. It is the single intervention that changes whether she lives, and BSH wants it running within four hours of the suspicion — not within four hours of the confirmation."},
+    S.rx.has("plt") ? {v:"miss",t:"Do not transfuse platelets",
+        s:"You gave platelets. It is the one thing in this case that actively kills — associated with a significant increase in mortality, because you are feeding a microvascular thrombotic process. The count is consumption, not production failure, and even central line insertion for the exchange does not need cover."}
+      : (S.mg.plt===false ? {v:"part",t:"Do not transfuse platelets",
+        s:"You did not give them at the bedside, but got the drill question wrong. Fix this one: platelet transfusion is avoided in TTP outside life-threatening haemorrhage."}
+      : {v:"hit",t:"Do not transfuse platelets",
+        s:"A count of 18 and you left it alone. That is the reflex this case exists to build."}),
+    (S.mg.hus && S.mg.dic) ? {v:"hit",t:"Separate TTP from its mimics",
+        s:"HUS and DIC both correctly excluded. Dialysis-requiring renal failure after a diarrhoeal prodrome points at HUS; a deranged clotting screen points at DIC. Hers was normal, and that is a discriminator, not a reassurance."}
+      : {v:"part",t:"Separate TTP from its mimics",
+        s:"Revisit the microangiopathy differential: TTP versus HUS (renal-dominant, Shiga toxin, ADAMTS13 rarely under 20) versus DIC (deranged clotting) versus ITP (isolated thrombocytopenia, no haemolysis) versus a drug-induced oxidative haemolysis, which gives bite cells rather than fragments."},
+    (S.asked.has("urine") && S.ordered.has("dip")) ? {v:"hit",t:"Distrust an inherited diagnosis",
+        s:"You went back to the urinary story and dipped the urine yourself. Visible haematuria with no dysuria, no fever, negative cultures and no red cells on microscopy was never a UTI — it was haemoglobinuria, and the disease had been announcing itself for three days."}
+      : {v:"part",t:"Distrust an inherited diagnosis",
+        s:"The GP's label did a lot of work in this case. Ask what the urinary symptoms actually were — there were none — and look at the urine: dark brown, urobilinogen raised, dipstick positive for blood but no erythrocytes on microscopy. That is free haemoglobin, not infection."}
+  ];
+  $("#loList").innerHTML = los.map(l=>`<div class="lo" data-v="${l.v}"><span class="ic">${l.v==='hit'?'✓':l.v==='part'?'~':'✗'}</span><div><div class="lt">${l.t}</div><div class="ls">${l.s}</div></div></div>`).join("");
+
+  // journey
+  $("#journey").innerHTML = `You ${S.ordered.has("film")?"<b>asked the laboratory to look at the film</b>":"<b>never asked for a blood film</b>"}, `+
+    `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
+    `${S.rx.has("pex")?"arranged plasma exchange":"did not arrange plasma exchange"}, `+
+    `${S.rx.has("plt")?"<b>gave platelets</b>, ":""}`+
+    `stepped back over earlier stages <b>${S.revisits}</b> time${S.revisits===1?'':'s'} and formally reassessed <b>${S.reexamCount}</b> time${S.reexamCount===1?'':'s'} — committing to <b>${S.dx||'—'}</b> in ${Math.floor(elapsed()/60)}h ${String(elapsed()%60).padStart(2,'0')}m.`;
+
+  mpReturnBtn(shown, MAX);
+  go("out");
+}
+function countTo(el, val, max){
+  const dur=900, t0=performance.now();
+  function step(t){ const k=Math.min(1,(t-t0)/dur); const v=Math.round(val*(1-Math.pow(1-k,3))); el.innerHTML=`${v}<span>/${max}</span>`; if(k<1) requestAnimationFrame(step); }
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.innerHTML=`${val}<span>/${max}</span>`; return; }
+  requestAnimationFrame(step);
+}
+$("#finishBtn").onclick = scoreAndShow;
+$("#replay").onclick = ()=>location.reload();
+/* ---- optional hub handoff: ?return=<hubUrl>&week=<id> ---- */
+const MPQ = new URLSearchParams(location.search);
+function mpReturnBtn(score, max){
+  if(!MPQ.get('return')) return;
+  const rb=$("#replay"), br=rb&&rb.parentElement; if(!br||br.querySelector('.mp-return')) return;
+  const b=document.createElement('button'); b.className='btn mp-return'; b.textContent='Save result & return to the hub';
+  b.onclick=()=>{ const u=new URL(MPQ.get('return')); u.searchParams.set('mp_week',MPQ.get('week')||''); u.searchParams.set('mp_case','ttp'); u.searchParams.set('mp_score',score); u.searchParams.set('mp_max',max); u.searchParams.set('mp_done','1'); location.href=u.toString(); };
+  br.insertBefore(b, br.firstChild);
+}
+
+/* ============================================================
+   FRIDAY DEBRIEF
+   To release it: set DEBRIEF.url to the file (e.g. "ttp-debrief.mp4"
+   or a debrief page) and DEBRIEF.live = true. Nothing else to change.
+   ============================================================ */
+const DEBRIEF = {
+  live: false,
+  url:  "",                       // e.g. "ttp-debrief.mp4"
+  blurb:"Microangiopathic haemolysis from film to plasma exchange — and why the urine infection was never a urine infection."
+};
+function renderDebrief(){
+  const c = $("#debriefCard"); if(!c) return;
+  if(DEBRIEF.live && DEBRIEF.url){
+    c.innerHTML =
+      `<span class="ic" style="color:var(--accent);"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>`+
+      `<div style="flex:1;">
+         <div style="font-weight:600; font-size:.9rem;">Friday debrief — out now</div>
+         <div style="font-size:.78rem; color:var(--faint);">${DEBRIEF.blurb}</div>
+       </div>
+       <a class="btn btn--sm" style="width:auto; text-decoration:none;" href="${DEBRIEF.url}" target="_blank" rel="noopener">Watch</a>`;
+  } else {
+    c.innerHTML =
+      `<span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>`+
+      `<div>
+         <div style="font-weight:600; font-size:.9rem;">Friday debrief — coming Friday</div>
+         <div style="font-size:.78rem; color:var(--faint);">${DEBRIEF.blurb}</div>
+       </div>`;
+  }
+}
+
+/* ---------- init ---------- */
+renderObs(); renderHx(); renderExam(); renderIx(); renderRx(); renderTabs(); updateBar(); sceneMini(false); renderDebrief();
+$("#clock").textContent = fmtClock(S.clock);
+</script>
+</body>
+</html>

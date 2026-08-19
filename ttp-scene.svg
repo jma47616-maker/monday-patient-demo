@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-label="Tonight, 20:10, majors: Lauren sits agitated on the trolley, very pale, while Tom holds her hand.">
+  <defs>
+    <pattern id="grain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2c3742"/>
+      <stop offset="1" stop-color="#4a5560"/>
+    </linearGradient>
+    <linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf3d8" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fdf3d8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="340" fill="#f0ebe1"/>
+
+  <!-- curtained cubicle wall -->
+  <rect x="0" y="0" width="800" height="252" fill="#dfe4e2"/>
+  <g stroke="#c2cbc8" stroke-width="3">
+    <path d="M40 0 V252 M92 0 V252 M144 0 V252 M196 0 V252 M248 0 V252"/>
+  </g>
+  <rect x="0" y="0" width="272" height="252" fill="#cdd8d5" opacity=".55"/>
+  <!-- curtain rail -->
+  <rect x="0" y="14" width="290" height="7" rx="3.5" fill="#9aa4ac" stroke="#2b241d" stroke-width="3"/>
+
+  <!-- window: it is dark outside -->
+  <rect x="596" y="30" width="172" height="112" rx="6" fill="url(#night)" stroke="#2b241d" stroke-width="5"/>
+  <path d="M682 30 V142 M596 86 H768" stroke="#2b241d" stroke-width="4"/>
+  <circle cx="726" cy="58" r="9" fill="#f4ecd2" opacity=".8"/>
+
+  <!-- overhead light cone -->
+  <path d="M368 0 L300 252 L512 252 Z" fill="url(#lamp)"/>
+
+  <!-- floor -->
+  <rect x="0" y="252" width="800" height="88" fill="#e2d9cb"/>
+  <path d="M0 252 H800" stroke="#c9bda9" stroke-width="4"/>
+
+  <!-- ================= trolley ================= -->
+  <g stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round">
+    <rect x="286" y="228" width="290" height="24" rx="8" fill="#cfd8dc"/>
+    <rect x="302" y="252" width="13" height="52" fill="#9aa4ac"/>
+    <rect x="548" y="252" width="13" height="52" fill="#9aa4ac"/>
+    <!-- raised backrest -->
+    <rect x="272" y="120" width="16" height="112" rx="7" fill="#9aa4ac"/>
+    <!-- cot side -->
+    <rect x="430" y="186" width="132" height="44" rx="8" fill="none" stroke="#9aa4ac" stroke-width="6"/>
+  </g>
+  <g fill="#2b241d">
+    <circle cx="308" cy="310" r="9"/><circle cx="554" cy="310" r="9"/>
+  </g>
+
+  <!-- blanket over her legs -->
+  <path d="M394 228 C404 200 470 194 540 200 C560 202 570 214 574 228 Z" fill="#a9bcc4" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+  <g stroke="#7f939c" stroke-width="3" opacity=".75">
+    <path d="M446 202 C452 212 452 220 446 228"/>
+    <path d="M500 200 C506 210 506 220 500 228"/>
+  </g>
+
+  <!-- ================= Lauren, sitting up, agitated ================= -->
+  <g>
+    <!-- torso in a gown, leaning forward -->
+    <path d="M320 228 C318 186 336 162 366 158 C396 154 414 176 416 210 C417 220 416 226 414 228 Z"
+          fill="#b7c9cf" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+    <!-- her arm, reaching out to Tom -->
+    <path d="M404 186 C440 180 470 186 498 200" fill="none" stroke="#e0d0c0" stroke-width="17" stroke-linecap="round"/>
+    <path d="M404 186 C440 180 470 186 498 200" fill="none" stroke="#2b241d" stroke-width="5" stroke-linecap="round" fill-opacity="0" opacity=".0"/>
+    <path d="M404 178 C440 172 472 178 502 194" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <path d="M404 195 C440 189 470 195 496 208" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <!-- petechiae on the forearm: small, and you have to be looking -->
+    <g fill="#9c3247" opacity=".9">
+      <circle cx="436" cy="185" r="2.4"/><circle cx="448" cy="191" r="2"/><circle cx="459" cy="184" r="2.2"/>
+      <circle cx="468" cy="192" r="1.9"/><circle cx="425" cy="190" r="2"/><circle cx="478" cy="188" r="2.1"/>
+    </g>
+    <!-- neck -->
+    <path d="M352 148 h26 v20 c0 7 -26 7 -26 0 Z" fill="#e0d0c0" stroke="#2b241d" stroke-width="4"/>
+    <!-- hair behind -->
+    <path d="M318 122 C314 78 340 58 366 58 C392 58 418 78 414 122 C412 142 410 152 406 162 C403 138 402 126 400 116 L332 116 C330 126 329 138 326 162 C322 152 320 142 318 122 Z"
+          fill="#5b4238" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <!-- head, turned to Tom -->
+    <ellipse cx="366" cy="110" rx="38" ry="42" fill="#eadfd2" stroke="#2b241d" stroke-width="5"/>
+    <ellipse cx="346" cy="126" rx="10" ry="6" fill="#aebac0" opacity=".55"/>
+    <ellipse cx="388" cy="126" rx="10" ry="6" fill="#aebac0" opacity=".55"/>
+    <!-- fringe -->
+    <path d="M330 96 C334 70 350 62 366 62 C382 62 400 70 402 96 C392 82 380 78 366 79 C352 80 338 84 330 96 Z"
+          fill="#5b4238" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+    <!-- frightened face -->
+    <path d="M338 96 q12 -5 22 2" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <path d="M394 96 q-12 -5 -22 2" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="352" cy="112" rx="9.5" ry="8.5" fill="#faf6f0" stroke="#2b241d" stroke-width="3.4"/>
+    <ellipse cx="382" cy="112" rx="9.5" ry="8.5" fill="#faf6f0" stroke="#2b241d" stroke-width="3.4"/>
+    <g fill="#2b241d">
+      <circle cx="354" cy="113" r="4"><animate attributeName="cx" values="354;351;354;357;354" dur="4.5s" repeatCount="indefinite"/></circle>
+      <circle cx="384" cy="113" r="4"><animate attributeName="cx" values="384;381;384;387;384" dur="4.5s" repeatCount="indefinite"/></circle>
+    </g>
+    <path d="M366 116 q4 9 -2 13" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="366" cy="140" rx="7.5" ry="5" fill="#a3707a" stroke="#2b241d" stroke-width="3"/>
+  </g>
+
+  <!-- ================= her girlfriend, on the chair, holding her hand ================= -->
+  <g>
+    <!-- chair -->
+    <g stroke="#2b241d" stroke-width="5" stroke-linejoin="round">
+      <rect x="596" y="240" width="82" height="16" rx="6" fill="#b6a48c"/>
+      <rect x="662" y="176" width="16" height="70" rx="6" fill="#b6a48c"/>
+      <rect x="604" y="256" width="10" height="52" fill="#8f7f6b"/>
+      <rect x="660" y="256" width="10" height="52" fill="#8f7f6b"/>
+    </g>
+    <!-- hair falling behind the shoulders -->
+    <path d="M588 150 C584 116 598 100 619 100 C640 100 654 116 650 150
+             C648 168 646 190 642 214 C638 190 637 176 635 164 L603 164 C601 176 600 190 596 214 C592 190 590 168 588 150 Z"
+          fill="#8a5a34" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <!-- torso -->
+    <path d="M576 240 C574 206 592 186 618 186 C644 186 660 206 658 240 Z" fill="#7f8f6d" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+    <!-- her arm reaching to Lauren's -->
+    <path d="M584 208 C556 200 528 198 500 200" fill="none" stroke="#c99873" stroke-width="16" stroke-linecap="round"/>
+    <path d="M584 200 C556 192 528 190 500 193" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <path d="M584 216 C556 209 530 206 502 208" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <!-- their hands -->
+    <ellipse cx="497" cy="201" rx="15" ry="12" fill="#c99873" stroke="#2b241d" stroke-width="4.5"/>
+    <!-- neck + head -->
+    <path d="M608 172 h22 v18 c0 6 -22 6 -22 0 Z" fill="#c99873" stroke="#2b241d" stroke-width="4"/>
+    <ellipse cx="619" cy="146" rx="31" ry="33" fill="#dcae83" stroke="#2b241d" stroke-width="5"/>
+    <!-- curls at the crown -->
+    <path d="M590 138 C590 112 604 102 619 102 C634 102 648 112 648 138
+             C643 126 637 121 630 122 C626 114 616 113 610 117 C603 116 596 124 590 138 Z"
+          fill="#8a5a34" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M598 140 q10 -4 17 1" fill="none" stroke="#2b241d" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M640 140 q-10 -4 -17 1" fill="none" stroke="#2b241d" stroke-width="3.6" stroke-linecap="round"/>
+    <g fill="#2b241d">
+      <circle cx="606" cy="152" r="3.6"/><circle cx="632" cy="152" r="3.6"/>
+    </g>
+    <path d="M610 170 q9 4 18 0" fill="none" stroke="#2b241d" stroke-width="3.6" stroke-linecap="round"/>
+  </g>
+
+  <!-- time stamp -->
+  <g>
+    <rect x="28" y="286" width="180" height="34" rx="7" fill="#2b241d" opacity=".88"/>
+    <text x="118" y="309" text-anchor="middle" font-family="ui-monospace, monospace" font-size="16" fill="#faf6f0">majors · 20:10</text>
+  </g>
+
+  <rect width="800" height="340" fill="url(#grain)"/>
+</svg>

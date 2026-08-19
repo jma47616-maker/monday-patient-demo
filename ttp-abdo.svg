@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Abdominal examination: soft and non-tender throughout, no organomegaly, no renal angle tenderness">
+  <defs>
+    <linearGradient id="askin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2dfc9"/>
+      <stop offset=".55" stop-color="#e8d0b6"/>
+      <stop offset="1" stop-color="#d6ba9c"/>
+    </linearGradient>
+    <pattern id="agrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+  </defs>
+
+  <rect width="440" height="320" fill="#f4efe6"/>
+
+  <!-- sheet folded down -->
+  <path d="M0 268 C90 252 180 262 268 254 C340 248 400 258 440 250 L440 320 L0 320 Z"
+        fill="#f2ede4" stroke="#d8cdbb" stroke-width="4"/>
+
+  <!-- the abdomen -->
+  <path d="M96 62 C150 44 290 44 344 62 C366 70 372 92 368 122 C362 168 350 216 336 250
+           C300 262 140 262 104 250 C90 216 78 168 72 122 C68 92 74 70 96 62 Z"
+        fill="url(#askin)" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+
+  <!-- costal margins -->
+  <path d="M104 66 C132 96 158 112 190 120" fill="none" stroke="#c49a76" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M336 66 C308 96 282 112 250 120" fill="none" stroke="#c49a76" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- midline and umbilicus -->
+  <path d="M220 122 V196" fill="none" stroke="#c49a76" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  <ellipse cx="220" cy="158" rx="9" ry="7" fill="#c49a76" stroke="#2b241d" stroke-width="3.5"/>
+  <path d="M214 156 q6 5 12 0" fill="none" stroke="#2b241d" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+  <!-- iliac crests -->
+  <path d="M92 214 C120 232 152 242 186 246" fill="none" stroke="#c49a76" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  <path d="M348 214 C320 232 288 242 254 246" fill="none" stroke="#c49a76" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+
+  <!-- ===== liver edge and spleen tip: dashed = NOT palpable ===== -->
+  <g fill="none" stroke="#8a7c6b" stroke-width="3.4" stroke-dasharray="9 8" opacity=".72" stroke-linecap="round">
+    <path d="M112 74 C146 104 174 118 202 124"/>
+    <path d="M330 76 C312 96 296 108 276 114"/>
+  </g>
+  <text x="128" y="104" font-family="Georgia, serif" font-size="13" font-style="italic" fill="#7a6f60">liver edge</text>
+  <text x="286" y="98" font-family="Georgia, serif" font-size="13" font-style="italic" fill="#7a6f60">spleen</text>
+
+  <!-- ===== the examining hand, working round the quadrants ===== -->
+  <g>
+    <animateMotion dur="9s" repeatCount="indefinite"
+      path="M0 0 L-64 -22 L64 -22 L64 46 L-64 46 L0 0" calcMode="linear"/>
+    <g transform="translate(220,150)">
+      <!-- palm -->
+      <path d="M-30 -6 C-34 -26 -22 -36 -6 -34 L26 -30 C38 -28 42 -18 40 -8
+               C38 8 26 20 8 22 C-10 24 -26 14 -30 -6 Z"
+            fill="#e8c6a4" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+      <!-- fingers -->
+      <g fill="none" stroke="#2b241d" stroke-width="3.4" stroke-linecap="round" opacity=".75">
+        <path d="M-16 -30 L-14 -6"/><path d="M-2 -32 L0 -6"/><path d="M12 -30 L13 -8"/>
+      </g>
+      <!-- soft-press pulse: nothing gives, nothing guards -->
+      <circle cx="4" cy="-4" r="20" fill="none" stroke="#3f7d52" stroke-width="3" opacity=".55">
+        <animate attributeName="r" values="14;26;14" dur="2.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".55;0;.55" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#2b241d">
+    <text x="16" y="30" font-size="16" font-style="italic">Abdominal examination</text>
+  </g>
+
+  <rect width="440" height="320" fill="url(#agrain)"/>
+</svg>

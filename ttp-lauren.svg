@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Lauren">
+  <rect width="200" height="200" fill="#efe7da"/>
+  <!-- shoulders / hospital gown -->
+  <path d="M24 200 C30 154 60 136 100 136 C140 136 170 154 176 200 Z" fill="#b7c9cf" stroke="#2b241d" stroke-width="4"/>
+  <path d="M84 146 L100 168 L116 146" fill="none" stroke="#2b241d" stroke-width="3" opacity=".55"/>
+  <!-- neck -->
+  <path d="M86 114 h28 v30 c0 8 -28 8 -28 0 Z" fill="#e0d0c0" stroke="#2b241d" stroke-width="3.5"/>
+  <!-- long dark hair behind -->
+  <path d="M46 96 C42 46 68 22 100 22 C132 22 158 46 154 96 C152 122 150 134 146 146 C142 120 140 104 138 92 L62 92 C60 104 58 120 54 146 C50 134 48 122 46 96 Z"
+        fill="#5b4238" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+  <!-- head: markedly pale -->
+  <ellipse cx="100" cy="80" rx="44" ry="48" fill="#eadfd2" stroke="#2b241d" stroke-width="4"/>
+  <!-- pallor: cool grey wash where colour should be -->
+  <ellipse cx="76" cy="98" rx="12" ry="7" fill="#aebac0" opacity=".55"/>
+  <ellipse cx="124" cy="98" rx="12" ry="7" fill="#aebac0" opacity=".55"/>
+  <!-- fringe -->
+  <path d="M58 62 C64 34 84 26 100 26 C118 26 138 36 142 62 C130 46 114 42 100 44 C84 46 68 50 58 62 Z"
+        fill="#5b4238" stroke="#2b241d" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- frightened brows, raised inner ends -->
+  <path d="M66 62 q13 -5 25 2" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M134 62 q-13 -5 -25 2" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+  <!-- wide, unsettled eyes -->
+  <ellipse cx="82" cy="80" rx="11" ry="10" fill="#faf6f0" stroke="#2b241d" stroke-width="3.5"/>
+  <ellipse cx="118" cy="80" rx="11" ry="10" fill="#faf6f0" stroke="#2b241d" stroke-width="3.5"/>
+  <g fill="#2b241d">
+    <circle cx="82" cy="81" r="4.6"><animate attributeName="cx" values="82;79;82;85;82" dur="5s" repeatCount="indefinite"/></circle>
+    <circle cx="118" cy="81" r="4.6"><animate attributeName="cx" values="118;115;118;121;118" dur="5s" repeatCount="indefinite"/></circle>
+  </g>
+  <!-- faint scleral tinge, only if you look -->
+  <ellipse cx="76" cy="80" rx="3.4" ry="6" fill="#e6d68a" opacity=".45"/>
+  <ellipse cx="124" cy="80" rx="3.4" ry="6" fill="#e6d68a" opacity=".45"/>
+  <!-- shadowed lower lids -->
+  <path d="M73 90 q9 4 17 0" fill="none" stroke="#8b8175" stroke-width="2.5" stroke-linecap="round" opacity=".75"/>
+  <path d="M110 90 q9 4 17 0" fill="none" stroke="#8b8175" stroke-width="2.5" stroke-linecap="round" opacity=".75"/>
+  <!-- nose -->
+  <path d="M100 84 q4 10 -2 15" fill="none" stroke="#2b241d" stroke-width="3.2" stroke-linecap="round"/>
+  <!-- small uncertain mouth, slightly open -->
+  <ellipse cx="100" cy="112" rx="8" ry="5.5" fill="#a3707a" stroke="#2b241d" stroke-width="3"/>
+  <!-- petechiae at the neck, drawn small and easy to miss -->
+  <g fill="#9c3247" opacity=".85">
+    <circle cx="90" cy="132" r="1.8"/><circle cx="97" cy="137" r="1.5"/><circle cx="104" cy="131" r="1.7"/>
+    <circle cx="110" cy="138" r="1.4"/><circle cx="84" cy="139" r="1.5"/>
+  </g>
+</svg>

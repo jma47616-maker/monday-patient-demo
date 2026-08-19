@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Forearm: scattered non-blanching petechiae and small purpuric bruises">
+  <defs>
+    <linearGradient id="pskin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0dcc6"/>
+      <stop offset=".55" stop-color="#e6cfb6"/>
+      <stop offset="1" stop-color="#d4b99c"/>
+    </linearGradient>
+    <pattern id="pgrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+  </defs>
+
+  <rect width="440" height="320" fill="#f4efe6"/>
+
+  <!-- bedsheet under the arm -->
+  <path d="M0 236 C90 214 180 226 268 216 C340 208 400 218 440 210 L440 320 L0 320 Z"
+        fill="#f2ede4" stroke="#d8cdbb" stroke-width="4"/>
+
+  <!-- forearm, wrist to elbow -->
+  <path d="M44 176 C44 138 96 120 168 118 C248 116 330 122 386 132 C412 137 420 152 418 172
+           C416 194 400 206 372 210 C310 219 218 222 152 218 C88 214 44 208 44 176 Z"
+        fill="url(#pskin)" stroke="#2b241d" stroke-width="5.5" stroke-linejoin="round"/>
+  <!-- cel shading along the lower edge -->
+  <path d="M62 200 C140 216 280 218 396 198 C388 208 372 212 350 214 C280 222 180 222 120 214 C92 210 72 206 62 200 Z"
+        fill="#c9a888" opacity=".55"/>
+  <!-- the fold of the antecubital fossa -->
+  <path d="M392 142 C376 158 374 180 388 200" fill="none" stroke="#c09a79" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+  <!-- a superficial vein -->
+  <path d="M96 172 C160 160 230 164 300 158" fill="none" stroke="#8fa4bd" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+
+  <!-- ============ the petechiae: pinpoint, non-blanching ============ -->
+  <g fill="#a02c42">
+    <circle cx="104" cy="150" r="3.1"/><circle cx="122" cy="164" r="2.6"/><circle cx="138" cy="144" r="3.4"/>
+    <circle cx="152" cy="176" r="2.4"/><circle cx="168" cy="152" r="3"/><circle cx="182" cy="182" r="2.7"/>
+    <circle cx="196" cy="146" r="2.5"/><circle cx="210" cy="170" r="3.2"/><circle cx="226" cy="152" r="2.6"/>
+    <circle cx="238" cy="188" r="2.9"/><circle cx="252" cy="158" r="2.4"/><circle cx="268" cy="176" r="3.1"/>
+    <circle cx="284" cy="148" r="2.7"/><circle cx="298" cy="184" r="2.5"/><circle cx="312" cy="162" r="3"/>
+    <circle cx="328" cy="180" r="2.6"/><circle cx="342" cy="152" r="2.8"/><circle cx="356" cy="176" r="2.4"/>
+    <circle cx="88" cy="182" r="2.6"/><circle cx="116" cy="192" r="2.3"/><circle cx="160" cy="196" r="2.5"/>
+    <circle cx="204" cy="196" r="2.2"/><circle cx="258" cy="196" r="2.4"/><circle cx="316" cy="196" r="2.3"/>
+    <circle cx="366" cy="192" r="2.5"/><circle cx="130" cy="128" r="2.3"/><circle cx="216" cy="130" r="2.4"/>
+    <circle cx="290" cy="132" r="2.2"/><circle cx="348" cy="136" r="2.4"/>
+  </g>
+  <!-- larger purpuric bruises she cannot account for -->
+  <g stroke="none">
+    <ellipse cx="190" cy="164" rx="20" ry="14" fill="#7e2b46" opacity=".38"/>
+    <ellipse cx="190" cy="164" rx="12" ry="8" fill="#6d2340" opacity=".4"/>
+    <ellipse cx="300" cy="170" rx="16" ry="11" fill="#7e2b46" opacity=".34"/>
+    <ellipse cx="118" cy="176" rx="13" ry="9" fill="#7e2b46" opacity=".3"/>
+  </g>
+
+  <!-- the glass, pressed on: the spots do not fade beneath it -->
+  <g>
+    <circle cx="238" cy="168" r="54" fill="#cfe0e6" opacity=".22" stroke="#8fa9b3" stroke-width="5"/>
+    <circle cx="238" cy="168" r="54" fill="none" stroke="#faf6f0" stroke-width="2" opacity=".6"/>
+    <path d="M206 132 A54 54 0 0 1 248 116" fill="none" stroke="#faf6f0" stroke-width="6" stroke-linecap="round" opacity=".75"/>
+    <!-- the spots inside the glass, unmistakably still there -->
+    <g fill="#a02c42">
+      <circle cx="210" cy="170" r="3.2"/><circle cx="226" cy="152" r="2.7"/><circle cx="238" cy="188" r="3"/>
+      <circle cx="252" cy="158" r="2.5"/><circle cx="268" cy="176" r="3.2"/><circle cx="216" cy="130" r="2.5"/>
+      <circle cx="204" cy="196" r="2.3"/><circle cx="258" cy="196" r="2.5"/>
+    </g>
+    <ellipse cx="190" cy="164" rx="14" ry="10" fill="#7e2b46" opacity=".3"/>
+  </g>
+
+  <rect width="440" height="320" fill="url(#pgrain)"/>
+</svg>

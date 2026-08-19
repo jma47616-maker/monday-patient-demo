@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 400" role="img" aria-label="Peripheral blood film: numerous schistocytes, polychromasia and marked thrombocytopenia">
+  <defs>
+    <radialGradient id="field" cx=".5" cy=".5" r=".62">
+      <stop offset="0" stop-color="#fbf3f2"/>
+      <stop offset=".72" stop-color="#f6e9e8"/>
+      <stop offset="1" stop-color="#e8d5d6"/>
+    </radialGradient>
+    <radialGradient id="rbc" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#f2c9ba"/>
+      <stop offset=".46" stop-color="#f0c0ae"/>
+      <stop offset=".62" stop-color="#d98872"/>
+      <stop offset="1" stop-color="#c9705c"/>
+    </radialGradient>
+    <radialGradient id="poly" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#c6b6d8"/>
+      <stop offset="1" stop-color="#9a86b8"/>
+    </radialGradient>
+    <clipPath id="round"><circle cx="280" cy="200" r="192"/></clipPath>
+  </defs>
+
+  <rect width="560" height="400" fill="#f4efe6"/>
+
+  <!-- the microscope field -->
+  <circle cx="280" cy="200" r="192" fill="url(#field)" stroke="#2b241d" stroke-width="6"/>
+
+  <g clip-path="url(#round)">
+    <!-- ============ intact red cells, with central pallor ============ -->
+    <g stroke="#b1604c" stroke-width="2.2">
+      <circle cx="150" cy="120" r="21" fill="url(#rbc)"/>
+      <circle cx="352" cy="112" r="20" fill="url(#rbc)"/>
+      <circle cx="128" cy="268" r="21" fill="url(#rbc)"/>
+      <circle cx="396" cy="252" r="20" fill="url(#rbc)"/>
+      <circle cx="248" cy="330" r="21" fill="url(#rbc)"/>
+      <circle cx="300" cy="60"  r="19" fill="url(#rbc)"/>
+      <circle cx="86"  cy="196" r="20" fill="url(#rbc)"/>
+      <circle cx="452" cy="176" r="19" fill="url(#rbc)"/>
+      <circle cx="196" cy="228" r="21" fill="url(#rbc)"/>
+      <circle cx="332" cy="288" r="20" fill="url(#rbc)"/>
+    </g>
+    <g fill="#f7ddd0" opacity=".85">
+      <circle cx="150" cy="120" r="8"/><circle cx="352" cy="112" r="7.5"/><circle cx="128" cy="268" r="8"/>
+      <circle cx="396" cy="252" r="7.5"/><circle cx="248" cy="330" r="8"/><circle cx="300" cy="60" r="7"/>
+      <circle cx="86" cy="196" r="7.5"/><circle cx="452" cy="176" r="7"/><circle cx="196" cy="228" r="8"/>
+      <circle cx="332" cy="288" r="7.5"/>
+    </g>
+
+    <!-- ============ polychromasia: young, bluish-grey cells ============ -->
+    <g stroke="#7c6799" stroke-width="2.2">
+      <circle cx="214" cy="150" r="23" fill="url(#poly)"/>
+      <circle cx="380" cy="330" r="22" fill="url(#poly)"/>
+      <circle cx="120" cy="336" r="22" fill="url(#poly)"/>
+    </g>
+
+    <!-- ============ SCHISTOCYTES: the diagnosis, everywhere ============ -->
+    <!-- helmet cells and sharp-angled fragments, drawn hard-edged -->
+    <g fill="#d97e66" stroke="#a8503c" stroke-width="2.4" stroke-linejoin="round">
+      <!-- helmet cells: a bite taken out -->
+      <path d="M262 178 a20 20 0 1 1 -0.5 -0.5 l-14 16 l16 6 Z"/>
+      <path d="M170 300 a18 18 0 1 1 -0.4 -0.4 l-13 14 l14 6 Z"/>
+      <path d="M418 118 a17 17 0 1 1 -0.4 -0.4 l-12 13 l13 5 Z"/>
+      <!-- triangular / angular fragments -->
+      <path d="M300 210 L326 200 L316 230 Z"/>
+      <path d="M112 152 L138 146 L128 174 Z"/>
+      <path d="M226 262 L254 254 L242 284 Z"/>
+      <path d="M362 200 L390 194 L376 220 Z"/>
+      <path d="M186 88  L212 84  L200 110 Z"/>
+      <path d="M280 118 L306 128 L282 146 Z"/>
+      <path d="M148 210 L172 200 L166 228 Z"/>
+      <path d="M330 154 L354 148 L344 174 Z"/>
+      <path d="M404 288 L428 282 L416 308 Z"/>
+      <path d="M232 200 L252 192 L246 216 Z"/>
+      <path d="M92 240 L114 232 L108 258 Z"/>
+      <path d="M356 246 L378 240 L368 264 Z"/>
+      <!-- crescent / sickle-shaped fragments -->
+      <path d="M270 280 q22 -6 30 12 q-16 -6 -30 -12 Z"/>
+      <path d="M158 168 q22 -6 30 12 q-16 -6 -30 -12 Z"/>
+      <path d="M310 340 q22 -6 30 12 q-16 -6 -30 -12 Z"/>
+    </g>
+
+    <!-- ============ one neutrophil, for scale and normality ============ -->
+    <g>
+      <circle cx="290" cy="256" r="26" fill="#e9e2f2" stroke="#6f6188" stroke-width="2.4"/>
+      <g fill="#6a4f86">
+        <ellipse cx="280" cy="248" rx="10" ry="8"/>
+        <ellipse cx="298" cy="258" rx="9" ry="7.5"/>
+        <ellipse cx="288" cy="268" rx="8" ry="6.5"/>
+        <path d="M286 252 q6 4 8 8" stroke="#6a4f86" stroke-width="3" fill="none"/>
+      </g>
+    </g>
+
+    <!-- ============ platelets: you have to hunt for them ============ -->
+    <g fill="#8a5f8f" stroke="#5f3f66" stroke-width="1.4">
+      <circle cx="132" cy="96" r="4.2"/>
+      <circle cx="424" cy="330" r="3.8"/>
+    </g>
+  </g>
+
+  <!-- vignette and rim -->
+  <circle cx="280" cy="200" r="192" fill="none" stroke="#2b241d" stroke-width="6"/>
+
+  <!-- annotations, in the house voice -->
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="15" fill="#2b241d">
+    <text x="16" y="30" font-size="16" font-style="italic">Peripheral blood film · ×100 oil</text>
+  </g>
+  <g stroke="#2b241d" stroke-width="2.4" fill="none">
+    <path d="M300 210 L466 74"/>
+    <path d="M290 256 L500 300"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#2b241d">
+    <rect x="404" y="52" width="150" height="26" rx="6" fill="#faf6f0" stroke="#2b241d" stroke-width="2"/>
+    <text x="479" y="70" text-anchor="middle">red cell fragments</text>
+    <rect x="440" y="288" width="112" height="26" rx="6" fill="#faf6f0" stroke="#2b241d" stroke-width="2"/>
+    <text x="496" y="306" text-anchor="middle">neutrophil</text>
+  </g>
+</svg>
