@@ -42,7 +42,8 @@ a{color:var(--accent-2)}
 h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height:1.1}
 .brand,.m-brand{display:flex;align-items:center;gap:.5rem}
 .mp-mark{height:1.25em;width:auto;flex:none}
-.brand span,.m-brand span{white-space:nowrap}
+.brand span,.m-brand span{white-space:nowrap;position:relative;padding-bottom:.55em}
+.wm-ecg{position:absolute;left:0;right:0;bottom:0;height:auto;display:block}
 @media (max-width:479px){ .m-brand span{display:none} .m-brand .mp-mark{height:1.7em} }
 .mp-lockup{display:block;width:min(20rem,80%);height:auto;margin:0 auto var(--s4)}
 .mono{font-family:var(--fm)}
@@ -85,7 +86,7 @@ h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height
 .side{display:none}
 @media(min-width:860px){
   .side{display:block;position:sticky;top:0;height:100dvh;padding:var(--s6) 0;overflow:auto}
-  .side .brand{font-family:var(--fd);font-weight:600;font-size:1.25rem;padding:0 var(--s3);margin-bottom:var(--s6)}
+  .side .brand{font-family:var(--fd);font-weight:600;font-size:1.05rem;padding:0 var(--s3);margin-bottom:var(--s6)}
   .side .brand em{font-style:italic;color:var(--accent)}
   .nav{display:flex;flex-direction:column;gap:var(--s1)}
   .nav button{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;background:transparent;border:none;color:var(--muted);font-size:.95rem;font-weight:500;padding:var(--s3);border-radius:var(--r-md)}
@@ -252,7 +253,7 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 <!-- ============ LOGIN ============ -->
 <section id="login">
   <div class="loginbox">
-    <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em></span></div>
+    <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
     <h1>Welcome back</h1>
     <p>Sign in to save your progress, earn CPD, and see where you sit on the cohort leaderboard.</p>
     <div id="step-email">
@@ -280,13 +281,13 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 <section id="app">
   <div class="wrap">
     <aside class="side">
-      <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em></span></div>
+      <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <nav class="nav" id="nav-d"></nav>
       <div class="who"><b id="who-name">—</b><span id="who-cohort"></span><br><button id="editprof-d">Edit profile</button> · <button id="signout-d">Sign out</button></div>
     </aside>
     <main>
       <div class="topbar">
-        <div class="m-brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em></span></div>
+        <div class="m-brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
         <div class="prof" id="prof">
           <button class="profbtn" id="acctBtn" aria-haspopup="true" aria-expanded="false">Profile <span class="car" aria-hidden="true">▼</span></button>
           <div class="profmenu" id="profMenu" role="menu">
@@ -327,7 +328,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.10';
+const APP_VERSION='1.0.11';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
