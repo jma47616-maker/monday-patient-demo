@@ -306,12 +306,6 @@ audio.ausc { display: block; width: 100%; max-width: 320px; margin-top: var(--s3
 .media { margin-top: var(--s3); }
 .ausclab { font-size: .78rem; color: var(--muted); }
 .machine { font-family: var(--font-mono); font-size: .74rem; color: var(--muted); letter-spacing: .01em; }
-.auscq { font-size: .82rem; font-weight: 600; color: var(--ink); margin: var(--s3) 0 var(--s2); }
-.auscopts { display: flex; flex-direction: column; gap: var(--s2); }
-.auscopt { text-align: left; min-height: 44px; padding: var(--s2) var(--s3); background: var(--paper); color: var(--ink); border: 1px solid var(--rule-2); border-radius: var(--r-md); font-size: .88rem; cursor: pointer; }
-@media (hover:hover){ .auscopt:hover { background: var(--paper-3); border-color: var(--accent); } }
-.auscopt:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
-.auscdone { font-family: var(--font-display); font-size: .95rem; color: var(--ink-2); background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 0 var(--r-md) var(--r-md) 0; padding: var(--s2) var(--s3); }
 .ixask { display: flex; align-items: center; gap: var(--s2); margin-top: var(--s2); flex-wrap: wrap; }
 .ixask label { font-size: .76rem; color: var(--muted); }
 .ixask input { flex: 1; min-width: 9rem; min-height: 40px; padding: 0 var(--s3); background: var(--paper); color: var(--ink); border: 1px solid var(--rule-2); border-radius: var(--r-sm); font-size: .88rem; }
@@ -768,8 +762,6 @@ const CASE = {
     a:"Sophie: “A stone. Maybe more. His wedding ring turns right round on him now.”", tag:"ie" },
   { id:"chest",  q:"Any chest pain?", dq:"Any pain in your chest at all?",
     a:"“On and off. Comes for a minute, goes. Worse when I breathe in deep, or if I twist. It's not the heart sort — I can press on it and set it off.”", key:true },
-  { id:"dental", q:"Any dental work?", dq:"Have you had any dental treatment recently?",
-    a:"“Had a molar out. Five, six weeks back. Right job it was, he was pulling for ages. Healed up fine though.”", key:true, tag:"ie" },
   { id:"vision", q:"Vision changes?", dq:"Anything odd with your eyes?",
     a:"“One went dark. Left one. Like a blind coming down — minute, maybe less, then it came back. I forgot about it till you asked.”", key:true },
   { id:"gut",    q:"Sickness & bowels?", dq:"What about your stomach — any sickness or loose motions?",
@@ -801,7 +793,7 @@ const CASE = {
     f:"Pulse 125, regular, and unusually full — it collapses away under your fingers. JVP not raised. Apex not displaced." },
   { id:"resp", name:"Respiratory", sub:"listen", key:true, media:"bs",
     f:"Respiratory rate 26. Expansion equal, percussion resonant throughout." },
-  { id:"abdo", name:"Abdomen", f:"Soft. No guarding, no rebound. Bowel sounds present." },
+  { id:"abdo", name:"Abdomen", sub:"palpate", f:"", img:"mi-abdo-exam.svg", imgOnly:true, imgAlt:"Abdominal examination" },
   { id:"cns",  name:"Neurological", f:"Alert and orientated, GCS 15. No focal deficit. Power 5/5 throughout." }
 ],
 
@@ -812,7 +804,7 @@ const CASE = {
     aliases:["peripheral stigmata","stigmata","peripheral signs","embolic signs","splinter haemorrhages","splinter hemorrhages","splinter haemorrhage","splinters","oslers nodes","osler nodes","osler node","oslers node","nails","nailbeds","nail beds","fingernails","stigmata of infective endocarditis","endocarditis stigmata","infective endocarditis stigmata"] },
 
   { id:"spine", name:"Palpate and percuss the spine", key:true, tone:"alert",
-    f:"Focal, reproducible tenderness over the L4–L5 spinous processes — he flinches and grips the side of the trolley. Paraspinal muscles in spasm either side. No step, no deformity, no overlying redness.",
+    img:"mi-back.svg", imgAlt:"The back, examined from behind", f:"Focal, reproducible tenderness over the L4–L5 spinous processes — he flinches and grips the side of the trolley. Paraspinal muscles in spasm either side. No step, no deformity, no overlying redness.",
     aliases:["back","his back","the back","examine his back","examine the back","lower back","low back","back pain","lumbar","spine","spinal examination","spinal tenderness","spinal percussion","spinous processes","percuss the spine","percuss the vertebrae","vertebrae","vertebral tenderness","lumbar spine","lumbar tenderness","midline tenderness","tenderness over l4 l5"] },
 
   { id:"temp", name:"Temperature chart", key:true, tone:"alert",
@@ -970,6 +962,7 @@ const CASE = {
         img:"mi-ecg-today.jpg", imgAlt:"12-lead ECG recorded on arrival",
         note:"Machine header — rate 125 · PR 152 ms · QRS 94 ms · QT/QTc 402/476 ms.",
         aliases:["ecg","12 lead ecg","twelve lead ecg","electrocardiogram","ekg","cardiac tracing","do an ecg"],
+        withPrior:true,   // the comparison tracing comes up with it
         // he is complaining of chest pain, so the nurse repeats it without being asked
         followUp:{ id:"ecg2", delay:20, name:"Repeat 12-lead ECG · 20 minutes later",
           note:"Recorded automatically by the nursing staff — he was still complaining of chest pain, so the tracing was repeated. Machine header — rate 118 · PR 154 ms · QRS 96 ms · QT/QTc 396/456 ms.",
@@ -1204,7 +1197,7 @@ const CASE = {
 
       { id:"tte",  name:"Transthoracic echocardiogram", cost:90, costL:"90 min", tag:"key",
         aliases:["echo","echocardiogram","tte","transthoracic echo","transthoracic echocardiogram","bedside echo","cardiac echo","echocardiography"],
-        text:"Portable study on the resus trolley. Parasternal and apical windows poor — he is tachypnoeic and will not lie still. Left ventricle non-dilated, systolic function preserved. Aortic valve trileaflet with moderate aortic regurgitation on colour Doppler. A possible mobile echodensity is seen on the non-coronary cusp but cannot be resolved at this image quality. Reporting note: image quality is poor and an equivocal transthoracic study does not exclude endocarditis — transoesophageal imaging is advised." },
+        text:"Portable study on the resus trolley, in a tachypnoeic man who will not lie still. Parasternal and apical windows are poor. Left ventricle non-dilated with preserved systolic function. Aortic valve trileaflet, with moderate aortic regurgitation on colour Doppler. <b>The study is not diagnostic for vegetations at this image quality and no comment can be made either way.</b> Formal departmental echocardiography requested — the list runs from eight tomorrow morning." },
 
       { id:"toe",  name:"Transoesophageal echocardiogram", cost:180, costL:"3 h", tag:"key",
         aliases:["toe","transoesophageal echo","transoesophageal echocardiogram","tee","transesophageal echo","oesophageal echo","toe echo"],
@@ -1406,7 +1399,6 @@ const S = {
   asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), reexamCount: 0,
-  interp: {},            // what they committed to hearing, judged only at the outcome
   cultSets: null,        // how many sets they asked for on ICE
   dx: "", dxCorrect: false, dxPart: false, dxCardiac: false, dxAttempts: [], pushedOn: false,
   mg: {}, mgIdx: 0,
@@ -1603,25 +1595,11 @@ function mediaHTML(e){
    carelessly costs you something without ever telling you so. */
 function mediaBlock(key){
   const m = MEDIA[key]; if(!m) return "";
-  const done = S.interp[key];
   let h = `<div class="media" data-mk="${key}">`+
     `<div class="ausclab">${m.label} — press play, headphones if you have them</div>`+
     `<audio class="ausc" controls preload="none" src="${m.audio}" data-fallback="${esc(m.fallback||"")}"></audio>`;
-  const order = m.opts.map((_,i)=>i);
-  for(let k=order.length-1;k>0;k--){ const r=Math.floor(Math.random()*(k+1)); [order[k],order[r]]=[order[r],order[k]]; }
-  h += `<div class="auscq">${m.q}</div><div class="auscopts">`;
-  if(done===undefined){
-    order.forEach(i=>{ h += `<button type="button" class="auscopt" data-mk="${key}" data-i="${i}">${m.opts[i].t}</button>`; });
-  } else {
-    h += `<div class="auscdone">Recorded: “${esc(m.opts[done].t)}”</div>`;
-  }
-  return h + `</div></div>`;
+  return h + `</div>`;   // the sound is the finding; nobody asks you to caption it
 }
-document.addEventListener("click", ev=>{
-  const b = ev.target.closest(".auscopt"); if(!b) return;
-  S.interp[b.dataset.mk] = +b.dataset.i;   // silently recorded; judged at the outcome
-  renderExam();
-});
 /* a missing sound degrades honestly to a bedside text finding */
 document.addEventListener("error", ev=>{
   const t = ev.target;
@@ -1875,6 +1853,13 @@ function processRound(){
     else body = `<div class="labtext">${x.textFn ? x.textFn() : x.text}</div>`;
     // a tracing needs the machine's own header as well as the film
     if(x.note) body = `<div class="labtext"><span class="machine">${x.note}</span></div>` + body;
+    if(x.withPrior){
+      // no one reads a tracing in isolation — the old one comes up beside it
+      const prior = findIx("oldecg");
+      S.ordered.add("oldecg");
+      body += `<div class="labtext" style="margin-top:var(--s4)"><span class="machine">${prior.note}</span></div>`+
+              `<div class="finding"><img class="wide" src="${prior.img}" alt="${prior.imgAlt||''}"></div>`;
+    }
     const label = x.asksSets ? `${x.name} · ${(parseSets(S.cultSets)||1)===1?"one set":(parseSets(S.cultSets)===2?"two sets":"three sets")}` : x.name;
     d.innerHTML=`<div class="rn">${label}</div>${body}`;
     feed.appendChild(d);
@@ -2358,10 +2343,6 @@ function scoreAndShow(){
   if(referFull) add("Referred with the picture complete", 8);
   else if(S.rx.has("refer")) add("Referred — picture incomplete", 3);
   // listening carelessly costs something, quietly
-  let reads=0, misreads=0;
-  Object.keys(S.interp).forEach(k=>{ const m=MEDIA[k]; if(!m) return; (m.opts[S.interp[k]]||{}).ok ? reads++ : misreads++; });
-  if(reads) add(`Auscultation read correctly (${reads})`, reads*4);
-  if(misreads) add(`Auscultation misread (${misreads})`, misreads*-3);
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} care-bundle domains`, S.bundleCovered*4);
 
   if(S.died){
