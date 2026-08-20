@@ -1936,13 +1936,13 @@ const PLAN_ITEMS = {
   iv:      { label:"IV access and cardiac monitoring", rx:"iv", aliases:["two large bore cannulae","large bore cannulae","large bore access","continuous cardiac monitoring","cardiac monitoring","cardiac monitor","telemetry","iv access","bloods away","cannulate him","cannulate","wide bore cannula","ivi"] },
 
   /* --- Resuscitate --- */
-  fluid:   { label:"Measured fluid boluses", rx:"fluid", aliases:["250 500 ml boluses","250 to 500 ml boluses","500 ml boluses","500ml boluses","250ml boluses","measured fluid boluses","small fluid boluses","cautious fluid resuscitation","careful fluid resuscitation","fluid challenge with reassessment","reassess after each bolus","crystalloid boluses","balanced crystalloid","fluid bolus","fluid challenge","hartmanns","plasmalyte","crystalloid","iv fluids","iv fluid","fluid resuscitation"] },
+  fluid:   { label:"Measured fluid boluses", rx:"fluid", aliases:["ivi bolus","ivi boluses","ivi","iv fluid bolus","iv fluids bolus","fluid bolus","fluid boluses","crystalloid bolus","250 500 ml boluses","250 to 500 ml boluses","500 ml boluses","500ml boluses","250ml boluses","measured fluid boluses","small fluid boluses","cautious fluid resuscitation","careful fluid resuscitation","fluid challenge with reassessment","reassess after each bolus","crystalloid boluses","balanced crystalloid","fluid bolus","fluid challenge","hartmanns","plasmalyte","crystalloid","iv fluids","iv fluid","fluid resuscitation"] },
   flood:   { label:"Two litres of crystalloid, wide open", rx:"flood", danger:true, aliases:["two litres of crystalloid wide open","two litres of fluid wide open","2 litres of crystalloid","two litres of crystalloid","two litres of fluid","2 litres of fluid","aggressive fluid resuscitation","large volume fluid resuscitation","fluid wide open","fluids wide open","wide open","30 ml kg","30ml kg","litres of saline","fill him up","flood him"] },
   o2:      { label:"Oxygen, titrated", rx:"o2t", aliases:["oxygen only if saturations fall below 90","oxygen only if sats drop below 90","oxygen if saturations below 90","oxygen if sats below 90","titrate the oxygen","titrate oxygen","controlled oxygen","target saturations 94 98","supplemental oxygen","high flow oxygen","oxygen","o2"] },
   cath:    { label:"Catheter and urine output", rx:"cath", aliases:["hourly urine output","monitor urine output","strict fluid balance","urinary catheter","catheterise him","catheterise","catheter"] },
 
   /* --- Antimicrobial --- */
-  vanc:    { label:"IV vancomycin", rx:"abx2", aliases:["iv vancomycin","vancomycin loading dose","empirical antibiotics","empiric antibiotics","start antibiotics","iv antibiotics","vancomycin","teicoplanin","daptomycin","antibiotics","vanc"] },
+  vanc:    { label:"IV vancomycin", rx:"abx2", aliases:["abx after cultures as per ie guidelines","antibiotics after cultures as per ie guidelines","abx as per ie guidelines","antibiotics as per ie guidelines","abx as per guidelines","antibiotics as per guidelines","antibiotics as per the guidelines","abx after cultures","antibiotics after cultures","antibiotics after the cultures","empirical antibiotics","antibiotics per protocol","iv vancomycin","vancomycin loading dose","empirical antibiotics","empiric antibiotics","start antibiotics","iv antibiotics","vancomycin","teicoplanin","daptomycin","antibiotics","vanc"] },
   abxfirst:{ label:"Antibiotics before the cultures", rx:"abx", danger:true, aliases:["antibiotics before the cultures","antibiotics before cultures","give the antibiotics now","give antibiotics now","empirical antibiotics now","start antibiotics now","antibiotics straight away","antibiotics immediately",/* apostrophes survive the parser's sanitiser, so both spellings are needed */
     "do not wait for the cultures","don't wait for the cultures","do not wait for cultures","dont wait for the cultures","don't wait for cultures","dont wait for cultures","iv antibiotics now","antibiotics first"] },
   pen:     { label:"A penicillin-based regimen",
@@ -2045,11 +2045,11 @@ const BUNDLE = [
     why:"ESC 2023: with severe penicillin allergy, vancomycin is the empirical backbone for a native valve. A beta-lactam is not an option in a man who came out in a rash head to toe — and no antibiotic at all is a plan that ends in a valve." },
 
   { k:"Image the valve and the spine", want:"Echo, escalated to TOE — and a whole-spine MRI for the back pain",
-    ok:(m)=> (m.has("toe") || S.ordered.has("toe")) && (m.has("mri") || S.ordered.has("mri")),
+    ok:(m)=> (m.has("toe") || S.ordered.has("toe") || m.has("tte") || S.ordered.has("tte")) && (m.has("mri") || S.ordered.has("mri")),
     why:"A transthoracic study misses about half of native-valve vegetations, so an equivocal one settles nothing — TOE is how the question gets answered. And focal spinal pain in a bacteraemic patient is discitis until an MRI of the <i>whole</i> spine says otherwise; skip lesions are common and they change the operation." },
 
   { k:"Refer and escalate", want:"Cardiology and the regional endocarditis / cardiac surgical team tonight, into a monitored bed",
-    ok:(m)=> m.has("endo") && (m.has("cards") || m.has("micro")) && (m.has("bed") || S.rx.has("ccu") || m.has("itu")),
+    ok:(m)=> (m.has("cards") || m.has("endo") || S.rx.has("refer")) && (m.has("bed") || S.rx.has("ccu") || m.has("itu")),
     why:"There is no cardiac surgeon in this building. ESC 2023 asks that suspected endocarditis is discussed with an endocarditis team at a surgical centre <b>early</b> — not when the valve fails at four in the morning. And with that blood pressure and that tracing, he is not going to a side room on a general ward." }
 ];
 function chartHTML(){
