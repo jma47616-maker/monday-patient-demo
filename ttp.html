@@ -724,7 +724,17 @@ IV fluids
    To build week 2, copy this block and refill it.
    ============================================================ */
 const CASE = {
-  meta: { dxAccepted: ["ttp","thrombotic thrombocytopenic purpura","immune ttp","ittp","acquired ttp","immune mediated ttp","immune thrombotic thrombocytopenic purpura","acquired thrombotic thrombocytopenic purpura","thrombotic thrombocytopaenic purpura","maha secondary to ttp","thrombotic microangiopathy ttp"],
+  /* The diagnosis is free text, so it is JUDGED, not looked up. Exact matching failed
+     "Likely TTP", "TTP (immune)" and "thrombotic thrombocytopenic purpura (TTP)" — killing
+     the patient for punctuation. dxAny = any one token is enough; dxAll = every word of a
+     group; dxNever blocks the near-misses that share vocabulary (ITP is written
+     "immune thrombocytopenic purpura", which is why "thrombotic" is always required). */
+  meta: { dxAny: ["ttp","ittp","moschcowitz","moschkowitz"],
+          dxAll: [["thrombotic","thrombocytopenic"],["thrombotic","thrombocytopaenic"]],
+          dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against"],
+          /* trailing form, and it must be adjacent: "TTP excluded" is a denial, but
+             "TTP - no evidence of DIC" is still a commitment to TTP */
+          dxPostNegators: ["excluded","ruled out","unlikely","improbable","not the diagnosis"],
           dxName: "Thrombotic thrombocytopenic purpura", startClock: 1210 /* 20:10 in minutes */,
           /* The source case says only "her partner" — no name, no gender. Her girlfriend is
              drawn as written; put a first name here when we have one and it appears
@@ -1104,7 +1114,7 @@ const CASE = {
         { t:"A nitrofurantoin side effect", ok:false } ],
       teach:"The dipstick reads “blood” because it detects <b>haem</b>, and it cannot tell red cells from free haemoglobin. Microscopy showed <b>no erythrocytes</b> — so there were no red cells to see, only the pigment from cells being destroyed in her small vessels. Add the raised urobilinogen and the dark brown colour and you have <b>haemoglobinuria</b>. She had no dysuria, no frequency, no fever and negative cultures: there was never a urinary tract infection. The disease had been announcing itself for three days, and the antibiotic was treating a diagnosis that did not exist." }
   ],
-  conditions: ["Thrombotic thrombocytopenic purpura","Haemolytic uraemic syndrome","Atypical (complement-mediated) HUS","Disseminated intravascular coagulation","Immune thrombocytopenic purpura","Evans syndrome","Autoimmune haemolytic anaemia","Drug-induced immune haemolysis","G6PD deficiency haemolysis","Aplastic anaemia","Acute leukaemia","Myelodysplastic syndrome","Paroxysmal nocturnal haemoglobinuria","Hereditary spherocytosis","Sickle cell crisis","Megaloblastic anaemia","Antiphospholipid syndrome","Catastrophic antiphospholipid syndrome","Systemic lupus erythematosus","Scleroderma renal crisis","HELLP syndrome","Pre-eclampsia","Malignant hypertension","Posterior reversible encephalopathy syndrome","Cerebral venous sinus thrombosis","Cerebral vasculitis","Herpes simplex encephalitis","Autoimmune encephalitis","Viral encephalitis","Neuroleptic malignant syndrome","Serotonin syndrome","Haemophagocytic lymphohistiocytosis","Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia"]
+  conditions: ["Thrombotic thrombocytopenic purpura","Haemolytic uraemic syndrome","Atypical (complement-mediated) HUS","Disseminated intravascular coagulation","Immune thrombocytopenic purpura","Evans syndrome","Autoimmune haemolytic anaemia","Drug-induced immune haemolysis","G6PD deficiency haemolysis","Aplastic anaemia","Acute leukaemia","Myelodysplastic syndrome","Paroxysmal nocturnal haemoglobinuria","Hereditary spherocytosis","Sickle cell crisis","Megaloblastic anaemia","Antiphospholipid syndrome","Catastrophic antiphospholipid syndrome","Systemic lupus erythematosus","Scleroderma renal crisis","HELLP syndrome","Pre-eclampsia","Malignant hypertension","Posterior reversible encephalopathy syndrome","Cerebral venous sinus thrombosis","Cerebral vasculitis","Herpes simplex encephalitis","Autoimmune encephalitis","Viral encephalitis","Neuroleptic malignant syndrome","Serotonin syndrome","Haemophagocytic lymphohistiocytosis","Upper GI bleed","Lower GI bleed","Bleeding peptic ulcer","Variceal bleed","Mallory-Weiss tear","Oesophagitis","Gastritis","Acute coronary syndrome","Myocardial infarction","Unstable angina","Cardiac arrhythmia","Atrial fibrillation","Ventricular tachycardia","Complete heart block","Aortic stenosis","Pulmonary embolism","Aortic dissection","Vasovagal syncope","Orthostatic hypotension","Hypovolaemia","Sepsis","Seizure","Epilepsy","Transient ischaemic attack","Stroke","Subarachnoid haemorrhage","Subdural haematoma","Hypoglycaemia","Diabetic ketoacidosis","Hyperosmolar hyperglycaemic state","Addisonian crisis","Anaphylaxis","Acute kidney injury","Hyperkalaemia","Hyponatraemia","Pancreatitis","Cholangitis","Cholecystitis","Mesenteric ischaemia","Bowel obstruction","Appendicitis","Ruptured AAA","Pneumonia","COPD exacerbation","Asthma","Pulmonary oedema","Heart failure","Pericarditis","Myocarditis","Tension pneumothorax","Pneumothorax","Meningitis","Encephalitis","Giant cell arteritis","Migraine","Delirium","Dementia","Alcohol withdrawal","Wernicke encephalopathy","Hepatic encephalopathy","Decompensated liver disease","Paracetamol overdose","Opioid overdose","Tricyclic overdose","Carbon monoxide poisoning","Thyroid storm","Myxoedema coma","Phaeochromocytoma","Cushing syndrome","Malaria","Typhoid","Dengue","Tuberculosis","Infective endocarditis","Urinary tract infection","Pyelonephritis","Cellulitis","Necrotising fasciitis","Septic arthritis","Gout","Rheumatoid flare","Polymyalgia rheumatica","Cord compression","Cauda equina syndrome","Guillain-Barre syndrome","Myasthenic crisis","Status epilepticus","Raised intracranial pressure","Cardiac tamponade","Constrictive pericarditis","Rhabdomyolysis","Tumour lysis syndrome","Anaemia of chronic disease","Iron deficiency anaemia","Haemolytic anaemia","Meningococcal septicaemia","Meningococcal meningitis","Listeria meningoencephalitis","Tuberculous meningitis","Brain abscess","Subdural empyema","Neurosyphilis","Lyme neuroborreliosis","Toxic shock syndrome","Leptospirosis","Viral haemorrhagic fever","Cerebral malaria","Spondylodiscitis","Epidural abscess","Vertebral osteomyelitis","Discitis","Psoas abscess","Pyomyositis","Heparin-induced thrombocytopenia","Vaccine-induced immune thrombotic thrombocytopenia","Acute promyelocytic leukaemia","Cold agglutinin disease","Aplastic crisis","Bone marrow infiltration","Myelofibrosis","Hypersplenism","IgA vasculitis (Henoch-Schonlein purpura)","ANCA-associated vasculitis","Cryoglobulinaemia","Scurvy","Senile purpura","Steroid purpura","Disseminated gonococcal infection","Fat embolism syndrome","Eclampsia","Acute intermittent porphyria","Autoimmune encephalitis (NMDA receptor)","DRESS syndrome","Stevens-Johnson syndrome","Adrenal crisis","Sagittal sinus thrombosis","Functional neurological disorder","Acute psychosis","Encephalopathy of unknown cause"]
 };
 
 /* ============================================================
@@ -1233,6 +1243,24 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
 
 /* ---------- datalist (shuffled — no positional hints) ---------- */
 $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>`<option value="${c}">`).join("");
+
+/* ---------- judging the committed diagnosis ---------- */
+/* Free text, so read what they wrote rather than matching a menu entry. */
+function judgeDx(raw){
+  const t = " " + norm(raw) + " ";
+  const B = "\\";                       // one backslash, for building word boundaries
+  const has = w => new RegExp(B + "b" + w + B + "b").test(t);
+  const m = CASE.meta;
+  // "HUS, not TTP" is not a commitment to TTP
+  const claim = [...(m.dxAny || []), "thrombotic"].join("|");
+  const denied = (m.dxNegators || []).some(n => new RegExp(
+    B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")" + B + "b").test(t));
+  const trailed = (m.dxPostNegators || []).some(n => new RegExp(
+    "(?:" + claim + ")" + B + "s+" + n + B + "b").test(t));
+  if (denied || trailed) return false;
+  if ((m.dxAny || []).some(has)) return true;
+  return (m.dxAll || []).some(group => group.every(has));
+}
 
 /* ---------- history (chat) ---------- */
 let hxBusy = false;
@@ -1865,7 +1893,7 @@ $("#commitBtn").onclick = ()=>{
   const v=$("#dxInput").value.trim();
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
-  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dx=v; S.dxCorrect = judgeDx(v);
   S.dxCommitted = true;
   // a wrong diagnosis is not survivable here — she is treated for the wrong thing and never exchanged
   if(!S.dxCorrect){ S.died = true; showDeath(); return; }
