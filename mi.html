@@ -619,7 +619,7 @@ IV fluids
     <section class="screen" id="s-commit">
       <div class="kicker">Diagnosis</div>
       <h2>Commit your diagnosis</h2>
-      <p class="lede">No list to pick from. Name it the way you'd write it in the notes.</p>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes — and more than one thing is true tonight. The marking is scaled: every diagnosis left unnamed costs marks.</p>
       <div class="field" style="margin-top:var(--s5);">
         <label for="dxInput">Final diagnosis</label>
         <div class="hint">Type it — the box will suggest matches.</div>
@@ -736,7 +736,15 @@ IV fluids
    ============================================================ */
 const CASE = {
   meta: {
-  dxAccepted: ["infective endocarditis","endocarditis","bacterial endocarditis","native valve endocarditis","subacute bacterial endocarditis","sbe","acute infective endocarditis","aortic valve endocarditis","infective endocarditis with septic emboli","septic emboli","septic embolism","aortic endocarditis","ie"],
+  /* judged by judgeDx(), not looked up — dxAny: any one token saves him; dxAll: every word of a
+     group. "IE with spondylodiscitis" is a save; "sepsis, endocarditis excluded" is not. */
+  dxAny: ["endocarditis","sbe","ie"],
+  dxAll: [["septic","emboli"],["septic","embolism"],["septic","embolus"]],
+  /* the two co-diagnoses — naming the valve alone survives, but each of these left unnamed costs */
+  dxSepsis: ["sepsis","septicaemia","septicemia","bacteraemia","bacteremia","septic shock"],
+  dxSpine: ["spondyl\\w*","discitis","osteomyelitis","epidural abscess"],
+  dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against"],
+  dxPostNegators: ["excluded","ruled out","unlikely","improbable","not the diagnosis"],
   // named a real part of it — the spine, the infarct, the sepsis — without the valve underneath
   dxPartial: ["acute coronary syndrome","acs","myocardial infarction","mi","acute mi","acute myocardial infarction","nstemi","stemi","anterior stemi","anterolateral stemi","anterior mi","heart attack","coronary embolism","septic coronary embolism","spondylodiscitis","discitis","vertebral osteomyelitis","osteomyelitis","epidural abscess","spinal epidural abscess","sepsis","septic shock","bacteraemia","bacteremia","septicaemia","sepsis of unknown source"],
   // puts the heart in the frame at all — only these open a cardiology referral
@@ -1400,7 +1408,7 @@ const S = {
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), reexamCount: 0,
   cultSets: null,        // how many sets they asked for on ICE
-  dx: "", dxCorrect: false, dxPart: false, dxCardiac: false, dxAttempts: [], pushedOn: false,
+  dx: "", dxCorrect: false, dxPart: false, dxSepsis: false, dxSpine: false, dxCardiac: false, dxAttempts: [], pushedOn: false,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
   planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
@@ -2197,11 +2205,27 @@ $("#toCommit").onclick = ()=>{
 };
 $("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
 $("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
+/* Free text, so read what they wrote rather than matching a menu entry. A token only counts
+   when it is not negated — naming the valve to exclude it does not commit to it. */
+function judgeDx(raw){
+  const t = " " + norm(raw) + " ";
+  const m = CASE.meta;
+  const negated = w =>
+    (m.dxNegators||[]).some(n => new RegExp("\\b"+n+"\\s+(?:\\w+\\s+){0,2}?"+w+"\\b").test(t)) ||
+    (m.dxPostNegators||[]).some(n => new RegExp("\\b"+w+"\\b\\s+(?:\\w+\\s+){0,1}?(?:"+n+")\\b").test(t));
+  const has = w => new RegExp("\\b"+w+"\\b").test(t) && !negated(w);
+  const correct = (m.dxAny||[]).some(has) || (m.dxAll||[]).some(g => g.every(has));
+  const partial = !correct && (m.dxPartial||[]).some(has);
+  const sepsis  = (m.dxSepsis||[]).some(has);
+  const spine   = (m.dxSpine||[]).some(has);
+  return { correct, partial, sepsis, spine };
+}
 $("#commitBtn").onclick = ()=>{
   const v=$("#dxInput").value.trim();
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
-  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dx=v; const j=judgeDx(v); S.dxCorrect=j.correct; S.dxPart=j.partial;
+  S.dxSepsis=j.sepsis; S.dxSpine=j.spine;
   S.dxCommitted = true;
   // a wrong diagnosis is not survivable here — the valve is never sterilised and he keeps embolising
   if(!S.dxCorrect){ S.died = true; showDeath(); return; }
@@ -2310,27 +2334,32 @@ function scoreAndShow(){
   const rows=[]; let total=0;
   const add=(l,p)=>{ rows.push([l,p]); total+=p; };
 
-  add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
+  add("Final diagnosis"+(S.dxCorrect?" — the endocarditis named":` — “${S.dx}”`), S.dxCorrect?40:0);
+  if(S.dxCorrect && !S.dxSepsis) add("The sepsis — never named alongside the valve", -8);
+  if(S.dxCorrect && !S.dxSpine) add("The spondylodiscitis — never named alongside the valve", -8);
 
-  let keys=0;
-  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
-  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
-  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
-  ["ecg","oldecg","ecg2","vbg","dip","fbc","ue","crp","trop","trop2","cult","tte","toe","mri","cta"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
-  add(`Discriminators gathered (${keys})`, keys*3);
+  let keys=0, keyMax=0;
+  const mark=hit=>{ keyMax++; if(hit) keys++; };
+  CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
+  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
+  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
+  ["ecg","oldecg","ecg2","vbg","dip","fbc","ue","crp","trop","trop2","cult","tte","toe","mri","cta"].forEach(id=>mark(S.ordered.has(id)));
+  add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
+
+  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
+  if(missedEx.length) add(`Key examinations never performed (${missedEx.length})`, -3*missedEx.length);
+  if(!S.ordered.has("cult")) add("Blood cultures never sent", -5);
+  if(!S.ordered.has("tte") && !S.ordered.has("toe")) add("The valve never imaged", -5);
+  if(!S.ordered.has("mri")) add("The spine never imaged", -5);
 
   let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
   if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
 
   const sets = parseSets(S.cultSets);
-  if(S.ordered.has("cult") && !S.rx.has("abx")) add("Cultures taken before antibiotics", 8);
-  if(sets>=3) add("Three sets, separate sites", 6);
-  else if(sets===2) add("Two sets — three is the standard here", 2);
+  if(S.ordered.has("cult") && !S.rx.has("abx")) add("Cultures taken before antibiotics", 6);
+  if(sets>=3) add("Three sets, separate sites", 4);
+  else if(sets===2) add("Two sets — three is the standard here", 1);
   else if(sets===1) add("A single set — microbiology cannot call it", -4);
-  if(S.rx.has("abx2")) add("Right antibiotic for a severe penicillin allergy", 6);
-  if(S.rx.has("fluid")||S.rx.has("sepsis")) add("Measured fluid resuscitation", 4);
-  if(S.ordered.has("toe")) add("Escalated to transoesophageal imaging", 6);
-  if(S.ordered.has("mri")) add("Imaged the spine", 6);
   if(S.rx.has("lyse")) add("Thrombolysed a septic embolus", -20);
   if(S.rx.has("hep")) add("Anticoagulated native-valve endocarditis", -10);
   if(S.rx.has("abx")) add("Antibiotics before the cultures", -8);
@@ -2338,21 +2367,19 @@ function scoreAndShow(){
   if(S.rx.has("ond")) add("Ondansetron on a 476 ms QT", -6);
   if(S.rx.has("gtn")) add("Nitrates on a systolic of 88", -6);
   if(S.rx.has("bblock")) add("Beta-blocked a septic, hypotensive man", -6);
-  if(S.reexamCount>0) add("Reassessed after intervention", 6);
-  const referFull = S.rx.has("refer") && S.ordered.has("cult") && S.ordered.has("toe") && S.ordered.has("mri") && S.rx.has("abx2");
-  if(referFull) add("Referred with the picture complete", 8);
-  else if(S.rx.has("refer")) add("Referred — picture incomplete", 3);
   // listening carelessly costs something, quietly
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} care-bundle domains`, S.bundleCovered*4);
 
   if(S.died){
-    add("He arrested at 14:20 and could not be resuscitated", 0);
+    add("He arrested at 14:20 and could not be resuscitated", -30);
   } else {
     let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
-    add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+    add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*4);
   }
 
-  if(elapsed()<=240 && S.dxCorrect) add("Sorted inside 4 ward-hours", 8);
+  if(S.dxCorrect && elapsed()<=240) add("Sorted inside 4 ward-hours", 10);
+  else if(S.dxCorrect && elapsed()<=360) add("Sorted inside 6 ward-hours", 5);
+  if(elapsed()>480) add("Over 8 hours of ward time on a NEWS2 of 11", -5);
 
   const MAX=160;
   const shown=Math.max(0, Math.min(total, MAX));
@@ -2363,7 +2390,7 @@ function scoreAndShow(){
   // hero
   const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
   const rank = S.died ? "The morbidity meeting."
-    : pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+    : pct>=92?"Consultant calm.":pct>=72?"Registrar instinct.":pct>=50?"A safe pair of hands.":"You survived the post-take.";
   $("#rank").textContent = rank;
   $("#scoreSub").textContent = S.died
     ? "He arrested at 22:40 because the valve was never named. Everything you needed was already on the screen."

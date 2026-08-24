@@ -328,7 +328,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.12';
+const APP_VERSION='1.0.13';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -346,7 +346,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01'];   // playable now
+const OPEN_WEEKS    = ['w01','w02'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 const isOpen    = w => OPEN_WEEKS.includes(w.id);

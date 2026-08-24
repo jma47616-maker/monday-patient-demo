@@ -25,6 +25,10 @@
     <path d="M220 4 C260 4 272 26 268 52 C264 70 248 80 220 80 C192 80 176 70 172 52 C168 26 180 4 220 4 Z" fill="#6b543f" stroke="#2b241d" stroke-width="4"/>
     <path d="M188 20 C202 10 238 10 252 20" fill="none" stroke="#836a52" stroke-width="5" stroke-linecap="round" opacity=".85"/>
     <path d="M192 72 C204 78 236 78 248 72" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round" opacity=".4"/>
+    <g fill="#e3cdb4" stroke="#2b241d" stroke-width="3">
+      <ellipse cx="172" cy="54" rx="8" ry="12"/>
+      <ellipse cx="268" cy="54" rx="8" ry="12"/>
+    </g>
 
     <!-- the back, shoulders rounded forward as he leans over -->
     <path d="M196 86 C178 90 156 100 141 122 C128 140 120 158 124 176 C127 188 133 192 141 190 C150 187 154 182 160 180 C160 212 156 246 160 274 C162 296 160 310 159 320 L281 320 C280 310 278 296 280 274 C284 246 280 212 280 180 C286 182 290 187 299 190 C307 192 313 188 316 176 C320 158 312 140 299 122 C284 100 262 90 244 86 Z"
@@ -44,19 +48,19 @@
       <path d="M162 128 C180 122 192 126 197 136 C199 156 190 182 177 202 C165 184 158 154 162 128 Z" fill="#d9bfa4" opacity=".45"/>
       <path d="M278 128 C260 122 248 126 243 136 C241 156 250 182 263 202 C275 184 282 154 278 128 Z" fill="#d9bfa4" opacity=".45"/>
     </g>
-    <g fill="none" stroke="#2b241d" stroke-width="2.4" opacity=".28" stroke-linecap="round">
-      <path d="M163 128 C180 122 192 126 197 136 C199 156 190 182 177 202"/>
-      <path d="M277 128 C260 122 248 126 243 136 C241 156 250 182 263 202"/>
+    <g fill="none" stroke="#2b241d" stroke-width="2.2" opacity=".22" stroke-linecap="round">
+      <path d="M197 136 C199 156 190 182 177 202"/>
+      <path d="M243 136 C241 156 250 182 263 202"/>
     </g>
 
     <!-- paraspinal muscles held in spasm: raised ridges either side of the midline -->
-    <g stroke="#c9a48c" stroke-width="7" fill="none" opacity=".5" stroke-linecap="round">
-      <path d="M198 180 C193 212 194 252 203 290"/>
-      <path d="M242 180 C247 212 246 252 237 290"/>
+    <g stroke="#c9a48c" stroke-width="8" fill="none" opacity=".5" stroke-linecap="round">
+      <path d="M193 190 C188 220 189 258 199 292"/>
+      <path d="M247 190 C252 220 251 258 241 292"/>
     </g>
-    <g fill="#f0deca" stroke="#2b241d" stroke-width="2.2" opacity=".5">
-      <path d="M214 148 C204 178 199 210 200 244 C201 266 203 282 206 292 L216 292 C214 276 214 258 214 240 C213 206 214 176 216 152 Z"/>
-      <path d="M226 148 C236 178 241 210 240 244 C239 266 237 282 234 292 L224 292 C226 276 226 258 226 240 C227 206 226 176 224 152 Z"/>
+    <g fill="#f0deca" stroke="#2b241d" stroke-width="2" opacity=".5">
+      <path d="M212 146 C200 176 194 210 195 246 C196 270 200 286 204 294 L217 294 C215 278 215 258 215 240 C214 206 215 176 216 150 Z"/>
+      <path d="M228 146 C240 176 246 210 245 246 C244 270 240 286 236 294 L223 294 C225 278 225 258 225 240 C226 206 225 176 224 150 Z"/>
     </g>
 
     <!-- the line of spinous processes down the midline -->
