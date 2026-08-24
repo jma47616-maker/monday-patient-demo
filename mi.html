@@ -619,11 +619,19 @@ IV fluids
     <section class="screen" id="s-commit">
       <div class="kicker">Diagnosis</div>
       <h2>Commit your diagnosis</h2>
-      <p class="lede">No list to pick from. Name it the way you'd write it in the notes — and more than one thing is true tonight. The marking is scaled: every diagnosis left unnamed costs marks.</p>
+      <p class="lede">No list to pick from. Name it the way you'd write it in the notes — and more than one thing is true tonight. One diagnosis per box; the marking is scaled, and every diagnosis left unnamed costs marks.</p>
       <div class="field" style="margin-top:var(--s5);">
-        <label for="dxInput">Final diagnosis</label>
+        <label for="dxInput">Diagnosis 1 — the driver</label>
         <div class="hint">Type it — the box will suggest matches.</div>
-        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+        <input list="dxlist" id="dxInput" placeholder="the condition upstream of everything else" autocomplete="off">
+      </div>
+      <div class="field" style="margin-top:var(--s3);">
+        <label for="dxInput2">Diagnosis 2</label>
+        <input list="dxlist" id="dxInput2" placeholder="what else is going on?" autocomplete="off">
+      </div>
+      <div class="field" style="margin-top:var(--s3);">
+        <label for="dxInput3">Diagnosis 3</label>
+        <input list="dxlist" id="dxInput3" placeholder="and anything more?" autocomplete="off">
       </div>
       <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that's the registrar's call you're being asked to make.</div>
       <div class="btnrow">
@@ -2221,11 +2229,16 @@ function judgeDx(raw){
   return { correct, partial, sepsis, spine };
 }
 $("#commitBtn").onclick = ()=>{
-  const v=$("#dxInput").value.trim();
-  if(!v){ $("#commitErr").style.display="block"; return; }
+  const vals=["dxInput","dxInput2","dxInput3"].map(id=>$("#"+id).value.trim()).filter(Boolean);
+  if(!vals.length){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
-  S.dx=v; const j=judgeDx(v); S.dxCorrect=j.correct; S.dxPart=j.partial;
-  S.dxSepsis=j.sepsis; S.dxSpine=j.spine;
+  // each box judged on its own, so a negation in one box cannot bleed into the next
+  const js=vals.map(judgeDx);
+  S.dx=vals.join(" + ");
+  S.dxCorrect=js.some(j=>j.correct);
+  S.dxPart=!S.dxCorrect && js.some(j=>j.partial);
+  S.dxSepsis=js.some(j=>j.sepsis);
+  S.dxSpine=js.some(j=>j.spine);
   S.dxCommitted = true;
   // a wrong diagnosis is not survivable here — the valve is never sterilised and he keeps embolising
   if(!S.dxCorrect){ S.died = true; showDeath(); return; }
@@ -2394,7 +2407,7 @@ function scoreAndShow(){
   $("#rank").textContent = rank;
   $("#scoreSub").textContent = S.died
     ? "He arrested at 22:40 because the valve was never named. Everything you needed was already on the screen."
-    : "The iron tablets, the old AF and that troponin were all working against you.";
+    : "That troponin, the D-dimer and a tracing filed as normal were all working against you.";
   countTo($("#scoreBig"), shown, MAX);
 
   $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'✗'}</span>`+
