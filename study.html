@@ -328,7 +328,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.15';
+const APP_VERSION='1.0.16';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -676,10 +676,11 @@ const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
 function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard}[VIEW]; if(f) f(); }
 
 function cpdTotals(){
-  // One CPD point per completed case. Finished = finished; no hours.
-  let cases=0;
-  PROGRAM.forEach(w=>{if((PROG[w.id]||{}).caseDone)cases++;});
-  return {cases, points:cases};
+  // 0.15 of a point for solving the case; the remaining 0.85 lands only when that
+  // week's Friday debrief has been watched. Full point = case + debrief.
+  let cases=0, points=0;
+  PROGRAM.forEach(w=>{const p=PROG[w.id]||{}; if(p.caseDone){cases++; points+=(p.debriefDone?1:0.15);}});
+  return {cases, points:Math.round(points*100)/100};
 }
 function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+String(i).padStart(2,'0');if((PROG[id]||{}).caseDone)s++;else if(s>0)break;} return s; }
 
@@ -814,12 +815,12 @@ function renderCPD(){
   const t=cpdTotals();
   const done=PROGRAM.filter(w=>(PROG[w.id]||{}).caseDone);
   const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">One CPD point for every case you complete — your portfolio evidence.</p>
+  v.innerHTML=`<div class="kicker">Continuing professional development</div><h2 class="view-h">CPD</h2><p class="lede">0.15 of a CPD point for solving each case — the full point lands once you've watched that week's Friday debrief.</p>
     <div class="card" style="text-align:center;padding:var(--s6) var(--s4)">
       <div style="font-family:var(--fd);font-weight:600;font-size:3.4rem;line-height:1">${t.points}</div>
-      <div style="color:var(--muted);font-size:.9rem;margin-top:var(--s2)">CPD point${t.points===1?'':'s'} earned · 1 per completed case</div>
+      <div style="color:var(--muted);font-size:.9rem;margin-top:var(--s2)">CPD point${t.points===1?'':'s'} earned · 0.15 per case solved, 1.0 with the debrief watched</div>
     </div>
-    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+1</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
+    <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+${(PROG[w.id]||{}).debriefDone?'1.0':'0.15'}</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
     <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
     <div class="cert"><svg class="mp-lockup" viewBox="0 0 840 180" fill="none" role="img" aria-label="The Monday Patient"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/><text x="300" y="100" font-family="Fraunces, Georgia, serif" font-size="52" font-weight="500" fill="#241C15" letter-spacing="-0.5">The Monday <tspan font-style="italic" font-weight="400" fill="#C8531B">Patient</tspan></text><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${escapeHtml(PROFILE?.pseudonym||'Trainee')}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
       <div class="disclaimer disclaimer--cert">${DISCLAIMER_HTML}</div></div>`;
