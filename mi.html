@@ -2407,7 +2407,7 @@ function scoreAndShow(){
   $("#rank").textContent = rank;
   $("#scoreSub").textContent = S.died
     ? "He arrested at 22:40 because the valve was never named. Everything you needed was already on the screen."
-    : "That troponin, the D-dimer and a tracing filed as normal were all working against you.";
+    : "";
   countTo($("#scoreBig"), shown, MAX);
 
   $("#dxVerdict").innerHTML = `<div class="dxverdict" data-hit="${S.dxCorrect?1:0}"><span class="ic">${S.dxCorrect?'✓':'✗'}</span>`+
