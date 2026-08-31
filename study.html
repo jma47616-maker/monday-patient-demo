@@ -328,7 +328,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.16';
+const APP_VERSION='1.0.17';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -346,7 +346,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 const isOpen    = w => OPEN_WEEKS.includes(w.id);
@@ -377,10 +377,10 @@ const PROGRAM=[
   evidence:'ESC 2023 infective endocarditis · Fourth Universal Definition of MI (type 2) · IDSA 2015 native vertebral osteomyelitis',
   obj:['Find the thing upstream of everything else','Cultures before antibiotics, always','Examine for the embolic phenomena','Image the valve properly: TTE then TOE','Know what not to do to an embolic infarct'],
   read:[{t:'ESC 2023 — infective endocarditis'},{t:'Fourth Universal Definition of MI — type 2'},{t:'IDSA 2015 — native vertebral osteomyelitis'}]},
- {id:'w03',t:'Cardiac arrest',sub:'Adult ALS and the reversible causes',month:'Month 1',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
-  evidence:'RCUK Adult Advanced Life Support 2025 · ERC 2021 · ILCOR CoSTR',
-  obj:['Run the adult ALS algorithm to 2025','Time adrenaline and amiodarone correctly','Find and treat every reversible cause'],
-  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'The 4 Hs and 4 Ts'}]},
+ {id:'w03',t:"She isn't making sense",sub:'TTP vs CNS infection vs urosepsis',month:'Month 1',caseId:'ttp',url:BASE+'ttp.html',debrief:'video',
+  evidence:'BSH 2023 TTP and TMA guideline · NICE TA667 caplacizumab',
+  obj:['Read the film: fragments and a platelet count of 18 are an emergency','Trust DAT-negative haemolysis over the inherited UTI label','Dark urine with no red cells on microscopy is haemoglobinuria, not infection','Never transfuse platelets in TTP — ring haematology for plasma exchange'],
+  read:[{t:'BSH 2023 — diagnosis and management of TTP and TMAs',url:'https://onlinelibrary.wiley.com/doi/10.1111/bjh.19026'},{t:'NICE TA667 — caplacizumab for acute acquired TTP',url:'https://www.nice.org.uk/guidance/ta667'},{t:'PLASMIC score — MDCalc',url:'https://www.mdcalc.com/calc/10200/plasmic-score-ttp'}]},
  {id:'w04',t:'Aortic dissection',sub:'The chest pain you cannot miss',month:'Month 1',caseId:null,url:null,debrief:'notes',
   evidence:'ESC 2024 aortic and peripheral arterial disease · RCEM thoracic aortic dissection · AHA/ACC 2022 aortic disease',
   obj:['Recognise the dissection presentation','Imaging: CT aortogram','Blood-pressure control and who to call'],
@@ -416,7 +416,11 @@ const PROGRAM=[
  {id:'w12',t:'The mystery finale',sub:'Everything you have learned',month:'Month 3',caseId:null,url:null,debrief:'video',
   evidence:'Synthesis across the series — NICE, RCUK and specialty-society guidance',
   obj:['Reason from a constellation','Treat the cause, not the number','Know when to stop'],
-  read:[{t:'Bring it all together — revision'}]}
+  read:[{t:'Bring it all together — revision'}]},
+ {id:'w13',t:'Cardiac arrest',sub:'Adult ALS and the reversible causes',month:'Month 3',caseId:'als-arrest',url:BASE+'als.html',debrief:'video',
+  evidence:'RCUK Adult Advanced Life Support 2025 · ERC 2021 · ILCOR CoSTR',
+  obj:['Run the adult ALS algorithm to 2025','Time adrenaline and amiodarone correctly','Find and treat every reversible cause'],
+  read:[{t:'RCUK 2025 — Adult Advanced Life Support'},{t:'The 4 Hs and 4 Ts'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};

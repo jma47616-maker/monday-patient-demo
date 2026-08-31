@@ -475,7 +475,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
     <!-- ===================== BRIEF ===================== -->
     <section class="screen on" id="s-brief">
       <div class="badges">
-        <span class="badge badge--accent">Week 4 · 12</span>
+        <span class="badge badge--accent">Week 3 · 12</span>
         <span class="badge">Acute medical take</span>
         <span class="badge">≈ 15 min</span>
       </div>
@@ -2003,12 +2003,19 @@ function scoreAndShow(){
 
   add("Final diagnosis"+(S.dxCorrect?" — correct":` — “${S.dx}”`), S.dxCorrect?40:0);
 
-  let keys=0;
-  CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
-  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
-  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
-  ["fbc","film","hapt","ue","coag","dip","gs","adamts","viro","preg","glu"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
-  add(`Discriminators gathered (${keys})`, keys*3);
+  let keys=0, keyMax=0;
+  const mark=hit=>{ keyMax++; if(hit) keys++; };
+  CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
+  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
+  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
+  ["fbc","film","hapt","ue","coag","dip","gs","adamts","viro","preg","glu"].forEach(id=>mark(S.ordered.has(id)));
+  add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
+
+  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
+  if(missedEx.length) add(`Key examinations never performed (${missedEx.length})`, -3*missedEx.length);
+  if(!S.ordered.has("film")) add("The blood film never requested", -5);
+  if(!S.ordered.has("hapt")) add("Haemolysis never screened for", -5);
+  if(!S.ordered.has("adamts")) add("ADAMTS13 never sent", -5);
 
   let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
   if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
@@ -2025,20 +2032,21 @@ function scoreAndShow(){
   if(S.rx.has("heparin")) add("Anticoagulated a platelet count of 18", -10);
   if(S.rx.has("asp")) add("Antiplatelet with a platelet count of 18", -6);
   if(S.rx.has("vte")) add("Chemical thromboprophylaxis below 50 platelets", -4);
-  if(S.reexamCount>0) add("Reassessed after intervention", 6);
   const referFull = S.rx.has("refer") && S.ordered.has("film") && S.ordered.has("adamts") && S.ordered.has("gs") && S.ordered.has("viro") && S.rx.has("steroid") && !S.rx.has("plt");
   if(referFull) add("Referred with the checklist complete", 8);
   else if(S.rx.has("refer")) add("Referred to haematology — checklist incomplete", 3);
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} guideline domains`, S.bundleCovered*4);
 
   if(S.died){
-    add("She arrested at 04:50 and could not be resuscitated", 0);
+    add("She arrested at 04:50 and could not be resuscitated", -30);
   } else {
     let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
-    add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*6);
+    add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*4);
   }
 
-  if(elapsed()<=240 && S.dxCorrect) add("Recognised it inside 4 ward-hours", 10);
+  if(S.dxCorrect && elapsed()<=240) add("Recognised it inside 4 ward-hours", 10);
+  else if(S.dxCorrect && elapsed()<=360) add("Recognised it inside 6 ward-hours", 5);
+  if(elapsed()>480) add("Over 8 hours of ward time on a failing brain", -5);
 
   const MAX=160;
   const shown=Math.max(0, Math.min(total, MAX));
@@ -2049,7 +2057,7 @@ function scoreAndShow(){
   // hero
   const pct = Math.max(0, Math.min(100, Math.round(shown/MAX*100)));
   const rank = S.died ? "The morbidity meeting."
-    : pct>=88?"Consultant calm.":pct>=68?"Registrar instinct.":pct>=45?"A safe pair of hands.":"You survived the post-take.";
+    : pct>=92?"Consultant calm.":pct>=72?"Registrar instinct.":pct>=50?"A safe pair of hands.":"You survived the post-take.";
   $("#rank").textContent = rank;
   $("#scoreSub").textContent = S.died
     ? "She died overnight because nobody named the microangiopathy. Everything you needed was already on the screen."
