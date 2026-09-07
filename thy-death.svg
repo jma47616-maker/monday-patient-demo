@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Martin has arrested; the monitor has flatlined and resuscitation was unsuccessful">
+  <defs>
+    <pattern id="tdgrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".06"/>
+    </pattern>
+    <linearGradient id="tdscreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#241f1a"/>
+      <stop offset="1" stop-color="#14110d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="560" fill="#f3ece1"/>
+  <rect width="900" height="560" fill="url(#tdgrain)"/>
+
+  <!-- the monitor, flatlined -->
+  <g transform="translate(74 44)">
+    <rect width="300" height="204" rx="12" fill="#2b241d"/>
+    <rect x="14" y="14" width="272" height="176" rx="6" fill="url(#tdscreen)"/>
+    <path d="M28 104 H272" stroke="#5fd08a" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+    <text x="272" y="52" text-anchor="end" font-family="monospace" font-size="30" fill="#e0665a" font-weight="700">0</text>
+    <text x="272" y="82" text-anchor="end" font-family="monospace" font-size="15" fill="#8a7f70">bpm</text>
+    <text x="28" y="172" font-family="monospace" font-size="15" fill="#8a7f70">ASYSTOLE</text>
+    <text x="272" y="172" text-anchor="end" font-family="monospace" font-size="15" fill="#8a7f70">05:45</text>
+    <!-- the alarm the room has stopped hearing -->
+    <circle cx="286" cy="204" r="7" fill="#e0665a">
+      <animate attributeName="opacity" values="1;.15;1" dur="1.1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <rect x="204" y="248" width="26" height="66" fill="#2b241d"/>
+  <path d="M176 314 h82" stroke="#2b241d" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- trolley -->
+  <path d="M300 400 h500 v20 h-500 Z" fill="#c3d2d8" stroke="#2b241d" stroke-width="5"/>
+  <path d="M330 420 v58 M770 420 v58" stroke="#2b241d" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="330" cy="486" r="11" fill="#f3ece1" stroke="#2b241d" stroke-width="5"/>
+  <circle cx="770" cy="486" r="11" fill="#f3ece1" stroke="#2b241d" stroke-width="5"/>
+  <!-- flat now, at last -->
+  <path d="M300 400 L300 350 q0 -10 12 -10 h22 q12 0 12 10 v50 Z" fill="#b7c9cf" stroke="#2b241d" stroke-width="5"/>
+
+  <!-- sheet drawn up -->
+  <path d="M470 400 q90 -30 180 -22 q76 8 150 22 Z" fill="#e8ddca" stroke="#2b241d" stroke-width="4"/>
+  <path d="M520 388 q34 -12 66 -10" fill="none" stroke="#c9bba6" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Martin, lying flat, X eyes, still thin -->
+  <g>
+    <path d="M400 400 q0 -30 30 -34 h40 v34 Z" fill="#7f8f96" stroke="#2b241d" stroke-width="5"/>
+    <path d="M392 372 h26 v22 h-26 Z" fill="#dcbfa4" stroke="#2b241d" stroke-width="4"/>
+    <ellipse cx="404" cy="392" rx="22" ry="11" fill="#d2b092" stroke="#2b241d" stroke-width="4"/>
+    <ellipse cx="374" cy="356" rx="46" ry="40" fill="#e8c8a8" stroke="#2b241d" stroke-width="5"/>
+    <path d="M330 340 C328 306 348 292 374 292 C400 292 420 306 418 340 C408 320 396 314 374 314 C352 314 340 320 330 340 Z" fill="#584c44" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <!-- X eyes: comic, not grim -->
+    <g stroke="#2b241d" stroke-width="6" stroke-linecap="round">
+      <path d="M348 348 l16 16 M364 348 l-16 16"/>
+      <path d="M386 348 l16 16 M402 348 l-16 16"/>
+    </g>
+    <path d="M362 384 q12 -8 24 0" fill="none" stroke="#2b241d" stroke-width="4.5" stroke-linecap="round"/>
+    <!-- hollow cheeks and the goitre nobody examined -->
+    <path d="M336 356 q6 10 4 20" fill="none" stroke="#b8916e" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>
+    <path d="M412 356 q-6 10 -4 20" fill="none" stroke="#b8916e" stroke-width="4.5" stroke-linecap="round" opacity=".5"/>
+  </g>
+
+  <!-- crash trolley, drawers still open -->
+  <g transform="translate(596 214)">
+    <rect width="180" height="186" rx="10" fill="#e0665a" stroke="#2b241d" stroke-width="5"/>
+    <g stroke="#2b241d" stroke-width="4.5" fill="#f3ece1">
+      <rect x="14" y="20" width="152" height="36" rx="5"/>
+      <rect x="-16" y="72" width="152" height="36" rx="5"/>
+      <rect x="14" y="124" width="152" height="36" rx="5"/>
+    </g>
+    <path d="M60 38 h60 M30 90 h60 M60 142 h60" stroke="#c9bba6" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="30" cy="196" r="10" fill="#f3ece1" stroke="#2b241d" stroke-width="4.5"/>
+    <circle cx="150" cy="196" r="10" fill="#f3ece1" stroke="#2b241d" stroke-width="4.5"/>
+  </g>
+
+  <!-- discarded packaging on the floor: they did try -->
+  <g stroke="#2b241d" stroke-width="3.5" fill="#efe7da" opacity=".9">
+    <path d="M470 500 l34 -8 l6 14 l-34 8 Z"/>
+    <path d="M528 512 l30 -12 l8 13 l-30 12 Z"/>
+    <path d="M420 516 l26 -6 l4 12 l-26 6 Z"/>
+  </g>
+
+  <!-- the untouched drug chart on the side, terracotta ink -->
+  <g transform="translate(90 372)">
+    <rect width="150" height="118" rx="6" fill="#faf6f0" stroke="#2b241d" stroke-width="4.5" transform="rotate(-6)"/>
+    <g transform="rotate(-6)" stroke="#c9bba6" stroke-width="3.5" stroke-linecap="round">
+      <path d="M18 30 h80"/><path d="M18 52 h100"/><path d="M18 74 h64"/><path d="M18 96 h88"/>
+    </g>
+    <g transform="rotate(-6)" stroke="#b8552e" stroke-width="4" stroke-linecap="round" opacity=".9">
+      <path d="M112 22 l14 14 M126 22 l-14 14"/>
+    </g>
+  </g>
+
+  <!-- the fan, still going, pointed at nobody -->
+  <g transform="translate(830 470)" opacity=".75">
+    <circle r="26" fill="#efe7da" stroke="#2b241d" stroke-width="4"/>
+    <g stroke="#2b241d" stroke-width="3" fill="#d8c9b3">
+      <path d="M0 0 q14 -17 18 -2 q-11 8 -18 2Z"/>
+      <path d="M0 0 q-3 21 -17 11 q5 -12 17 -11Z"/>
+      <path d="M0 0 q-15 -14 -3 -20 q11 8 3 20Z"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".5s" repeatCount="indefinite"/>
+    </g>
+    <circle r="4" fill="#2b241d"/>
+  </g>
+
+  <text x="450" y="540" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="19" fill="#7a6f60">05:45 · they ran it for thirty-five minutes</text>
+</svg>
