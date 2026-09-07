@@ -277,6 +277,8 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .bundle li { display: flex; gap: var(--s3); align-items: baseline; font-size: .88rem; }
 .bundle .mk { flex: none; width: 20px; text-align: center; font-weight: 700; }
 .bundle li[data-ok="1"] .mk { color: var(--good); }
+.bundle li[data-ok="via"] .mk { color: var(--warn); }
+.bundle li[data-ok="via"] .bl { color: var(--ink); }
 .bundle li[data-ok="0"] .mk { color: var(--danger); }
 .bundle li[data-ok="0"] .bl { color: var(--ink); }
 .bundle li .bw { color: var(--muted); font-size: .84rem; }
@@ -492,7 +494,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
       <div class="card">
         <div class="card__label">ED resus · 22:40</div>
-        <p class="serif-body" style="margin-bottom: var(--s4);">Febrile, agitated and drenched in sweat, with loose stool and a racing heart. His sister found him like this at his flat tonight and could not get any sense out of him. She says he has lost a great deal of weight. He finished a course of antibiotics for a chest infection a few days ago.</p>
+        <p class="serif-body" style="margin-bottom: var(--s4);">He telephoned his sister this evening to say he could not manage on his own any more. She had not seen him for two months. She found him burning hot and drenched through, in a flat with no heating on and the windows shut, thinner than she remembers him, and could not get much sense out of him — so she called an ambulance. He finished a course of antibiotics for a chest infection ten days ago and has been going downhill ever since.</p>
         <div class="obsgrid">
           <div class="obs" data-flag="hi"><div class="k">HR</div><div class="v">170</div><div class="u">/min irreg</div></div>
           <div class="obs"><div class="k">BP</div><div class="v">150/70</div><div class="u">mmHg</div></div>
@@ -542,7 +544,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
 
       <div class="panel on" id="p-hx">
         <p class="panel__hint">Tap to ask. His sister answers what he cannot. Each question costs about 30 seconds.</p>
-        <div id="hxScene"><img src="thy-scene.svg" alt="Tonight in resus: Martin will not stay on the trolley, soaked with sweat, while his sister tries to keep him sitting and the fan runs."></div>
+        <div id="hxScene"><img src="thy-scene.svg" alt="Tonight in resus: Martin will not stay on the trolley, soaked with sweat, while his sister — who has not seen him for two months — tries to keep him sitting, and the fan runs."></div>
         <ul class="qa" id="qa"></ul>
         <div class="chips" id="chips"></div>
       </div>
@@ -745,13 +747,13 @@ const CASE = {
           companionName: "" },
 
   history: [
-    { id:"onset",  q:"How did tonight start?", dq:"Tell me how tonight started — what made you bring him in?", a:"Sister: “I don't live with him. I hadn't seen him since June — that's two months. I got to his flat tonight and I just… he's thinner. A lot thinner. And he was pacing about, not making much sense, soaked through.”", key:true },
+    { id:"onset",  q:"How did tonight start?", dq:"Tell me how tonight started — what made you bring him in?", a:"Sister: “He rang me. That's what frightened me — he never rings. He said he couldn't manage on his own any more. I hadn't seen him since June, so that's two months. When I got there he was burning hot and soaked through, and that flat was freezing — no heating on, windows shut. And he's thinner. A lot thinner. I couldn't get any sense out of him, so I called an ambulance.”", key:true },
     { id:"eating", q:"How has he been eating?", dq:"Has he gone off his food at all, with all this weight coming off?", a:"Sister: “That's what I don't understand. He eats like a horse. Always has. He had a takeaway in front of him when I got there.”", key:true },
-    { id:"chest",  q:"The chest infection?", dq:"I gather he's been unwell already — tell me about the chest infection.", a:"Sister: “He rang me about ten days ago, coughing, said the doctor had given him antibiotics for his chest. He finished them, I think. He sounded rough but he sounded like himself.”", key:true },
+    { id:"chest",  q:"The chest infection?", dq:"I gather he's been unwell already — tell me about the chest infection.", a:"Sister: “About ten days ago he had antibiotics from the doctor for his chest — he was coughing. He finished them. But he's not picked up since. Every time we spoke he sounded a bit worse than the time before.”", key:true },
     { id:"palp",   q:"Palpitations?", dq:"Have you been aware of your heart racing at all?", a:"“All the time.” He puts a hand flat on his chest. “Months. Wakes me up with it. I thought it was the coffee.”", key:true },
     { id:"bowels", q:"Bowels?", dq:"What have his bowels been doing?", a:"Sister: “He said his stomach's been loose. I assumed that was the antibiotics — doesn't it do that?”", key:true },
     { id:"neck",   q:"Anything about his neck?", dq:"Has anyone commented on his neck, or has he had trouble with collars or swallowing?", a:"Sister: “Now you say it — his collar looked tight on him. I thought he'd just done it up wrong. He's not complained about swallowing.”", key:true },
-    { id:"heat",   q:"Heat, sweating, sleep?", dq:"Has he been running hot, or sweating, or sleeping badly?", a:"Sister: “I couldn't tell you. I'm not there. He's sweating now, but so would I be at that temperature.”" },
+    { id:"heat",   q:"Heat, sweating, sleep?", dq:"Has he been running hot, or sweating, or sleeping badly?", a:"Sister: “I couldn't tell you what he's been like day to day. I'm not there. All I can tell you is what I walked into tonight — him roasting, and that flat like an icebox.”" },
     { id:"thyhx",  q:"Any thyroid problem?", dq:"Has he ever been told there's a problem with his thyroid, or been on anything for it?", a:"Sister: “Not that I know of. He never goes to the doctor. He only went about his chest because he couldn't stop coughing.”", key:true },
     { id:"drugs",  q:"Drug history?", dq:"What medication is he on — anything at all, including over the counter?", a:"Sister: “Nothing regular that I know of. Just those antibiotics. He's not one for tablets.”", key:true },
     { id:"fhx",    q:"Family history?", dq:"Does anything run in the family?", a:"Sister: “Mum's on something for her thyroid, I think. An underactive one? And our aunt had something similar. That's all I know.”", key:true },
@@ -768,13 +770,13 @@ const CASE = {
     { id:"gen",  name:"General inspection", key:true,
       f:"Thin — noticeably so, with wasting over the temples and shoulders. Agitated and restless, plucking at the sheet and repeatedly trying to get off the trolley. Drenched in sweat. Peripheries warm and flushed, capillary refill under 2 s. The fan at the end of the bay is on and pointed at him." },
     { id:"cvs",  name:"Cardiovascular", sub:"listen", key:true,
-      f:"Tachycardic and irregular. JVP visible at 5 cm above the sternal angle. Apex beat not displaced, no thrills. Pitting oedema to mid-shin bilaterally.",
+      f:"Tachycardic and irregular. JVP visible at 5 cm above the sternal angle. Apex beat not displaced, no thrills.",
       audio:"thy-hs-af.m4a" },
     { id:"resp", name:"Respiratory", sub:"listen", key:true,
       f:"Tachypnoeic at 30, using accessory muscles. Trachea central. Expansion equal.",
       audio:"thy-crackles.mp3" },
-    { id:"abdo", name:"Abdomen", f:"Soft and non-tender throughout. No masses, no organomegaly, no renal angle tenderness. Bowel sounds present and rather active." },
-    { id:"cns",  name:"Neurological", key:true, f:"Difficult to examine — he will not keep still and cannot hold an instruction. Power appears grossly preserved in all four limbs when he moves spontaneously. Pupils equal and reactive. No facial asymmetry, no obvious focal deficit. He is oriented to nothing but his own name." }
+    { id:"abdo", name:"Abdomen", f:"Soft and non-tender throughout. No masses, no organomegaly, no renal angle tenderness. Bowel sounds present and rather active.", img:"thy-abdo.svg", imgAlt:"Abdominal examination: soft and non-tender, no organomegaly" },
+    { id:"cns",  name:"Neurological", key:true, f:"Normal. Tone, power and sensation intact in all four limbs, coordination unremarkable, plantars downgoing. Pupils equal and reactive. No facial asymmetry, no neck stiffness, no focal deficit anywhere." }
   ],
 
   /* Focused examinations — TYPED, never listed. Six carry signal; the rest are genuine normals.
@@ -809,11 +811,10 @@ const CASE = {
     { id:"prox", name:"Proximal muscle power", tone:"alert",
       f:"He cannot get out of the chair without pushing up on the arms, and cannot hold his arms above his head for more than a few seconds. Distal power is normal — grip is strong. Proximal weakness with preserved distal strength.",
       aliases:["proximal power","proximal weakness","proximal myopathy","stand from a chair","sit to stand","rise from the chair","shoulder abduction","hip flexion","muscle power","power","myopathy","proximal muscle power"] },
-    { id:"shins", name:"Shins", f:"Pitting oedema to mid-shin on both sides. No thickened, waxy, orange-peel plaques over the shins.", img:"thy-oedema.jpg", imgAlt:"Both lower legs", aliases:["shins","shin","pretibial","pretibial myxoedema","legs","lower legs","tibia","front of the legs","skin over the shins"] },
+    { id:"shins", name:"Shins", key:true, tone:"alert", imgOnly:true, img:"thy-oedema.jpg", imgAlt:"Both lower legs, pressed and released", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles","fluid overload","shins","shin","pretibial","pretibial myxoedema","legs","lower legs","tibia","front of the legs","skin over the shins"] },
 
     /* ---- everything else: real examinations, genuinely normal ---- */
-    { id:"oedema", name:"Peripheral and sacral oedema", f:"Pitting to mid-shin bilaterally. A little sacral oedema when you roll him.", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles","fluid overload"] },
-    { id:"hydr",  name:"Volume status", f:"Mucous membranes dry, tongue dry. JVP raised at 5 cm. Peripheries warm, capillary refill under 2 s. Pitting oedema at the shins. Fluid-depleted intravascularly and yet congested — he has been sweating litres and his heart is not coping.", aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration","fluid balance"] },
+    { id:"hydr",  name:"Volume status", f:"Mucous membranes dry, tongue dry. JVP raised at 5 cm. Peripheries warm, capillary refill under 2 s. He has been sweating litres, and yet the venous pressure is up.", aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration","fluid balance"] },
     { id:"skin",  name:"Skin", f:"Warm, wet and flushed all over. No rash, nothing non-blanching, no petechiae, no bruising. No needle marks.", aliases:["skin","rash","purpura","petechiae","non blanching rash","blanching","glass test","bruising","bruises","spots","skin examination","skin inspection"] },
     { id:"cog",   name:"Cognitive screen", f:"He will not sit still for a formal score. He gives his name, gets the year wrong by four, cannot name the place or the month, and cannot repeat an address. AMTS 3/10 as far as it goes; 4AT positive for delirium at 6.", aliases:["cognitive screen","amts","4at","abbreviated mental test","confusion screen","orientation","delirium screen","mmse","cognition","gcs","glasgow coma scale","confusion assessment","acvpu"] },
     { id:"mening",name:"Signs of meningism", f:"Neck supple, no discomfort on flexion. Kernig's and Brudzinski's negative. He does not object to the overhead light.", aliases:["meningism","neck stiffness","kernig","brudzinski","meningeal irritation","photophobia","nuchal rigidity","stiff neck","signs of meningism"] },
@@ -834,7 +835,7 @@ const CASE = {
     { id:"ent",   name:"Nose and ears", f:"Nasal passages clear, no epistaxis. Both canals clear, tympanic membranes intact.", aliases:["ent","nose","nasal","epistaxis","ears","ear examination","tympanic membranes","otoscopy","auroscopy"] },
     { id:"ie",    name:"Peripheral stigmata of infective endocarditis", f:"No splinter haemorrhages, no Osler's nodes, no Janeway lesions, no Roth spots. No new murmur.", aliases:["peripheral stigmata","stigmata","stigmata of infective endocarditis","endocarditis stigmata","splinter haemorrhages","splinters","osler nodes","janeway lesions","endocarditis"] },
     { id:"fundi", name:"Fundoscopy", f:"Not achievable — he will not hold still. No obvious papilloedema on the brief view you get.", aliases:["fundoscopy","fundi","ophthalmoscopy","retina","papilloedema","roth spots"] },
-    { id:"calf",  name:"Calves", f:"Symmetrically swollen with the oedema, soft, non-tender. No cords, no asymmetry to suggest a DVT.", aliases:["calf","calves","dvt","dvt check","leg swelling","homans"] },
+    { id:"calf",  name:"Calves", f:"Soft and non-tender, equal on both sides. No cords, no asymmetry to suggest a deep vein thrombosis.", aliases:["calf","calves","dvt","dvt check","leg swelling","homans"] },
     { id:"pr",    name:"Digital rectal examination", f:"Soft brown stool on the glove. No melaena, no fresh blood, no mass.", aliases:["pr","pr exam","per rectum","rectal","rectal exam","dre","digital rectal","back passage","stool","melaena"] },
     { id:"urine", name:"Urine inspection / catheter", f:"Concentrated but clear, small volume in the bottle. No catheter in place.", aliases:["urine output","catheter","urine","inspect the urine","urine colour","io chart","input output"] },
     { id:"press", name:"Pressure areas", f:"Skin intact over sacrum and heels, though the sheets are soaked.", aliases:["pressure areas","pressure sores","sacrum","heels","skin integrity"] },
@@ -845,7 +846,7 @@ const CASE = {
     { id:"sputum",name:"Sputum pot", f:"A little scanty white sputum. Nothing purulent, no blood.", aliases:["sputum","sputum pot","cough","expectoration","haemoptysis"] },
     { id:"msk",   name:"Joints", f:"No synovitis, no effusions, full passive range of movement.", aliases:["joints","musculoskeletal","msk","gals","joint exam","arthritis","synovitis"] },
     { id:"spine", name:"Spine and back", f:"Non-tender throughout, no bony step, no percussion tenderness.", aliases:["spine","back","back examination","lumbar spine","spinal","percussion tenderness"] },
-    { id:"feet",  name:"Feet", f:"Oedematous. No ulceration, no deformity, no ischaemic changes.", aliases:["feet","foot","diabetic foot","foot check","monofilament","ulcers on the feet"] },
+    { id:"feet",  name:"Feet", f:"No ulceration, no deformity, no ischaemic changes. Pulses palpable.", aliases:["feet","foot","diabetic foot","foot check","monofilament","ulcers on the feet"] },
     { id:"inject",name:"Injection sites", f:"No injection marks, no track marks, no evidence of intravenous drug use.", aliases:["injection sites","track marks","needle marks","drug use","ivdu","injection marks"] },
     { id:"hern",  name:"Hernial orifices", f:"No herniae, no groin lumps.", aliases:["hernial orifices","hernia","herniae","groin","groin lumps"] },
     { id:"aorta", name:"Aortic pulsation", f:"Aorta not expansile, no palpable aneurysm.", aliases:["aorta","aortic pulsation","aaa","abdominal aorta","aneurysm","expansile mass"] },
@@ -894,9 +895,12 @@ const CASE = {
       { id:"crp",  name:"C-reactive protein", cost:60, costL:"60 min", tag:"key",
         aliases:["crp","c reactive protein","inflammatory markers","esr"],
         labs:[{n:"CRP", v:"88", r:"<5", u:"mg/L", flag:"hi"}] },
+      { id:"mag",  name:"Magnesium", cost:60, costL:"60 min", tag:"supp",
+        aliases:["magnesium","serum magnesium","mg","mag","magnesium level","check the magnesium"],
+        labs:[{n:"Magnesium", v:"0.62", r:"0.70–1.00", u:"mmol/L", flag:"lo"}] },
       { id:"bone", name:"Bone profile", cost:60, costL:"60 min", tag:"supp",
         aliases:["bone profile","calcium","corrected calcium","phosphate","bone","adjusted calcium"],
-        labs:[{n:"Corrected Ca²⁺", v:"2.72", r:"2.20–2.60", u:"mmol/L", flag:"hi"},{n:"Phosphate", v:"1.12", r:"0.80–1.50", u:"mmol/L"},{n:"Magnesium", v:"0.62", r:"0.70–1.00", u:"mmol/L", flag:"lo"}] },
+        labs:[{n:"Corrected Ca²⁺", v:"2.72", r:"2.20–2.60", u:"mmol/L", flag:"hi"},{n:"Phosphate", v:"1.12", r:"0.80–1.50", u:"mmol/L"},{n:"Albumin", v:"31", r:"35–50", u:"g/L", flag:"lo"}] },
       { id:"coag", name:"Coagulation screen", cost:60, costL:"60 min", tag:"supp",
         aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen"],
         labs:[{n:"PT", v:"13.9", r:"11.0–13.5", u:"s", flag:"hi"},{n:"INR", v:"1.2", r:"0.9–1.2"},{n:"APTT", v:"33", r:"24–36", u:"s"},{n:"Fibrinogen", v:"4.6", r:"2.0–4.0", u:"g/L", flag:"hi"}] },
@@ -1316,8 +1320,8 @@ function genFinding(){
 }
 function cnsFinding(){
   const o = obsState();
-  if (o.appear==="better") return "GCS 15. Orientated to place and roughly to time, sitting still for the first time since he arrived. Following two-step instructions. No focal deficit.";
-  if (o.appear==="worse") return "GCS 11 — eyes to voice, incomprehensible sounds, localising. The agitation has given way to something worse: he has stopped fighting the trolley. Still no focal deficit, pupils equal, but he is losing ground in front of you.";
+  if (o.appear==="better") return "Still normal, and easier to do now that he will sit still. Tone, power, sensation and coordination all intact. No focal deficit.";
+  if (o.appear==="worse") return "Still no focal deficit and the pupils remain equal — but he is much harder to rouse, and will not sustain a movement to command. The examination has not changed; his conscious level has.";
   return CASE.examCore.find(e=>e.id==="cns").f;
 }
 function rowHTML(item, picked, label){
@@ -1754,14 +1758,20 @@ const BUNDLE = [
       : "The tachycardia is what is failing his heart. Beta blockade is first-line — <b>esmolol</b> in heart failure or shock, because its short half-life means it <b>“can be rapidly discontinued if adverse outcomes occur.”</b> Diltiazem if beta blockade is genuinely contraindicated." },
   { k:"Block synthesis", want:"Thionamide — PTU or carbimazole, loaded now",
     ok:(m)=> m.has("thion") || m.has("endo"),
+    via:(m)=> !m.has("thion") && m.has("endo"),
+    viaNote:"Not on your chart — credited because you referred, and endocrinology will load it. You score higher for having it in before they arrive: every hour without a synthesis block is an hour the gland keeps producing.",
     why:"<b>PTU</b> 500–1000 mg loading then 250 mg four-hourly, or <b>carbimazole</b> 80–100 mg/day — and carbimazole is preferred where the liver is deranged, as his is. Nothing else stops the gland making more hormone." },
   { k:"Block release", want:"Iodine — at least one hour after the thionamide",
     ok:(m)=> (m.has("iodine") && !S.rx.has("iodinefirst")) || (m.has("endo") && !S.rx.has("iodinefirst")),
+    via:(m)=> !m.has("iodine") && m.has("endo"),
+    viaNote:"Not on your chart, and quite right — credited because you referred. <b>Iodine is endocrinology's to prescribe</b>, and the one-hour rule after the thionamide is theirs to keep.",
     why:(m)=> S.rx.has("iodinefirst")
       ? "The iodine went in first. <b>“Wait for 1 h post-administration of antithyroid drugs before administering iodide — this delay is essential.”</b> An unblocked gland handed an iodine load uses it as substrate."
       : "Lugol's 8 drops four times daily, or SSKI 5 drops four times daily, diluted — but only <b>after</b> the thionamide is in. It blocks release; the thionamide must already be blocking synthesis." },
   { k:"Block conversion", want:"IV hydrocortisone",
     ok:(m)=> m.has("steroid") || m.has("endo"),
+    via:(m)=> !m.has("steroid") && m.has("endo"),
+    viaNote:"Not on your chart — credited because you referred. Hydrocortisone is one you can and should start yourself while you wait: 100 mg IV, then 50 mg four times daily.",
     why:"Hydrocortisone 100 mg IV then 50 mg four times daily. It reduces peripheral T4→T3 conversion, is <b>particularly effective where Graves' is the cause</b>, and covers the relative adrenal insufficiency of critical illness. Watch the potassium — high-dose steroid can precipitate thyrotoxic periodic paralysis." },
   { k:"Support",    want:"Cooling with paracetamol, fluid, glucose and electrolytes",
     ok:(m)=> (m.has("cool") || m.has("iv")) && !S.rx.has("asp"),
@@ -1825,8 +1835,11 @@ function closePlan(text, matched, negated){
     `<div class="bsub">ETA / BTA / Society for Endocrinology joint consensus statement on thyroid storm (2026) — ${covered} of ${BUNDLE.length} domains covered.</div><ul>`+
     BUNDLE.map(b=>{ const ok=b.ok(eff);
       const why = typeof b.why==="function" ? b.why(eff) : b.why;
-      return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
-             (ok?``:`<br><span class="bw">${why}</span>`)+`</span></li>`; }).join("")+
+      /* credited through the referral rather than prescribed: mark it differently, or the row
+         reads as though the drug is on the chart when it is not */
+      const via = ok && b.via && b.via(eff);
+      return `<li data-ok="${via?'via':ok?1:0}"><span class="mk">${via?'◐':ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
+             (ok?(via?`<br><span class="bw">${b.viaNote}</span>`:``):`<br><span class="bw">${why}</span>`)+`</span></li>`; }).join("")+
     `</ul>`+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+

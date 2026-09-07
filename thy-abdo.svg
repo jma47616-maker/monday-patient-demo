@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 320" role="img" aria-label="Abdominal examination: soft and non-tender throughout, no organomegaly">
+  <defs>
+    <linearGradient id="thyaskin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2dfc9"/>
+      <stop offset="1" stop-color="#e5c9ac"/>
+    </linearGradient>
+    <pattern id="thyagrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+  </defs>
+
+  <rect width="440" height="320" fill="#f3ece1"/>
+  <rect width="440" height="320" fill="url(#thyagrain)"/>
+
+  <!-- torso: thin, ribs and iliac crests showing -->
+  <path d="M118 32 C118 22 132 16 220 16 C308 16 322 22 322 32
+           C322 96 330 150 330 200 C330 256 300 300 220 300
+           C140 300 110 256 110 200 C110 150 118 96 118 32 Z"
+        fill="url(#thyaskin)" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- costal margins -->
+  <path d="M130 52 C160 92 190 104 220 104 C250 104 280 92 310 52"
+        fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+  <!-- lower ribs, visible on a thin man -->
+  <g stroke="#c3a184" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8">
+    <path d="M136 40 C162 70 188 82 214 84"/>
+    <path d="M304 40 C278 70 252 82 226 84"/>
+    <path d="M146 24 C170 50 194 62 216 64"/>
+    <path d="M294 24 C270 50 246 62 224 64"/>
+  </g>
+  <!-- iliac crests -->
+  <path d="M126 232 C150 262 178 276 200 282" fill="none" stroke="#c3a184" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
+  <path d="M314 232 C290 262 262 276 240 282" fill="none" stroke="#c3a184" stroke-width="3.5" stroke-linecap="round" opacity=".8"/>
+
+  <!-- midline and umbilicus -->
+  <path d="M220 106 V162 M220 186 V262" stroke="#c3a184" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  <ellipse cx="220" cy="174" rx="11" ry="9" fill="#dcbb9b" stroke="#2b241d" stroke-width="3.5"/>
+  <path d="M214 172 q6 5 12 0" fill="none" stroke="#2b241d" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+
+  <!-- the examining hand, flat, moving quadrant to quadrant -->
+  <g>
+    <path d="M258 196 C258 178 272 168 292 168 C316 168 340 176 356 190
+             C368 200 366 214 352 218 C334 222 312 224 294 224
+             C272 224 258 214 258 196 Z"
+          fill="#f0d6bb" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <g stroke="#2b241d" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75">
+      <path d="M300 172 C302 186 302 202 300 220"/>
+      <path d="M320 176 C322 190 322 204 320 219"/>
+      <path d="M338 184 C340 196 340 208 338 216"/>
+    </g>
+    <path d="M356 190 C372 186 384 194 380 206 C376 216 364 220 352 218"
+          fill="#f0d6bb" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; -96 -34; -96 40; 4 44; 0 0" dur="7s" repeatCount="indefinite" calcMode="spline"
+      keyTimes="0;0.25;0.5;0.75;1" keySplines=".4 0 .2 1;.4 0 .2 1;.4 0 .2 1;.4 0 .2 1"/>
+  </g>
+
+  <!-- soft: the abdominal wall gives, drawn as a gentle yielding ring under the hand -->
+  <g fill="none" stroke="#b8552e" stroke-width="2.6" opacity=".0">
+    <ellipse cx="300" cy="196" rx="30" ry="16">
+      <animate attributeName="opacity" values="0;.45;0" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="rx" values="24;38;24" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <!-- no guarding, no mass: nothing drawn under the surface. Quadrant guides, very faint. -->
+  <g stroke="#c3a184" stroke-width="2" stroke-dasharray="5 7" opacity=".35">
+    <path d="M118 174 H322"/>
+  </g>
+</svg>
