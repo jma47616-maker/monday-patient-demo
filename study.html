@@ -165,6 +165,10 @@ h2.view-h{font-size:1.9rem;margin-bottom:var(--s2)}
 .badge--live{background:var(--accent-bg);color:var(--accent-2)}
 .badge--complete{background:var(--good-bg);color:var(--good)}
 .badge--locked{background:var(--paper-3);color:var(--faint)}
+/* 'account' = released and playable, but outside the guest allowance. Reads as
+   available-but-gated, not as locked: it is not the same thing as unreleased. */
+.badge--acct{background:var(--paper-2);color:var(--accent-2);box-shadow:inset 0 0 0 1px var(--accent)}
+.wkrow[data-s=guest] .num{background:var(--paper-2);color:var(--accent-2);box-shadow:inset 0 0 0 1.5px var(--accent)}
 
 /* reading */
 .readlist{list-style:none;padding:0}
@@ -328,7 +332,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.17';
+const APP_VERSION='1.0.20';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -350,6 +354,17 @@ const OPEN_WEEKS    = ['w01','w02','w03'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 const isOpen    = w => OPEN_WEEKS.includes(w.id);
+
+/* ============================================================
+   GUEST ALLOWANCE - which cases play without an account.
+   This list is FROZEN and deliberately NOT derived from OPEN_WEEKS:
+   opening a new week must never widen it. Guests keep the three
+   cases they already had; everything released from here on asks
+   them to sign up. Do NOT add ids here when you release a case -
+   that is the whole point of it being a separate list.
+   ============================================================ */
+const GUEST_WEEKS = ['w01','w02','w03'];
+const guestOK = w => !GUEST || GUEST_WEEKS.includes(w.id);
 
 /* ============================================================
    THE CASE LIST. To add a case, append one entry to PROGRAM:
@@ -425,8 +440,10 @@ const PROGRAM=[
 function weekState(w,prog){
   const p=prog[w.id]||{};
   if(p.caseDone) return 'complete';
-  return isOpen(w) ? 'live' : 'locked';
+  if(!isOpen(w)) return 'locked';
+  return guestOK(w) ? 'live' : 'guest';   // 'guest' = released, but needs an account
 }
+const playable = s => s==='live' || s==='complete';
 function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
 // A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
 function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
@@ -460,7 +477,15 @@ let READ={};          // { 'w01:0':true }
 let REFL=[];          // [{week_id,body,created_at}]
 
 function loadLocal(){ try{const d=JSON.parse(localStorage.getItem(LS)||'{}');PROG=d.progress||{};READ=d.reading||{};REFL=d.reflections||[];PROFILE=d.profile||PROFILE;}catch(e){} }
-function saveLocal(){ localStorage.setItem(LS,JSON.stringify({progress:PROG,reading:READ,reflections:REFL,profile:PROFILE})); }
+function saveLocal(){
+  localStorage.setItem(LS,JSON.stringify({progress:PROG,reading:READ,reflections:REFL,profile:PROFILE}));
+  /* Mirror guest work to its OWN key. The main blob above is rebuilt from the
+     server the instant they sign in, so it can never be what a claim reads.
+     This key is written only while GUEST and removed only when the claim is
+     answered - so the work survives leaving guest mode by ANY route: the wall's
+     button, Profile > Sign out, or a sign-in link that only arrives days later. */
+  if(GUEST) try{ localStorage.setItem(LS+'-guestwork',JSON.stringify({progress:PROG,reflections:REFL})); }catch(_){}
+}
 
 /* ============ auth ============ */
 /* A failed magic link comes back as #error=access_denied&error_code=otp_expired&...
@@ -486,7 +511,10 @@ async function boot(){
     if(session){ await onSignedIn(session.user); await handleReturn(params); return; }
   }
   if(authErr){ showLogin(); const m=$('#codemsg')&&getPending()?$('#codemsg'):$('#loginmsg'); m.dataset.t='err'; m.textContent=authErr; return; }
-  if(localStorage.getItem(LS+'-guest')){ GUEST=true; enterApp(); await handleReturn(params); return; }
+  // saveLocal() here seeds the guest-work mirror for anyone who was already
+  // playing as a guest before this build shipped: they have progress in the
+  // main blob but no -guestwork key until something writes one.
+  if(localStorage.getItem(LS+'-guest')){ GUEST=true; saveLocal(); enterApp(); await handleReturn(params); return; }
   showLogin();
 }
 function showLogin(){
@@ -497,6 +525,12 @@ function showLogin(){
     $('#step-email').style.display='none'; $('#step-code').style.display='block';
     const m=$('#codemsg'); m.dataset.t=''; m.textContent='';
   }
+  /* Came from the guest wall: land them on a sentence about signing up rather
+     than a bare form they did not ask for, and say plainly that their guest
+     cases are not lost - that is the single biggest reason not to sign up. */
+  let up=false;
+  try{ up = sessionStorage.getItem(LS+'-upsell')==='1'; if(up) sessionStorage.removeItem(LS+'-upsell'); }catch(_){}
+  if(up && !getPending()){ const m=$('#loginmsg'); m.dataset.t=''; m.textContent='Create your account below — an email is all it takes, and the cases you have already done on this device can be added to your record once you are in.'; }
 }
 /* ============================================================
    PSEUDONYMITY — the trainee's email address never reaches the UI.
@@ -603,7 +637,10 @@ function signOut(){ if(SB&&USER)SB.auth.signOut(); localStorage.removeItem(LS+'-
 async function handleReturn(params){
   if(!params.get('mp_done')) return;
   const week=params.get('mp_week'), score=+params.get('mp_score'), max=+params.get('mp_max'), caseId=params.get('mp_case');
-  await upsertProgress(week,{caseDone:true,score});
+  // `max` is kept locally only (upsertProgress writes a fixed column list, so it
+  // never reaches the progress table) - it is what lets a later guest claim
+  // write a complete attempts row.
+  await upsertProgress(week,{caseDone:true,score,max});
   if(SB&&USER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
   history.replaceState({},'',location.pathname);
   toast(`Saved — ${score}/${max} on this week's case.`);
@@ -693,10 +730,11 @@ function renderHome(){
   const cur=[...PROGRAM].reverse().find(isOpen) || PROGRAM[0];
   const t=cpdTotals();
   const rev=revealed(cur), cn=caseNo(cur);
+  const curLocked = !guestOK(cur);
   const bannerHtml = (isOpen(cur) && !(PROG[cur.id]||{}).caseDone && !localStorage.getItem('mp-ban-'+cur.id))
-    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>Case ${cn}</b>.</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
+    ? `<div class="banner"><span aria-hidden="true">◆</span><div>This week's case is live — <b>Case ${cn}</b>.${curLocked?' Sign in to play it.':''}</div><button class="x" id="banx" aria-label="Dismiss">✕</button></div>`:'';
   const v=el('div','view on');
-  v.innerHTML=`${bannerHtml}
+  v.innerHTML=`${bannerHtml}${claimCardHTML()}
     <div class="kicker">This week</div>
     <h2 class="view-h">Good to see you, ${escapeHtml(PROFILE?.pseudonym||'Trainee')}.</h2>
     <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
@@ -707,8 +745,10 @@ function renderHome(){
     <div class="hero">
       <div class="wk">CASE ${cn}</div>
       <h3>${rev?cur.t:'Case '+cn}</h3>
-      <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${cur.caseId?'Work them up, commit a diagnosis, and manage it.':'Interactive case in production.'}</p>
-      ${cur.caseId?`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`:`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`}
+      <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${!cur.caseId?'Interactive case in production.':curLocked?'New cases are for signed-in trainees — an account also holds your CPD record, certificate and leaderboard place.':'Work them up, commit a diagnosis, and manage it.'}</p>
+      ${!cur.caseId?`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`
+        :curLocked?`<button class="btn" data-signup>Create a free account ↗</button>`
+        :`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`}
     </div>
     <div class="card">
       <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
@@ -722,6 +762,8 @@ function renderHome(){
   mount(v);
   if(rev) renderReadList($('#homeread'),cur);
   const bx=$('#banx'); if(bx)bx.onclick=()=>{localStorage.setItem('mp-ban-'+cur.id,'1');renderHome();};
+  const cy=$('#claimYes'); if(cy)cy.onclick=claimGuestWork;
+  const cnb=$('#claimNo'); if(cnb)cnb.onclick=()=>{discardClaim();renderHome();toast('Discarded — those cases were not added.');};
 }
 
 function renderReadList(ul,w){
@@ -751,10 +793,10 @@ function renderProgramme(){
   });
   shownCases.forEach(w=>{
     const s=weekState(w,PROG);
-    const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':'<span class="badge badge--locked">locked</span>';
+    const badge=s==='complete'?'<span class="badge badge--complete">done</span>':s==='live'?'<span class="badge badge--live">live</span>':s==='guest'?'<span class="badge badge--acct">account</span>':'<span class="badge badge--locked">locked</span>';
     const rev=revealed(w), cn=caseNo(w);
     const row=el('button','wkrow');row.dataset.s=s;
-    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Not released yet':s==='complete'?'Completed':'Live now — tap to start')}</span>${evidenceBadge(w,true)}</span>${badge}`;
+    row.innerHTML=`<span class="num">${cn}</span><span class="t"><b>${rev?w.t:'Case '+cn}</b><span>${rev?w.sub:(s==='locked'?'Not released yet':s==='complete'?'Completed':s==='guest'?'Live now — free account needed':'Live now — tap to start')}</span>${evidenceBadge(w,true)}</span>${badge}`;
     row.onclick=()=>openWeek(w.id);
     box.appendChild(row);
   });
@@ -762,7 +804,7 @@ function renderProgramme(){
 
 function openWeek(id){
   const w=PROGRAM.find(x=>x.id===id); const s=weekState(w,PROG); const p=PROG[id]||{}; const rev=revealed(w); const cn=caseNo(w);
-  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Coming soon</span>`;
+  const pill=s==='complete'?`<span class="pill" style="background:var(--good-bg);color:var(--good)">Solved · ${p.score??''}</span>`:s==='live'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now</span>':s==='guest'?'<span class="pill" style="background:var(--accent-bg);color:var(--accent-2)">Live now · account needed</span>':`<span class="pill" style="background:var(--paper-3);color:var(--faint)">Coming soon</span>`;
   const head=`<button class="close" onclick="closeModal()">✕</button>
     <div class="detmeta">Case ${cn}</div>
     ${pill}
@@ -773,12 +815,14 @@ function openWeek(id){
     ${evidenceBadge(w)}
     <div class="card__label" style="margin-top:var(--s4)">Learning objectives</div>
     <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
-    ${s!=='locked'&&w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:''}
+    ${!w.caseId?'':playable(s)?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:s==='guest'?guestUpsell():''}
     <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
     <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Friday'}</button></div>
     <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
   } else if(s==='locked'){
     body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Not released yet — this one arrives in a future week.</p>`;
+  } else if(s==='guest'){
+    body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s3)">A new patient — you go in blind, as always. The topic, objectives and reading unlock the moment you solve it.</p>${guestUpsell()}`;
   } else {
     body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">A new patient — you go in blind. Take a history, examine, investigate, then commit a diagnosis. The topic, objectives and reading unlock the moment you solve it.</p>
     ${w.caseId?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">Start case ↗</button>`:'<div style="font-size:.85rem;color:var(--muted)">Interactive case in production for this week.</div>'}`;
@@ -858,7 +902,98 @@ function wireLaunchers(scope){
   scope.querySelectorAll('[data-debrief]').forEach(b=>b.onclick=()=>{upsertProgress(b.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');});
 }
 document.body.addEventListener('click',e=>{const t=e.target.closest('[data-launch]');if(t&&!$('#views').contains(t))launch(t.dataset.launch);const w=e.target.closest('[data-week]');if(w&&!$('#views').contains(w))openWeek(w.dataset.week);const d=e.target.closest('[data-debrief]');if(d&&!$('#views').contains(d)){upsertProgress(d.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');}});
-function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;} const ret=encodeURIComponent(location.origin+location.pathname+'?v='+APP_VERSION); location.href=`${w.url}${w.url.includes('?')?'&':'?'}v=${APP_VERSION}&return=${ret}&week=${id}`; }
+/* ============================================================
+   THE GUEST WALL. A bare lock reads as a bug; a wall that says what
+   an account buys reads as a reason. Keep the copy specific - CPD
+   record, certificate, leaderboard - because those are precisely the
+   three things guest mode genuinely cannot keep.
+   ============================================================ */
+function guestUpsell(){
+  return `<div class="card" style="margin:var(--s3) 0">
+    <div class="card__label">Free account needed</div>
+    <p style="font-size:.88rem;color:var(--muted);margin:0 0 var(--s3)">New cases are for signed-in trainees. An account takes an email and nothing else, and it is what holds your CPD record, your certificate and your place on the cohort leaderboard — none of which guest mode can keep.</p>
+    <button class="btn btn--wide" data-signup>Create a free account</button>
+  </div>`;
+}
+/* signOut() clears only the guest flag and reloads; the local progress under
+   LS is untouched, so nothing is destroyed by walking to the login screen. */
+function goSignUp(){ try{sessionStorage.setItem(LS+'-upsell','1');}catch(_){} signOut(); }
+
+/* ============================================================
+   CLAIMING GUEST WORK.
+   A guest's cases live in localStorage alone, and signing up used to
+   destroy them: pullData() rebuilds PROG from the server and a new
+   account returns nothing. The guest wall now pushes people to sign up
+   mid-programme, so that loss sits squarely on the conversion path.
+   It is ASKED, never automatic. These are shared ward computers and
+   this is a CPD evidence trail: silently absorbing whatever the last
+   guest did into the next trainee's record would be a worse failure
+   than losing it. Not armed by any one button: it reads the -guestwork mirror
+   that guest mode maintains, so it survives whichever way they leave guest mode
+   and however long they take to finish signing in. Confirmed on Home, spent once.
+   ============================================================ */
+function claimSnapshot(){ try{ return JSON.parse(localStorage.getItem(LS+'-guestwork')||'null'); }catch(_){ return null; } }
+function discardClaim(){ try{ localStorage.removeItem(LS+'-guestwork'); }catch(_){} }
+/* Weeks the claim would actually change - so a claim that adds nothing
+   (they already re-played those cases signed in) never nags. */
+function claimPending(){
+  if(GUEST||!USER) return [];
+  const snap=claimSnapshot(); if(!snap) return [];
+  const gp=snap.progress||{};
+  return Object.keys(gp).filter(k=>{
+    const g=gp[k]||{}, cur=PROG[k]||{};
+    return g.caseDone && (!cur.caseDone || (g.score??-1)>(cur.score??-1));
+  });
+}
+function claimCardHTML(){
+  const n=claimPending().length; if(!n) return '';
+  return `<div class="card" style="border-color:var(--accent)">
+    <div class="card__label">From guest mode on this device</div>
+    <p style="font-size:.88rem;color:var(--muted);margin:0 0 var(--s3)">${n} completed case${n===1?'':'s'} ${n===1?'is':'are'} stored on this device from before you signed in. Add ${n===1?'it':'them'} to your record? <b style="font-weight:600">Only if the work is yours</b> — this device may have been used by someone else.</p>
+    <div style="display:flex;gap:var(--s2);flex-wrap:wrap">
+      <button class="btn btn--sm" id="claimYes">Add to my record</button>
+      <button class="btn btn--ghost btn--sm" id="claimNo">Not mine — discard</button>
+    </div>
+  </div>`;
+}
+async function claimGuestWork(){
+  const snap=claimSnapshot(); if(!snap){ renderHome(); return; }
+  const gp=snap.progress||{}, weeks=claimPending();
+  for(const wk of weeks){
+    const g=gp[wk]||{}, cur=PROG[wk]||{};
+    /* Flags OR-ed and the better score wins, so a claim can only ever add to
+       the account - never overwrite a signed-in result with a worse guest one. */
+    let score=Math.max(cur.score??-Infinity, g.score??-Infinity);
+    if(!isFinite(score)) score=null;
+    await upsertProgress(wk,{caseDone:true,score,
+      debriefDone:!!(cur.debriefDone||g.debriefDone),
+      readingDone:!!(cur.readingDone||g.readingDone)});
+    /* get_leaderboard() aggregates MAX(score) per week from `attempts`, not
+       from `progress` - without this row a claimed case restores the CPD
+       record and the certificate but still scores zero on the board. */
+    if(SB&&USER&&g.score!=null){
+      const w=PROGRAM.find(x=>x.id===wk);
+      await SB.from('attempts').insert({student_id:USER.id,week_id:wk,case_id:w?w.caseId:null,score:g.score,max_score:g.max??null});
+    }
+  }
+  for(const r of (snap.reflections||[])){
+    if(REFL.some(x=>x.week_id===r.week_id&&x.body===r.body)) continue;
+    REFL.unshift(r);
+    if(SB&&USER) await SB.from('reflections').insert({student_id:USER.id,week_id:r.week_id,body:r.body});
+  }
+  saveLocal(); discardClaim();
+  toast(`Added ${weeks.length} case${weeks.length===1?'':'s'} to your record.`);
+  renderHome();
+}
+/* Delegated at body level so it fires from the week modal too - the modal
+   lives outside #views, which is all the [data-launch] wiring covers. */
+document.body.addEventListener('click',e=>{ if(e.target.closest('[data-signup]')) goSignUp(); });
+
+function launch(id){ const w=PROGRAM.find(x=>x.id===id); if(!w||!w.url){toast('Case in production for this week.');return;}
+  /* The real gate. Every visible path is styled for it, but this is the one
+     that actually holds - the delegated [data-launch] handler can be reached
+     from markup rendered before a state change. */
+  if(!guestOK(w)){ openWeek(id); toast('Create a free account to play this one.'); return; } const ret=encodeURIComponent(location.origin+location.pathname+'?v='+APP_VERSION); location.href=`${w.url}${w.url.includes('?')?'&':'?'}v=${APP_VERSION}&return=${ret}&week=${id}`; }
 function updateBell(){ const cur=[...PROGRAM].reverse().find(isOpen); $('#belldot').classList.toggle('on', !!(cur&&!(PROG[cur.id]||{}).caseDone)); }
 $('#bell').onclick=()=>go('home');
 function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
