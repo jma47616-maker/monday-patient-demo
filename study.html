@@ -203,6 +203,18 @@ h2.view-h{font-size:1.9rem;margin-bottom:var(--s2)}
 .lb .nm{flex:1;font-weight:500}
 .lb .sc{font-family:var(--fm);font-weight:600}
 .empty{text-align:center;color:var(--muted);padding:var(--s6) var(--s4);font-size:.9rem}
+/* --- admin --- */
+.subrow{border-bottom:1px solid var(--rule);padding:var(--s2) 0}
+.subrow summary{cursor:pointer;font-size:.9rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:baseline}
+.subrow summary span{font-size:.75rem;color:var(--faint);font-family:var(--fm)}
+.subrow summary em{flex:1 1 100%;color:var(--muted);font-size:.82rem;font-style:normal}
+.subrow pre{white-space:pre-wrap;word-break:break-word;font-family:var(--fm);font-size:.78rem;background:var(--paper-3);border-radius:var(--r-sm);padding:var(--s3);margin-top:var(--s2);max-height:26rem;overflow:auto}
+/* a wide table scrolls inside its own box; the page itself never scrolls sideways */
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.adm{border-collapse:collapse;width:100%;font-size:.82rem;min-width:30rem}
+table.adm th{text-align:left;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--rule-2);white-space:nowrap}
+table.adm td{padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.adm td.mono{font-size:.75rem;color:var(--muted);word-break:break-all}
 
 /* reflections */
 .refl{background:var(--paper);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);margin-bottom:var(--s2)}
@@ -339,7 +351,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.26';
+const APP_VERSION='1.0.27';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -508,6 +520,7 @@ function getPending(){ if(PENDING_EMAIL) return PENDING_EMAIL; try{return sessio
 function clearPending(){ PENDING_EMAIL=''; try{sessionStorage.removeItem(PENDING_KEY);}catch(_){} }
 let PROFILE=null;     // {pseudonym, cohort}
 let GUEST=false;
+let IS_ADMIN=false;   // set from the DB after sign-in, never assumed from the client
 let PROG={};          // { w01:{caseDone,score,debriefDone}, ... }
 let READ={};          // { 'w01:0':true }
 let REFL=[];          // [{week_id,body,created_at}]
@@ -608,6 +621,8 @@ async function onSignedIn(user){
     PROFILE={pseudonym:pseud,cohort:prof.cohort};
   }
   await pullData();
+  // asked of the database, never inferred in the client
+  try{ const {data}=await SB.rpc('is_admin'); IS_ADMIN=(data===true); }catch(_){ IS_ADMIN=false; }
   enterApp();
 }
 async function pullData(){
@@ -709,7 +724,10 @@ async function handleReturn(params){
 const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦'],['submit','Submit','✚']];
 let VIEW='home';
 function buildNav(){
-  const mk=(cont,mobile)=>{cont.innerHTML='';NAV.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
+  // the Admin entry is appended rather than living in NAV, so it exists only
+  // for an admin. Hiding it is a courtesy - the database is what enforces it.
+  const items = IS_ADMIN ? NAV.concat([['admin','Admin','⚙']]) : NAV;
+  const mk=(cont,mobile)=>{cont.innerHTML='';items.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
   mk($('#nav-d')); mk($('#nav-m'));
 }
 function enterApp(){
@@ -772,7 +790,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleProf(false);
 const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
 
 /* ============ views ============ */
-function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit}[VIEW]; if(f) f(); }
+function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit,admin:renderAdmin}[VIEW]; if(f) f(); }
 
 function renderSubmit(){
   const v=el('div','view on');
@@ -793,6 +811,49 @@ function renderSubmit(){
       <p style="font-size:.92rem;color:var(--muted)">The form saves as you type, on your own device, and sends nothing anywhere on its own — so you can be bleeped halfway through and come back to it. When you are done it hands you the whole thing to paste into an email or WhatsApp.</p>
     </div>`;
   mount(v);
+}
+
+/* ============================================================
+   ADMIN. Everything here is gated in the database: an INSERT-only
+   submissions table with a select policy behind is_admin(), and
+   admin_roster() which re-checks is_admin() in its own body. This view
+   only decides what to draw - it is not what keeps anyone out.
+   ============================================================ */
+async function renderAdmin(){
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">Admin</div>
+    <h2 class="view-h">The back office.</h2>
+    <p class="lede">Yours only. Enforced by the database, not by hiding this tab — someone opening this view without the rights simply sees nothing.</p>
+    <div class="card"><div class="card__label">Case submissions</div><div id="subs"><div class="empty">Loading…</div></div></div>
+    <div class="card"><div class="card__label">The cohort</div><div id="roster"><div class="empty">Loading…</div></div></div>`;
+  mount(v);
+  if(!SB||!USER||!IS_ADMIN){ $('#subs').innerHTML='<div class="empty">Not available.</div>'; $('#roster').innerHTML='<div class="empty">Not available.</div>'; return; }
+
+  const {data:subs,error:se}=await SB.from('submissions').select('id,created_at,body,payload').order('created_at',{ascending:false});
+  const sb=$('#subs');
+  if(se) sb.innerHTML='<div class="empty">Could not load ('+escapeHtml(se.message)+').</div>';
+  else if(!subs||!subs.length) sb.innerHTML='<div class="empty">No case submissions yet.</div>';
+  else sb.innerHTML=subs.map(r=>{
+    const who=(r.payload&&(r.payload.q_name||r.payload.q_grade))||'Anonymous';
+    const one=(r.payload&&r.payload.q_oneline)||'';
+    return `<details class="subrow"><summary><b>${escapeHtml(who)}</b> <span>${new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span>`
+      +`${one?`<em>${escapeHtml(one)}</em>`:''}</summary><pre>${escapeHtml(r.body||'')}</pre></details>`;
+  }).join('');
+
+  const {data:ros,error:re}=await SB.rpc('admin_roster');
+  const rb=$('#roster');
+  if(re) rb.innerHTML='<div class="empty">Could not load ('+escapeHtml(re.message)+').</div>';
+  else if(!ros||!ros.length) rb.innerHTML='<div class="empty">Nobody signed up yet.</div>';
+  else {
+    const played=ros.filter(r=>+r.cases_done>0).length;
+    rb.innerHTML=`<p style="font-size:.85rem;color:var(--muted);margin-bottom:var(--s3)">`
+      +`<b>${ros.length}</b> signed up · <b>${played}</b> ${played===1?'has':'have'} played at least one case · <b>${ros.length-played}</b> ${ros.length-played===1?'has':'have'} not started</p>`
+      +`<div class="tablewrap"><table class="adm"><thead><tr><th>Pseudonym</th><th>Email</th><th>Cases</th><th>Score</th><th>Last seen</th></tr></thead><tbody>`
+      +ros.map(r=>`<tr><td>${escapeHtml(r.pseudonym||'—')}</td><td class="mono">${escapeHtml(r.email||'')}</td>`
+        +`<td>${r.cases_done}</td><td>${r.total_score}</td>`
+        +`<td>${r.last_active?new Date(r.last_active).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'—'}</td></tr>`).join('')
+      +`</tbody></table></div>`;
+  }
 }
 
 function cpdTotals(){
