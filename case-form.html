@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#faf6f0">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Case form">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<title>The Monday Patient · Case submission</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#faf6f0;--paper-2:#f3ece1;--paper-3:#ece2d4;
+  --ink:#2b241d;--ink-2:#4a4136;--muted:#7a6f60;--faint:#9c917f;
+  --rule:#e3d8c8;--rule-2:#d4c7b3;
+  --accent:#b8552e;--accent-2:#9c4525;--accent-bg:#f6e6db;--accent-ink:#fdf6f0;
+  --good:#3f7d52;--good-bg:#e6f0e6;
+  --fd:"Fraunces",Georgia,serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--ease:cubic-bezier(.16,1,.3,1);
+  --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
+}
+@supports (color:oklch(50% 0 0)){:root{
+  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
+  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
+  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
+  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
+  --good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);
+}}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;padding:var(--s5) var(--s4) var(--s7)}
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+h1,h2{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.wrap{max-width:44rem;margin:0 auto}
+
+/* ---- brand: the 5a mark, inlined, exactly as the hub carries it ---- */
+.brand{display:flex;align-items:center;gap:.5rem;margin-bottom:var(--s5)}
+.mp-mark{height:1.25em;width:auto;flex:none}
+.brand span{white-space:nowrap;position:relative;padding-bottom:.55em;font-family:var(--fd);font-size:1.15rem;font-weight:600}
+.brand em{font-style:italic;color:var(--accent-2)}
+.wm-ecg{position:absolute;left:0;right:0;bottom:0;height:auto;display:block}
+@media (max-width:479px){ .brand span{display:none} .brand .mp-mark{height:1.9em} }
+
+.kicker{font-family:var(--fm);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin-bottom:var(--s2)}
+h1{font-size:2rem;margin-bottom:var(--s3)}
+.lede{color:var(--muted);margin-bottom:var(--s4)}
+.lede b{color:var(--ink);font-weight:600}
+
+.privacy{display:flex;gap:var(--s3);align-items:flex-start;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.85rem;color:var(--muted);margin-bottom:var(--s6)}
+.privacy b{color:var(--ink);font-weight:600}
+
+section{border-top:1px solid var(--rule);padding-top:var(--s5);margin-top:var(--s5)}
+h2{font-size:1.15rem;color:var(--accent-2);margin-bottom:var(--s2)}
+h2 .n{font-family:var(--fm);font-size:.85rem;color:var(--faint);margin-right:.5rem}
+.hint{font-size:.85rem;color:var(--muted);margin-bottom:var(--s3)}
+.hint em{color:var(--ink-2)}
+
+label{display:block;font-size:.85rem;font-weight:600;margin:var(--s4) 0 var(--s1)}
+label:first-of-type{margin-top:var(--s2)}
+input[type=text],textarea{width:100%;background:var(--paper-2);border:1px solid var(--rule-2);border-radius:var(--r-sm);padding:var(--s3);line-height:1.5;transition:border-color .15s,background .15s}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+textarea{resize:vertical;min-height:4.5rem;overflow:hidden}
+.sub{font-size:.78rem;color:var(--faint);margin-top:var(--s1)}
+
+/* the confusion set: three stacked blocks, because a 3-col table is unusable on a phone */
+.dx{background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s3) var(--s4) var(--s4);margin-bottom:var(--s3)}
+.dx .tag{font-family:var(--fm);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
+.dx input,.dx textarea{background:#fff}
+
+.radios{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s2)}
+.radios label{display:inline-flex;align-items:center;gap:.4rem;margin:0;font-weight:400;font-size:.9rem;background:var(--paper-2);border:1px solid var(--rule-2);border-radius:999px;padding:.4rem .8rem;cursor:pointer}
+.radios input{accent-color:var(--accent)}
+.gov{display:flex;gap:var(--s3);align-items:flex-start;background:var(--good-bg);border:1px solid color-mix(in oklab,var(--good) 25%,transparent);border-radius:var(--r-md);padding:var(--s4);font-size:.9rem}
+.gov input{margin-top:.25rem;width:1.1rem;height:1.1rem;accent-color:var(--good);flex:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:48px;padding:var(--s3) var(--s5);background:var(--accent);color:var(--accent-ink);font-weight:600;border:1px solid var(--accent);border-radius:var(--r-md);box-shadow:var(--shadow);transition:transform .12s var(--ease),filter .2s var(--ease)}
+.btn:hover{filter:brightness(1.06)}.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.btn--ghost{background:transparent;color:var(--ink);border-color:var(--rule-2);box-shadow:none}
+.btn--ghost:hover{background:var(--paper-2);filter:none}
+.btn--wide{width:100%}
+/* Only the primary action sticks. Three buttons plus a status line took a third
+   of a 375px screen and sat on top of section 1 — the secondary actions belong
+   at the end of the form, where someone reaches for them anyway. */
+.actions{position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 70%,transparent);padding:var(--s4) 0 var(--s2);margin-top:var(--s6)}
+.saved{margin-top:var(--s1)}
+.row{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s5)}
+.row .btn{flex:1 1 10rem}
+.saved{font-size:.78rem;color:var(--faint);text-align:center;min-height:1.2em}
+.saved[data-t=ok]{color:var(--good)}
+
+.tail{margin-top:var(--s6);border-top:1px solid var(--rule);padding-top:var(--s5);font-size:.88rem;color:var(--muted)}
+.tail h2{font-size:1rem;margin-bottom:var(--s3)}
+.tail ul{margin:0;padding-left:1.1rem}
+.tail li{margin-bottom:var(--s2)}
+
+@media print{
+  .actions,.privacy,.tail{display:none!important}
+  body{background:#fff;padding:0}
+  input[type=text],textarea{background:#fff;border:none;border-bottom:1px solid #bbb;border-radius:0}
+  section{break-inside:avoid}
+}
+@media(prefers-reduced-motion:reduce){*{transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+
+  <div class="kicker">Case submission</div>
+  <h1>Send me a case.</h1>
+  <p class="lede"><b>What I need:</b> the clinical bones. Bullet points are fine. Twenty minutes.<br>
+  <b>What I don't need:</b> code, images, artwork, or anything finished — I build all of that. If a box doesn't apply or you don't know, write "not sure" and move on. A half-filled form is far more useful to me than no form.</p>
+  <p class="lede">The one that really matters is <b>box 5</b>. Everything else I can chase you for.</p>
+
+  <div class="privacy"><span aria-hidden="true">🔒</span><div><b>Nothing is sent anywhere.</b> This page has no server behind it. What you type stays in this browser and is saved as you go, so you can be interrupted and come back. When you're done, tap <b>Copy the whole form</b> and paste it into an email or WhatsApp.</div></div>
+
+  <form id="f">
+
+  <section>
+    <h2><span class="n">1</span>You</h2>
+    <label for="q_name">Name, as you'd like it credited</label>
+    <input type="text" id="q_name" autocomplete="name">
+    <label for="q_grade">Grade and trust</label>
+    <input type="text" id="q_grade">
+    <label>Happy to be named in the byline?</label>
+    <div class="radios">
+      <label><input type="radio" name="byline" value="Yes"> Yes</label>
+      <label><input type="radio" name="byline" value="No — keep me anonymous"> No, keep me anonymous</label>
+      <label><input type="radio" name="byline" value="Ask me later"> Ask me later</label>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>The case in one line</h2>
+    <p class="hint">Not the diagnosis — the way it walks through the door. <em>e.g. "Young woman, confused, three days into antibiotics for a UTI she never had."</em></p>
+    <textarea id="q_oneline" rows="2"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>The patient</h2>
+    <label for="q_arrival">Age, sex, how they arrive, who is with them</label>
+    <textarea id="q_arrival" rows="2"></textarea>
+    <label for="q_handover">What the nurse hands you as you pick up the notes</label>
+    <textarea id="q_handover" rows="2"></textarea>
+    <label for="q_obs">First obs</label>
+    <textarea id="q_obs" rows="2"></textarea>
+    <div class="sub">HR, BP, RR, SpO₂, temp, GCS or AVPU, glucose if relevant.</div>
+    <label for="q_pmh">Past history, drugs, allergies, social — only what matters</label>
+    <textarea id="q_pmh" rows="2"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>The real diagnosis</h2>
+    <label for="q_dx">Diagnosis</label>
+    <input type="text" id="q_dx">
+    <label for="q_sick">How sick are they really, and how fast does it move?</label>
+    <textarea id="q_sick" rows="2"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>What else it could plausibly be</h2>
+    <p class="hint">The most important box. Two or three competitors, and <em>both</em> halves for each — a decoy only works if it honestly explains part of the picture. "Obviously wrong" options teach nothing: the difficulty should come from temptation, never from hiding things.</p>
+    <div id="dxbox"></div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span>What actually settles it</h2>
+    <p class="hint">House rule: <em>no single investigation may hand the diagnosis over.</em> Spread it across all three.</p>
+    <label for="q_dis_hx">From the history</label>
+    <textarea id="q_dis_hx" rows="2"></textarea>
+    <label for="q_dis_ex">From the examination</label>
+    <textarea id="q_dis_ex" rows="2"></textarea>
+    <label for="q_dis_ix">From the investigations</label>
+    <textarea id="q_dis_ix" rows="2"></textarea>
+    <label for="q_seen">Anything a doctor would <em>see</em> rather than be told?</label>
+    <textarea id="q_seen" rows="2"></textarea>
+    <div class="sub">A rash, the stool, the JVP, a blood film. Flag them — those become photographs in the case.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">7</span>The traps</h2>
+    <p class="hint">What might a competent doctor reasonably do here that would be wrong, or harmful? The best ones are real, from current guidance or a trial — not invented gotchas. <em>Case 1: giving TXA, post-HALT-IT. Case 3: transfusing platelets in TTP.</em></p>
+    <textarea id="q_traps" rows="3"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">8</span>Management</h2>
+    <label for="q_std">Which guideline, bundle or care pathway should the plan be marked against?</label>
+    <textarea id="q_std" rows="2"></textarea>
+    <label for="q_danger">Anything genuinely dangerous, that should trigger a "…are you sure, doctor?"</label>
+    <textarea id="q_danger" rows="2"></textarea>
+    <label for="q_refer">Which team would they realistically be referred to?</label>
+    <input type="text" id="q_refer">
+  </section>
+
+  <section>
+    <h2><span class="n">9</span>Teaching points</h2>
+    <p class="hint">Three to five things you want someone to leave knowing.</p>
+    <textarea id="q_teach" rows="4"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">10</span>Sources</h2>
+    <p class="hint">Guidelines, trials or local pathways, with dates. Content has to be current at the time of writing, and I read whatever you cite before building.</p>
+    <textarea id="q_src" rows="3"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="n">11</span>Governance</h2>
+    <label class="gov"><input type="checkbox" id="q_gov"><span>The patient is <b>fictional</b>, or fully anonymised to Caldicott standard — no real identifiers, no real dates, nothing traceable to an actual person or admission.</span></label>
+  </section>
+
+  </form>
+
+  <div class="actions">
+    <button class="btn btn--wide" id="copy">Copy the whole form</button>
+    <div class="saved" id="saved"></div>
+  </div>
+  <div class="row">
+    <button class="btn btn--ghost" id="print">Print / save as PDF</button>
+    <button class="btn btn--ghost" id="clear">Clear the form</button>
+  </div>
+
+  <div class="tail">
+    <h2>What makes a case work on here, if it helps</h2>
+    <ul>
+      <li>The player goes in <b>blind</b> — no specialty, no title, no hints. The presentation has to carry the case on its own.</li>
+      <li>They <b>type</b> what they want to examine and what they want to order. Nothing is listed. Knowing to look is the skill being tested.</li>
+      <li>They commit a diagnosis before they're allowed to treat, and <b>getting it wrong ends the case</b> — so the discriminators have to be genuinely findable.</li>
+      <li>They then write a management plan in free text, which is marked against your bundle from box 8.</li>
+      <li>Roughly fifteen minutes, on a phone, usually at 21:40 on a Sunday.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const LS = 'mp-caseform-v1';
+
+/* The confusion set is built rather than written out three times: a 3-column
+   table is unusable on a phone, so each competitor is its own stacked block. */
+const DX_N = 3;
+$('#dxbox').innerHTML = Array.from({length:DX_N}, (_,i) => `
+  <div class="dx">
+    <div class="tag">Competitor ${i+1}${i>1?' — optional':''}</div>
+    <label for="dx${i}_what">Could be…</label>
+    <input type="text" id="dx${i}_what">
+    <label for="dx${i}_why">Why it's genuinely tempting</label>
+    <textarea id="dx${i}_why" rows="2"></textarea>
+    <label for="dx${i}_kill">The one thing that kills it</label>
+    <textarea id="dx${i}_kill" rows="2"></textarea>
+  </div>`).join('');
+
+const fields = [...document.querySelectorAll('#f input, #f textarea')];
+
+/* ---- autosave: clinicians get interrupted, and losing twenty minutes of
+   typing to a crash bleep is the fastest way to never get a second form ---- */
+function save(){
+  const d = {};
+  fields.forEach(el => {
+    if(el.type === 'radio'){ if(el.checked) d['r_'+el.name] = el.value; }
+    else if(el.type === 'checkbox') d[el.id] = el.checked;
+    else d[el.id] = el.value;
+  });
+  try{ localStorage.setItem(LS, JSON.stringify(d)); }catch(_){}
+  flash('Saved on this device');
+}
+function load(){
+  let d; try{ d = JSON.parse(localStorage.getItem(LS) || 'null'); }catch(_){ return; }
+  if(!d) return;
+  fields.forEach(el => {
+    if(el.type === 'radio'){ if(d['r_'+el.name] === el.value) el.checked = true; }
+    else if(el.type === 'checkbox'){ if(d[el.id]) el.checked = true; }
+    else if(d[el.id]){ el.value = d[el.id]; grow(el); }
+  });
+}
+let flashT;
+function flash(msg, ok){
+  const s = $('#saved'); s.textContent = msg; s.dataset.t = ok ? 'ok' : '';
+  clearTimeout(flashT); flashT = setTimeout(() => { s.textContent = ''; s.dataset.t = ''; }, 2600);
+}
+
+/* textareas grow with their content rather than making people scroll a 4-line box */
+function grow(el){ if(el.tagName !== 'TEXTAREA') return; el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
+fields.forEach(el => {
+  el.addEventListener('input', () => { grow(el); save(); });
+  el.addEventListener('change', save);
+});
+
+/* ---- the output: plain text, because it has to survive being pasted into
+   WhatsApp, Outlook, or a Word document with equal indifference ---- */
+const val = id => ($('#'+id) ? $('#'+id).value.trim() : '');
+const radio = name => { const r = document.querySelector(`input[name="${name}"]:checked`); return r ? r.value : ''; };
+function block(label, text){ return text ? label + '\n' + text + '\n\n' : ''; }
+
+function asText(){
+  let o = 'THE MONDAY PATIENT — CASE SUBMISSION\n';
+  o += '='.repeat(40) + '\n\n';
+  o += block('1. WHO', [val('q_name'), val('q_grade'), radio('byline') && 'Byline: ' + radio('byline')].filter(Boolean).join('\n'));
+  o += block('2. THE CASE IN ONE LINE', val('q_oneline'));
+  o += block('3. THE PATIENT',
+    [ val('q_arrival') && 'Arrival: ' + val('q_arrival'),
+      val('q_handover') && 'Handover: ' + val('q_handover'),
+      val('q_obs') && 'First obs: ' + val('q_obs'),
+      val('q_pmh') && 'Background: ' + val('q_pmh') ].filter(Boolean).join('\n'));
+  o += block('4. THE REAL DIAGNOSIS',
+    [ val('q_dx'), val('q_sick') && 'Severity / tempo: ' + val('q_sick') ].filter(Boolean).join('\n'));
+
+  let dx = '';
+  for(let i = 0; i < DX_N; i++){
+    const w = val(`dx${i}_what`); if(!w) continue;
+    dx += `• ${w}\n    Tempting because: ${val(`dx${i}_why`) || '—'}\n    Killed by: ${val(`dx${i}_kill`) || '—'}\n`;
+  }
+  o += block('5. WHAT ELSE IT COULD PLAUSIBLY BE', dx.trim());
+
+  o += block('6. WHAT ACTUALLY SETTLES IT',
+    [ val('q_dis_hx') && 'History: ' + val('q_dis_hx'),
+      val('q_dis_ex') && 'Examination: ' + val('q_dis_ex'),
+      val('q_dis_ix') && 'Investigations: ' + val('q_dis_ix'),
+      val('q_seen') && 'Seen rather than told: ' + val('q_seen') ].filter(Boolean).join('\n'));
+  o += block('7. THE TRAPS', val('q_traps'));
+  o += block('8. MANAGEMENT',
+    [ val('q_std') && 'Marked against: ' + val('q_std'),
+      val('q_danger') && 'Dangerous: ' + val('q_danger'),
+      val('q_refer') && 'Refer to: ' + val('q_refer') ].filter(Boolean).join('\n'));
+  o += block('9. TEACHING POINTS', val('q_teach'));
+  o += block('10. SOURCES', val('q_src'));
+  o += '11. GOVERNANCE\n' + ($('#q_gov').checked
+        ? 'Confirmed fictional or fully anonymised to Caldicott standard.'
+        : 'NOT YET CONFIRMED — please tick box 11 before sending.') + '\n';
+  return o;
+}
+
+$('#copy').onclick = async () => {
+  const t = asText();
+  try{
+    await navigator.clipboard.writeText(t);
+    flash('Copied — now paste it into an email or WhatsApp', true);
+  }catch(_){
+    /* clipboard API needs a secure context and permission; on an older phone
+       browser it just refuses, so fall back to selecting the text for them */
+    const ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.top = '0'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    let ok = false; try{ ok = document.execCommand('copy'); }catch(_){}
+    document.body.removeChild(ta);
+    flash(ok ? 'Copied — now paste it into an email or WhatsApp' : 'Could not copy — try Print / save as PDF instead', ok);
+  }
+};
+$('#print').onclick = () => window.print();
+$('#clear').onclick = () => {
+  if(!confirm('Clear everything you have typed on this device? This cannot be undone.')) return;
+  try{ localStorage.removeItem(LS); }catch(_){}
+  fields.forEach(el => { if(el.type === 'radio' || el.type === 'checkbox') el.checked = false; else el.value = ''; grow(el); });
+  flash('Cleared');
+};
+
+load();
+fields.forEach(grow);
+</script>
+</body>
+</html>

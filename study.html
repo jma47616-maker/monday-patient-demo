@@ -339,7 +339,7 @@ const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.25';
+const APP_VERSION='1.0.26';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -706,7 +706,7 @@ async function handleReturn(params){
 }
 
 /* ============ app shell ============ */
-const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦']];
+const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦'],['submit','Submit','✚']];
 let VIEW='home';
 function buildNav(){
   const mk=(cont,mobile)=>{cont.innerHTML='';NAV.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
@@ -772,7 +772,28 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleProf(false);
 const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
 
 /* ============ views ============ */
-function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard}[VIEW]; if(f) f(); }
+function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit}[VIEW]; if(f) f(); }
+
+function renderSubmit(){
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">Contribute</div>
+    <h2 class="view-h">Send me a case.</h2>
+    <p class="lede">Every case on here started as somebody's real shift. If you have one — a patient who fooled you, or very nearly did — it can become a Monday.</p>
+    <div class="card">
+      <div class="card__label">What I need</div>
+      <p style="font-size:.92rem;color:var(--muted);margin-bottom:var(--s4)">The clinical bones, nothing finished. Who walks in, what they have actually got, two or three things it could plausibly be instead, and what tells those apart. Bullet points are fine. Twenty minutes.</p>
+      <a class="btn btn--wide" style="text-decoration:none" href="case-form.html" target="_blank" rel="noopener">Open the case form ↗</a>
+    </div>
+    <div class="card">
+      <div class="card__label">What you do not need to do</div>
+      <p style="font-size:.92rem;color:var(--muted)">Write any code, draw anything, invent the questions, or make it look nice. That is my job. A half-filled form is far more useful to me than no form, and you get a byline on the case unless you would rather not.</p>
+    </div>
+    <div class="card">
+      <div class="card__label">Where it goes</div>
+      <p style="font-size:.92rem;color:var(--muted)">The form saves as you type, on your own device, and sends nothing anywhere on its own — so you can be bleeped halfway through and come back to it. When you are done it hands you the whole thing to paste into an email or WhatsApp.</p>
+    </div>`;
+  mount(v);
+}
 
 function cpdTotals(){
   // 0.15 of a point for solving the case; the remaining 0.85 lands only when that
