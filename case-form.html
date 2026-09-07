@@ -95,6 +95,12 @@ textarea{resize:vertical;min-height:4.5rem;overflow:hidden}
 .row .btn{flex:1 1 10rem}
 .saved{font-size:.78rem;color:var(--faint);text-align:center;min-height:1.2em}
 .saved[data-t=ok]{color:var(--good)}
+.saved[data-t=err]{color:var(--accent-2)}
+/* the unsent-queue notice: quiet, but it must not be missable, because it is
+   the one state where the author needs to know their work has not arrived */
+.pending{margin-top:var(--s4);background:var(--accent-bg);border:1px solid color-mix(in oklab,var(--accent) 30%,transparent);border-radius:var(--r-md);padding:var(--s3) var(--s4);font-size:.85rem}
+.pending b{font-weight:600}
+.pending button{background:none;border:none;color:var(--accent-2);font-weight:600;text-decoration:underline;padding:0;font-size:inherit}
 
 .tail{margin-top:var(--s6);border-top:1px solid var(--rule);padding-top:var(--s5);font-size:.88rem;color:var(--muted)}
 .tail h2{font-size:1rem;margin-bottom:var(--s3)}
@@ -121,7 +127,7 @@ textarea{resize:vertical;min-height:4.5rem;overflow:hidden}
   <b>What I don't need:</b> code, images, artwork, or anything finished — I build all of that. If a box doesn't apply or you don't know, write "not sure" and move on. A half-filled form is far more useful to me than no form.</p>
   <p class="lede">The one that really matters is <b>box 5</b>. Everything else I can chase you for.</p>
 
-  <div class="privacy"><span aria-hidden="true">🔒</span><div><b>Nothing is sent anywhere.</b> This page has no server behind it. What you type stays in this browser and is saved as you go, so you can be interrupted and come back. When you're done, tap <b>Copy the whole form</b> and paste it into an email or WhatsApp.</div></div>
+  <div class="privacy"><span aria-hidden="true">🔒</span><div><b>Saved as you type.</b> Everything stays in this browser while you work, so you can be bleeped halfway through and come back to it. Nothing leaves the device until you press <b>Send</b> — and if that can't get through, it stays saved here and keeps trying.</div></div>
 
   <form id="f">
 
@@ -222,13 +228,15 @@ textarea{resize:vertical;min-height:4.5rem;overflow:hidden}
   </form>
 
   <div class="actions">
-    <button class="btn btn--wide" id="copy">Copy the whole form</button>
+    <button class="btn btn--wide" id="send">Send</button>
     <div class="saved" id="saved"></div>
   </div>
   <div class="row">
+    <button class="btn btn--ghost" id="copy">Copy the whole form</button>
     <button class="btn btn--ghost" id="print">Print / save as PDF</button>
     <button class="btn btn--ghost" id="clear">Clear the form</button>
   </div>
+  <p class="pending" id="pending" hidden></p>
 
   <div class="tail">
     <h2>What makes a case work on here, if it helps</h2>
@@ -285,9 +293,10 @@ function load(){
   });
 }
 let flashT;
-function flash(msg, ok){
-  const s = $('#saved'); s.textContent = msg; s.dataset.t = ok ? 'ok' : '';
-  clearTimeout(flashT); flashT = setTimeout(() => { s.textContent = ''; s.dataset.t = ''; }, 2600);
+function flash(msg, ok, type){
+  const s = $('#saved'); s.textContent = msg; s.dataset.t = type || (ok ? 'ok' : '');
+  // failures linger, because they ask something of the reader; saves do not
+  clearTimeout(flashT); flashT = setTimeout(() => { s.textContent = ''; s.dataset.t = ''; }, type === 'err' ? 7000 : 2600);
 }
 
 /* textareas grow with their content rather than making people scroll a 4-line box */
@@ -341,6 +350,114 @@ function asText(){
   return o;
 }
 
+/* ============================================================
+   SENDING.
+   The rule this is built around: a send that fails must never cost anyone
+   their typing. So the form is saved locally first and always, the send is
+   a separate step on top, and a failure parks the submission in an outbox
+   that retries by itself — on the next visit, when the device comes back
+   online, or when they press the link. Copy the whole form stays as the
+   last resort that needs no network at all.
+
+   The key below is the publishable key, the same one the hub ships. It is
+   safe in public: the submissions table has an INSERT policy and no SELECT
+   policy, so this key can add a case and cannot read anybody else's.
+   ============================================================ */
+const SB_URL = 'https://mjldqraifzpncjyafdkd.supabase.co';
+const SB_KEY = 'sb_publishable_9SqBEM4bxhYgNdaFwe_j9A_yXINlFBF';
+const OUTBOX = LS + '-outbox';
+const SENTLOG = LS + '-sent';
+
+function uuid(){
+  if(crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random()*16|0; return (c === 'x' ? r : (r&0x3|0x8)).toString(16);
+  });
+}
+function readOutbox(){ try{ return JSON.parse(localStorage.getItem(OUTBOX) || '[]'); }catch(_){ return []; } }
+function writeOutbox(a){ try{ localStorage.setItem(OUTBOX, JSON.stringify(a)); }catch(_){} showPending(); }
+
+function answers(){
+  const o = {};
+  fields.forEach(el => {
+    if(el.type === 'radio'){ if(el.checked) o[el.name] = el.value; }
+    else if(el.type === 'checkbox') o[el.id] = el.checked;
+    else if(el.value.trim()) o[el.id] = el.value.trim();
+  });
+  return o;
+}
+
+/* One POST. Resolves true only on a row actually landing. A duplicate key is
+   a retry of something already delivered, so that counts as delivered too. */
+async function post(item){
+  const res = await fetch(SB_URL + '/rest/v1/submissions', {
+    method: 'POST',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({ id: item.id, body: item.body, payload: item.payload, page: item.page })
+  });
+  if(res.ok) return true;
+  let t = ''; try{ t = await res.text(); }catch(_){}
+  if(res.status === 409 || t.indexOf('23505') > -1) return true;   // already there
+  throw new Error('HTTP ' + res.status + (t ? ' ' + t.slice(0,120) : ''));
+}
+
+async function flush(quiet){
+  const box = readOutbox();
+  if(!box.length) return true;
+  if(!navigator.onLine){ if(!quiet) flash('Still offline — it is saved and will go when you reconnect'); return false; }
+  const left = [];
+  let sentAny = false;
+  for(const item of box){
+    try{ await post(item); sentAny = true; }
+    catch(e){ left.push(item); }
+  }
+  writeOutbox(left);
+  if(left.length){ if(!quiet) flash('Could not send yet — it is saved and will keep trying', false, 'err'); return false; }
+  if(sentAny && !quiet) flash('Sent — thank you', true);
+  return true;
+}
+
+function showPending(){
+  const box = readOutbox(), el = $('#pending');
+  if(!box.length){ el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = '<b>Not sent yet.</b> Your case is saved on this device and will send itself when there is a connection. '
+    + '<button type="button" id="retry">Try again now</button> — or use <b>Copy the whole form</b> and send it by email.';
+  $('#retry').onclick = () => flush(false);
+}
+
+$('#send').onclick = async () => {
+  const body = asText();
+  if(!Object.keys(answers()).length){ flash('Nothing to send yet — fill something in first', false, 'err'); return; }
+  if(!$('#q_gov').checked && !confirm('You have not confirmed box 11 — that the patient is fictional or fully anonymised.\n\nSend it anyway?')) return;
+  let log = ''; try{ log = localStorage.getItem(SENTLOG) || ''; }catch(_){}
+  if(log === body && !confirm('You have already sent this version. Send another copy?')) return;
+
+  const btn = $('#send'); btn.disabled = true; btn.textContent = 'Sending…';
+  const item = { id: uuid(), body, payload: answers(), page: 'case-form ' + location.pathname };
+  try{
+    await post(item);
+    try{ localStorage.setItem(SENTLOG, body); }catch(_){}
+    flash('Sent — thank you', true);
+    btn.textContent = 'Sent ✓';
+  }catch(e){
+    /* queued, not lost - and said plainly, because the failure mode people
+       fear is silently losing twenty minutes of typing */
+    writeOutbox(readOutbox().concat([item]));
+    flash('Could not send — saved here, it will keep trying', false, 'err');
+    btn.textContent = 'Send';
+  }
+  btn.disabled = false;
+  setTimeout(() => { if(btn.textContent === 'Sent ✓') btn.textContent = 'Send'; }, 4000);
+};
+
+window.addEventListener('online', () => flush(true));
+
 $('#copy').onclick = async () => {
   const t = asText();
   try{
@@ -367,6 +484,10 @@ $('#clear').onclick = () => {
 
 load();
 fields.forEach(grow);
+/* Anything left unsent from a previous visit goes now, quietly. If it still
+   cannot get through, the banner says so rather than pretending otherwise. */
+showPending();
+flush(true);
 </script>
 </body>
 </html>
