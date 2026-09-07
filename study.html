@@ -634,8 +634,30 @@ $('#resendLink').onclick=async()=>{
   m.dataset.t='ok'; m.textContent='New link sent — check your inbox.';
 };
 $('#backEmail').onclick=()=>{ clearPending(); $('#codemsg').textContent=''; $('#step-code').style.display='none'; $('#step-email').style.display='block'; };
-$('#guest').onclick=()=>{ GUEST=true; localStorage.setItem(LS+'-guest','1'); if(!PROFILE)PROFILE={pseudonym:'Guest',cohort:'demo'}; saveLocal(); enterApp(); };
-function signOut(){ if(SB&&USER)SB.auth.signOut(); localStorage.removeItem(LS+'-guest'); location.reload(); }
+$('#guest').onclick=()=>{
+  /* Belt and braces for devices that still hold a signed-out account's data
+     from before the wipe above existed. The -guestwork mirror is written ONLY
+     in guest mode, so its presence is what tells us the leftover local data is
+     a guest's own work (resume it) rather than an account holder's (clear it). */
+  if(!localStorage.getItem(LS+'-guestwork')){ PROG={}; READ={}; REFL=[]; PROFILE=null; }
+  GUEST=true; localStorage.setItem(LS+'-guest','1');
+  if(!PROFILE)PROFILE={pseudonym:'Guest',cohort:'demo'};
+  saveLocal(); enterApp();
+};
+function signOut(){
+  const wasGuest=GUEST;
+  if(SB&&USER)SB.auth.signOut();
+  localStorage.removeItem(LS+'-guest');
+  /* Signing out of an ACCOUNT wipes this device's copy. It is only a mirror of
+     server-side data, so the owner loses nothing - pullData() refetches it all
+     on their next sign-in. Leaving it behind was showing the NEXT person on a
+     shared ward computer the previous trainee's pseudonym, cases and scores,
+     and worse: entering guest mode re-mirrored that work to -guestwork, where
+     it could then be claimed into somebody else's CPD record.
+     Guest sign-out deliberately keeps everything - that IS the conversion path. */
+  if(!wasGuest){ try{ localStorage.removeItem(LS); localStorage.removeItem(LS+'-guestwork'); }catch(_){} }
+  location.reload();
+}
 
 /* handle a case coming back with a result */
 async function handleReturn(params){
