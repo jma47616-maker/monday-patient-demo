@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#faf6f0">
+<meta name="theme-color" content="#fdf8ee">
 <meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Monday Patient">
@@ -11,28 +11,22 @@
 <title>The Monday Patient · Study hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   color-scheme:light;
-  --paper:#faf6f0;--paper-2:#f3ece1;--paper-3:#ece2d4;
-  --ink:#2b241d;--ink-2:#4a4136;--muted:#7a6f60;--faint:#9c917f;
-  --rule:#e3d8c8;--rule-2:#d4c7b3;
-  --accent:#b8552e;--accent-2:#9c4525;--accent-bg:#f6e6db;--accent-ink:#fdf6f0;
+  --paper:#fdf8ee;--paper-2:#faf0da;--paper-3:#f3e5c8;
+  --ink:#241c15;--ink-2:#463a2c;--muted:#7a6a52;--faint:#a08c6e;
+  --rule:#e8dcc2;--rule-2:#d9c9a6;
+  --accent:#c8531b;--accent-2:#a53f12;--accent-bg:#fbe4d3;--accent-ink:#fdf6f0;
   --good:#3f7d52;--good-bg:#e6f0e6;--warn:#9a6a16;--warn-bg:#f6ebd6;--danger:#b23b2e;--danger-bg:#f7e3df;
-  --fd:"Fraunces",Georgia,serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --fd:"Bricolage Grotesque", "Geist", ui-sans-serif, system-ui, sans-serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
   --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
   --r-sm:8px;--r-md:12px;--r-lg:18px;--ease:cubic-bezier(.16,1,.3,1);
   --shadow:0 1px 2px rgba(43,36,29,.05),0 4px 16px rgba(43,36,29,.06);
   --shadow-lg:0 2px 6px rgba(43,36,29,.06),0 12px 36px rgba(43,36,29,.12);
+  --gold: #e0a521;
 }
-@supports (color:oklch(50% 0 0)){:root{
-  --paper:oklch(98% .008 75);--paper-2:oklch(95.5% .013 72);--paper-3:oklch(92.5% .016 70);
-  --ink:oklch(26% .018 55);--ink-2:oklch(38% .02 52);--muted:oklch(52% .02 58);--faint:oklch(64% .018 62);
-  --rule:oklch(89% .014 72);--rule-2:oklch(83% .018 70);
-  --accent:oklch(56% .135 42);--accent-2:oklch(48% .14 40);--accent-bg:oklch(93% .04 50);--accent-ink:oklch(98% .01 70);
-  --good:oklch(52% .11 150);--good-bg:oklch(94% .035 150);--warn:oklch(54% .11 75);--warn-bg:oklch(94% .05 82);--danger:oklch(52% .17 30);--danger-bg:oklch(94% .045 32);
-}}
 *{box-sizing:border-box;margin:0}
 html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
 body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
@@ -62,7 +56,7 @@ h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height
 #login{min-height:100dvh;display:grid;place-items:center;padding:var(--s5)}
 .loginbox{max-width:26rem;width:100%}
 .loginbox .brand{font-family:var(--fd);font-weight:600;font-size:1.6rem}
-.loginbox .brand em{font-style:italic;color:var(--accent)}
+.loginbox .brand em{font-style:normal;font-weight:800;color:var(--accent)}
 .loginbox h1{font-size:2.1rem;margin:var(--s5) 0 var(--s2)}
 .loginbox p{color:var(--muted);margin-bottom:var(--s5)}
 .field{margin-bottom:var(--s3)}
@@ -87,7 +81,7 @@ h1,h2,h3{font-family:var(--fd);font-weight:600;letter-spacing:-.02em;line-height
 @media(min-width:860px){
   .side{display:block;position:sticky;top:0;height:100dvh;padding:var(--s6) 0;overflow:auto}
   .side .brand{font-family:var(--fd);font-weight:600;font-size:1.05rem;padding:0 var(--s3);margin-bottom:var(--s6)}
-  .side .brand em{font-style:italic;color:var(--accent)}
+  .side .brand em{font-style:normal;font-weight:800;color:var(--accent)}
   .nav{display:flex;flex-direction:column;gap:var(--s1)}
   .nav button{display:flex;align-items:center;gap:var(--s3);width:100%;text-align:left;background:transparent;border:none;color:var(--muted);font-size:.95rem;font-weight:500;padding:var(--s3);border-radius:var(--r-md)}
   .nav button:hover{background:var(--paper-2);color:var(--ink)}
@@ -101,7 +95,7 @@ main{padding:calc(var(--s5) + env(safe-area-inset-top,0px)) var(--s4) 7rem}
 @media(min-width:860px){ main{padding:var(--s6) 0 var(--s7)} }
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s3);margin-bottom:var(--s5)}
 .topbar .m-brand{font-family:var(--fd);font-weight:600;font-size:1.15rem}
-.topbar .m-brand em{font-style:italic;color:var(--accent)}
+.topbar .m-brand em{font-style:normal;font-weight:800;color:var(--accent)}
 @media(min-width:860px){ .topbar .m-brand{display:none} }
 .bell{position:relative;width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--paper-2);display:grid;place-items:center;color:var(--ink-2)}
 .bell .dot{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--accent);display:none}
@@ -269,6 +263,303 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 .cert .nm{font-family:var(--fd);font-size:1.8rem;margin:var(--s4) 0}
 .cert .dt{color:var(--muted);font-size:.85rem;margin-top:var(--s5)}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;transition-duration:1ms!important}}
+
+
+
+
+
+
+
+/* ===== BEGIN quest-map hub layer ===== */
+/* ============================================================
+   "ON CALL / QUEST MAP" — hub component layer (4a shell edition).
+   Generated from restyle/hub.css by apply-hub.py. Do not hand-edit
+   inside study.html; edit the source and re-run.
+
+   Appended at the very end of the sheet, so it out-orders the
+   860px sidebar block above it. Where a rule must NOT apply on
+   desktop it is wrapped in its own media query rather than relying
+   on source order.
+   ============================================================ */
+
+/* ---------- chunky base ---------- */
+.card {
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 3px 3px 0 rgba(36, 28, 21, .85);
+}
+.card--locked { border-style: dashed; border-color: var(--rule-2); box-shadow: none; background: transparent; }
+.btn { border: 2px solid var(--ink); border-radius: 12px; font-weight: 700; box-shadow: 3px 3px 0 var(--ink); }
+.btn:hover { filter: none; }
+.btn--ghost { background: var(--paper); color: var(--ink); border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); font-weight: 600; }
+.btn--ghost:hover { background: var(--paper-2); }
+.btn[disabled] { box-shadow: 1px 1px 0 var(--ink); }
+@media (hover: hover) { .btn:not([disabled]):hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); } }
+.btn:not([disabled]):active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+
+.field input { border: 2px solid var(--ink); border-radius: 12px; background: #fff; }
+.field label { font-weight: 700; }
+.stat { border: 2px solid var(--ink); border-radius: 12px; box-shadow: 2px 2px 0 rgba(36, 28, 21, .85); background: var(--paper-2); }
+.stat .n { font-weight: 800; }
+.stat .l { font-weight: 600; text-transform: uppercase; letter-spacing: .06em; font-size: .66rem; }
+.banner { border: 2px solid var(--ink); border-radius: 14px; box-shadow: 2px 2px 0 rgba(36, 28, 21, .85); }
+.sheet { border: 2px solid var(--ink); border-radius: 18px; box-shadow: 7px 7px 0 rgba(36, 28, 21, .9); }
+.wkrow { border: 2px solid var(--ink); border-radius: 12px; box-shadow: 2px 2px 0 rgba(36, 28, 21, .85); }
+.wkrow .num { border: 1.5px solid var(--ink); font-weight: 700; }
+.wkrow .badge { border: 1.5px solid var(--ink); }
+.readlist .chk { border: 1.5px solid var(--ink); }
+.bar { border: 1.5px solid var(--ink); background: #fff; height: 12px; }
+.bar span { background: linear-gradient(90deg, var(--accent), var(--gold)); }
+.bell { border: 2px solid var(--ink); background: var(--paper-2); width: 40px; height: 40px; }
+.bell .dot { border: 1.5px solid var(--paper); width: 9px; height: 9px; top: 6px; right: 7px; }
+.lb li.me { border: 1.5px solid var(--accent); background: var(--accent-bg); }
+.lb .rk[data-r="1"] { color: var(--gold); }
+.mp-lockup { width: min(20rem, 80%); }
+
+/* The live-case hero is orange in this direction, not ink. */
+.hero { background: var(--accent); color: var(--accent-ink); border: 2px solid var(--ink); border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); }
+.hero h3 { color: var(--accent-ink); font-weight: 700; }
+.hero p { color: rgba(253, 246, 240, .82); }
+.hero .wk { color: var(--accent-ink); font-weight: 600; letter-spacing: .1em; }
+.hero .btn { background: var(--paper); color: var(--ink); border-color: var(--ink); }
+.hero .btn--ghost { background: transparent; color: var(--accent-ink); border-color: var(--accent-ink); box-shadow: 3px 3px 0 var(--ink); }
+
+/* ---------- top bar: brand left, then streak · bell · profile ---------- */
+.topbar { justify-content: flex-start; gap: var(--s3); }
+.topbar .m-brand { margin-right: auto; }
+#streakChip { order: 1; }
+.bell { order: 2; }
+.prof { order: 3; }
+.profbtn { border: 2px solid var(--ink); font-weight: 600; padding: 0 .7rem 0 .3rem; gap: .5rem; min-height: 40px; }
+.pchip-av {
+  width: 28px; height: 28px; border-radius: 50%; flex: none;
+  background: var(--accent); color: var(--accent-ink);
+  font-family: var(--fd); font-weight: 800; font-size: .72rem;
+  display: grid; place-items: center; border: 1.5px solid var(--ink);
+}
+.pchip-nm { font-family: var(--fm); font-size: .8rem; font-weight: 600; }
+@media (max-width: 479px) { .pchip-nm { display: none; } }
+
+/* ---------- streak chip + month progress ---------- */
+.streak {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-family: var(--fm); font-size: .78rem; font-weight: 600;
+  background: var(--accent-bg); border: 1.5px solid var(--ink);
+  border-radius: 999px; padding: .25rem .65rem; color: var(--ink);
+  white-space: nowrap;
+}
+.mprog { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s5); }
+.mprog .lbl, .mprog .cnt {
+  font-family: var(--fm); font-size: .66rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.mprog .trk { flex: 1; height: 9px; background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.mprog .trk i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); }
+
+/* Greeting row: name left, "THIS WEEK · n / N" right (desktop); the
+   month bar carries the same numbers on the phone. */
+.greet { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s3); flex-wrap: wrap; }
+.greet h2 { margin-bottom: var(--s2); }
+.thiswk { font-family: var(--fm); font-size: .7rem; font-weight: 600; letter-spacing: .1em; color: var(--muted); white-space: nowrap; display: none; }
+@media (min-width: 860px) { .thiswk { display: inline; } .mprog { display: none; } }
+
+/* Case card beside the stacked debrief + reading pair on desktop. */
+.homerow { display: grid; gap: var(--s4); margin-bottom: var(--s4); }
+.homestack { display: grid; gap: var(--s4); align-content: start; }
+.homerow .hero, .homerow .card { margin-bottom: 0; }
+@media (min-width: 860px) { .homerow { grid-template-columns: 1.4fr 1fr; align-items: stretch; } }
+
+/* ---------- quest map ---------- */
+/* A month with many weeks scrolls sideways rather than crushing the
+   nodes into each other; four weeks fit a 375px phone unscrolled. */
+.qmap { position: relative; margin: 0 0 var(--s5); overflow-x: auto; overflow-y: visible; padding: 6px 0;
+        scrollbar-width: none; -ms-overflow-style: none; }
+.qmap::-webkit-scrollbar { display: none; }
+.qbox { position: relative; height: 200px; }
+@media (min-width: 860px) { .qbox { height: 230px; } }
+.qmap svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.qnode {
+  position: absolute; transform: translate(-50%, -50%);
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 rgba(36, 28, 21, .85);
+  font-family: var(--fd); font-weight: 800; padding: 0; line-height: 1;
+}
+.qnode[data-s="done"] { width: 56px; height: 56px; background: var(--good-bg); font-size: 1.35rem; }
+.qnode[data-s="open"] { width: 52px; height: 52px; background: var(--paper-2); }
+.qnode[data-s="open"] span { font-family: var(--fm); font-size: .62rem; font-weight: 700; color: var(--ink-2); }
+.qnode[data-s="live"] {
+  width: 62px; height: 62px; background: var(--accent); color: var(--accent-ink);
+  font-size: 1.5rem; border-width: 2.5px; box-shadow: 3px 3px 0 var(--ink);
+  animation: qpulse 2.2s var(--ease) infinite;
+}
+.qnode[data-s="next"] { width: 46px; height: 46px; border-style: dashed; border-color: var(--rule-2); box-shadow: none; background: var(--paper); }
+.qnode[data-s="next"] span { font-family: var(--fm); font-size: .6rem; font-weight: 600; color: var(--faint); }
+@keyframes qpulse { 0%, 100% { opacity: 1 } 50% { opacity: .55 } }
+@media (prefers-reduced-motion: reduce) { .qnode[data-s="live"] { animation: none } }
+.qhere {
+  position: absolute; transform: translate(-50%, -50%) rotate(-2deg);
+  background: var(--ink); color: var(--paper);
+  font-family: var(--fm); font-size: .58rem; font-weight: 600;
+  letter-spacing: .06em; border-radius: 6px; padding: .2rem .45rem; white-space: nowrap;
+}
+.qhere--end { transform: translate(-88%, -50%) rotate(-2deg); }
+
+/* ---------- the desktop shell ----------
+   One cream card holds the whole hub, PINNED TO THE VIEWPORT: the page
+   itself never scrolls on desktop, only the main column does (and the
+   sidebar/rail if they ever overflow). The top bar lives inside <main>
+   in the markup; `display: contents` on main at this width lets the grid
+   place the top bar, the views and the footer directly, so no element
+   has to move in the DOM. main's padding goes onto #views.
+
+   The disclaimer footer is placed in the SIDEBAR column, row 3, styled
+   as a continuation of it — so the main column is pure content and the
+   governance text stays on screen at all times. */
+@media (min-width: 860px) {
+  #app.on { background: color-mix(in oklab, var(--paper-2) 55%, var(--paper-3)); }
+  .wrap {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 0; padding: 0; margin: 1rem auto; width: calc(100% - 2rem); height: calc(100dvh - 2rem);
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 24px;
+    box-shadow: 8px 8px 0 rgba(36, 28, 21, .9); overflow: hidden;
+  }
+  main { display: contents; }
+  .topbar { grid-column: 1 / -1; grid-row: 1; margin: 0; padding: var(--s3) var(--s5); border-bottom: 2px solid var(--ink); }
+  .topbar .m-brand { display: flex; font-size: 1.2rem; }
+  .side { grid-column: 1; grid-row: 2 / 4; position: static; height: auto; min-height: 0; overflow: auto;
+          background: var(--paper-2); border-right: 2px solid var(--ink); padding: var(--s4) var(--s4) var(--s3); }
+  .side .brand { display: none; }
+  .side .who { border-top: 2px solid var(--rule-2); margin-top: var(--s4); }
+  /* The governance disclaimer is pinned under the MAIN column as a compact
+     two-up strip; on Home with the rail showing it moves under the rail
+     instead (see the 1180px block). Never in the sidebar — the user's call. */
+  footer.disclaimer--app {
+    grid-column: 2; grid-row: 3; margin: 0; border: none; border-top: 2px solid var(--rule-2); border-radius: 0;
+    background: var(--paper); padding: var(--s3) var(--s6); font-size: .64rem; line-height: 1.4;
+    flex-direction: row; gap: var(--s4);
+  }
+  footer.disclaimer--app p { flex: 1; }
+  #views { grid-column: 2; grid-row: 2; min-width: 0; min-height: 0; overflow-y: auto; padding: var(--s4) var(--s6) var(--s5); }
+  .qbox { height: 200px; }
+  .nav button { border: 2px solid transparent; border-radius: 12px; font-weight: 600; color: var(--ink-2); }
+  .nav button[aria-current=true] {
+    background: var(--accent-bg); border-color: var(--ink); color: var(--accent-2);
+    box-shadow: 2px 2px 0 rgba(36, 28, 21, .85); font-weight: 700;
+  }
+}
+/* The rail is the third column, on HOME ONLY (go() stamps the view on
+   <body>) and only when there is room for it. Every other view takes the
+   full width. Nothing the rail holds may be the only copy of anything —
+   Activity, CPD and Board are the real homes of those facts. */
+.rail3 { display: none; }
+@media (min-width: 1180px) {
+  .wrap { max-width: 84rem; }
+  body[data-view="home"] .wrap { grid-template-columns: 14rem minmax(0, 1fr) 21rem; }
+  body[data-view="home"] .rail3 { display: block; grid-column: 3; grid-row: 2; min-height: 0; overflow: auto;
+           background: var(--paper-2); border-left: 2px solid var(--ink); padding: var(--s4) var(--s4); }
+  body[data-view="home"] #views { grid-row: 2 / 4; }
+  body[data-view="home"] footer.disclaimer--app {
+    grid-column: 3; grid-row: 3; flex-direction: column; gap: var(--s2);
+    border-top: none; border-left: 2px solid var(--ink); background: var(--paper-2); padding: 0 var(--s4) var(--s4);
+  }
+  .rail3 .card { background: var(--paper); }
+  .rail3 .stats { grid-template-columns: repeat(3, 1fr); gap: var(--s2); margin-bottom: var(--s4); }
+  .rail3 .stat { padding: var(--s3) var(--s2); text-align: center; background: var(--paper); }
+  .rail3 .stat .n { font-size: 1.25rem; }
+  .rail3 .stat .l { font-size: .56rem; }
+  .rail3 .lb li { padding: var(--s2); font-size: .85rem; }
+  /* the rail carries the stat trio at this width, so Home must not
+     show a second copy of it */
+  body[data-view="home"] #views .stats { display: none; }
+}
+
+/* ---------- bottom tab bar (mobile) ---------- */
+@media (max-width: 859px) {
+  .tabs { background: var(--paper-2); border-top: 2px solid var(--ink); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .tabs button[aria-current=true] { color: var(--accent-2); font-weight: 700; }
+}
+
+/* ---------- sign-in ---------- */
+.loginbox {
+  background: var(--paper); border: 2px solid var(--ink); border-radius: 22px;
+  box-shadow: 7px 7px 0 rgba(36, 28, 21, .9);
+  padding: var(--s6) var(--s5); position: relative;
+}
+/* The faint orange grid from the spec, on the login ground only so it
+   cannot tint the app shell. */
+#login {
+  background-image:
+    repeating-linear-gradient(to right, rgba(200, 83, 27, .06) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(to bottom, rgba(200, 83, 27, .06) 0 1px, transparent 1px 22px);
+}
+.loginbox .brand { font-weight: 800; letter-spacing: -.02em; }
+.tagline {
+  display: inline-block; background: var(--gold); color: var(--ink);
+  font-family: var(--fm); font-size: .62rem; font-weight: 600; letter-spacing: .06em;
+  border: 1.5px solid var(--ink); border-radius: 6px; padding: .22rem .55rem;
+  transform: rotate(-2deg); margin-top: var(--s3);
+}
+.hr::before, .hr::after { height: 2px; background: var(--rule-2); }
+/* On a phone the screen IS the card: no frame, no shadow, no grid. The
+   framed version only reads as premium when there is ground around it. */
+@media (max-width: 599px) {
+  #login { background-image: none; padding: var(--s4); }
+  .loginbox { border: none; box-shadow: none; border-radius: 0; background: transparent; padding-left: 0; padding-right: 0; }
+}
+
+/* ---------- desktop sign-in: a split shell, not a phone card ----------
+   The handoff only drew the 390px card. On a monitor that card is a
+   stranded column, so at ≥860px the same elements are laid out on a
+   two-column grid: brand, tagline and the disclaimer on a tinted left
+   panel; heading, lede and the form on the right. Pure placement — the
+   markup, the intro animation and the form logic are untouched. The
+   ::before is the left panel's background, spanning every row. */
+@media (min-width: 860px) {
+  #login { padding: var(--s6); }
+  .loginbox {
+    max-width: 58rem; padding: 0; display: grid; position: relative;
+    grid-template-columns: 1fr 1.2fr; grid-template-rows: auto auto 1fr; column-gap: 0;
+  }
+  .loginbox::before { content: ""; grid-column: 1; grid-row: 1 / 4; background: var(--paper-2); border-right: 2px solid var(--ink); }
+  .loginbox .brand   { grid-column: 1; grid-row: 1; padding: var(--s7) var(--s6) 0; font-size: 1.7rem; }
+  .loginbox .tagline { grid-column: 1; grid-row: 2; justify-self: start; margin: var(--s4) 0 0 var(--s6); }
+  .disclaimer--login { grid-column: 1; grid-row: 3; align-self: end; margin: var(--s6) var(--s6) var(--s6); }
+  .loginbox h1       { grid-column: 2; grid-row: 1; margin: var(--s7) var(--s6) var(--s2); }
+  .loginbox > p      { grid-column: 2; grid-row: 2; margin: 0 var(--s6) var(--s5); }
+  #step-email, #step-code { grid-column: 2; grid-row: 3; margin: 0 var(--s6) var(--s6); align-self: start; }
+  .introbadge { top: 18px; right: 18px; }
+}
+
+/* Intro: letters, then the ECG underline draws, then the badge pops. */
+.loginbox .brand .ltr { display: inline-block; opacity: 0; animation: mpLtr .4s var(--ease) forwards; }
+@keyframes mpLtr { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+/* dasharray/offset are set to the measured path length by playIntro(). */
+.loginbox .wm-ecg path { animation: 1.1s cubic-bezier(.4, 0, .2, 1) forwards; }
+@keyframes mpDrawLen { to { stroke-dashoffset: 0 } }
+/* Keep the wordmark clear of the corner badge. Padding-RIGHT cannot do
+   it: .brand span is nowrap, so the reserved space just pushes the card
+   wider than the phone. Drop the content below the badge instead. */
+.loginbox { padding-top: 4.75rem; }
+.loginbox .brand { font-size: 1.45rem; }
+.introbadge {
+  position: absolute; top: 14px; right: 14px; width: 44px; height: 44px;
+  border-radius: 50%; background: var(--paper); border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 rgba(36, 28, 21, .85); display: grid; place-items: center;
+  opacity: 0; animation: mpPop .5s cubic-bezier(.34, 1.56, .64, 1) forwards;
+}
+.introbadge .mp-mark { height: 22px; }
+@keyframes mpPop {
+  0% { opacity: 0; transform: scale(.2) rotate(-10deg) }
+  70% { opacity: 1; transform: scale(1.18) rotate(2deg) }
+  100% { opacity: 1; transform: scale(1) rotate(0) }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loginbox .brand .ltr, .introbadge { animation-duration: .01ms; opacity: 1; }
+  .loginbox .wm-ecg path { animation: none; stroke-dashoffset: 0; }
+}
+/* ===== END quest-map hub layer ===== */
 </style>
 </head>
 <body>
@@ -276,7 +567,16 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 <!-- ============ LOGIN ============ -->
 <section id="login">
   <div class="loginbox">
+    <div class="introbadge" aria-hidden="true"><svg class="mp-mark" viewBox="0 0 260 180" fill="none"><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="13" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="13" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="13" stroke-linecap="round"/></svg></div>
+    
+    
+    
+    
+    
+    
+    
     <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="tagline">ONE PATIENT. EVERY MONDAY.</div>
     <h1>Welcome back</h1>
     <p>Sign in to save your progress, earn CPD, and see where you sit on the cohort leaderboard.</p>
     <div id="step-email">
@@ -311,8 +611,16 @@ textarea:focus-visible{outline-color:var(--accent-2)}
     <main>
       <div class="topbar">
         <div class="m-brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        
+        
+        
+        
+        
+        
+        
+        <span id="streakChip"></span>
         <div class="prof" id="prof">
-          <button class="profbtn" id="acctBtn" aria-haspopup="true" aria-expanded="false">Profile <span class="car" aria-hidden="true">▼</span></button>
+          <button class="profbtn" id="acctBtn" aria-haspopup="true" aria-expanded="false"><span class="pchip-av" id="pchipAv" aria-hidden="true">–</span><span class="pchip-nm" id="pchipNm">Profile</span> <span class="car" aria-hidden="true">▼</span></button>
           <div class="profmenu" id="profMenu" role="menu">
             <button id="pm-edit" role="menuitem">Edit name</button>
             <button id="pm-out" role="menuitem">Sign out</button>
@@ -322,6 +630,7 @@ textarea:focus-visible{outline-color:var(--accent-2)}
       <div id="views"></div>
       <footer class="disclaimer disclaimer--app" data-disclaimer></footer>
     </main>
+    <aside class="rail3" id="rail3" aria-label="Your progress at a glance"></aside>
   </div>
   <nav class="tabs" id="nav-m"></nav>
 </section>
@@ -345,13 +654,17 @@ const SB_KEY='sb_publishable_9SqBEM4bxhYgNdaFwe_j9A_yXINlFBF';
 const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 const LS='mp-study-v2';
 const CPD_GOAL=25;
-const BASE='https://jma47616-maker.github.io/monday-patient-demo/';
+/* The folder study.html is served from. The cases sit beside it, so this
+   resolves to the Pages root live and to the local folder when the staged
+   site/ is previewed on localhost - a hard-coded live URL sent local
+   testers to the deployed (older) cases without anyone noticing. */
+const BASE=new URL('.',location.href).href;
 /* Release stamp. Bumped by build.ps1 -Version. Phones cache GitHub Pages hard,
    so every case link and the return URL carry ?v=<APP_VERSION>: a trainee who
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.0.27';
+const APP_VERSION='1.1.0';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -444,10 +757,10 @@ const PROGRAM=[
   evidence:'ETA/BTA/Society for Endocrinology joint consensus on thyroid storm 2026 · ATA 2016 hyperthyroidism · Burch–Wartofsky Point Scale',
   obj:['Score a thyroid storm rather than waiting for the hormone level','Find the thyrotoxic signs at the bedside — eyes, neck, hands, tremor','Block synthesis, then release, then conversion — thionamide before iodine','Match the beta blocker to the ventricle, and never reach for amiodarone','Escalate to endocrinology and critical care, and treat the precipitant'],
   read:[{t:'Joint consensus statement — management of thyroid storm (2026)',url:'https://doi.org/10.1530/ETJ-26-0043'},{t:'Approach to the patient with thyroid storm — JCEM 2026',url:'https://doi.org/10.1210/clinem/dgag054'},{t:'Burch–Wartofsky Point Scale — MDCalc',url:'https://www.mdcalc.com/calc/2233/burch-wartofsky-point-scale-bwps-thyrotoxicosis'},{t:'ATA 2016 — hyperthyroidism and other causes of thyrotoxicosis',url:'https://www.thyroid.org/professionals/ata-professional-guidelines/'}]},
- {id:'w05',t:'Headache',sub:'SAH vs meningitis vs GCA',month:'Month 2',caseId:null,url:null,debrief:'video',
-  evidence:'NICE NG240 meningitis · RCEM thunderclap headache · BSR 2020 giant cell arteritis',
-  obj:['CT timing and when to LP for SAH','The meningitis pathway','ESR and the diagnosis of GCA'],
-  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]},
+ {id:'w05',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
+  evidence:'EAN/PNS 2023 guideline on Guillain–Barré syndrome · BJA Education 2025 · EGRIS / mEGOS',
+  obj:['Recognise acute flaccid areflexic weakness, and separate it from cord, cauda equina and myasthenia','Measure the vital capacity — the observation chart cannot see a failing diaphragm','Escalate on the trend: the 20/30/40 rule and EGRIS','Treat on clinical grounds — IVIg or plasma exchange, never both, never steroids','Do not let a three-year-old functional label do your thinking'],
+  read:[{t:'EAN/PNS 2023 — diagnosis and treatment of Guillain–Barré syndrome',url:'https://doi.org/10.1111/ene.16073'},{t:'Guillain–Barré syndrome — BJA Education 2025',url:'https://www.bjaed.org/article/S2058-5349(25)00046-0/fulltext'},{t:'Spirometry for ICU admission and ventilation in GBS — systematic review',url:'https://doi.org/10.1016/j.jcrc.2023.154337'},{t:'Suxamethonium is contraindicated in Guillain–Barré syndrome',url:'https://pubmed.ncbi.nlm.nih.gov/1800653/'}]},
  {id:'w06',t:'Breathlessness',sub:'Infective exacerbation of COPD',month:'Month 2',caseId:'copd-exacerbation',url:BASE+'copd.html',debrief:'notes',
   evidence:'NICE NG114 · GOLD 2025 · BTS/ICS 2016 NIV in acute respiratory failure · BTS emergency oxygen',
   obj:['Controlled oxygen and the 88–92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
@@ -483,7 +796,11 @@ const PROGRAM=[
  {id:'w14',t:'Aortic dissection',sub:'The chest pain you cannot miss',month:'Month 3',caseId:null,url:null,debrief:'notes',
   evidence:'ESC 2024 aortic and peripheral arterial disease · RCEM thoracic aortic dissection · AHA/ACC 2022 aortic disease',
   obj:['Recognise the dissection presentation','Imaging: CT aortogram','Blood-pressure control and who to call'],
-  read:[{t:'ESC — aortic disease'},{t:'RCEM — thoracic aortic dissection'}]}
+  read:[{t:'ESC — aortic disease'},{t:'RCEM — thoracic aortic dissection'}]},
+ {id:'w15',t:'Headache',sub:'SAH vs meningitis vs GCA',month:'Month 3',caseId:null,url:null,debrief:'video',
+  evidence:'NICE NG240 meningitis · RCEM thunderclap headache · BSR 2020 giant cell arteritis',
+  obj:['CT timing and when to LP for SAH','The meningitis pathway','ESR and the diagnosis of GCA'],
+  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};
@@ -568,6 +885,7 @@ async function boot(){
 }
 function showLogin(){
   $('#login').style.display='grid'; $('#app').classList.remove('on');
+  playIntro();
   // Came back from the mail app and the page reloaded? Resume at the code step
   // instead of dumping them back to "enter your email" with the code in hand.
   if(getPending()){
@@ -732,11 +1050,11 @@ function buildNav(){
 }
 function enterApp(){
   $('#login').style.display='none'; $('#app').classList.add('on');
-  $('#who-name').textContent=PROFILE?.pseudonym||'Trainee';
+  $('#who-name').textContent=PROFILE?.pseudonym||'Trainee'; refreshProfChip();
   $('#who-cohort').textContent=(GUEST?'guest mode':PROFILE?.cohort||'');
   buildNav(); go('home'); updateBell();
 }
-function go(v){ VIEW=v; document.querySelectorAll('.nav button,.tabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v))); renderActive(); window.scrollTo({top:0}); }
+function go(v){ VIEW=v; document.body.dataset.view=v; document.querySelectorAll('.nav button,.tabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v))); renderActive(); window.scrollTo({top:0}); }
 $('#signout-d').onclick=signOut;
 
 /* ============ account editor ============ */
@@ -777,7 +1095,7 @@ function openAcct(){
       if(error){ m.dataset.t='err'; m.textContent=(error.code==='23505')?'That name is taken — try another.':'Could not save — try again.'; return; }
     }
     PROFILE={...(PROFILE||{}),pseudonym:v}; saveLocal();
-    $('#who-name').textContent=v;
+    $('#who-name').textContent=v; refreshProfChip();
     closeModal(); renderActive(); toast('Pseudonym updated.');
   };
 }
@@ -865,6 +1183,261 @@ function cpdTotals(){
 }
 function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+String(i).padStart(2,'0');if((PROG[id]||{}).caseDone)s++;else if(s>0)break;} return s; }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== BEGIN quest-map hub script ===== */
+/* ============================================================
+   QUEST MAP, MONTH PROGRESS, STREAK CHIP, PROFILE CHIP, RIGHT RAIL.
+   Generated from restyle/hub.js by apply-hub.py.
+
+   All of this is DERIVED from PROGRAM + PROG + the leaderboard RPC.
+   It adds no table, no column and no new request: the streak comes
+   from streak(), the CPD figures from cpdTotals(), the ranks from the
+   same get_leaderboard() the Board view already calls. Keep it that
+   way — a decorative panel must never become the only home of a fact.
+   ============================================================ */
+
+/* Node glyph for a SOLVED week. Solved weeks are already revealed (title,
+   objectives, reading), so a topic glyph leaks nothing. Anything not
+   listed falls back to a tick. */
+const CASE_GLYPH = { 'gi-bleed':'🩸', 'acs-mi':'🫀', 'ttp':'🔬', 'thyroid':'🔥', 'gbs':'🦵' };
+
+/* The weeks of the month the current week belongs to. The map shows one
+   month at a time; the programme view still lists them all. */
+function monthWeeks(){
+  const cur=[...PROGRAM].reverse().find(isOpen) || PROGRAM[0];
+  return { month: cur.month, weeks: PROGRAM.filter(w=>w.month===cur.month), cur };
+}
+function monthDone(){
+  const {weeks}=monthWeeks();
+  return { done: weeks.filter(w=>(PROG[w.id]||{}).caseDone).length, n: weeks.length };
+}
+
+function monthProgressHTML(){
+  const {month}=monthWeeks(); const {done,n}=monthDone();
+  const pct=n?Math.round(done/n*100):0;
+  return `<div class="mprog">
+    <span class="lbl">${escapeHtml(month)}</span>
+    <span class="trk"><i style="width:${pct}%"></i></span>
+    <span class="cnt">${done} / ${n}</span>
+  </div>`;
+}
+function thisWeekLabel(){ const {done,n}=monthDone(); return `THIS WEEK · ${done} / ${n}`; }
+
+function streakChipHTML(){
+  const s=streak();
+  if(!s) return '';
+  return `<span class="streak" title="${s} week${s===1?'':'s'} in a row">🔥 ${s}</span>`;
+}
+
+/* Profile chip: 28px avatar with initials + the pseudonym. Initials come
+   from the pseudonym only — never from anything else the profile holds. */
+function initials(name){
+  const w=String(name||'').split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+  const s=w.length>=2 ? w[0][0]+w[1][0] : (w[0]||'?').slice(0,2);
+  return s.toUpperCase();
+}
+function refreshProfChip(){
+  const name=PROFILE?.pseudonym||(GUEST?'Guest':'Profile');
+  const av=$('#pchipAv'), nm=$('#pchipNm');
+  if(av) av.textContent=initials(name);
+  if(nm) nm.textContent=name;
+}
+
+/* The map. Nodes sit on a wave: x advances, y alternates, so it reads as
+   a trail and can never overlap however many weeks a month holds. The
+   SVG viewBox grows with the week count and the container scrolls
+   sideways rather than crushing the nodes together on a phone. */
+function questMapHTML(){
+  const {weeks,cur}=monthWeeks();
+  const n=weeks.length;
+  if(!n) return '';
+  const W=Math.max(320,n*78), H=240;
+  const pt=i=>({ x:W*(i+0.5)/n, y:H*0.5 + (i%2?1:-1)*H*0.22 });
+  const pts=weeks.map((w,i)=>pt(i));
+
+  // A smooth cubic through the points, with horizontal control handles.
+  const seg=(a,b)=>{const dx=(b.x-a.x)/2;return ` C${a.x+dx},${a.y} ${b.x-dx},${b.y} ${b.x},${b.y}`;};
+  const pathFrom=(from,to)=>{
+    if(to<=from) return '';
+    let d=`M${pts[from].x},${pts[from].y}`;
+    for(let i=from;i<to;i++) d+=seg(pts[i],pts[i+1]);
+    return d;
+  };
+
+  /* Four states, not three. Several weeks are released at once, so
+     "released and unplayed" is a real state and is NOT the same as
+     "this week" - only the current week gets the pulsing marker, or
+     the map claims you are in four places at once. */
+  const states=weeks.map(w=>{
+    const s=weekState(w,PROG);
+    if(s==='complete') return 'done';
+    if(s==='locked')   return 'next';
+    return w.id===cur.id ? 'live' : 'open';
+  });
+  // The solid trail runs as far as the last solved week.
+  let lastDone=-1; states.forEach((s,i)=>{ if(s==='done') lastDone=i; });
+
+  const full=pathFrom(0,n-1);
+  const done=lastDone>0?pathFrom(0,lastDone):'';
+  const liveIdx=states.indexOf('live');
+
+  const nodes=weeks.map((w,i)=>{
+    const s=states[i], p=pts[i];
+    const style=`left:${p.x/W*100}%;top:${p.y/H*100}%`;
+    const label=s==='done'?`Week ${caseNo(w)} — solved`
+              :s==='live'?`Week ${caseNo(w)} — this week's case`
+              :s==='open'?`Week ${caseNo(w)} — released, not yet solved`
+              :`Week ${caseNo(w)} — not yet released`;
+    const inner=s==='done'?(CASE_GLYPH[w.caseId]||'✓')
+               :s==='live'?'?'
+               :`<span>W${String(caseNo(w)).padStart(2,'0')}</span>`;
+    return `<button class="qnode" data-s="${s}" data-week="${w.id}" style="${style}" aria-label="${escapeHtml(label)}">${inner}</button>`;
+  }).join('');
+
+  /* The tag sits on the far side of the node from the edge: below a
+     top-row node, above a bottom-row one, with the arrow flipped to
+     match. Always placing it above clipped it off the top row. */
+  let here='';
+  if(liveIdx>=0){
+    const topRow = liveIdx%2===0;
+    const y = pts[liveIdx].y + (topRow ? H*0.20 : -H*0.20);
+    /* Centred on the last node the tag runs past the right edge and
+       forces the map to scroll; anchor it to its right end there. */
+    const atEnd = liveIdx===n-1;
+    here = `<span class="qhere${atEnd?' qhere--end':''}" style="left:${pts[liveIdx].x/W*100}%;top:${y/H*100}%">`
+         + (topRow ? 'YOU ARE HERE ↑' : 'YOU ARE HERE ↓') + '</span>';
+  }
+
+  /* The box owns its height (see .qbox); the trail stretches to fill it
+     with preserveAspectRatio="none" so the path and the percentage-
+     positioned nodes share one coordinate space at every width.
+     non-scaling-stroke keeps the line weight honest under that stretch —
+     without it a wide column thins the verticals to nothing. */
+  return `<div class="qmap" role="group" aria-label="Your progress through ${escapeHtml(cur.month)}">
+    <div class="qbox" style="min-width:${n*78}px">
+      <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+        <path d="${full}" fill="none" stroke="var(--rule-2)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 9" vector-effect="non-scaling-stroke"/>
+        ${done?`<path d="${done}" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`:''}
+      </svg>
+      ${nodes}${here}
+    </div>
+  </div>`;
+}
+
+/* The right rail: stat trio (streak / cohort rank / CPD), CPD card,
+   cohort ranks. Desktop-only decoration over facts that all have a full
+   home elsewhere (Activity, CPD, Board), so hiding it below 1180px loses
+   nothing. */
+async function renderRail3(){
+  const r=$('#rail3'); if(!r) return;
+  const t=cpdTotals(), pct=Math.min(100,Math.round(t.points/CPD_GOAL*100));
+  r.innerHTML=`
+    <div class="stats">
+      <div class="stat"><div class="n">🔥 ${streak()}</div><div class="l">wk streak</div></div>
+      <div class="stat"><div class="n" id="rail3rank">—</div><div class="l" id="rail3rankl">rank</div></div>
+      <div class="stat"><div class="n">${t.points}</div><div class="l">CPD pts</div></div>
+    </div>
+    <div class="card">
+      <div class="card__label">CPD ${new Date().getFullYear()}</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span class="mono" style="font-weight:600">${t.points} / ${CPD_GOAL}</span>
+        <span style="font-size:.78rem;color:var(--muted)">points</span>
+      </div>
+      <div class="bar"><span style="width:${pct}%"></span></div>
+      <div style="font-size:.78rem;color:var(--muted)">${Math.max(0,Math.round((CPD_GOAL-t.points)*10)/10)} to go — a full point per case once you have watched the debrief.</div>
+    </div>
+    <div class="card"><div class="card__label">Cohort ranks</div><div id="rail3lb" class="empty" style="padding:var(--s4) 0">Loading…</div></div>`;
+  wireLaunchers(r);
+
+  const box=$('#rail3lb'); if(!box) return;
+  if(GUEST||!SB||!USER){ box.textContent='Sign in to join the cohort board.'; return; }
+  const {data,error}=await SB.rpc('get_leaderboard');
+  if(error||!data){ box.textContent='Unavailable right now.'; return; }
+  /* Same three-field projection as renderLeaderboard, for the same reason:
+     nothing but rank, pseudonym and score may reach the DOM. */
+  const rows=data
+    .filter(r2=>r2.total_score>0)
+    .map((r2,i)=>({rank:i+1,pseudonym:customPseudonym(r2.pseudonym)||'A colleague',total_score:Number(r2.total_score)||0}));
+  if(!rows.length){ box.textContent='No scores yet.'; return; }
+  const mine=PROFILE?.pseudonym;
+  const me=rows.find(r2=>r2.pseudonym===mine);
+  const rk=$('#rail3rank'), rkl=$('#rail3rankl');
+  /* The RPC returns scorers only, so this denominator is people ON THE
+     BOARD, not the cohort size — say so. Showing 'of <accounts>' would
+     need a cohort_size() function the user has chosen not to add yet. */
+  if(rk&&me){ rk.textContent='#'+me.rank; if(rkl) rkl.textContent='of '+rows.length+' scorers'; }
+  // Top five, and your own row if it sits outside them.
+  const show=rows.slice(0,5);
+  if(me && me.rank>5) show.push(me);
+  const ul=el('ul','lb');
+  show.forEach(r2=>{
+    const isMe=r2.pseudonym===mine;
+    const li=el('li',isMe?'me':'');
+    li.innerHTML=`<span class="rk" data-r="${r2.rank}">${r2.rank}</span><span class="nm">${escapeHtml(r2.pseudonym)}${isMe?' — you':''}</span><span class="sc">${r2.total_score}</span>`;
+    ul.appendChild(li);
+  });
+  box.replaceWith(ul);
+}
+
+/* Sign-in intro: letters, then the ECG underline draws, then the badge
+   pops. Plays once per visit to the sign-in screen. */
+function playIntro(){
+  const brand=document.querySelector('#login .brand span'); if(!brand) return;
+  if(brand.dataset.introDone) return;
+  brand.dataset.introDone='1';
+  const ecg=brand.querySelector('.wm-ecg');
+  // Wrap each visible character so it can be staggered, leaving the
+  // <em> and the inline ECG svg intact.
+  let idx=0;
+  const wrap=node=>{
+    [...node.childNodes].forEach(c=>{
+      if(c.nodeType===3){
+        const frag=document.createDocumentFragment();
+        [...c.textContent].forEach(ch=>{
+          const s=document.createElement('span');
+          s.className='ltr'; s.textContent=ch;
+          if(ch===' ') s.style.whiteSpace='pre';
+          s.style.animationDelay=(idx++*0.055)+'s';
+          frag.appendChild(s);
+        });
+        c.replaceWith(frag);
+      } else if(c.nodeType===1 && c.tagName.toLowerCase()!=='svg'){
+        wrap(c);
+      }
+    });
+  };
+  wrap(brand);
+  const lettersEnd=idx*0.055+0.4;
+  if(ecg){
+    const p=ecg.querySelector('path');
+    if(p){
+      /* The dash length must BE the path length. A fixed dasharray leaves
+         the line permanently chopped into dashes once the draw finishes,
+         because this underline is ~520 units, not the 300 of the spec. */
+      let len=100; try{ len=p.getTotalLength()||100; }catch(_){}
+      p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
+      p.style.animationName='mpDrawLen';
+      p.style.animationDelay=(lettersEnd+0.15)+'s';
+    }
+  }
+  const badge=document.querySelector('#login .introbadge');
+  if(badge) badge.style.animationDelay=(lettersEnd+0.15+1.1+0.25)+'s';
+}
+/* ===== END quest-map hub script ===== */
+
 function renderHome(){
   // the current week is the last one released, not whatever the calendar says
   const cur=[...PROGRAM].reverse().find(isOpen) || PROGRAM[0];
@@ -879,21 +1452,24 @@ function renderHome(){
   const bannerHtml = feedbackBannerHTML() || caseBanner;
   const v=el('div','view on');
   v.innerHTML=`${claimCardHTML()}${bannerHtml}
-    <div class="kicker">This week</div>
-    <h2 class="view-h">Good to see you, ${escapeHtml(PROFILE?.pseudonym||'Trainee')}.</h2>
+    <div class="greet"><h2 class="view-h">Good to see you, ${escapeHtml(PROFILE?.pseudonym||'Trainee')}.</h2><span class="thiswk">${thisWeekLabel()}</span></div>
     <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
+    ${monthProgressHTML()}
+    ${questMapHTML()}
     <div class="stats">
       <div class="stat"><div class="n">${t.cases}</div><div class="l">cases completed</div></div>
       <div class="stat"><div class="n">${streak()}</div><div class="l">streak</div></div>
     </div>
+    <div class="homerow">
     <div class="hero">
-      <div class="wk">CASE ${cn}</div>
+      <div class="wk">WEEK ${String(cn).padStart(2,'0')}${isOpen(cur)?' · LIVE':''}</div>
       <h3>${rev?cur.t:'Case '+cn}</h3>
       <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${!cur.caseId?'Interactive case in production.':curLocked?'New cases are for signed-in trainees — an account also holds your CPD record, certificate and leaderboard place.':'Work them up, commit a diagnosis, and manage it.'}</p>
       ${!cur.caseId?`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`
         :curLocked?`<button class="btn" data-signup>Create a free account ↗</button>`
         :`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`}
     </div>
+    <div class="homestack">
     <div class="card">
       <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
       <div style="display:flex;align-items:center;gap:var(--s3)">
@@ -902,12 +1478,16 @@ function renderHome(){
         <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
       </div>
     </div>
-    ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card"><div class="card__label">Reading</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case — no spoilers.</div></div>`}`;
+    ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card card--locked"><div class="card__label">Reading 🔒</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case — no spoilers.</div></div>`}
+    </div></div>`;
   mount(v);
   if(rev) renderReadList($('#homeread'),cur);
   const bx=$('#banx'); if(bx)bx.onclick=()=>{localStorage.setItem('mp-ban-'+cur.id,'1');renderHome();};
   const cy=$('#claimYes'); if(cy)cy.onclick=claimGuestWork;
   const cnb=$('#claimNo'); if(cnb)cnb.onclick=()=>{discardClaim();renderHome();toast('Discarded — those cases were not added.');};
+  renderRail3();
+  const sc=$('#streakChip'); if(sc) sc.innerHTML=streakChipHTML();
+  refreshProfChip();
 }
 
 function renderReadList(ul,w){
@@ -1014,7 +1594,7 @@ function renderCPD(){
     </div>
     <div class="card"><div class="card__label">Completed cases</div>${done.length?done.map(w=>`<div style="display:flex;align-items:center;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--rule)"><span style="flex:none;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--good);color:#fff;font-family:var(--fm);font-size:.72rem;font-weight:600;display:grid;place-items:center">${caseNo(w)}</span><span style="flex:1;font-size:.9rem">${revealed(w)?w.t:'Case '+caseNo(w)}</span><span class="mono" style="color:var(--good);font-weight:600">+${(PROG[w.id]||{}).debriefDone?'1.0':'0.15'}</span></div>`).join(''):'<div class="empty">No points yet — finish a case to earn your first.</div>'}</div>
     <button class="btn btn--wide" onclick="window.print()">Export certificate (print → PDF)</button>
-    <div class="cert"><svg class="mp-lockup" viewBox="0 0 840 180" fill="none" role="img" aria-label="The Monday Patient"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/><text x="300" y="100" font-family="Fraunces, Georgia, serif" font-size="52" font-weight="500" fill="#241C15" letter-spacing="-0.5">The Monday <tspan font-style="italic" font-weight="400" fill="#C8531B">Patient</tspan></text><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${escapeHtml(PROFILE?.pseudonym||'Trainee')}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+    <div class="cert"><svg class="mp-lockup" viewBox="0 0 840 180" fill="none" role="img" aria-label="The Monday Patient"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/><text x="300" y="100" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="52" font-weight="700" fill="#241C15" letter-spacing="-1">The Monday <tspan font-weight="800" fill="#C8531B">Patient</tspan></text><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>Certificate of completion</h1><p style="color:var(--muted)">The Monday Patient — acute medicine case series</p><div class="nm">${escapeHtml(PROFILE?.pseudonym||'Trainee')}</div><p>has completed <b>${t.cases}</b> case${t.cases===1?'':'s'}, earning <b>${t.points}</b> CPD point${t.points===1?'':'s'}.</p><div class="dt">${PROFILE?.cohort||''} · issued ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
       <div class="disclaimer disclaimer--cert">${DISCLAIMER_HTML}</div></div>`;
   mount(v);
 }
