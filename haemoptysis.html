@@ -674,7 +674,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="panel" id="p-ix">
-        <p class="panel__hint">Bedside tests are on the trolley. Everything else is ordered on ICE — type it the way you would at the terminal. Build a round, send it; the clock jumps by the slowest test. It is 3 am: the practice opens at eight, the immunology analyser runs at nine, and the on-call BMS only looks at urine if somebody rings.</p>
+        <p class="panel__hint">The four bedside tests are on the trolley. Everything else — bloods, imaging, records, the echo — is ordered on ICE: type it the way you would at the terminal. Build a round, send it; the clock jumps by the slowest test. It is 3 am: the practice opens at eight, the immunology analyser runs at nine, and the on-call BMS only looks at urine if somebody rings.</p>
         <div id="ixGroups"></div>
         <div class="grouph">Order on ICE</div>
         <form class="typerow" id="ixForm" autocomplete="off">
@@ -824,7 +824,7 @@ Stop the naproxen
         <div class="card__label">Teaching pearls</div>
         <ul class="pearls">
           <li><b>Haemoptysis + AKI + blood and protein on the dip = pulmonary-renal syndrome until proven otherwise.</b> Small-vessel vasculitis (ANCA-associated, most often), anti-GBM disease, and a long way behind them lupus and cryoglobulinaemia. The trap is that each half has a comfortable explanation on its own — “pneumonia” for the chest, “dehydration” for the kidney. <em>Do not diagnose pneumonia and AKI without connecting the two.</em></li>
-          <li><b>The kidney told you it was not pre-renal, in four different ways.</b> A blood pressure of 168 that never fell. Pitting oedema and a JVP of 3 cm in a man everyone called dry. Blood <em>and</em> protein on a dipstick of urine that looked perfectly normal. And a fluid challenge that returned 12 mL. A fluid challenge is a test; the answer was no. Every bag after the answer went into alveoli already full of blood.</li>
+          <li><b>The kidney told you it was not pre-renal, in four different ways.</b> A blood pressure of 168 that never fell. Pitting oedema and a JVP of 3 cm in a man everyone called dry. Blood <em>and</em> protein on a dipstick of urine that looked perfectly normal. And 12 mL an hour into the catheter bag. Assess the volume status before a single bag goes up — in a man who is not dry, every bag went into alveoli already full of blood.</li>
           <li><b>Red-cell casts cannot come from a bladder.</b> Dysmorphic red cells and casts are glomerular bleeding, full stop — not a stone, not a tumour, not a catheter, not an infection. The July dipstick went to urology on a two-week-wait because a dipstick cannot tell the difference; a microscope can. Non-visible haematuria with proteinuria or a falling eGFR is a nephrology referral, not a cystoscopy.</li>
           <li><b>In a bed-bound patient the dependent skin is the back.</b> Palpable purpura was across his back, both flanks and both forearms; his shins — where everyone looks for a rash — were clean and swollen. On the forearms of an eighty-one-year-old on aspirin it passes for senile purpura until you press it. Turn the patient over. Lift the sheet. The diagnosis was written on him in a colour you could read from the door.</li>
           <li><b>“?infection ?oedema” on a two-line night report is not a diagnosis.</b> Bilateral ground-glass with patchy consolidation has three causes — infection, haemorrhage, oedema — and a CT cannot choose between them. A haemoglobin falling with no visible bleed chooses for it: that is alveolar haemorrhage, and haemoptysis is absent in around a third of cases. Do the CTPA even with a creatinine of 212 (ACR–NKF 2020: the contrast risk has been overstated and a management-changing scan is not withheld), and read the whole report, in the morning, from the radiologist who looked properly.</li>
@@ -1087,19 +1087,7 @@ const CASE = {
         text:()=>`Taken at ${fmtClock(S.clock)}. A metabolic acidosis with a rising potassium and a haemoglobin that is lower than a man who has not visibly bled should have.` },
       { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"supp",
         aliases:["glucose","bm","capillary glucose","blood sugar","cbg","finger prick glucose","blood glucose","sugar"],
-        labs:[{n:"Glucose", v:"6.1", r:"4.0–7.8", u:"mmol/L"}] },
-      { id:"fluid", name:"Fluid challenge — 500 mL crystalloid over 15 min, then reassess", cost:30, costL:"30 min", tag:"supp", repeatable:true, dynFluid:true,
-        aliases:["fluid challenge","fluid bolus","bolus","500ml bolus","500 ml bolus","give fluids","iv fluids","fluids","give him fluids","a bag of fluid","hartmanns","saline","crystalloid","fluid resuscitation","250ml bolus","give a litre","litre of fluid","fluid trial","trial of fluid","passive leg raise","straight leg raise test","plr"],
-        text:()=>fluidText() },
-      { id:"cath", name:"Urinary catheter and hourly urine output", cost:15, costL:"15 min", tag:"key", repeatable:true, dynUO:true,
-        aliases:["catheter","catheterise","urinary catheter","insert a catheter","hourly urine output","urine output","urine output monitoring","measure the urine output","measure urine output","strict fluid balance","fluid balance","catheter bag","foley","uo","hourly uo","monitor urine output","catheterize","put a catheter in","residual","bladder scan","post void residual"],
-        text:()=>uoText() },
-      { id:"echo", name:"Bedside echo (point-of-care, yours)", cost:20, costL:"20 min", tag:"key",
-        aliases:["echo","bedside echo","point of care echo","pocus","focused echo","echocardiogram","echocardiography","cardiac ultrasound","heart scan","focus scan","lung ultrasound","chest ultrasound","ivc","ivc assessment","rv strain","right heart"],
-        text:"Parasternal and apical windows, adequate. Left ventricle vigorous — hyperdynamic, if anything — with concentric hypertrophy. Right ventricle normal size, no septal flattening, no D-sign, TAPSE normal. No pericardial effusion. IVC 1.6 cm, collapsing more than 50%. Lung windows: B-lines bilaterally, no effusion.\n\nNo right heart strain, no failing left ventricle, and not an empty tank either." },
-      { id:"wells", name:"Wells score for PE", cost:1, costL:"1 min", tag:"supp",
-        aliases:["wells","wells score","wells criteria","pe wells","two level wells","pe probability","pe score","geneva score","perc","perc rule","pe risk score","pretest probability"],
-        text:"Clinical signs of DVT (swollen legs) 3 · PE the most likely diagnosis 3 · heart rate over 100 1.5 · immobilisation ≥3 days 1.5 · haemoptysis 1 → <b>Wells 10 — PE likely.</b>\n\nThe score is doing exactly what it was designed to do. It was not designed to tell you what else this could be." }
+        labs:[{n:"Glucose", v:"6.1", r:"4.0–7.8", u:"mmol/L"}] }
     ],
     bloods: [
       { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true, dynLabs:"fbc", repeatable:true,
@@ -1187,6 +1175,9 @@ const CASE = {
         text:"<b>Provisional report — outsourced night teleradiology (two lines):</b>\n\n“No pulmonary embolus. Bilateral ground-glass opacification with patchy consolidation, dependent, ?infection ?oedema. Formal report to follow.”\n\nFormal report from the in-house chest radiologist lands at 09:00.",
         landsAt: 540, landedName:"CTPA — formal report",
         landed:"<b>Formal report, 09:00 — consultant chest radiologist:</b>\n\n“No filling defect in the pulmonary arteries to subsegmental level. Extensive bilateral ground-glass opacification with patchy dependent consolidation, no lobar predominance, no nodules, no cavitation, no effusion, no lymphadenopathy. Heart size normal. Appearances are non-specific and would be in keeping with infection, <b>alveolar haemorrhage</b>, or oedema — clinical and biochemical correlation advised. In the presence of haemoptysis and renal impairment, a pulmonary-renal syndrome should be considered.”" },
+      { id:"echo", name:"Echocardiogram", cost:20, costL:"20 min · point of care", tag:"key",
+        aliases:["echo","echocardiogram","echocardiography","transthoracic echo","tte","cardiac ultrasound","heart scan","bedside echo","point of care echo","pocus","focused echo","focus scan","departmental echo","formal echo","full echo","cardiology echo","echo request","rv strain","right heart","ivc","ivc assessment","lung ultrasound","chest ultrasound"],
+        text:"No echo service overnight — the department opens at nine. The medical registrar's point-of-care scan at the bedside, parasternal and apical windows, adequate:\n\nLeft ventricle vigorous — hyperdynamic, if anything — with concentric hypertrophy. Right ventricle normal size, no septal flattening, no D-sign, TAPSE normal. No pericardial effusion. IVC 1.6 cm, collapsing more than 50%. Lung windows: B-lines bilaterally, no effusion.\n\nNo right heart strain, no failing left ventricle, and not an empty tank either. The formal study in the morning adds nothing: LVEF 65%, RVSP 32, no valve disease, no vegetation." },
       { id:"uss",  name:"Renal ultrasound", cost:60, costL:"60 min (on-call sonographer)", tag:"key",
         aliases:["renal ultrasound","renal uss","uss kidneys","us kidneys","ultrasound kidneys","kidney ultrasound","uss renal tract","ultrasound renal tract","renal tract ultrasound","kub ultrasound","uss kub","exclude obstruction","obstruction","hydronephrosis","renal tract"],
         text:"Both kidneys 10.8 and 11.1 cm — normal size, so this is not chronic. Cortical echogenicity mildly increased, corticomedullary differentiation preserved. No hydronephrosis, no calculus, bladder empty with a catheter in situ.\n\nNot obstructed. Not chronic. The kidney is the problem, not the plumbing." },
@@ -1198,10 +1189,7 @@ const CASE = {
         text:"No calculus, no hydronephrosis, no renal or bladder mass. Normal-sized kidneys. The urology two-week-wait question, answered by the wrong test on the wrong night." },
       { id:"dopp", name:"Leg Doppler ultrasound", cost:390, costL:"morning · 08:30", tag:"supp", landsAt: 510, landedName:"Leg Doppler — result",
         aliases:["doppler","leg doppler","dvt scan","dvt ultrasound","venous doppler","lower limb doppler","duplex","venous duplex","compression ultrasound","leg ultrasound","uss legs","ultrasound legs","scan the legs"],
-        text:"Vascular lab open at 08:30. Booked.", landed:"No deep vein thrombosis in either leg, femoral to popliteal. The swelling is not a clot." },
-      { id:"echodept", name:"Departmental echocardiogram", cost:410, costL:"morning · 09:30", tag:"supp", landsAt: 570, landedName:"Departmental echo — report",
-        aliases:["departmental echo","formal echo","full echo","transthoracic echo","tte","cardiology echo","echo in the morning","echo request"],
-        text:"Echo department opens at nine. Booked.", landed:"LVEF 65%, concentric LVH, grade 1 diastolic dysfunction, normal RV size and function, RVSP 32 mmHg, no significant valve disease, no vegetation, no effusion.\n\nNo heart failure and no endocarditis." }
+        text:"Vascular lab open at 08:30. Booked.", landed:"No deep vein thrombosis in either leg, femoral to popliteal. The swelling is not a clot." }
     ],
     special: [
       { id:"sheet", name:"Care-home transfer sheet", cost:5, costL:"5 min", tag:"key",
@@ -1212,6 +1200,9 @@ const CASE = {
         text:"SCR: amlodipine, atorvastatin, aspirin, naproxen (15/d), amoxicillin. No known drug allergies.\n\n<b>The full GP record is not available out of hours. The practice opens at 08:00 — requested; it will land then.</b>",
         landsAt: 480, landedName:"GP record — full (practice opened 08:00)",
         landed:"<b>Consultations, last six months:</b>\n\n• <b>June</b> — Bloods at a routine review: <b>Hb 128 → 118</b>, <b>creatinine 88 → 104</b>, <b>CRP 41</b>, urea 9.2. “Mildly deranged renal function — likely dehydration. Encourage fluids. Repeat 6/52.” Not repeated.\n• <b>July</b> — Dipstick at routine review: <b>blood 2+, protein 1+</b>. “Non-visible haematuria — urology 2WW per NG12.” No microscopy. No PCR.\n• <b>2 weeks ago</b> — “Bilateral knee pain, worse. Naproxen 500 mg bd.” <i>(eGFR 62 at the June bloods; no U&E since.)</i>\n• <b>Tuesday</b> — Home visit. “Crackles both bases, T 37.6, SpO₂ 93%. Amoxicillin. Review if worse.”\n\nThree months of one disease, filed under four headings." },
+      { id:"wells", name:"Wells score for PE", cost:1, costL:"1 min", tag:"supp",
+        aliases:["wells","wells score","wells criteria","pe wells","two level wells","pe probability","pe score","geneva score","perc","perc rule","pe risk score","pretest probability"],
+        text:"Clinical signs of DVT (swollen legs) 3 · PE the most likely diagnosis 3 · heart rate over 100 1.5 · immobilisation ≥3 days 1.5 · haemoptysis 1 → <b>Wells 10 — PE likely.</b>\n\nThe score is doing exactly what it was designed to do. It was not designed to tell you what else this could be." },
       { id:"curb", name:"CURB-65", cost:1, costL:"1 min", tag:"supp",
         aliases:["curb 65","curb65","curb","pneumonia severity","pneumonia score","psi","severity score"],
         text:"Confusion (baseline — arguable) · Urea >7 · RR ≥30 (no — 26) · BP <90 systolic (no) · age ≥65 → <b>CURB-65 = 2 or 3.</b> Severe enough for hospital and for IV antibiotics if this is a pneumonia.\n\nThe score cannot tell you whether it is." },
@@ -1416,9 +1407,9 @@ function news2(o){
 function obsState(){
   const b = band();
   const HR=[124,128,132,136], BP=["168/94","172/96","176/98","170/92"], RR=[26,28,30,32], SP=[94,92,90,88], T=["37.6","37.7","37.8","37.8"], O2=[4,4,6,10];
-  let spo2 = SP[b] - 2*Math.max(0, S.fluids-1) - (S.consequence==="fluids"?3:S.consequence==="anticoag"?2:S.consequence?1:0);
-  let rr   = RR[b] + 2*Math.max(0, S.fluids-1) + (S.consequence==="fluids"?4:S.consequence?2:0);
-  let o2l  = O2[b] + (S.consequence==="fluids"?5:S.consequence?2:0) + (S.fluids>=2?2:0);
+  let spo2 = SP[b] - (S.rx.has("fluids")?2:0) - (S.consequence==="fluids"?3:S.consequence==="anticoag"?2:S.consequence?1:0);
+  let rr   = RR[b] + (S.rx.has("fluids")?2:0) + (S.consequence==="fluids"?4:S.consequence?2:0);
+  let o2l  = O2[b] + (S.consequence==="fluids"?5:S.consequence?2:0) + (S.rx.has("fluids")?2:0);
   if(o2l>15) o2l=15;
   let bp = BP[b]; if(S.consequence==="diuretic") bp = "192/100";
   const o = { hr:HR[b] + (S.consequence?6:0), bp, rr, spo2:Math.max(80,spo2), temp:T[b], o2:o2l, gcs:"baseline",
@@ -1474,20 +1465,6 @@ function gasLabs(){
     {n:"Hb (gas)", v:String(r.hb), r:"130–170", u:"g/L", flag:"lo"},
     {n:"Glucose", v:"6.1", r:"4.0–7.8", u:"mmol/L"}
   ];
-}
-function fluidText(){
-  const r = renalState(), o = obsState();
-  const n = S.fluids;
-  return `Given at ${fmtClock(S.clock-30)} — 500 mL Hartmann's over fifteen minutes${n>1?` (bolus ${n})`:""}. Reassessed at ${fmtClock(S.clock)}.\n\n`+
-    `Urine output in the hour that follows: <b>${r.uo} mL</b>. Blood pressure ${o.bp}. Saturations <b>${o.spo2}% on ${o.o2} L</b>, respiratory rate ${o.rr}. `+
-    (n===1 ? "The crackles have not changed. The bag has gone somewhere, and it was not the bladder."
-     : n===2 ? "The crackles are wetter and have climbed to the mid-zones. He asks to sit up."
-     : "Crackles to the apices now. He is frightened, and so should you be. Whatever this kidney is, it is not thirsty.");
-}
-function uoText(){
-  const r = renalState();
-  S.uoTotal += r.uo;
-  return `Catheter in at ${fmtClock(S.clock)}${S.uoTotal>r.uo?" (repeat reading)":""}. Residual on insertion 30 mL — he is not in retention. Amber, clear, no clots.\n\n<b>Hourly urine output: ${r.uo} mL/h.</b> Running total since the catheter went in: ${S.uoTotal} mL. At 63 kg, oliguria is anything under 32 mL/h. He is making a quarter of that.`;
 }
 function renderObs(){
   const o = obsState();
@@ -1669,8 +1646,7 @@ function genFinding(){
 function respFinding(){
   const base = CASE.examCore.find(e=>e.id==="resp").f;
   if (S.consequence==="fluids") return "Coarse crackles to both apices. Frankly wet. " + base;
-  if (S.fluids>=2) return "Crackles have climbed — mid-zones now, coarser than before. " + base;
-  if (S.fluids===1) return "Crackles a little wetter than before, still both bases to mid-zones. " + base;
+  if (S.rx.has("fluids")) return "Crackles have climbed since the fluid went in — mid-zones now, coarser than before. " + base;
   if (obsState().appear==="bleep") return "Crackles more widespread, to the mid-zones and above on the right. " + base;
   return base;
 }
@@ -1703,7 +1679,8 @@ function findingFor(e){
   const media = mediaHTML(e);
   if (e.imgOnly) return media;
   if (e.dynObs){ const o = obsState();
-    return `HR ${o.hr} · BP ${o.bp} · RR ${o.rr} · SpO₂ ${o.spo2}% on ${o.o2} L · temp ${o.temp} °C · ACVPU: confused, at baseline. NEWS2 ${o.news}.`; }
+    const r = renalState();
+    return `HR ${o.hr} · BP ${o.bp} · RR ${o.rr} · SpO₂ ${o.spo2}% on ${o.o2} L · temp ${o.temp} °C · ACVPU: confused, at baseline. NEWS2 ${o.news}.` + (S.rx.has("cath") ? ` Catheter: <b>${r.uo} mL</b> in the last hour — oliguric.` : " No catheter; the pad is dry."); }
   let txt = e.f;
   if (e.id==="gen") txt = genFinding();
   if (e.id==="resp") txt = respFinding();
@@ -1962,7 +1939,7 @@ function processRound(){
   const waitFor = items.filter(x=>!x.defer && !x.landsAt && !(x.night && !S.ordered.has("phonelab") && !S.picked.has("phonelab")));
   // phoning the lab in the same round makes the microscopy a two-hour wait rather than a morning one
   const phoningNow = S.picked.has("phonelab");
-  items.forEach(x=>{ if(x.dynFluid) S.fluids++; if(x.id==="vbg") S.gasCount++; });
+  items.forEach(x=>{ if(x.id==="vbg") S.gasCount++; });
   tick(Math.max(...waitFor.map(x=>x.cost),0));
   const feed=$("#feed");
   const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Round ${S.round} · back at ${fmtClock(S.clock)}`; feed.appendChild(rh);
@@ -2136,7 +2113,7 @@ const PLAN_ITEMS = {
   cardmon: { label:"Cardiac monitoring", rx:"cardmon", aliases:A("cardiac monitoring","cardiac monitor","cardiac monitored","continuous cardiac monitoring","continuous monitoring","continuous ecg monitoring","ecg monitoring","ecg monitor","monitored bed","monitor bed","monitoring bed","telemetry","tele","on a monitor","on the monitor","put him on a monitor","put him on the monitor","on telemetry","monitor his heart","monitor the heart","monitor his rhythm","monitor rhythm","rhythm monitoring","3 lead","three lead","3 lead monitoring","three lead monitoring","cardiac monitoring for the potassium","monitor for arrhythmia","monitor for arrhythmias","repeat ecg","repeat the ecg","serial ecgs","serial ecg","12 lead ecg","ecg","hourly obs","hourly observations","obs hourly","regular obs","regular observations","frequent obs","frequent observations","close obs","close observation","close monitoring","closely monitor","monitor closely","half hourly obs","15 minute obs","15 min obs","news2 monitoring","news monitoring","continuous obs","continuous observations","continuous sats","continuous saturations","continuous spo2","sats monitoring","saturation monitoring","spo2 monitoring","pulse oximetry","continuous pulse oximetry") },
 
   /* ---------- domain 8: fluid balance and blood ---------- */
-  cath: { label:"Urinary catheter", rx:"cath", ix:"cath", aliases:A("cath","cath him","urinary cath","iuc","catheter","catheterise","catheterize","catheterised","catheterized","urinary catheter","urethral catheter","foley","foley catheter","insert a catheter","insert catheter","put a catheter in","put in a catheter","catheter in","urinary catheterisation","catheterisation","catheterization","idc","iuc","long term catheter","two way catheter","2 way catheter","14 french","16 french","14fr","16fr","14 fr","16 fr","catheter for urine output","catheter for hourly urine output","catheter for fluid balance") },
+  cath: { label:"Urinary catheter", rx:"cath", aliases:A("cath","cath him","urinary cath","iuc","catheter","catheterise","catheterize","catheterised","catheterized","urinary catheter","urethral catheter","foley","foley catheter","insert a catheter","insert catheter","put a catheter in","put in a catheter","catheter in","urinary catheterisation","catheterisation","catheterization","idc","iuc","long term catheter","two way catheter","2 way catheter","14 french","16 french","14fr","16fr","14 fr","16 fr","catheter for urine output","catheter for hourly urine output","catheter for fluid balance") },
   balance: { label:"Strict fluid balance / hourly urine output", rx:"balance", aliases:A("strict fluid balance","fluid balance","fluid balance chart","fluid balance monitoring","strict fluid balance chart","strict input output","strict ins and outs","strict i o","input output","input output chart","input and output","ins and outs","in and out","i o chart","i o","io chart","fluid chart","fluid input output","hourly urine output","hourly urine outputs","hourly uo","hourly u o","hourly urine","urine output monitoring","monitor urine output","monitor the urine output","monitor his urine output","monitor uo","monitor u o","measure urine output","measure the urine output","measure uo","uo monitoring","u o monitoring","urine output","urine outputs","uo","u o","urine output hourly","urine output chart","uo chart","uo hourly","catheter output","output monitoring","daily weight","daily weights","weigh daily","weigh him daily","weigh him","weight daily","weigh","fluid status","monitor fluid status","assess fluid status","reassess fluid status","fluid assessment","volume status","monitor volume status","monitor for overload","watch for overload","watch for fluid overload","monitor for fluid overload","monitor for pulmonary oedema","watch for pulmonary oedema") },
   gs: { label:"Group and save / crossmatch", ix:"gs", aliases:A("group and save","group save","group n save","g s","g and s","g n s","gs","gns","g&s","crossmatch","cross match","x match","xmatch","x matched","crossmatched","cross matched","crossmatch 2 units","crossmatch two units","cross match 2 units","cross match two units","xmatch 2 units","x match 2 units","crossmatch 4 units","cross match 4 units","xmatch 4","crossmatch 2","cross match 2","xmatch 2","blood available","have blood available","blood on standby","blood standby","units on standby","2 units on standby","2 units available","two units available","two units on standby","blood ready","have blood ready","get blood ready","get blood available","blood bank","inform blood bank","blood bank aware","tell blood bank","warn blood bank","major haemorrhage protocol","major haemorrhage","mhp","massive transfusion protocol","massive transfusion","mtp","code red") },
   transfuse: { label:"Transfusion (threshold)", rx:"transfuse", aliases:A("transfuse","transfusion","transfused","transfusing","blood transfusion","red cell transfusion","rbc transfusion","transfuse if","transfuse when","transfuse to","transfuse for","transfuse him","transfuse 1 unit","transfuse one unit","transfuse 2 units","transfuse two units","give blood","give 1 unit","give one unit","give 2 units","give two units","give a unit","give red cells","give packed cells","packed cells","packed red cells","prbc","prbcs","red cells","red cell","rbc","rbcs","units of blood","unit of blood","1 unit of blood","one unit of blood","2 units of blood","two units of blood","1 unit","one unit","2 units","two units","1 unit prbc","2 units prbc","unit of red cells","units of red cells","transfusion threshold","transfusion trigger","hb threshold","hb trigger","threshold of 70","threshold 70","threshold of 80","threshold 80","transfuse if hb below 70","transfuse if hb less than 70","transfuse if hb under 70","transfuse if hb 70","transfuse if hb below 80","transfuse if hb less than 80","transfuse if hb under 80","transfuse if hb 80","transfuse if hb drops","transfuse if hb falls","transfuse if hb dropping","if hb below 70","if hb less than 70","if hb under 70","if hb 70","if hb below 80","if hb less than 80","if hb under 80","if hb 80","hb below 70","hb less than 70","hb under 70","hb 70","hb below 80","hb less than 80","hb under 80","hb 80","hb of 70","hb of 80","target hb","target haemoglobin","keep hb above","keep hb over","keep the hb above","keep the hb over","aim hb","aim for hb","aim haemoglobin","maintain hb","maintain haemoglobin","hb target","haemoglobin target","restrictive transfusion","restrictive threshold","restrictive strategy","blood if","blood for","blood products","blood product","blood now","blood tonight","blood if he drops","blood if the hb drops","blood if hb drops") },
@@ -2236,7 +2213,7 @@ function enactPlan(matched){
     if(it.ix && !S.ordered.has(it.ix)){ S.ordered.add(it.ix); }
     if(it.rx==="stopfluids"){ S.rx.delete("fluids"); }
     if(it.rx==="stopnsaid"){ S.rx.delete("nsaid"); }
-    if(it.rx==="fluids"){ S.rx.delete("stopfluids"); }
+    if(it.rx==="fluids"){ S.rx.delete("stopfluids"); S.fluids++; }
   });
   if(S.rx.has("cultures") && !S.ordered.has("cult")) S.ordered.add("cult");
   if(S.rx.has("virol") && !S.ordered.has("virol")) S.ordered.add("virol");
@@ -2244,10 +2221,10 @@ function enactPlan(matched){
 /* EULAR 2022 / KDIGO 2024 — tonight's eight domains. Induction is renal's; it is not here. */
 const BUNDLE = [
   { k:"Recognise and protect", want:"Pulmonary-renal syndrome named; no anticoagulant, no more fluid",
-    ok:(m)=> S.dxCorrect && !S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids") && S.fluids<2,
+    ok:(m)=> S.dxCorrect && !S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids"),
     why:()=> !S.dxCorrect ? "The name is the treatment: without it, every other line on the chart is aimed at something else."
       : S.rx.has("anticoag") ? "You anticoagulated a man bleeding into his alveoli. NG158's interim anticoagulation has a bleeding-risk clause, and a falling haemoglobin with haemoptysis is what it is for."
-      : "More than one bag went in. A fluid challenge is a test with a result; the result was 12 mL, and the second bag went into his lungs. Hypertensive, oedematous, JVP 3 cm — he was never dry." },
+      : "Fluid went in. Hypertensive, oedematous, JVP 3 cm, moist tongue, no postural drop — he was never dry, and a kidney passing 12 mL an hour into a nephritis does not want a bag of Hartmann's. It went into his lungs." },
   { k:"Oxygen and escalation", want:"Titrated oxygen, and critical care aware tonight",
     ok:(m)=> (S.rx.has("o2") || S.rx.has("niv")) && S.rx.has("itu"),
     why:()=> S.rx.has("itu") ? "Oxygen was never written up as a prescription with a target. It is a drug." : "Critical care were not told about him. Alveolar haemorrhage can need a tube by breakfast, and NIV is not a substitute for a bed that can give him one." },
@@ -2269,7 +2246,7 @@ const BUNDLE = [
     ok:(m)=> ["calcium","insdex","salb","bicarb","binder","hyperk","rrt"].filter(k=>S.rx.has(k)).length + (S.gasCount>=2?1:0) >= 2,
     why:"The potassium crossed 6 on your shift and was not treated. Calcium to protect the myocardium, insulin–dextrose to shift it, salbutamol to help, bicarbonate for the acidosis, a gas in an hour — and a sentence in the notes saying he may need a filter, so nobody is surprised at nine." },
   { k:"Fluid balance and blood", want:"Catheter and hourly urine output; group and save, and a transfusion threshold",
-    ok:(m)=> ["cath","balance","gs","transfuse","cardmon"].filter(k=>S.rx.has(k)).length + (S.ordered.has("cath")?1:0) + (S.ordered.has("gs")?1:0) >= 2,
+    ok:(m)=> ["cath","balance","gs","transfuse","cardmon"].filter(k=>S.rx.has(k)).length + (S.ordered.has("gs")?1:0) >= 2,
     why:"An oliguric man bleeding into his lungs needs a catheter with an hourly chart, blood available, and a threshold written down. Fluid balance in a nephritis is a treatment, not a nursing task." }
 ];
 function chartHTML(){
@@ -2306,7 +2283,7 @@ function callBack(text, matched, negated, dangers){
     : matched.has("anticoag")
     ? `“Before I give the dalteparin — he's coughing blood and the gas haemoglobin has dropped from 91 to ${r.hb}. You still want the treatment dose? Are you sure, doctor?”`
     : matched.has("fluids")
-    ? `“Another bag? He's had ${S.fluids>0?S.fluids*500+" mL":"nothing yet, but"} — the catheter's got ${r.uo} mL in it this hour and his sats are ${o.spo2} on ${o.o2} litres. His pressure's ${o.bp}. Are you sure, doctor?”`
+    ? `“Fluids? His pressure's ${o.bp}, both legs are pitting, and his sats are ${o.spo2} on ${o.o2} litres. ${S.rx.has("cath")?`The catheter's got ${r.uo} mL in it this hour.`:"He's not catheterised, but the pad has been dry since he came up."} Are you sure, doctor?”`
     : matched.has("diuretic")
     ? `“Furosemide — he's passing ${r.uo} mL an hour, his creatinine's ${r.cr} and his pressure's ${o.bp}. I'll give it if you want. Are you sure, doctor?”`
     : `“Naproxen's still on his chart, doctor — creatinine ${r.cr} and rising. Are you sure?”`;
@@ -2474,7 +2451,7 @@ function doHandover(){
 }
 function consequenceOf(){
   if(S.rx.has("anticoag") || S.rx.has("lyse")) return "anticoag";
-  if(S.rx.has("fluids") || S.fluids>=2) return "fluids";
+  if(S.rx.has("fluids")) return "fluids";
   if(S.rx.has("diuretic")) return "diuretic";
   if(S.rx.has("abx") || S.rx.has("sepsis6")) return "abx";
   return "generic";
@@ -2669,7 +2646,7 @@ function epilogueHTML(){
       `His daughter asked the panel why nobody had looked at his back. The panel did not have an answer that fitted on the form.`;
   }
   const steroid = S.rx.has("pulse")||S.rx.has("pred")||S.rx.has("steroid");
-  const noharm = !S.rx.has("anticoag") && !S.rx.has("fluids") && S.fluids<2 && !S.rx.has("diuretic");
+  const noharm = !S.rx.has("anticoag") && !S.rx.has("fluids") && !S.rx.has("diuretic");
   const nsaid = S.rx.has("stopnsaid")||S.rx.has("nephrotox");
   return `<b>Day 1.</b> Filtered at ten. PR3-ANCA 84, anti-GBM negative. ${steroid?"Second methylprednisolone pulse in the afternoon.":"First methylprednisolone pulse at 08:20, once the day team had read the notes."} Off the ten litres by the evening.<br><br>`+
     `<b>Day 2.</b> Renal biopsy: <b>pauci-immune crescentic glomerulonephritis, cellular crescents in 60% of glomeruli, no chronic damage</b> — which is the good news, because cellular crescents are the ones that can recover. His daughter brings his slippers.<br><br>`+
@@ -2695,7 +2672,7 @@ function scoreAndShow(){
   CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
   CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
   CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
-  ["dip","vbg","cath","echo","fbc","ue","crp","umicro","anca","antigbm","cxr","ctpa","uss","sheet","scr","phonelab"].forEach(id=>mark(S.ordered.has(id)));
+  ["dip","vbg","echo","fbc","ue","crp","umicro","anca","antigbm","cxr","ctpa","uss","sheet","scr","phonelab"].forEach(id=>mark(S.ordered.has(id)));
   add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
 
   const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
@@ -2706,23 +2683,36 @@ function scoreAndShow(){
 
   let noise=0; Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(x.tag==="noise"&&S.ordered.has(x.id)) noise++; }));
   if(noise) add(`Low-yield tests ordered (${noise})`, -3*noise);
-  if(S.fluids>=2) add(`Fluid challenges after the first had answered (${S.fluids-1} extra)`, -4*(S.fluids-1));
 
-  /* treatment */
+  /* ---- A–E management: the supportive care a registrar writes at 3 am, each line worth something ---- */
+  const protectedLK = !S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids") && !S.rx.has("diuretic");
+  if(S.rx.has("o2"))       add("B · Oxygen prescribed to a target", 3);
+  if(S.rx.has("itu"))      add("B · Critical care aware tonight", 4);
+  if(S.rx.has("iv"))       add("C · IV access", 1);
+  if(S.rx.has("cardmon"))  add("C · Cardiac monitoring / monitored bed", 2);
+  if(S.rx.has("cath"))     add("C · Urinary catheter and hourly urine output", 3);
+  if(S.rx.has("balance"))  add("C · Strict fluid balance", 2);
+  if(S.rx.has("gs")||S.ordered.has("gs")) add("C · Group and save / crossmatch", 2);
+  if(S.rx.has("transfuse")) add("C · Transfusion threshold written down", 2);
+  if(protectedLK)          add("C · Lungs and kidney protected — no anticoagulant, no fluid load, no diuretic", 6);
+  if(S.rx.has("glucose"))  add("D · Glucose monitoring on steroids", 1);
+  if(S.rx.has("stockings")) add("E · VTE: mechanical prophylaxis while he is bleeding", 2);
+  if(S.rx.has("analgesia")) add("E · Analgesia without an NSAID", 1);
+  if(S.rx.has("capacity")) add("E · Family, capacity and escalation plan", 2);
+  if(S.rx.has("bed"))      add("E · Admission and bed arranged", 1);
+
+  /* ---- specific management: the night's job ---- */
   if(S.rx.has("pulse")) add("IV methylprednisolone pulse", 10);
   else if(S.rx.has("pred")||S.rx.has("steroid")) add("Steroids prescribed", 8);
+  if(S.ordered.has("cult")||S.rx.has("cultures")) add("Cultures before the steroids", 4);
+  if(S.ordered.has("virol")||S.rx.has("virol")) add("Hepatitis and HIV screen sent, ahead of induction", 2);
   if(S.rx.has("renal")) add("Renal on call rung and accepted", 10);
-  if(!S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids") && S.fluids<2 && !S.rx.has("diuretic")) add("Lungs and kidney protected — no anticoagulant, no fluid load, no diuretic", 6);
+  if(S.ordered.has("phonelab")) add("Rang the lab — results phoned to your bleep", 3);
   const kdone = ["calcium","insdex","salb","bicarb","binder","hyperk"].filter(k=>S.rx.has(k)).length;
   if(kdone>=2) add("Hyperkalaemia treated", 6); else if(kdone===1) add("Hyperkalaemia partly treated", 3);
   if(S.rx.has("rrt")) add("Renal replacement readiness named", 3);
-  if(S.rx.has("stopnsaid")||S.rx.has("nephrotox")) add("Naproxen stopped", 4);
-  if(S.ordered.has("cult")||S.rx.has("cultures")) add("Cultures before the steroids", 4);
-  if(S.rx.has("itu")) add("Critical care aware", 4);
-  if(S.ordered.has("cath")||S.rx.has("cath")||S.rx.has("balance")) add("Catheter and fluid balance", 3);
-  if(S.rx.has("o2")) add("Oxygen prescribed to a target", 2);
-  if(S.ordered.has("phonelab")) add("Rang the lab — results phoned to your bleep", 3);
-  if(S.rx.has("capacity")) add("Family, capacity and escalation addressed", 2);
+  if(S.rx.has("stopnsaid")||S.rx.has("nephrotox")) add("Naproxen stopped / nephrotoxins reviewed", 4);
+  if(S.rx.has("stopaspirin")) add("Aspirin held while bleeding", 1);
 
   if(S.rx.has("anticoag")) add("Treatment-dose anticoagulation in alveolar haemorrhage", -15);
   if(S.rx.has("lyse"))     add("Thrombolysis", -15);
@@ -2794,12 +2784,12 @@ function scoreAndShow(){
         s:S.examMore.has("back")?"You turned him over and found the crop on his back — the single finding that names the disease. You never looked at his forearms, where the same lesions had been on the blanket in front of you all night.":"You saw the forearms — and read them as the senile purpura they resemble, or saw them and did not press. The dense crop was on his back, where a bed-bound man is dependent, and you never turned him over."}
       : {v:"miss",t:"Examine the whole patient — the diagnosis was on his back",
         s:"Nobody lifted the sheet. There was palpable purpura across his back, both flanks and both forearms. His shins — where everyone looks — were clean and oedematous. Turn the bed-bound patient over; the dependent skin is the back, and so was the diagnosis."},
-    (fluidRead && S.fluids<2 && !S.rx.has("fluids")) ? {v:"hit",t:"Read an AKI that does not behave",
-        s:"Hypertensive, oedematous, JVP 3 cm, moist tongue, and a kidney that answered a fluid challenge with 12 mL. You read it as intrinsic and stopped. That single decision is what kept his lungs dry until the filter."}
-      : (S.fluids<2 && !S.rx.has("fluids")) ? {v:"part",t:"Read an AKI that does not behave",
-        s:"You did not fluid-load him, which is the outcome that matters — but you never formally assessed his volume status. A JVP, a tongue, a postural pressure and the oedema would have told you at 03:00 what the fluid challenge told you at 04:00."}
+    (fluidRead && !S.rx.has("fluids")) ? {v:"hit",t:"Read an AKI that does not behave",
+        s:"Hypertensive, oedematous, JVP 3 cm, moist tongue, no postural drop — and a kidney passing 12 mL an hour into a nephritis. You read it as intrinsic and gave no fluid. That single decision is what kept his lungs dry until the filter."}
+      : (!S.rx.has("fluids")) ? {v:"part",t:"Read an AKI that does not behave",
+        s:"You did not fluid-load him, which is the outcome that matters — but you never formally assessed his volume status. A JVP, a tongue, a postural pressure and the oedema would have told you at 03:00 that this kidney was not thirsty."}
       : {v:"miss",t:"Read an AKI that does not behave",
-        s:`${S.fluids>=2?`${S.fluids} fluid challenges`:"The fluid bundle"} into a man whose blood pressure never dropped below 168, whose tongue was moist and whose legs were pitting. The first 500 mL was a fair test. Every bag after the answer came back went into his alveoli.`},
+        s:"IV fluid into a man whose blood pressure never dropped below 168, whose tongue was moist and whose legs were pitting to the shin. Every bag went into alveoli that were already full of blood. Assess the volume status; do not assume it."},
     (S.rx.has("pulse")||S.rx.has("pred")||S.rx.has("steroid")) && S.rx.has("renal") && !S.rx.has("anticoag") ? {v:"hit",t:"Treat tonight: cultures, steroids, potassium, renal — and nothing that bleeds",
         s:`${S.rx.has("pulse")?"Pulsed":"Steroids started"} on clinical grounds, renal rung and accepting, ${chased?"the lab rung so the serology came to your bleep at nine":"the ANCA sent"}, and no anticoagulant. Induction was correctly left to the specialist after the hepatitis screen. That is the night's job, done.`}
       : (S.rx.has("pulse")||S.rx.has("pred")||S.rx.has("steroid")||S.rx.has("renal")) ? {v:"part",t:"Treat tonight: cultures, steroids, potassium, renal — and nothing that bleeds",
@@ -2825,7 +2815,7 @@ function scoreAndShow(){
     `${S.ordered.has("dip")?"dipped the urine":"<b>never dipped the urine</b>"}, `+
     `${S.ordered.has("umicro")?"sent it for microscopy":"never sent microscopy"}, `+
     `${S.ordered.has("ctpa")?"scanned his pulmonary arteries":"did not do a CTPA"}, `+
-    `gave <b>${S.fluids}</b> fluid challenge${S.fluids===1?"":"s"}, `+
+    `${S.rx.has("fluids")?"<b>fluid-loaded him</b>":"gave no IV fluid"}, `+
     `${S.ordered.has("scr")?"requested the GP record":"did not request the GP record"}, `+
     `ordered <b>${S.round}</b> round${S.round===1?'':'s'} of investigations, `+
     `${S.rx.has("renal")?"rang renal":"never rang renal"}, `+
