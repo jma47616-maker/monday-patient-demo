@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Walter Brigg, 81: portrait for the chat. Bold ink, cel shading, house palette. -->
+  <rect width="120" height="120" fill="#f3e5c8"/>
+  <circle cx="60" cy="60" r="56" fill="#faf0da" stroke="#241c15" stroke-width="3"/>
+  <!-- nasal cannula tube -->
+  <path d="M30 78 C22 90 26 104 40 108" fill="none" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M90 78 C98 90 94 104 80 108" fill="none" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <!-- neck and gown -->
+  <path d="M40 92 Q60 84 80 92 L86 120 L34 120 Z" fill="#c9d7d3" stroke="#241c15" stroke-width="3"/>
+  <!-- head -->
+  <ellipse cx="60" cy="58" rx="30" ry="34" fill="#e8c2a2" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="66" cy="62" rx="22" ry="28" fill="#d9ab86" opacity=".45"/>
+  <!-- ears -->
+  <ellipse cx="30" cy="62" rx="6" ry="9" fill="#e8c2a2" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="90" cy="62" rx="6" ry="9" fill="#e8c2a2" stroke="#241c15" stroke-width="3"/>
+  <!-- sparse white hair -->
+  <path d="M34 42 Q40 26 56 28 M40 34 Q50 22 66 26 M78 34 Q84 28 88 40" fill="none" stroke="#f4f1ea" stroke-width="4" stroke-linecap="round"/>
+  <path d="M34 42 Q40 26 56 28 M40 34 Q50 22 66 26 M78 34 Q84 28 88 40" fill="none" stroke="#241c15" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
+  <!-- brows -->
+  <path d="M44 48 q8 -5 14 -1 M62 47 q7 -4 14 1" fill="none" stroke="#f4f1ea" stroke-width="4" stroke-linecap="round"/>
+  <!-- eyes: kind, a bit lost -->
+  <ellipse cx="50" cy="56" rx="4.5" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <ellipse cx="71" cy="56" rx="4.5" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <circle cx="51" cy="56.5" r="2" fill="#241c15"/>
+  <circle cx="72" cy="56.5" r="2" fill="#241c15"/>
+  <!-- nose with the crust -->
+  <path d="M60 58 q-4 10 2 14 q4 -2 3 -6" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="57" cy="71" r="1.6" fill="#7a2a1e"/>
+  <!-- nasal cannula prongs -->
+  <path d="M52 74 H68" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <!-- gentle smile, pale lips -->
+  <path d="M50 82 q10 7 20 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- cheeks: pale, not pink -->
+  <ellipse cx="44" cy="70" rx="5" ry="3" fill="#f0d5c0" opacity=".8"/>
+  <!-- blinking -->
+  <rect x="45" y="51" width="11" height="10" fill="#e8c2a2" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;.9;.93;.96;1" dur="5.2s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="66" y="51" width="11" height="10" fill="#e8c2a2" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;.9;.93;.96;1" dur="5.2s" repeatCount="indefinite"/>
+  </rect>
+</svg>

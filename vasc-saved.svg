@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <!-- You saved him. Renal unit, afternoon, a filter humming, Walter sitting up with toast, Joanne and Karen, and a renal registrar nodding. -->
+  <defs>
+    <linearGradient id="vsv-day" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf8ee"/><stop offset="1" stop-color="#f3e5c8"/></linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#vsv-day)"/>
+  <!-- window with daylight -->
+  <rect x="40" y="30" width="200" height="140" rx="6" fill="#cfe6f2" stroke="#241c15" stroke-width="4"/>
+  <path d="M140 30 V170 M40 100 H240" stroke="#241c15" stroke-width="3"/>
+  <circle cx="200" cy="70" r="18" fill="#f2d98a" stroke="#241c15" stroke-width="3"/>
+  <!-- the dialysis machine, humming -->
+  <g>
+    <rect x="560" y="90" width="110" height="240" rx="8" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+    <rect x="574" y="106" width="82" height="50" rx="4" fill="#0f2a22"/>
+    <text x="615" y="128" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" fill="#7dd3a0">CVVHDF</text>
+    <text x="615" y="146" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#7dd3a0">K⁺ 4.9</text>
+    <rect x="590" y="170" width="50" height="120" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <rect x="596" y="220" width="38" height="64" rx="4" fill="#c98a5a" opacity=".7">
+      <animate attributeName="height" values="64;58;64" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="y" values="220;226;220" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <path d="M560 200 C520 200 500 230 470 236" fill="none" stroke="#c94a4a" stroke-width="4"/>
+    <path d="M560 216 C520 216 500 246 470 250" fill="none" stroke="#7aa9b3" stroke-width="4"/>
+    <circle cx="615" cy="310" r="8" fill="#7dd3a0" stroke="#241c15" stroke-width="2">
+      <animate attributeName="opacity" values="1;.3;1" dur="1s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <!-- bed, sat up -->
+  <rect x="220" y="250" width="320" height="50" rx="10" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <rect x="220" y="300" width="320" height="16" fill="#8f9aa6" stroke="#241c15" stroke-width="4"/>
+  <path d="M470 250 L480 150 Q500 140 520 150 L540 250 Z" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <ellipse cx="500" cy="170" rx="42" ry="20" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  <!-- Walter, sitting up, gown, toast -->
+  <path d="M430 250 q40 -70 80 -60 q30 10 20 60 Z" fill="#c9d7d3" stroke="#241c15" stroke-width="3.5"/>
+  <ellipse cx="478" cy="170" rx="30" ry="28" fill="#e8c2a2" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M456 150 Q468 138 484 142 M494 142 Q504 144 508 156" fill="none" stroke="#f4f1ea" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="468" cy="168" rx="4" ry="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="469" cy="168.5" r="1.8" fill="#241c15"/>
+  <ellipse cx="488" cy="168" rx="4" ry="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="489" cy="168.5" r="1.8" fill="#241c15"/>
+  <path d="M466 184 q12 10 24 0" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="459" cy="178" r="4" fill="#f0a9a0" opacity=".8"/><circle cx="497" cy="178" r="4" fill="#f0a9a0" opacity=".8"/>
+  <!-- arm holding the toast: the purpura fading -->
+  <path d="M440 236 q20 -30 46 -22" fill="none" stroke="#e8c2a2" stroke-width="14" stroke-linecap="round"/>
+  <path d="M440 236 q20 -30 46 -22" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#b98a95" opacity=".6"><circle cx="452" cy="226" r="1.4"/><circle cx="462" cy="220" r="1.2"/><circle cx="472" cy="216" r="1.3"/></g>
+  <!-- the toast -->
+  <g transform="translate(486 196) rotate(-15)">
+    <path d="M0 6 q0 -10 10 -10 q10 -8 20 0 q10 0 10 10 v18 h-40 Z" fill="#e0a521" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M4 10 q0 -6 6 -6 q10 -6 18 0 q6 0 6 6 v10 h-30 Z" fill="#f2d98a"/>
+    <path d="M8 14 h20" stroke="#c8531b" stroke-width="2" stroke-linecap="round"/>
+    <animateTransform attributeName="transform" type="translate" values="486 196;486 192;486 196" additive="replace" dur="1.4s" repeatCount="indefinite"/>
+  </g>
+  <!-- speech bubble -->
+  <rect x="330" y="86" width="150" height="38" rx="8" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  <path d="M440 124 l10 14 l4 -14 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  <text x="405" y="110" text-anchor="middle" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="14" font-weight="700" fill="#241c15">Champion. Is there jam?</text>
+  <!-- the renal registrar, nodding -->
+  <g transform="translate(120 200)">
+    <path d="M14 140 L20 60 Q50 46 80 60 L86 140 Z" fill="#4a6fa5" stroke="#241c15" stroke-width="4"/>
+    <path d="M40 60 L50 140 L60 60" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="38" y="36" width="24" height="24" fill="#d9a77c" stroke="#241c15" stroke-width="3"/>
+    <g>
+      <ellipse cx="50" cy="18" rx="26" ry="28" fill="#e9b892" stroke="#241c15" stroke-width="4"/>
+      <path d="M24 12 Q30 -16 56 -12 Q80 -10 76 14 Q60 0 40 4 Q30 8 24 12 Z" fill="#241c15"/>
+      <circle cx="42" cy="18" r="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="43" cy="18.5" r="1.7" fill="#241c15"/>
+      <circle cx="60" cy="18" r="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="61" cy="18.5" r="1.7" fill="#241c15"/>
+      <path d="M44 34 q6 3 12 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+      <animateTransform attributeName="transform" type="rotate" values="0 50 40;7 50 40;0 50 40;7 50 40;0 50 40;0 50 40" dur="4s" repeatCount="indefinite"/>
+    </g>
+    <path d="M58 110 h34 v44 h-34 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <path d="M64 120 h22 M64 128 h18 M64 136 h22 M64 144 h14" stroke="#a08c6e" stroke-width="2"/>
+    <rect x="40" y="150" width="70" height="22" rx="6" fill="#241c15"/>
+    <text x="75" y="166" text-anchor="middle" font-family="Geist, sans-serif" font-size="11" font-weight="700" fill="#fdf8ee">*nods*</text>
+  </g>
+  <!-- Karen and Joanne, bottom right, relieved -->
+  <g transform="translate(690 240)">
+    <path d="M6 110 L10 50 Q30 40 50 50 L54 110 Z" fill="#8c5e8a" stroke="#241c15" stroke-width="3.5"/>
+    <ellipse cx="30" cy="30" rx="20" ry="22" fill="#e9b892" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M10 26 Q14 2 30 4 Q46 2 50 26 Q40 14 30 16 Q20 14 10 26 Z" fill="#6b4a2f" stroke="#241c15" stroke-width="3"/>
+    <path d="M22 34 q8 6 16 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M18 24 q4 -3 8 0 M34 24 q4 -3 8 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M40 40 q6 10 2 18" stroke="#7aa9b3" stroke-width="2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0;1;0" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+  <!-- floor -->
+  <rect x="0" y="340" width="800" height="80" fill="#d9c9a6" stroke="#241c15" stroke-width="3"/>
+  <text x="20" y="380" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="18" font-weight="700" fill="#241c15">Renal unit · 14:30</text>
+  <text x="20" y="400" font-family="Geist, sans-serif" font-size="12" fill="#7a6a52">There is toast. There is, on request, jam.</text>
+</svg>

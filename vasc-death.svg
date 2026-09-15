@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <!-- The wrong call, twice. Comic, not grim: X eyes, a flatline, a crash trolley, and a urology two-week-wait letter arriving on time. -->
+  <defs>
+    <linearGradient id="vdd-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2a3a"/><stop offset="1" stop-color="#4a4356"/></linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#vdd-sky)"/>
+  <!-- monitor, flatlined -->
+  <rect x="520" y="30" width="230" height="120" rx="8" fill="#2a2734" stroke="#241c15" stroke-width="4"/>
+  <rect x="534" y="44" width="202" height="92" rx="4" fill="#0f2a22"/>
+  <path d="M544 100 H726" stroke="#7dd3a0" stroke-width="3">
+    <animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+  <text x="544" y="66" font-family="ui-monospace,monospace" font-size="14" fill="#e85a5a">ASYSTOLE</text>
+  <text x="544" y="124" font-family="ui-monospace,monospace" font-size="12" fill="#7dd3a0">K⁺ 7.1   SpO₂ --</text>
+  <!-- bed -->
+  <rect x="120" y="230" width="470" height="60" rx="10" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <rect x="120" y="290" width="470" height="18" fill="#8f9aa6" stroke="#241c15" stroke-width="4"/>
+  <ellipse cx="510" cy="232" rx="55" ry="22" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  <!-- sheet, and the purpura FINALLY visible because the sheet has slipped -->
+  <path d="M140 244 Q300 216 460 236 L460 268 Q300 278 140 268 Z" fill="#f6f1e4" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M300 240 q60 -12 120 -2 q4 12 -4 16 q-60 6 -118 0 Z" fill="#e8c2a2" stroke="#241c15" stroke-width="3"/>
+  <g fill="#7a2a3e"><circle cx="318" cy="246" r="2"/><circle cx="332" cy="250" r="1.6"/><circle cx="348" cy="244" r="2.2"/><circle cx="364" cy="250" r="1.8"/><circle cx="380" cy="245" r="1.5"/><circle cx="396" cy="250" r="2"/><circle cx="410" cy="246" r="1.7"/></g>
+  <!-- Walter's head: X eyes, tongue out, still faintly pleasant -->
+  <ellipse cx="490" cy="226" rx="30" ry="26" fill="#d8c2b2" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M468 208 Q480 198 496 202 M506 202 Q514 204 518 214" fill="none" stroke="#f4f1ea" stroke-width="4" stroke-linecap="round"/>
+  <path d="M474 218 l10 10 M484 218 l-10 10 M498 218 l10 10 M508 218 l-10 10" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  <path d="M482 240 q8 6 16 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="490" cy="244" rx="5" ry="4" fill="#e07a68" stroke="#241c15" stroke-width="1.5"/>
+  <path d="M470 232 H510" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <!-- a small ghost of Walter, floating up, asking about toast -->
+  <g opacity=".85">
+    <path d="M600 200 q0 -34 30 -34 q30 0 30 34 v40 q-8 -8 -15 0 q-7 8 -15 0 q-7 8 -15 0 q-8 -8 -15 0 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <circle cx="622" cy="192" r="3" fill="#241c15"/><circle cx="638" cy="192" r="3" fill="#241c15"/>
+    <path d="M622 206 q8 6 16 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="655" y="150" width="112" height="34" rx="8" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <path d="M660 184 l-8 12 l16 -10 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <text x="711" y="172" text-anchor="middle" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="13" font-weight="700" fill="#241c15">Is it dinner time?</text>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -14;0 0" dur="3.6s" repeatCount="indefinite"/>
+  </g>
+  <!-- crash trolley, arriving fast and slightly too late -->
+  <g>
+    <rect x="30" y="220" width="120" height="110" rx="6" fill="#c8531b" stroke="#241c15" stroke-width="4"/>
+    <rect x="42" y="236" width="96" height="18" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="42" y="262" width="96" height="18" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="42" y="288" width="96" height="18" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="50" y="196" width="80" height="26" rx="4" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <text x="90" y="214" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#7dd3a0">DEFIB</text>
+    <circle cx="52" cy="342" r="10" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <circle cx="128" cy="342" r="10" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <animateTransform attributeName="transform" type="translate" values="-6 0;4 -3;-6 0" dur=".5s" repeatCount="indefinite"/>
+  </g>
+  <path d="M10 250 q10 -6 20 0 M6 280 q12 -6 24 0 M12 310 q10 -6 20 0" fill="none" stroke="#fdf8ee" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+  <!-- the urology letter, arriving on time -->
+  <g transform="translate(640 300) rotate(-12)">
+    <rect x="0" y="0" width="120" height="76" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+    <path d="M0 0 L60 40 L120 0" fill="none" stroke="#241c15" stroke-width="2.5"/>
+    <text x="60" y="58" text-anchor="middle" font-family="Geist, sans-serif" font-size="9" fill="#7a6a52">UROLOGY · 2-WEEK-WAIT</text>
+    <text x="60" y="70" text-anchor="middle" font-family="Geist, sans-serif" font-size="8" fill="#a08c6e">Your appointment is confirmed</text>
+    <animateTransform attributeName="transform" type="rotate" values="-12 60 38;-8 60 38;-12 60 38" dur="2.8s" repeatCount="indefinite" additive="sum"/>
+  </g>
+  <!-- floor -->
+  <rect x="0" y="352" width="800" height="68" fill="#3d4a52" stroke="#241c15" stroke-width="3"/>
+  <text x="20" y="392" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="18" font-weight="700" fill="#fdf8ee">Under the blanket.</text>
+  <text x="20" y="410" font-family="Geist, sans-serif" font-size="12" fill="#d9c9a6">The whole time.</text>
+</svg>

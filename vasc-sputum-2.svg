@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <!-- After the bleep: the grey pot on the locker, a cupful, and still coming. -->
+  <rect width="400" height="300" fill="#f3e5c8"/>
+  <rect x="0" y="150" width="400" height="150" fill="#c7a06e" stroke="#241c15" stroke-width="3"/>
+  <path d="M0 158 H400" stroke="#a67d4c" stroke-width="2"/>
+  <!-- the grey vomit bowl -->
+  <path d="M60 170 q140 -50 280 0 l-20 80 q-120 30 -240 0 Z" fill="#9aa4a8" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M60 170 q140 -50 280 0 q-140 40 -280 0 Z" fill="#c2cacd" stroke="#241c15" stroke-width="3"/>
+  <!-- the blood: a lot -->
+  <path d="M88 176 q112 -30 224 0 q-112 30 -224 0 Z" fill="#8f1a22"/>
+  <path d="M110 176 q90 -18 180 0 q-90 18 -180 0 Z" fill="#b8202a"/>
+  <g fill="#f4b7b7" opacity=".85">
+    <circle cx="120" cy="176" r="3"/><circle cx="150" cy="168" r="2.4"/><circle cx="250" cy="170" r="2.8"/><circle cx="280" cy="178" r="2"/><circle cx="200" cy="184" r="2.2"/><circle cx="180" cy="164" r="2"/><circle cx="228" cy="186" r="2.6"/>
+  </g>
+  <!-- splashes on the rim and the locker -->
+  <g fill="#b8202a">
+    <ellipse cx="330" cy="205" rx="6" ry="3"/><ellipse cx="350" cy="222" rx="3" ry="2"/><ellipse cx="66" cy="214" rx="4" ry="2.5"/>
+  </g>
+  <!-- a crumpled tissue, soaked -->
+  <path d="M300 250 q20 -24 50 -10 q14 16 -6 26 q-30 8 -44 -16 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="326" cy="252" rx="16" ry="9" fill="#b8202a" opacity=".7"/>
+  <!-- a drip -->
+  <path d="M200 190 q2 8 0 14" stroke="#b8202a" stroke-width="3" stroke-linecap="round" opacity="0">
+    <animate attributeName="opacity" values="0;1;0" dur="2.6s" repeatCount="indefinite"/>
+  </path>
+  <text x="20" y="282" font-family="Geist, sans-serif" font-size="12" fill="#463a2c">A cupful now, not a coin. Bright, frothy, and still coming.</text>
+</svg>

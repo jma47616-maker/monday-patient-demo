@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <!-- The tissue on the locker: a coin of bright, frothy blood. Small. The tip of it. -->
+  <rect width="400" height="300" fill="#f3e5c8"/>
+  <!-- locker top -->
+  <rect x="0" y="150" width="400" height="150" fill="#c7a06e" stroke="#241c15" stroke-width="3"/>
+  <path d="M0 158 H400" stroke="#a67d4c" stroke-width="2"/>
+  <!-- the tissue -->
+  <path d="M90 200 q40 -60 120 -50 q70 -6 110 40 q10 40 -30 60 q-90 30 -170 0 q-50 -20 -30 -50 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M120 190 q40 -30 90 -22 M110 240 q60 20 140 -6" fill="none" stroke="#e8dcc2" stroke-width="2.5"/>
+  <path d="M250 170 q20 30 6 60" fill="none" stroke="#e8dcc2" stroke-width="2.5"/>
+  <!-- the blood: bright, a coin, frothy edge -->
+  <ellipse cx="200" cy="212" rx="34" ry="22" fill="#b8202a"/>
+  <ellipse cx="192" cy="206" rx="20" ry="12" fill="#d63a3a" opacity=".85"/>
+  <g fill="#f4b7b7" opacity=".9">
+    <circle cx="170" cy="206" r="3"/><circle cx="176" cy="222" r="2.4"/><circle cx="226" cy="200" r="2.6"/><circle cx="230" cy="220" r="2"/><circle cx="212" cy="229" r="2.2"/><circle cx="186" cy="194" r="2"/>
+  </g>
+  <g fill="#e85a5a" opacity=".8"><circle cx="240" cy="212" r="2.6"/><circle cx="160" cy="214" r="2.2"/></g>
+  <!-- a bit soaked in -->
+  <ellipse cx="200" cy="216" rx="46" ry="28" fill="#b8202a" opacity=".18"/>
+  <!-- the jug, untouched, and the pad of hospital paper -->
+  <path d="M300 60 h60 l-6 88 h-48 Z" fill="#cfe6f2" stroke="#241c15" stroke-width="3"/>
+  <path d="M312 100 h36" stroke="#9cc7dc" stroke-width="3"/>
+  <text x="20" y="282" font-family="Geist, sans-serif" font-size="12" fill="#463a2c">About a teaspoon. Bright red, frothy at the edge, no clots, no food.</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <!-- His abdomen with the sheet pulled down. Thin, scaphoid, a few purpuric lesions at the edge of both flanks — unremarked in the text. Show, don't tell. -->
+  <rect width="400" height="300" fill="#f3e5c8"/>
+  <!-- sheet, folded down at the bottom -->
+  <path d="M0 230 Q200 210 400 230 L400 300 L0 300 Z" fill="#f6f1e4" stroke="#241c15" stroke-width="3"/>
+  <path d="M0 236 Q200 218 400 236" fill="none" stroke="#d9c9a6" stroke-width="2"/>
+  <!-- gown pushed up at the top -->
+  <path d="M0 0 H400 V60 Q200 84 0 60 Z" fill="#c9d7d3" stroke="#241c15" stroke-width="3"/>
+  <!-- torso -->
+  <path d="M60 58 Q200 40 340 58 L352 232 Q200 218 48 232 Z" fill="#e8c2a2" stroke="#241c15" stroke-width="3.5"/>
+  <!-- cel shading: flanks in shadow, scaphoid dip -->
+  <path d="M60 58 Q90 150 48 232 L110 226 Q100 150 108 62 Z" fill="#d9ab86" opacity=".5"/>
+  <path d="M340 58 Q310 150 352 232 L292 226 Q300 150 292 62 Z" fill="#d9ab86" opacity=".5"/>
+  <ellipse cx="200" cy="150" rx="70" ry="60" fill="#f0d5c0" opacity=".45"/>
+  <!-- ribs visible in a thin man -->
+  <path d="M120 78 q40 14 80 0 M120 96 q40 12 80 0" fill="none" stroke="#d9ab86" stroke-width="2" opacity=".7"/>
+  <path d="M200 78 q40 14 80 0 M200 96 q40 12 80 0" fill="none" stroke="#d9ab86" stroke-width="2" opacity=".7"/>
+  <!-- umbilicus -->
+  <ellipse cx="200" cy="165" rx="6" ry="8" fill="#c99570" stroke="#241c15" stroke-width="2"/>
+  <!-- sparse grey hair -->
+  <g stroke="#a9a29a" stroke-width="1.4" stroke-linecap="round" opacity=".7">
+    <path d="M190 190 l2 -6 M204 196 l1 -6 M212 186 l2 -5 M186 206 l2 -6 M220 204 l1 -6"/>
+  </g>
+  <!-- the lesions: a few at the edge of each flank, palpable purpura, unremarked -->
+  <g fill="#7a2a3e">
+    <circle cx="74" cy="160" r="2.6"/><circle cx="82" cy="176" r="2"/><circle cx="68" cy="190" r="2.2"/><circle cx="90" cy="198" r="1.6"/><circle cx="76" cy="206" r="2.4"/><circle cx="64" cy="140" r="1.7"/>
+    <circle cx="326" cy="158" r="2.4"/><circle cx="318" cy="172" r="2"/><circle cx="334" cy="186" r="2.2"/><circle cx="312" cy="196" r="1.7"/><circle cx="328" cy="208" r="2.5"/><circle cx="338" cy="140" r="1.6"/>
+  </g>
+  <g fill="#a34a5e" opacity=".8">
+    <circle cx="70" cy="168" r="1.2"/><circle cx="86" cy="186" r="1.1"/><circle cx="322" cy="166" r="1.2"/><circle cx="330" cy="196" r="1.1"/>
+  </g>
+  <!-- your examining hand, flat on the right iliac fossa -->
+  <g transform="translate(236 176) rotate(-18)">
+    <path d="M0 0 q30 -12 60 0 l6 30 q-36 14 -70 0 Z" fill="#f2d3b8" stroke="#241c15" stroke-width="3"/>
+    <path d="M58 2 l16 -20 q6 -4 8 2 l-12 24 M44 -3 l10 -26 q6 -4 8 2 l-8 28 M28 -2 l4 -26 q6 -4 8 1 l-2 28 M12 2 l-2 -22 q5 -5 8 0 l4 22" fill="#f2d3b8" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M-2 8 l-16 8 q-6 5 -2 8 l20 -4" fill="#f2d3b8" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <animateTransform attributeName="transform" type="translate" values="236 176;238 174;236 176" additive="sum" dur="2.2s" repeatCount="indefinite"/>
+  </g>
+</svg>

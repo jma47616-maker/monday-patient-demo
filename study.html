@@ -708,7 +708,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02','w03','w04'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03','w04','w05'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 
@@ -783,14 +783,14 @@ const PROGRAM=[
   evidence:'ETA/BTA/Society for Endocrinology joint consensus on thyroid storm 2026 · ATA 2016 hyperthyroidism · Burch–Wartofsky Point Scale',
   obj:['Score a thyroid storm rather than waiting for the hormone level','Find the thyrotoxic signs at the bedside — eyes, neck, hands, tremor','Block synthesis, then release, then conversion — thionamide before iodine','Match the beta blocker to the ventricle, and never reach for amiodarone','Escalate to endocrinology and critical care, and treat the precipitant'],
   read:[{t:'Joint consensus statement — management of thyroid storm (2026)',url:'https://doi.org/10.1530/ETJ-26-0043'},{t:'Approach to the patient with thyroid storm — JCEM 2026',url:'https://doi.org/10.1210/clinem/dgag054'},{t:'Burch–Wartofsky Point Scale — MDCalc',url:'https://www.mdcalc.com/calc/2233/burch-wartofsky-point-scale-bwps-thyrotoxicosis'},{t:'ATA 2016 — hyperthyroidism and other causes of thyrotoxicosis',url:'https://www.thyroid.org/professionals/ata-professional-guidelines/'}]},
- {id:'w05',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
+ {id:'w05',t:'He coughed up blood',sub:'Pulmonary embolism vs pneumonia with AKI vs pulmonary-renal syndrome',month:'Month 2',caseId:'vasculitis',url:BASE+'haemoptysis.html',debrief:'video',
+  evidence:'EULAR 2022 ANCA-associated vasculitis · KDIGO 2024 · PEXIVAS (NEJM 2020) · NICE TA308 · NICE NG158',
+  obj:['Haemoptysis + AKI + blood and protein on the dip is a pulmonary-renal syndrome until proven otherwise','Read the AKI that does not behave — hypertensive, oedematous, oliguric, and deaf to a fluid challenge','Dip the urine, then look at it under a microscope: red-cell casts cannot come from a bladder','Examine the whole patient — in a bed-bound man the dependent skin is the back','Treat tonight on clinical grounds: cultures, steroids, potassium, renal on the phone — induction is theirs'],
+  read:[{t:'EULAR 2022 recommendations — management of ANCA-associated vasculitis',url:'https://doi.org/10.1136/ard-2022-223764'},{t:'KDIGO 2024 clinical practice guideline — ANCA-associated vasculitis',url:'https://kdigo.org/guidelines/anca-vasculitis/'},{t:'PEXIVAS — plasma exchange and glucocorticoids in severe ANCA-associated vasculitis (NEJM 2020)',url:'https://doi.org/10.1056/NEJMoa1803537'},{t:'NICE NG158 — suspected PE: interim anticoagulation and the bleeding-risk clause',url:'https://www.nice.org.uk/guidance/ng158'}]},
+ {id:'w06',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
   evidence:'EAN/PNS 2023 guideline on Guillain–Barré syndrome · BJA Education 2025 · EGRIS / mEGOS',
   obj:['Recognise acute flaccid areflexic weakness, and separate it from cord, cauda equina and myasthenia','Measure the vital capacity — the observation chart cannot see a failing diaphragm','Escalate on the trend: the 20/30/40 rule and EGRIS','Treat on clinical grounds — IVIg or plasma exchange, never both, never steroids','Do not let a three-year-old functional label do your thinking'],
   read:[{t:'EAN/PNS 2023 — diagnosis and treatment of Guillain–Barré syndrome',url:'https://doi.org/10.1111/ene.16073'},{t:'Guillain–Barré syndrome — BJA Education 2025',url:'https://www.bjaed.org/article/S2058-5349(25)00046-0/fulltext'},{t:'Spirometry for ICU admission and ventilation in GBS — systematic review',url:'https://doi.org/10.1016/j.jcrc.2023.154337'},{t:'Suxamethonium is contraindicated in Guillain–Barré syndrome',url:'https://pubmed.ncbi.nlm.nih.gov/1800653/'}]},
- {id:'w06',t:'Breathlessness',sub:'Infective exacerbation of COPD',month:'Month 2',caseId:'copd-exacerbation',url:BASE+'copd.html',debrief:'notes',
-  evidence:'NICE NG114 · GOLD 2025 · BTS/ICS 2016 NIV in acute respiratory failure · BTS emergency oxygen',
-  obj:['Controlled oxygen and the 88–92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
-  read:[{t:'NICE CKS — acute exacerbation of COPD'},{t:'BTS/ICS — NIV in acute respiratory failure'}]},
  {id:'w07',t:'Hyponatraemia',sub:'Low sodium, high stakes',month:'Month 2',caseId:null,url:null,debrief:'notes',
   evidence:'European hyponatraemia guideline 2014 · Society for Endocrinology 2016 acute hyponatraemia',
   obj:['Assess volume status first','The work-up: paired osmolalities','Safe correction limits'],
@@ -826,7 +826,11 @@ const PROGRAM=[
  {id:'w15',t:'Headache',sub:'SAH vs meningitis vs GCA',month:'Month 3',caseId:null,url:null,debrief:'video',
   evidence:'NICE NG240 meningitis · RCEM thunderclap headache · BSR 2020 giant cell arteritis',
   obj:['CT timing and when to LP for SAH','The meningitis pathway','ESR and the diagnosis of GCA'],
-  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]}
+  read:[{t:'RCEM — thunderclap headache'},{t:'NICE NG240 — meningitis'}]},
+ {id:'w16',t:'Breathlessness',sub:'Infective exacerbation of COPD',month:'Month 3',caseId:'copd-exacerbation',url:BASE+'copd.html',debrief:'notes',
+  evidence:'NICE NG114 · GOLD 2025 · BTS/ICS 2016 NIV in acute respiratory failure · BTS emergency oxygen',
+  obj:['Controlled oxygen and the 88–92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
+  read:[{t:'NICE CKS — acute exacerbation of COPD'},{t:'BTS/ICS — NIV in acute respiratory failure'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};

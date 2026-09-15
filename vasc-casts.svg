@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340">
+  <!-- Urine microscopy, phase contrast, ×400: a red-cell cast and a field of dysmorphic red cells. -->
+  <rect width="600" height="340" fill="#241c15"/>
+  <circle cx="300" cy="170" r="160" fill="#eef3f6"/>
+  <circle cx="300" cy="170" r="160" fill="none" stroke="#241c15" stroke-width="6"/>
+  <!-- the cast: a cylinder of packed red cells -->
+  <g transform="rotate(-22 300 170)">
+    <rect x="190" y="150" width="220" height="42" rx="21" fill="#e9c9c2" stroke="#7a2a3e" stroke-width="3"/>
+    <g fill="#c94a4a" stroke="#7a2a3e" stroke-width="1.2">
+      <ellipse cx="212" cy="164" rx="8" ry="6"/><ellipse cx="228" cy="178" rx="8" ry="6"/><ellipse cx="246" cy="162" rx="8" ry="6"/><ellipse cx="262" cy="176" rx="8" ry="6"/><ellipse cx="280" cy="163" rx="8" ry="6"/><ellipse cx="297" cy="178" rx="8" ry="6"/><ellipse cx="315" cy="164" rx="8" ry="6"/><ellipse cx="332" cy="177" rx="8" ry="6"/><ellipse cx="350" cy="163" rx="8" ry="6"/><ellipse cx="367" cy="176" rx="8" ry="6"/><ellipse cx="386" cy="166" rx="8" ry="6"/>
+    </g>
+  </g>
+  <!-- dysmorphic red cells: bleb-y, doughnut-ish, uneven -->
+  <g fill="#e39a9a" stroke="#7a2a3e" stroke-width="1.6">
+    <path d="M170 110 q8 -10 16 0 q10 4 4 12 q-4 10 -14 6 q-12 -2 -6 -18 Z"/>
+    <path d="M220 90 q10 -8 16 2 q6 8 -2 14 q-12 4 -16 -4 q-4 -8 2 -12 Z"/>
+    <path d="M400 100 q10 -10 18 0 q4 12 -6 14 q-10 4 -14 -4 q-2 -6 2 -10 Z"/>
+    <path d="M430 240 q8 -10 18 -2 q8 8 0 14 q-12 6 -18 0 q-4 -6 0 -12 Z"/>
+    <path d="M180 250 q10 -8 16 2 q6 6 -4 12 q-10 4 -14 -2 q-4 -8 2 -12 Z"/>
+    <path d="M250 280 q8 -10 18 -2 q6 8 -2 12 q-12 6 -16 -2 q-4 -4 0 -8 Z"/>
+    <path d="M380 290 q10 -8 16 2 q4 10 -6 12 q-12 2 -14 -6 q-2 -6 4 -8 Z"/>
+    <path d="M150 180 q8 -12 18 -2 q8 10 -4 14 q-12 4 -16 -4 q-2 -4 2 -8 Z"/>
+    <path d="M460 160 q8 -10 18 0 q6 8 -4 14 q-10 4 -16 -2 q-4 -6 2 -12 Z"/>
+    <path d="M320 60 q10 -8 16 2 q4 8 -6 12 q-10 2 -14 -4 q-2 -6 4 -10 Z"/>
+  </g>
+  <!-- small blebs on the cells -->
+  <g fill="#c94a4a">
+    <circle cx="186" cy="106" r="2.2"/><circle cx="236" cy="104" r="2"/><circle cx="416" cy="112" r="2.2"/><circle cx="446" cy="250" r="2"/><circle cx="194" cy="262" r="2"/><circle cx="266" cy="286" r="2"/><circle cx="392" cy="300" r="2.2"/><circle cx="166" cy="190" r="2"/><circle cx="476" cy="172" r="2"/><circle cx="334" cy="70" r="2"/>
+  </g>
+  <!-- a granular cast, faint -->
+  <g transform="rotate(30 420 210)" opacity=".8">
+    <rect x="380" y="200" width="90" height="22" rx="11" fill="#d9c9a6" stroke="#7a6a52" stroke-width="2"/>
+    <g fill="#a08c6e"><circle cx="396" cy="211" r="2"/><circle cx="410" cy="206" r="2"/><circle cx="424" cy="214" r="2"/><circle cx="440" cy="207" r="2"/><circle cx="454" cy="213" r="2"/></g>
+  </g>
+  <!-- labels -->
+  <text x="20" y="30" font-family="Geist Mono, monospace" font-size="13" fill="#fdf8ee">Phase contrast · ×400 · fresh, spun</text>
+  <text x="20" y="320" font-family="Geist, sans-serif" font-size="13" fill="#d9c9a6">Red-cell cast · dysmorphic red cells &gt;80% · one granular cast · no bacteria, no crystals</text>
+</svg>
