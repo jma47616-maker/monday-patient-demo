@@ -666,7 +666,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div class="grouph">Focused examination</div>
         <p class="panel__hint" style="margin-bottom:var(--s3);">Nothing is listed — type the examination you want, the way you’d say it on the ward.</p>
         <form class="typerow" id="examForm" autocomplete="off">
-          <input id="examInput" placeholder="e.g. legs, hands, nose, JVP, joints, back…" autocomplete="off" enterkeyhint="go" spellcheck="false">
+          <input id="examInput" placeholder="e.g. legs, JVP, pulses…" autocomplete="off" enterkeyhint="go" spellcheck="false">
           <button class="btn btn--sm" type="submit">Examine</button>
         </form>
         <div id="examMsg"></div>
@@ -678,7 +678,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div id="ixGroups"></div>
         <div class="grouph">Order on ICE</div>
         <form class="typerow" id="ixForm" autocomplete="off">
-          <input id="ixInput" placeholder="e.g. FBC, urine microscopy, CTPA, phone the lab…" autocomplete="off" enterkeyhint="go" spellcheck="false">
+          <input id="ixInput" placeholder="e.g. FBC, U&amp;E…" autocomplete="off" enterkeyhint="go" spellcheck="false">
           <button class="btn btn--sm" type="submit">Add</button>
         </form>
         <div id="ixMsg"></div>
@@ -694,9 +694,9 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <p class="panel__hint">You have a working diagnosis. Now write the plan — free text, the way you’d write it in the notes at 3 am. Nothing is listed; what you write is what gets done, and it is marked at the handover.</p>
         <div id="rxChart"></div>
         <form id="planForm" autocomplete="off">
-          <textarea id="planText" rows="7" placeholder="e.g.
-O2 to keep sats 94-98
-Stop the naproxen
+          <textarea id="planText" rows="7" spellcheck="false" placeholder="e.g.
+Cannula
+IV fluids
 …"></textarea>
           <div class="planbtns">
             <button class="btn btn--ghost" type="button" id="planRefer">📞 Refer</button>
@@ -724,7 +724,7 @@ Stop the naproxen
       <div class="field" style="margin-top:var(--s5);">
         <label for="dxInput" id="dxLabel">Working diagnosis</label>
         <div class="hint">Type it — the box will suggest matches.</div>
-        <input list="dxlist" id="dxInput" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+        <input list="dxlist" id="dxInput" spellcheck="false" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
       </div>
       <div id="commitErr" class="teach" data-tone="wrong" style="display:none;">Name a diagnosis to continue — that’s the registrar’s call you’re being asked to make.</div>
       <div class="btnrow">
