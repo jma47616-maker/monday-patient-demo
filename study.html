@@ -721,10 +721,7 @@ const TEASERS       = 2;         // how many not-yet-released cases to preview a
    promises no name, no email and no way to trace an answer back,
    and appending a week id or pseudonym would quietly break that.
    ============================================================ */
-const FEEDBACK = {
-  url: 'https://docs.google.com/forms/d/e/1FAIpQLSfgm0fzZQvgUMlFgh9x6u9qywkLGJ3z29dhZtdO6j9pAR-uJQ/viewform',
-  until: '2026-09-30'
-};
+const FEEDBACK = null;   /* feedback round closed 2026-09-28 */
 function feedbackLive(){
   if(!FEEDBACK || !FEEDBACK.url) return false;
   if(!FEEDBACK.until) return true;
