@@ -708,7 +708,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02','w03','w04','w05'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 
@@ -787,14 +787,14 @@ const PROGRAM=[
   evidence:'EULAR 2022 ANCA-associated vasculitis · KDIGO 2024 · PEXIVAS (NEJM 2020) · NICE TA308 · NICE NG158',
   obj:['Haemoptysis + AKI + blood and protein on the dip is a pulmonary-renal syndrome until proven otherwise','Read the AKI that does not behave — hypertensive, oedematous, oliguric, and deaf to a fluid challenge','Dip the urine, then look at it under a microscope: red-cell casts cannot come from a bladder','Examine the whole patient — in a bed-bound man the dependent skin is the back','Treat tonight on clinical grounds: cultures, steroids, potassium, renal on the phone — induction is theirs'],
   read:[{t:'EULAR 2022 recommendations — management of ANCA-associated vasculitis',url:'https://doi.org/10.1136/ard-2022-223764'},{t:'KDIGO 2024 clinical practice guideline — ANCA-associated vasculitis',url:'https://kdigo.org/guidelines/anca-vasculitis/'},{t:'PEXIVAS — plasma exchange and glucocorticoids in severe ANCA-associated vasculitis (NEJM 2020)',url:'https://doi.org/10.1056/NEJMoa1803537'},{t:'NICE NG158 — suspected PE: interim anticoagulation and the bleeding-risk clause',url:'https://www.nice.org.uk/guidance/ng158'}]},
- {id:'w06',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
+ {id:'w06',t:'He fitted on the ward',sub:'Alcohol withdrawal vs meningitis vs something on the gas',month:'Month 2',caseId:'seizure',url:BASE+'seizure.html',debrief:'video',
+  evidence:'ESE/ERA-EDTA/ESICM hyponatraemia guideline 2014 · Society for Endocrinology emergency guidance · NICE NG250 pneumonia (2025) · NICE CG100 · NICE CG174',
+  obj:['Do an A–E that finds the reversible cause — a gas and a glucose, and a look at what is running','Tell a hyponatraemic seizure from alcohol withdrawal','Give 3% saline in the first hour — bolus, measure, stop at +5','Correct safely: a ceiling of 8 in 24 hours in a high-risk drinker, and watch overnight','Classify before you label SIADH — osmolalities, urine sodium, volume, thyroid, adrenals'],
+  read:[{t:'ESE/ERA-EDTA/ESICM clinical practice guideline on hyponatraemia (2014)',url:'https://doi.org/10.1530/EJE-13-1020'},{t:'Society for Endocrinology — emergency management of severe symptomatic hyponatraemia',url:'https://www.endocrinology.org/media/xhrhxhxm/emergency-management-of-severe-and-moderately-severely-symptomatic-hyponatraemia-in-adult-patients-2022.pdf'},{t:'NICE NG250 — pneumonia: diagnosis and management',url:'https://www.nice.org.uk/guidance/ng250'},{t:'NICE CG174 — intravenous fluid therapy in adults',url:'https://www.nice.org.uk/guidance/cg174'}]},
+ {id:'w07',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
   evidence:'EAN/PNS 2023 guideline on Guillain–Barré syndrome · BJA Education 2025 · EGRIS / mEGOS',
   obj:['Recognise acute flaccid areflexic weakness, and separate it from cord, cauda equina and myasthenia','Measure the vital capacity — the observation chart cannot see a failing diaphragm','Escalate on the trend: the 20/30/40 rule and EGRIS','Treat on clinical grounds — IVIg or plasma exchange, never both, never steroids','Do not let a three-year-old functional label do your thinking'],
   read:[{t:'EAN/PNS 2023 — diagnosis and treatment of Guillain–Barré syndrome',url:'https://doi.org/10.1111/ene.16073'},{t:'Guillain–Barré syndrome — BJA Education 2025',url:'https://www.bjaed.org/article/S2058-5349(25)00046-0/fulltext'},{t:'Spirometry for ICU admission and ventilation in GBS — systematic review',url:'https://doi.org/10.1016/j.jcrc.2023.154337'},{t:'Suxamethonium is contraindicated in Guillain–Barré syndrome',url:'https://pubmed.ncbi.nlm.nih.gov/1800653/'}]},
- {id:'w07',t:'Hyponatraemia',sub:'Low sodium, high stakes',month:'Month 2',caseId:null,url:null,debrief:'notes',
-  evidence:'European hyponatraemia guideline 2014 · Society for Endocrinology 2016 acute hyponatraemia',
-  obj:['Assess volume status first','The work-up: paired osmolalities','Safe correction limits'],
-  read:[{t:'European hyponatraemia guideline'},{t:'Society for Endocrinology — acute hyponatraemia'}]},
  {id:'w08',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 2',caseId:null,url:null,debrief:'video',
   evidence:'UK Kidney Association 2023 treatment of acute hyperkalaemia · RCUK 2025 peri-arrest arrhythmias',
   obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
@@ -1242,7 +1242,7 @@ function streak(){ let s=0; for(let i=PROGRAM.length;i>=1;i--){const id='w'+Stri
 /* Node glyph for a SOLVED week. Solved weeks are already revealed (title,
    objectives, reading), so a topic glyph leaks nothing. Anything not
    listed falls back to a tick. */
-const CASE_GLYPH = { 'gi-bleed':'🩸', 'acs-mi':'🫀', 'ttp':'🔬', 'thyroid':'🔥', 'gbs':'🦵' };
+const CASE_GLYPH = { 'gi-bleed':'🩸', 'acs-mi':'🫀', 'ttp':'🔬', 'thyroid':'🔥', 'gbs':'🦵', 'seizure':'⚡' };
 
 /* The weeks of the month the current week belongs to. The map shows one
    month at a time; the programme view still lists them all. */

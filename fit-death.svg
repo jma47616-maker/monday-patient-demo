@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <!-- The wrong call. Comic, not grim: X eyes, a flatline, a crash trolley, the drip still running, a syringe and a spinal tray abandoned, and the tea trolley arriving with more fluids. -->
+  <defs>
+    <linearGradient id="fdd-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2a3a"/><stop offset="1" stop-color="#4a4356"/></linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#fdd-wall)"/>
+
+  <!-- monitor, flatlined -->
+  <rect x="540" y="26" width="220" height="116" rx="8" fill="#2a2734" stroke="#241c15" stroke-width="4"/>
+  <rect x="554" y="40" width="192" height="88" rx="4" fill="#0f2a22"/>
+  <path d="M564 96 H736" stroke="#7dd3a0" stroke-width="3">
+    <animate attributeName="opacity" values="1;.3;1" dur="1.2s" repeatCount="indefinite"/>
+  </path>
+  <text x="564" y="62" font-family="ui-monospace,monospace" font-size="14" fill="#e85a5a">ASYSTOLE</text>
+  <text x="564" y="120" font-family="ui-monospace,monospace" font-size="12" fill="#7dd3a0">HR --   SpO₂ --</text>
+  <circle cx="732" cy="56" r="5" fill="#e85a5a"><animate attributeName="opacity" values="1;0;1" dur=".5s" repeatCount="indefinite"/></circle>
+
+  <!-- drip stand at the head of the bed: the bag still running, cheerfully -->
+  <g>
+    <path d="M500 40 V350 M478 352 H522" stroke="#8f9aa6" stroke-width="5" stroke-linecap="round"/>
+    <path d="M484 44 H516" stroke="#8f9aa6" stroke-width="4" stroke-linecap="round"/>
+    <rect x="470" y="52" width="40" height="62" rx="8" fill="#e9f2f4" stroke="#241c15" stroke-width="3.5"/>
+    <rect x="475" y="72" width="30" height="36" rx="4" fill="#cfe6ef">
+      <animate attributeName="height" values="36;30;36" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="y" values="72;78;72" dur="4s" repeatCount="indefinite"/>
+    </rect>
+    <text x="490" y="68" text-anchor="middle" font-family="Geist, sans-serif" font-size="10" font-weight="700" fill="#241c15">5%</text>
+    <rect x="485" y="114" width="10" height="16" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+    <circle cx="490" cy="120" r="2" fill="#7aa9b3"><animate attributeName="cy" values="116;126;116" dur=".6s" repeatCount="indefinite"/></circle>
+    <path d="M490 130 C490 190 460 220 420 250" fill="none" stroke="#dfe7e3" stroke-width="3"/>
+  </g>
+
+  <!-- bed -->
+  <rect x="110" y="236" width="370" height="58" rx="10" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <rect x="110" y="294" width="370" height="18" fill="#8f9aa6" stroke="#241c15" stroke-width="4"/>
+  <ellipse cx="420" cy="236" rx="52" ry="20" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M126 250 Q260 226 380 244 L380 274 Q260 284 126 274 Z" fill="#f6f1e4" stroke="#241c15" stroke-width="3.5"/>
+  <!-- feet up under the sheet -->
+  <path d="M140 248 q-6 -22 8 -26 q10 2 8 24 M160 246 q-4 -20 10 -22 q10 4 6 22" fill="#f6f1e4" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+  <!-- arm out, cannula still in -->
+  <path d="M320 256 q40 -8 82 -2" fill="none" stroke="#dcae8a" stroke-width="13" stroke-linecap="round"/>
+  <path d="M320 256 q40 -8 82 -2" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round" opacity=".8"/>
+  <rect x="396" y="248" width="14" height="8" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+  <!-- Dennis: X eyes, tongue out, stubble, grey wisps -->
+  <ellipse cx="420" cy="224" rx="28" ry="30" fill="#cdb8a8" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M394 226 Q392 206 403 199 M446 226 Q448 206 437 199" fill="none" stroke="#b9b6ae" stroke-width="6" stroke-linecap="round"/>
+  <path d="M405 214 l9 9 M414 214 l-9 9 M426 214 l9 9 M435 214 l-9 9" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  <path d="M398 234 Q420 262 442 234 Q432 250 420 250 Q408 250 398 234 Z" fill="#8f887e" opacity=".45"/>
+  <path d="M410 240 q10 5 20 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="420" cy="245" rx="5" ry="4.5" fill="#e07a68" stroke="#241c15" stroke-width="1.5"/>
+  <!-- the stray airway, tossed on the pillow -->
+  <path d="M452 222 q14 -2 16 12" fill="none" stroke="#e38a3a" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="452" cy="222" rx="4" ry="6" fill="#e38a3a" stroke="#241c15" stroke-width="1.6"/>
+
+  <!-- the side table: a benzodiazepine syringe and a spinal tray, abandoned -->
+  <g>
+    <rect x="530" y="250" width="150" height="12" rx="3" fill="#c7a06e" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M544 262 V350 M666 262 V350" stroke="#8f9aa6" stroke-width="5"/>
+    <!-- spinal tray -->
+    <rect x="540" y="232" width="92" height="20" rx="3" fill="#8fc0c9" stroke="#241c15" stroke-width="3"/>
+    <path d="M548 240 H600" stroke="#fdf8ee" stroke-width="3" stroke-linecap="round"/>
+    <path d="M552 244 L596 238" stroke="#241c15" stroke-width="1.6"/>
+    <rect x="604" y="236" width="8" height="12" rx="1" fill="#fdf8ee" stroke="#241c15" stroke-width="1.5"/>
+    <rect x="615" y="236" width="8" height="12" rx="1" fill="#fdf8ee" stroke="#241c15" stroke-width="1.5"/>
+    <text x="586" y="228" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" font-weight="700" fill="#fdf8ee">LP TRAY</text>
+    <!-- syringe, rolling -->
+    <g>
+      <rect x="640" y="238" width="36" height="9" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+      <rect x="640" y="239" width="16" height="7" fill="#d9c35a" opacity=".7"/>
+      <path d="M676 242.5 H690 M634 242.5 H640 M632 237 V248" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-3 0;0 0" dur="2.2s" repeatCount="indefinite"/>
+    </g>
+    <text x="662" y="274" text-anchor="middle" font-family="Geist Mono, monospace" font-size="9" fill="#d9c9a6">lorazepam</text>
+  </g>
+
+  <!-- crash trolley, arriving fast and slightly too late -->
+  <g>
+    <rect x="16" y="226" width="96" height="104" rx="6" fill="#c8531b" stroke="#241c15" stroke-width="4"/>
+    <rect x="26" y="242" width="76" height="16" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="26" y="266" width="76" height="16" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="26" y="290" width="76" height="16" rx="3" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="30" y="202" width="68" height="26" rx="4" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <text x="64" y="220" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#7dd3a0">DEFIB</text>
+    <circle cx="34" cy="340" r="10" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <circle cx="96" cy="340" r="10" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <animateTransform attributeName="transform" type="translate" values="-6 0;4 -3;-6 0" dur=".5s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- the gag: the afternoon tea trolley rolls in, urn steaming, offering another cuppa -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="30 0;0 0;0 0;30 0" keyTimes="0;.35;.8;1" dur="7s" repeatCount="indefinite"/>
+    <rect x="690" y="262" width="96" height="70" rx="5" fill="#9cc2b6" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M690 296 H786" stroke="#241c15" stroke-width="3"/>
+    <circle cx="702" cy="342" r="9" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <circle cx="774" cy="342" r="9" fill="#3a3646" stroke="#241c15" stroke-width="3"/>
+    <!-- urn -->
+    <path d="M704 262 V222 Q704 212 716 212 H738 Q750 212 750 222 V262 Z" fill="#c9ccd1" stroke="#241c15" stroke-width="3"/>
+    <rect x="712" y="206" width="30" height="8" rx="3" fill="#8f9aa6" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M750 246 h8 v6" fill="none" stroke="#241c15" stroke-width="3"/>
+    <path d="M716 222 v30" stroke="#fdf8ee" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+    <!-- cups stacked up -->
+    <g fill="#fdf8ee" stroke="#241c15" stroke-width="2.2">
+      <path d="M758 262 l2 -14 h16 l2 14 Z"/><path d="M760 248 l2 -12 h12 l2 12 Z"/>
+      <path d="M700 314 l2 -12 h14 l2 12 Z"/><path d="M724 314 l2 -12 h14 l2 12 Z"/><path d="M748 314 l2 -12 h14 l2 12 Z"/>
+    </g>
+    <!-- steam -->
+    <g fill="none" stroke="#fdf8ee" stroke-width="2.5" stroke-linecap="round" opacity=".7">
+      <path d="M722 200 q-6 -8 0 -16 q6 -8 0 -16"><animate attributeName="opacity" values=".8;.1;.8" dur="1.8s" repeatCount="indefinite"/></path>
+      <path d="M734 198 q6 -8 0 -16 q-6 -8 0 -16"><animate attributeName="opacity" values=".1;.8;.1" dur="1.8s" repeatCount="indefinite"/></path>
+    </g>
+  </g>
+
+  <path d="M0 250 q10 -6 20 0 M0 280 q12 -6 24 0" fill="none" stroke="#fdf8ee" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+
+  <!-- floor -->
+  <rect x="0" y="352" width="800" height="68" fill="#3d4a52" stroke="#241c15" stroke-width="3"/>
+  <text x="20" y="390" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="18" font-weight="700" fill="#fdf8ee">The drip kept running.</text>
+  <text x="20" y="408" font-family="Geist, sans-serif" font-size="12" fill="#d9c9a6">Nobody asked what was in the bag.</text>
+</svg>

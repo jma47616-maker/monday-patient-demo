@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Staff Nurse Priya Nair, about 30: portrait for the chat. Navy tunic, red piping, fob watch, hair tied back. Calm. -->
+  <rect width="120" height="120" fill="#f3e5c8"/>
+  <circle cx="60" cy="60" r="56" fill="#faf0da" stroke="#241c15" stroke-width="3"/>
+  <!-- hair behind: tied back, bun peeking -->
+  <circle cx="86" cy="34" r="11" fill="#1f1714" stroke="#241c15" stroke-width="3"/>
+  <!-- neck -->
+  <path d="M51 82 h18 v14 c0 6 -18 6 -18 0 Z" fill="#b07a52" stroke="#241c15" stroke-width="3"/>
+  <!-- navy tunic with red piping -->
+  <path d="M26 120 C28 102 42 94 60 94 C78 94 92 102 94 120 Z" fill="#1f3a64" stroke="#241c15" stroke-width="3"/>
+  <path d="M48 95 L60 108 L72 95" fill="none" stroke="#c0282d" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M34 104 Q38 100 44 98 M86 104 Q82 100 76 98" fill="none" stroke="#c0282d" stroke-width="2.4" stroke-linecap="round"/>
+  <!-- fob watch pinned on the left chest -->
+  <path d="M40 104 v5" stroke="#8f9aa6" stroke-width="2"/>
+  <circle cx="40" cy="113" r="5" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+  <path d="M40 113 v-3 M40 113 h2" stroke="#241c15" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- name badge -->
+  <rect x="68" y="104" width="18" height="8" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+  <line x1="71" y1="108" x2="83" y2="108" stroke="#1f3a64" stroke-width="2"/>
+  <!-- head -->
+  <ellipse cx="60" cy="56" rx="27" ry="31" fill="#c68b5f" stroke="#241c15" stroke-width="3"/>
+  <path d="M66 28 Q86 34 86 58 Q86 80 68 86 Q80 64 66 28 Z" fill="#a8704a" opacity=".45"/>
+  <!-- ears with small studs -->
+  <ellipse cx="33" cy="60" rx="5" ry="8" fill="#c68b5f" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="87" cy="60" rx="5" ry="8" fill="#c68b5f" stroke="#241c15" stroke-width="3"/>
+  <circle cx="33" cy="67" r="1.6" fill="#e0a521"/><circle cx="87" cy="67" r="1.6" fill="#e0a521"/>
+  <!-- hair: centre parting, pulled back smoothly -->
+  <path d="M33 58 C30 30 44 22 60 22 C76 22 90 30 87 58 C84 46 80 38 72 34 C66 32 62 30 60 28 C58 30 54 32 48 34 C40 38 36 46 33 58 Z" fill="#1f1714" stroke="#241c15" stroke-width="3"/>
+  <path d="M60 24 V30" stroke="#3a2c26" stroke-width="1.5"/>
+  <path d="M44 30 q8 -4 12 -4" fill="none" stroke="#4a3a34" stroke-width="2" stroke-linecap="round"/>
+  <!-- brows, level -->
+  <path d="M43 47 q7 -3 13 0 M64 47 q7 -3 13 0" fill="none" stroke="#1f1714" stroke-width="3.2" stroke-linecap="round"/>
+  <!-- eyes: steady, attentive -->
+  <ellipse cx="50" cy="55" rx="4.5" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <ellipse cx="70" cy="55" rx="4.5" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <circle cx="50.5" cy="55.5" r="2.3" fill="#241c15"/>
+  <circle cx="70.5" cy="55.5" r="2.3" fill="#241c15"/>
+  <path d="M45 52 q5 -3 10 0 M65 52 q5 -3 10 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- nose -->
+  <path d="M60 58 q-3 8 1 10 q3 0 3 -2" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- small, composed smile -->
+  <path d="M52 76 q8 5 16 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="44" cy="68" rx="4.5" ry="2.6" fill="#d9866a" opacity=".45"/>
+  <ellipse cx="76" cy="68" rx="4.5" ry="2.6" fill="#d9866a" opacity=".45"/>
+  <!-- blinking -->
+  <rect x="45" y="50" width="11" height="10" fill="#c68b5f" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;.9;.93;.96;1" dur="4.4s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="65" y="50" width="11" height="10" fill="#c68b5f" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;.9;.93;.96;1" dur="4.4s" repeatCount="indefinite"/>
+  </rect>
+</svg>

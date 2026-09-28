@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <!-- Two days later. AMU, a sunny window, the drip stand empty. Dennis sitting up with toast and a measured cup, Jean at the bedside, a fluid chart on the bed-end. -->
+  <defs>
+    <linearGradient id="fsv-day" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf8ee"/><stop offset="1" stop-color="#f3e5c8"/></linearGradient>
+    <linearGradient id="fsv-beam" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2c2" stop-opacity=".8"/><stop offset="1" stop-color="#fff2c2" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#fsv-day)"/>
+
+  <!-- sunny window -->
+  <rect x="40" y="30" width="200" height="140" rx="6" fill="#cfe6f2" stroke="#241c15" stroke-width="4"/>
+  <path d="M140 30 V170 M40 100 H240" stroke="#241c15" stroke-width="3"/>
+  <g>
+    <circle cx="196" cy="66" r="18" fill="#f2d98a" stroke="#241c15" stroke-width="3"/>
+    <g stroke="#e0a521" stroke-width="3" stroke-linecap="round">
+      <path d="M196 38 v-6 M196 94 v6 M168 66 h-6 M224 66 h6 M176 46 l-4 -4 M216 86 l4 4 M216 46 l4 -4 M176 86 l-4 4"/>
+      <animateTransform attributeName="transform" type="rotate" values="0 196 66;45 196 66" dur="6s" repeatCount="indefinite"/>
+    </g>
+  </g>
+  <path d="M52 150 q30 -24 60 -8 q26 -18 56 -2 q26 -14 60 4 V166 H52 Z" fill="#8fb07a" opacity=".8"/>
+  <path d="M40 170 L240 170 L520 340 L120 340 Z" fill="url(#fsv-beam)" opacity=".7"/>
+
+  <!-- the drip stand, empty -->
+  <g>
+    <path d="M580 60 V330 M558 332 H602" stroke="#8f9aa6" stroke-width="5" stroke-linecap="round"/>
+    <path d="M564 64 H596" stroke="#8f9aa6" stroke-width="4" stroke-linecap="round"/>
+    <path d="M564 66 v8 M596 66 v8" stroke="#8f9aa6" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- bed, sat up -->
+  <rect x="220" y="250" width="320" height="50" rx="10" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <rect x="220" y="300" width="320" height="16" fill="#8f9aa6" stroke="#241c15" stroke-width="4"/>
+  <rect x="240" y="316" width="14" height="24" fill="#6f7a86" stroke="#241c15" stroke-width="3"/>
+  <rect x="506" y="316" width="14" height="24" fill="#6f7a86" stroke="#241c15" stroke-width="3"/>
+  <path d="M470 250 L480 150 Q500 140 520 150 L540 250 Z" fill="#dfe7e3" stroke="#241c15" stroke-width="4"/>
+  <ellipse cx="500" cy="170" rx="42" ry="20" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  <!-- blanket over the legs -->
+  <path d="M236 262 Q330 238 440 250 L440 282 Q330 290 236 282 Z" fill="#f6f1e4" stroke="#241c15" stroke-width="3.5"/>
+  <!-- bed-end: the fluid chart -->
+  <rect x="206" y="214" width="22" height="92" rx="6" fill="#b8c2cc" stroke="#241c15" stroke-width="4"/>
+  <g transform="rotate(-3 210 250)">
+    <rect x="176" y="222" width="64" height="62" rx="3" fill="#a67d4c" stroke="#241c15" stroke-width="3"/>
+    <rect x="182" y="230" width="52" height="48" rx="1" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+    <text x="208" y="242" text-anchor="middle" font-family="Geist, sans-serif" font-size="8" font-weight="700" fill="#241c15">Fluids:</text>
+    <text x="208" y="253" text-anchor="middle" font-family="Geist, sans-serif" font-size="8" font-weight="700" fill="#b8552e">1 L/day</text>
+    <path d="M188 260 H228 M188 266 H228 M188 272 H220" stroke="#a08c6e" stroke-width="1.4"/>
+    <path d="M190 262 l2 2 l4 -4 M190 268 l2 2 l4 -4" fill="none" stroke="#3b7a4a" stroke-width="1.4"/>
+    <rect x="198" y="218" width="20" height="8" rx="2" fill="#8f9aa6" stroke="#241c15" stroke-width="2"/>
+  </g>
+
+  <!-- Dennis, sitting up in his gown, awake -->
+  <path d="M430 250 q40 -70 80 -60 q30 10 20 60 Z" fill="#c9d7d3" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M448 226 l4 4 M470 212 l4 4 M494 206 l4 4 M506 232 l4 4" stroke="#8fa6a0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M476 146 Q448 146 448 172 Q448 196 466 202 Q476 206 486 202 Q506 196 506 172 Q506 146 476 146 Z" fill="#dcae8a" stroke="#241c15" stroke-width="3.5"/>
+  <path d="M450 168 Q448 150 460 146 M504 168 Q506 150 494 146" fill="none" stroke="#b9b6ae" stroke-width="5" stroke-linecap="round"/>
+  <path d="M456 184 Q476 210 498 184 Q490 198 476 198 Q462 198 456 184 Z" fill="#9c958a" opacity=".3"/>
+  <path d="M460 164 q5 -3 10 -1 M482 163 q5 -2 10 1" fill="none" stroke="#9c958a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="466" cy="171" rx="4" ry="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="467" cy="171.5" r="1.8" fill="#241c15"/>
+  <ellipse cx="487" cy="171" rx="4" ry="3.5" fill="#fff" stroke="#241c15" stroke-width="2"/><circle cx="488" cy="171.5" r="1.8" fill="#241c15"/>
+  <path d="M477 172 q-3 7 1 9" fill="none" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+  <path d="M467 188 q10 8 20 0" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="458" cy="182" r="4" fill="#e9a08c" opacity=".7"/><circle cx="495" cy="182" r="4" fill="#e9a08c" opacity=".7"/>
+  <ellipse cx="448" cy="174" rx="4" ry="7" fill="#dcae8a" stroke="#241c15" stroke-width="2.6"/>
+  <ellipse cx="505" cy="174" rx="4" ry="7" fill="#dcae8a" stroke="#241c15" stroke-width="2.6"/>
+  <!-- arm holding the toast -->
+  <path d="M440 236 q26 -32 62 -24" fill="none" stroke="#dcae8a" stroke-width="13" stroke-linecap="round"/>
+  <path d="M440 236 q26 -32 62 -24" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  <g transform="translate(500 204) rotate(-15)">
+    <path d="M0 6 q0 -10 10 -10 q10 -8 20 0 q10 0 10 10 v18 h-40 Z" fill="#e0a521" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M4 10 q0 -6 6 -6 q10 -6 18 0 q6 0 6 6 v10 h-30 Z" fill="#f2d98a"/>
+    <path d="M22 -2 l6 6 l-6 0 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="1.5"/>
+    <animateTransform attributeName="transform" type="translate" values="500 204;500 200;500 204" additive="replace" dur="1.4s" repeatCount="indefinite"/>
+  </g>
+  <!-- over-bed table with the measured cup and a plate of crumbs -->
+  <g>
+    <rect x="360" y="232" width="100" height="10" rx="3" fill="#c7a06e" stroke="#241c15" stroke-width="3"/>
+    <path d="M372 242 V300" stroke="#8f9aa6" stroke-width="5"/>
+    <ellipse cx="392" cy="230" rx="20" ry="4" fill="#fdf8ee" stroke="#241c15" stroke-width="2.5"/>
+    <g fill="#c38a4a"><circle cx="386" cy="229" r="1.2"/><circle cx="394" cy="230" r="1"/><circle cx="399" cy="228.5" r="1.1"/></g>
+    <path d="M422 232 l-4 -32 h26 l-4 32 Z" fill="#e9f2f4" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M420 210 l2 20 h16 l2 -20 Z" fill="#d6b27a" opacity=".85"/>
+    <path d="M438 206 h4 M438 214 h4 M438 222 h4" stroke="#241c15" stroke-width="1.4"/>
+    <text x="431" y="198" text-anchor="middle" font-family="Geist Mono, monospace" font-size="8" fill="#241c15">200 mL</text>
+  </g>
+  <!-- speech bubble -->
+  <rect x="316" y="92" width="162" height="38" rx="8" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  <path d="M446 130 l10 14 l4 -14 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  <path d="M447 128 h12" stroke="#fdf8ee" stroke-width="4"/>
+  <text x="397" y="116" text-anchor="middle" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="14" font-weight="700" fill="#241c15">Is this all I get? A cup?</text>
+
+  <!-- Jean at the bedside, relieved, handbag on her knee -->
+  <g transform="translate(620 200)">
+    <!-- chair -->
+    <rect x="-6" y="92" width="92" height="12" rx="4" fill="#4d6b5a" stroke="#241c15" stroke-width="3"/>
+    <path d="M2 104 V140 M78 104 V140" stroke="#241c15" stroke-width="4"/>
+    <rect x="70" y="30" width="14" height="72" rx="4" fill="#4d6b5a" stroke="#241c15" stroke-width="3"/>
+    <!-- body, cardigan -->
+    <path d="M8 100 L14 44 Q40 32 66 44 L72 100 Z" fill="#7c8f6a" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M30 40 L40 58 L50 40 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="2"/>
+    <!-- handbag on the knee -->
+    <rect x="6" y="80" width="34" height="24" rx="4" fill="#8c3e2a" stroke="#241c15" stroke-width="3"/>
+    <path d="M12 80 q11 -14 22 0" fill="none" stroke="#241c15" stroke-width="2.5"/>
+    <!-- head -->
+    <rect x="32" y="26" width="16" height="14" fill="#e8c2a2" stroke="#241c15" stroke-width="2.5"/>
+    <ellipse cx="40" cy="8" rx="21" ry="24" fill="#e8c2a2" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M16 26 C10 0 20 -18 40 -18 C60 -18 70 0 64 26 L58 26 C60 12 56 4 52 0 C44 4 32 4 26 -2 C22 4 22 14 22 26 Z" fill="#c9c6bf" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M28 6 q4 -3 8 0 M44 6 q4 -3 8 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 18 q8 6 16 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+    <circle cx="27" cy="13" r="3" fill="#e9a08c" opacity=".7"/><circle cx="53" cy="13" r="3" fill="#e9a08c" opacity=".7"/>
+    <path d="M22 14 q-4 8 0 14" stroke="#7aa9b3" stroke-width="2" stroke-linecap="round" fill="none">
+      <animate attributeName="opacity" values="0;1;0" dur="2.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- hand reaching to the bed -->
+    <path d="M14 56 Q-20 60 -44 52" fill="none" stroke="#7c8f6a" stroke-width="11" stroke-linecap="round"/>
+    <circle cx="-48" cy="51" r="6" fill="#e8c2a2" stroke="#241c15" stroke-width="2.5"/>
+  </g>
+
+  <!-- floor -->
+  <rect x="0" y="340" width="800" height="80" fill="#d9c9a6" stroke="#241c15" stroke-width="3"/>
+  <text x="20" y="380" font-family="Bricolage Grotesque, Geist, sans-serif" font-size="18" font-weight="700" fill="#241c15">AMU · Bed 14 · two days later</text>
+  <text x="20" y="400" font-family="Geist, sans-serif" font-size="12" fill="#7a6a52">Awake, eating, and complaining about the cup. The drip stand is empty.</text>
+</svg>
