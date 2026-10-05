@@ -841,12 +841,12 @@ function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
    (and the answer hidden) for everyone else. Adding the id to OPEN_DEBRIEFS still releases a
    debrief to everybody and reveals the topic; this list does not. */
 const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html', w02: BASE+'mi-debrief.html', w03: BASE+'ttp-debrief.html' };
-function debriefOpen(w){ return debriefLive(w) || !!(DEBRIEF_URLS[w.id] && (PROG[w.id]||{}).caseDone); }
+function debriefOpen(w){ return debriefLive(w) || !!(DEBRIEF_URLS[w.id] && ((PROG[w.id]||{}).caseDone || IS_OBSERVER)); }
 /* The one handler for every debrief button (the Home card and the case sheet): open the page if
    there is one, then mark it reviewed. It opens again on every press, reviewed or not. */
 function openDebrief(id){ const u=DEBRIEF_URLS[id]; if(u) window.open(u,'_blank','noopener'); upsertProgress(id,{debriefDone:true}); toast(u?'Debrief opened and marked as reviewed.':'Debrief marked as reviewed.'); }
 // A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
-function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
+function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w) || IS_OBSERVER; }
 function caseNo(w){ return +w.id.slice(1); }
 /* The evidence stamp names the guidance the case is written against — which also
    names the diagnosis. It therefore rides the same reveal gate as the title,
@@ -873,6 +873,7 @@ function clearPending(){ PENDING_EMAIL=''; try{sessionStorage.removeItem(PENDING
 let PROFILE=null;     // {pseudonym, cohort}
 let GUEST=false;
 let IS_ADMIN=false;   // set from the DB after sign-in, never assumed from the client
+let IS_OBSERVER=false; // an account that opens every debrief and saves no score (public.observers)
 let PROG={};          // { w01:{caseDone,score,debriefDone}, ... }
 let READ={};          // { 'w01:0':true }
 let REFL=[];          // [{week_id,body,created_at}]
@@ -976,6 +977,7 @@ async function onSignedIn(user){
   await pullData();
   // asked of the database, never inferred in the client
   try{ const {data}=await SB.rpc('is_admin'); IS_ADMIN=(data===true); }catch(_){ IS_ADMIN=false; }
+  try{ const {data}=await SB.rpc('is_observer'); IS_OBSERVER=(data===true); }catch(_){ IS_OBSERVER=false; }
   enterApp();
 }
 async function pullData(){
@@ -988,7 +990,7 @@ async function pullData(){
 }
 async function upsertProgress(week,patch){
   PROG[week]={...(PROG[week]||{}),...patch}; saveLocal(); renderActive();
-  if(SB&&USER){ const p=PROG[week]; await SB.from('progress').upsert({student_id:USER.id,week_id:week,case_done:!!p.caseDone,score:p.score??null,debrief_done:!!p.debriefDone,reading_done:!!p.readingDone},{onConflict:'student_id,week_id'}); }
+  if(SB&&USER){ const p=PROG[week]; await SB.from('progress').upsert({student_id:USER.id,week_id:week,case_done:!!p.caseDone,score:IS_OBSERVER?null:(p.score??null),debrief_done:!!p.debriefDone,reading_done:!!p.readingDone},{onConflict:'student_id,week_id'}); }
 }
 
 $('#pwSignIn').onclick=async()=>{
@@ -1067,7 +1069,7 @@ async function handleReturn(params){
   // never reaches the progress table) - it is what lets a later guest claim
   // write a complete attempts row.
   await upsertProgress(week,{caseDone:true,score,max});
-  if(SB&&USER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
+  if(SB&&USER&&!IS_OBSERVER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
   history.replaceState({},'',location.pathname);
   toast(`Saved — ${score}/${max} on this week's case.`);
   go('home');
@@ -1771,7 +1773,7 @@ async function claimGuestWork(){
     /* get_leaderboard() aggregates MAX(score) per week from `attempts`, not
        from `progress` - without this row a claimed case restores the CPD
        record and the certificate but still scores zero on the board. */
-    if(SB&&USER&&g.score!=null){
+    if(SB&&USER&&!IS_OBSERVER&&g.score!=null){
       const w=PROGRAM.find(x=>x.id===wk);
       await SB.from('attempts').insert({student_id:USER.id,week_id:wk,case_id:w?w.caseId:null,score:g.score,max_score:g.max??null});
     }
