@@ -768,7 +768,7 @@ const PROGRAM=[
   evidence:'BSG AUGIB care bundle 2020 · NICE CG141',
   obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
   read:[{t:'NICE CG141 — acute upper GI bleeding',url:'https://www.nice.org.uk/guidance/cg141'},{t:'Glasgow-Blatchford score — MDCalc',url:'https://www.mdcalc.com/calc/518/glasgow-blatchford-bleeding-score-gbs'}]},
- {id:'w02',t:'The second attendance',sub:'One valve, five organs',month:'Month 1',caseId:'acs-mi',url:BASE+'mi.html',debrief:'video',
+ {id:'w02',t:'The second attendance',sub:'One valve, five organs',month:'Month 1',caseId:'acs-mi',url:BASE+'mi.html',debrief:'notes',
   evidence:'ESC 2023 infective endocarditis · Fourth Universal Definition of MI (type 2) · IDSA 2015 native vertebral osteomyelitis',
   obj:['Find the thing upstream of everything else','Cultures before antibiotics, always','Examine for the embolic phenomena','Image the valve properly: TTE then TOE','Know what not to do to an embolic infarct'],
   read:[{t:'NICE CG64 — prophylaxis against infective endocarditis',url:'https://www.nice.org.uk/guidance/cg64'},{t:'ESC 2023 — management of endocarditis',url:'https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/endocarditis'},{t:'Fourth Universal Definition of MI (2018) — type 2',url:'https://academic.oup.com/eurheartj/article/40/3/237/5079081'},{t:'IDSA 2015 — native vertebral osteomyelitis',url:'https://academic.oup.com/cid/article/61/6/e26/452579'}]},
@@ -840,7 +840,7 @@ function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
 /* A debrief page that exists. It opens for anyone who has finished that case, and stays shut
    (and the answer hidden) for everyone else. Adding the id to OPEN_DEBRIEFS still releases a
    debrief to everybody and reveals the topic; this list does not. */
-const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html', w03: BASE+'ttp-debrief.html' };
+const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html', w02: BASE+'mi-debrief.html', w03: BASE+'ttp-debrief.html' };
 function debriefOpen(w){ return debriefLive(w) || !!(DEBRIEF_URLS[w.id] && (PROG[w.id]||{}).caseDone); }
 /* The one handler for every debrief button (the Home card and the case sheet): open the page if
    there is one, then mark it reviewed. It opens again on every press, reviewed or not. */
