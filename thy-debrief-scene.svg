@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-label="Tonight, 22:40, resus: Martin will not stay on the trolley, soaked with sweat, while his sister tries to keep him sitting and the fan runs.">
+  <defs>
+    <pattern id="tsgrain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
+    </pattern>
+    <linearGradient id="tsnight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3ece1"/>
+      <stop offset="1" stop-color="#e4d8c6"/>
+    </linearGradient>
+    <linearGradient id="tsheat" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#c9705a" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#c9705a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="340" fill="url(#tsnight)"/>
+  <rect width="800" height="340" fill="url(#tsgrain)"/>
+  <!-- heat rising off the bay -->
+  <rect x="180" y="120" width="360" height="220" fill="url(#tsheat)"/>
+
+  <!-- back wall, curtain rail and half-drawn curtain -->
+  <path d="M0 210 H800" stroke="#c9bba6" stroke-width="3"/>
+  <path d="M40 40 H760" stroke="#2b241d" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+  <g stroke="#2b241d" stroke-width="3.5" fill="#dfd0ba" opacity=".9">
+    <path d="M560 44 q10 70 0 150 q14 -12 28 0 q-10 -80 0 -150 Z"/>
+    <path d="M588 44 q10 70 0 150 q14 -12 28 0 q-10 -80 0 -150 Z"/>
+    <path d="M616 44 q10 70 0 150 q14 -12 28 0 q-10 -80 0 -150 Z"/>
+    <path d="M644 44 q10 70 0 150 q14 -12 28 0 q-10 -80 0 -150 Z"/>
+  </g>
+
+  <!-- monitor on its stand, running fast and irregular -->
+  <rect x="62" y="62" width="150" height="104" rx="8" fill="#2b241d"/>
+  <rect x="72" y="72" width="130" height="84" rx="4" fill="#1b1712"/>
+  <path id="tstrace" d="M76 128 L92 128 L96 104 L100 132 L104 128 L118 128 L121 108 L125 134 L129 128 L136 128 L139 100 L143 130 L147 128 L166 128 L169 110 L173 132 L177 128 L198 128"
+        fill="none" stroke="#5fd08a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="opacity" values="1;.55;1" dur=".38s" repeatCount="indefinite"/>
+  </path>
+  <text x="196" y="88" text-anchor="end" font-family="monospace" font-size="17" fill="#e0665a" font-weight="700">170
+    <animate attributeName="opacity" values="1;.35;1" dur=".7s" repeatCount="indefinite"/>
+  </text>
+  <text x="196" y="150" text-anchor="end" font-family="monospace" font-size="13" fill="#e6b45a">40.1</text>
+  <rect x="126" y="166" width="20" height="52" fill="#2b241d"/>
+  <path d="M104 218 h64" stroke="#2b241d" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- the fan on the floor, pointed at him -->
+  <g transform="translate(716 250)">
+    <circle r="34" fill="#efe7da" stroke="#2b241d" stroke-width="4"/>
+    <g stroke="#2b241d" stroke-width="3" fill="#d8c9b3">
+      <path d="M0 0 q18 -22 24 -2 q-14 10 -24 2Z"/>
+      <path d="M0 0 q-4 28 -22 14 q6 -16 22 -14Z"/>
+      <path d="M0 0 q-20 -18 -4 -26 q14 10 4 26Z"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".5s" repeatCount="indefinite"/>
+    </g>
+    <circle r="5" fill="#2b241d"/>
+    <path d="M0 34 v22 h-16 h32" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g stroke="#8fb6c4" stroke-width="2.4" fill="none" opacity=".55" stroke-linecap="round">
+    <path d="M676 232 q-30 -6 -56 2"><animate attributeName="opacity" values=".55;.15;.55" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M676 254 q-34 -4 -62 4"><animate attributeName="opacity" values=".2;.55;.2" dur="1.6s" repeatCount="indefinite"/></path>
+    <path d="M676 276 q-30 -2 -54 6"><animate attributeName="opacity" values=".45;.1;.45" dur="1.6s" repeatCount="indefinite"/></path>
+  </g>
+
+  <!-- trolley -->
+  <path d="M232 250 h330 v16 h-330 Z" fill="#c3d2d8" stroke="#2b241d" stroke-width="4"/>
+  <path d="M254 266 v46 M540 266 v46" stroke="#2b241d" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="254" cy="318" r="9" fill="#efe7da" stroke="#2b241d" stroke-width="4"/>
+  <circle cx="540" cy="318" r="9" fill="#efe7da" stroke="#2b241d" stroke-width="4"/>
+  <!-- backrest, raised: he will not lie flat -->
+  <path d="M232 250 L232 176 q0 -12 14 -12 h20 q14 0 14 12 v74 Z" fill="#b7c9cf" stroke="#2b241d" stroke-width="4"/>
+  <!-- sheet, rucked where he has been moving -->
+  <path d="M290 250 q40 -16 88 -8 q46 8 84 8 q-14 12 -46 12 q-60 0 -126 -12 Z" fill="#e8ddca" stroke="#2b241d" stroke-width="3"/>
+
+  <!-- Martin: sitting forward on the edge, not lying down -->
+  <g>
+    <!-- legs over the side -->
+    <path d="M356 244 q10 34 6 62" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <path d="M340 236 h44 v20 q-22 8 -44 0 Z" fill="#7f8f96" stroke="#2b241d" stroke-width="4"/>
+    <!-- torso, hunched forward, soaked shirt -->
+    <path d="M320 236 C322 196 338 180 362 180 C386 180 402 196 404 236 Z" fill="#7f8f96" stroke="#2b241d" stroke-width="4"/>
+    <path d="M332 236 q4 -30 12 -42 q-4 24 -2 42 Z" fill="#5f6f77" opacity=".75"/>
+    <path d="M392 236 q-4 -30 -12 -42 q4 24 2 42 Z" fill="#5f6f77" opacity=".75"/>
+    <!-- arm braced on the trolley, the other held out and trembling -->
+    <path d="M326 200 q-24 20 -26 48" fill="none" stroke="#2b241d" stroke-width="4"/>
+    <path d="M398 198 q34 6 52 -6" fill="none" stroke="#2b241d" stroke-width="4">
+      <animate attributeName="d" values="M398 198 q34 6 52 -6;M398 198 q34 8 52 -3;M398 198 q34 4 52 -8;M398 198 q34 6 52 -6" dur=".22s" repeatCount="indefinite"/>
+    </path>
+    <!-- neck with the goitre -->
+    <path d="M352 168 h20 v16 h-20 Z" fill="#dcbfa4" stroke="#2b241d" stroke-width="3"/>
+    <ellipse cx="362" cy="182" rx="18" ry="10" fill="#d2b092" stroke="#2b241d" stroke-width="3"/>
+    <!-- head, tipped up, mouth open -->
+    <ellipse cx="362" cy="142" rx="27" ry="30" fill="#e8c8a8" stroke="#2b241d" stroke-width="4"/>
+    <path d="M336 132 C336 108 348 100 362 100 C376 100 388 108 388 132 C382 118 376 114 362 114 C348 114 342 118 336 132 Z" fill="#584c44" stroke="#2b241d" stroke-width="3.5" stroke-linejoin="round"/>
+    <ellipse cx="352" cy="141" rx="7.5" ry="7" fill="#faf6f0" stroke="#2b241d" stroke-width="3"/>
+    <ellipse cx="373" cy="141" rx="7.5" ry="7" fill="#faf6f0" stroke="#2b241d" stroke-width="3"/>
+    <circle cx="352" cy="141" r="3.2" fill="#2b241d"><animate attributeName="cx" values="352;349;352;355;352" dur="2.6s" repeatCount="indefinite"/></circle>
+    <circle cx="373" cy="141" r="3.2" fill="#2b241d"><animate attributeName="cx" values="373;370;373;376;373" dur="2.6s" repeatCount="indefinite"/></circle>
+    <ellipse cx="362" cy="160" rx="6" ry="4.5" fill="#8f5a55" stroke="#2b241d" stroke-width="2.6">
+      <animate attributeName="ry" values="4.5;6;4.5" dur="1.2s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="344" cy="152" rx="6" ry="4" fill="#c9705a" opacity=".45"/>
+    <ellipse cx="381" cy="152" rx="6" ry="4" fill="#c9705a" opacity=".45"/>
+    <!-- sweat running -->
+    <circle cx="336" cy="146" r="2.4" fill="#8fb6c4">
+      <animate attributeName="cy" values="146;172" dur="2.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".9;0" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="389" cy="150" r="2.1" fill="#8fb6c4">
+      <animate attributeName="cy" values="150;176" dur="2.8s" begin=".9s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values=".9;0" dur="2.8s" begin=".9s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- his sister, standing, hand on his shoulder, coat still on -->
+  <g>
+    <path d="M440 320 C442 258 462 236 490 236 C518 236 538 258 540 320 Z" fill="#8d6a4f" stroke="#2b241d" stroke-width="4"/>
+    <path d="M490 238 v82" fill="none" stroke="#2b241d" stroke-width="3"/>
+    <path d="M462 252 q-40 -34 -62 -50" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <path d="M400 202 q-10 -4 -14 2" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <path d="M482 214 h16 v24 h-16 Z" fill="#e2c4a8" stroke="#2b241d" stroke-width="3"/>
+    <ellipse cx="490" cy="192" rx="25" ry="27" fill="#eccdb1" stroke="#2b241d" stroke-width="4"/>
+    <path d="M464 196 C462 166 476 154 490 154 C504 154 518 166 516 196 C512 178 504 170 490 170 C476 170 468 178 464 196 Z" fill="#6a4a34" stroke="#2b241d" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M468 200 q-4 22 -2 34" fill="#6a4a34" stroke="#2b241d" stroke-width="3"/>
+    <path d="M512 200 q4 22 2 34" fill="#6a4a34" stroke="#2b241d" stroke-width="3"/>
+    <ellipse cx="481" cy="192" rx="6.5" ry="6" fill="#faf6f0" stroke="#2b241d" stroke-width="2.8"/>
+    <ellipse cx="500" cy="192" rx="6.5" ry="6" fill="#faf6f0" stroke="#2b241d" stroke-width="2.8"/>
+    <circle cx="479" cy="193" r="2.8" fill="#2b241d"/>
+    <circle cx="498" cy="193" r="2.8" fill="#2b241d"/>
+    <path d="M472 180 q9 -3 16 2" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round"/>
+    <path d="M508 180 q-9 -3 -16 2" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round"/>
+    <path d="M482 208 q9 4 17 0" fill="none" stroke="#2b241d" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- you, arriving at the curtain -->
+  <g opacity=".92">
+    <path d="M636 340 C638 286 654 268 676 268 C698 268 714 286 716 340 Z" fill="#b8552e" stroke="#2b241d" stroke-width="4"/>
+    <path d="M668 250 h16 v20 h-16 Z" fill="#e2c4a8" stroke="#2b241d" stroke-width="3"/>
+    <circle cx="676" cy="230" r="23" fill="#eccdb1" stroke="#2b241d" stroke-width="4"/>
+    <path d="M654 228 C654 204 664 196 676 196 C688 196 698 204 698 228 C692 214 686 210 676 210 C666 210 660 214 654 228 Z" fill="#3f3630" stroke="#2b241d" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="668" cy="230" r="2.6" fill="#2b241d"/>
+    <circle cx="685" cy="230" r="2.6" fill="#2b241d"/>
+    <path d="M668 242 q8 4 16 0" fill="none" stroke="#2b241d" stroke-width="2.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- ward clock -->
+  <g transform="translate(300 76)">
+    <circle r="30" fill="#efe7da" stroke="#2b241d" stroke-width="4"/>
+    <path d="M0 -18 V0 L13 8" fill="none" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+    <circle r="3" fill="#b8552e"/>
+  </g>
+  <text x="300" y="128" text-anchor="middle" font-family="Georgia, serif" font-size="15" fill="#7a6f60" font-style="italic">22:40</text>
+</svg>

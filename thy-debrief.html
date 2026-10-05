@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Thyroid function tests and thyroid storm: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Thyroid storm: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 19</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2–6</b>Thyroid function tests</a></li>
+    <li><a href="#c7"><b>7</b>The bridge</a></li>
+    <li><a href="#c8"><b>8–11</b>Thyroid storm</a></li>
+    <li><a href="#c12"><b>12–17</b>Treating it</a></li>
+    <li><a href="#c18"><b>18</b>Back to Martin</a></li>
+    <li><a href="#c19"><b>19</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Reading thyroid function tests, then thyroid storm: the debrief for week 4, He will not keep still</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 19</span></div>
+  <p class="kick">22:40 · resus 2</p>
+  <h2>He cannot keep still, his heart is at 170, and one blood test will name the gland.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-scene.svg" width="800" height="340" alt="Tonight, 22:40, resus: Martin will not stay on the trolley, soaked with sweat, while his sister tries to keep him sitting and the fan runs."></figure>
+    <div class="txt">
+      <div class="people"><img src="thy-debrief-martin.svg" width="200" height="200" alt="Martin"><img src="thy-debrief-sister.svg" width="200" height="200" alt="His sister"></div>
+      <ul class="pts">
+        <li>Martin Ackroyd, 42, brought in by his sister. She found him “burning hot and soaked through”, in a flat with no heating on.</li>
+        <li>Heart rate 170 and irregular. Blood pressure 150/70. Breathing 30 a minute. Saturation 92% on air. Temperature 40.1 °C. Agitated.</li>
+        <li>Ten days ago his GP gave him amoxicillin for a chest infection.</li>
+        <li>Thyroid function: <strong>TSH below 0.01</strong> mU/L (0.3 to 4.2). <strong>Free T4 62</strong> pmol/L (9.0 to 19.0). <strong>Free T3 28</strong> pmol/L (3.1 to 6.8).</li>
+        <li>First, how to read those three numbers in anyone. Then the emergency they cannot name: thyroid storm.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="Thyroid function tests">
+  <div class="meta"><span class="chip">Thyroid function tests</span><span class="num">2 / 19</span></div>
+  <p class="kick">The decision: which test do you send first?</p>
+  <h2>The pituitary watches the thyroid. That is why TSH is the first test.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d01-feedback-loop.svg" width="720" height="716" alt="The hypothalamus, the pituitary and the thyroid as a loop. Hypothalamus: TRH. Pituitary: TSH. Thyroid: T4 and T3. Hormone turns TSH down." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>The hypothalamus releases TRH. The pituitary answers with TSH (thyroid-stimulating hormone). The thyroid releases T4 and T3.</li>
+        <li>Thyroid hormone turns TSH down. Too much hormone: TSH falls. Too little: TSH rises.</li>
+        <li>The tissues convert T4 to T3, the biologically active hormone.</li>
+        <li>In the blood both ride on binding proteins. The free part is regarded as the active one, so the laboratory measures <strong>free</strong> T4 and <strong>free</strong> T3.</li>
+        <li>NICE: TSH alone first, unless you suspect the pituitary. If it is high, add free T4. If it is low, add free T4 <strong>and</strong> free T3.</li>
+        <li>Ranges differ between laboratories. Use your own.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="Thyroid function tests">
+  <div class="meta"><span class="chip">Thyroid function tests</span><span class="num">3 / 19</span></div>
+  <p class="kick">The decision: what does this pattern mean?</p>
+  <h2>Seven patterns are worth knowing by sight.</h2>
+  <div class="solo" style="max-width:56rem">
+  <p class="cap">Tap each tile.</p>
+  <div class="tiles" data-group="tiles">
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t1"><img src="thy-debrief-d02-pat-1.svg" width="240" height="212" alt="Gauges: TSH low, FT4 high, FT3 high" loading="lazy"><span class="q">TSH low · FT4 high · FT3 high</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t1"><strong>Overt hyperthyroidism.</strong> Martin’s pattern.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t2"><img src="thy-debrief-d02-pat-2.svg" width="240" height="212" alt="Gauges: TSH low, FT4 normal, FT3 high" loading="lazy"><span class="q">TSH low · FT4 normal · FT3 high</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t2"><strong>T3 toxicosis.</strong> Early Graves’ or mild nodular disease. Why free T3 is added to a low TSH.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t3"><img src="thy-debrief-d02-pat-3.svg" width="240" height="212" alt="Gauges: TSH low, FT4 normal, FT3 normal" loading="lazy"><span class="q">TSH low · FT4 normal · FT3 normal</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t3"><strong>Subclinical hyperthyroidism</strong>, if it lasts. Repeat in three months.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t4"><img src="thy-debrief-d02-pat-4.svg" width="240" height="212" alt="Gauges: TSH high, FT4 low" loading="lazy"><span class="q">TSH high · FT4 low</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t4"><strong>Overt hypothyroidism.</strong></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t5"><img src="thy-debrief-d02-pat-5.svg" width="240" height="212" alt="Gauges: TSH high, FT4 normal" loading="lazy"><span class="q">TSH high · FT4 normal</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t5"><strong>Subclinical hypothyroidism.</strong> Repeat in three to six months.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t6"><img src="thy-debrief-d02-pat-6.svg" width="240" height="212" alt="Gauges: TSH low or normal, FT4 low" loading="lazy"><span class="q">TSH low or normal · FT4 low</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t6"><strong>Central hypothyroidism</strong>: pituitary or hypothalamus. TSH alone misses it. Test the adrenals.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t7"><img src="thy-debrief-d02-pat-7.svg" width="240" height="212" alt="Gauges: TSH normal or high, FT4 high, FT3 high" loading="lazy"><span class="q">TSH normal or high · FT4 high · FT3 high</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7"><strong>“Inappropriate TSH”.</strong> Rule out an assay fault, then a TSH-secreting pituitary tumour or hormone resistance. Urgent endocrinology.</div></div>
+  </div>
+  <button class="btn go-all" type="button" data-all="tiles">Show all</button>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="Thyroid function tests">
+  <div class="meta"><span class="chip">Thyroid function tests</span><span class="num">4 / 19</span></div>
+  <p class="kick">The decision: what do you send next?</p>
+  <h2>A low TSH with high hormone does not prove the gland is overworking.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d03-three-glands.svg" width="720" height="806" alt="Three thyroid glands as an uptake scan would show them. Graves’ disease: uptake all over. Toxic nodules: hot spots. Thyroiditis: little or none." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>NICE’s two words. <strong>Thyrotoxicosis</strong>: too much thyroid hormone, from any cause. <strong>Hyperthyroidism</strong>: the gland making too much.</li>
+        <li>Thyroiditis leaks stored hormone; too much levothyroxine supplies it. Both give an overactive gland’s numbers.</li>
+        <li>For the cause, NICE asks for <strong>TSH-receptor antibodies (TRAb)</strong>, which confirm Graves’ disease. If negative, consider a technetium scan: uptake all over in Graves’, hot nodules in nodular disease, little or none in thyroiditis.</li>
+        <li>It matters: in thyroiditis, antithyroid drugs are ineffective and should not be used.</li>
+        <li>Martin’s TRAb was sent. It takes days, and changes nothing tonight.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card question" id="c5" data-sec="Thyroid function tests">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 2</span><span class="num">5 / 19</span></div>
+  <p class="kick">The decision: a sick inpatient with a low TSH</p>
+  <h2>On a ward, a low TSH is more often illness than thyroid disease.</h2>
+  <div class="solo qa">
+      <ul class="pts">
+        <li>A woman of 78, day four of a pneumonia. TSH 0.15 mU/L. Free T4 normal. Free T3 low.</li>
+      </ul>
+      <p class="cap" style="margin-top:1rem">What is this?</p>
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button">Thyrotoxicosis. Start carbimazole.</button>
+        <button class="btn opt" type="button" data-ok="1">Her illness. Repeat when she is better.</button>
+        <button class="btn opt" type="button">Pituitary disease. Scan her.</button>
+      </div>
+      <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Her illness.</strong> Acute illness, starvation and trauma shift the tests with nothing wrong in the axis. TSH is normal or low, then rises in recovery. Free T3 is usually <strong>low</strong>, because less T4 is converted.</li>
+        <li>In hospital, a TSH below 0.10 is at least twice as likely to be illness as hyperthyroidism.</li>
+        <li>NICE: do not test in an acute illness, unless you suspect the illness <strong>is</strong> the thyroid.</li>
+      </ul>
+      <figure class="fig fig--tall"><img src="thy-debrief-d04-illness-and-recovery.svg" width="720" height="762" alt="TSH and free T3 through an illness and its recovery, in three phases: well, ill, recovering. TSH dips below its normal range while ill and rises above it in recovery. Free T3 dips while ill and returns." loading="lazy"></figure>
+      </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="Thyroid function tests">
+  <div class="meta"><span class="chip">Thyroid function tests</span><span class="num">6 / 19</span></div>
+  <p class="kick">The decision: do you believe the result?</p>
+  <h2>Before you believe an odd result, ask what the patient is taking.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d05-drugs-and-assay.svg" width="720" height="890" alt="Six things to ask about: levothyroxine; steroid, dopamine; amiodarone; lithium; biotin; drugs that displace hormone." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Levothyroxine, too much.</strong> The commonest UK cause of a TSH below 0.1.</li>
+        <li><strong>High-dose steroid, dopamine.</strong> Suppress TSH.</li>
+        <li><strong>Amiodarone.</strong> 75 mg of iodine in a 200 mg tablet. It often raises free T4 a little in people who stay well, so diagnose thyrotoxicosis on it only with an undetectable TSH and a high or high-normal free T3 as well.</li>
+        <li><strong>Lithium.</strong> Hypothyroidism, rarely hyperthyroidism.</li>
+        <li><strong>Biotin supplements.</strong> Fool the assay: a falsely low TSH with high T4 and T3. NICE says ask.</li>
+        <li><strong>Heparin, furosemide, phenytoin, salicylate.</strong> Push hormone off its binding proteins; the measured free T4 can rise.</li>
+        <li>Numbers that fit neither the patient nor each other: ring the laboratory.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="The bridge">
+  <div class="meta"><span class="chip">The bridge</span><span class="num">7 / 19</span></div>
+  <p class="kick">22:40 again · Martin’s three numbers</p>
+  <h2>His numbers name the gland. They cannot tell you how sick he is.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d06-same-numbers.svg" width="720" height="662" alt="Two patients, one walking into a clinic and one on a resus trolley, holding the same laboratory slip: TSH low, free T4 high, free T3 high. Same numbers. One is thyrotoxicosis, the other thyroid storm." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Martin is a sick inpatient with a low TSH. But his is undetectable, his free T4 is three times the upper limit, and his free T3 is <strong>high</strong>, where illness would push it down. This is the thyroid.</li>
+        <li>Now the limit of the test. No hormone level separates severe thyrotoxicosis from thyroid storm. The levels are often much the same.</li>
+        <li>Some people with very high levels stay well. Others with modest levels go into crisis. In storm the free T3 can even look normal.</li>
+        <li>A <strong>normal</strong> result still matters: look for another disease.</li>
+        <li>So storm is diagnosed at the bedside, and treated before the result is back.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="Thyroid storm">
+  <div class="meta"><span class="chip">Thyroid storm</span><span class="num">8 / 19</span></div>
+  <p class="kick">The decision: thyrotoxicosis, or storm?</p>
+  <h2>Thyroid storm is severe thyrotoxicosis with organs starting to fail.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d07-four-systems.svg" width="720" height="786" alt="A body outline with four pins, each carrying one of Martin’s findings. Brain: agitated, memory test 3 out of 10. Temperature: 40.1. Heart: atrial fibrillation at 170, pulmonary oedema. Gut and liver: diarrhoea, bilirubin 34." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>In plain words: severe thyrotoxicosis that has become life-threatening, with more than one organ in trouble.</li>
+        <li>Four systems give it away: <strong>temperature</strong>, <strong>brain</strong>, <strong>heart</strong>, <strong>gut and liver</strong>.</li>
+        <li>It kills about 5 to 12% in recent series, and up to 30% of older patients and those with other illness.</li>
+        <li>Graves’ disease is the usual cause, and storm can be its first sign. The case calls Martin’s Graves’ on the eyes, the diffuse goitre and the bruit.</li>
+        <li>Older patients can present quietly, with little agitation.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="Thyroid storm">
+  <div class="meta"><span class="chip">Thyroid storm</span><span class="num">9 / 19</span></div>
+  <p class="kick">The decision: what are you blocking, and what tipped him over?</p>
+  <h2>It looks like an adrenaline surge. The adrenaline is normal.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d08-signal-and-volume.svg" width="720" height="830" alt="Catecholamine level: typically normal. Tissue response: turned up, at the beta receptors. Why a beta blocker works." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Nobody fully understands why thyrotoxicosis tips into storm.</li>
+        <li>It resembles too much catecholamine (adrenaline and noradrenaline). Yet measured levels are typically normal. The tissues respond more strongly, through beta receptors. That is why a beta blocker works.</li>
+        <li>Known triggers: infection, surgery, trauma, heart attack, stroke, childbirth, diabetic ketoacidosis, iodinated contrast, stopping antithyroid tablets. Sometimes nothing is found.</li>
+        <li>Martin’s is on his chest film: shadowing at both bases, reported as likely infection.</li>
+        <li>His sister mentioned a CT six weeks ago. She did not know whether dye was used.</li>
+        <li>Iodinated contrast is contraindicated in untreated storm. Think before the contrast scan.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="Thyroid storm">
+  <div class="meta"><span class="chip">Thyroid storm</span><span class="num">10 / 19</span></div>
+  <p class="kick">The decision: is it storm enough to treat as storm?</p>
+  <h2>Score what you can see. 45 is enough; Martin scores 105.</h2>
+  <div class="split split--wide">
+    <figure class="fig stick" id="d9"><svg aria-labelledby="d9t" xmlns="http://www.w3.org/2000/svg" id="thd09" viewBox="0 0 720 268" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title id="d9t">The Burch–Wartofsky score as a bar from 0 to 140, with Martin at 105</title><desc>A bar in three bands with marks at 25 and 45: unlikely, may be coming, highly suggestive. A pin marks Martin at 105, far into the last band.</desc>
+<rect width="720" height="444" fill="#fdf8ee"/>
+<g id="thd-bwps-bar" data-x0="40" data-x1="680" data-min="0" data-max="140"><rect x="46" y="144" width="640" height="62" rx="10" fill="#241c15"/><clipPath id="thd09-clip"><rect x="40" y="138" width="640" height="62" rx="10"/></clipPath><g clip-path="url(#thd09-clip)"><rect id="thd-bwps-band-1" x="40" y="138" width="114.3" height="62" fill="#f3e5c8"/><rect id="thd-bwps-band-2" x="154.3" y="138" width="91.4" height="62" fill="#f0a27c"/><rect id="thd-bwps-band-3" x="245.7" y="138" width="434.3" height="62" fill="#c8531b"/></g><rect x="40" y="138" width="640" height="62" rx="10" fill="none" stroke="#241c15" stroke-width="4"/><path d="M154.3 138 V214" stroke="#241c15" stroke-width="4" stroke-linecap="round"/><text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="154.3" y="248.0">25</tspan></text><path d="M245.7 138 V214" stroke="#241c15" stroke-width="4" stroke-linecap="round"/><text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="245.7" y="248.0">45</tspan></text><rect x="44" y="280" width="44" height="34" rx="7" fill="#f3e5c8" stroke="#241c15" stroke-width="3"/><text font-size="29" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="307.0">Unlikely</tspan></text><rect x="44" y="330" width="44" height="34" rx="7" fill="#f0a27c" stroke="#241c15" stroke-width="3"/><text font-size="29" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="357.0">May be coming</tspan></text><rect x="44" y="380" width="44" height="34" rx="7" fill="#c8531b" stroke="#241c15" stroke-width="3"/><text font-size="29" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="407.0">Highly suggestive</tspan></text></g><g id="thd-bwps-pin" data-score="105" transform="translate(520.0 0)"><path d="M0 78 V132" stroke="#241c15" stroke-width="5"/><path d="M-12 120 L0 136 L12 120 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/><g id="thd-bwps-pin-flag"><rect x="-112" y="24" width="224" height="56" rx="28" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/><text id="thd-bwps-pin-label" x="0" y="62" font-size="30" font-weight="800" fill="#241c15" text-anchor="middle">Martin: 105</text></g></g>
+</svg>
+<figcaption class="bwkey"><span><i style="background:#f3e5c8"></i>Unlikely</span><span><i style="background:#f0a27c"></i>May be coming</span><span><i style="background:#c8531b"></i>Highly suggestive</span></figcaption></figure>
+    <div class="txt" style="position:static">
+      <p class="cap">The Burch–Wartofsky scale, as the consensus statement prints it. Tap each row.</p>
+      <div class="rows bw" data-group="bw">
+      <div class="row" data-pts="25"><h3>Temperature °C</h3><div class="scale"><span>38 to 38.5: <b>5</b></span><span>38.6 to 39: <b>10</b></span><span>39.1 to 39.5: <b>15</b></span><span>39.6 to 40: <b>20</b></span><span>40.1 to 40.6: <b>25</b></span><span>above 40.6: <b>30</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Temperature °C</span></button><p class="him">Martin: 40.1 · <b>25</b></p></div>
+      <div class="row" data-pts="10"><h3>Brain</h3><div class="scale"><span>none: <b>0</b></span><span>agitation: <b>10</b></span><span>delirium, psychosis or extreme lethargy: <b>20</b></span><span>seizure or coma: <b>30</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Brain</span></button><p class="him">Martin: agitated · <b>10</b></p></div>
+      <div class="row" data-pts="10"><h3>Gut and liver</h3><div class="scale"><span>none: <b>0</b></span><span>diarrhoea, abdominal pain, nausea or vomiting: <b>10</b></span><span>jaundice: <b>20</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Gut and liver</span></button><p class="him">Martin: diarrhoea · <b>10</b></p></div>
+      <div class="row" data-pts="25"><h3>Heart rate</h3><div class="scale"><span>under 90: <b>0</b></span><span>90 to 109: <b>5</b></span><span>110 to 119: <b>10</b></span><span>120 to 129: <b>15</b></span><span>130 to 139: <b>20</b></span><span>140 or more: <b>25</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Heart rate</span></button><p class="him">Martin: 170 · <b>25</b></p></div>
+      <div class="row" data-pts="15"><h3>Heart failure</h3><div class="scale"><span>none: <b>0</b></span><span>ankle oedema: <b>5</b></span><span>crackles at both bases: <b>10</b></span><span>pulmonary oedema: <b>15</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Heart failure</span></button><p class="him">Martin: pulmonary oedema on the film · <b>15</b></p></div>
+      <div class="row" data-pts="10"><h3>Atrial fibrillation</h3><div class="scale"><span>absent: <b>0</b></span><span>present: <b>10</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: Atrial fibrillation</span></button><p class="him">Martin: present · <b>10</b></p></div>
+      <div class="row" data-pts="10"><h3>A trigger</h3><div class="scale"><span>absent: <b>0</b></span><span>present: <b>10</b></span></div><button class="btn" type="button">Score Martin<span class="vh">: A trigger</span></button><p class="him">Martin: pneumonia · <b>10</b></p></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="bw">Show all</button>
+      <div class="rv" id="bwsum" tabindex="-1">
+      <ul class="pts">
+        <li><strong>25 + 10 + 10 + 25 + 15 + 10 + 10 = 105.</strong></li>
+        <li>Under 25: unlikely. 25 to 44: may be coming. <strong>45 or more: highly suggestive.</strong></li>
+        <li>Scored as delirious (his memory test was 3 out of 10), he reaches 115. Same band.</li>
+        <li>No row needs a blood test.</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card" id="c11" data-sec="Thyroid storm">
+  <div class="meta"><span class="chip">Thyroid storm</span><span class="num">11 / 19</span></div>
+  <p class="kick">The decision: is it sepsis, or storm, or both?</p>
+  <h2>A high score is not proof. Sepsis scores too.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d10-look-alikes.svg" width="720" height="936" alt="Sepsis and thyroid storm as two overlapping circles. In the overlap: fever, fast heart, raised white count, raised lactate, confusion. Thyroid storm only: goitre, eye signs, weight loss with a big appetite. He had both." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>The scale leans on fever and a fast heart, so it can over-call storm in sepsis or cardiogenic shock. It has not been tested against a gold standard. It aids judgement; it does not replace it.</li>
+        <li>Between 25 and 44, a senior clinician and an endocrinologist decide together.</li>
+        <li>What else it could be: sepsis, meningitis or encephalitis, heatstroke, stimulant drugs, neuroleptic malignant syndrome.</li>
+        <li>Storm itself raises the white count, lactate, glucose, calcium and liver enzymes. Martin had all five, and a real pneumonia. Treat both.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">12 / 19</span></div>
+  <p class="kick">The decision: what goes on the drug chart?</p>
+  <h2>Five blocks, each at a different point between the gland and the heart.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="thy-debrief-d11-five-blocks.svg" width="720" height="1020" alt="The thyroid gland, the bloodstream and a tissue cell, with five numbered stops. 1 Beta blocker: blocks the effect. 2 Thionamide: blocks the making. 3 Iodine, an hour later: blocks the release. 4 Hydrocortisone: blocks T4 becoming T3. 5 Cooling, fluids, treat the trigger." loading="lazy"></figure>
+    <div class="txt">
+      <div class="steps">
+        <p><b>1. Block the effect.</b> A beta blocker.</p>
+        <p><b>2. Block the making.</b> A thionamide: carbimazole or propylthiouracil (PTU).</p>
+        <p><b>3. Block the release.</b> Iodine, one hour later.</p>
+        <p><b>4. Block T4 becoming T3.</b> Hydrocortisone.</p>
+        <p><b>5. Support him and treat the trigger.</b> Cooling, paracetamol, fluids, antibiotics.</p>
+      </div>
+      <ul class="pts" style="margin-top:1rem">
+        <li>Where: high-dependency or intensive care. Who: endocrinology and critical care tonight. Tell the surgeons early.</li>
+        <li>Start on the clinical picture, not the result.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card question" id="c13" data-sec="Treating it">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 2</span><span class="num">13 / 19</span></div>
+  <p class="kick">The decision: which bottle first?</p>
+  <h2>The iodine is in the cupboard. The carbimazole is coming from pharmacy. Do you give the iodine now?</h2>
+  <div class="solo qa">
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button">Yes. It works fastest.</button>
+        <button class="btn opt" type="button" data-ok="1">No. Thionamide first, then wait an hour.</button>
+        <button class="btn opt" type="button">Give both together.</button>
+      </div>
+      <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Thionamide first, then wait an hour.</strong> The consensus statement on that hour: “this delay is essential”.</li>
+        <li>Iodine blocks the making of hormone (the Wolff–Chaikoff effect) and its release (the Plummer effect).</li>
+        <li>But a gland not yet blocked can use iodine as raw material, above all a nodular goitre.</li>
+        <li>Lugol’s iodine, 8 drops four times a day, or a saturated solution of potassium iodide (SSKI), 5 drops four times a day, diluted (for example in milk or orange juice).</li>
+        <li>The effect wears off: stop it once he is stable. It is unlikely to help in thyroiditis.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>Find out where the iodine is kept in your hospital before the night you need it.</div>
+      <figure class="fig fig--tall"><img src="thy-debrief-d12-iodine-order.svg" width="720" height="1056" alt="The same gland twice. Iodine first: raw material for more hormone. Thionamide first, iodine an hour later: making blocked, release blocked. Wolff–Chaikoff: making. Plummer: release." loading="lazy"></figure>
+      </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">14 / 19</span></div>
+  <p class="kick">170 a minute · ejection fraction 30 to 35%</p>
+  <h2>Slow the heart, but with a drug you can turn off.</h2>
+  <div class="split">
+    <figure class="fig"><img src="thy-debrief-d13-weak-ventricle.svg" width="720" height="840" alt="A heart with a dilated, thin-walled left ventricle. Ejection fraction 30 to 35%. Esmolol by vein: short-acting, can be stopped quickly. Propranolol by mouth." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Beta blockade is a cornerstone. The usual dose: propranolol 60 to 80 mg by mouth every four hours.</li>
+        <li>But Martin’s echocardiogram showed an ejection fraction of 30 to 35%, and his chest film pulmonary oedema.</li>
+        <li>The consensus statement: “beta-blockade can potentially precipitate cardiovascular collapse, especially in patients with systolic heart failure”.</li>
+        <li>So with heart failure, low blood pressure or early shock: start lower, and prefer a short-acting drug you can titrate. Esmolol by vein: 500 micrograms/kg over a minute, then 0 to 200 micrograms/kg a minute.</li>
+        <li>An early echocardiogram guides the choice. No single beta blocker is preferred: fit it to the patient.</li>
+        <li>If none can be given: diltiazem.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">15 / 19</span></div>
+  <p class="kick">22:40 to 23:40</p>
+  <h2>The first hour, in the consensus statement’s doses.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="thy-debrief-d14-first-hour.svg" width="720" height="1010" alt="The first hour as a timeline. Now: thionamide, hydrocortisone, beta blocker, cooling, fluids, antibiotics. One hour: iodine. Then 24 to 72 hours: expect him to turn." loading="lazy"></figure>
+    <div class="txt">
+      <div class="tbl">
+        <div class="row"><h3><span class="when">Now</span>Thionamide</h3><dl><dd>Carbimazole 80 to 100 mg a day, <strong>or</strong> PTU 500 to 1000 mg then 250 mg every four hours</dd></dl></div>
+        <div class="row"><h3><span class="when">Now</span>Hydrocortisone</h3><dl><dd>100 mg by vein, then 50 mg four times a day. Published doses vary</dd></dl></div>
+        <div class="row"><h3><span class="when">Now</span>Beta blocker</h3><dl><dd>Last screen</dd></dl></div>
+        <div class="row"><h3><span class="when">Now</span>Cooling, paracetamol, fluids, antibiotics</h3><dl><dd>Your local policy</dd></dl></div>
+        <div class="row"><h3><span class="when">One hour</span>Iodine</h3><dl><dd>Screen before last</dd></dl></div>
+      </div>
+      <ul class="pts">
+        <li>Either thionamide suits Martin; the consensus lists carbimazole ahead of PTU. It leans to carbimazole once the transaminases pass about three times the upper limit, or the bilirubin is rising. His ALT was 78 (limit 41).</li>
+        <li>Watch the glucose (it can fall) and the potassium.</li>
+        <li>Sedation, if needed: chlorpromazine 50 to 100 mg into muscle.</li>
+        <li>Anticoagulation for the atrial fibrillation: by the usual stroke-risk score. Many patients return to normal rhythm once the thyroid is controlled.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>Check your local policy for: which fluid and how much, how to cool, the oxygen target, which antibiotic, and who to call.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="card" id="c16" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">16 / 19</span></div>
+  <p class="kick">The decision: five things you will be offered</p>
+  <h2>Each of these is right on another night. Not tonight.</h2>
+  <div class="solo" style="max-width:56rem">
+  <p class="cap">Tap a card to turn it.</p>
+  <div class="tiles" data-group="flip" data-toggle="1">
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="f1"><img src="thy-debrief-d15-reflex-1-aspirin.svg" width="240" height="200" alt="An aspirin tablet." loading="lazy"><span class="q">“He’s 40.1. Aspirin?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="f1"><strong>Avoid.</strong> It competes with thyroid hormone for binding proteins, so the free hormone rises for a while. Paracetamol.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="f2"><img src="thy-debrief-d15-reflex-2-waiting.svg" width="240" height="200" alt="An hourglass beside a laboratory form." loading="lazy"><span class="q">“Let’s wait for the thyroid function before we start.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="f2"><strong>No.</strong> The clinical picture is enough to start.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="f3"><img src="thy-debrief-d15-reflex-3-amiodarone.svg" width="240" height="200" alt="A glass ampoule." loading="lazy"><span class="q">“Fast AF. Amiodarone?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="f3"><strong>Last resort.</strong> A 200 mg tablet carries 75 mg of iodine. The European AF guideline keeps amiodarone, in hyperthyroidism, for when there is no other option. Neither storm guideline discusses it for the rhythm.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="f4"><img src="thy-debrief-d15-reflex-4-alpha.svg" width="240" height="200" alt="Two receptors side by side, one greyed out." loading="lazy"><span class="q">“Alpha-block before we beta-block?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="f4"><strong>Not here.</strong> That order belongs to phaeochromocytoma, where a beta blocker without an alpha blocker risks a hypertensive crisis. In storm, catecholamine levels are typically normal. Neither storm guideline mentions an alpha blocker; the contrast is our reasoning.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="f5"><img src="thy-debrief-d15-reflex-5-digoxin.svg" width="240" height="200" alt="A small tablet beside a foxglove flower." loading="lazy"><span class="q">“Digoxin, to slow him?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="f5"><strong>A weak choice.</strong> In thyrotoxicosis, higher doses are often needed. The beta blocker does this job.</div></div>
+  </div>
+  <button class="btn go-all" type="button" data-all="flip">Show all</button>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">17 / 19</span></div>
+  <p class="kick">The decision: day two, and what happens to the gland</p>
+  <h2>He should turn within three days. If he does not, there is a ladder.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="thy-debrief-d16-ladder.svg" width="720" height="922" alt="A staircase of five steps: cholestyramine, lithium, plasma exchange, thyroidectomy, ECMO for shock. No steadying by 24 to 48 hours: reassess, then climb. Once stable: radioiodine, surgery or tablets." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Marked improvement usually comes within 24 to 72 hours. Judge it by temperature, heart rate, thinking and gut. <strong>Not by TSH</strong>, which often stays suppressed for months.</li>
+        <li>No steadying by 24 to 48 hours: reassess. Is the trigger still going? Is the thionamide being absorbed? Then step up, with the specialists: cholestyramine, lithium, plasma exchange, thyroidectomy in a specialist centre, heart–lung support (ECMO) for shock.</li>
+        <li>Once he is stable: stop the iodine, step the thionamide down, and keep it until a lasting treatment is chosen: radioiodine, surgery, or long-term tablets.</li>
+        <li>On any antithyroid drug, a sore throat or a fever means stop it and check the white count.</li>
+        <li>What happened to Martin after tonight, the case does not say.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="Back to Martin">
+  <div class="meta"><span class="chip">Back to Martin</span><span class="num">18 / 19</span></div>
+  <p class="kick">22:40, one last time</p>
+  <h2>Three explanations each fitted part of him. One fitted all of him.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="thy-debrief-d17-one-fits-all.svg" width="720" height="1285" alt="Four explanations. Sepsis from the chest fits temperature 40.1, breathing 30, crackles, CRP 88; it leaves over the weight loss with a big appetite, the goitre, the eyes, the atrial fibrillation. The heart first fits raised neck veins, crackles, ankle swelling, atrial fibrillation at 170; it leaves over temperature 40.1, the diarrhoea, the tremor. Phaeochromocytoma fits palpitations, sweating, weight loss, fever, tremor, agitation; it leaves over the goitre, the eyes. Thyroid storm fits all of it." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>His GP record had it in pieces: 78 kg down to 63 kg, two visits for palpitations with no ECG, a blood panel with no thyroid test.</li>
+        <li>Nobody said “thyroid”. His eyes, his neck, his hands and his tremor did.</li>
+      </ul>
+      <h3 class="sub">Take home</h3>
+      <ol class="pts">
+        <li>TSH first. If it is low, add free T4 and free T3.</li>
+        <li>On a ward, a low TSH is usually illness or a drug. Undetectable, with a <strong>high</strong> free T4 and T3, is the thyroid.</li>
+        <li>No number diagnoses storm. Score the bedside: 45 or more, treat before the result.</li>
+        <li>Thionamide, wait one hour, then iodine.</li>
+        <li>A beta blocker you can turn off, hydrocortisone, paracetamol not aspirin, the trigger treated, intensive care and endocrinology tonight.</li>
+      </ol>
+      <svg style="width:7rem;margin-top:1.2rem" class="big-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card src" id="c19" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">19 / 19</span></div>
+  
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>Thyroid storm</h3>
+  <ol>
+    <li>Taylor P, Okosieme O, Effraimidis G, Gibb F, Parekh D, Moran C, Kopp P, Boelaert K. Management of thyroid emergencies: joint consensus statement on management of thyroid storm. <i>European Thyroid Journal</i> 2026;15(4):ETJ260043. <a href="https://doi.org/10.1530/ETJ-26-0043">doi:10.1530/ETJ-26-0043</a>. Endorsed by the European Thyroid Association, the British Thyroid Association, the Society for Endocrinology and the Welsh Endocrine and Diabetes Society.</li>
+    <li>Kopp PA, Giordani I, Feldt-Rasmussen U, Forget-Renaud A. Approach to the patient with thyroid storm. <i>Journal of Clinical Endocrinology and Metabolism</i> 2026;111(5):1484–1494. <a href="https://doi.org/10.1210/clinem/dgag054">doi:10.1210/clinem/dgag054</a></li>
+  </ol>
+  <h3>Thyroid function tests</h3>
+  <ol start="3">
+    <li>NICE. Thyroid disease: assessment and management (NG145). <a href="https://www.nice.org.uk/guidance/ng145">nice.org.uk/guidance/ng145</a></li>
+    <li>NICE Clinical Knowledge Summaries. Hyperthyroidism (last revised January 2025). <a href="https://cks.nice.org.uk/topics/hyperthyroidism/">cks.nice.org.uk/topics/hyperthyroidism</a>. Hypothyroidism (last revised November 2024). <a href="https://cks.nice.org.uk/topics/hypothyroidism/">cks.nice.org.uk/topics/hypothyroidism</a></li>
+    <li>Association for Clinical Biochemistry, British Thyroid Association, British Thyroid Foundation. UK guidelines for the use of thyroid function tests. July 2006. <a href="https://british-thyroid-association.org/wp-content/uploads/2025/06/The-UK-guidelines-for-the-use-of-Thyroid-Function-Tests.pdf">british-thyroid-association.org</a></li>
+  </ol>
+  <h3>Also</h3>
+  <ol start="6">
+    <li>Bartalena L, et al. 2018 European Thyroid Association guidelines for the management of amiodarone-associated thyroid dysfunction. <i>European Thyroid Journal</i> 2018;7(2):55–66. <a href="https://doi.org/10.1159/000486957">doi:10.1159/000486957</a></li>
+    <li>Kahaly GJ, et al. 2018 European Thyroid Association guideline for the management of Graves’ hyperthyroidism. <i>European Thyroid Journal</i> 2018;7(4):167–186. <a href="https://doi.org/10.1159/000490384">doi:10.1159/000490384</a></li>
+    <li>European Society of Cardiology. 2024 ESC guidelines for the management of atrial fibrillation. <i>European Heart Journal</i> 2024;45(36):3314–3414. <a href="https://doi.org/10.1093/eurheartj/ehae176">doi:10.1093/eurheartj/ehae176</a></li>
+    <li>Lenders JWM, et al. Pheochromocytoma and paraganglioma: an Endocrine Society clinical practice guideline. <i>Journal of Clinical Endocrinology and Metabolism</i> 2014;99(6):1915–1942. <a href="https://doi.org/10.1210/jc.2014-1498">doi:10.1210/jc.2014-1498</a></li>
+  </ol>
+  <h3>Supporting</h3>
+  <ol start="10">
+    <li>RCEMLearning. Thyroid storm (2022). <a href="https://www.rcemlearning.co.uk/reference/thyroid-storm/">rcemlearning.co.uk</a></li>
+    <li>Geeky Medics. Thyroid function test interpretation. <a href="https://geekymedics.com/thyroid-function-test-tft-interpretation/">geekymedics.com</a></li>
+  </ol>
+  <p class="credit">Guidelines change. Checked October 2026.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles (screen 3) and flip cards (screen 16) */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* Burch-Wartofsky rows and the pin on the bar */
+  var pin = document.getElementById('thd-bwps-pin'), flag = document.getElementById('thd-bwps-pin-flag'),
+      label = document.getElementById('thd-bwps-pin-label'), barEl = document.getElementById('thd-bwps-bar'),
+      bwRows = Array.prototype.slice.call(document.querySelectorAll('.bw .row')), sum = document.getElementById('bwsum');
+  var x0 = parseFloat(barEl.getAttribute('data-x0')), x1 = parseFloat(barEl.getAttribute('data-x1')), max = parseFloat(barEl.getAttribute('data-max'));
+  function paintPin() {
+    var score = 0, n = 0;
+    bwRows.forEach(function (r) { if (r.classList.contains('open')) { score += parseInt(r.getAttribute('data-pts'), 10); n++; } });
+    if (!n) { pin.setAttribute('visibility', 'hidden'); return; }
+    var x = x0 + (x1 - x0) * score / max;
+    pin.setAttribute('visibility', 'visible');
+    pin.setAttribute('transform', 'translate(' + x.toFixed(1) + ' 0)');
+    pin.setAttribute('data-score', score);
+    flag.setAttribute('transform', 'translate(' + Math.max(0, 112 - (x - 8)).toFixed(1) + ' 0)');
+    label.textContent = 'Martin: ' + score;
+    if (n === bwRows.length) sum.classList.add('open');
+  }
+  bwRows.forEach(function (r) {
+    r.querySelector('button').addEventListener('click', function () { r.classList.add('open'); paintPin(); });
+  });
+  paintPin();
+
+  /* show all */
+  function showAll(name) {
+    if (name === 'bw') { bwRows.forEach(function (r) { r.classList.add('open'); }); paintPin(); return; }
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+  }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    showAll('tiles'); showAll('flip'); showAll('bw');
+    each('.qa', function (q) { openQA(q); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+</body>
+</html>
