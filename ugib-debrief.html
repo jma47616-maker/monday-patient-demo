@@ -1,0 +1,904 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Upper GI bleeding: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Upper GI bleeding: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 27</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2</b>What it is</a></li>
+    <li><a href="#c3"><b>3–4</b>Why it happens</a></li>
+    <li><a href="#c5"><b>5</b>What is going wrong</a></li>
+    <li><a href="#c6"><b>6–8</b>How it turns up</a></li>
+    <li><a href="#c9"><b>9–12</b>How to prove it</a></li>
+    <li><a href="#c13"><b>13–19</b>What to do</a></li>
+    <li><a href="#c20"><b>20–23</b>What not to do</a></li>
+    <li><a href="#c24"><b>24</b>After the scope</a></li>
+    <li><a href="#c25"><b>25–27</b>Back to the patient</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Upper gastrointestinal bleeding: the debrief for week 1, The collapse in the bathroom</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 27</span></div>
+  <h2>A man collapses in his bathroom. It looks like his heart. It is not.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-scene-collapse.svg" width="800" height="340" alt="This morning: Arthur collapsed by the bathroom door; Margaret found him grey on the floor."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Arthur Pell, 68. Collapsed at home at 07:50, getting up from the toilet. Out for half a minute.</li>
+        <li>In the emergency department at 08:42: pulse 138 and irregular, blood pressure 96/58, grey and clammy. NEWS2 (the national early warning score) 5.</li>
+        <li>Known atrial fibrillation, on apixaban. Also naproxen for six weeks, aspirin, and iron started a month ago for a “low blood count”.</li>
+        <li>This debrief is about the condition he had: <strong>bleeding from the upper gut</strong>. What it is, why it happens, how to find it, and what to do in the first 24 hours.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">2 / 27</span></div>
+  <h2>An upper GI bleed is bleeding from the gullet, the stomach or the first part of the small bowel.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d01-upper-gut.svg" width="720" height="1000" alt="The gullet, stomach and duodenum, with a dashed line at the ligament of Treitz: everything above it is the upper gut."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>“Upper GI” (gastrointestinal) means anywhere above the ligament of Treitz, the point where the duodenum ends and the rest of the small bowel begins.</li>
+        <li>It is common: about 134 people in every 100,000 each year in the UK, roughly one every six minutes.</li>
+        <li>It is dangerous: about 1 in 10 people admitted with it die, and that figure has barely moved in decades.</li>
+      </ul>
+      <div class="say"><b>How you would say it to a relative</b>“He is bleeding from his stomach. We need to replace what he has lost, find where it is coming from with a camera, and stop it.”</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">3 / 27</span></div>
+  <h2>Ulcers first, varices second, and a short list of others.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d02-causes.svg" width="720" height="800" alt="The upper gut with five pins: peptic ulcer 36%, varices 11%, Mallory-Weiss tear, erosions and inflammation, cancer. UK audit 2007, of those who had an endoscopy."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Peptic ulcer</strong> (a raw crater in the lining of the stomach or duodenum): the commonest cause. 36% of those who had an endoscopy in the 2007 UK national audit.</li>
+        <li><strong>Varices</strong> (swollen veins in the gullet from liver scarring): 11% in the same audit, and among the most deadly (15% died).</li>
+        <li>In the 2022 re-audit: ulcer 32%, varices 10%, and in 33% nothing abnormal was found.</li>
+        <li><strong>The others:</strong> inflammation and erosions of the gullet, stomach or duodenum; a Mallory-Weiss tear (a split in the lining after forceful retching); cancer; and, in some, no cause found.</li>
+        <li>Heavy drinking does <strong>not</strong> mean varices. Even in people with alcohol-related liver disease, an ulcer is still the commoner cause.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">4 / 27</span></div>
+  <h2>The stomach lining protects itself from acid. Take the protection away and acid digs down to a blood vessel.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d03-ulcer-wall.svg" width="720" height="1010" alt="Stomach wall in cross-section. Healthy: acid, a thick mucus barrier, the lining, an artery beneath. Ulcer: thin mucus and a crater through the lining into the artery, with blood escaping."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Anti-inflammatory painkillers (NSAIDs: naproxen, ibuprofen, and aspirin)</strong> switch off the chemistry that makes protective mucus and keeps blood flowing to the lining. They raise the risk of an upper GI bleed about four-fold.</li>
+        <li><strong>Helicobacter pylori</strong>, a bacterium that lives in the stomach, pushes acid output up.</li>
+        <li>The bleeding starts when the ulcer erodes into a blood vessel at its base.</li>
+        <li>Arthur had six weeks of naproxen on top of daily aspirin, and a fortnight of burning in the upper abdomen.</li>
+        <li>He was also on a blood thinner. In the 2022 UK audit, people who bled while on an anticoagulant were more likely to die in hospital (odds about 1.4 times higher).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="c5" data-sec="What is going wrong">
+  <div class="meta"><span class="chip">What is going wrong</span><span class="num">5 / 27</span></div>
+  <h2>The pulse rises early. The blood pressure falls late.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d04-pulse-pressure.svg" width="720" height="930" alt="As blood is lost the pulse rises from the start, while the blood pressure holds and then falls late, at about 1.5 litres lost."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Fast breathing is often the first sign. A fast, thready pulse comes early.</li>
+        <li>The body answers blood loss with a surge of adrenaline. The heart speeds up and the blood vessels in the skin clamp down: cool hands, pallor, slow capillary refill.</li>
+        <li><strong>A low blood pressure is a late sign.</strong> By the time it falls, about a litre and a half may already be gone.</li>
+        <li>Two warnings. Older people, and anyone on a beta-blocker, may not raise their pulse at all. And the haemoglobin (the blood count) can look normal at first, because it takes time to fall.</li>
+        <li>Arthur at 08:42: pulse 138, blood pressure 96/58, cool to the elbows, capillary refill 3 seconds.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="How it turns up">
+  <div class="meta"><span class="chip">How it turns up</span><span class="num">6 / 27</span></div>
+  <h2>Half the time it announces itself. The rest of the time it hides.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d05-loud-quiet.svg" width="720" height="1110" alt="Loud: vomiting blood, coffee-ground vomit, black tarry stool. Quiet: collapse, dizzy on standing, just a fast pulse."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Loud.</strong> Vomiting blood (haematemesis), in about half. Black, tarry stool (melaena), in about 7 in 10. Vomit that looks like coffee grounds counts too.</li>
+        <li><strong>Quiet.</strong> A collapse or near-faint. Dizziness. Sometimes only a fast pulse or a low blood pressure, with no blood seen at all.</li>
+        <li>Melaena is black because the blood is chemically changed on its way through the gut. Iron tablets and bismuth also turn the stool black, so the history alone can mislead.</li>
+        <li>Fresh red blood from the back passage can still be an upper bleed, if it is brisk.</li>
+        <li>Coffee-ground vomit can come from a blocked bowel or from sepsis rather than from bleeding.</li>
+      </ul>
+      <div class="reason"><b>What it gets mistaken for: our case’s reasoning</b>In our case the quiet bleed looked like a heart rhythm problem, a simple faint, or blood pressure tablets.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 Q1 -->
+<section class="card question" id="c7" data-sec="How it turns up" data-answer="c8">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 3</span><span class="num">7 / 27</span></div>
+  <h2>Before any blood test comes back: what do you do at the bedside?</h2>
+  <div class="split">
+    <figure class="fig fig--small"><img src="ugib-debrief-arthur.svg" width="200" height="200" alt="Arthur, pale and grey, in a hospital gown."></figure>
+    <div class="txt">
+      <dl class="obs">
+        <div><dt>Pulse</dt><dd>138 irregular</dd></div>
+        <div><dt>Blood pressure</dt><dd>96/58</dd></div>
+      </dl>
+      <ul class="pts">
+        <li>Arthur, 68. Collapsed getting up from the toilet. No chest pain. Palpitations on and off all week.</li>
+        <li>Grey, clammy.</li>
+        <li>Known atrial fibrillation. Father “died of his heart”.</li>
+        <li>He mentions his stools: “Darker than usual. I put that down to the iron tablets.”</li>
+      </ul>
+      <p class="cap" style="margin-top:1rem">Which bedside examinations would settle this?</p>
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button" data-ok="1">A rectal examination, and a lying and standing blood pressure</button>
+        <button class="btn opt" type="button">Listen to the heart again and repeat the ECG</button>
+        <button class="btn opt" type="button">A full neurological examination</button>
+      </div>
+      <p class="fb" role="status" aria-live="polite"></p>
+      <div class="qfoot"><button class="btn show" type="button">Show the answer</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 A1 -->
+<section class="card answer locked" id="c8" data-sec="How it turns up">
+  <div class="lock"><p>8 / 27 · The answer is hidden. Decide first.</p><button class="btn btn--accent show" type="button">Show the answer</button></div>
+  <div class="meta"><span class="chip">The answer</span><span class="num">8 / 27</span></div>
+  <h2 tabindex="-1">A rectal examination and a lying and standing blood pressure found the bleed before the laboratory did.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d17-glove.svg" width="720" height="880" alt="A drawn examining glove, index finger raised, with black, tarry stool on the pad of the fingertip."></figure>
+    <div class="txt">
+      <dl class="obs">
+        <div><dt>Lying</dt><dd>96/58</dd></div>
+        <div><dt>Pulse</dt><dd>138</dd></div>
+        <div><dt>Standing, 1 min</dt><dd>74/48</dd></div>
+        <div><dt>Pulse</dt><dd>152</dd></div>
+      </dl>
+      <ul class="pts">
+        <li><strong>The glove.</strong> Black, tarry stool on rectal examination. This is melaena: digested blood.</li>
+        <li><strong>Standing him up.</strong> Lying 96/58, pulse 138. Standing at one minute 74/48, pulse 152, and he greys out.</li>
+        <li>In a shocked patient with no clear cause, do the rectal examination early. Think of a hidden bleed in any unexplained faint or drop in blood pressure on standing.</li>
+        <li>The history had already given the reasons to look: naproxen, aspirin, a blood thinner, iron for a “low blood count”, a fortnight of indigestion.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">9 / 27</span></div>
+  <h2>Three results point to a bleed from the upper gut.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d06-urea.svg" width="720" height="1190" alt="Four steps: blood in the gut; digested like a meal; protein absorbed; urea up, creatinine normal."></figure>
+    <div class="txt">
+      <div class="rows">
+        <div class="row"><h3>Haemoglobin</h3><dl><div><dt>Arthur</dt><dd>72 g/L. It was 134 three months ago.</dd></div><div><dt>What it tells you</dt><dd>He has lost a great deal of blood.</dd></div></dl></div>
+        <div class="row"><h3>Urea, with creatinine</h3><dl><div><dt>Arthur</dt><dd>Urea 14.6 mmol/L (5.1 three months ago). Creatinine 92, normal.</dd></div><div><dt>What it tells you</dt><dd>Blood in the gut is digested and its protein absorbed, so urea climbs while the kidneys are fine.</dd></div></dl></div>
+        <div class="row"><h3>Ferritin (iron stores)</h3><dl><div><dt>Arthur</dt><dd>9 µg/L, low.</dd></div><div><dt>What it tells you</dt><dd>In Arthur, that the bleed has been slow and going on for weeks. <span class="tag">Our reasoning</span></dd></div></dl></div>
+        <div class="row"><h3>Group and crossmatch</h3><dl><div><dt>When</dt><dd>Sent early, so blood is ready before he needs it.</dd></div></dl></div>
+      </div>
+      <ul class="pts">
+        <li>A urea raised out of proportion to the creatinine <strong>suggests</strong> a significant bleed. It does not prove one.</li>
+        <li>Also send: liver tests and a clotting screen. An ECG, which is mandatory before terlipressin in anyone over 65. A chest film only if the chest is abnormal.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">10 / 27</span></div>
+  <h2>Three results looked like something else. Each has an innocent explanation in a bleeding man.</h2>
+  <div class="rows rows--3">
+    <div class="row"><h3>Troponin 34 ng/L (normal below 14)</h3><dl>
+      <div><dt>What it looks like</dt><dd>A heart attack.</dd></div>
+      <div><dt>What it is</dt><dd>Myocardial injury, or a type 2 myocardial infarction, from demand: the heart needs more oxygen than it is getting, with no blocked artery. Bleeding and anaemia are recognised causes. Treat it as a blocked artery and you anticoagulate a man who is bleeding.</dd></div>
+      <div><dt>A caution</dt><dd>Bleeding also raises the risk of a true heart attack for some weeks, so do not assume type 2 without thought.</dd></div></dl></div>
+    <div class="row"><h3>Clotting screen normal (INR 1.1, APTT 31 seconds)</h3><dl>
+      <div><dt>What it looks like</dt><dd>“Not anticoagulated.”</dd></div>
+      <div><dt>What it is</dt><dd>He took apixaban at 07:30. The standard clotting tests are unreliable for drugs of this type.</dd></div></dl></div>
+    <div class="row"><h3>ECG: fast atrial fibrillation</h3><dl>
+      <div><dt>What it looks like</dt><dd>The cause of the collapse.</dd></div>
+      <div><dt>What it is</dt><dd>The response to blood loss (cards 20 and 21). <span class="tag">Our reasoning</span></dd></div></dl></div>
+  </div>
+  <div class="strip" tabindex="0" role="group" aria-label="Rhythm strip, scrolls sideways"><img src="ugib-debrief-d18-rhythm-fast.svg" width="1000" height="300" alt="A drawn rhythm strip: narrow complexes, fast and irregular, with no P waves."></div>
+  <p class="hint hint--swipe">Swipe sideways to see the whole strip.</p>
+  <ul class="pts solo" style="margin-top:.8rem">
+    <li>A fourth: the first haemoglobin can be falsely reassuring in a fast bleed. A blood-gas haemoglobin is quick but unreliable while bleeding is active.</li>
+  </ul>
+</section>
+
+<!-- 11 -->
+<section class="card" id="c11" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">11 / 27</span></div>
+  <h2>The Glasgow-Blatchford score, worked out at the door, tells you who can go home.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="ugib-debrief-d07-gbs.svg" width="720" height="1522" alt="The Glasgow-Blatchford score: nine tiles with their points, and a scale from 0 to 23 marking 0 or 1, 7 or more, and Arthur at 16.">
+      <figcaption>Point bands as reproduced by Banister and colleagues (2018) from Blatchford 2000. A second reproduction differs by one unit at three band edges.</figcaption></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>BSG: calculate the Glasgow-Blatchford score (GBS) at presentation.</strong></li>
+        <li>It counts eight things: urea, haemoglobin, systolic blood pressure, pulse, melaena, fainting, liver disease and heart failure. The score runs from 0 to 23.</li>
+        <li><strong>0 or 1: consider managing as an outpatient.</strong> Of people scoring 0 or 1, 3.4% needed treatment or died, and 0.4% died.</li>
+        <li><strong>7 or more</strong> is the score that best predicts needing treatment at endoscopy.</li>
+        <li>It is good at predicting who needs something done, and poor at predicting death. The Rockall score predicts death, and its full version needs the endoscopy findings.</li>
+        <li>Use the first set of observations, not the set after two bags of fluid. The score was built on values at admission. <span class="tag">Our reasoning</span></li>
+        <li><strong>Arthur:</strong> urea 14.6 = 4, haemoglobin 72 = 6, systolic 96 = 2, pulse 138 = 1, melaena = 1, fainting = 2. <strong>Total 16 out of 23.</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">12 / 27</span></div>
+  <h2>Endoscopy finds the source, grades it and treats it, all in one go.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d08-forrest.svg" width="720" height="994" alt="Six drawn ulcers, Forrest Ia to III: spurting, oozing, visible vessel, adherent clot, flat spot, clean base. The first three are treated at endoscopy."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Endoscopy (OGD, a camera passed through the mouth) is the main test and the main treatment.</li>
+        <li><strong>BSG: within 24 hours of arriving. Sooner, once resuscitated, if he is still unstable.</strong> European guidance does not recommend routine endoscopy within the first 12 hours: outcomes are no better.</li>
+        <li>The endoscopist grades an ulcer by the <strong>Forrest classification</strong>: Ia spurting, Ib oozing, IIa a visible vessel that is not bleeding, IIb a stuck-on clot, IIc a flat dark spot, III a clean base.</li>
+        <li><strong>Ia, Ib and IIa are treated</strong> there and then, with clips or heat. An adrenaline injection is never used on its own.</li>
+        <li>IIc and III need no treatment at endoscopy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">13 / 27</span></div>
+  <h2>The first 24 hours in six steps: the BSG care bundle, as it is printed.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="ugib-debrief-d09-bsg-bundle.svg" width="720" height="2177" alt="The UK acute upper GI bleeding bundle in six steps: Recognition, Resuscitation, Risk Assessment, Rx (Treatment), Refer, Review, with a footer on haemodynamic instability. Redrawn from Siau et al. 2020."></figure>
+    <div class="txt">
+      <p class="cap">In plain English:</p>
+      <div class="steps">
+        <p><b>Recognition.</b> If reported: haematemesis, melaena or coffee-ground vomiting.</p>
+        <p><b>Resuscitation.</b> Perform NEWS. Start intravenous crystalloid. Transfuse if haemoglobin is below 70 g/L, aiming for 70 to 100.</p>
+        <p><b>Risk assessment.</b> Calculate the Glasgow-Blatchford score. Consider discharge if 0 or 1.</p>
+        <p><b>Rx (treatment).</b> If cirrhosis or a variceal bleed is suspected: terlipressin 2 mg four times a day and antibiotics by local protocol. Continue aspirin. Suspend all other antithrombotics.</p>
+        <p><b>Refer.</b> Endoscopy within 24 hours of presentation. A GI specialist if varices, or if endoscopic treatment is needed.</p>
+        <p><b>Review.</b> Review the endoscopy report. A PPI (acid-suppressing drug) if a high-risk ulcer is found. A plan for the antithrombotics after the bleeding is stopped.</p>
+        <p><b>Unstable?</b> Think major haemorrhage protocol and a critical care review.</p>
+      </div>
+      <p class="credit">British Society of Gastroenterology, with the Society for Acute Medicine and the upper GI surgeons, 2020. Written for non-specialists, for the first 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">14 / 27</span></div>
+  <h2>You were scored on our version of the bundle. Here is where the two differ.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="ugib-debrief-d10-bundle-vs-case.svg" width="720" height="1275" alt="The BSG bundle beside what the case marked, step by step. They differ on Rx (continue aspirin against stop the aspirin) and on Review (after the endoscopy against before it)."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Nil by mouth, a bed and a senior review are not bundle items. They are sensible preparation. <span class="tag">Our reasoning</span></li>
+        <li>Stopping the naproxen (NICE) and giving no tranexamic acid (the HALT-IT trial) are right. They are not in the bundle either.</li>
+        <li>Aspirin is the one real disagreement. See card 18.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 15 Q2 -->
+<section class="card question" id="c15" data-sec="What to do" data-answer="c16">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 3</span><span class="num">15 / 27</span></div>
+  <h2>His haemoglobin is 72. The rule says transfuse below 70. Do you give blood?</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d11a-hb-line-question.svg" width="720" height="624" alt="A haemoglobin line from 60 to 140 g/L with two pins: Arthur at 72, and 134 three months ago."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Haemoglobin 72 g/L. Three months ago it was 134.</li>
+        <li>Pulse 138. Blood pressure 96/58. Standing: 74/48.</li>
+        <li>Black stool on the glove.</li>
+      </ul>
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button" data-ok="1">Yes: transfuse now</button>
+        <button class="btn opt" type="button">No: 72 is above the threshold of 70</button>
+        <button class="btn opt" type="button">Wait for a repeat haemoglobin</button>
+      </div>
+      <p class="fb" role="status" aria-live="polite"></p>
+      <div class="qfoot"><button class="btn show" type="button">Show the answer</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 A2 -->
+<section class="card answer locked" id="c16" data-sec="What to do">
+  <div class="lock"><p>16 / 27 · The answer is hidden. Decide first.</p><button class="btn btn--accent show" type="button">Show the answer</button></div>
+  <div class="meta"><span class="chip">The answer</span><span class="num">16 / 27</span></div>
+  <h2 tabindex="-1">Yes. The thresholds are for stable patients, and he is not stable.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d11b-hb-line-thresholds.svg" width="720" height="624" alt="The same line with the thresholds. BSG: below 70, aim 70 to 100. With cardiovascular disease, ESGE: 80 or below, aim at least 100."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Fluid first.</strong> BSG: if unstable, 500 mL of crystalloid in under 15 minutes. Two large cannulas.</li>
+        <li><strong>Blood, BSG:</strong> transfuse if haemoglobin is below 70 g/L, and aim for 70 to 100.</li>
+        <li><strong>With cardiovascular disease, European guidance (ESGE 2021):</strong> transfuse at 80 or below, and aim for at least 100.</li>
+        <li><strong>Unstable or bleeding fast:</strong> transfuse on clinical grounds. The trials behind these numbers left such patients out. Think major haemorrhage protocol and call critical care.</li>
+        <li><strong>Do not overshoot.</strong> In the largest trial behind the rule, patients transfused at the higher trigger did worse: 9% died within six weeks against 5%, and 16% bled again against 10%.</li>
+        <li>Keep watching. NEWS repeated, urine output measured.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>How to activate the major haemorrhage protocol in your hospital, and the number to ring.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">17 / 27</span></div>
+  <h2>Stop the apixaban. Nothing on the clotting screen will tell you how much is on board.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d12-apixaban.svg" width="720" height="870" alt="Apixaban. Works: stop it; time, it wears off over 12 to 24 hours. Does not: vitamin K, fresh frozen plasma, INR and APTT. Reversal agent: haematology, life-threatening bleeding only."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>BSG: suspend the anticoagulant at presentation.</strong> This is the first decision, before any talk of reversing it.</li>
+        <li><strong>Ask when the last dose was.</strong> Arthur took his at 07:30. The effect has usually worn off within 24 hours, longer if the kidneys are failing.</li>
+        <li><strong>Vitamin K does nothing.</strong> It reverses warfarin. It has no effect on apixaban and the drugs like it.</li>
+        <li><strong>A normal INR is no reassurance here.</strong> His was 1.1.</li>
+        <li><strong>Reversal</strong> (andexanet alfa, or prothrombin complex concentrate where that is not available) is for life-threatening bleeding, and is a decision for haematology. It must not delay the endoscopy.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>Which reversal agent your hospital stocks for apixaban, and who authorises it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">18 / 27</span></div>
+  <h2>Stop the naproxen, always. The aspirin depends on why he takes it.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d13-aspirin-fork.svg" width="720" height="906" alt="Why is this patient on aspirin? A past heart attack, stroke or stent: continue. No cardiovascular disease: stop, and ask if it is needed. An NSAID such as naproxen: always stop."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>The BSG bundle says: continue aspirin at presentation.</strong> In the case we stopped it with the naproxen. Here is why both can be right.</li>
+        <li>The bundle’s evidence is a trial in people taking aspirin for <strong>known</strong> heart or stroke disease. Stopping it for eight weeks after an ulcer bleed cost lives (12.9% died against 1.3%), at the price of more rebleeding (10.3% against 5.4%).</li>
+        <li><strong>Aspirin after a heart attack, a stroke or a stent (secondary prevention):</strong> do not stop it. If it has been stopped, restart it within days.</li>
+        <li><strong>Aspirin with no cardiovascular disease (primary prevention):</strong> later BSG and European guidance supports stopping it, and asking whether it is needed at all.</li>
+        <li>Arthur’s aspirin had no recorded reason. So it was stopped.</li>
+        <li><strong>The naproxen is never in doubt: stop it</strong> (NICE).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card" id="c19" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">19 / 27</span></div>
+  <h2>If you suspect liver disease, two drugs go in before the camera.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d14-varices.svg" width="720" height="1100" alt="A scarred liver; blood backing up behind it (portal hypertension); swollen veins in the gullet (varices), one bleeding."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Suspect it when</strong> there are signs of liver disease: jaundice, a swollen fluid-filled abdomen, confusion. Drinking alone is not enough to assume it.</li>
+        <li><strong>BSG: terlipressin 2 mg into the vein, four times a day,</strong> and <strong>antibiotics into the vein, by your local protocol.</strong> Both before the endoscopy.</li>
+        <li>Terlipressin narrows the blood vessels feeding the gut and lowers the pressure in the varices. It cuts deaths by about a third. Antibiotics cut deaths too.</li>
+        <li><strong>Continue until the bleeding is controlled, or for up to 5 days.</strong></li>
+        <li><strong>It narrows other vessels as well.</strong> BSG: caution in ischaemic heart disease and peripheral vascular disease, and an ECG first in anyone over 65. The BNF adds electrolyte disturbance, including a low sodium, and a history of a long QT interval.</li>
+        <li>Arthur had no signs of liver disease and normal liver tests. He did not need it.</li>
+      </ul>
+      <div class="local"><b>Local guideline, check your own</b>Some trusts step the dose down to 1 to 2 mg after the first dose, and name “severe” hyponatraemia as the caution. These lines are from a local guideline and are not from the BSG.</div>
+      <div class="local"><b>Check your local policy</b>Which antibiotic, at what dose.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 Q3 -->
+<section class="card question" id="c20" data-sec="What not to do" data-answer="c21">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 3 of 3</span><span class="num">20 / 27</span></div>
+  <h2>His heart is going at 138 and his blood pressure is 96/58. The nurse offers metoprolol.</h2>
+  <div class="strip" tabindex="0" role="group" aria-label="Rhythm strip, scrolls sideways"><img src="ugib-debrief-d18-rhythm-fast.svg" width="1000" height="300" alt="A drawn rhythm strip: narrow complexes, fast and irregular, with no P waves."></div>
+  <p class="hint hint--swipe">Swipe sideways to see the whole strip.</p>
+  <div class="solo" style="margin-top:.8rem">
+    <ul class="pts">
+      <li>Atrial fibrillation, fast. It is not new: he has been on apixaban for it for about two years.</li>
+      <li>He is shocked, and he is bleeding.</li>
+    </ul>
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="btn opt" type="button">Slow the heart with a beta-blocker</button>
+      <button class="btn opt" type="button">Shock it back to a normal rhythm</button>
+      <button class="btn opt" type="button" data-ok="1">Leave the rate alone and treat the blood loss</button>
+    </div>
+    <p class="fb" role="status" aria-live="polite"></p>
+    <div class="qfoot"><button class="btn show" type="button">Show the answer</button></div>
+  </div>
+</section>
+
+<!-- 21 A3 -->
+<section class="card answer locked" id="c21" data-sec="What not to do">
+  <div class="lock"><p>21 / 27 · The answer is hidden. Decide first.</p><button class="btn btn--accent show" type="button">Show the answer</button></div>
+  <div class="meta"><span class="chip">The answer</span><span class="num">21 / 27</span></div>
+  <h2 tabindex="-1">Leave the rate alone. Replace the blood, and the rate comes down by itself.</h2>
+  <div class="strip" tabindex="0" role="group" aria-label="Rhythm strip on arrival, scrolls sideways"><img src="ugib-debrief-d18-rhythm-fast.svg" width="1000" height="300" alt="A drawn rhythm strip: narrow complexes, fast and irregular, with no P waves."></div>
+  <p class="cap">On arrival.</p>
+  <div class="strip" tabindex="0" role="group" aria-label="Rhythm strip after resuscitation, scrolls sideways"><img src="ugib-debrief-d19-rhythm-slower.svg" width="1000" height="300" alt="A drawn rhythm strip: the same irregular rhythm with no P waves, clearly slower."></div>
+  <p class="cap">After fluid and blood. No rate-slowing drug given.</p>
+  <p class="hint">Drawn illustration of what the case showed. <span class="hint--swipe">Swipe sideways to see each whole strip.</span></p>
+  <div class="solo">
+    <ul class="pts">
+      <li>An electric shock (cardioversion) is for a patient whose collapse is <strong>caused by</strong> the arrhythmia.</li>
+      <li>In the case, the repeat ECG shows it. Same rhythm, far slower rate, after resuscitation alone. Taken before any fluid, it had not changed.</li>
+    </ul>
+    <div class="reason"><b>Reasoning from physiology, not trial evidence</b>
+      <ul class="pts">
+        <li>His heart is fast because he is short of blood. A fast rate helps keep the heart’s output up when the circulation is under-filled.</li>
+        <li>Slow it hard and you risk taking that away and deepening the shock.</li>
+        <li>His collapse is caused by blood loss, not by the arrhythmia.</li>
+        <li>Fill him, transfuse him, stop the bleeding. Then look at the rate again.</li>
+        <li>We found no trial of rate control in a bleeding patient with atrial fibrillation.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="card" id="c22" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">22 / 27</span></div>
+  <h2>No tranexamic acid. It did not save lives, and it nearly doubled the clots.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d15-halt-it.svg" width="720" height="820" alt="HALT-IT. Died from bleeding within 5 days: 3.7% with tranexamic acid, 3.8% without. Clots in the veins: 0.8% with, 0.4% without."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Tranexamic acid helps in trauma and after childbirth. In bleeding from the gut it does not.</li>
+        <li><strong>HALT-IT, 2020: 12,009 patients in 15 countries.</strong></li>
+        <li>Deaths from bleeding within 5 days: 3.7% with tranexamic acid, 3.8% without. No difference.</li>
+        <li>Clots in the veins (in the leg or the lung): <strong>0.8% against 0.4%. Nearly doubled.</strong></li>
+        <li>Seizures were more common as well.</li>
+        <li>The BSG bundle does not mention it: the bundle was written before the trial reported. European guidance now says do not use it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="card" id="c23" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">23 / 27</span></div>
+  <h2>Five more things that feel right and are wrong.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-death.svg" width="900" height="560" alt="The case’s wrong-diagnosis ending, drawn as a comic: a flatlined monitor and a crash trolley."></figure>
+    <div class="txt">
+      <div class="rows">
+        <div class="row"><h3>Do not give a PPI routinely <em>before</em> the endoscopy</h3><dl><div><dt>Because</dt><dd>It has not been shown to save lives. The dose that matters comes after the endoscopy.</dd></div><div><dt>Says who</dt><dd>NICE CG141. European guidance (ESGE) allows it to be considered, as long as it does not delay the camera.</dd></div></dl></div>
+        <div class="row"><h3>Do not treat the troponin as a heart attack</h3><dl><div><dt>Because</dt><dd>You would be anticoagulating a man who is bleeding.</dd></div><div><dt>Says who</dt><dd>BSG: suspend anticoagulants. See card 10.</dd></div></dl></div>
+        <div class="row"><h3>Do not give vitamin K, or trust a normal clotting screen</h3><dl><div><dt>Because</dt><dd>Neither works for apixaban.</dd></div><div><dt>Says who</dt><dd>BSG and European antithrombotic guideline, 2021.</dd></div></dl></div>
+        <div class="row"><h3>Do not slow or shock the fast heart</h3><dl><div><dt>Because</dt><dd>The rate is helping to hold his pressure up.</dd></div><div><dt>Says who</dt><dd>Reasoning, not trial evidence. See card 21. <span class="tag">Our reasoning</span></dd></div></dl></div>
+        <div class="row"><h3>Do not transfuse a stable patient up to a “normal” count</h3><dl><div><dt>Because</dt><dd>More deaths and more rebleeding.</dd></div><div><dt>Says who</dt><dd>Villanueva 2013.</dd></div></dl></div>
+      </div>
+      <div class="local"><b>Check your local policy</b>Some units do give a PPI before endoscopy. Know what yours does.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="card" id="c24" data-sec="After the scope">
+  <div class="meta"><span class="chip">After the scope</span><span class="num">24 / 27</span></div>
+  <h2>The bundle does not end at the endoscopy. Four things still have to happen.</h2>
+  <figure class="fig solo"><img src="ugib-debrief-d09b-bsg-bundle-review.svg" width="720" height="338" alt="The Review step of the bundle: review endoscopy report; PPI if high risk ulcer post-endoscopy; post-haemostasis antithrombotic plan."></figure>
+  <div class="solo">
+    <ol class="pts">
+      <li><strong>Read the endoscopy report.</strong> It should say what was found, what was done, how secure it is, and what to do if he bleeds again. About 1 in 10 do (9.7% in the 2022 UK audit).</li>
+      <li><strong>PPI for a high-risk ulcer.</strong> BSG: high dose, into the vein: 80 mg, then 8 mg an hour for 72 hours. This is where the PPI earns its place.</li>
+      <li><strong>Test for Helicobacter pylori</strong> at this endoscopy. Treat it if found. Test again if negative (ESGE; not a bundle item).</li>
+      <li><strong>Write the plan for the blood thinners.</strong> Leaving apixaban off for good risks a stroke. Restarting it too soon risks another bleed. It is restarted once the bleeding is controlled, preferably within or soon after 7 days, as a shared decision and with a PPI alongside. Never discharge without the decision written down.</li>
+    </ol>
+    <ul class="pts" style="margin-top:.9rem">
+      <li><strong>If he bleeds again:</strong> repeat the endoscopy, then the radiologists to block the artery, then the surgeons.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="card" id="c25" data-sec="Back to the patient">
+  <div class="meta"><span class="chip">Back to the patient</span><span class="num">25 / 27</span></div>
+  <h2>Three explanations fitted the collapse. Only one fitted everything.</h2>
+  <div class="split">
+    <figure class="fig"><img src="ugib-debrief-d16-one-fits.svg" width="720" height="670" alt="Four explanations against five findings. Only a bleed explains the collapse, the fast pulse, the black stool, the urea of 14.6 and the haemoglobin of 72."></figure>
+    <div class="txt">
+      <div class="reason" style="margin-top:0"><b>The case’s own argument</b>
+        <ul class="pts">
+          <li>His heart, a simple faint and his blood pressure tablets each explained the collapse.</li>
+          <li>Only a bleed explained the black stool, the urea and the haemoglobin of 72.</li>
+          <li>The fast heart was his body coping. Treating the bleed treated the heart.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 26 -->
+<section class="card" id="c26" data-sec="Back to the patient">
+  <div class="meta"><span class="chip">Take home</span><span class="num">26 / 27</span></div>
+  <h2>Five things to carry onto the ward.</h2>
+  <img class="big-mark" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20260%20180%22%20width%3D%22260%22%20height%3D%22180%22%20fill%3D%22none%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22g%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%220.18%22%20stroke-width%3D%221%22%20fill%3D%22none%22%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23g%29%22%3E%3C/rect%3E%3Crect%20x%3D%220%22%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23g%29%22%3E%3C/rect%3E%3Cpath%20d%3D%22M0%2085%20H92%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22%3E%3C/path%3E%3Cpath%20d%3D%22M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22%3E%3C/path%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20fill%3D%22none%22%3E%3C/path%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22%3E%3C/path%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22%3E%3C/path%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22%3E%3C/path%3E%3C/svg%3E" alt="" width="260" height="180">
+  <ol class="pts solo">
+    <li>An unexplained collapse with a fast pulse: do a rectal examination and a lying and standing blood pressure.</li>
+    <li>Resuscitate first. Transfuse below 70 and aim for 70 to 100; if he is unstable, do not wait for a number.</li>
+    <li>Score him with Glasgow-Blatchford on the first observations. 0 or 1 may go home.</li>
+    <li>Stop the blood thinner and the NSAID. Ask why he is on aspirin before you stop it.</li>
+    <li>No tranexamic acid. Endoscopy within 24 hours. A written plan afterwards.</li>
+  </ol>
+</section>
+
+<!-- 27 -->
+<section class="card src" id="c27" data-sec="Back to the patient">
+  <div class="meta"><span class="chip">Sources</span><span class="num">27 / 27</span></div>
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>Main standard</h3>
+  <ol>
+    <li>Siau K, Hearnshaw S, Stanley AJ, et al. British Society of Gastroenterology (BSG)-led multisociety consensus care bundle for the early clinical management of acute upper gastrointestinal bleeding. <i>Frontline Gastroenterology</i> 2020;11:311–323. <a href="https://doi.org/10.1136/flgastro-2019-101395">doi:10.1136/flgastro-2019-101395</a>. The bundle diagram is redrawn from its Figure 1 (CC BY-NC 4.0).</li>
+  </ol>
+  <h3>Guidelines</h3>
+  <ol start="2">
+    <li>NICE. Acute upper gastrointestinal bleeding in over 16s: management (CG141). 2012, updated 2016. <a href="https://www.nice.org.uk/guidance/cg141">nice.org.uk/guidance/cg141</a></li>
+    <li>Gralnek IM, et al. Endoscopic diagnosis and management of nonvariceal upper gastrointestinal hemorrhage: ESGE Guideline, Update 2021. <i>Endoscopy</i> 2021;53:300–332. <a href="https://doi.org/10.1055/a-1369-5274">doi:10.1055/a-1369-5274</a></li>
+    <li>Veitch AM, et al. Endoscopy in patients on antiplatelet or anticoagulant therapy: BSG and ESGE guideline update. <i>Gut</i> 2021;70:1611–1628. <a href="https://doi.org/10.1136/gutjnl-2021-325184">doi:10.1136/gutjnl-2021-325184</a></li>
+    <li>Tripathi D, et al. UK guidelines on the management of variceal haemorrhage in cirrhotic patients. <i>Gut</i> 2015;64:1680–1704. <a href="https://doi.org/10.1136/gutjnl-2015-309262">doi:10.1136/gutjnl-2015-309262</a></li>
+    <li>NICE. Atrial fibrillation: diagnosis and management (NG196). 2021. <a href="https://www.nice.org.uk/guidance/ng196">nice.org.uk/guidance/ng196</a></li>
+    <li>British National Formulary. Terlipressin acetate. <a href="https://bnf.nice.org.uk/drugs/terlipressin-acetate/">bnf.nice.org.uk/drugs/terlipressin-acetate</a></li>
+  </ol>
+  <h3>Trials and studies</h3>
+  <ol start="8">
+    <li>HALT-IT Trial Collaborators. High-dose 24-h infusion of tranexamic acid in acute gastrointestinal bleeding (HALT-IT). <i>Lancet</i> 2020;395:1927–1936. <a href="https://doi.org/10.1016/S0140-6736(20)30848-5">doi:10.1016/S0140-6736(20)30848-5</a></li>
+    <li>Villanueva C, et al. Transfusion strategies for acute upper gastrointestinal bleeding. <i>N Engl J Med</i> 2013;368:11–21. <a href="https://doi.org/10.1056/NEJMoa1211801">doi:10.1056/NEJMoa1211801</a></li>
+    <li>Sung JJY, et al. Continuation of low-dose aspirin therapy in peptic ulcer bleeding: a randomized trial. <i>Ann Intern Med</i> 2010;152:1–9. <a href="https://doi.org/10.7326/0003-4819-152-1-201001050-00179">doi:10.7326/0003-4819-152-1-201001050-00179</a></li>
+    <li>Stanley AJ, et al. Comparison of risk scoring systems for patients presenting with upper gastrointestinal bleeding. <i>BMJ</i> 2017;356:i6432. <a href="https://doi.org/10.1136/bmj.i6432">doi:10.1136/bmj.i6432</a></li>
+    <li>Blatchford O, et al. A risk score to predict need for treatment for upper-gastrointestinal haemorrhage. <i>Lancet</i> 2000;356:1318–1321. <a href="https://doi.org/10.1016/S0140-6736(00)02816-6">doi:10.1016/S0140-6736(00)02816-6</a>. Score table as reproduced in: Banister T, et al. <i>BMJ Open Gastroenterol</i> 2018;5:e000225. <a href="https://doi.org/10.1136/bmjgast-2018-000225">doi:10.1136/bmjgast-2018-000225</a>; and Orpen-Palmer J, Stanley AJ. <i>J Clin Med</i> 2023;12:3678. <a href="https://doi.org/10.3390/jcm12113678">doi:10.3390/jcm12113678</a></li>
+    <li>Hearnshaw SA, et al. Acute upper gastrointestinal bleeding in the UK: patient characteristics, diagnoses and outcomes in the 2007 UK audit. <i>Gut</i> 2011;60:1327–1335. <a href="https://doi.org/10.1136/gut.2010.228437">doi:10.1136/gut.2010.228437</a>. Figures as reprinted in: Nigam GB, et al. Acute upper gastrointestinal bleeding in the UK: 2022 audit update. <i>Gut</i> 2026;75:e335134. <a href="https://doi.org/10.1136/gutjnl-2025-335134">doi:10.1136/gutjnl-2025-335134</a></li>
+  </ol>
+  <h3>Background</h3>
+  <ol start="14">
+    <li>Chapman AR, et al. Type 2 myocardial infarction: challenges in diagnosis and treatment. <i>Eur Heart J</i> 2025. <a href="https://doi.org/10.1093/eurheartj/ehae803">doi:10.1093/eurheartj/ehae803</a></li>
+    <li>Tencer T, Waldauf P, Balik M. Treatment of supraventricular arrhythmias in critical care patients with sepsis. <i>Front Cardiovasc Med</i> 2026. <a href="https://doi.org/10.3389/fcvm.2026.1836476">doi:10.3389/fcvm.2026.1836476</a> (the principle of compensatory tachycardia; a review of septic shock)</li>
+    <li>Meza Monge K, et al. Navigating hemorrhagic shock. <i>Biomedicines</i> 2024;12:2864. <a href="https://doi.org/10.3390/biomedicines12122864">doi:10.3390/biomedicines12122864</a></li>
+    <li>Piccirillo M, et al. Gastrointestinal bleeding in children: diagnostic approach. <i>Ital J Pediatr</i> 2024. <a href="https://doi.org/10.1186/s13052-024-01592-2">doi:10.1186/s13052-024-01592-2</a> (definition of melaena and its mimics)</li>
+  </ol>
+  <h3>Supporting reading</h3>
+  <ol start="18">
+    <li>RCEMLearning. Upper Gastrointestinal Haemorrhage (reviewed 2025); Peptic Ulcer Disease (2022). <a href="https://www.rcemlearning.co.uk/reference/upper-gastrointestinal-haemorrhage/">rcemlearning.co.uk</a></li>
+    <li>Geeky Medics. Upper Gastrointestinal Bleeding: Acute Management (2024). <a href="https://geekymedics.com/acute-management-of-upper-gi-bleeding/">geekymedics.com</a></li>
+  </ol>
+  <p class="credit">Journal articles were retrieved through PubMed and Europe PMC.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = 0;
+
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].getBoundingClientRect().top <= line) idx = i; else break;
+    }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) {
+      var n = parseInt(a.getAttribute('href').slice(2), 10);
+      if (n <= current + 1) sec = a;
+    });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var t = e.target;
+    if (t && (t.classList && t.classList.contains('strip'))) return; /* let a strip scroll sideways */
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+
+  /* contents (phone) */
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* stop and decide */
+  function reveal(q, focus) {
+    var ans = document.getElementById(q.getAttribute('data-answer'));
+    if (!ans) return;
+    ans.classList.remove('locked');
+    Array.prototype.forEach.call(q.querySelectorAll('.show'), function (b) { b.hidden = true; });
+    if (focus) { var h = ans.querySelector('h2'); goTo(cards.indexOf(ans)); if (h) h.focus({ preventScroll: true }); }
+    paint();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.card.question'), function (q) {
+    var box = q.querySelector('.opts'), fb = q.querySelector('.fb');
+    var opts = Array.prototype.slice.call(box.children);
+    for (var i = opts.length - 1; i > 0; i--) {           /* shuffle at render */
+      var j = Math.floor(Math.random() * (i + 1)), t = opts[i]; opts[i] = opts[j]; opts[j] = t;
+    }
+    opts.forEach(function (o) { box.appendChild(o); });
+    var foot = q.querySelector('.qfoot');
+    opts.forEach(function (o) {
+      o.addEventListener('click', function () {
+        if (box.getAttribute('data-done')) return;
+        box.setAttribute('data-done', '1');
+        var ok = o.hasAttribute('data-ok');
+        opts.forEach(function (x) {
+          x.setAttribute('aria-disabled', 'true');
+          if (x.hasAttribute('data-ok')) x.classList.add('right');
+        });
+        if (!ok) o.classList.add('wrong');
+        o.setAttribute('aria-pressed', 'true');
+        fb.textContent = ok ? 'Yes. That is the answer.' : 'Not that one. The answer is marked in green.';
+        reveal(q, false);
+        if (!foot.querySelector('.go')) {
+          var go = document.createElement('button');
+          go.type = 'button'; go.className = 'btn btn--accent go'; go.textContent = 'Read why';
+          go.addEventListener('click', function () { reveal(q, true); });
+          foot.appendChild(go);
+        }
+      });
+    });
+    Array.prototype.forEach.call(q.querySelectorAll('.show'), function (b) {
+      b.addEventListener('click', function () { reveal(q, true); });
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.card.answer .lock .show'), function (b) {
+    b.addEventListener('click', function () {
+      var ans = b.closest('.card');
+      var q = document.querySelector('.card.question[data-answer="' + ans.id + '"]');
+      reveal(q, true);
+    });
+  });
+  if (/[?&]reveal=1/.test(location.search)) {
+    Array.prototype.forEach.call(document.querySelectorAll('.card.question'), function (q) { reveal(q, false); });
+  }
+  window.addEventListener('beforeprint', function () {
+    Array.prototype.forEach.call(document.querySelectorAll('.card.answer'), function (a) { a.classList.remove('locked'); });
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -764,7 +764,7 @@ const guestOK = w => !GUEST || GUEST_WEEKS.includes(w.id);
    The Programme shows every released case automatically.
    ============================================================ */
 const PROGRAM=[
- {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'video',
+ {id:'w01',t:'The collapse',sub:'UGIB vs vasovagal vs postural',month:'Month 1',caseId:'gi-bleed',url:BASE,debrief:'notes',
   evidence:'BSG AUGIB care bundle 2025 · NICE CG141 · Worcestershire WAHT-GAS-012 v2 2025',
   obj:['Do a PR and trust melaena over the iron story','Read the urea:creatinine disproportion','Risk-stratify and manage an upper GI bleed'],
   read:[{t:'NICE CG141 — acute upper GI bleeding',url:'https://www.nice.org.uk/guidance/cg141'},{t:'Glasgow-Blatchford score — MDCalc',url:'https://www.mdcalc.com/calc/518/glasgow-blatchford-bleeding-score-gbs'}]},
@@ -837,6 +837,11 @@ function weekState(w,prog){
 }
 const playable = s => s==='live' || s==='complete';
 function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
+/* A debrief page that exists. It opens for anyone who has finished that case, and stays shut
+   (and the answer hidden) for everyone else. Adding the id to OPEN_DEBRIEFS still releases a
+   debrief to everybody and reveals the topic; this list does not. */
+const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html' };
+function debriefOpen(w){ return debriefLive(w) || !!(DEBRIEF_URLS[w.id] && (PROG[w.id]||{}).caseDone); }
 // A case's topic stays hidden ("Case N") until the trainee solves it — or the Friday debrief drops.
 function revealed(w){ return !!(PROG[w.id]||{}).caseDone || debriefLive(w); }
 function caseNo(w){ return +w.id.slice(1); }
@@ -1539,11 +1544,11 @@ function renderHome(){
     </div>
     <div class="homestack">
     <div class="card">
-      <div class="card__label">${debriefLive(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
+      <div class="card__label">${debriefOpen(cur)?'Friday debrief':'Friday debrief — arriving Friday'}</div>
       <div style="display:flex;align-items:center;gap:var(--s3)">
         <span style="font-size:1.4rem">${cur.debrief==='video'?'▶':'📄'}</span>
         <div style="flex:1"><b style="font-weight:600">${cur.debrief==='video'?'Video debrief':'Written debrief'}</b><div style="font-size:.82rem;color:var(--muted)">${rev?cur.sub:'Reveals the answer'}</div></div>
-        <button class="btn btn--ghost btn--sm" ${debriefLive(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
+        <button class="btn btn--ghost btn--sm" ${debriefOpen(cur)?'':'disabled'} data-debrief="${cur.id}">${(PROG[cur.id]||{}).debriefDone?'Reviewed ✓':'Open'}</button>
       </div>
     </div>
     ${rev?`<div class="card"><div class="card__label">Reading</div><ul class="readlist" id="homeread"></ul></div>`:`<div class="card card--locked"><div class="card__label">Reading 🔒</div><div style="font-size:.85rem;color:var(--muted)">Unlocks once you've solved the case — no spoilers.</div></div>`}
@@ -1609,7 +1614,7 @@ function openWeek(id){
     <ul class="objlist">${w.obj.map(o=>`<li>${o}</li>`).join('')}</ul>
     ${!w.caseId?'':playable(s)?`<button class="btn btn--wide" style="margin:var(--s3) 0" data-launch="${id}">${p.caseDone?'Play again ↗':'Start case ↗'}</button>`:s==='guest'?guestUpsell():''}
     <div class="card__label" style="margin-top:var(--s4)">Friday debrief</div>
-    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefLive(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefLive(w)?'Open':'Friday'}</button></div>
+    <div style="display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)"><span style="font-size:1.3rem">${w.debrief==='video'?'▶':'📄'}</span><div style="flex:1;font-size:.9rem">${w.debrief==='video'?'Video debrief':'Written debrief'}</div><button class="btn btn--ghost btn--sm" ${debriefOpen(w)?'':'disabled'} data-debrief="${id}">${p.debriefDone?'Reviewed ✓':debriefOpen(w)?'Open':'Friday'}</button></div>
     <div class="card__label">Reading</div><ul class="readlist" id="mread"></ul>`;
   } else if(s==='locked'){
     body=`<p style="color:var(--muted);margin:var(--s2) 0 var(--s4)">Not released yet — this one arrives in a future week.</p>`;
@@ -1691,7 +1696,7 @@ function mount(v){ const c=$('#views'); c.innerHTML=''; c.appendChild(v); wireLa
 function wireLaunchers(scope){
   scope.querySelectorAll('[data-launch]').forEach(b=>b.onclick=()=>launch(b.dataset.launch));
   scope.querySelectorAll('[data-week]').forEach(b=>b.onclick=()=>openWeek(b.dataset.week));
-  scope.querySelectorAll('[data-debrief]').forEach(b=>b.onclick=()=>{upsertProgress(b.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');});
+  scope.querySelectorAll('[data-debrief]').forEach(b=>b.onclick=()=>{const u=DEBRIEF_URLS[b.dataset.debrief]; if(u) window.open(u,'_blank','noopener'); upsertProgress(b.dataset.debrief,{debriefDone:true});toast(u?'Debrief opened and marked as reviewed.':'Debrief marked as reviewed.');});
 }
 document.body.addEventListener('click',e=>{const t=e.target.closest('[data-launch]');if(t&&!$('#views').contains(t))launch(t.dataset.launch);const w=e.target.closest('[data-week]');if(w&&!$('#views').contains(w))openWeek(w.dataset.week);const d=e.target.closest('[data-debrief]');if(d&&!$('#views').contains(d)){upsertProgress(d.dataset.debrief,{debriefDone:true});toast('Debrief marked as reviewed.');}});
 /* ============================================================

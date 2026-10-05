@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" role="img" aria-label="This morning, 07:50: Arthur collapsed by the bathroom door. Margaret found him grey on the floor.">
+  <defs>
+    <pattern id="tile" width="46" height="46" patternUnits="userSpaceOnUse">
+      <rect width="46" height="46" fill="#dfe6e4"/>
+      <path d="M0 0 H46 V46" fill="none" stroke="#c8d2cf" stroke-width="2"/>
+    </pattern>
+    <pattern id="half" width="9" height="9" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.6" fill="#2b241d" opacity=".12"/>
+    </pattern>
+    <radialGradient id="vig" cx=".5" cy=".5" r=".75">
+      <stop offset=".6" stop-color="#2b241d" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2b241d" stop-opacity=".28"/>
+    </radialGradient>
+  </defs>
+
+  <!-- bathroom -->
+  <rect width="800" height="240" fill="url(#tile)"/>
+  <rect y="240" width="800" height="100" fill="#b9aa96"/>
+  <line x1="0" y1="240" x2="800" y2="240" stroke="#2b241d" stroke-width="4"/>
+  <rect width="800" height="340" fill="url(#half)"/>
+
+  <!-- manga speed lines converging on Arthur -->
+  <g stroke="#2b241d" stroke-linecap="round" opacity=".5">
+    <line x1="30" y1="20" x2="250" y2="150" stroke-width="5"/>
+    <line x1="120" y1="0" x2="280" y2="130" stroke-width="3"/>
+    <line x1="770" y1="15" x2="560" y2="140" stroke-width="5"/>
+    <line x1="700" y1="0" x2="540" y2="120" stroke-width="3"/>
+    <line x1="790" y1="120" x2="600" y2="180" stroke-width="4"/>
+    <line x1="10" y1="130" x2="220" y2="190" stroke-width="4"/>
+    <animate attributeName="opacity" values=".5;.2;.5" dur="1.2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- toilet, stylised -->
+  <g stroke="#2b241d" stroke-width="4" fill="#f2f0ea">
+    <rect x="642" y="120" width="84" height="66" rx="10"/>
+    <path d="M636 186 h96 c4 34 -18 58 -48 58 c-30 0 -52 -24 -48 -58 Z"/>
+    <rect x="654" y="132" width="60" height="12" rx="6" fill="#d8d4ca"/>
+  </g>
+
+  <!-- Arthur: slumped against wall, sitting on floor -->
+  <g stroke="#2b241d" stroke-width="4">
+    <!-- legs sprawled -->
+    <path d="M382 300 C420 288 470 288 512 298 L516 316 C468 306 424 306 386 316 Z" fill="#6b7a8c"/>
+    <!-- torso in pyjamas, leaning -->
+    <path d="M350 210 C356 176 384 160 414 168 C444 176 456 202 448 238 L440 300 L368 300 Z" fill="#c8d3e0"/>
+    <path d="M366 200 l64 14" fill="none" opacity=".4" stroke-width="3"/>
+    <path d="M362 232 l70 14" fill="none" opacity=".4" stroke-width="3"/>
+    <!-- limp arm -->
+    <path d="M366 220 C352 244 348 268 354 292" fill="none" stroke-width="9" stroke-linecap="round"/>
+    <!-- head lolled to one side, grey -->
+    <ellipse cx="416" cy="152" rx="30" ry="32" fill="#dcd4c8"/>
+    <path d="M390 142 C388 128 396 118 408 114 C402 124 400 132 400 140 Z" fill="#b9b3a8" stroke-width="3"/>
+    <path d="M442 142 C444 128 436 118 424 114 C430 124 432 132 432 140 Z" fill="#b9b3a8" stroke-width="3"/>
+    <!-- closed eyes, open mouth -->
+    <path d="M402 152 q6 4 12 0" fill="none" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M422 152 q6 4 12 0" fill="none" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="416" cy="172" rx="6" ry="4.5" fill="#8c6a5a" stroke-width="3"/>
+  </g>
+  <!-- dizzy spiral above Arthur -->
+  <g fill="none" stroke="#b8552e" stroke-width="4" stroke-linecap="round">
+    <path d="M452 96 a12 12 0 1 1 -12 -12 a8 8 0 1 1 -8 8">
+      <animateTransform attributeName="transform" type="rotate" values="0 444 92;360 444 92" dur="3.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Margaret kneeling, reaching out -->
+  <g stroke="#2b241d" stroke-width="4">
+    <path d="M196 322 C192 282 210 258 240 254 C266 250 288 262 296 286 L300 322 Z" fill="#a5788a"/>
+    <!-- reaching arms -->
+    <path d="M282 270 C310 254 336 246 360 246" fill="none" stroke-width="9" stroke-linecap="round"/>
+    <path d="M286 292 C314 284 338 282 358 286" fill="none" stroke-width="9" stroke-linecap="round"/>
+    <ellipse cx="248" cy="228" rx="26" ry="28" fill="#f4e3d0"/>
+    <path d="M222 234 C214 200 230 180 248 180 C266 180 282 200 274 234 C276 214 268 202 248 200 C228 202 220 214 222 234 Z" fill="#cfc9c0" stroke-width="3.5"/>
+    <circle cx="238" cy="228" r="7" fill="none" stroke-width="3"/>
+    <circle cx="260" cy="228" r="7" fill="none" stroke-width="3"/>
+    <path d="M245 228 h6" stroke-width="3"/>
+    <ellipse cx="249" cy="246" rx="5" ry="6" fill="#8c6a5a" stroke-width="3"/>
+  </g>
+  <!-- alarm marks by Margaret -->
+  <g fill="#b8552e" stroke="#2b241d" stroke-width="2.5" font-family="Georgia, serif" font-weight="bold">
+    <path d="M206 176 l6 -26 l14 4 l-10 24 Z">
+      <animate attributeName="opacity" values="1;.35;1" dur=".9s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="210" cy="192" r="6">
+      <animate attributeName="opacity" values="1;.35;1" dur=".9s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- time chip -->
+  <g>
+    <rect x="20" y="22" width="150" height="42" rx="8" fill="#2b241d" opacity=".85"/>
+    <text x="95" y="50" text-anchor="middle" font-family="ui-monospace, monospace" font-size="21" fill="#faf6f0">07:50 — home</text>
+  </g>
+
+  <rect width="800" height="340" fill="url(#vig)"/>
+  <rect x="3" y="3" width="794" height="334" fill="none" stroke="#2b241d" stroke-width="6"/>
+</svg>
