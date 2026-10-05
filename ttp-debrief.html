@@ -67,8 +67,7 @@ main { max-width:44rem; margin-inline:auto; padding:1.25rem 16px 4rem; }
 .fig.wide { max-width:none; }
 .fig.small { max-width:16rem; }
 .fig figcaption { font-family:var(--font-mono); font-size:.75rem; color:var(--muted); padding:.3rem .6rem; border-top:2px solid var(--ink); background:var(--paper-2); }
-.pair { display:grid; gap:1rem; }
-@media (min-width:40rem) { .pair { grid-template-columns:1fr 1fr; align-items:start; } .pair .fig { margin-top:0; } }
+.fig.slip { max-width:24rem; }
 .faces { display:flex; gap:.6rem; margin:0 0 .8rem; }
 .faces svg { width:3.5rem; height:3.5rem; border:2px solid var(--ink); border-radius:50%; background:var(--paper-2); box-shadow:2px 2px 0 var(--ink); flex:none; }
 .pts { list-style:none; padding:0; display:grid; gap:.7rem; }
@@ -657,145 +656,14 @@ footer { max-width:44rem; margin:0 auto; padding:0 16px 3rem; color:var(--muted)
 <section class="scr" id="s8" aria-labelledby="h8">
   <div class="scr-head"><span class="kicker time">20:25 · a urine sample, collected in majors</span><span class="num">8 of 17</span></div>
   <h2 id="h8">The "urine infection" was explained on one slip of paper.</h2>
-  <div class="pair">
-    <figure class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 470" role="img" aria-label="Urinalysis result slip: dark brown urine, blood +++, urobilinogen raised, protein +, leucocytes and nitrites negative; microscopy shows no erythrocytes, no leucocytes and no organisms">
-  <defs>
-    <filter id="cu-pshadow" x="-20%" y="-20%" width="150%" height="150%">
-      <feDropShadow dx="4" dy="7" stdDeviation="6" flood-color="#2b241d" flood-opacity=".22"/>
-    </filter>
-    <pattern id="cu-ugrain" width="7" height="7" patternUnits="userSpaceOnUse">
-      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".05"/>
-    </pattern>
-    <linearGradient id="cu-pot" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#6b4420"/>
-      <stop offset=".45" stop-color="#8a5a28"/>
-      <stop offset="1" stop-color="#5c3a1b"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="620" height="470" fill="#efe9df"/>
-
-  
-  <g transform="translate(492,244)">
-    <path d="M-44 -74 h88 v122 a10 10 0 0 1 -10 10 h-68 a10 10 0 0 1 -10 -10 Z"
-          fill="#e9f1f2" stroke="#2b241d" stroke-width="5" stroke-linejoin="round" opacity=".9"/>
-    
-    <path d="M-40 -30 h80 v78 a8 8 0 0 1 -8 8 h-64 a8 8 0 0 1 -8 -8 Z" fill="url(#cu-pot)"/>
-    <path d="M-40 -30 h80" stroke="#3d2611" stroke-width="4"/>
-    
-    <rect x="-50" y="-88" width="100" height="18" rx="6" fill="#c9d6d8" stroke="#2b241d" stroke-width="4.5"/>
-    
-    <path d="M-30 -20 v58" stroke="#faf6f0" stroke-width="6" opacity=".22" stroke-linecap="round"/>
-    <text x="0" y="76" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-style="italic" fill="#7a6f60">the sample</text>
-  </g>
-
-  
-  <g transform="translate(30,26) rotate(-1.5)" filter="url(#cu-pshadow)">
-    <rect width="418" height="418" rx="4" fill="#fdfcf8" stroke="#cfc6b6" stroke-width="2"/>
-    
-    <path d="M0 0 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5
-             l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l14 -5 l14 5 l3 -1 V0 Z"
-          fill="#efe9df"/>
-
-    
-    <text x="24" y="40" font-family="'Geist Mono', ui-monospace, monospace" font-size="17" font-weight="600" letter-spacing="2" fill="#2b241d">URINALYSIS</text>
-    <text x="24" y="58" font-family="'Geist Mono', ui-monospace, monospace" font-size="10.5" fill="#7a6f60">REAGENT STRIP · BEDSIDE · 10 PARAMETER</text>
-    <path d="M24 68 H394" stroke="#2b241d" stroke-width="2"/>
-
-    
-    <g transform="translate(24,78)">
-      <rect width="230" height="46" rx="2" fill="#f3efe4" stroke="#b9ae9a" stroke-width="1.6"/>
-      <text x="8" y="18" font-family="'Geist Mono', ui-monospace, monospace" font-size="11" fill="#2b241d">HALE, Lauren</text>
-      <text x="8" y="32" font-family="'Geist Mono', ui-monospace, monospace" font-size="9.5" fill="#5b5145">32F · BAY 6 · ED MAJORS</text>
-      <text x="8" y="42" font-family="'Geist Mono', ui-monospace, monospace" font-size="9.5" fill="#5b5145">COLLECTED 20:25</text>
-    </g>
-    <g transform="translate(266,78)" font-family="'Geist Mono', ui-monospace, monospace" font-size="10" fill="#5b5145">
-      <text x="0" y="14">APPEARANCE</text>
-      <text x="0" y="30" font-size="12.5" font-weight="600" fill="#6b4420">DARK BROWN</text>
-      <text x="0" y="44" font-size="9.5">"like strong tea"</text>
-    </g>
-
-    <path d="M24 136 H394" stroke="#cfc6b6" stroke-width="1.6"/>
-
-    
-    <g font-family="'Geist Mono', ui-monospace, monospace" font-size="12.5">
-      
-      <g transform="translate(24,158)">
-        <text y="0" fill="#2b241d">BLOOD</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#2f6b52" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" font-weight="600" fill="#a02c42">+++</text>
-      </g>
-      <g transform="translate(24,182)">
-        <text y="0" fill="#2b241d">UROBILINOGEN</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#d4693f" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" font-weight="600" fill="#a02c42">RAISED</text>
-        <text x="268" y="0" font-size="10" fill="#7a6f60">(66 µmol/L)</text>
-      </g>
-      <g transform="translate(24,206)">
-        <text y="0" fill="#2b241d">PROTEIN</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#8fae64" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" font-weight="600" fill="#9a6a16">+</text>
-      </g>
-      <g transform="translate(24,230)">
-        <text y="0" fill="#2b241d">LEUCOCYTES</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#f0e6cf" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
-      </g>
-      <g transform="translate(24,254)">
-        <text y="0" fill="#2b241d">NITRITE</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#fbf6ea" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
-      </g>
-      <g transform="translate(24,278)">
-        <text y="0" fill="#2b241d">GLUCOSE</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#4a7fa5" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
-      </g>
-      <g transform="translate(24,302)">
-        <text y="0" fill="#2b241d">KETONES</text>
-        <rect x="150" y="-11" width="26" height="15" rx="2" fill="#f2e3cb" stroke="#8d8474" stroke-width="1.2"/>
-        <text x="196" y="0" fill="#3f7d52">NEGATIVE</text>
-      </g>
-      <g transform="translate(24,326)" font-size="11.5" fill="#5b5145">
-        <text y="0">pH 6.0</text>
-        <text x="150" y="0">SG 1.020</text>
-      </g>
-    </g>
-
-    <path d="M24 342 H394" stroke="#2b241d" stroke-width="2"/>
-
-    
-    <g transform="translate(24,360)">
-      <text font-family="'Geist Mono', ui-monospace, monospace" font-size="10" letter-spacing="1" fill="#7a6f60">LABORATORY MICROSCOPY</text>
-      <g font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#2b3a6b">
-        <text y="22" font-style="italic">No erythrocytes seen.  No leucocytes.  No organisms.</text>
-      </g>
-      <text y="42" font-family="Georgia, serif" font-size="12" font-style="italic" fill="#2b3a6b" opacity=".85">BMS 21:04</text>
-    </g>
-  </g>
-
-  
-  <g transform="translate(466,352) rotate(-76)">
-    <rect x="0" y="0" width="196" height="20" rx="2" fill="#fdfcf8" stroke="#2b241d" stroke-width="3"/>
-    <g stroke="#6d6555" stroke-width="1.2">
-      <rect x="12"  y="2.5" width="18" height="15" fill="#2f6b52"/>
-      <rect x="34"  y="2.5" width="18" height="15" fill="#d4693f"/>
-      <rect x="56"  y="2.5" width="18" height="15" fill="#8fae64"/>
-      <rect x="78"  y="2.5" width="18" height="15" fill="#f0e6cf"/>
-      <rect x="100" y="2.5" width="18" height="15" fill="#fbf6ea"/>
-      <rect x="122" y="2.5" width="18" height="15" fill="#4a7fa5"/>
-      <rect x="144" y="2.5" width="18" height="15" fill="#f2e3cb"/>
-      <rect x="166" y="2.5" width="18" height="15" fill="#c9c07f"/>
-    </g>
-  </g>
-
-  <rect width="620" height="470" fill="url(#cu-ugrain)"/>
+  <figure class="fig slip"><svg xmlns="http://www.w3.org/2000/svg" id="d07b" viewBox="0 0 360 626" role="img" aria-labelledby="d07b-title"><title id="d07b-title">Urinalysis result slip for Lauren Hale, with the bedside reagent strip results and the laboratory microscopy.</title>
+<rect width="360" height="626" fill="#fdf8ee"/>
+<rect x="13" y="13" width="337" height="606" rx="4" fill="#241c15"/><path d="M10,10 L23.5,15 L37.0,10 L50.4,15 L63.9,10 L77.4,15 L90.9,10 L104.4,15 L117.8,10 L131.3,15 L144.8,10 L158.3,15 L171.8,10 L185.2,15 L198.7,10 L212.2,15 L225.7,10 L239.2,15 L252.6,10 L266.1,15 L279.6,10 L293.1,15 L306.6,10 L320.0,15 L333.5,10 L347.0,15 L347,10 V616 H10 Z" fill="#fdfcf8" stroke="#241c15" stroke-width="2.2" stroke-linejoin="round"/><text x="24" y="44" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="17" font-weight="600" fill="#241c15" letter-spacing="2">URINALYSIS</text><text x="24" y="64" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">REAGENT STRIP · BEDSIDE · 10 PARAMETER</text><path d="M24,74 H333" stroke="#241c15" stroke-width="2"/><rect x="24" y="84" width="212" height="68" rx="2" fill="#f3efe4" stroke="#b9ae9a" stroke-width="1.6"/><text x="32" y="104" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="600" fill="#241c15">HALE, Lauren</text><text x="32" y="123" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">32F · BAY 6 · ED MAJORS</text><text x="32" y="142" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">COLLECTED 20:25</text><g transform="translate(292,116)"><path d="M-17,-22 h34 v40 a4,4 0 0 1 -4,4 h-26 a4,4 0 0 1 -4,-4 Z" fill="#e9f1f2" stroke="#241c15" stroke-width="2.2" stroke-linejoin="round"/><path d="M-15.5,-6 h31 v23.5 a3,3 0 0 1 -3,3 h-25 a3,3 0 0 1 -3,-3 Z" fill="#7a4e24"/><path d="M-15.5,-6 h31" stroke="#3d2611" stroke-width="1.8"/><rect x="-20" y="-29" width="40" height="8" rx="3" fill="#c9d6d8" stroke="#241c15" stroke-width="2"/></g><text x="292" y="156" font-family="Georgia,'Times New Roman',serif" font-size="13" font-weight="400" fill="#5b5145" text-anchor="middle" font-style="italic">the sample</text><path d="M24,168 H333" stroke="#cfc6b6" stroke-width="1.6"/><text x="24" y="190" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">APPEARANCE</text><text x="168" y="190" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">DARK BROWN</text><text x="168" y="209" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">"like strong tea"</text><path d="M24,222 H333" stroke="#cfc6b6" stroke-width="1.6"/><text x="24" y="248" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">BLOOD</text><rect x="168" y="235" width="26" height="16" rx="2" fill="#2f6b52" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="248" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">+++</text><text x="24" y="278" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">UROBILINOGEN</text><rect x="168" y="265" width="26" height="16" rx="2" fill="#d4693f" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="278" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">RAISED</text><text x="24" y="326" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">PROTEIN</text><rect x="168" y="313" width="26" height="16" rx="2" fill="#8fae64" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="326" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">+</text><text x="24" y="356" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">LEUCOCYTES</text><rect x="168" y="343" width="26" height="16" rx="2" fill="#f0e6cf" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="356" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">NEGATIVE</text><text x="24" y="386" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">NITRITE</text><rect x="168" y="373" width="26" height="16" rx="2" fill="#fbf6ea" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="386" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">NEGATIVE</text><text x="24" y="416" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">GLUCOSE</text><rect x="168" y="403" width="26" height="16" rx="2" fill="#4a7fa5" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="416" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">NEGATIVE</text><text x="24" y="446" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#241c15">KETONES</text><rect x="168" y="433" width="26" height="16" rx="2" fill="#f2e3cb" stroke="#8d8474" stroke-width="1.2"/><text x="208" y="446" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="15" font-weight="600" fill="#241c15">NEGATIVE</text><text x="208" y="296" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145">(66 µmol/L)</text><text x="24" y="476" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#5b5145">pH 6.0</text><text x="168" y="476" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="14" font-weight="500" fill="#5b5145">SG 1.020</text><path d="M24,492 H333" stroke="#241c15" stroke-width="2"/><text x="24" y="514" font-family="'Geist Mono',ui-monospace,Consolas,monospace" font-size="13" font-weight="500" fill="#5b5145" letter-spacing="1">LABORATORY MICROSCOPY</text><text x="24" y="540" font-family="Georgia,'Times New Roman',serif" font-size="16" font-weight="400" fill="#2b3a6b" font-style="italic">No erythrocytes seen.</text><text x="24" y="561" font-family="Georgia,'Times New Roman',serif" font-size="16" font-weight="400" fill="#2b3a6b" font-style="italic">No leucocytes.</text><text x="24" y="582" font-family="Georgia,'Times New Roman',serif" font-size="16" font-weight="400" fill="#2b3a6b" font-style="italic">No organisms.</text><text x="24" y="604" font-family="Georgia,'Times New Roman',serif" font-size="14" font-weight="400" fill="#2b3a6b" font-style="italic">BMS 21:04</text>
 </svg></figure>
-    <figure class="fig"><svg xmlns="http://www.w3.org/2000/svg" id="d07" viewBox="0 0 360 398" role="img" aria-labelledby="d07-title"><title id="d07-title">A dipstick positive for blood can mean red cells or free haemoglobin. The microscope separates them: red cells seen means bleeding into the urine; no red cells seen means free haemoglobin.</title>
+  <figure class="fig"><svg xmlns="http://www.w3.org/2000/svg" id="d07" viewBox="0 0 360 398" role="img" aria-labelledby="d07-title"><title id="d07-title">A dipstick positive for blood can mean red cells or free haemoglobin. The microscope separates them: red cells seen means bleeding into the urine; no red cells seen means free haemoglobin.</title>
 <rect width="360" height="398" fill="#fdf8ee"/>
 <text x="180" y="22" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="15.5" font-weight="700" fill="#241c15" text-anchor="middle">Positive for blood:</text><text x="180" y="41" font-family="'Geist',system-ui,sans-serif" font-size="14" font-weight="500" fill="#241c15" text-anchor="middle">with red cells, or with free haemoglobin</text><rect x="43" y="59" width="280" height="26" rx="5" fill="#241c15"/><rect x="40" y="56" width="280" height="26" rx="5" fill="#fffdf8" stroke="#241c15" stroke-width="2.2"/><rect x="47" y="60" width="22" height="18" rx="2.5" fill="#f6e9b8" stroke="#241c15" stroke-width="1.6"/><rect x="87" y="60" width="22" height="18" rx="2.5" fill="#efe3c9" stroke="#241c15" stroke-width="1.6"/><rect x="127" y="60" width="22" height="18" rx="2.5" fill="#f3ddb0" stroke="#241c15" stroke-width="1.6"/><rect x="167" y="60" width="22" height="18" rx="2.5" fill="#c8531b" stroke="#241c15" stroke-width="1.6"/><rect x="207" y="60" width="22" height="18" rx="2.5" fill="#eadfca" stroke="#241c15" stroke-width="1.6"/><rect x="247" y="60" width="22" height="18" rx="2.5" fill="#f4e6c0" stroke="#241c15" stroke-width="1.6"/><rect x="163" y="56" width="30" height="26" rx="5" fill="none" stroke="#c8531b" stroke-width="2.2"><animate attributeName="opacity" values="1;.15;1" dur="2.4s" repeatCount="indefinite"/></rect><line x1="112" y1="118" x2="159.0" y2="91.9" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/><polygon points="166,88 161.1,95.7 156.9,88.0" fill="#241c15" stroke="#241c15" stroke-width="1" stroke-linejoin="round"/><line x1="248" y1="118" x2="201.0" y2="91.9" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/><polygon points="194,88 203.1,88.0 198.9,95.7" fill="#241c15" stroke="#241c15" stroke-width="1" stroke-linejoin="round"/><circle cx="92" cy="152" r="36" fill="#fbefc0" stroke="#241c15" stroke-width="2.4"/><g><ellipse cx="78" cy="138" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="78" cy="138" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><g><ellipse cx="102" cy="134" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="102" cy="134" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><g><ellipse cx="110" cy="156" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="110" cy="156" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><g><ellipse cx="90" cy="160" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="90" cy="160" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><g><ellipse cx="72" cy="160" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="72" cy="160" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><g><ellipse cx="96" cy="176" rx="8" ry="8" fill="#e9907a" stroke="#241c15" stroke-width="1.4"/><ellipse cx="96" cy="176" rx="3.4" ry="3.4" fill="#f8d3c6"/></g><circle cx="268" cy="152" r="36" fill="#fbefc0" stroke="#241c15" stroke-width="2.4"/><circle cx="251.2" cy="154.8" r="2.2" fill="#c4634f"/><circle cx="259.7" cy="158.7" r="2.2" fill="#c4634f"/><circle cx="276.0" cy="124.2" r="2.2" fill="#c4634f"/><circle cx="252.6" cy="135.0" r="2.2" fill="#c4634f"/><circle cx="289.5" cy="150.5" r="2.2" fill="#c4634f"/><circle cx="276.9" cy="129.6" r="2.2" fill="#c4634f"/><circle cx="276.6" cy="175.6" r="2.2" fill="#c4634f"/><circle cx="269.5" cy="167.4" r="2.2" fill="#c4634f"/><circle cx="279.0" cy="124.1" r="2.2" fill="#c4634f"/><circle cx="284.5" cy="157.8" r="2.2" fill="#c4634f"/><circle cx="291.4" cy="150.3" r="2.2" fill="#c4634f"/><circle cx="282.0" cy="176.2" r="2.2" fill="#c4634f"/><circle cx="261.3" cy="171.3" r="2.2" fill="#c4634f"/><circle cx="264.5" cy="179.9" r="2.2" fill="#c4634f"/><circle cx="244.7" cy="133.9" r="2.2" fill="#c4634f"/><circle cx="276.1" cy="139.3" r="2.2" fill="#c4634f"/><circle cx="268.5" cy="144.7" r="2.2" fill="#c4634f"/><circle cx="258.5" cy="157.4" r="2.2" fill="#c4634f"/><circle cx="273.4" cy="177.9" r="2.2" fill="#c4634f"/><circle cx="279.6" cy="179.5" r="2.2" fill="#c4634f"/><circle cx="279.0" cy="130.4" r="2.2" fill="#c4634f"/><circle cx="293.9" cy="156.4" r="2.2" fill="#c4634f"/><circle cx="281.7" cy="133.5" r="2.2" fill="#c4634f"/><circle cx="289.2" cy="156.7" r="2.2" fill="#c4634f"/><circle cx="262.3" cy="129.6" r="2.2" fill="#c4634f"/><circle cx="254.8" cy="169.2" r="2.2" fill="#c4634f"/><circle cx="282.0" cy="141.2" r="2.2" fill="#c4634f"/><circle cx="255.8" cy="124.9" r="2.2" fill="#c4634f"/><circle cx="248.6" cy="146.1" r="2.2" fill="#c4634f"/><circle cx="275.1" cy="130.0" r="2.2" fill="#c4634f"/><circle cx="293.4" cy="144.2" r="2.2" fill="#c4634f"/><circle cx="265.5" cy="153.3" r="2.2" fill="#c4634f"/><circle cx="277.2" cy="158.1" r="2.2" fill="#c4634f"/><circle cx="271.8" cy="159.7" r="2.2" fill="#c4634f"/><line x1="92" y1="192" x2="92.0" y2="204.0" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/><polygon points="92,212 87.6,204.0 96.4,204.0" fill="#241c15" stroke="#241c15" stroke-width="1" stroke-linejoin="round"/><line x1="268" y1="192" x2="268.0" y2="204.0" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/><polygon points="268,212 263.6,204.0 272.4,204.0" fill="#241c15" stroke="#241c15" stroke-width="1" stroke-linejoin="round"/><circle cx="92" cy="270" r="54" fill="#fdfaf2" stroke="#241c15" stroke-width="4.5"/><g><ellipse cx="70" cy="246" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="70" cy="246" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="98" cy="238" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="98" cy="238" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="118" cy="258" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="118" cy="258" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="62" cy="276" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="62" cy="276" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="90" cy="270" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="90" cy="270" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="116" cy="288" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="116" cy="288" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="80" cy="300" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="80" cy="300" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="104" cy="306" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="104" cy="306" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><g><ellipse cx="58" cy="258" rx="10" ry="10" fill="#e9907a" stroke="#241c15" stroke-width="1.5"/><ellipse cx="58" cy="258" rx="4.2" ry="4.2" fill="#f8d3c6"/></g><circle cx="268" cy="270" r="54" fill="#fdfaf2" stroke="#241c15" stroke-width="4.5"/><circle cx="268" cy="270" r="60" fill="none" stroke="#c8531b" stroke-width="2.4"/><text x="92" y="350" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="14.5" font-weight="700" fill="#241c15" text-anchor="middle">Red cells seen:</text><text x="92" y="368" font-family="'Geist',system-ui,sans-serif" font-size="14" font-weight="500" fill="#241c15" text-anchor="middle">bleeding into</text><text x="92" y="386" font-family="'Geist',system-ui,sans-serif" font-size="14" font-weight="500" fill="#241c15" text-anchor="middle">the urine</text><text x="268" y="350" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="14.5" font-weight="700" fill="#a53f12" text-anchor="middle">No red cells seen:</text><text x="268" y="368" font-family="'Bricolage Grotesque','Geist',system-ui,sans-serif" font-size="14" font-weight="700" fill="#a53f12" text-anchor="middle">free haemoglobin</text>
 </svg></figure>
-  </div>
   <ul class="pts" data-os>
     <li>Three days ago, in her partner's words: "She saw blood in her water, that was all. No stinging, no going all the time, no temperature at home."</li>
     <li>Tonight's slip: dark brown, "like strong tea". Blood +++. Urobilinogen raised. Leucocytes and nitrite negative.</li>
