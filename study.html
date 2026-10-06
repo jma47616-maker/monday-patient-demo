@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.3.2';
+const APP_VERSION='1.4.0';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -708,7 +708,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06','w07'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 
@@ -788,14 +788,14 @@ const PROGRAM=[
   evidence:'ESE/ERA-EDTA/ESICM hyponatraemia guideline 2014 · Society for Endocrinology emergency guidance · NICE NG250 pneumonia (2025) · NICE CG100 · NICE CG174',
   obj:['Do an A–E that finds the reversible cause — a gas and a glucose, and a look at what is running','Tell a hyponatraemic seizure from alcohol withdrawal','Give 3% saline in the first hour — bolus, measure, stop at +5','Correct safely: a ceiling of 8 in 24 hours in a high-risk drinker, and watch overnight','Classify before you label SIADH — osmolalities, urine sodium, volume, thyroid, adrenals'],
   read:[{t:'ESE/ERA-EDTA/ESICM clinical practice guideline on hyponatraemia (2014)',url:'https://doi.org/10.1530/EJE-13-1020'},{t:'Society for Endocrinology — emergency management of severe symptomatic hyponatraemia',url:'https://www.endocrinology.org/media/xhrhxhxm/emergency-management-of-severe-and-moderately-severely-symptomatic-hyponatraemia-in-adult-patients-2022.pdf'},{t:'NICE NG250 — pneumonia: diagnosis and management',url:'https://www.nice.org.uk/guidance/ng250'},{t:'NICE CG174 — intravenous fluid therapy in adults',url:'https://www.nice.org.uk/guidance/cg174'}]},
- {id:'w07',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
+ {id:'w07',t:'Not himself',sub:'A care-home “UTI” vs chest sepsis vs dehydration',month:'Month 2',caseId:'carehome',url:BASE+'carehome.html',debrief:'notes',
+  evidence:'HDFT AKI care bundle (ROUND UP) v3.0 2025 · NICE NG148 · SIGN 157 delirium · NICE CG103 · UKHSA UTI diagnostic tool 2025',
+  obj:['Ask for the bladder scan in a man who cannot tell you','Read the medicine sheet — find the tablets that stop a bladder emptying','Work the AKI bundle, ROUND UP, letter by letter','Do not treat a dipstick in an 84-year-old','Settle delirium by finding its cause, not with a syringe','Name everything that is wrong, and isolate what is catching'],
+  read:[{t:'NICE NG148 — acute kidney injury',url:'https://www.nice.org.uk/guidance/ng148'},{t:'SIGN 157 — risk reduction and management of delirium',url:'https://www.sign.ac.uk/our-guidelines/risk-reduction-and-management-of-delirium/'},{t:'NICE CG103 — delirium',url:'https://www.nice.org.uk/guidance/cg103'},{t:'UKHSA — diagnosis of urinary tract infections',url:'https://www.gov.uk/government/publications/urinary-tract-infection-diagnosis'},{t:'The 4AT rapid assessment test for delirium',url:'https://www.the4at.com/'}]},
+ {id:'w08',t:'He can’t get up',sub:'Guillain–Barré vs cauda equina vs myasthenia',month:'Month 2',caseId:'gbs',url:BASE+'gbs.html',debrief:'video',
   evidence:'EAN/PNS 2023 guideline on Guillain–Barré syndrome · BJA Education 2025 · EGRIS / mEGOS',
   obj:['Recognise acute flaccid areflexic weakness, and separate it from cord, cauda equina and myasthenia','Measure the vital capacity — the observation chart cannot see a failing diaphragm','Escalate on the trend: the 20/30/40 rule and EGRIS','Treat on clinical grounds — IVIg or plasma exchange, never both, never steroids','Do not let a three-year-old functional label do your thinking'],
   read:[{t:'EAN/PNS 2023 — diagnosis and treatment of Guillain–Barré syndrome',url:'https://doi.org/10.1111/ene.16073'},{t:'Guillain–Barré syndrome — BJA Education 2025',url:'https://www.bjaed.org/article/S2058-5349(25)00046-0/fulltext'},{t:'Spirometry for ICU admission and ventilation in GBS — systematic review',url:'https://doi.org/10.1016/j.jcrc.2023.154337'},{t:'Suxamethonium is contraindicated in Guillain–Barré syndrome',url:'https://pubmed.ncbi.nlm.nih.gov/1800653/'}]},
- {id:'w08',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 2',caseId:null,url:null,debrief:'video',
-  evidence:'UK Kidney Association 2023 treatment of acute hyperkalaemia · RCUK 2025 peri-arrest arrhythmias',
-  obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
-  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]},
  {id:'w09',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
   evidence:'NICE NG148 · KDIGO 2012 AKI · UK Kidney Association acute kidney injury',
   obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
@@ -827,7 +827,11 @@ const PROGRAM=[
  {id:'w16',t:'Breathlessness',sub:'Infective exacerbation of COPD',month:'Month 3',caseId:'copd-exacerbation',url:BASE+'copd.html',debrief:'notes',
   evidence:'NICE NG114 · GOLD 2025 · BTS/ICS 2016 NIV in acute respiratory failure · BTS emergency oxygen',
   obj:['Controlled oxygen and the 88–92% target','Read the blood-gas: type-2 respiratory failure','When to start NIV versus escalate to ICU','The exacerbation bundle: nebs, steroids, antibiotics'],
-  read:[{t:'NICE CKS — acute exacerbation of COPD'},{t:'BTS/ICS — NIV in acute respiratory failure'}]}
+  read:[{t:'NICE CKS — acute exacerbation of COPD'},{t:'BTS/ICS — NIV in acute respiratory failure'}]},
+ {id:'w17',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 3',caseId:null,url:null,debrief:'video',
+  evidence:'UK Kidney Association 2023 treatment of acute hyperkalaemia · RCUK 2025 peri-arrest arrhythmias',
+  obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
+  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};
