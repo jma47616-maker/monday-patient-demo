@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <title>The nurse at Hazelgarth</title>
+  <!-- Maureen Speight, fifties: navy tunic, short dark hair, reading glasses pushed up, corded handset at her left ear (viewer right). -->
+  <rect width="120" height="120" fill="#f3e5c8"/>
+  <circle cx="60" cy="60" r="56" fill="#faf0da" stroke="#241c15" stroke-width="3"/>
+  <!-- navy tunic, pale piping -->
+  <path d="M24 120 C26 102 40 95 58 95 C76 95 90 102 92 120 Z" fill="#27375c" stroke="#241c15" stroke-width="3"/>
+  <path d="M48 96 L58 110 L68 96" fill="#faf0da" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M45 99 L58 116 L71 99" fill="none" stroke="#e9dcc0" stroke-width="2"/>
+  <!-- neck -->
+  <path d="M50 82 h16 v14 c0 6 -16 6 -16 0 Z" fill="#eec7a6" stroke="#241c15" stroke-width="3"/>
+  <!-- head: round, soft jaw -->
+  <path d="M34 56 Q34 28 58 28 Q82 28 82 56 Q82 76 72 85 Q65 91 58 91 Q51 91 44 85 Q34 76 34 56 Z" fill="#f3d2b3" stroke="#241c15" stroke-width="3"/>
+  <path d="M66 32 Q80 38 80 56 Q80 74 71 84 Q76 62 66 32 Z" fill="#dcae8c" opacity=".5"/>
+  <!-- short dark hair with a side parting, some grey -->
+  <path d="M32 60 Q26 30 46 22 Q62 16 76 24 Q90 34 84 60 Q82 44 74 38 Q60 44 44 36 Q36 44 32 60 Z" fill="#4a332a" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M42 30 Q52 24 62 26 M66 26 Q76 30 80 42" fill="none" stroke="#8d7a6e" stroke-width="2" stroke-linecap="round"/>
+  <!-- reading glasses pushed up into the hair -->
+  <rect x="40" y="24" width="15" height="9" rx="4" fill="#dff0f2" fill-opacity=".7" stroke="#b8552e" stroke-width="2.4"/>
+  <rect x="60" y="24" width="15" height="9" rx="4" fill="#dff0f2" fill-opacity=".7" stroke="#b8552e" stroke-width="2.4"/>
+  <path d="M55 28 h5" stroke="#b8552e" stroke-width="2.4"/>
+  <!-- right ear (viewer left) -->
+  <ellipse cx="33" cy="60" rx="4.5" ry="8" fill="#f3d2b3" stroke="#241c15" stroke-width="3"/>
+  <!-- brows and eyes: brisk, attentive, looking down at the file -->
+  <path d="M42 50 q6 -4 12 -1 M62 49 q6 -3 12 1" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+  <ellipse cx="48" cy="57" rx="4.6" ry="3.8" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <ellipse cx="68" cy="57" rx="4.6" ry="3.8" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <circle cx="48" cy="58.6" r="2.1" fill="#241c15"/>
+  <circle cx="68" cy="58.6" r="2.1" fill="#241c15"/>
+  <path d="M40 62 l-3 2 M76 62 l3 2" stroke="#c99878" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- nose and mouth: speaking -->
+  <path d="M58 58 q-4 9 1 11" fill="none" stroke="#241c15" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M51 76 q7 -2 14 0 q-7 6 -14 0 Z" fill="#9a4638" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+  <ellipse cx="42" cy="70" rx="5" ry="3" fill="#e8937c" opacity=".4"/>
+  <!-- corded handset held to her left ear, hand around it -->
+  <g transform="rotate(12 90 62)">
+    <rect x="82" y="36" width="13" height="50" rx="6.5" fill="#efe6d2" stroke="#241c15" stroke-width="3"/>
+    <rect x="79" y="34" width="14" height="14" rx="5" fill="#efe6d2" stroke="#241c15" stroke-width="3"/>
+    <rect x="79" y="74" width="14" height="14" rx="5" fill="#efe6d2" stroke="#241c15" stroke-width="3"/>
+  </g>
+  <path d="M80 62 q-3 -6 4 -8 l12 2 q5 2 4 8 l-2 8 q-8 4 -16 -1 Z" fill="#f3d2b3" stroke="#241c15" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M84 60 l12 2 M83 65 l13 2" stroke="#241c15" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- coiled cord -->
+  <path d="M82 90 q-6 3 0 6 q6 3 0 6 q-6 3 0 6 q6 3 0 6" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+</svg>

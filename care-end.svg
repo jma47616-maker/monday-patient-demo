@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <title>The side bay</title>
+  <!-- The same bay in first grey light. The trolley empty and made, the blanket folded at its foot, the walking frame beside it, the curtain half drawn. Nobody. No lettering. --><g transform="translate(0 30)">
+  <rect y="-30" width="800" height="40" fill="#d4d5d2"/>
+  <rect width="800" height="250" fill="#d4d5d2"/>
+  <rect y="226" width="800" height="24" fill="#c4c6c4"/>
+  <rect y="250" width="800" height="140" fill="#b4b3ad"/>
+  <path d="M0 250 H800" stroke="#241c15" stroke-width="4"/>
+  <path d="M46 250 L214 250 L330 390 L96 390 Z" fill="#dfe3e3" opacity=".55"/>
+  <path d="M0 327 H800" stroke="#a2a19b" stroke-width="2"/>
+  <g id="cen-window">
+    <rect x="50" y="36" width="150" height="120" rx="4" fill="#c9d3da" stroke="#241c15" stroke-width="4"/>
+    <path d="M125 36 V156 M50 96 H200" stroke="#241c15" stroke-width="3"/>
+    <path d="M60 46 L96 46 L66 86 Z M134 106 L170 106 L140 146 Z" fill="#ffffff" opacity=".45"/>
+    <rect x="42" y="156" width="166" height="9" rx="2" fill="#eceae4" stroke="#241c15" stroke-width="3"/>
+  </g>
+  <g id="cen-hook">
+    <rect x="602" y="56" width="16" height="12" rx="2" fill="#a9afb4" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M610 68 v8 q0 6 -6 6" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M520 22 H800" stroke="#241c15" stroke-width="4" stroke-linecap="round"/>
+  <g id="cen-curtain" transform="translate(0 0)">
+    <g><animateTransform attributeName="transform" type="skewX" values="0;0.7;0;-0.5;0" dur="9s" repeatCount="indefinite"/>
+      <path d="M560 24 H800 V306 Q680 296 564 306 Q554 160 560 24 Z" fill="#c3c5c2" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M574 30 Q568 170 576 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M596 30 Q590 170 598 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M618 30 Q612 170 620 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M640 30 Q634 170 642 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M662 30 Q656 170 664 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M684 30 Q678 170 686 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M706 30 Q700 170 708 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M728 30 Q722 170 730 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M750 30 Q744 170 752 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/><path d="M772 30 Q766 170 774 300" fill="none" stroke="#8f9494" stroke-width="3" opacity=".55"/>
+    </g>
+  </g>
+  <g id="cen-frame">
+    <path d="M660 298 L666 218 Q668 208 678 208 L704 208 Q714 208 716 218 L722 298" fill="none" stroke="#241c15" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M660 298 L666 218 Q668 208 678 208 L704 208 Q714 208 716 218 L722 298" fill="none" stroke="#a9afb4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M664 250 H718" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M664 250 H718" fill="none" stroke="#a9afb4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M672 292 L676 212 M710 292 L706 212" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M672 292 L676 212 M710 292 L706 212" fill="none" stroke="#7f868c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="672" y="202" width="38" height="11" rx="5.5" fill="#55504a" stroke="#241c15" stroke-width="3"/>
+    <rect x="655" y="294" width="10" height="8" rx="2" fill="#55504a" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="717" y="294" width="10" height="8" rx="2" fill="#55504a" stroke="#241c15" stroke-width="2.5"/>
+  </g><rect x="0" y="-30" width="800" height="420" fill="#5c6670" opacity=".10"/>
+  <g id="cen-trolley-base">
+    <ellipse cx="460" cy="304" rx="170" ry="7" fill="#241c15" opacity=".13"/>
+    <path d="M330 238 V288 M590 238 V288" fill="none" stroke="#241c15" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M330 238 V288 M590 238 V288" fill="none" stroke="#a9afb4" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M322 272 H598" fill="none" stroke="#241c15" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M322 272 H598" fill="none" stroke="#7f868c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="330" cy="295" r="9" fill="#55504a" stroke="#241c15" stroke-width="3.5"/><circle cx="330" cy="295" r="2.5" fill="#a9afb4"/>
+    <circle cx="590" cy="295" r="9" fill="#55504a" stroke="#241c15" stroke-width="3.5"/><circle cx="590" cy="295" r="2.5" fill="#a9afb4"/>
+    <path d="M304 226 L252 138 Q248 130 256 126 L270 120 Q278 117 282 125 L334 218 Z" fill="#eceae4" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M262 128 L312 218" stroke="#d3d1ca" stroke-width="3"/>
+  </g>
+  <g id="cen-pillow" transform="rotate(62 292 166)">
+    <rect x="252" y="146" width="80" height="24" rx="11" fill="#f4f3ef" stroke="#241c15" stroke-width="4"/>
+    <path d="M266 164 q26 5 52 0" fill="none" stroke="#d3d1ca" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g id="cen-mattress">
+    <rect x="298" y="214" width="324" height="24" rx="9" fill="#eceae4" stroke="#241c15" stroke-width="4"/>
+    <path d="M310 231 H610" stroke="#d3d1ca" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M330 216 Q470 208 612 216" fill="none" stroke="#d3d1ca" stroke-width="3" stroke-linecap="round"/>
+  <g id="cen-folded">
+    <rect x="536" y="192" width="72" height="24" rx="5" fill="#aebcc0" stroke="#241c15" stroke-width="4"/>
+    <path d="M540 200 H604 M540 208 H604" stroke="#8b9a9f" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M536 204 q-5 0 -5 -6" fill="none" stroke="#241c15" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g id="cen-rail">
+    <path d="M452 236 V228 H608 V236" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M452 236 V228 H608 V236" fill="none" stroke="#a9afb4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</g>
+</svg>

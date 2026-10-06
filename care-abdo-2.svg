@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360">
+  <title>A hand on his abdomen</title>
+  <!-- A thin old man lying on a trolley, gown open, lower chest to hips, with a hand flat on the upper abdomen. Patient right is viewer left. No lettering. -->
+  <rect width="600" height="360" fill="#f3e5c8"/>
+  <path d="M150 0 H450 V360 H150 Z" fill="#ecccb1"/>
+  <path d="M410 0 H450 V360 H410 Z" fill="#d6aa8c" opacity=".35"/>
+  <path d="M300 0 V34" stroke="#c4977a" stroke-width="3.5" stroke-linecap="round"/>
+  <g id="cac-sides">
+      <path d="M176 14 Q214 24 240 48" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/><path d="M180 50 Q220 60 250 84" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/><path d="M184 86 Q226 96 260 120" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/>
+      <path d="M300 34 Q262 60 232 132" fill="none" stroke="#c4977a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M168 0 Q160 220 164 360 H0 V0 Z" fill="#cfdccf" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M60 40 l8 6 M110 110 l8 6 M40 170 l8 6 M96 240 l8 6 M50 300 l8 6 M120 30 l8 6" stroke="#93a996" stroke-width="3.5" stroke-linecap="round"/><g transform="translate(600 0) scale(-1 1)">
+      <path d="M176 14 Q214 24 240 48" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/><path d="M180 50 Q220 60 250 84" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/><path d="M184 86 Q226 96 260 120" fill="none" stroke="#c4977a" stroke-width="3.2" stroke-linecap="round" opacity=".75"/>
+      <path d="M300 34 Q262 60 232 132" fill="none" stroke="#c4977a" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M168 0 Q160 220 164 360 H0 V0 Z" fill="#cfdccf" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M60 40 l8 6 M110 110 l8 6 M40 170 l8 6 M96 240 l8 6 M50 300 l8 6 M120 30 l8 6" stroke="#93a996" stroke-width="3.5" stroke-linecap="round"/></g></g>
+  <path d="M294 244 q6 -5 12 0 q2 8 -6 10 q-8 -2 -6 -10 Z" fill="#d6aa8c" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+  <g id="cac-blanket">
+    <path d="M0 272 H600 V360 H0 Z" fill="#a9cdd4"/>
+    <g fill="#7fabb4" opacity=".55"><circle cx="24" cy="302" r="2.2"/><circle cx="50" cy="302" r="2.2"/><circle cx="76" cy="302" r="2.2"/><circle cx="102" cy="302" r="2.2"/><circle cx="128" cy="302" r="2.2"/><circle cx="154" cy="302" r="2.2"/><circle cx="180" cy="302" r="2.2"/><circle cx="206" cy="302" r="2.2"/><circle cx="232" cy="302" r="2.2"/><circle cx="258" cy="302" r="2.2"/><circle cx="284" cy="302" r="2.2"/><circle cx="310" cy="302" r="2.2"/><circle cx="336" cy="302" r="2.2"/><circle cx="362" cy="302" r="2.2"/><circle cx="388" cy="302" r="2.2"/><circle cx="414" cy="302" r="2.2"/><circle cx="440" cy="302" r="2.2"/><circle cx="466" cy="302" r="2.2"/><circle cx="492" cy="302" r="2.2"/><circle cx="518" cy="302" r="2.2"/><circle cx="544" cy="302" r="2.2"/><circle cx="570" cy="302" r="2.2"/><circle cx="596" cy="302" r="2.2"/><circle cx="37" cy="326" r="2.2"/><circle cx="63" cy="326" r="2.2"/><circle cx="89" cy="326" r="2.2"/><circle cx="115" cy="326" r="2.2"/><circle cx="141" cy="326" r="2.2"/><circle cx="167" cy="326" r="2.2"/><circle cx="193" cy="326" r="2.2"/><circle cx="219" cy="326" r="2.2"/><circle cx="245" cy="326" r="2.2"/><circle cx="271" cy="326" r="2.2"/><circle cx="297" cy="326" r="2.2"/><circle cx="323" cy="326" r="2.2"/><circle cx="349" cy="326" r="2.2"/><circle cx="375" cy="326" r="2.2"/><circle cx="401" cy="326" r="2.2"/><circle cx="427" cy="326" r="2.2"/><circle cx="453" cy="326" r="2.2"/><circle cx="479" cy="326" r="2.2"/><circle cx="505" cy="326" r="2.2"/><circle cx="531" cy="326" r="2.2"/><circle cx="557" cy="326" r="2.2"/><circle cx="583" cy="326" r="2.2"/><circle cx="24" cy="350" r="2.2"/><circle cx="50" cy="350" r="2.2"/><circle cx="76" cy="350" r="2.2"/><circle cx="102" cy="350" r="2.2"/><circle cx="128" cy="350" r="2.2"/><circle cx="154" cy="350" r="2.2"/><circle cx="180" cy="350" r="2.2"/><circle cx="206" cy="350" r="2.2"/><circle cx="232" cy="350" r="2.2"/><circle cx="258" cy="350" r="2.2"/><circle cx="284" cy="350" r="2.2"/><circle cx="310" cy="350" r="2.2"/><circle cx="336" cy="350" r="2.2"/><circle cx="362" cy="350" r="2.2"/><circle cx="388" cy="350" r="2.2"/><circle cx="414" cy="350" r="2.2"/><circle cx="440" cy="350" r="2.2"/><circle cx="466" cy="350" r="2.2"/><circle cx="492" cy="350" r="2.2"/><circle cx="518" cy="350" r="2.2"/><circle cx="544" cy="350" r="2.2"/><circle cx="570" cy="350" r="2.2"/><circle cx="596" cy="350" r="2.2"/></g>
+    <path d="M0 288 H600" stroke="#7fabb4" stroke-width="4"/>
+    <path d="M-10 272 H610" stroke="#241c15" stroke-width="5"/>
+  </g>
+  <g id="cac-arms"><path d="M104 -30 L106 276" fill="none" stroke="#241c15" stroke-width="31" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 -30 L106 276" fill="none" stroke="#ecccb1" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><path d="M88 274 Q88 264 106 264 Q124 264 124 276 L125 302 Q124 312 116 326 L96 326 Q88 312 87 302 Z" fill="#ecccb1" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M96 300 V322 M106 302 V324 M116 300 V322" stroke="#241c15" stroke-width="2.5" stroke-linecap="round"/><path d="M94 296 q4 -4 8 0 M104 297 q4 -4 8 0 M114 296 q4 -4 8 0" fill="none" stroke="#c4977a" stroke-width="2.5" stroke-linecap="round"/><path d="M494 -30 L496 276" fill="none" stroke="#241c15" stroke-width="31" stroke-linecap="round" stroke-linejoin="round"/><path d="M494 -30 L496 276" fill="none" stroke="#ecccb1" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><path d="M478 274 Q478 264 496 264 Q514 264 514 276 L515 302 Q514 312 506 326 L486 326 Q478 312 477 302 Z" fill="#ecccb1" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M486 300 V322 M496 302 V324 M506 300 V322" stroke="#241c15" stroke-width="2.5" stroke-linecap="round"/><path d="M484 296 q4 -4 8 0 M494 297 q4 -4 8 0 M504 296 q4 -4 8 0" fill="none" stroke="#c4977a" stroke-width="2.5" stroke-linecap="round"/></g>
+  
+  <g id="cac-examiner">
+    <path d="M-10 150 L196 158 Q204 180 196 204 L-10 214 Z" fill="#dcae86" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M-10 204 L190 196" fill="none" stroke="#b98860" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+    <path d="M214 160 Q226 128 250 118 Q264 116 262 130 Q254 146 246 164 Z" fill="#dcae86" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+    <g fill="#dcae86" stroke="#241c15" stroke-width="5" stroke-linejoin="round">
+      <path d="M262 156 L340 150 Q352 151 352 159 Q352 167 340 168 L262 172 Z"/>
+      <path d="M264 170 L352 168 Q364 169 364 177 Q364 185 352 186 L264 187 Z"/>
+      <path d="M264 185 L346 186 Q358 187 358 195 Q358 203 346 203 L262 202 Z"/>
+      <path d="M260 200 L326 204 Q338 206 337 213 Q336 220 324 220 L256 214 Z"/>
+    </g>
+    <path d="M190 156 Q230 150 266 154 L268 214 Q230 222 190 206 Q184 180 190 156 Z" fill="#dcae86" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M262 160 V208" stroke="#b98860" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+  </g>
+</svg>

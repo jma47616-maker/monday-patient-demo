@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="190 62 556 250" width="800" height="360">
+  <title>Stanley on the trolley</title>
+  <!-- Daylight side bay. He is half off the trolley, a leg over the rail, blanket in both fists. The healthcare assistant has a hand on his shoulder. No clock, no lettering. -->
+  <rect width="800" height="250" fill="#f6ead0"/>
+  <rect y="226" width="800" height="24" fill="#eddcb8"/>
+  <rect y="250" width="800" height="110" fill="#dfcda8"/>
+  <path d="M0 250 H800" stroke="#241c15" stroke-width="4"/>
+  <path d="M46 250 L214 250 L330 360 L96 360 Z" fill="#fdf6df" opacity=".55"/>
+  <path d="M0 310 H800" stroke="#cdb88e" stroke-width="2"/>
+  <g id="csa-window">
+    <rect x="50" y="36" width="150" height="120" rx="4" fill="#bfe3ea" stroke="#241c15" stroke-width="4"/>
+    <path d="M125 36 V156 M50 96 H200" stroke="#241c15" stroke-width="3"/>
+    <path d="M60 46 L96 46 L66 86 Z M134 106 L170 106 L140 146 Z" fill="#ffffff" opacity=".45"/>
+    <rect x="42" y="156" width="166" height="9" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="3"/>
+  </g>
+  <g id="csa-hook">
+    <rect x="602" y="56" width="16" height="12" rx="2" fill="#aab4be" stroke="#241c15" stroke-width="2.5"/>
+    <path d="M610 68 v8 q0 6 -6 6" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path d="M682 22 H800" stroke="#241c15" stroke-width="4" stroke-linecap="round"/>
+  <g id="csa-curtain" transform="translate(0 0)">
+    <g>
+      <path d="M722 24 H800 V306 Q761 296 726 306 Q716 160 722 24 Z" fill="#f0c9a0" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M736 30 Q730 170 738 300" fill="none" stroke="#d9703a" stroke-width="3" opacity=".55"/><path d="M758 30 Q752 170 760 300" fill="none" stroke="#d9703a" stroke-width="3" opacity=".55"/><path d="M780 30 Q774 170 782 300" fill="none" stroke="#d9703a" stroke-width="3" opacity=".55"/>
+    </g>
+  </g>
+  <g id="csa-frame">
+    <path d="M222 296 L228 216 Q230 206 240 206 L266 206 Q276 206 278 216 L284 296" fill="none" stroke="#241c15" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M222 296 L228 216 Q230 206 240 206 L266 206 Q276 206 278 216 L284 296" fill="none" stroke="#aab4be" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M226 248 H280" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M226 248 H280" fill="none" stroke="#aab4be" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M234 290 L238 210 M272 290 L268 210" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M234 290 L238 210 M272 290 L268 210" fill="none" stroke="#7e8994" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="234" y="200" width="38" height="11" rx="5.5" fill="#55504a" stroke="#241c15" stroke-width="3"/>
+    <rect x="217" y="292" width="10" height="8" rx="2" fill="#55504a" stroke="#241c15" stroke-width="2.5"/>
+    <rect x="279" y="292" width="10" height="8" rx="2" fill="#55504a" stroke="#241c15" stroke-width="2.5"/>
+  </g>
+  <g id="csa-chair">
+    <path d="M700 172 Q706 172 706 180 V240 H694 V180 Q694 172 700 172 Z" fill="#c98a58" stroke="#241c15" stroke-width="3.5"/>
+    <path d="M652 300 V244 M700 300 V244" stroke="#241c15" stroke-width="7" stroke-linecap="round"/>
+    <path d="M652 300 V244 M700 300 V244" stroke="#a66d42" stroke-width="3" stroke-linecap="round"/>
+    <rect x="644" y="234" width="64" height="12" rx="5" fill="#c98a58" stroke="#241c15" stroke-width="3.5"/>
+  </g>
+  <g id="csa-hca" transform="translate(-16 0)">
+    <path d="M462 222 Q456 150 474 136 L510 136 Q530 150 524 222 Z" fill="#cdd9c4" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M484 137 L492 150 L500 137" fill="#c99672" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M510 142 Q522 160 520 220" fill="none" stroke="#a9b99f" stroke-width="4" opacity=".7"/>
+    <rect x="484" y="118" width="16" height="20" fill="#c99672" stroke="#241c15" stroke-width="3"/>
+    <path d="M520 150 Q536 176 530 206" fill="none" stroke="#241c15" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="M520 150 Q536 176 530 206" fill="none" stroke="#cdd9c4" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M530 204 L528 222" fill="none" stroke="#241c15" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M530 204 L528 222" fill="none" stroke="#c99672" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <g id="csa-hhead">
+      <ellipse cx="473" cy="102" rx="4" ry="7" fill="#c99672" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="511" cy="102" rx="4" ry="7" fill="#c99672" stroke="#241c15" stroke-width="3"/>
+      <path d="M473 96 Q473 76 492 76 Q511 76 511 96 L510 110 Q508 122 498 124 L486 124 Q476 122 474 110 Z" fill="#c99672" stroke="#241c15" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M500 80 Q509 86 509 98 L508 110 Q506 120 498 122 Q505 104 500 80 Z" fill="#a87550" opacity=".5"/>
+      <path d="M472 94 Q470 72 492 72 Q514 72 512 94 Q509 83 503 81 Q492 78 481 81 Q475 83 472 94 Z" fill="#33291f" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M474 90 Q475 84 479 82 M510 90 Q509 84 505 82" fill="none" stroke="#9c958a" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M478 94 q6 -4 11 -2 M495 92 q5 -2 11 2" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+      <ellipse cx="484" cy="101" rx="4.2" ry="3.2" fill="#fff" stroke="#241c15" stroke-width="1.8"/>
+      <ellipse cx="500" cy="101" rx="4.2" ry="3.2" fill="#fff" stroke="#241c15" stroke-width="1.8"/>
+      <circle cx="481" cy="102" r="2.1" fill="#241c15"/><circle cx="497" cy="102" r="2.1" fill="#241c15"/>
+      <path d="M492 101 q-5 9 0 11 q4 0 5 -2" fill="none" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <path d="M478 112 Q482 122 492 123 Q502 122 506 112 Q500 119 492 119 Q484 119 478 112 Z" fill="#33291f" opacity=".2"/>
+      <path d="M486 116 q6 -2 12 0" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g id="csa-trolley-base">
+    <ellipse cx="460" cy="304" rx="170" ry="7" fill="#241c15" opacity=".13"/>
+    <path d="M330 238 V288 M590 238 V288" fill="none" stroke="#241c15" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M330 238 V288 M590 238 V288" fill="none" stroke="#aab4be" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M322 272 H598" fill="none" stroke="#241c15" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M322 272 H598" fill="none" stroke="#7e8994" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="330" cy="295" r="9" fill="#55504a" stroke="#241c15" stroke-width="3.5"/><circle cx="330" cy="295" r="2.5" fill="#aab4be"/>
+    <circle cx="590" cy="295" r="9" fill="#55504a" stroke="#241c15" stroke-width="3.5"/><circle cx="590" cy="295" r="2.5" fill="#aab4be"/>
+    <path d="M304 226 L252 138 Q248 130 256 126 L270 120 Q278 117 282 125 L334 218 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M262 128 L312 218" stroke="#e6dcc6" stroke-width="3"/>
+  </g>
+  <g id="csa-pillow" transform="rotate(62 292 166)">
+    <rect x="252" y="146" width="80" height="24" rx="11" fill="#ffffff" stroke="#241c15" stroke-width="4"/>
+    <path d="M266 164 q26 5 52 0" fill="none" stroke="#e6dcc6" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g id="csa-mattress">
+    <rect x="298" y="214" width="324" height="24" rx="9" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+    <path d="M310 231 H610" stroke="#e6dcc6" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="csa-stanley">
+    <path d="M362 224 Q356 176 372 160 Q392 150 412 160 Q428 176 424 224 Z" fill="#cfdccf" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M370 196 l5 4 M410 204 l5 4 M380 212 l5 4" stroke="#93a996" stroke-width="2.2" stroke-linecap="round"/>
+    <rect x="385" y="140" width="15" height="20" fill="#e9c9ad" stroke="#241c15" stroke-width="3"/>
+    <path d="M382 160 Q392 168 404 160" fill="none" stroke="#241c15" stroke-width="2.5"/>
+    
+    <g id="csa-head" transform="rotate(6 392 120)">
+      <ellipse cx="373" cy="122" rx="4" ry="7" fill="#e9c9ad" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="411" cy="122" rx="4" ry="7" fill="#e9c9ad" stroke="#241c15" stroke-width="3"/>
+      <path d="M374 116 Q374 96 392 96 Q410 96 410 116 Q409 132 402 143 Q397 150 392 150 Q387 150 382 143 Q375 132 374 116 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="3.5"/>
+      <path d="M379 129 q2 6 5 8 M405 129 q-2 6 -5 8" fill="none" stroke="#cfa285" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M399 100 Q408 106 408 118 Q408 132 401 140 Q405 120 399 100 Z" fill="#cfa285" opacity=".5"/>
+      <path d="M372 114 Q367 102 373 94 Q371 88 377 88 Q381 82 388 87 Q393 80 400 86 Q408 83 410 91 Q418 100 412 114 Q410 103 403 100 Q392 96 381 100 Q374 104 372 114 Z" fill="#fbfaf5" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M378 114 q6 -5 11 -1 M395 113 q6 -4 11 1" fill="none" stroke="#fbfaf5" stroke-width="4" stroke-linecap="round"/><path d="M378 114 q6 -5 11 -1 M395 113 q6 -4 11 1" fill="none" stroke="#241c15" stroke-width="1.2" stroke-linecap="round"/>
+      <ellipse cx="384" cy="121" rx="4.6" ry="3.6" fill="#fff" stroke="#241c15" stroke-width="1.8"/>
+      <ellipse cx="400" cy="121" rx="4.6" ry="3.6" fill="#fff" stroke="#241c15" stroke-width="1.8"/>
+      <g><animateTransform attributeName="transform" type="translate" values="4 0;4 0;-4 1;-4 1;3 -1;4 0" keyTimes="0;.3;.38;.62;.7;1" dur="8s" repeatCount="indefinite"/><circle cx="384" cy="121" r="2.3" fill="#241c15"/><circle cx="400" cy="121" r="2.3" fill="#241c15"/></g>
+      <path d="M392 121 q-4 9 0 11 q3 0 4 -2" fill="none" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <path d="M379 133 Q383 148 392 149 Q401 148 405 133 Q400 143 392 143 Q384 143 379 133 Z" fill="#a9a59b" opacity=".5"/>
+      <g fill="#77736a"><circle cx="384" cy="141" r=".8"/><circle cx="389" cy="145" r=".8"/><circle cx="395" cy="145" r=".8"/><circle cx="400" cy="141" r=".8"/></g>
+      <path d="M387 137 q5 -2.5 10 0 q-5 4.5 -10 0 Z" fill="#3a2a22" stroke="#241c15" stroke-width="1.6" stroke-linejoin="round"/>
+    </g>
+  </g>
+  <g id="csa-hca-arm">
+    <path d="M458 148 Q450 150 444 158" fill="none" stroke="#241c15" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="M458 148 Q450 150 444 158" fill="none" stroke="#cdd9c4" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M444 158 L426 162" fill="none" stroke="#241c15" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M444 158 L426 162" fill="none" stroke="#c99672" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M430 154 Q420 150 414 156 Q408 162 414 168 Q422 172 430 168 Z" fill="#c99672" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M416 158 l8 2 M415 163 l8 2" stroke="#241c15" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <g id="csa-blanket">
+    <path d="M346 232 L348 214 L366 211 L378 196 L392 200 L398 192 L412 196 L420 210 L452 208 L480 212 L508 207 L544 211 L580 207 L614 212 L616 232 Q480 238 346 232 Z" fill="#a9cdd4" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M384 206 L380 222 M398 200 L400 224 M412 204 L418 222 M452 214 L470 224 M500 213 L520 222 M560 213 L590 222" fill="none" stroke="#7fabb4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="csa-arms">
+    <path d="M366 170 Q352 190 362 204" fill="none" stroke="#241c15" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><path d="M366 170 Q352 190 362 204" fill="none" stroke="#cfdccf" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M362 204 L378 196" fill="none" stroke="#241c15" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M362 204 L378 196" fill="none" stroke="#e9c9ad" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M420 170 Q436 190 426 204" fill="none" stroke="#241c15" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/><path d="M420 170 Q436 190 426 204" fill="none" stroke="#cfdccf" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M426 204 L412 196" fill="none" stroke="#241c15" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M426 204 L412 196" fill="none" stroke="#e9c9ad" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <g><animateTransform attributeName="transform" type="translate" values="0 0;-3 2;1 -1;-2 1;0 0" dur="1.6s" repeatCount="indefinite"/><g><path d="M373 193 Q373 189 378 189 L388 189 Q392 190 392 195 L391 203 Q388 207 382 207 L377 206 Q373 203 373 193 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/><path d="M377 190 v6 M382 189 v6 M387 190 v6" stroke="#241c15" stroke-width="1.8" stroke-linecap="round"/></g></g>
+    <g><animateTransform attributeName="transform" type="translate" values="0 0;3 1;-1 2;2 -1;0 0" dur="1.3s" repeatCount="indefinite"/><g><path d="M399 192 Q399 188 404 188 L414 188 Q418 189 418 194 L417 202 Q414 206 408 206 L403 205 Q399 202 399 192 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/><path d="M403 189 v6 M408 188 v6 M413 189 v6" stroke="#241c15" stroke-width="1.8" stroke-linecap="round"/></g></g>
+  </g>
+  <g id="csa-rail">
+    <path d="M452 216 V194 H608 V216 M530 194 V216" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M452 216 V194 H608 V216 M530 194 V216" fill="none" stroke="#aab4be" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g id="csa-leg">
+    <animateTransform attributeName="transform" type="rotate" values="0 548 194;3 548 194;0 548 194;-3 548 194;0 548 194" dur="4s" repeatCount="indefinite"/>
+    <path d="M548 196 L551 246" fill="none" stroke="#241c15" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M548 196 L551 246" fill="none" stroke="#e9c9ad" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M545 246 Q545 242 551 242 L556 243 Q568 249 570 255 Q570 259 565 259 L548 259 Q544 257 545 246 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M562 252 v6 M566 254 v5" stroke="#241c15" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+  <path d="M520 214 Q530 196 542 190 Q556 188 558 198 Q556 208 548 214 Z" fill="#a9cdd4" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M534 208 Q540 198 550 196" fill="none" stroke="#7fabb4" stroke-width="3" stroke-linecap="round"/>
+  <g id="csa-cuff" transform="rotate(-6 400 298)">
+    <path d="M426 298 q12 -9 22 0 q8 7 20 1" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="474" cy="299" rx="8" ry="5.5" fill="#55504a" stroke="#241c15" stroke-width="3"/>
+    <rect x="374" y="288" width="52" height="20" rx="5" fill="#33456b" stroke="#241c15" stroke-width="3.5"/>
+    <rect x="374" y="288" width="14" height="20" rx="4" fill="#55504a" stroke="#241c15" stroke-width="3"/>
+    <path d="M394 294 H418 M394 302 H412" stroke="#8fa1c4" stroke-width="2" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <title>The staff nurse</title>
+  <!-- The unit's staff nurse, thirties: hospital-blue tunic with white piping, fob watch, short fair hair, freckles. -->
+  <rect width="120" height="120" fill="#f3e5c8"/>
+  <circle cx="60" cy="60" r="56" fill="#faf0da" stroke="#241c15" stroke-width="3"/>
+  <!-- hospital-blue tunic, white piping -->
+  <path d="M24 120 C26 102 42 95 60 95 C78 95 94 102 96 120 Z" fill="#6aa3c8" stroke="#241c15" stroke-width="3"/>
+  <path d="M49 96 L60 111 L71 96" fill="#faf0da" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M46 98 L60 117 L74 98" fill="none" stroke="#fdf8ee" stroke-width="2.4"/>
+  <!-- fob watch -->
+  <path d="M38 102 v6" stroke="#241c15" stroke-width="2.4"/>
+  <circle cx="38" cy="113" r="5" fill="#fdf8ee" stroke="#241c15" stroke-width="2.4"/>
+  <path d="M38 113 v-3 M38 113 h2" stroke="#241c15" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- neck -->
+  <path d="M52 82 h16 v14 c0 6 -16 6 -16 0 Z" fill="#f1cfb4" stroke="#241c15" stroke-width="3"/>
+  <!-- ears -->
+  <ellipse cx="37" cy="58" rx="4" ry="7" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="83" cy="58" rx="4" ry="7" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+  <!-- head: heart-shaped, pointed chin -->
+  <path d="M38 52 Q38 28 60 28 Q82 28 82 52 Q82 70 72 82 Q66 90 60 91 Q54 90 48 82 Q38 70 38 52 Z" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+  <path d="M68 32 Q80 38 80 54 Q80 70 71 81 Q76 60 68 32 Z" fill="#e2bb9e" opacity=".5"/>
+  <!-- short fair hair, pixie cut with a swept fringe -->
+  <path d="M36 54 Q32 24 58 22 Q86 20 84 54 Q82 44 78 40 Q66 46 44 34 Q38 42 36 54 Z" fill="#e6bf6a" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M46 30 Q58 38 76 38 M52 26 Q62 30 74 30" fill="none" stroke="#c0963f" stroke-width="2" stroke-linecap="round"/>
+  <!-- brows and eyes: level, direct -->
+  <path d="M44 49 q6 -3 11 -1 M65 48 q6 -2 11 1" fill="none" stroke="#a37a34" stroke-width="2.8" stroke-linecap="round"/>
+  <ellipse cx="50" cy="56" rx="4.8" ry="4.2" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <ellipse cx="70" cy="56" rx="4.8" ry="4.2" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <circle cx="50" cy="56.5" r="2.3" fill="#3d6a7a" stroke="#241c15" stroke-width="1"/>
+  <circle cx="70" cy="56.5" r="2.3" fill="#3d6a7a" stroke="#241c15" stroke-width="1"/>
+  <!-- freckles -->
+  <g fill="#c98a62"><circle cx="46" cy="66" r="1"/><circle cx="50" cy="68" r="1"/><circle cx="54" cy="66" r="1"/><circle cx="66" cy="66" r="1"/><circle cx="70" cy="68" r="1"/><circle cx="74" cy="66" r="1"/></g>
+  <!-- nose and mouth -->
+  <path d="M60 58 q-3 8 1 10" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M54 77 q6 2 12 0" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+</svg>
