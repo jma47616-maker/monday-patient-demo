@@ -344,6 +344,21 @@ img.zoomable { cursor: zoom-in; }
 /* the scanner's drawn report page is half the width of the photographed printout: held narrow, so its row is no taller */
 .finding img.page, .finding img.wide.page { width: 100%; max-width: min(100%, 15rem); display: block; margin-inline: auto; }
 
+/* the three diagnosis boxes: the earlier cases' box, three times, numbered and nothing else */
+.dxbox { margin-top: var(--s3); }
+.dxbox label { font-family: var(--font-mono); }
+
+/* the chart: a line the amendment removed stays, struck through, with the time it was stopped */
+.chart li.struck { color: var(--faint); }
+.chart li.struck::before { content: "×"; color: var(--faint); }
+.chart li.struck s { text-decoration-color: var(--faint); }
+/* the standards panel: two blocks under one heading; small lines under a row */
+.bundle .bsub b { color: var(--ink); }
+.bundle .bx { display: block; color: var(--muted); font-size: .8rem; }
+#planRefs:empty, #planCards:empty, #planAsk:empty { display: none; }
+#planCards { margin-top: var(--s4); }
+.rumark { margin: 0 0 var(--s2); }
+
 /* ---------- the death card ---------- */
 #deathArt img { width: 100%; display: block; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); }
 #s-death h2 { color: var(--danger); }
@@ -838,18 +853,22 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
       </div>
 
       <div class="panel" id="p-rx">
-        <p class="panel__hint" id="rxHint"></p>
+        <p class="panel__hint" id="rxHint">You've called it. Now write the plan — free text, the way you'd write it in the notes. Nothing is listed; what you write is what gets done.</p>
         <div id="rxChart"></div>
         <form id="planForm" autocomplete="off">
-          <textarea id="planText" rows="8" spellcheck="false" aria-label="The plan"></textarea>
-          <div class="planbtns">
-            <button class="btn" type="submit" id="planSubmit">Submit the plan</button>
-          </div>
+          <textarea id="planText" rows="7" spellcheck="false" aria-label="The plan" placeholder="e.g.
+Cannula
+Admit to the ward
+…"></textarea>
         </form>
         <div class="planbtns" id="referRow" style="display:none;">
           <button class="btn btn--ghost" type="button" id="planRefer">📞 Refer</button>
+          <button class="btn" type="submit" form="planForm" id="planSubmit">Submit the plan</button>
         </div>
+        <div id="planAsk" aria-live="polite"></div>
         <div id="planOut" aria-live="polite"></div>
+        <div id="planRefs" aria-live="polite"></div>
+        <div id="planCards"></div>
         <div id="reassessWrap" style="margin-top:var(--s3); display:none;">
           <button class="btn btn--ghost" id="rxReassessBtn" type="button">Reassess the patient</button>
         </div>
@@ -866,18 +885,28 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
     <section class="screen" id="s-commit">
       <div class="kicker">Diagnosis</div>
       <div id="dxAsk">
-        <h2>The diagnosis</h2>
-        <p class="lede" id="commitLede"></p>
-        <div class="field" style="margin-top:var(--s5);">
-          <label for="dxInput">Your diagnosis</label>
-          <div class="hint">Free text. The box suggests conditions as you type.</div>
-          <textarea id="dxInput" rows="3" spellcheck="false" autocomplete="off"></textarea>
-          <div id="dxSuggest" class="dxsuggest"></div>
+        <h2 id="dxHead">His diagnoses</h2>
+        <p class="lede" id="commitLede">Commit up to three. Pick each from the list.</p>
+        <div class="field dxbox" style="margin-top:var(--s5);">
+          <label for="dxInput1">1</label>
+          <input list="dxlist" id="dxInput1" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+          <div id="dxErr1" class="teach" data-tone="wrong" style="display:none;"></div>
         </div>
+        <div class="field dxbox">
+          <label for="dxInput2">2</label>
+          <input list="dxlist" id="dxInput2" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+          <div id="dxErr2" class="teach" data-tone="wrong" style="display:none;"></div>
+        </div>
+        <div class="field dxbox">
+          <label for="dxInput3">3</label>
+          <input list="dxlist" id="dxInput3" placeholder="e.g. the condition you've reasoned to" autocomplete="off">
+          <div id="dxErr3" class="teach" data-tone="wrong" style="display:none;"></div>
+        </div>
+        <datalist id="dxlist"></datalist>
         <div id="commitErr" class="teach" data-tone="wrong" style="display:none;"></div>
         <div class="btnrow">
           <button class="btn btn--ghost" id="commitBack">Back to the work-up</button>
-          <button class="btn" id="commitBtn">Commit</button>
+          <button class="btn" id="commitBtn">Lock his diagnoses → write the plan</button>
         </div>
       </div>
       <div id="dxSaid" hidden>
@@ -1312,7 +1341,11 @@ if(typeof module !== "undefined" && module.exports) module.exports = Sequelae;
 const A = (...xs) => xs;
 const CASE = {
   meta: {
-    slug: "carehome", startClock: 905 /* Thursday 15:05 */, callCost: 6, wardHour:60, weightKg: 68,
+    slug: "carehome", startClock: 905 /* Thursday 15:05 */, callCost: 6, wardHour:60,
+    /* The amendment rule (05-marking.md 2.0a). ONE SWITCH, read in one place (amendScore in part5-outcome.js):
+       "full" = the final chart in full, as UGIB case 1; "half" = the first chart in full, and points a line gains only
+       at the amendment at half, rounded up. The owner said "exactly that" of UGIB and has not yet chosen "half". */
+    amendRule: "full", weightKg: 68,
     patientFirst: "Stanley", patientLast: "Garside", daughter: "Alison",
     nurse: "Maureen Speight", home: "Hazelgarth Nursing Home",
     friNight: 1440 + 370 /* Friday 06:10, in clock minutes from Thursday 00:00 */,
@@ -1659,7 +1692,7 @@ const CASE = {
         labs:[ {n:"Troponin I",v:"18",u:"ng/L",r:"<34"} ] },
       { id:"tft", name:"Thyroid function", tag:"supp", cost:60, aliases:A("tft","tfts","thyroid function","tsh","t4"),
         labs:[ {n:"TSH",v:"2.1",u:"mU/L",r:"0.3–4.2"} ] },
-      { id:"b12", name:"B12 and folate", tag:"noise", defer:true, aliases:A("b12","vitamin b12","folate","b12 and folate","haematinics","ferritin"),
+      { id:"b12", name:"B12 and folate", tag:"supp", defer:true, aliases:A("b12","vitamin b12","folate","b12 and folate","haematinics","ferritin"),
         text:"Sent.", friday:"B12 310 ng/L (197–771) · Folate 6.2 µg/L (>3.9) · Ferritin 188 µg/L (30–400)" },
       { id:"pct", name:"Procalcitonin", tag:"noise", defer:true, aliases:A("procalcitonin","pct"),
         text:"Sent.", friday:"0.12 µg/L (<0.25)" },
@@ -1800,8 +1833,25 @@ const CASE = {
     { id:"sepsis6", t:"Sepsis Six: started", harm:1 },
     { id:"tmp", t:"Trimethoprim 200 mg twice daily", harm:1 }, { id:"nitro", t:"Nitrofurantoin MR 100 mg twice daily", harm:1 },
     { id:"gent", t:"Gentamicin, one dose", harm:1 }, { id:"o2", t:"Oxygen 2 L/min" },
-    { id:"deesc", t:"Delirium care: de-escalation, one bay, lights down at night" }, { id:"oneone", t:"Enhanced observation: one-to-one" },
+    { id:"deesc", t:"Delirium care: de-escalation first" }, { id:"oneone", t:"Enhanced observation: one-to-one" },
     { id:"fourat", t:"4AT: daily" }, { id:"painplan", t:"Pain: Abbey scale each shift" },
+    /* 04-ix-mx.md 5.14 (Round 6): what a delirium screen asks for */
+    { id:"delscreen", t:"Delirium screen: 4AT and bloods" }, { id:"fouratrep", t:"4AT: repeat daily" }, { id:"amts", t:"Cognitive test", asWritten:"suffix" },
+    { id:"pinchme", t:"PINCH ME: reviewed" }, { id:"deldx", t:"Delirium: recorded" },
+    { id:"reorient", t:"Reorientation: clock, calendar, explain each time" }, { id:"sensory", t:"Glasses and hearing aids: check and use" },
+    { id:"familiar", t:"Familiar staff; family welcome to stay" }, { id:"nomove", t:"No ward or bed moves unless essential" },
+    { id:"sleep", t:"Sleep: lights down, quiet, no avoidable waking" }, { id:"mobil", t:"Mobilise with frame and one" },
+    { id:"foodchart", t:"Food chart" }, { id:"delgp", t:"Delirium: for the discharge letter and GP follow-up" },
+    /* 04-ix-mx.md 5.13 (Round 6): ordinary ward orders. Charted in the words given; never scored, never a danger */
+    { id:"cannula", t:"IV cannula" }, { id:"admit", t:"Admit: medical ward", asWritten:"admit" }, { id:"review", t:"Review", asWritten:"suffix" },
+    { id:"handover", t:"Handed over to the night team" }, { id:"escal", t:"Escalation", asWritten:"suffix" },
+    { id:"nightobs", t:"Observations: none overnight unless needed" }, { id:"nbm", t:"Nil by mouth" }, { id:"ead", t:"Eat and drink" },
+    { id:"diet", t:"Diet", asWritten:"suffix" }, { id:"salt", t:"Speech and language: swallow assessment" },
+    { id:"pressure", t:"Pressure areas: assessment and repositioning" }, { id:"bedrails", t:"Bed rails assessment" }, { id:"mouthcare", t:"Mouth care" },
+    { id:"bmmon", t:"Capillary glucose", asWritten:"suffix" }, { id:"ppi", t:"Gastroprotection", asWritten:"own" },
+    { id:"antiemetic", t:"Antiemetic, as required", asWritten:"ownprn" }, { id:"vitamins", t:"Vitamins", asWritten:"own" },
+    { id:"contmed", t:"Regular medicine: continue", asWritten:"cont" }, { id:"dcplan", t:"Discharge planning", asWritten:"suffix" },
+    { id:"weights", t:"Daily weights" }, { id:"infconsider", t:"Infection", asWritten:"suffix" }, { id:"catcare", t:"Catheter care" },
     { id:"halo", t:"Haloperidol 500 micrograms by mouth, as required, maximum 2 mg in 24 h" },
     { id:"halobig", t:"Haloperidol", harm:1, asWritten:"dose" }, { id:"benzo", t:"Lorazepam 0.5 mg", harm:1, asWritten:"dose" },
     { id:"sedother", t:"Sedation", harm:1, asWritten:"dose" }, { id:"sedfor", t:"Sedation", harm:1, asWritten:"dose" },
@@ -1829,6 +1879,7 @@ const CASE = {
     "<b>The behaviour was the history.</b> He hit out when he was washed and dressed, and he settled within the hour of a catheter. Sedation would have removed the only report he could give. <em>(CG103 1.7.1; case reports of delirium from retention.)</em>",
     "<b>5.8 is watched.</b> Repeat it, record an ECG, stop the ramipril, relieve the obstruction. Insulin and glucose buys two hours and twelve finger-pricks. <em>(UKKA; HDFT bundle p.7.)</em>",
     "<b>Fluid was never the mistake.</b> He needed it. The mistake is D done and O never done.",
+    "<b>The mnemonic has no letter for it.</b> PINCH ME: Pain, Infection, Nutrition, Constipation, Hydration, Medication, Environment. No bladder. The fuller list does have it: “Treat underlying causes: infection/sepsis, urinary retention, constipation, hypotension, pain, dehydration…”. A screen is only as good as its list. <em>(UKHSA 2025; SIGN 157, Annexes 2 and 4.)</em>",
     "<b>A conversation, not a transfer.</b> Stage 3 means ring the nephrologist within a day; it does not mean move an 84-year-old with dementia and a ReSPECT form. <em>(NG148 1.5.7, 1.5.12, 1.5.15.)</em>"
   ],
 
@@ -1837,32 +1888,17 @@ const CASE = {
 
   /* ---- the diagnosis judge (05-marking.md section 4.2). Substring tiers (dxSub), because norm() deletes hyphens;
      tok = whole-word terms; all = groups whose every word must be in the clause. ---- */
-  dx: {
-    V: { dxSub:["influenz","viral","virus","coryza"], tok:["flu","flua","flue","influ","urti"], all:[["upper","respiratory","tract","infection"],["common","cold"]] },
-    B: { dxSub:["urosepsis","pyelonephritis","cystitis","prostatitis","pneumonia","bacteri","sepsis","septic","meningitis","encephalitis","covid","sarscov","coronavirus","gastroenteritis","norovirus","cellulitis"],
-         tok:["uti","cap","lrti","rsv"], all:[["urinary","tract","infection"],["urinary","sepsis"],["chest","infection"],["chest","sepsis"]],
-         waive:["pneumonia","lrti","chest infection"] },
-    K: { dxSub:["uropathy","nephropathy","postrenal"], tok:["aki","arf"], all:[["kidney","injury"],["renal","failure"],["kidney","failure"],["renal","impairment"],["renal","injury"],["post","renal"],["acute","on","chronic"]] },
-    R: { dxSub:["retention","obstructi","obstructed","postrenal","hydronephrosis"], tok:["boo"], all:[["post","renal"],["bladder","outflow"],["bladder","outlet"]],
-         notWith:["bowel","intestin","airway","pulmonary","biliary","sleep"] },
-    X: { dxSub:["glomerulonephritis","vasculitis","nephritis","rhabdo","myeloma"] },
-    D: { dxSub:["drug","medicat","medicine","tablets","pills","polypharm","iatrogen","anticholin","antimuscarin","opioid","opiate","solifenacin","vesicare","amitrip","tricyclic","codeine","codamol","pharmac","prescri"],
-         tok:["meds","tca","tablet","tabs","pill","adr"], generic:["drug","medicat","medicine","meds","tablets"], notWithGeneric:["nephrotox"],
-         notAlone:["delirium","confusion","toxicity","overdose","withdrawal","sedat"] },
-    negBefore:["no","not","without","rather than","instead of","exclude","excluding","ro"],
-    negEnd:["unlikely","excluded","ruled out","less likely"],
-    hedge:["query","possible","possibly","maybe"],
-    P: { dxSub:["prostat"], tok:["bph"] },
-    typo: { earn:["influenza","viral","virus","kidney","injury","renal","failure","impairment","uropathy","nephropathy","postrenal","retention","obstruction","obstructive","obstructed","hydronephrosis",
-                  "medication","medications","medicine","medicines","drugs","tablets","polypharmacy","iatrogenic","opioid","opioids","opiate","opiates","solifenacin","amitriptyline","codeine","cocodamol","tricyclic"],
-            block:["urosepsis","pyelonephritis","cystitis","prostatitis","pneumonia","bacterial","sepsis","septic","meningitis","encephalitis","gastroenteritis","norovirus","cellulitis","coronavirus",
-                   "glomerulonephritis","vasculitis","nephritis","rhabdomyolysis","myeloma"] }
-  },
-  dxSay: { prompt:"What is going on? Write it as you would in the notes.", right:"Right.", wrong:"That is not right.",
-           rightNext:"Now write his plan.", wrongNext:"He still needs a plan. Write it.", empty:"Write a diagnosis." },
+  dxSay: { head:"His diagnoses", lede:"Commit up to three. Pick each from the list.", placeholder:"e.g. the condition you've reasoned to",
+           right:"Right.", wrong:"That is not right.", rightNext:"Now write his plan.", wrongNext:"He still needs a plan. Write it.",
+           empty:"Name a diagnosis to continue — that's the registrar's call you're being asked to make.", notListed:"Pick a diagnosis from the list.",
+           lock:"Lock his diagnoses → write the plan" },
 
-  /* ---- the type-ahead list: 96 single conditions, shuffled every load (05-marking.md section 4.5) ---- */
-  conditions: ["Influenza","Viral upper respiratory tract infection","COVID-19","Urinary tract infection","Urosepsis","Pyelonephritis","Community-acquired pneumonia","Aspiration pneumonia","Bacterial meningitis","Viral encephalitis","Cellulitis","Infective endocarditis","Sepsis of unknown source","Clostridioides difficile infection","Norovirus gastroenteritis","Prostatitis","Epididymo-orchitis","Septic arthritis","Discitis","Biliary sepsis","Infective exacerbation of COPD","Shingles","Post-renal (obstructive) acute kidney injury","Pre-renal acute kidney injury","Acute tubular necrosis","Acute interstitial nephritis","Rapidly progressive glomerulonephritis","ANCA-associated vasculitis","Rhabdomyolysis","Myeloma kidney","Contrast nephropathy","Chronic kidney disease progression","Hyperkalaemia","Uraemia","Acute urinary retention","Hypomagnesaemia","Benign prostatic hyperplasia","Prostate cancer","Bladder cancer","Urethral stricture","Clot retention","Neurogenic bladder","Cauda equina syndrome","Ureteric stone","Faecal impaction","Constipation","Delirium","Behavioural and psychological symptoms of dementia","Progression of dementia","Ischaemic stroke","Transient ischaemic attack","Subdural haematoma","Subarachnoid haemorrhage","Intracerebral haemorrhage","Head injury","Non-convulsive status epilepticus","Post-ictal state","Wernicke's encephalopathy","Hepatic encephalopathy","Hypertensive encephalopathy","Brain tumour","Cerebral metastases","Lewy body dementia","Depression","Psychosis","Alcohol withdrawal","Benzodiazepine withdrawal","Opioid toxicity","Normal pressure hydrocephalus","Serotonin syndrome","Digoxin toxicity","Lithium toxicity","Paracetamol overdose","Carbon monoxide poisoning","Drug-induced delirium","Hyponatraemia","Hypernatraemia","Hypercalcaemia","Hypoglycaemia","Hyperosmolar hyperglycaemic state","Diabetic ketoacidosis","Hypothyroidism","Thyrotoxicosis","Addisonian crisis","Vitamin B12 deficiency","Dehydration","Hypothermia","Myocardial infarction","Heart failure","Pulmonary embolism","Type 2 respiratory failure","Upper gastrointestinal bleed","Acute pancreatitis","Perforated viscus","Hip fracture","Uncontrolled pain from osteoarthritis"],
+  /* ---- the list behind all three boxes: 96 entries in the order of 05-marking.md 4.3 (entry n is conditions[n-1]),
+     shuffled once on every load ---- */
+  conditions: ["Influenza","Viral upper respiratory tract infection","COVID-19","Urinary tract infection","Urosepsis","Pyelonephritis","Community-acquired pneumonia","Aspiration pneumonia","Bacterial meningitis","Viral encephalitis","Cellulitis","Infective endocarditis","Sepsis of unknown source","Clostridioides difficile infection","Norovirus gastroenteritis","Prostatitis","Septic arthritis","Biliary sepsis","Infective exacerbation of COPD","Shingles","Acute kidney injury","Post-renal (obstructive) acute kidney injury","Pre-renal acute kidney injury","Acute tubular necrosis","Contrast nephropathy","Acute interstitial nephritis","Rapidly progressive glomerulonephritis","ANCA-associated vasculitis","Rhabdomyolysis","Myeloma kidney","Chronic kidney disease progression","Hyperkalaemia","Uraemia","Acute urinary retention","Medication-related urinary retention","Urinary retention due to benign prostatic hyperplasia","Urinary retention due to constipation","Urinary retention due to urinary tract infection","Clot retention","Benign prostatic hyperplasia","Prostate cancer","Bladder cancer","Urethral stricture","Neurogenic bladder","Cauda equina syndrome","Ureteric stone","Faecal impaction","Constipation","Delirium","Behavioural and psychological symptoms of dementia","Progression of dementia","Ischaemic stroke","Transient ischaemic attack","Subdural haematoma","Subarachnoid haemorrhage","Intracerebral haemorrhage","Head injury","Non-convulsive status epilepticus","Post-ictal state","Wernicke's encephalopathy","Hepatic encephalopathy","Hypertensive encephalopathy","Brain tumour","Cerebral metastases","Lewy body dementia","Normal pressure hydrocephalus","Depression","Psychosis","Alcohol withdrawal","Benzodiazepine withdrawal","Opioid toxicity","Serotonin syndrome","Digoxin toxicity","Paracetamol overdose","Drug-induced delirium","Hyponatraemia","Hypernatraemia","Hypercalcaemia","Hypoglycaemia","Hyperosmolar hyperglycaemic state","Diabetic ketoacidosis","Hypothyroidism","Thyrotoxicosis","Addisonian crisis","Vitamin B12 deficiency","Dehydration","Hypothermia","Myocardial infarction","Heart failure","Pulmonary embolism","Type 2 respiratory failure","Upper gastrointestinal bleed","Acute pancreatitis","Perforated viscus","Hip fracture","Uncontrolled pain from osteoarthritis"],
+  /* ---- which entries meet which part (05-marking.md 4.4): by entry number. Anything not named is neutral ---- */
+  dxClass: { V:[1,2], B:[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,38], P2:[22], K:[21], Kr:[23,24,25], X:[26,27,28,29,30],
+             R:[34,35,36,37,38,39], P3:[35], prostate:[36,40], trueOfHim:[49,32], urine:[4,5,6,38] },
 
   /* ---- the drill: eight questions, 3 points each (05-marking.md section 9). First option is the correct one here; shuffled on screen. ---- */
   mgmt: [
@@ -2146,6 +2182,7 @@ const S = {
   cathAt: null, cathKind: null, ioAt: null, cathInAt: null, cathVol: null, handoverAt: null, handed: false, died: false, friday: null,
   shown: new Set(), holdbacks: [],
   cathSegs: [], ioDoneAt: null, signs: [], _runTo: null,
+  dxBoxes: [0, 0, 0], rxOff: [], contMeds: [], panel: [], chartAtPanel: null, amendedAt: null,
   condLines: [], condOf: {}, condWait: [], lateAsk: [], cathOutAt: null, cathWasAt: null, lastJump: 0, coreAt: {}, coreText: {}, coreEarlier: {},
   mg: {}, mgIdx: 0, stageMax: 0, revisits: 0, reexamCount: 0, reexamAt: []
 };
@@ -2485,6 +2522,8 @@ function feedAdd(head, body){
   const d = document.createElement("div"); d.className = "result";
   d.innerHTML = `<div class="rn">${head}</div>${body}`;
   $("#feed").appendChild(d);
+  /* once a plan is on the chart, what comes back is also shown under the standards panel, with its own time (04-ix-mx.md 5.12) */
+  if(S.planCount > 0 && !S.handed){ const c = document.createElement("div"); c.className = "result"; c.innerHTML = d.innerHTML; $("#planCards").appendChild(c); }
   hydrateScans();
   return d;
 }
@@ -2579,8 +2618,8 @@ function railState(){
   if(S.dxCommitted && !S.planCount) return { k:"Plan", n:"<b>Write his plan</b> on the Plan tab, the way you would in the notes. What you write is what gets done." };
   if(S.dxCommitted && S.planBusy) return { k:"On the ward", n:"<b>You are being asked a question.</b> Answer it on the Plan tab; nothing else can be done until you have." };
   if(S.dxCommitted) return { k:"On the ward", n: S.planCount < 2
-    ? `Your plan is on the chart, and everything it asked for is back: it is now ${nowSay()}. <b>Amend it once</b> if you need to, then <b>hand over for the night</b>.`
-    : `The amendment is on the chart, and everything it asked for is back: it is now ${nowSay()}. <b>Hand over for the night</b> when you are ready.` };
+    ? "Your plan is on the chart. <b>Read it against the standards, amend it once if you need to, then hand over for the night.</b>"
+    : "The amendment is on the chart. <b>Hand over for the night when you are ready.</b>" };
   if(S.stageMax === 0) return { k:"Examine", n:"<b>He will not tell you anything.</b> Tap a system, or type what you want to examine. Then move on to investigate." };
   if(!S.round) return { k:"Investigate", n:"Add what you want from the trolley, type the rest, and <b>send the round</b>. The clock jumps by the slowest test." };
   if(resultBack()) return { k:"Investigate", n:"Results are back. <b>Re-examine him if the picture has changed</b>, order more if you need to — then commit a diagnosis." };
@@ -3140,130 +3179,41 @@ function renderWait(){
 
 
 /* ============================================================
-   ENGINE, part 4 of 5 — the diagnosis (judged, never looked up), the written plan, the call-backs,
-   the chart, the Refer button and the pharmacy review.
-   Reused from week 6: the shape of parsePlan (longest alias first, the decimal-safe sentence
-   splitter), the call-back sheet, the chart, the Refer list. New here: a three-part judge with
-   substring tiers and typo tolerance, a type-ahead that completes one condition at a time,
-   "Right." or "That is not right." and nothing else, ten call-backs taken one at a time, and a
-   plan that never moves the clock: everything in it goes through the ledger.
-   Rewritten at Gate 8 round 1: the plan is read as a stream of words (04-ix-mx.md 5.10 and 6.2),
-   so a negation governs the next item and nothing else, ordinary inflections and misspellings are
-   understood, and anything that could not be read is printed back.
-   Round 2: rules 9 to 13 of 6.2 (what a negation carries to; what makes a "no catheter"; the nurse's
-   question when catheter instructions conflict), conditions charted and not enacted, mentions that
-   are not orders, and the amendment's "Taken off:" list.
+   ENGINE, part 4 of 5 — the diagnosis (three boxes over one list), the written plan, the call-backs,
+   the chart, the standards panel, the Refer button and the pharmacy review.
+   Round 6 (owner: "like how it used to be for the previous cases"; of UGIB case 1's plan: "Yes, exactly that"):
+   the diagnosis is picked, not read; and the plan panel is UGIB case 1's. After the questions the plan is enacted
+   and "Your plan against the standards" is drawn at once (the AKI care bundle, then the delirium screen), one
+   amendment is allowed, and the panel is drawn again. Words the vocabulary does not know are ignored in silence.
+   Kept from earlier rounds: the plan read as a stream of words (04-ix-mx.md 5.10, 6.2), typo tolerance on every
+   item, the negation rules, the nurse's catheter question, conditions, and the clock that runs on after a signing.
    ============================================================ */
 
-/* ---------- the judge (05-marking.md sections 4.2 and 4.4a) ---------- */
-const DX_EXACT = (function(){
-  const D = CASE.dx, subs = [], words = new Set();
-  ["V","B","K","R","X","D","P"].forEach(k=>{ const L = D[k]; (L.dxSub||[]).forEach(s=>subs.push(s)); (L.tok||[]).forEach(w=>words.add(w)); (L.all||[]).forEach(g=>g.forEach(w=>words.add(w))); });
-  [...D.negBefore, ...D.negEnd, ...D.hedge].forEach(p=>p.split(" ").forEach(w=>words.add(w)));
-  [...D.typo.earn, ...D.typo.block].forEach(w=>words.add(w));
-  return { subs, words };
-})();
-/* a misspelt word is read as its target only if it is no exact hit for anything, keeps the target's
-   first three letters, and is within the distance the target's length allows; a word in reach of a
-   blocking target blocks */
-function dxTypo(w){
-  if(w.length < 4 || DX_EXACT.words.has(w) || DX_EXACT.subs.some(s=>w.includes(s))) return w;
-  const reach = list => list.map(t=>{ const k = t.length >= 8 ? 2 : t.length >= 5 ? 1 : 0;
-    return (k && Math.abs(t.length - w.length) <= k && t.slice(0,3) === w.slice(0,3)) ? [dl(w, t), t, k] : null; }).filter(x=>x && x[0] <= x[2]).sort((a,b)=>a[0]-b[0]);
-  const b = reach(CASE.dx.typo.block); if(b.length) return b[0][1];
-  const e = reach(CASE.dx.typo.earn); return e.length ? e[0][1] : w;
-}
-const DX_JOIN = new Set(["and","or","plus","with","his","the","a","of"]);
-const DX_LINK_BEFORE = /(?:^| )(?:due to|secondary to|2ry to|from|caused by|because of|related to|induced by|precipitated by|driven by|cause|causes|culprit|culprits)(?: |$)/;
-const DX_LINK_AFTER = /^(?:induced|related|causing|caused|precipitated|associated)$/;
-const DX_EFFECT_AFTER = /^(?:side effects?|adverse effects?|effects?)(?: |$)/, DX_EFFECT_BEFORE = /(?:side effects?|adverse effects?|effects?) of(?: his| the| her)?$/;
-const DX_BLOCK = /rash|allerg|anaphyla|intoleran|review|chart|history|list|level|complian/;
-const DX_LINK_IN = /(?:induced|related|associated)$/;                /* "drug-induced": norm() deletes the hyphen */
-function judgeDx(raw){
-  const D = CASE.dx;
-  const text = String(raw||"").replace(/\?/g," query ").replace(/\br\s*\/\s*o\b/gi," ro ");
-  const got = { V:[], B:[], K:[], R:[], X:[], D:[], P:[] }, said = { B:[] };
-  const has = (c, list) => list.some(w=>c.includes(w));
-  text.split(/[,;:\n]|\.(?=\s|$)|\bbut\b|\bhowever\b/i).forEach(part=>{
-    const rawToks = part.split(/\s+/).filter(w=>norm(w));
-    const toks = rawToks.map(w=>dxTypo(norm(w)));
-    const c = toks.join(" ");
-    if(!c) return;
-    const starts = []; let p = 0; toks.forEach(t=>{ starts.push(p); p += t.length + 1; });
-    const tokAt = idx => { let k = 0; while(k + 1 < starts.length && starts[k+1] <= idx) k++; return k; };
-    const typed = k => rawToks[k].replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, "");
-    const endNeg = D.negEnd.some(n=>c === n || c.endsWith(" " + n));
-    const alive = (idx, hedgeOk) => {
-      if(endNeg) return false;
-      const before = c.slice(0, idx).trim();
-      if(D.negBefore.some(n=>new RegExp("(^| )" + n + "( |$)").test(before))) return false;
-      if(hedgeOk) return true;
-      /* hedged: the word holding the term is directly preceded by ?, query, possible, possibly, maybe */
-      const prev = tokAt(idx) > 0 ? toks[tokAt(idx) - 1] : "";
-      return !D.hedge.includes(prev);
-    };
-    const find = (L, hedgeOk) => {
-      const out = [];
-      (L.dxSub||[]).forEach(s=>{ let i = c.indexOf(s); while(i >= 0){ if(alive(i, hedgeOk)) out.push({ t:s, as:typed(tokAt(i)), k:[tokAt(i)] }); i = c.indexOf(s, i + 1); } });
-      (L.tok||[]).forEach(s=>toks.forEach((t,k)=>{ if(t === s && alive(starts[k], hedgeOk)) out.push({ t:s, as:typed(k), k:[k] }); }));
-      (L.all||[]).forEach(g=>{ const ks = g.map(w=>toks.indexOf(w));
-        if(ks.every(k=>k >= 0) && ks.every(k=>alive(starts[k], hedgeOk))) out.push({ t:g.join(" "), as:[...ks].sort((a,b)=>a-b).map(typed).join(" "), k:ks }); });
-      return out;
-    };
-    const v = find(D.V), r = find(D.R).filter(x=>!(/^obstruct/.test(x.t) && has(c, D.R.notWith)));
-    let b = find(D.B), d = find(D.D);
-    if(v.length) b = b.filter(x=>!D.B.waive.includes(x.t));                 /* "viral pneumonia", "LRTI (viral)" */
-    if(has(c, D.D.notWithGeneric)) d = d.filter(x=>!D.D.generic.includes(x.t));
-    if(has(c, D.D.notAlone) && !r.length) d = [];
-    /* a drug word is not enough ("drug rash"): it must stand as a cause. In its own clause: beside the retention or the
-       kidney injury; or behind a causal link; or the clause is nothing but drug terms and joining words. */
-    const kid = find(D.K), dTok = new Set(); d.forEach(x=>x.k.forEach(i=>dTok.add(i)));
-    const alone = toks.every((t, i)=>dTok.has(i) || DX_JOIN.has(t));
-    const blocked = DX_BLOCK.test(c), adverse = /(?:^| )adverse(?: |$)/.test(c);
-    d = d.filter(x=>{ const first = Math.min(...x.k), last = Math.max(...x.k), pre = c.slice(0, starts[first]).trim(), post = toks.slice(last + 1).join(" ");
-      if(r.length > 0 || kid.length > 0 || alone) return true;
-      if(blocked) return false;                                 /* "drug rash", "drug allergy", "medication side effects to be reviewed" */
-      return DX_LINK_BEFORE.test(pre) || DX_LINK_AFTER.test(toks[last + 1] || "") || (toks[last] !== x.t && DX_LINK_IN.test(toks[last]))
-        || DX_EFFECT_AFTER.test(post) || DX_EFFECT_BEFORE.test(pre) || (adverse && (/^reaction(?: |$)/.test(post) || /reaction to(?: his| the)?$/.test(pre))); });
-    const T = a => a.map(x=>x.t);
-    got.V.push(...T(v)); got.B.push(...T(b)); got.R.push(...T(r)); got.D.push(...T(d));
-    got.K.push(...T(kid)); got.X.push(...T(find(D.X)));
-    got.P.push(...T(find(D.P, true).filter(x=>!/prostatitis/i.test(norm(x.as)))));   /* a hedge is still a prediction; "BPH excluded" is not */
-    said.B.push(...b.map(x=>x.as));
-  });
-  const p1 = got.V.length > 0 && got.B.length === 0;
-  const p2 = got.K.length > 0 && got.R.length > 0 && got.X.length === 0;
-  const p3 = got.R.length > 0 && got.D.length > 0;
+/* ---------- the diagnosis (05-marking.md section 4, Round 6): three boxes, each the earlier cases' box over one
+   shuffled list; a box takes an entry of the list and nothing else; the judge is a table, not a reader ---------- */
+const DX_ORDER = [...CASE.conditions].sort(()=>Math.random() - .5);          /* one order, behind all three boxes */
+$("#dxlist").innerHTML = DX_ORDER.map(c=>`<option value="${c}">`).join("");
+const DX_BOX = [1, 2, 3];
+const dxKey = s => String(s).trim().toLowerCase();
+const DX_NO = new Map(CASE.conditions.map((c, i)=>[dxKey(c), i + 1]));       /* entry number, as 05-marking.md 4.3 numbers them */
+const dxEntry = text => DX_NO.get(dxKey(text)) || 0;
+const dxIs = (n, cls) => CASE.dxClass[cls].includes(n);
+const dxName = n => CASE.conditions[n - 1];
+/* judgePicks([entry numbers]) -> the three parts. Order does not matter; the same entry twice counts once. */
+function judgePicks(nums){
+  const picks = [...new Set(nums.filter(Boolean))], any = cls => picks.some(n=>dxIs(n, cls));
+  const p1 = any("V") && !any("B");
+  const p2 = (any("P2") || (any("K") && any("R"))) && !any("X");
+  const p3 = any("P3");
   const n = (p1?1:0) + (p2?1:0) + (p3?1:0);
-  return { p1, p2, p3, n, right: n === 3, pts: n*8 + (n===3?6:0), got, said, k: got.K.length > 0, bph: got.P.length > 0 };
+  return { picks, p1, p2, p3, n, pts: n * 8 + (n === 3 ? 6 : 0), right: n === 3, k: picks.some(x=>x >= 21 && x <= 25) };
 }
-
-/* ---------- the type-ahead: one condition at a time, after each comma; shuffled every load;
-   a suggestion matches on the start of a word of the entry, never inside one ---------- */
-const DX_ORDER = [...CASE.conditions].sort(()=>Math.random() - .5);
-function dxFragment(v){ const m = /[^,;\n]*$/.exec(v); return { start:m.index, frag:m[0].replace(/^\s+/, "") }; }
-function dxSuggest(v){
-  const f = dxFragment(v).frag.toLowerCase();
-  if(f.length < 2) return [];
-  const re = new RegExp("(^|[^a-z0-9])" + f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  return DX_ORDER.filter(c=>re.test(c.toLowerCase()) && c.toLowerCase() !== f).slice(0, 6);
-}
-function dxComplete(v, pick){
-  const f = dxFragment(v), lead = v.slice(0, f.start);
-  return lead + (lead && !/\s$/.test(lead) ? " " : "") + pick + ", ";
-}
-function renderSuggest(){
-  const inp = $("#dxInput"), box = $("#dxSuggest");
-  const list = dxSuggest(inp.value);
-  box.innerHTML = list.map(c=>`<button type="button">${c}</button>`).join("");
-  box.querySelectorAll("button").forEach(b=>b.onclick = ()=>{ inp.value = dxComplete(inp.value, b.textContent); box.innerHTML = ""; inp.focus(); });
-}
-$("#dxInput").addEventListener("input", renderSuggest);
 
 /* ---------- the gate and the commit ---------- */
 function renderCommitScreen(){
-  $("#dxInput").value = ""; $("#dxSuggest").innerHTML = ""; $("#commitErr").style.display = "none";
-  $("#commitLede").textContent = CASE.dxSay.prompt;
+  DX_BOX.forEach(n=>{ $("#dxInput" + n).value = ""; $("#dxInput" + n).placeholder = CASE.dxSay.placeholder; $("#dxErr" + n).style.display = "none"; });
+  $("#commitErr").style.display = "none";
+  $("#dxHead").textContent = CASE.dxSay.head; $("#commitLede").textContent = CASE.dxSay.lede; $("#commitBtn").textContent = CASE.dxSay.lock;
   $("#dxAsk").hidden = false; $("#dxSaid").hidden = true;
 }
 function tryCommitGate(){
@@ -3294,11 +3244,16 @@ $("#toCommit").onclick = ()=>{
 };
 $("#commitBack").onclick = ()=>go("work");
 $("#commitBtn").onclick = ()=>{
-  const raw = $("#dxInput").value.trim();
-  if(norm(raw).replace(/ /g,"").length < 3){ $("#commitErr").textContent = CASE.dxSay.empty; $("#commitErr").style.display = "block"; return; }
-  $("#commitErr").style.display = "none";
-  const v = judgeDx(raw);
-  S.dxText = raw.replace(/[,;\s]+$/, ""); S.dxParts = v; S.dxCommitted = true; S.commitAt = S.clock; S.commitSeq = LEDGER.all().length;
+  const typed = DX_BOX.map(n=>$("#dxInput" + n).value.trim()), nums = typed.map(v=>v ? dxEntry(v) : 0);
+  /* a box takes an entry of the list, picked or typed in full; anything else is refused under that box and nothing is committed */
+  let bad = false;
+  DX_BOX.forEach((n, i)=>{ const e = $("#dxErr" + n), no = !!typed[i] && !nums[i]; e.textContent = no ? CASE.dxSay.notListed : ""; e.style.display = no ? "block" : "none"; if(no) bad = true; });
+  const none = !typed.some(Boolean);
+  $("#commitErr").textContent = none ? CASE.dxSay.empty : ""; $("#commitErr").style.display = none ? "block" : "none";
+  if(bad || none) return;
+  const v = judgePicks(nums);
+  S.dxBoxes = nums; S.dxText = nums.filter(Boolean).map(dxName).join(" · ");      /* every text that quotes the diagnosis lists the picks, in box order */
+  S.dxParts = v; S.dxCommitted = true; S.commitAt = S.clock; S.commitSeq = LEDGER.all().length;
   S.pre = { exams:new Set([...S.examEver, ...S.examMore]), zones:new Set(S.zones), fourat:S.fourat.length };
   S.stageMax = 2;
   /* right or wrong, and nothing else: the truth is held to the outcome */
@@ -3322,7 +3277,7 @@ const PLAN_ITEMS = {
   residual: { label:"Residual volume recorded", rx:"residual", aliases:A("record residual","document residual","residual volume","note the residual","measure residual") },
   clamp: { label:"Catheter clamped in stages", rx:"clamp", aliases:A("clamp","clamp catheter","clamp at 500","drain 500 then clamp","staged decompression","gradual decompression","intermittent clamping","clamping") },
   free: { label:"Free drainage", rx:"free", aliases:A("free drainage","on free drainage") },
-  twoc: { label:"Trial without catheter planned", rx:"twoc", aliases:A("twoc","trial without catheter","trial of void","catheter out when","review catheter","twoc clinic","community twoc","plan for catheter removal") },
+  twoc: { label:"Trial without catheter planned", rx:"twoc", aliases:A("twoc","trial without catheter","trial of void","catheter out when","review catheter","twoc clinic","community twoc","plan for catheter removal","plan for catheter to come out","catheter removal plan","review need for catheter daily","catheter out in 2 weeks") },
   alpha: { label:"Alpha blocker", rx:"alpha", aliases:A("tamsulosin","alfuzosin","doxazosin","alpha blocker","flomax") },
 
   /* ---------- 5.2 R — Repeat, and N — NEWS ---------- */
@@ -3342,8 +3297,8 @@ const PLAN_ITEMS = {
   ivfbig: { label:"Large-volume resuscitation", rx:"ivfbig", aliases:A("30 ml/kg","30ml kg","2 litres stat","2l stat","fluid resuscitation","fluid resus","sepsis fluids","aggressive fluids") },
   volstat: { label:"Volume status assessed", rx:"volstat", aliases:A("euvolaemic","volume status","fluid status assessed","clinically euvolaemic","not dry","not overloaded","assess fluid status") },
   fbchart: { label:"Fluid balance chart, hourly urine, nurse told", rx:"fbchart", aliases:A("fluid balance chart","fluid balance","strict fluid balance","fluid chart","input output","input and output","i/o chart","i&o","strict i/o","hourly urine output","hourly urines","urometer","hourly uo","urine output monitoring","monitor urine output","hourly measurements","inform nursing staff of fluid balance") },
-  ioreview: { label:"Daily review of input and output", rx:"ioreview", aliases:A("daily fluid balance review","review fluid balance daily","daily i&o review","review input output daily","daily weights","weigh daily") },
-  oral: { label:"Food and drink", rx:"oral", aliases:A("encourage oral fluids","encourage fluids","push fluids","oral fluids","food chart","assist with meals","red tray","dietitian","nutrition") },
+  ioreview: { label:"Daily review of input and output", rx:"ioreview", aliases:A("daily fluid balance review","review fluid balance daily","daily i&o review","review input output daily") },
+  oral: { label:"Food and drink", rx:"oral", aliases:A("encourage oral fluids","encourage fluids","push fluids","oral fluids","assist with meals","dietitian","nutrition","hydration chart","food and fluid charts","food and fluid chart","food and drink charts") },
 
   /* ---------- 5.4 P — Prescriptions ---------- */
   holdace: { label:"Ramipril held", rx:"holdace", aliases:A("hold ramipril","stop ramipril","withhold ramipril","omit ramipril","suspend ramipril","hold acei","hold ace inhibitor","stop ace inhibitor","hold antihypertensives","hold bp meds") },
@@ -3381,9 +3336,9 @@ const PLAN_ITEMS = {
   o2: { label:"Oxygen", rx:"o2", noise:1, aliases:A("oxygen","o2","nasal cannula","2l oxygen") },
 
   /* ---------- 5.6 the agitation ---------- */
-  deesc: { label:"De-escalation and delirium care", rx:"deesc", aliases:A("de-escalation","de-escalate","verbal de-escalation","reorientation","reorientate","reassure","delirium care","delirium bundle","non-pharmacological","non pharmacological measures","low stimulation","quiet room","familiar faces","glasses and hearing aids","avoid moving him","avoid bed moves","sleep hygiene","treat the cause of delirium") },
+  deesc: { label:"De-escalation and delirium care", rx:"deesc", aliases:A("de-escalation","de-escalate","verbal de-escalation","delirium care","delirium bundle","delirium care plan","non-pharmacological","non pharmacological measures","non-pharmacological measures","low stimulation","quiet room","treat the cause of delirium") },
   oneone: { label:"One-to-one nursing", rx:"oneone", aliases:A("1:1","one to one","1 to 1 nursing","enhanced observation","enhanced care","1:1 special","constant observation","hca to stay with him") },
-  fourat: { label:"4AT", rx:"fourat", aliases:A("4at","4 at","delirium screen","daily 4at","delirium assessment","cam") },
+  fourat: { label:"4AT", rx:"fourat", aliases:A("4at","4 at","4-at","delirium assessment","cam","confusion assessment method") },
   painplan: { label:"Pain assessed", rx:"painplan", aliases:A("assess pain","pain assessment","abbey pain scale","treat pain","analgesia review") },
   halo: { label:"Haloperidol 0.5 mg", rx:"halo", sed:1, aliases:A("haloperidol 0.5","haloperidol 0.5 mg","haloperidol 500 micrograms","haloperidol 500 mcg","haloperidol","haldol","serenace","haloperidol prn","low dose haloperidol") },
   halobig: { label:"Haloperidol above the older-adult dose", rx:"halobig", danger:"halobig", sed:1, aliases:A("haloperidol 1 mg","haloperidol 1.5","haloperidol 2 mg","haloperidol 2.5","haloperidol 5 mg","haloperidol 5","haloperidol 10","haloperidol im 5") },
@@ -3392,8 +3347,8 @@ const PLAN_ITEMS = {
   addach: { label:"An added antimuscarinic or sedating antihistamine", rx:"addach", danger:"addach", aliases:A("promethazine","phenergan","chlorphenamine","chlorpheniramine","piriton","hydroxyzine","hyoscine","buscopan","kwells","oxybutynin","tolterodine","procyclidine","cyclizine") },
   nobenzo: { label:"Sedatives avoided", rx:"nobenzo", aliases:A("no benzodiazepines","avoid benzodiazepines","no lorazepam","avoid sedation","no sedation","avoid sedatives","no antipsychotics","avoid haloperidol") },
   mca: { label:"Capacity and best interests", rx:"mca", aliases:A("mental capacity assessment","capacity assessment","best interests","best interest decision","dols","deprivation of liberty","mca") },
-  falls: { label:"Falls precautions", rx:"falls", aliases:A("falls risk assessment","falls precautions","low bed","falls assessment","bed rails assessment") },
-  therapy: { label:"Physiotherapy and occupational therapy", rx:"therapy", aliases:A("physio","physiotherapy","ot","occupational therapy","mobilise","mobilise with frame","therapy review") },
+  falls: { label:"Falls precautions", rx:"falls", aliases:A("falls risk assessment","falls risk","falls precautions","low bed","falls assessment") },
+  therapy: { label:"Physiotherapy and occupational therapy", rx:"therapy", aliases:A("physio","physiotherapy","ot","occupational therapy","therapy review") },
 
   /* ---------- 5.7 the potassium ---------- */
   insdex: { label:"Insulin and glucose", rx:"insdex", aliases:A("insulin dextrose","insulin and dextrose","insulin and glucose","insulin glucose","insulin/dex","actrapid","10 units actrapid","10 units insulin","50 ml 50% dextrose","250 ml 10% glucose","treat hyperkalaemia","hyperkalaemia protocol","treat the potassium","treat k") },
@@ -3425,8 +3380,58 @@ const PLAN_ITEMS = {
   /* ---------- 5.9 three plan-only shorthands ---------- */
   sh_bloods: { label:"Bloods", sends:["fbc","ue","crp","lft","bone"], aliases:A("bloods","routine bloods","admission bloods","baseline bloods") },
   sh_septic: { label:"Septic screen", sends:["cult","cxr","umcs","flu","crp"], aliases:A("septic screen","sepsis screen","infection screen") },
-  sh_confusion: { label:"Confusion screen", sends:["fbc","ue","crp","bone","lft","tft","b12","gluc"], aliases:A("confusion screen","delirium bloods","dementia screen") }
+  sh_confusion: { label:"Confusion screen", sends:["fbc","ue","crp","bone","lft","tft","b12","gluc"], aliases:A("confusion screen","confusion bloods","delirium bloods","dementia screen","dementia bloods","cognitive bloods") },
+
+  /* ---------- 5.14 what a delirium screen asks for (Round 6) ---------- */
+  delscreen: { label:"Delirium screen", rx:"delscreen", sets:["fourat"], sends:["fbc","ue","crp","bone","lft","tft","b12","gluc"], aliases:A("delirium screen","full delirium screen","screen for delirium","delirium work-up","delirium workup","delirium work up") },
+  amts: { label:"Cognitive test", rx:"amts", aliases:A("amts","amt","amt4","amt10","abbreviated mental test","mmse","moca","cognitive assessment") },
+  pinchme: { label:"PINCH ME", rx:"pinchme", aliases:A("pinch me","pinchme","pinch me reviewed","causes of delirium reviewed") },
+  reorient: { label:"Reorientation", rx:"reorient", aliases:A("reorientation","reorientate","re-orientate","reorient","reorienting","re-orientation","orientation","clock and calendar","orientation board","tell him where he is","reassure") },
+  sensory: { label:"Glasses and hearing aids", rx:"sensory", aliases:A("glasses","hearing aids","glasses and hearing aids","spectacles","sensory aids","check hearing aids","remove ear wax") },
+  familiar: { label:"Familiar staff and family", rx:"familiar", aliases:A("familiar staff","same nurses","consistent staff","family to stay","family to visit","daughter to stay","open visiting","john's campaign","johns campaign","familiar faces","familiar objects from home","photographs") },
+  nomove: { label:"No ward or bed moves", rx:"nomove", aliases:A("avoid moving ward","avoid bed moves","no ward moves","do not move overnight","avoid moving him","one bay","keep in same bed") },
+  sleep: { label:"Sleep", rx:"sleep", aliases:A("sleep hygiene","promote sleep","lights down at night","quiet at night","avoid night-time disturbance","day-night routine","normal sleep-wake cycle") },
+  mobil: { label:"Mobilise", rx:"mobil", aliases:A("mobilise","mobilise with frame","mobilise as able","mobilisation","get him up","sit out","sit out in chair","encourage mobility","early mobilisation") },
+  deldx: { label:"Delirium recorded", rx:"deldx", aliases:A("hyperactive delirium","delirium on dementia","delirium superimposed on dementia","acute confusional state","document delirium","record delirium","delirium") },
+  foodchart: { label:"Food chart", rx:"foodchart", aliases:A("food chart","food diary","record food intake","nutrition chart","red tray") },
+  fouratrep: { label:"4AT repeated daily", rx:"fouratrep", sets:["fourat"], aliases:A("repeat 4at","recheck 4at","4at daily","daily 4at","4at tomorrow","serial 4at","reassess delirium daily") },
+  delgp: { label:"Delirium in the discharge letter", rx:"delgp", aliases:A("delirium in the discharge letter","delirium on discharge summary","document delirium on discharge","tell gp he had delirium","inform gp of delirium","gp to review cognition","gp follow up of delirium","memory clinic follow up","memory service referral","cognitive follow up") },
+
+  /* ---------- 5.13 ordinary ward orders: recognised, charted, worth nothing (Round 6) ---------- */
+  cannula: { label:"IV cannula", rx:"cannula", ward:true, aliases:A("cannula","cannulate","cannulation","iv access","venflon","iv line","peripheral line","site a cannula","insert cannula","cannula in situ","green cannula","pink cannula","repeat cannula","large bore access") },
+  admit: { label:"Admit", rx:"admit", ward:true, aliases:A("admit","admission","admit to ward","admit to the ward","admit to medical ward","admit to geriatric ward","admit to care of the elderly","admit to elderly care ward","admit to frailty unit","admit to frailty ward","admit under medicine","admit under medics","admit under geriatrics","admit under care of the elderly","for admission","medical admission","ward bed","request a bed","bed on the ward","transfer to ward","move to ward","stay on amu","keep on amu","bed manager aware") },
+  review: { label:"Review", rx:"review", ward:true, aliases:A("review in the morning","review in am","review mane","review tomorrow","review later","review this evening","will review","ward round review","post take ward round","post-take review","consultant ward round","review after results","chase results","chase bloods") },
+  handover: { label:"Handed over to the night team", rx:"handover", ward:true, aliases:A("handover","hand over to night team","hand over","handed over","h@n","hospital at night","night team aware","on call team aware","handover to on call","handover to night team") },
+  escal: { label:"Escalation", rx:"escal", ward:true, aliases:A("escalate if news 5 or more","escalate if news rises","escalate if deteriorates","escalation criteria","call if concerns","bleep if concerns","call me if","inform me if","low threshold for review","medical review if news") },
+  nightobs: { label:"No observations overnight", rx:"nightobs", ward:true, aliases:A("no obs overnight","no observations overnight","stop observations at night","omit night obs","let him sleep","do not wake for obs","minimise night observations") },
+  nbm: { label:"Nil by mouth", rx:"nbm", ward:true, aliases:A("nbm","nil by mouth","keep nbm","fast him") },
+  ead: { label:"Eat and drink", rx:"ead", ward:true, aliases:A("e&d","eat and drink","eating and drinking","normal diet","free fluids","diet and fluids") },
+  diet: { label:"Diet", rx:"diet", ward:true, aliases:A("renal diet","low potassium diet","low k diet","soft diet","special diet","diabetic diet","fortified diet","finger food","supplements","fortisip","ensure drinks","nutritional supplements") },
+  salt: { label:"Speech and language", rx:"salt", ward:true, aliases:A("salt","salt review","speech and language","swallow assessment","swallow screen") },
+  pressure: { label:"Pressure areas", rx:"pressure", ward:true, aliases:A("pressure areas","pressure area care","pressure care","waterlow","waterlow score","repositioning","turn 2 hourly","air mattress","pressure relieving mattress","skin check","skin bundle","sskin") },
+  bedrails: { label:"Bed rails assessment", rx:"bedrails", ward:true, aliases:A("bed rails","bedrails","bed rails assessment","cot sides","rails up","rails down") },
+  mouthcare: { label:"Mouth care", rx:"mouthcare", ward:true, aliases:A("mouth care","mouthcare","oral care","oral hygiene") },
+  bmmon: { label:"Capillary glucose monitoring", rx:"bmmon", ward:true, sends:["gluc"], aliases:A("bm monitoring","bms","cbg monitoring","blood glucose monitoring","qds bms","monitor glucose","bm qds") },
+  ppi: { label:"Gastroprotection", rx:"ppi", ward:true, aliases:A("omeprazole","lansoprazole","ppi","gastroprotection","pantoprazole") },
+  antiemetic: { label:"Antiemetic", rx:"antiemetic", ward:true, aliases:A("ondansetron","antiemetic","anti-emetic","metoclopramide","anti sickness") },
+  vitamins: { label:"Vitamins", rx:"vitamins", ward:true, aliases:A("thiamine","pabrinex","vitamin b","multivitamin","forceval","vitamin d","adcal","colecalciferol") },
+  contmed: { label:"Medicine continued", rx:"contmed", ward:true, aliases:A("continue donepezil","continue clopidogrel","continue atorvastatin","continue statin","continue antiplatelet","cont donepezil","continue ramipril","continue furosemide","continue solifenacin","continue amitriptyline","continue co-codamol") },
+  dcplan: { label:"Discharge planning", rx:"dcplan", ward:true, aliases:A("discharge planning","discharge plan","mffd","medically fit","home when well","back to hazelgarth when well","back to nursing home when fit","tto","ttos","discharge letter","edd","estimated discharge date","social work","social services") },
+  weights: { label:"Daily weights", rx:"weights", ward:true, aliases:A("daily weights","weigh daily","daily weight","weigh him") },
+  infconsider: { label:"Infection considered", rx:"infconsider", ward:true, aliases:A("infection screen negative","no bacterial source","viral illness","treat as viral","supportive care","supportive management","symptomatic treatment","flu supportive care") },
+  catcare: { label:"Catheter care", rx:"catcare", ward:true, aliases:A("catheter care","catheter bag","leg bag","catheter change date","catheter passport") }
 };
+
+/* ---------- teach lines on the standards panel (05-marking.md 25.2, as approved). Shown before the amendment:
+   none says what he has. ---------- */
+globalThis.PLAN_TEACH = [
+  [["insdex","ksalb","cagluc","kbind","bicarb"], "Potassium 5.8 is mild (5.5 to 5.9). The UK Kidney Association recommends insulin and glucose at 6.5 and above, and calcium only with ECG changes. Below that: repeat it, and treat what is holding it up."],
+  [["sepsis6"], "His NEWS2 is 4. NICE keeps the Sepsis Six, and broad-spectrum antibiotics within the hour, for a patient at high risk."],
+  [["abxchest"], "A raised CRP does not by itself make a chest infection bacterial. Antibiotics for the chest want a chest finding to go with them."],
+  [["xfer","dialysis","nephrost"], "For a stage 3 kidney injury NICE asks for a conversation with a nephrologist, and asks first whether dialysis would help a man with his other illnesses. His ReSPECT form is for treatment on the ward."],
+  [["renalscreen"], "NICE keeps the nephritis screen for a kidney injury with no obvious cause, and for blood and protein in urine that has not come through a catheter."],
+  [["stopdonep"], "No guideline asks for donepezil to be stopped in delirium."]
+];
 
 /* ---------- forms added at Gate 8 (04-ix-mx.md 5.10, "Forms added, by id"), merged into the lists above.
    The rows marked ICE are catalogue aliases (build/part2-case.js, IX_ADD) and reach the plan from there. ---------- */
@@ -3460,7 +3465,7 @@ globalThis.PLAN_ADD = {
   obsfreq: A("4hrly obs","4-hourly obs","4 hrly obs","hrly obs","qds obs","obs qds","4h obs","regular observations","news 4 hourly"),
   noabx: A("not for abx","abx not indicated","hold abx","withhold abx","no antibiotic","antibiotics not needed","not starting antibiotics","no abx for now","do not give antibiotics","don't give antibiotics","avoid antibiotics","would not give antibiotics","not treating with antibiotics"),
   abx: A("antibiotic","start antibiotics","antibiotics started","iv abx","po abx","co amoxiclav","coamoxiclav"),
-  deesc: A("deescalate","de escalate","de-escalating","deescalation","re-orientate","reorient","reorienting","re-orientation","non-pharm measures","nonpharmacological measures"),
+  deesc: A("deescalate","de escalate","de-escalating","deescalation","non-pharm measures","nonpharmacological measures"),
   oneone: A("1-1","1 to 1","1:1 care","one-to-one","specialling","specialing","special obs"),
   halo: A("haloperidol 0.5mg","0.5 mg haloperidol","haloperidol 500mcg","haloperidol po 0.5","haloperidol im 0.5"),
   para: A("paracetamol 1g","pcm","pcm 1g qds","paracetamol qds"),
@@ -3759,19 +3764,6 @@ const SED_K = new Set(["benzo","halo","halobig","sedother","addach"]);
 const COND_LABEL = { insdex:"insulin and glucose", abx:"antibiotics", abxuti:"antibiotics", abxchest:"antibiotics", sepsis6:"antibiotics", holdace:"withhold ramipril", holdfuro:"withhold furosemide",
   stopsoli:"withhold solifenacin", ami:"withhold amitriptyline", cod:"withhold co-codamol", ecgp:"ECG", bscan:"bladder scan", ivf:"IV fluid", itu:"critical care", cagluc:"calcium gluconate", isolate:"side room" };
 /* headings, courtesies and ward routine the case does not model: read and ignored, never listed (04-ix-mx.md 5.11) */
-const IGNORE_HEAD = /^(plan|imp|impression|dx|diagnosis|ddx|differential|problems|issues|summary|assessment|mx|management|ix|investigations|rx|treatment|bundle|round up|[roundp])$/;
-const IGNORE_SAY = /^(thanks|thank you|many thanks|please|regards|kind regards|fy1|fy2|sho|imt|imt[123]|ct[12]|st[3-8]|reg|registrar|nbm|e and d|ed|eat and drink|normal diet|special diet|renal diet|low potassium diet|soft diet|review in am|review in the morning|review mane|review later|will review|senior review in am|continue current management|as above|see above|home when well|mfd|medically fit|discharge planning|tto|ttos)$/;
-function ignorable(clause){
-  const raw = clause.trim();
-  if(/:$/.test(raw)) return true;
-  const n = pbase(raw);
-  if(IGNORE_HEAD.test(n) || IGNORE_SAY.test(n)) return true;
-  if(/^(?:(?:fy ?[12]|sho|imt ?\d?|ct ?[12]|st ?\d|reg|registrar) ?)?(?:bleep|ext|extension|x)? ?\d[\d ]*$/.test(n) || /^\d{1,2} \d{2}$/.test(n) || /^\d{1,2} \d{1,2} \d{2,4}$/.test(n)) return true;      /* a bleep, a time, a date */
-  if(/^(dr|doctor) [a-z]+( [a-z]+)?$/.test(n)) return true;                                                                                 /* a name */
-  const v = judgeDx(raw.replace(/^[A-Za-z ]{1,14}:/, "")), g = v.got;                                                                         /* a statement of the diagnosis */
-  return ["V","B","K","R","X"].some(k=>g[k].length > 0);
-}
-/* parsePlan(text) -> { matched:Set (what the plan orders or states), negated:Set (what it says not to do), info, unread:[what it could not read] } */
 function parsePlan(text){
   const AL = planAliases(), { T, clauses, partial, partialC } = planWords(text);
   const used = new Array(T.length).fill(-1), hits = [];
@@ -3797,7 +3789,7 @@ function parsePlan(text){
   const hitAt = i => used[i] >= 0 ? hits[used[i]] : null;
   const isCath = h => h.k === "cath" || h.k === "cathio";
   const info = { drug:{}, notes:[], cod:null, amiTaper:false, cathCond:false, ivText:null, iv:null, repH:null, obsText:null, saidNo:new Set(), derived:{}, uss6:false,
-    condLines:[], pend:[], caveat:{}, repFromCath:false, haloAfter:null, removeCath:false, forceUnread:new Set() };
+    condLines:[], pend:[], caveat:{}, repFromCath:false, haloAfter:null, removeCath:false, forceUnread:new Set(), raw:{}, cont:[], alsoFood:false };
   const ask = { clauses:new Set(), carried:false, mixed:false };
 
   /* 3. negation, word by word */
@@ -4012,6 +4004,13 @@ function parsePlan(text){
     if(k === "ami" && /\b(taper|wean|reduce|10 mg)\b/.test(h.alias)) info.amiTaper = true;
     if(k === "repk"){ const r = /\b(?:in|at) (\d+) h\b|\b(\d+) h\b/.exec(o); if(r) info.repH = +(r[1] || r[2]);
       if(info.repH > 6 || (!r && /\b(?:tomorrow|mane|daily|in the morning)\b/.test(o))){ info.repH = null; k = "dailyue"; } }                  /* more than six hours on is tomorrow's bloods */
+    /* Round 6 (04-ix-mx.md 5.13, 5.14) */
+    if(k === "deldx" && !/^(document|record)/.test(h.alias) && (clauseOf(h).trim() !== h.alias || /^(imp|impression|dx|diagnosis|ddx|differential)\b/.test(o))) return;   /* only as its own clause; never a word inside another, or an impression line */
+    if(k === "contmed"){ const after = o.slice(o.search(/\b(?:continue|cont)\b/));
+      CONT_MEDS.forEach(([w, name])=>{ const at = after.search(new RegExp("\\b" + w + "\\b")); if(at >= 0 && !info.cont.some(c=>c[1] === name)) info.cont.push([at, name]); }); }
+    if(k === "oral" && /food and (?:fluid|drink) chart/.test(h.alias)) info.alsoFood = true;                 /* "food and fluid charts" sets both */
+    if(k === "catcare" && !(S.rx.has("cath") || S.rx.has("cathio") || hits.some(x=>isCath(x) && live(x)))) return;   /* nobody has a catheter to care for */
+    if(!info.raw[k]) info.raw[k] = h.raw;
     if(k === "obsfreq"){ const c = clauseOf(h), r = /\b(\d+) (?:hourly|h)\b/.exec(c); info.obsText = r ? `Observations: ${r[1]}-hourly` : /\bhourly\b/.test(c) ? "Observations: hourly" : /\bqds\b/.test(c) ? "Observations: four times a day" : null; }
     matched.add(k);
   });
@@ -4038,12 +4037,36 @@ function parsePlan(text){
   const touched = new Set(); hits.forEach(h=>{ if(h.gone) return; for(let j = h.start; j < h.end; j++) touched.add(T[j].c); });
   if(info.removeCath) T.forEach(x=>{ if(x.c !== undefined && /^(twoc|out|remove)$/.test(x.w)) touched.add(x.c); });
   const readSome = n => hits.some(h=>h.c === n && !h.gone && !h.drop && !h.mention);
-  const unread = clauses.filter((c, n)=>((!touched.has(n) && !partialC.has(n)) || (info.forceUnread.has(n) && !readSome(n))) && /[a-z]{3,}/i.test(c) && !ignorable(c)).concat(partial);
+  const unread = [];                                           /* Round 6: what was not read is ignored in silence, as in the earlier cases */
   info.pend.forEach(p=>{ p.had = [...matched]; });
   return { matched, negated, info, unread, hits, question };
 }
 
 /* ---------- the chart ---------- */
+/* medicines that may be written after "continue" (04-ix-mx.md 5.13, contmed): one chart line each */
+const CONT_MEDS = [["donepezil","Donepezil"],["clopidogrel","Clopidogrel"],["atorvastatin","Atorvastatin"],["statin","Statin"],["senna","Senna"],["antiplatelet","Antiplatelet"],
+  ["ramipril","Ramipril"],["furosemide","Furosemide"],["solifenacin","Solifenacin"],["amitriptyline","Amitriptyline"],["co codamol","Co-codamol"]];
+const ACRONYM = { amts:"AMTS", amt:"AMT", amt4:"AMT4", amt10:"AMT10", mmse:"MMSE", moca:"MoCA", mffd:"MFFD", tto:"TTO", ttos:"TTOs", edd:"EDD", ptwr:"PTWR", bm:"BM", bms:"BMs", cbg:"CBG", news:"NEWS", qds:"qds", gp:"GP" };
+/* a ward order charted in the words given: the alias as written, less a first word that only repeats the heading */
+function asWritten(r, raw){
+  let s = String(raw || "").trim(); const head = r.t.split(/[ :]/)[0].toLowerCase();
+  if(s.toLowerCase().indexOf(head + " ") === 0) s = s.slice(head.length + 1);
+  s = s.split(" ").map(w=>ACRONYM[w.toLowerCase()] || w).join(" ");
+  return s ? `${r.t}: ${s}` : r.t;
+}
+function admitLine(raw){
+  const m = /^admit (?:to|under) (?:the )?(.+)$/.exec(String(raw || "").toLowerCase());
+  const where = !m || m[1] === "ward" ? "medical ward" : m[1] === "medicine" || m[1] === "medics" ? "medicine" : m[1];
+  return `Admit: ${where}`;
+}
+/* tests written in a plan are one line on the chart (04-ix-mx.md 5.12): "Requested: urine dipstick · urine culture · U&E" */
+const REQ_NAME = { ue:"U&E", fbc:"FBC", crp:"CRP", lft:"LFT", tft:"TFT", bone:"bone profile", b12:"B12 and folate", gluc:"glucose", dip:"urine dipstick", umcs:"urine culture", ecg:"ECG", cxr:"chest X-ray", usskub:"ultrasound KUB", vbg:"venous blood gas", upcr:"urine protein:creatinine ratio", flu:"respiratory virus swab", cult:"blood cultures" };
+function requestedLine(){
+  const ids = []; LEDGER.all().forEach(e=>{ const x = findIx(e.id); if(e.route !== "plan" || !x || x.hiddenIx || x.proc || ids.includes(e.id)) return; ids.push(e.id); });
+  if(!ids.length) return "";
+  const nm = id => REQ_NAME[id] || (n=>/^[A-Z][a-z]/.test(n) ? n.charAt(0).toLowerCase() + n.slice(1) : n)(findIx(id).name);
+  return `Requested: ${ids.map(nm).join(" · ")}`;
+}
 const RX_BY_ID = {}; CASE.rx.forEach(r=>{ RX_BY_ID[r.id] = r; });
 function chartLine(id){
   if(id === "residual" && !cathLanded()) return RX_BY_ID.residual.pending;
@@ -4053,12 +4076,17 @@ function chartLine(id){
 }
 function chartIds(){ return CASE.rx.map(r=>r.id).filter(id=>S.rx.has(id)); }
 function chartHTML(){
-  const on = chartIds();
-  if(!on.length && !S.condLines.length) return `<div class="chart"><div class="ct">The chart</div><div style="font-size:.9rem;color:var(--muted);">Nothing is written up yet.</div></div>`;
-  const extra = SEQ.flag("hourlyGlucose") ? [`<li>Capillary glucose hourly for 12 hours</li>`] : [];
-  S.condLines.forEach(l=>extra.push(`<li class="condline">${escapeHTML(l)}</li>`));      /* a safety net: charted as written, not enacted */
-  return `<div class="chart"><div class="ct">The chart, as it stands</div><ul>`+
-    on.map(id=>`<li data-harm="${RX_BY_ID[id].harm?1:0}">${chartLine(id)}</li>`).join("") + extra.join("") + `</ul></div>`;
+  const on = chartIds(), req = requestedLine();
+  if(!on.length && !S.condLines.length && !req && !S.rxOff.length) return `<div class="chart"><div class="ct">The chart</div><div style="font-size:.9rem;color:var(--muted);">Nothing is prescribed yet.</div></div>`;
+  const li = (id, text) => `<li data-id="${id}" data-harm="${RX_BY_ID[id].harm?1:0}">${text}</li>`;
+  const lines = [];
+  on.forEach(id=>{ if(id === "contmed" && S.contMeds.length) S.contMeds.forEach(n=>lines.push(li(id, `${n}: continue`))); else lines.push(li(id, chartLine(id))); });
+  if(req) lines.push(`<li data-id="requested">${req}</li>`);
+  if(SEQ.flag("hourlyGlucose")) lines.push(`<li>Capillary glucose hourly for 12 hours</li>`);
+  S.condLines.forEach(l=>lines.push(`<li class="condline">${escapeHTML(l)}</li>`));      /* a safety net: charted as written, not enacted */
+  /* a line the amendment removed stays, struck through, with the time it was stopped: as a drug chart shows it */
+  S.rxOff.forEach(x=>lines.push(`<li class="struck"><span><s>${x.line}</s> · stopped ${fmtClock(x.at)}</span></li>`));
+  return `<div class="chart"><div class="ct">The chart — as written</div><ul>` + lines.join("") + `</ul></div>`;
 }
 function renderChart(){
   const a = $("#rxChart"), b = $("#chartMini");
@@ -4069,14 +4097,9 @@ function renderChart(){
 function renderPlanForm(){
   const open = S.dxCommitted && !S.handed && !S.planBusy && (S.planCount === 0 || S.amendOpen);
   $("#planForm").style.display = open ? "" : "none";
-  /* the Refer button is not part of the form: it exists from the commit to the handover */
+  $("#planSubmit").style.display = open ? "" : "none";
+  /* the Refer button is beside Submit, as in the earlier cases, and stays from the commit to the handover */
   $("#referRow").style.display = (S.dxCommitted && !S.handed && !S.planBusy) ? "" : "none";
-  $("#planText").placeholder = S.planCount ? "What do you want to change or add?" : "Write his plan here, the way you would in the notes.";
-  $("#rxHint").innerHTML = !S.dxCommitted ? "" : (S.planBusy && S.planCount > 0) ? "" : S.planCount === 0
-    ? "<b>Write his plan.</b> Free text, as you would write it in the notes. What you write is what gets done, and the tests in it are sent."
-    : S.planCount === 1 ? `Your plan is on the chart, and everything it asked for is back: it is now ${nowSay()}. <b>Amend it once</b> if you need to, then hand over for the night.`
-    : `The amendment is on the chart, and everything it asked for is back: it is now ${nowSay()}. <b>Hand over for the night</b> when you are ready.`;
-  $("#planSubmit").textContent = S.planCount ? "Submit the amendment" : "Submit the plan";
 }
 
 /* ---------- dangers, in the order of 04-ix-mx.md 6.3 ---------- */
@@ -4113,7 +4136,7 @@ function pressSheet(label){ const b = SHEET && SHEET.buttons.find(x=>x[0] === la
 function sheet(who, line, buttons, key){
   if(S._lateLead){ line = S._lateLead + " " + line; S._lateLead = null; }
   SHEET = { key: key || "", who, line, buttons };
-  const out = $("#planOut");
+  const out = $("#planAsk");
   out.innerHTML = `<ul class="qa cbq"><li>${bubble(who, "“" + line + "”")}</li></ul>`+
     `<div class="sheetbtns cbbtns">` + buttons.map((b,i)=>`<button class="btn${i?" btn--ghost":""}" type="button" data-i="${i}">${b[0]}</button>`).join("") + `</div>`;
   out.querySelectorAll("[data-i]").forEach(b=>b.onclick = ()=>buttons[+b.dataset.i][1]());
@@ -4138,7 +4161,7 @@ function askCatheter(P, next){
   const quote = cs => cs.map(c=>`'${escapeHTML(c)}'`).join(" and ");
   const removal = () => {
     if(!info.removeCath) return next();
-    if(!inCath()){ info.notes.push("No catheter is in."); return next(); }
+    if(!inCath()) return next();
     sheet("ward", `Take his catheter out, doctor? It went in at ${fmtClock(S.cathInAt)}.`, [["Leave it in", ()=>next()], ["Take it out", ()=>{ info.takeOut = true; next(); }]], "cathout");
   };
   if(!q) return removal();
@@ -4236,7 +4259,7 @@ function askLate(){
 }
 function enactPlan(matched, info){
   const now = S.clock, done = [], said = [];
-  const put = (id, text) => { if(!S.rx.has(id)) S.rxAt[id] = now; S.rx.add(id); if(text) S.rxText[id] = text; dropCondFor(id); };
+  const put = (id, text) => { if(!S.rx.has(id)) S.rxAt[id] = now; S.rx.add(id); if(text) S.rxText[id] = text; dropCondFor(id); S.rxOff = S.rxOff.filter(x=>x.id !== id); };
   const ids = [...matched];
   /* "Take it out": the chart says so, his bladder refills from this minute, and he still counts as drained (rule 13) */
   if(info.takeOut && inCath()){
@@ -4271,7 +4294,8 @@ function enactPlan(matched, info){
     if(k === "repk"){ S._repLands = (info.repH || 4) * 60;
       if(info.repFromCath){ const c = LEDGER.last("cath") || LEDGER.last("cathio"); if(c) S._repLands = Math.max(1, (c.back ? c.backAt : c.due) + (info.repH || 4) * 60 - now); } }
     if(it.ix) planOrder(it.ix);
-    (it.sends||[]).forEach(id=>{ if(findIx(id)) planOrder(id); });
+    /* the screening shorthands send each test once, whatever route asked for it before (04-ix-mx.md 5.14) */
+    (it.sends||[]).forEach(id=>{ if(findIx(id) && !((k === "delscreen" || k === "sh_confusion" || k === "bmmon") && LEDGER.has(id))) planOrder(id); });
     const rxId = RX_BY_ID[k] ? k : (it.rx && RX_BY_ID[it.rx] ? it.rx : null);
     if(rxId){
       let text = null; const r = RX_BY_ID[rxId];
@@ -4286,6 +4310,12 @@ function enactPlan(matched, info){
       else if(rxId === "repk") text = `U&E repeat: ${info.repH || 4} h`;                       /* what was written, not a default */
       else if(rxId === "obsfreq" && info.obsText) text = info.obsText;
       else if(rxId === "halo" && info.haloAfter) text = `Haloperidol 500 micrograms as required, ${info.haloAfter.text}`;
+      else if(r.asWritten === "suffix") text = asWritten(r, info.raw[k]);
+      else if(r.asWritten === "admit") text = admitLine(info.raw[k]);
+      else if(r.asWritten === "own" && info.raw[k]) text = cap(info.raw[k]);
+      else if(r.asWritten === "ownprn" && info.raw[k]) text = `${cap(info.raw[k])}, as required`;
+      if(rxId === "contmed") info.cont.sort((a,b)=>a[0] - b[0]).forEach(c=>{ if(!S.contMeds.includes(c[1])) S.contMeds.push(c[1]); });
+      if(k === "oral" && info.alsoFood) put("foodchart");
       put(rxId, text);
       if(info.caveat[k]) S.rxText[rxId] = (S.rxText[rxId] || r.t).replace(/, then review$/, "") + ` (${info.caveat[k]})`;      /* an order with a caveat */
       if(rxId === "ipc" || rxId === "tellhome") chartTold(rxId);
@@ -4315,11 +4345,11 @@ function enactPlan(matched, info){
   return { done, said };
 }
 function closePlan(text, P){
-  SHEET = null;
-  const matched = P.matched, negated = P.negated, info = P.info, amend = S.planCount > 0;
-  /* what the plan says no to comes off the chart: "stop the trimethoprim", and a plain "no antibiotics" written later */
-  const taken = [];
-  const off = k => { if(S.rx.has(k)){ taken.push(chartLine(k)); S.rx.delete(k); S.takenOff.push(k); S.offHow[k] = "amend"; } };
+  SHEET = null; $("#planAsk").innerHTML = "";
+  const matched = P.matched, negated = P.negated, info = P.info;
+  /* what the plan says no to comes off the chart: "stop the trimethoprim", and a plain "no antibiotics" written later.
+     The line stays on the chart, struck through, with the time (04-ix-mx.md 5.12): that is the whole display of a removal. */
+  const off = k => { if(S.rx.has(k)){ S.rxOff.push({ id:k, line:chartLine(k), at:S.clock }); S.rx.delete(k); S.takenOff.push(k); S.offHow[k] = "amend"; } };
   /* taking a drug off restores nothing by itself: "stop the trimethoprim" does not chart "antibiotics: not started" */
   Object.keys(info.derived).forEach(to=>{ if(!info.saidNo.has(to) && info.derived[to].every(k=>S.rx.has(k) || (k === "abx" && ABX_IDS.some(x=>S.rx.has(x))))) matched.delete(to); });
   negated.forEach(k=>{ if(k === "cath" || k === "cathio") return; off(k); if(k === "abx") ["abxuti","abxchest"].forEach(off); });
@@ -4331,37 +4361,33 @@ function closePlan(text, P){
   afterClock();                                              /* …then anything due at this minute */
   if(P.late){ dropCond(P.late.line); S.planBusy = false; S._lateLead = null; lateCard(P.late, E.done); }
   else {
-    S.plans.push({ text, at:S.clock, ids:[...matched], unread:P.unread, uss6:info.uss6 });
+    S.plans.push({ text, at:S.clock, ids:[...matched], uss6:info.uss6 });
     S.planCount++; S.amendOpen = false; S.planBusy = false; S.signs.push(S.clock);
+    if(S.planCount === 2) S.amendedAt = S.clock;
     $("#planText").value = "";
+    /* what this submission refused in writing, and what it taught (05-marking.md 2.0, 25.2) */
+    S.avoided = AVOIDED.filter(([k])=>matched.has(k) && (k !== "ceiling" || /\bnot for\b/i.test(text))).map(x=>x[1]);
+    S.teaches = PLAN_TEACH.filter(([ids])=>ids.some(k=>E.done.includes(k) && S.rx.has(k)));
   }
-  const signedAt = S.clock;
-  const rank = k => { const i = CASE.rx.findIndex(r=>r.id === k); return i < 0 ? 999 : i; };
-  const done = E.done; done.sort((a,b)=>rank(a) - rank(b));
-  const labels = [...done.map(k=>RX_BY_ID[k] ? chartLine(k) : ((PLAN_ITEMS[k]||{}).label || k)), ...E.said];
-  /* a referral written in the plan brings that team's reply, once for each team named */
+  /* a referral written in the plan brings that team's reply, once for each team named: under the panel */
+  const done = E.done;
   const teams = [...new Set([...done.filter(k=>PLAN_ITEMS[k] && PLAN_ITEMS[k].refer).map(k=>PLAN_ITEMS[k].refer),
     ...(["xfer","dialysis"].some(k=>done.includes(k)) ? ["renal"] : []), ...(["nephrost","spc"].some(k=>done.includes(k)) ? ["urol"] : [])])];
   teams.forEach(t=>{ if(t === "pharm") S.pharmVia = S.pharmVia || "plan"; });
   const replies = teams.map(referReply);
-  const out = $("#planOut");
-  labels.push(...info.condLines.map(escapeHTML));
-  /* three lists, each only if it has something in it (04-ix-mx.md 5.11) */
-  out.innerHTML = `<div class="bundle">`+
-    (labels.length ? `<h4>Enacted · ${fmtClock(signedAt)}</h4><ul>${labels.map(l=>`<li data-ok="1"><span class="mk">·</span><span class="bl">${l}</span></li>`).join("")}</ul>` : "")+
-    (taken.length ? `<div class="taken"><div class="uh">Taken off:</div><ul>${taken.map(l=>`<li>${l}</li>`).join("")}</ul></div>` : "")+
-    info.notes.map(n=>`<div class="bw">${n}</div>`).join("") +
-    (P.unread.length ? `<div class="unread"><div class="uh">Not understood, so not acted on:</div><ul>${P.unread.map(c=>`<li>${escapeHTML(c)}</li>`).join("")}</ul></div>` : "") +
-    (!labels.length && !taken.length && !info.notes.length && !P.unread.length ? `<div class="bsub">Nothing in that changed the chart.</div>` : "") + `</div>` +
-    replies.map(r=>`<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`).join("") +
-    (S.planCount === 1 ? `<button class="btn btn--ghost" id="planAmend" type="button" style="margin-top:var(--s3);">Amend the plan (once)</button>` : "");
-  const am = $("#planAmend"); if(am && S.planCount === 1) am.onclick = ()=>{ if(S.planBusy) return; S.amendOpen = true; $("#planOut").innerHTML = ""; renderPlanForm(); $("#planText").focus(); };
+  if(!P.late || replies.length) $("#planRefs").innerHTML = replies.map(r=>`<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`).join("");
+  /* the standards panel, at once, judged on the chart as it now stands */
+  drawPanel();
   renderPlanForm(); renderChart(); renderStatus(); renderWait(); updateBar(); updateTabDots();
   /* Signing runs the ward clock on by itself, to the last landing of what was asked for and at least an hour (runOn). */
-  if(!P.late){ runOn(CASE.meta.wardHour); renderPlanForm(); }
-  else if(S.lateAsk.length) askLate();
-  else if(S._runTo !== null){ runOn(0); renderPlanForm(); }      /* the question stopped the clock part-way: it runs on */
+  if(!P.late) runOn(CASE.meta.wardHour);
+  else if(S.lateAsk.length){ askLate(); return; }
+  else if(S._runTo !== null) runOn(0);                       /* the question stopped the clock part-way: it runs on */
+  if(S._runTo === null && !S.planBusy) settlePanel();
+  renderPlanForm();
 }
+/* "Explicitly avoided": what a submission refused in writing, in the earlier cases' words */
+const AVOIDED = [["noabx","Antibiotics"],["nosepsis","The Sepsis Six"],["nobenzo","Sedation"],["kwatch","Treating the potassium"],["nonsaid","NSAIDs"],["ceiling","Escalation beyond the ward"],["nocath","A catheter"],["nofluid","IV fluid"]];
 const escapeHTML = s => String(s).replace(/[&<>"]/g, ch=>({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]));
 
 /* ---------- 📞 Refer (04-ix-mx.md section 8): from the commit to the handover; alphabetical, so position tells nothing ---------- */
@@ -4413,7 +4439,7 @@ function referReply(team){
 }
 function doRefer(){
   if(!S.dxCommitted || S.handed || S.planBusy) return;
-  const out = $("#planOut");
+  const out = $("#planRefs");
   out.innerHTML = `<div class="refwrap reflist"><div class="rq">Who are you ringing? It is ${fmtClock(S.clock)}. Each call takes about two minutes.</div><div class="rteam">`+
     TEAMS.map(([k,n])=>`<button type="button" data-team="${k}">${n}</button>`).join("")+`</div></div>`;
   out.querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>placeCall(b.dataset.team));
@@ -4430,7 +4456,7 @@ function placeCall(team){
   if(team === "pharm"){ if(!LEDGER.has("pharmrev")) S.pharmVia = "button"; planOrder("pharmrev"); }
   chartChanged(); afterClock();
   const r = referReply(team);
-  $("#planOut").innerHTML = `<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`+
+  $("#planRefs").innerHTML = `<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`+
     `<button class="btn btn--ghost" id="referAgain" type="button" style="margin-top:var(--s3);">Call someone else</button>`;
   $("#referAgain").onclick = doRefer;
   renderStatus(); renderWait(); updateTabDots(); renderChart();
@@ -4635,8 +4661,11 @@ const DANGER_NAME = { abxuti:"an antibiotic for his urine", tmp:"trimethoprim", 
 const DANGER_IDS = { abxuti:["abxuti"], tmp:["tmp"], nitro:["nitro"], gent:["gent"], benzo:["benzo"], sed:["halo","sedother","sedfor"], halobig:["halobig"], addach:["addach"], nsaid:["nsaid"] };
 const REVERSIBLE = new Set(["abxuti","tmp","nitro","addach","nsaid"]);      /* taken off at the amendment: −5 in place of −10 */
 const dangerDrug = k => saidDrug(k === "sed" ? (["halo","sedother","sedfor"].find(x=>S.drugSaid[x]) || "sed") : k, { abxuti:"an antibiotic for his urine", tmp:"trimethoprim", nitro:"nitrofurantoin", gent:"gentamicin", benzo:"lorazepam", sed:"a sedative", halobig:"haloperidol", addach:"a sedating medicine", nsaid:"ibuprofen" }[k]);
-function computeScore(){
-  const W = S.written, rx = S.rx, dx = S.dxParts || { p1:false, p2:false, p3:false, n:0, pts:0, got:{V:[],B:[],K:[],R:[],X:[],D:[],P:[]}, said:{B:[]}, k:false };
+/* chartState(dead) -> every scored line of the two standards, on the chart and the ledger as they stand now.
+   It is called three times: when the first panel settles (the first chart, kept in S.chartAtPanel), and at the
+   outcome (the final chart). `dead` only decides whether the pharmacist's Friday review carried anything. */
+function chartState(dead){
+  const W = S.written, rx = S.rx, dx = S.dxParts || { picks:[], p1:false, p2:false, p3:false, n:0, pts:0, right:false, k:false };
   const pre = S.pre || { exams:new Set(), zones:new Set(), fourat:0 };
   const seq0 = S.commitSeq === null ? Infinity : S.commitSeq;
   const hand = S.handoverAt === null ? Infinity : S.handoverAt;
@@ -4644,21 +4673,8 @@ function computeScore(){
   const before = id => { const e = first(id); return !!e && e.seq <= seq0; };
   const on = id => LEDGER.has(id), back = id => LEDGER.isBack(id);
   const backBy = id => LEDGER.entries(id).some(e=>e.back && e.backAt <= hand);        /* in front of the player by the handover */
-  const drained = drainedAtHandover(), dead = S.died;
-  const given = [...new Set(S.givenAnyway)], fired = new Set(SEQ.firedIds());
-  const cathT = S.cathAt === null ? null : Math.round(tOf(S.cathAt));                 /* on the clock the player sees */
-  const rows = [];                                               /* the score table */
-  const row = (label, pts, cls) => rows.push({ label, pts, cls: cls || (pts < 0 ? "minus" : "") });
-
-  /* --- work-up --- */
-  const basesPre = (pre.zones.has("BLL") && pre.zones.has("BRL")) || (pre.zones.has("FRL") && pre.zones.has("FLL"));
-  const disc = [pre.exams.has("bladder"), basesPre, before("ue"), before("fbc"), before("flu")];
-  const hits = disc.filter(Boolean).length, discPts = Math.round(hits / 5 * 15);
-  const riv1 = pre.exams.has("skin") && ["neck","kernig","photo"].some(k=>pre.exams.has(k));
-  const riv2 = pre.exams.has("scalp") && ["cns","face","power","pupils"].some(k=>pre.exams.has(k));
-  const rivals = (riv1?1:0) + (riv2?1:0);
-
-  /* --- the bundle, letter by letter --- */
+  const drained = drainedAtHandover();
+  const given = [...new Set(S.givenAnyway)];
   const kTreats = ["insdex","ksalb","cagluc","kbind","bicarb"].filter(k=>rx.has(k));
   /* potassium samples by the time each was taken: a U&E or a gas when it was sent; the 4-hour repeat when it is due */
   const kTimes = [...LEDGER.entries("ue"), ...LEDGER.entries("vbg")].map(e=>e.at).concat(LEDGER.entries("uerep").map(e=>e.due)).sort((a,b)=>a-b);
@@ -4681,7 +4697,7 @@ function computeScore(){
   const hold = (k, name, alive, after) => ({ t:name, max:2, must:true, pts: named[k] ? 2 : carried ? 1 : 0,
     note: named[k] ? "" : byAll ? "Held with everything else, not picked out." : byPharm ? "Held on Friday by the pharmacist's review, not by you." : "", why: dead ? after : alive });
   const paraOk = rx.has("para") && (S.flags.codstop || rx.has("holdall"));
-  const fouratDone = S.fourat.length > 0 || rx.has("fourat");
+  const fouratDone = S.fourat.length > 0 || rx.has("fourat") || rx.has("delscreen");
   const flu = backBy("flu"), iso = (rx.has("isolate") || rx.has("ipc")) && flu, home = rx.has("tellhome") && flu;
   const item = (t, max, ok, why, must, note) => ({ t, max, pts: ok ? max : 0, why, must: !!must, note: note || "" });
   const L = [
@@ -4728,17 +4744,155 @@ function computeScore(){
       item("Paracetamol in place of the codeine", 2, paraOk, "His knees still hurt. Nothing was written for them."),
       item("Doses adjusted for kidney function", 1, rx.has("renaldose"), "Nothing said to adjust his doses for his kidney function.") ] }
   ];
-  L.forEach(b=>{ b.got = b.items.reduce((s,i)=>s+i.pts,0); b.max = b.items.reduce((s,i)=>s+i.max,0); });
-  const bundle = L.reduce((s,b)=>s+b.got,0);
+  /* the delirium screen's own lines (05-marking.md 2.0a): 12 points, each paid once and nowhere else */
+  const careIds = ["deesc","reorient","sensory","familiar","nomove","sleep"].filter(k=>rx.has(k)), care = Math.min(2, careIds.length);
+  const del = { k:"✚", name:"Delirium screen", items:[
+    item("4AT", 2, fouratDone, "No delirium assessment was recorded."),
+    item("Pain assessed", 2, rx.has("painplan") || S.examMore.has("pain"), "Nobody asked whether he was in pain."),
+    item("Food and drink", 1, rx.has("foodchart") || rx.has("oral"), "Nothing was written about what he was eating and drinking."),
+    item("CRP and liver function", 1, on("crp") && on("lft"), "The screen bloods were not all sent: CRP and liver function."),
+    item("Chest film", 1, on("cxr"), "No chest film."),
+    { t:"Care that is not a drug", max:2, pts:care, why: care ? "One measure written; the screen asks for more than one." : "No non-drug measures were written.", partial: care === 1, must:false, note:"" },
+    item("Conversation with his daughter", 3, rx.has("family"), "Alison was driving over from Leeds and nobody planned to speak to her.") ] };
   const beyond = { k:"+", name:"Beyond the letters", items:[
     item("Ceiling of care stated", 3, rx.has("ceiling"), "Nothing said how far treatment was to go. His ReSPECT form was in the home's file."),
-    item("Conversation with his daughter", 3, rx.has("family"), "Alison was driving over from Leeds and nobody planned to speak to her."),
     item("Isolated, infection prevention told", 3, iso, flu ? "Influenza A, in an open bay." : "No swab was sent, so nobody knew what he would be isolated for."),
     item("Renal advice by telephone", 1, rx.has("renal") && !rx.has("xfer") && !rx.has("dialysis"), "Stage 3: NICE asks for a conversation with a nephrologist within 24 hours."),
     item("The home or health protection told", 1, home, flu ? "Hazelgarth has five residents coughing and was not told what it is." : "Hazelgarth has five residents coughing and nobody found out what it is."),
-    item("4AT", 1, fouratDone, "No delirium screen, at the bedside or in the plan."),
     item("Residual volume recorded", 1, rx.has("residual") && drained, drained ? "The volume that came out was not written down as his residual. Over a litre is what asks for the ultrasound." : "Nothing was drained, so there was no residual to record.") ] };
-  beyond.got = beyond.items.reduce((s,i)=>s+i.pts,0); beyond.max = 13;
+  const musts = { R1:L[0].items[0].pts > 0, R23:L[0].items[1].pts > 0 || L[0].items[2].pts > 0, R4:L[0].items[3].pts > 0, O1:o1, O2:drained, U3:L[2].items[2].pts > 0, I1:rx.has("fbchart"),
+                  P:["ace","furo","cod","soli","ami"].every(k=>named[k] || carried) && rx.has("pharm") };
+  return { W, rx, dx, pre, before, on, back, backBy, first, drained, given, kTreats, o1, o1Pre, o1First, percussed, dullLine, abxGiven, stickFirst, named, byAll, byPharm, carried, flu, iso, home, careIds, L, del, beyond, musts };
+}
+/* every line the amendment rule applies to, in a fixed order: the seven letters, then the delirium screen */
+const ruleLines = C => [...C.L.flatMap(b=>b.items), ...C.del.items];
+function chartPoints(dead){ const C = chartState(dead);
+  return { pts: ruleLines(C).map(i=>i.pts), bundle: C.L.reduce((s,b)=>s + b.items.reduce((x,i)=>x + i.pts, 0), 0), mustMiss: Object.keys(C.musts).filter(k=>!C.musts[k]) }; }
+/* THE AMENDMENT RULE, in one place (05-marking.md 2.0a). A = the line on the chart when the first panel settled,
+   F = on the final chart. "full": F. "half": A, plus half of what was gained after the panel, rounded up. A line that
+   an amendment made worse scores what it is worth on the final chart under either rule. */
+function amendScore(A, F){ return CASE.meta.amendRule === "half" && F > A ? A + Math.ceil((F - A) / 2) : F; }
+
+/* ---------- the standards panel (05-marking.md 2.0, 2.0a; 04-ix-mx.md 5.12) ----------
+   CASE.screens = [the AKI care bundle, the delirium screen]. Each row: k, want, ok(f), why(f); f is panelFacts(), the
+   chart and the ledger at the moment the panel is drawn. A catheter or a test asked for in that plan counts as there.
+   The rows are data: a row can be reworded, regrouped or replaced without touching a score. */
+function panelFacts(){
+  const rx = S.rx, on = id => LEDGER.has(id), dx = S.dxParts || { k:false }, given = S.givenAnyway;
+  const cath = rx.has("cath") || rx.has("cathio");
+  const kT = [...LEDGER.entries("ue"), ...LEDGER.entries("vbg")].map(e=>e.at).concat(LEDGER.entries("uerep").map(e=>e.due)).sort((a,b)=>a-b);
+  const uabx = ["abxuti","tmp","nitro","gent"].some(k=>rx.has(k) || given.includes(k));
+  const sedGiven = given.some(k=>["benzo","halobig","sed","addach"].includes(k));
+  const f = { rx, on, cath, uabx, sedGiven,
+    r1: on("ue") && (on("prev") || rx.has("stage") || dx.k), r2: rx.has("dailyue"),
+    r3: cath && ((S.cathAt !== null && kT.slice(1).some(t=>t >= S.cathAt + 60)) || on("uerep")), r4: on("ecg"),
+    looked: on("bscan") || on("cath") || on("cathio"),
+    noabx: S.written.has("noabx"), n1: LEDGER.entries("obs").some(e=>e.route !== "auto" && !e.reexam) || rx.has("obsfreq"),
+    fourat: S.fourat.length > 0 || rx.has("fourat") || rx.has("delscreen"),
+    pain: rx.has("painplan") || S.examMore.has("pain"),
+    hyd: ["mouth","crt","turgor","jvp","ankles","postural","axilla","eyes_sunk"].filter(k=>S.examMore.has(k)).length >= 3,
+    care: ["deesc","reorient","sensory","familiar","nomove","sleep"].filter(k=>rx.has(k)),
+    bloods: ["ue","fbc","crp","lft","bone"].filter(id=>!on(id)),
+    heldAny: ["holdace","holdfuro","stopsoli","ami","cod","holdneph","stopach","holdall"].some(k=>rx.has(k)) };
+  f.O = f.looked && cath; f.P = rx.has("pharm");
+  return f;
+}
+const TEST_SAY = { ue:"U&E", fbc:"full blood count", crp:"CRP", lft:"liver function", bone:"calcium" };
+CASE.screens = [
+  { id:"bundle", title:"AKI care bundle — ROUND UP", unit:"letters covered", rows:[
+    { k:"R — Repeat", want:"Today's creatinine set against his last one; bloods again today and daily; an ECG",
+      ok:f=>f.r1 && (f.r2 || f.r3) && f.r4, why:()=>"A creatinine is read against the one before it. In a kidney injury the potassium is repeated, and looked at beside a 12-lead." },
+    { k:"O — Obstruction", want:"Examine the bladder, scan it, and catheterise if it will not empty",
+      ok:f=>f.O, why:()=>"A kidney that cannot drain cannot recover. The bundle's second line: examine bladder, consider bladder scan; catheterise if there is retention." },
+    { k:"U — Urinalysis", want:"Dip the urine for blood and protein, and do not treat the stick",
+      ok:f=>!f.uabx && (f.noabx || (f.on("dip") && f.cath)),
+      why:f=>f.uabx ? "The bundle dips for blood and protein. Leucocytes and nitrite on a stick are not a reason for antibiotics at his age." : "Dip it, and say what you will not do with the result." },
+    { k:"N — NEWS", want:"Score him again, and ask whether this is sepsis",
+      ok:f=>f.n1 && !f.rx.has("sepsis6"),
+      why:f=>f.rx.has("sepsis6") ? "His NEWS2 is 4. The Sepsis Six is for a patient at high risk." : "A score is repeated, and a raised one asks one question: is this sepsis? Answer it." },
+    { k:"D — Dry or wet", want:"Decide whether he is dry or overloaded, and prescribe fluid to match",
+      ok:f=>f.rx.has("ivf") && f.cath && !f.rx.has("ivfbig"),
+      why:f=>f.rx.has("ivfbig") ? "Litres as a bolus is resuscitation. He needs a measured amount, and what he passes replaced."
+        : (f.rx.has("ivf") && !f.cath) ? "Fluid follows the bladder: a bag given to a man who is not passing urine goes nowhere." : "Days of sips. Assess him, then prescribe a measured amount." },
+    { k:"U — Urinary I&O", want:"A fluid balance chart at the bedside, hourly urine, and the nurse told",
+      ok:f=>f.rx.has("fbchart"), why:()=>"Kidneys that have been blocked can pour out litres once they drain. Nobody knows unless somebody is counting." },
+    { k:"P — Prescriptions", want:"Stop or hold what an injured kidney should not be given, question the rest, and ask the pharmacist",
+      ok:f=>f.P, why:()=>"Nine medicines and a kidney injury. The bundle: consider stopping nephrotoxins, adjust doses, and ask of each one whether he should still be on it. A pharmacist does this for a living." } ] },
+  { id:"delirium", title:"Delirium screen", unit:"covered", rows:[
+    { k:"Identify it", d:["D1","D2","D19"], want:"A 4AT scored", ok:f=>f.fourat, why:()=>"No delirium assessment was recorded.",
+      extra:f=>[f.rx.has("deldx") ? "Delirium recorded" : "", (f.rx.has("fouratrep") || S.fourat.length > 1) ? "To be looked at again" : ""] },
+    { k:"Pain, food and drink", d:["D4","D8","D7"], want:"Pain assessed; hydration and nutrition looked at",
+      ok:f=>f.pain && (f.rx.has("foodchart") || f.rx.has("oral") || f.rx.has("volstat") || f.hyd),
+      why:f=>!f.pain ? "Nobody asked whether he was in pain." : "Fluid status was not assessed.", extra:f=>[f.rx.has("bowels") ? "Bowels charted" : ""] },
+    { k:"Infection", d:["D5","D13"], want:"Infection looked for; urine not treated on a dipstick", paid:"counted under U and the work-up",
+      ok:f=>f.on("flu") && !f.uabx, why:f=>!f.on("flu") ? "No respiratory swab." : "An antibiotic was started on a dipstick." },
+    { k:"Bladder and medicines", d:["D6","D9","D16"], want:"Bladder checked; each of his regular medicines questioned", paid:"counted under O and P",
+      ok:f=>f.O && f.P, why:f=>!f.O ? "The bladder was not scanned." : f.heldAny ? "No pharmacy review was asked for." : "His nine medicines were prescribed unchanged.",
+      extra:f=>[f.rx.has("twoc") ? "A plan for the catheter to come out" : ""] },
+    { k:"Blood tests", d:["D10","D3","D11","D12"], want:"The screen bloods: U&E, FBC, CRP, LFT, calcium",
+      ok:f=>!f.bloods.length, why:f=>f.bloods.map(id=>`No ${TEST_SAY[id]} sent.`).join(" "),
+      extra:f=>[LEDGER.count("gluc") > 0 ? "Glucose taken again" : "", f.on("ecg") ? "ECG" : "", f.on("cxr") ? "Chest film" : ""] },
+    { k:"Care that is not a drug", d:["D15","D17"], want:"Reorientation and a settled environment; no sedation before the cause was found",
+      ok:f=>f.care.length > 0 && !f.sedGiven, why:f=>f.sedGiven ? "He was sedated before anyone looked for a cause." : "No non-drug measures were written." },
+    { k:"Family", d:["D18"], want:"Family told", ok:f=>f.rx.has("family"), why:()=>"Nobody spoke to his daughter.", extra:f=>[f.rx.has("delgp") ? "For the discharge letter and the GP" : ""] } ] }
+];
+/* judge both blocks now -> [[bool × 7], [bool × 7]] */
+function judgePanel(){ const f = panelFacts(); return CASE.screens.map(s=>s.rows.map(r=>!!r.ok(f))); }
+function panelHTML(){
+  const f = panelFacts();
+  const block = s => { const oks = s.rows.map(r=>!!r.ok(f)), n = oks.filter(Boolean).length;
+    return `<div class="bsub" data-block="${s.id}"><b>${s.title}</b> · ${n} of ${s.rows.length} ${s.unit}</div><ul>`+
+      s.rows.map((r, i)=>{ const ok = oks[i], ex = ((r.extra ? r.extra(f) : []).filter(Boolean));
+        return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${r.k}</b> — ${r.want}</span>`+
+          (ok ? "" : `<br><span class="bw">${r.why(f)}</span>`)+
+          (ok && r.paid ? `<span class="bx">${r.paid}</span>` : "") + ex.map(x=>`<span class="bx">✓ ${x}</span>`).join("") + `</span></li>`; }).join("") + `</ul>`; };
+  const seen = new Set();
+  return `<div class="bundle" id="stdPanel"><h4>Your plan against the standards</h4>` + CASE.screens.map(block).join("")+
+    ((S.avoided || []).length ? `<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${S.avoided.join(" · ")} — good practice to write it down.</div>` : "")+
+    (S.teaches || []).map(([ids, text])=>{ const k = ids.find(x=>S.rx.has(x)); if(!k || seen.has(text)) return ""; seen.add(text); return `<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${text}</div>`; }).join("")+
+    (S.planCount === 1 ? `<button class="btn btn--ghost" id="planAmend" type="button" style="margin-top:var(--s3);">Amend the plan</button>` : "") + `</div>`;
+}
+function drawPanel(){
+  if(!S.planCount) return;
+  $("#planOut").innerHTML = panelHTML();
+  const am = $("#planAmend");
+  if(am && S.planCount === 1) am.onclick = ()=>{ if(S.planBusy || S.handed) return; S.amendOpen = true; $("#planOut").innerHTML = ""; renderPlanForm(); $("#planText").focus(); };
+}
+/* when the clock has stopped after a signing: the panel as it stands is kept (S.panel[0] for the plan, [1] for the
+   amendment), and after the first plan so is every scored line's points on that chart (S.chartAtPanel) */
+function settlePanel(){
+  const n = S.planCount - 1; if(n < 0) return;
+  S.panel[n] = judgePanel();
+  if(n === 0 && !S.chartAtPanel) S.chartAtPanel = { alive: chartPoints(false), dead: chartPoints(true) };
+  if(!S.amendOpen) drawPanel();
+}
+
+function computeScore(){
+  const dead = S.died, C = chartState(dead);
+  const { W, rx, dx, pre, before, on, back, backBy, first, drained, given, kTreats, o1, o1Pre, o1First, percussed, dullLine, abxGiven, stickFirst, named, byAll, byPharm, carried, flu, iso, home, L, del, beyond } = C;
+  const fired = new Set(SEQ.firedIds());
+  const cathT = S.cathAt === null ? null : Math.round(tOf(S.cathAt));                 /* on the clock the player sees */
+  const rows = [];                                               /* the score table */
+  const row = (label, pts, cls) => rows.push({ label, pts, cls: cls || (pts < 0 ? "minus" : "") });
+
+  /* --- work-up --- */
+  const basesPre = (pre.zones.has("BLL") && pre.zones.has("BRL")) || (pre.zones.has("FRL") && pre.zones.has("FLL"));
+  const disc = [pre.exams.has("bladder"), basesPre, before("ue"), before("fbc"), before("flu")];
+  const hits = disc.filter(Boolean).length, discPts = Math.round(hits / 5 * 15);
+  const riv1 = pre.exams.has("skin") && ["neck","kernig","photo"].some(k=>pre.exams.has(k));
+  const riv2 = pre.exams.has("scalp") && ["cns","face","power","pupils"].some(k=>pre.exams.has(k));
+  const rivals = (riv1?1:0) + (riv2?1:0);
+
+  /* --- the two standards: every line on the first chart (A) and on the final chart (F), then the one rule --- */
+  const A0 = S.chartAtPanel ? S.chartAtPanel[dead ? "dead" : "alive"] : null;
+  ruleLines(C).forEach((i, n)=>{ i.full = i.pts; i.first = A0 ? A0.pts[n] : i.pts; i.pts = amendScore(i.first, i.full); i.added = i.full > i.first; });
+  [...L, del, beyond].forEach(b=>{ b.got = b.items.reduce((s,i)=>s+i.pts,0); b.max = b.items.reduce((s,i)=>s+i.max,0); b.full = b.items.reduce((s,i)=>s + (i.full === undefined ? i.pts : i.full), 0); });
+  const bundle = L.reduce((s,b)=>s+b.got,0), bundleFull = L.reduce((s,b)=>s+b.full,0);
+  const bundleFirst = A0 ? A0.bundle : bundleFull, mustMissFirst = A0 ? A0.mustMiss : Object.keys(C.musts).filter(k=>!C.musts[k]);
+  /* each letter and each row of the delirium screen: covered first time, covered after the panel, or not covered */
+  const nowP = judgePanel(), firstP = S.panel[0] || nowP;
+  const marks = nowP.map((blk, b)=>blk.map((ok, i)=>firstP[b][i] ? "covered first time" : ok ? "covered after the panel" : "not covered"));
+  L.forEach((b, i)=>{ b.mark = marks[0][i]; });
 
   /* --- the table --- */
   row(`Discriminators gathered (${hits} of 5)`, discPts);
@@ -4746,6 +4900,7 @@ function computeScore(){
   row(`The diagnosis (${dx.n} of 3 parts)`, dx.pts);
   L.forEach(b=>row(`ROUND UP · ${b.k} · ${b.name}`, b.got));
   row("Beyond the letters", beyond.got);
+  row("Delirium screen", del.got);
   const drillRight = dead ? 0 : CASE.mgmt.filter(q=>S.mg[q.id] === true).length;
   if(dead) rows.push({ label:"Drill", pts:0, text:"not played", cls:"" }); else row(`Drill (${drillRight} of ${CASE.mgmt.length})`, drillRight * 3);
   if(!dead && cathT !== null){ if(cathT <= 60) row("Drained within the hour", 6); else if(cathT <= 120) row(`Drained by 17:05 (catheter ${fmtClock(S.cathAt)})`, 3); else row(`Catheter at ${fmtClock(S.cathAt)}`, 0); }
@@ -4786,9 +4941,7 @@ function computeScore(){
   const refusedWhy = !dx.right ? "the diagnosis was not right" : dangerGiven ? `he was given ${dangerDrug(given[0])} after you were asked whether you were sure` : rx.has("sepsis6") ? "the Sepsis Six was started on a NEWS2 of 4" : "he was given an antibiotic for his chest";
 
   /* --- learning objectives (05-marking.md section 8): hit / part / miss --- */
-  const musts = { R1:L[0].items[0].pts > 0, R23:L[0].items[1].pts > 0 || L[0].items[2].pts > 0, R4:L[0].items[3].pts > 0, O1:o1, O2:drained, U3:L[2].items[2].pts > 0, I1:rx.has("fbchart"),
-                  P:["ace","furo","cod","soli","ami"].every(k=>named[k] || carried) && rx.has("pharm") };
-  const mustMiss = Object.keys(musts).filter(k=>!musts[k]);
+  const mustMiss = Object.keys(C.musts).filter(k=>!C.musts[k]);
   const abxIds = ["abx","abxuti","abxchest","sepsis6","tmp","nitro","gent"];
   const abxEver = abxIds.some(k=>S.everParsed.has(k)), abxOn = abxIds.some(k=>rx.has(k)) || given.some(k=>abxIds.includes(k));
   const sedIds = ["benzo","halobig","sedother","sedfor","addach"];
@@ -4799,13 +4952,14 @@ function computeScore(){
   const lo = [
     v(o1Pre && drained, drained),
     v(dx.p3 && namedThree && rx.has("pharm"), dx.p3 || named.soli || named.ami || named.cod || rx.has("pharm")),
-    v(bundle >= 64 && !mustMiss.length, bundle >= 40),
+    /* ROUND UP is judged on the first chart, because the panel then shows the rest (Round 7) */
+    v(bundleFirst >= 64 && !mustMissFirst.length, bundleFirst >= 40 || bundleFull >= 40),
     v(!abxEver && backBy("fbc"), !abxOn),
     v(!sedEver, !sedGiven),
     v(dx.n === 3 && iso, dx.n >= 2)
   ];
-  return { rows, raw, total, capAt, rank, refused, refusedWhy, bundle, L, beyond, dx, hits, rivals, drillRight, dead, drained, lo, mustMiss, named, carried, byPharm, byAll,
-           cathT, o1Pre, o1, o1First, percussed, dullLine, abxEver, abxWritten:abxEver, fbcSeen:backBy("fbc"), abxOn, sedEver, sedGiven, iso, flu, haloOk, ecgFirst, stickFirst, fired:[...fired], given, kTreats, stopped:given.filter(stopped) };
+  return { rows, raw, total, capAt, rank, refused, refusedWhy, bundle, bundleFull, bundleFirst, mustMissFirst, marks, firstP, nowP, L, del, beyond, dx, hits, rivals, drillRight, dead, drained, lo, mustMiss, named, carried, byPharm, byAll,
+           careIds:C.careIds, cathT, o1Pre, o1, o1First, percussed, dullLine, abxEver, abxWritten:abxEver, fbcSeen:backBy("fbc"), abxOn, sedEver, sedGiven, iso, flu, haloOk, ecgFirst, stickFirst, fired:[...fired], given, kTreats, stopped:given.filter(stopped) };
 }
 
 /* ============================================================
@@ -4817,7 +4971,16 @@ function loText(R){
   const o1e = R.o1First, uss = first("usskub");
   const ussFirst = uss && uss.back && uss.uss === "none" && uss.backAt <= S.handoverAt && o1e && uss.backAt <= o1e.at;
   const inFirst = S.plans[0] && ["cath","bscan","cathio"].some(k=>S.plans[0].ids.includes(k));
-  const how = !o1e ? "" : ussFirst ? " from the ultrasound report" : o1e.route === "bedside" ? "" : inFirst ? " in your plan" : " at the amendment";
+  /* the panel put a cross against Obstruction and the catheter first appears in the amendment (Round 7) */
+  const oCross = n => !!(S.panel[n] && S.panel[n][0][1] === false);
+  const how = !o1e ? "" : ussFirst ? " from the ultrasound report" : o1e.route === "bedside" ? "" : inFirst ? " in your plan" : oCross(0) ? " when the bundle panel put a cross against Obstruction" : " at the amendment";
+  const lastP = S.panel[S.panel.length - 1];
+  const handedOnCross = lastP && lastP[0][1] === false ? " The panel put a cross against Obstruction, and you handed over." : "";
+  const CARE_SAY = { deesc:"de-escalation first", reorient:"reorientation", sensory:"his glasses and hearing", familiar:"familiar faces", nomove:"no moves at night", sleep:"his sleep protected" };
+  const delSay = (R.careIds.length ? ` And you wrote what settles a delirious man without a drug: ${R.careIds.map(k=>CARE_SAY[k]).join(", ")}.` : " Nothing was written for the delirium itself: reorientation, his glasses and hearing, familiar faces, no moves at night.")+
+    (R.del.items[0].full > 0 ? "" : " No 4AT, at the bedside or in the plan.");
+  const LET = ["R (Repeat)","O (Obstruction)","U (Urinalysis)","N (NEWS)","D (Dry or wet)","U (Urinary I&O)","P (Prescriptions)"];
+  const crossed = R.firstP[0].map((ok, i)=>ok ? "" : LET[i]).filter(Boolean);
   const act = !o1e ? "" : o1e.id === "bscan" ? `You asked for the scan at ${fmtClock(o1e.at)}` : `You passed a catheter at ${fmtClock(o1e.backAt === null ? o1e.due : o1e.backAt)}`;
   const three = [["soli","solifenacin"],["ami","amitriptyline"],["cod","codeine"]];
   const namesHeld = three.filter(x=>n[x[0]]).map(x=>x[1]), namesNot = three.filter(x=>!n[x[0]]).map(x=>x[1]);
@@ -4843,23 +5006,23 @@ function loText(R){
     ["Ask for the scan.", [
       `${act}, before you had decided what was wrong, and you drained him. His abdomen was soft; you looked anyway.`,
       `He was drained at ${S.cathAt !== null ? fmtClock(S.cathAt) : fmtClock(S.handoverAt)}, after the diagnosis was written. He lived. The bundle puts the bladder in the first assessment${how ? ", and you found it" + how : ""}.`,
-      LEDGER.isBack("bscan") ? `The scanner read ${CASE.base.scan} mL at ${fmtClock(first("bscan").backAt)} and no catheter followed.` : R.percussed ? R.dullLine : "Nobody looked at his bladder." ]],
+      (LEDGER.isBack("bscan") ? `The scanner read ${CASE.base.scan} mL at ${fmtClock(first("bscan").backAt)} and no catheter followed.` : R.percussed ? R.dullLine : "Nobody looked at his bladder.") + handedOnCross ]],
     ["Read the sheet — anticholinergic burden.", [
       "You named his medicines as the cause, you stopped the three that did it, and you asked a pharmacist to go through the rest. That is anticholinergic burden, recognised.",
       `${lead2}, but ${buts2}.`,
       "Nine medicines were read to you over the telephone. The three that stop a bladder emptying were left as they were." ]],
     ["ROUND UP.", [
-      `${R.bundle} of 80. Every letter worked.`,
-      `${R.bundle} of 80. Missed where it mattered: ${R.mustMiss.length ? R.mustMiss.map(k=>({R1:"R (the baseline)",R23:"R (the repeat)",R4:"R (the ECG)",O1:"O (the bladder)",O2:"O (the catheter)",U3:"U (the stick)",I1:"U (the fluid chart)",P:"P (his medicines)"}[k])).join(", ") : "the shoulds"}.`,
+      `${R.bundleFirst} of 80 before anyone showed you the bundle. Every letter worked.`,
+      `${R.bundleFirst} of 80 on your own plan${R.bundle !== R.bundleFirst ? `, ${R.bundle} after the panel` : ""}. Missed first time: ${crossed.length ? crossed.join(", ") : R.mustMissFirst.length ? R.mustMissFirst.map(k=>({R1:"R (the baseline)",R23:"R (the repeat)",R4:"R (the ECG)",O1:"O (the bladder)",O2:"O (the catheter)",U3:"U (the stick)",I1:"U (the fluid chart)",P:"P (his medicines)"}[k])).join(", ") : "the lines inside the letters"}.`,
       `${R.bundle} of 80. The bundle is seven letters on one page; ${letters0.length ? letters0.join(", ") + (letters0.length === 1 ? " was" : " were") + " not touched" : "none was finished"}.` ]],
     ["Don't treat the dipstick.", [
       "No antibiotics, and you had the white count to say why: 6.8, neutrophils 5.4, lymphocytes 0.6.",
       abxOff ? `You wrote ${abxWord(abxOff)} ${who(abxOff)}.` : R.fbcSeen ? "You wrote an antibiotic and it did not reach him." : "No antibiotics, but no white count either: a guess that came out right.",
       abxHad ? `He had ${abxWord(abxHad)} for ${abxFor(abxHad)}${abxStopped ? ", until you stopped it at the amendment" : ""}. He had influenza A and a normal white count.` : "" ]],
     ["Settle him without a syringe.", [
-      `Nothing sedating went near him before the cause was found.${rx.has("halo") ? " Half a milligram of haloperidol after the catheter is within the guidance." : ""}${R.haloOk && !R.ecgFirst ? " It was written with no ECG recorded first; the MHRA asks for one." : ""}${R.drained && !dead ? " He settled forty minutes after the catheter." : ""}`,
-      sedOff ? `You wrote ${sedWord(sedOff)} ${S.offHow[sedOff] === "amend" ? "and stopped it at the amendment" : `and withdrew it when the ${["halobig","addach"].includes(sedOff) ? "pharmacist" : "nurse"} asked`}.` : "",
-      sedHad ? `He had ${sedWord(sedHad)}${sedAt(sedHad)}. His behaviour was the only way he had of reporting a litre in his bladder.` : "" ]],
+      `Nothing sedating went near him before the cause was found.${rx.has("halo") ? " Half a milligram of haloperidol after the catheter is within the guidance." : ""}${R.haloOk && !R.ecgFirst ? " It was written with no ECG recorded first; the MHRA asks for one." : ""}${R.drained && !dead ? " He settled forty minutes after the catheter." : ""}` + delSay,
+      (sedOff ? `You wrote ${sedWord(sedOff)} ${S.offHow[sedOff] === "amend" ? "and stopped it at the amendment" : `and withdrew it when the ${["halobig","addach"].includes(sedOff) ? "pharmacist" : "nurse"} asked`}.` : "") + delSay,
+      (sedHad ? `He had ${sedWord(sedHad)}${sedAt(sedHad)}. His behaviour was the only way he had of reporting a litre in his bladder.` : "") + delSay ]],
     ["Get the whole diagnosis.", [
       "All three parts, and you acted on the first: he was in a side room.",
       dx.n === 3 ? (R.flu ? "All three parts, and he spent the night in an open bay." : "All three parts, with no swab back to act on.") : `You had ${parts.filter((_,i)=>pp[i]).join(" and ")} and not ${parts.filter((_,i)=>!pp[i]).join(" or ")}. The reason is in the diagnosis panel above.`,
@@ -4868,26 +5031,52 @@ function loText(R){
   return T.map((t,i)=>({ t:t[0], v:R.lo[i], s:t[1][R.lo[i]==="hit"?0:R.lo[i]==="part"?1:2] }));
 }
 function dxPanelHTML(R){
-  const dx = R.dx, g = dx.got;
-  const called = (dx.said && dx.said.B[0]) || g.B[0];                     /* as the player typed it, capitals and all */
+  const dx = R.dx, P = dx.picks, is = (n, c) => dxIs(n, c), any = c => P.some(n=>is(n, c));
+  const bEntry = P.find(n=>is(n, "B")), prost = P.find(n=>is(n, "prostate"));
+  const PROST = "A large prostate is a fair prediction in a man of 84, and nothing in the case could confirm it.";
+  const boxLine = n => {
+    if(!n) return ["", "Left empty."];
+    if(is(n, "B")) return ["✗", "Not an infection he had. Neutrophils 5.4, a clear chest, a swab positive for influenza A." + (is(n, "urine") ? " A positive dipstick is found in half his neighbours." : "")];
+    if(is(n, "V")) return bEntry ? ["", `A virus, yes; but you also picked ${dxName(bEntry)}, and that is what part 1 turns on.`] : ["✓", "The infection."];
+    if(is(n, "P2")) return ["✓", "The kidney injury, and why."];
+    if(is(n, "K")) return any("R") ? ["✓", "The kidney injury; your retention entry supplies the why."] : ["", "The kidney injury, with no cause given. There was a litre in his bladder."];
+    if(is(n, "Kr")) return ["", "A kidney injury, yes; but not this mechanism. He was euvolaemic, and there was a litre in his bladder."];
+    if(is(n, "X")) return ["✗", "Not his kidneys' problem: the cause was found below them."];
+    if(is(n, "P3")) return ["✓", "Why the bladder stopped emptying."];
+    if(is(n, "R")) return ["", "Retention, yes. " + (n === 36 ? PROST + " " : "") + "What could be read off the sheet was the medicines."];
+    if(n === 40) return ["", PROST];
+    if(is(n, "trueOfHim")) return ["", "True of him. It was how the rest showed, not one of the three."];
+    return ["", "Not what was wrong with him."];
+  };
+  const seen = new Set();
+  const boxes = S.dxBoxes.map((n, i)=>{ const dup = n && seen.has(n); seen.add(n); const [mk, line] = dup ? ["", "The same pick as above: it counts once."] : boxLine(n);
+    return `<div class="lo" data-v="${mk === "✓" ? "hit" : mk === "✗" ? "miss" : "part"}"><span class="ic">${i + 1}</span><div><div class="lt">${n ? dxName(n) : "—"}</div><div class="ls">${mk ? mk + " " : ""}${line}</div></div></div>`; }).join("");
   const r = [
     ["A viral infection", dx.p1, "Influenza A, on the swab, from a corridor of coughing residents.",
-      g.B.length ? `You called it ${escapeHTML(called)}. Neutrophils 5.4, a clear chest, a swab positive for influenza A; the dipstick would be positive in half his neighbours.` : "You did not name the infection. It was influenza A: white count normal, lymphocytes 0.6, four others on his corridor ill."],
+      bEntry ? `You picked ${dxName(bEntry)}. Neutrophils 5.4, a clear chest, a swab positive for influenza A.` : "None of your picks named the infection. It was influenza A: white count normal, lymphocytes 0.6, four others on his corridor ill."],
     ["AKI secondary to urinary retention", dx.p2, "286 against 88, with a litre behind it.",
-      g.X.length ? "You gave it another cause." : !g.K.length ? "You did not name the kidney injury: 286 against 88 is stage 3." : "You did not say why his kidneys had failed. There was a litre in his bladder and both kidneys were dilated."],
-    ["The retention due to his drugs", dx.p3, "Solifenacin, amitriptyline and codeine, together." + (dx.bph ? " And you predicted the prostate, which nothing in the case could confirm." : ""),
-      dx.bph ? "A large prostate is a fair prediction in a man of 84, and nothing in the case could confirm it. What could be read off the sheet was the medicines." : "You did not say why the bladder stopped emptying. Three of his nine medicines do that: solifenacin, amitriptyline and codeine."]
+      any("X") ? "You gave his kidneys another disease." : !dx.k ? "None of your picks named the kidney injury: 286 against 88 is stage 3." : "You named a kidney injury and not what caused it. There was a litre in his bladder and both kidneys were dilated."],
+    ["The retention due to his drugs", dx.p3, "Solifenacin, amitriptyline and codeine, together.",
+      prost ? PROST + " What could be read off the sheet was the medicines." : "None of your picks said why the bladder stopped emptying. Three of his nine medicines do that: solifenacin, amitriptyline and codeine."]
   ];
-  return `<div class="card"><div class="card__label">The diagnosis, part by part</div><div class="serif-body" style="font-size:.96rem;margin-bottom:var(--s3);">You wrote: “${escapeHTML(S.dxText)}”.</div>`+
+  return `<div class="card"><div class="card__label">The diagnosis, box by box and part by part</div>` + boxes +
+    `<div class="card__label" style="margin-top:var(--s4);">The three parts</div>`+
     r.map(x=>`<div class="lo" data-v="${x[1]?"hit":"miss"}"><span class="ic">${x[1]?"✓":"✗"}</span><div><div class="lt">${x[0]}</div><div class="ls">${x[1]?x[2]:x[3]}</div></div></div>`).join("")+
     `<div class="truth"><b>Influenza A; acute kidney injury (stage 3) from urinary retention; the retention caused by his medicines.</b> Delirium was how it showed.</div></div>`;
 }
 function bundlePanelHTML(R){
-  const block = b => `<div class="bundle rublock"><h4><span class="rul">${b.k}</span>${b.name}<span class="rupts">${b.got} / ${b.max}</span></h4><ul>`+
-    b.items.map(i=>{ const ok = i.max ? i.pts > 0 : i.tick; const half = i.partial || (i.max && i.pts > 0 && i.pts < i.max);
-      return `<li data-ok="${ok ? (half ? "via" : "1") : "0"}"><span class="mk">${ok?"✓":"✗"}</span><span class="bl">${i.t}${i.max?` <span class="rup">${i.pts}/${i.max}</span>`:""}`+
-        ((!ok || i.partial) && i.why ? `<div class="bw">${i.why}</div>` : "") + (ok && i.note ? `<div class="bw">${i.note}</div>` : "") + `</span></li>`; }).join("")+`</ul></div>`;
-  return `<div class="card"><div class="card__label">ROUND UP, letter by letter · ${R.bundle} of 80</div>`+ R.L.map(block).join("") + block(R.beyond) + `</div>`;
+  const line = i => { const ok = i.max ? i.pts > 0 : i.tick; const half = i.partial || (i.max && i.pts > 0 && i.pts < i.max);
+    return `<li data-ok="${ok ? (half ? "via" : "1") : "0"}"><span class="mk">${ok?"✓":"✗"}</span><span class="bl">${i.t}${i.max?` <span class="rup">${i.pts}/${i.max}</span>`:""}`+
+      (i.added ? `<div class="bw">${i.pts} of ${i.max} · added after the panel</div>` : "")+
+      ((!ok || i.partial) && i.why ? `<div class="bw">${i.why}</div>` : "") + (ok && i.note ? `<div class="bw">${i.note}</div>` : "") + `</span></li>`; };
+  const block = b => `<div class="bundle rublock"><h4><span class="rul">${b.k}</span>${b.name}<span class="rupts">${b.got} / ${b.max}</span></h4>`+
+    (b.mark ? `<div class="bsub rumark">${b.mark}</div>` : "") + `<ul>` + b.items.map(line).join("") + `</ul></div>`;
+  /* the delirium screen under it, the same way: each row with its mark, its own lines, and where the rest was counted */
+  const D = R.del.items, rowsOf = [[D[0]], [D[1], D[2]], [], [], [D[3], D[4]], [D[5]], [D[6]]];
+  const paid = ["", "Volume and fluid: counted under D", "counted under U and the work-up", "counted under O and P", "U&E, FBC, calcium and the ECG: counted under R", "Sedation: already a penalty", ""];
+  const delBlock = `<div class="bundle rublock"><h4><span class="rul">✚</span>Delirium screen<span class="rupts">${R.del.got} / ${R.del.max}</span></h4>`+
+    CASE.screens[1].rows.map((r, i)=>`<div class="bsub rumark"><b>${r.k}</b> · ${R.marks[1][i]}</div><ul>` + rowsOf[i].map(line).join("") + (paid[i] ? `<li data-ok="via"><span class="mk">·</span><span class="bl"><span class="bw">${paid[i]}</span></span></li>` : "") + `</ul>`).join("") + `</div>`;
+  return `<div class="card"><div class="card__label">ROUND UP, letter by letter · ${R.bundle} of 80</div>`+ R.L.map(block).join("") + block(R.beyond) + delBlock + `</div>`;
 }
 function epilogueHTML(){
   const all = SEQ.epilogue();
@@ -4932,7 +5121,7 @@ function showOutcome(){
   $("#rank").textContent = R.rank;
   $("#scoreSub").innerHTML = R.dead
     ? `He was never catheterised. What you did before that is marked below; the drill was not played.`
-    : `The AKI bundle is half of this paper: you scored <b>${R.bundle} of 80</b> on ROUND UP.` +
+    : `The AKI bundle is half of this paper: you scored <b>${R.bundle} of 80</b> on ROUND UP, ${Math.min(R.bundleFirst, R.bundle)} of them before the panel.` +
       (R.refused ? ` The number is in the top band. The title is not, because ${R.refusedWhy}.` : "");
   $("#dxParts").innerHTML = dxPanelHTML(R);
   $("#bundlePanel").innerHTML = bundlePanelHTML(R);
