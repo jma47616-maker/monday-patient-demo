@@ -966,7 +966,7 @@ const CASE = {
       { id:"glu",  name:"Capillary glucose", cost:2, costL:"2 min", tag:"key",
         aliases:["glucose","bm","capillary glucose","blood sugar","cbg","finger prick glucose","hypoglycaemia","ketones"],
         labs:[{n:"Glucose", v:"11.4", r:"4.0–7.8", u:"mmol/L", flag:"hi"},{n:"Blood ketones", v:"0.4", r:"<0.6", u:"mmol/L"}] },
-      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", dynECG:true,
+      { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"key", dynECG:true, repeatable:true,
         img:"thy-ecg-af-fvr.jpg", imgAlt:"12-lead ECG",
         aliases:["ecg","12 lead ecg","twelve lead ecg","electrocardiogram","ekg","cardiac monitor","rhythm strip"] },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
@@ -1122,7 +1122,10 @@ const CASE = {
     { id:"bed",    g:"further", t:"Bed / admission arranged" },
     { id:"esc",    g:"further", t:"Escalation plan documented" },
     { id:"cards",  g:"further", t:"Cardiology contacted" },
-    { id:"micro",  g:"further", t:"Microbiology contacted" }
+    { id:"micro",  g:"further", t:"Microbiology contacted" },
+    { id:"endosurg", g:"further", t:"Endocrine surgery contacted" },
+    { id:"tox",    g:"further", t:"Poisons / toxicology contacted" },
+    { id:"waitlvl", g:"further", t:"Treatment held until the thyroid function is back" }
   ],
 
   /* ----- ACT 2 management drill ----- */
@@ -1207,12 +1210,14 @@ const CASE = {
 const S = {
   clock: CASE.meta.startClock,
   asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
+  examEver: new Set(),   // every examination ever done: reassessing clears the two sets above so findings can be repeated
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), skinDoneAt: null, skinBeforeFBC: null, reexamCount: 0, lpAfterFBC: false,
   dx: "", dxCorrect: false, dxPartial: false,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
-  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
+  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false,
+  planSubs: 0, planAsked: new Set()
 };
 
 const $ = s => document.querySelector(s);
@@ -1413,8 +1418,8 @@ function askHx(h){
 /* ---------- examination ---------- */
 function genFinding(){
   const o = obsState();
-  if (o.appear==="better") return "Calmer and more settled, and beginning to take in what you say. Still pale, but no new purpura since this morning.";
-  if (o.appear==="worse") return "Drowsier now, and rousing only to voice. More purpura than there was an hour ago, and fresh bruising where the cuff has been.";
+  if (o.appear==="better") return "Calmer and more settled, and beginning to take in what you say. Still thin and still damp with sweat, but he has stopped trying to get off the trolley.";
+  if (o.appear==="worse") return "Drowsier now, and rousing only to voice. He has stopped plucking at the sheet. Drenched, and hot to the touch.";
   return CASE.examCore.find(e=>e.id==="gen").f;
 }
 function cnsFinding(){
@@ -1462,7 +1467,7 @@ function findingFor(e){
   const media = mediaHTML(e);
   if (e.imgOnly) return media; // real life: you see it, nobody narrates it
   if (e.dynObs){ const o = obsState();
-    return `HR ${o.hr} regular · BP ${o.bp} · RR ${o.rr} · SpO₂ ${o.spo2}% on air · temp ${o.temp} °C · GCS ${o.gcs}. NEWS2 ${o.news}.`; }
+    return `HR ${o.hr} irregular · BP ${o.bp} · RR ${o.rr} · SpO₂ ${o.spo2}% on air · temp ${o.temp} °C · GCS ${o.gcs}. NEWS2 ${o.news}.`; }
   let txt = e.f;
   if (e.id==="gen") txt = genFinding();
   if (e.id==="cns") txt = cnsFinding();
@@ -1576,6 +1581,7 @@ function submitExam(){
 $("#examForm").addEventListener("submit", e=>{ e.preventDefault(); submitExam(); });
 function doReexam(){
   S.reexamCount++; tick(20);
+  S.examCore.forEach(id=>S.examEver.add(id)); S.examMore.forEach(id=>S.examEver.add(id));
   // re-open key dynamic exams so they can be repeated
   // the dynamic findings can be repeated — clear them so they can be re-elicited
   S.examCore.delete("gen"); S.examCore.delete("cns");
@@ -1901,13 +1907,18 @@ function renderRx(){
 function submitPlan(){
   const text = $("#planText").value.trim();
   if(!text) return;
+  // one plan and one amendment: a third submission is refused, and costs nothing
+  if(S.planSubs >= 2){ const o = $("#planOut");
+    if(!o.innerHTML.includes('class="planfull"')) o.insertAdjacentHTML("afterbegin", `<div class="planfull" style="font-size:.9rem; color:var(--muted); margin-bottom:var(--s3);">You have written the plan and amended it once. The chart stands as it is.</div>`);
+    return; }
   const { matched, negated } = parsePlan(text);
-  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
-  if(dangers.length && !S.planWarned){ pharmacyCallback(text, matched, negated, dangers); return; }
+  // pharmacy rings about any danger they have not already asked about
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.planAsked.has(k));
+  if(dangers.length){ pharmacyCallback(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
 }
 function pharmacyCallback(text, matched, negated, dangers){
-  S.planWarned = true;
+  S.planWarned = true; dangers.forEach(k=>S.planAsked.add(k));
   const out = $("#planOut");
   out.innerHTML = `<div class="reflist"><div class="rq">Pharmacy rings the ward before the plan is processed:</div>`+
     `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, in a man at 40.1 degrees with a heart rate of 170 and an ejection fraction of thirty-odd… are you sure, doctor?”</div></div>`+
@@ -1923,6 +1934,7 @@ function closePlan(text, matched, negated){
   enactPlan(matched);
   tick(10);
   S.planWritten = true;
+  S.planSubs++; if(S.planSubs > 1) S.planAmended = true;
   const eff = effectivePlan(matched);   // judge the chart as it now stands, not just this submission
   renderRx(); renderObs();
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
@@ -1964,9 +1976,9 @@ const REFERRALS = {
       : "“Fast AF with pulmonary oedema at forty-two — before I take him, has anybody checked a thyroid function? A rate of 170 with a temperature of 40 and a tremor is not something I want to attribute to primary atrial fibrillation. Send a TSH.”") },
   micro:  { name:"Microbiology", rx:"micro",
     reply:"“Ten days post-amoxicillin with persistent consolidation — reasonable to broaden. Co-amoxiclav and doxycycline, cultures before the first dose. But I'll say this: a CRP of 88 and a white count of 16 do not explain a temperature of 40.1 with a heart rate of 170 and a tremor. Treat the chest, by all means. Don't let it be the answer.”" },
-  endosurg:{ name:"Endocrine surgery", rx:"cards",
+  endosurg:{ name:"Endocrine surgery", rx:"endosurg",
     reply:"“Emergency thyroidectomy is a real option, but it is a last resort in a specialist centre and it carries a significant perioperative risk — it is for the patient who fails or cannot have medical therapy. He has had, what, no thionamide yet? Get the medical ladder in first. Ring me again at 48 hours if he is not settling.”" },
-  ed:     { name:"Poisons / toxicology", rx:"micro",
+  ed:     { name:"Poisons / toxicology", rx:"tox",
     reply:"“Agitated, febrile, tachycardic, tremulous, sweating — I understand why you rang. But the toxicology is negative, there is no history of sympathomimetics, and this has been going on for months, not hours. A toxidrome does not cause six months of weight loss. Look at his neck and his eyes.”" }
 };
 function doRefer(){
@@ -2159,12 +2171,12 @@ function scoreAndShow(){
   let keys=0, keyMax=0;
   const mark=hit=>{ keyMax++; if(hit) keys++; };
   CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
-  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
-  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
+  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id) || S.examEver.has(e.id)); });
+  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id) || S.examEver.has(e.id)); });
   ["tft","fbc","ue","lft","crp","bone","glu","vbg","ecg","cxr","echo","notes","cult"].forEach(id=>mark(S.ordered.has(id)));
   add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
 
-  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
+  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id) && !S.examEver.has(e.id));
   if(missedEx.length) add(`Key examinations never performed (${missedEx.length})`, -3*missedEx.length);
   if(!S.ordered.has("tft"))  add("Thyroid function never sent", -5);
   if(!S.ordered.has("cxr"))  add("No chest film, in a patient with a fever and crackles", -5);
