@@ -1512,6 +1512,7 @@ const MEDIA = {
 const S = {
   clock: CASE.meta.startClock,
   asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
+  examEver: new Set(),   // every examination ever done: reassessing clears the two sets above so findings can be repeated
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), reexamCount: 0,
   cultSets: null,        // how many sets they asked for on ICE
@@ -1831,6 +1832,7 @@ function submitExam(){
 $("#examForm").addEventListener("submit", e=>{ e.preventDefault(); submitExam(); });
 function doReexam(){
   S.reexamCount++; tick(20);
+  S.examCore.forEach(id=>S.examEver.add(id)); S.examMore.forEach(id=>S.examEver.add(id));
   // re-open key dynamic exams so they can be repeated
   // the dynamic findings can be repeated — clear them so they can be re-elicited
   S.examCore.delete("gen"); S.examCore.delete("cvs");
@@ -2494,12 +2496,12 @@ function scoreAndShow(){
   let keys=0, keyMax=0;
   const mark=hit=>{ keyMax++; if(hit) keys++; };
   CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
-  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
-  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
+  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id) || S.examEver.has(e.id)); });
+  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id) || S.examEver.has(e.id)); });
   ["ecg","oldecg","ecg2","vbg","dip","fbc","ue","crp","trop","trop2","cult","tte","toe","mri","cta"].forEach(id=>mark(S.ordered.has(id)));
   add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
 
-  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
+  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id) && !S.examEver.has(e.id));
   if(missedEx.length) add(`Key examinations never performed (${missedEx.length})`, -3*missedEx.length);
   if(!S.ordered.has("cult")) add("Blood cultures never sent", -5);
   if(!S.ordered.has("tte") && !S.ordered.has("toe")) add("The valve never imaged", -5);
