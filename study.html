@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.4.0';
+const APP_VERSION='1.5.0';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -1080,7 +1080,7 @@ async function handleReturn(params){
 }
 
 /* ============ app shell ============ */
-const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦'],['submit','Submit','✚']];
+const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['paces','PACES','✦'],['leaderboard','Board','♦'],['submit','Submit','✚']];
 let VIEW='home';
 function buildNav(){
   // the Admin entry is appended rather than living in NAV, so it exists only
@@ -1149,7 +1149,24 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleProf(false);
 const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
 
 /* ============ views ============ */
-function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit,admin:renderAdmin}[VIEW]; if(f) f(); }
+function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit,paces:renderPaces,admin:renderAdmin}[VIEW]; if(f) f(); }
+
+function renderPaces(){
+  const v=el('div','view on');
+  v.innerHTML=`<div class="kicker">PACES</div>
+    <h2 class="view-h">Signs and differentials.</h2>
+    <p class="lede">Quick-fire revision for the stations. A sign or a set of findings comes up, you type what it is and what else it could be, and the model answer shows what you named and what you left out. No timer and no score — it is only there for learning.</p>
+    <div class="card">
+      <div class="card__label">Neurology station</div>
+      <p style="font-size:.92rem;color:var(--muted);margin-bottom:var(--s4)">54 cards: bedside clues and scars, syndromes, and lower and upper limb findings. Shuffled every time, with a filter if you only want one of them.</p>
+      <a class="btn btn--wide" style="text-decoration:none" href="${BASE}paces.html?v=${APP_VERSION}">Start the neuro deck</a>
+    </div>
+    <div class="card">
+      <div class="card__label">More stations</div>
+      <p style="font-size:.92rem;color:var(--muted)">Other stations will be added here as they are written.</p>
+    </div>`;
+  mount(v);
+}
 
 function renderSubmit(){
   const v=el('div','view on');

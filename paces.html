@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#fdf8ee">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<title>PACES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* PACES - quick-fire revision drill. Same family as The Monday Patient:
+   the palette, faces and chunky borders are the cases' own (restyle/chunky.css). */
+:root {
+  color-scheme: light;
+  --paper:   #fdf8ee;
+  --paper-2: #faf0da;
+  --ink:     #241c15;
+  --ink-2:   #463a2c;
+  --muted:   #7a6a52;
+  --rule-2:  #d9c9a6;
+  --accent:    #c8531b;
+  --accent-2:  #a53f12;
+  --accent-bg: #fbe4d3;
+  --accent-ink:#fdf6f0;
+  --good:      #3f7d52;
+  --good-bg:   #e6f0e6;
+  --gold: #e0a521;
+  --font-display: "Bricolage Grotesque", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+  --shadow: 3px 3px 0 rgba(36,28,21,.85);
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { overflow-x: clip; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+button, textarea { font-family: inherit; }
+button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: pointer; }
+[hidden] { display: none !important; }
+
+.app { max-width: 44rem; margin-inline: auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+
+/* top bar */
+.top { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 2px solid var(--ink); padding: calc(.75rem + env(safe-area-inset-top,0px)) 16px .75rem; }
+.top__row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.wordmark { display: flex; align-items: center; gap: .5rem; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: .01em; line-height: 1; }
+.wordmark .mp-mark { height: 1.5em; width: auto; flex: none; }
+.wordmark { min-width: 0; }
+.wordmark span { white-space: nowrap; }
+.wordmark em { font-style: normal; font-weight: 600; color: var(--accent); }
+.pos { flex: none; font-family: var(--font-mono); font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--ink-2); background: var(--paper-2); border: 1.5px solid var(--ink); border-radius: 999px; padding: .28rem .7rem; white-space: nowrap; }
+
+/* on a phone the counter needs the room: the mark and PACES stay, the deck name goes */
+@media (max-width: 26rem) { .wordmark em { display: none; } }
+
+main { flex: 1; padding: 16px 16px calc(2rem + env(safe-area-inset-bottom,0px)); }
+
+/* filter */
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.chip { min-height: 44px; padding: .4rem .9rem; font-size: .92rem; font-weight: 600; color: var(--ink); background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; box-shadow: 2px 2px 0 rgba(36,28,21,.85); }
+.chip[aria-pressed="true"] { background: var(--gold); }
+.chip:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 rgba(36,28,21,.85); }
+@media (hover: hover) { .chip:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 rgba(36,28,21,.85); } }
+
+/* card */
+.card { background: var(--paper-2); border: 2px solid var(--ink); border-radius: 14px; box-shadow: var(--shadow); padding: 1rem; margin-bottom: 1rem; }
+.badge { display: inline-block; font-size: .72rem; font-weight: 600; color: var(--accent-2); background: var(--accent-bg); border: 1.5px solid var(--ink); border-radius: 999px; padding: .2rem .7rem; margin-bottom: .75rem; }
+.stem { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; line-height: 1.35; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.stem--long { font-size: 1.08rem; font-weight: 500; line-height: 1.5; }
+
+.field label { display: block; font-weight: 700; margin-bottom: .4rem; }
+.field textarea { display: block; width: 100%; min-height: 5.5rem; resize: vertical; padding: .7rem .8rem; font-size: 16px; line-height: 1.45; font-weight: 500; color: var(--ink); background: #fff; border: 2px solid var(--ink); border-radius: 12px; }
+.field textarea:focus-visible, .btn:focus-visible, .chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.field textarea[readonly] { background: var(--paper-2); color: var(--ink-2); }
+.hint { display: none; font-size: .8rem; color: var(--muted); margin-top: .4rem; }
+@media (hover: hover) and (pointer: fine) { .hint { display: block; } }
+
+.btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; margin-top: .9rem; padding: .75rem 1rem; font-size: 1.1875rem; font-weight: 700; color: var(--accent-ink); background: var(--accent); border: 2px solid var(--ink); border-radius: 12px; box-shadow: 3px 3px 0 var(--ink); }
+.btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+@media (hover: hover) { .btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); } }
+
+/* reveal */
+.reveal h2 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin: 1rem 0 .5rem; }
+.reveal h2:first-child { margin-top: 0; }
+.items { list-style: none; padding: 0; display: grid; gap: .45rem; }
+.items li { display: flex; gap: .6rem; align-items: flex-start; padding: .55rem .7rem; background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; font-weight: 500; overflow-wrap: anywhere; }
+.items li[data-hit="1"] { background: var(--good-bg); font-weight: 600; }
+.mk { flex: none; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; font-size: .9rem; font-weight: 700; line-height: 1; border: 1.5px solid var(--ink); border-radius: 50%; background: #fff; }
+li[data-hit="1"] .mk { background: var(--good); color: #fff; }
+li[data-hit="0"] .mk { border-color: transparent; background: none; color: var(--muted); font-size: 1.1rem; }
+.key { font-size: .8rem; color: var(--muted); margin-top: .75rem; }
+
+.done { text-align: center; padding: 2rem 1rem; }
+.done h1 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="top__row">
+      <a class="wordmark" href="study.html" aria-label="Back to the hub" style="color:inherit;text-decoration:none"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>PACES <em id="deckName"></em></span></a>
+      <div class="pos" id="pos" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="filters" id="filters" role="group" aria-label="Which cards"></div>
+
+    <section id="play">
+      <div class="card">
+        <div class="badge" id="region"></div>
+        <p class="stem" id="stem"></p>
+      </div>
+      <div class="card">
+        <div class="field">
+          <label for="ans" id="prompt"></label>
+          <textarea id="ans" rows="3" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done"></textarea>
+          <p class="hint">Enter shows the answer, Enter again moves on. Shift+Enter starts a new line.</p>
+        </div>
+        <button class="btn" id="submit" type="button">Show the answer</button>
+      </div>
+      <div class="card reveal" id="reveal" aria-live="polite" hidden>
+        <div id="revealBody"></div>
+        <p class="key" id="key">&#10003; you named it</p>
+        <button class="btn" id="next" type="button">Next card</button>
+      </div>
+    </section>
+
+    <section id="done" hidden>
+      <div class="card done">
+        <h1>Deck finished</h1>
+        <button class="btn" id="again" type="button">Go again</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>var PACES_DECKS = [];</script>
+<!-- One script tag per deck. A deck file pushes itself onto PACES_DECKS. -->
+<script src="neuro.js"></script>
+
+<script id="paces-matcher">
+/* The matcher. No DOM in this block: test-paces.js lifts it out and runs it in Node.
+   mark(card, text, vocab) -> { answer: [true/false...], expected: [true/false...] }
+   - whole words and whole phrases only, never raw substrings;
+   - longest accept-string first, and the words it matched are used up. A card's `ignore`
+     entries compete and use up words in the same way, but are never shown or ticked;
+   - typos only for accept-strings longer than four characters (1 edit for 5-8, 2 above),
+     never where a digit is involved, never across hypo/hyper, never for a word that is a real
+     word in its own right (REAL, and the deck's own vocabulary), and a typo that could be two
+     different items credits neither;
+   - on the answer ("What it is") rows only, a name that is negated ("not MS", "MS unlikely",
+     "rather than MS") is not ticked. */
+var PACES_MATCH = (function () {
+  function set(s) { var o = {}; s.split(' ').forEach(function (w) { if (w) o[w] = 1; }); return o; }
+  /* near-neighbours that are different conditions, and everyday words: never read as typos
+     (content sheet, section 4e) */
+  var REAL = set('spondylitis spondylolysis spondylolisthesis myopathy myelopathy myelitis neuropathy ' +
+    'waist proximal distal medial radial median ulnar parkinsonism axillary maxilla perineal peroneal ' +
+    'rheumatic ventral vesicular subarachnoid extradural paraplegia paraparesis meditation rugs humour ' +
+    'rumour bonus tables dermis clutch cooper elasticity');
+  var CUE = set('not no isnt wasnt unlikely exclude excluded excludes excluding without against doubt never cannot cant');
+  var AFTER = set('unlikely excluded');
+  var STOP = set('but however so therefore hence though although instead this it its likely probably think ' +
+    'suggests suggesting favours favour diagnosis');
+
+  function fold(s) { return String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  function plain(s) {
+    return s.replace(/[-\u2010-\u2013'\u2018\u2019`\u00b4]/g, '')   // hyphens and apostrophes go
+      .replace(/[^a-z0-9]+/g, ' ').trim();                          // everything else is a space
+  }
+  function norm(s) { return plain(fold(s)); }
+  /* typed text -> words, each with the number of the clause it sits in */
+  function read(text) {
+    var toks = [], cl = [];
+    fold(text)
+      .replace(/\b(?:[a-z]\.){2,}/g, function (m) { return m.replace(/\./g, ''); })   // m.s. -> ms
+      .replace(/([a-z0-9])\+(?![a-z0-9])/g, '$1 plus ')                               // pd+ -> pd plus
+      .replace(/\s[-\u2010-\u2015]+\s|[\u2014\u2015]/g, ' | ')
+      .replace(/\.(?=\s|$)/g, ' | ')
+      .replace(/[,;:()=<>?!\n\r\/]+/g, ' | ')
+      .split('|').forEach(function (part, n) {
+        plain(part).split(' ').forEach(function (w) { if (w) { toks.push(w); cl.push(n); } });
+      });
+    return { toks: toks, cl: cl };
+  }
+  /* edit distance, an adjacent swap counting as one; gives up above max */
+  function dist(a, b, max) {
+    if (Math.abs(a.length - b.length) > max) return max + 1;
+    var prev2 = null, prev = [], cur, i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++) {
+        var cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) cur[j] = Math.min(cur[j], prev2[j - 2] + 1);
+      }
+      prev2 = prev; prev = cur;
+    }
+    return prev[b.length];
+  }
+  /* the same words, differing only in a plural ending or in where the spaces fall */
+  function sameWord(a, b) {
+    return a === b || a === b + 's' || b === a + 's' || a === b + 'es' || b === a + 'es' ||
+      (a.slice(-3) === 'ies' && a.slice(0, -3) + 'y' === b) || (b.slice(-3) === 'ies' && b.slice(0, -3) + 'y' === a);
+  }
+  function sameForm(w, s) {
+    if (w.replace(/ /g, '') === s.replace(/ /g, '')) return true;
+    var x = w.split(' '), y = s.split(' ');
+    return x.length === y.length && x.every(function (t, i) { return sameWord(t, y[i]); });
+  }
+  function all(card) { return (card.answer || []).concat(card.expected || [], card.ignore || []); }
+  /* every word the deck itself uses: a typed word that is one of these is a word, not a typo */
+  function vocab(cards) {
+    var v = {};
+    function add(s) { norm(s).split(' ').forEach(function (w) { if (w) v[w] = 1; }); }
+    cards.forEach(function (c) {
+      add(c.stem);
+      all(c).forEach(function (it) { it.accept.forEach(add); });
+    });
+    return v;
+  }
+  /* one true/false per item. The first `negatable` items are not ticked when negated. */
+  function match(text, items, known, negatable) {
+    known = known || {};
+    var hits = items.map(function () { return false; });
+    var r = read(text), toks = r.toks, cl = r.cl;
+    if (!toks.length) return hits;
+    var acc = [], maxK = 1;
+    items.forEach(function (it, i) {
+      it.accept.forEach(function (a) {
+        var s = norm(a);
+        if (!s) return;
+        var k = s.split(' ').length;
+        if (k > maxK) maxK = k;
+        acc.push({ i: i, s: s, k: k, n: s.replace(/ /g, '').length, digit: /[0-9]/.test(s) });
+      });
+    });
+    var cands = [];
+    for (var start = 0; start < toks.length; start++) {
+      for (var n = 1; n <= maxK + 1 && start + n <= toks.length; n++) {
+        var words = toks.slice(start, start + n), w = words.join(' ');
+        var exact = acc.filter(function (a) { return a.s === w; });
+        if (exact.length) {
+          exact.forEach(function (a) { cands.push({ start: start, n: n, i: a.i, len: a.n, typo: 0 }); });
+          continue;
+        }
+        if (/[0-9]/.test(w) || words.every(function (x) { return REAL[x]; })) continue;
+        var guarded = words.every(function (x) { return known[x] || REAL[x]; });
+        var near = acc.filter(function (a) {
+          if (a.n <= 4 || a.digit || Math.abs(a.k - n) > 1) return false;
+          if (/hyper/.test(w) !== /hyper/.test(a.s) || /hypo/.test(w) !== /hypo/.test(a.s)) return false;
+          if (guarded && !sameForm(w, a.s)) return false;
+          var t = a.n <= 8 ? 1 : 2;
+          return dist(w, a.s, t) <= t;
+        });
+        if (!near.length) continue;
+        if (near.some(function (a) { return a.i !== near[0].i; })) continue;   // two items: neither
+        cands.push({ start: start, n: n, i: near[0].i, typo: 1,
+          len: Math.max.apply(null, near.map(function (a) { return a.n; })) });
+      }
+    }
+    /* the same stretch of typing read as a typo of two different items: neither */
+    var typos = cands.filter(function (c) { return c.typo; });
+    typos.forEach(function (a) {
+      typos.forEach(function (b) {
+        if (a.i !== b.i && a.start < b.start + b.n && b.start < a.start + a.n) a.dead = b.dead = true;
+      });
+    });
+    cands = cands.filter(function (c) { return !c.dead; });
+    cands.sort(function (a, b) { return b.len - a.len || a.typo - b.typo || a.start - b.start; });
+
+    function pair(p) {   // "rather than", "ruled out", "less likely", "not likely" ending at word p
+      var t = toks[p], q = toks[p - 1] || '';
+      return (t === 'than' && q === 'rather') || (t === 'out' && /^rul/.test(q)) ||
+        (t === 'likely' && (q === 'less' || q === 'not'));
+    }
+    function negated(c) {
+      var p, here = cl[c.start], end = c.start + c.n;
+      for (p = c.start - 1; p >= 0 && p >= c.start - 4 && cl[p] === here; p--) {
+        if (pair(p) || CUE[toks[p]]) return true;
+        if (STOP[toks[p]]) break;
+      }
+      for (p = end; p < toks.length && p < end + 3 && cl[p] === here; p++) {
+        if (toks[p] === 'but') break;
+        if (AFTER[toks[p]] || (toks[p] !== 'than' && pair(p))) return true;
+      }
+      return false;
+    }
+    var used = [];
+    cands.forEach(function (c) {
+      for (var p = c.start; p < c.start + c.n; p++) if (used[p]) return;
+      for (p = c.start; p < c.start + c.n; p++) used[p] = true;
+      if (c.i < (negatable || 0) && negated(c)) return;
+      hits[c.i] = true;
+    });
+    return hits;
+  }
+  function mark(card, text, known) {
+    var a = (card.answer || []).length, e = (card.expected || []).length;
+    var hits = match(text, all(card), known, a);
+    return { answer: hits.slice(0, a), expected: hits.slice(a, a + e) };
+  }
+  return { norm: norm, match: match, mark: mark, vocab: vocab };
+})();
+</script>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var want = new URLSearchParams(location.search).get('deck');
+  var deck = PACES_DECKS.filter(function (d) { return d.id === want; })[0] || PACES_DECKS[0];
+  if (!deck) { $('stem').textContent = 'No deck loaded.'; return; }
+  var VOCAB = PACES_MATCH.vocab(deck.cards);
+  var KEY = 'paces-filter-' + deck.id;
+  var filter = 'all', queue = [], at = 0, revealed = false, quiet = 0;
+
+  try {
+    var saved = localStorage.getItem(KEY);
+    if (deck.regions.some(function (r) { return r.key === saved; })) filter = saved;
+  } catch (e) {}
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function label(key) {
+    var r = deck.regions.filter(function (x) { return x.key === key; })[0];
+    return r ? r.label : key;
+  }
+  function el(tag, text, cls) {
+    var e = document.createElement(tag);
+    if (text != null) e.textContent = text;
+    if (cls) e.className = cls;
+    return e;
+  }
+
+  function drawFilters() {
+    var box = $('filters');
+    box.textContent = '';
+    [{ key: 'all', label: 'All' }].concat(deck.regions).forEach(function (r) {
+      var b = el('button', r.label, 'chip');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(r.key === filter));
+      b.onclick = function () {
+        if (r.key === filter) return;
+        filter = r.key;
+        try { localStorage.setItem(KEY, filter); } catch (e) {}
+        start();
+      };
+      box.appendChild(b);
+    });
+  }
+
+  function start() {
+    queue = shuffle(deck.cards.filter(function (c) { return filter === 'all' || c.region === filter; }));
+    at = 0;
+    drawFilters();
+    show();
+  }
+
+  function show() {
+    revealed = false;
+    var finished = at >= queue.length;
+    $('play').hidden = finished;
+    $('done').hidden = !finished;
+    $('pos').textContent = finished ? '' : 'Card ' + (at + 1) + ' of ' + queue.length;
+    $('pos').hidden = finished;
+    if (finished) { $('again').focus(); return; }
+    var c = queue[at];
+    $('region').textContent = label(c.region);
+    $('stem').textContent = c.stem;
+    $('stem').className = 'stem' + (c.stem.length > 110 ? ' stem--long' : '');
+    $('prompt').textContent = c.prompt;
+    $('ans').value = '';
+    $('ans').readOnly = false;
+    $('submit').hidden = false;
+    $('reveal').hidden = true;
+    window.scrollTo(0, 0);
+    $('ans').focus({ preventScroll: true });
+  }
+
+  function listOf(items, hits) {
+    var ul = el('ul', null, 'items');
+    items.forEach(function (it, i) {
+      var hit = hits[i];
+      var li = el('li');
+      li.setAttribute('data-hit', hit ? '1' : '0');
+      var mk = el('span', hit ? '\u2713' : '\u2022', 'mk');
+      mk.setAttribute('aria-hidden', 'true');
+      li.appendChild(mk);
+      li.appendChild(el('span', it.name));
+      if (hit) li.setAttribute('aria-label', it.name + ', you named it');
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function reveal() {
+    if (revealed || at >= queue.length || Date.now() < quiet) return;
+    revealed = true;
+    var c = queue[at];
+    var answer = c.answer || [], expected = c.expected || [];
+    var hits = PACES_MATCH.mark(c, $('ans').value, VOCAB);
+    var body = $('revealBody');
+    body.textContent = '';
+    if (answer.length) {
+      body.appendChild(el('h2', 'What it is'));
+      body.appendChild(listOf(answer, hits.answer));
+    }
+    if (expected.length) {
+      body.appendChild(el('h2', answer.length ? 'What else it could be' : 'Model answer'));
+      body.appendChild(listOf(expected, hits.expected));
+    }
+    $('ans').readOnly = true;
+    $('submit').hidden = true;
+    $('next').textContent = at + 1 < queue.length ? 'Next card' : 'Finish';
+    $('reveal').hidden = false;
+    $('key').hidden = !hits.answer.concat(hits.expected).some(Boolean);
+    $('next').focus({ preventScroll: true });
+    /* Bring the answer into view, clear of the sticky header: if it all fits, scroll only as far
+       as its last line needs (the stem stays on screen); if not, put its heading under the header. */
+    var top = document.querySelector('.top').offsetHeight + 10;
+    var box = $('reveal').getBoundingClientRect(), floor = window.innerHeight - 10;
+    if (box.height <= floor - top) { if (box.bottom > floor) window.scrollBy(0, box.bottom - floor); }
+    else window.scrollBy(0, box.top - top);
+  }
+
+  /* a second tap landing where the next card's button now sits is ignored for a moment */
+  function next() { if (!revealed) return; quiet = Date.now() + 400; at++; show(); }
+
+  $('submit').onclick = reveal;
+  $('next').onclick = next;
+  $('again').onclick = start;
+  /* Enter shows the answer (Shift+Enter is a new line); once it is showing, Enter moves on. */
+  $('ans').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' || e.shiftKey || e.isComposing) return;
+    e.preventDefault();
+    if (e.repeat) return;
+    if (revealed) next(); else reveal();
+  });
+  /* a held Enter is one press: its repeats do nothing, on the box or on a button */
+  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.repeat) e.preventDefault(); }, true);
+  /* keep the box clear of the on-screen keyboard */
+  $('ans').addEventListener('focus', function () {
+    setTimeout(function () { if (!revealed) $('ans').scrollIntoView({ block: 'center' }); }, 300);
+  });
+
+  $('deckName').textContent = deck.title;
+  document.title = 'PACES \u00b7 ' + deck.title;
+  start();
+})();
+</script>
+</body>
+</html>
