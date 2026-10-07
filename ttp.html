@@ -1817,11 +1817,32 @@ function effectivePlan(matched){
   return eff;
 }
 function enactPlan(matched){
+  const sent = [];
   matched.forEach(k=>{
     const it = PLAN_ITEMS[k]; if(!it) return;
     if(it.rx) S.rx.add(it.rx);
-    if(it.ix && !S.ordered.has(it.ix)) S.ordered.add(it.ix);
+    if(it.ix && !S.ordered.has(it.ix)){ S.ordered.add(it.ix); sent.push(it.ix); }
   });
+  return planResults(sent);
+}
+/* a test written in the plan is sent like any other: its result goes to the Investigate feed.
+   No ward time is added. Returns the names of what was shown. */
+function planResults(ids){
+  const feed=$("#feed"), names=[];
+  ids.forEach(id=>{
+    const x = findIx(id); if(!x) return;
+    if(!names.length){ const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Sent from your plan · ${fmtClock(S.clock)}`; feed.appendChild(rh); }
+    if(x.isFBC) S.fbcBack = true;
+    let body = "";
+    const labs = x.dynLabs ? repeatFBC() : x.labs;
+    if(labs) body = labs.map(labRowHTML).join("");
+    if(x.img) body += `<div class="finding">${imgHTML(x,"wide")}</div>`;
+    if(x.text) body += `<div class="labtext">${typeof x.text==="function" ? x.text() : x.text}</div>`;
+    const d=document.createElement("div"); d.className="result"; d.innerHTML=`<div class="rn">${x.name}</div>${body}`; feed.appendChild(d);
+    names.push(x.name);
+  });
+  if(names.length) renderIx();
+  return names;
 }
 /* The BSH TTP standard (Scully et al., BJH 2023) + NICE TA667 */
 const BUNDLE = [
@@ -1886,7 +1907,7 @@ function pharmacyCallback(text, matched, negated, dangers){
   $("#pharmOn").onclick  = ()=>{ closePlan(text, matched, negated); };
 }
 function closePlan(text, matched, negated){
-  enactPlan(matched);
+  const sent = enactPlan(matched);
   tick(10);
   S.planWritten = true;
   S.planSubs++; if(S.planSubs > 1) S.planAmended = true;
@@ -1904,6 +1925,7 @@ function closePlan(text, matched, negated){
       return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
              (ok?``:`<br><span class="bw">${why}</span>`)+`</span></li>`; }).join("")+
     `</ul>`+
+    (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
