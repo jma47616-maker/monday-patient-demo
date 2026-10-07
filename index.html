@@ -1186,7 +1186,8 @@ const S = {
   dx: "", dxCorrect: false,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
-  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
+  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false,
+  planSubs: 0, planAsked: new Set()
 };
 
 const $ = s => document.querySelector(s);
@@ -1213,7 +1214,7 @@ function renderObs(){
     ["BP", o.bp, "mmHg", o.flag],
     ["RR", o.rr, "/min", o.rr>20?"hi":""],
     ["SpO₂", o.spo2, "% air", o.spo2<96?"lo":""],
-    ["Lactate", S.reexamCount&&!(S.rx.has("iv")||S.rx.has("blood"))?"3.8":"2.9", "mmol/L", "hi"],
+    S.ordered.has("vbg") ? ["Lactate", S.reexamCount&&!(S.rx.has("iv")||S.rx.has("blood"))?"3.8":"2.9", "mmol/L", "hi"] : ["Temp", "36.4", "°C", ""],
     ["GCS", "15", "/15", ""]
   ];
   $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
@@ -1606,7 +1607,7 @@ function processRound(){
   roundBtn();
   // surface re-examine once results are in
   $("#reexamWrap").style.display="block";
-  updateTabDots(); updateBar();
+  updateTabDots(); updateBar(); renderObs();   // the gas result puts the lactate on the obs card
   renderIx();
   feed.lastElementChild.scrollIntoView({behavior:"smooth", block:"end"});
 }
@@ -1709,11 +1710,32 @@ function effectivePlan(matched){
   return eff;
 }
 function enactPlan(matched){
+  const sent = [];
   matched.forEach(k=>{
     const it = PLAN_ITEMS[k]; if(!it) return;
     if(it.rx) S.rx.add(it.rx);
-    if(it.ix && !S.ordered.has(it.ix)){ S.ordered.add(it.ix); if(it.ix==="ogd") S.rx.add("ogd"); }
+    if(it.ix && !S.ordered.has(it.ix)){ S.ordered.add(it.ix); sent.push(it.ix); if(it.ix==="ogd") S.rx.add("ogd"); }
   });
+  return planResults(sent);
+}
+/* a test written in the plan is sent like any other: its result goes to the Investigate feed.
+   No ward time is added. Returns the names of what was shown. */
+function planResults(ids){
+  const feed=$("#feed"), names=[];
+  ids.forEach(id=>{
+    const x = findIx(id); if(!x) return;
+    if(!names.length){ const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Sent from your plan · ${fmtClock(S.clock)}`; feed.appendChild(rh); }
+    if(x.isFBC) S.fbcBack = true;
+    let body;
+    if(x.labs) body = x.labs.map(labRowHTML).join("");
+    else if(x.dynImg) body = `<div class="finding"><img class="wide" src="${resuscitated() ? "ugib-ecg-af-rate-controlled.jpg" : "ugib-ecg-af-fvr.jpg"}" alt="${x.imgAlt||''}"></div>`;
+    else if(x.img) body = `<div class="finding"><img class="wide" src="${x.img}" alt="${x.imgAlt||''}"></div>`;
+    else body = `<div class="labtext">${x.text}</div>`;
+    const d=document.createElement("div"); d.className="result"; d.innerHTML=`<div class="rn">${x.name}</div>${body}`; feed.appendChild(d);
+    names.push(x.name);
+  });
+  if(names.length){ renderIx(); renderObs(); }
+  return names;
 }
 /* the BSG AUGIB care bundle — the six R's */
 const BUNDLE = [
@@ -1750,13 +1772,18 @@ function renderRx(){
 function submitPlan(){
   const text = $("#planText").value.trim();
   if(!text) return;
+  // one plan and one amendment: a third submission is refused, and costs nothing
+  if(S.planSubs >= 2){ const o = $("#planOut");
+    if(!o.innerHTML.includes('class="planfull"')) o.insertAdjacentHTML("afterbegin", `<div class="planfull" style="font-size:.9rem; color:var(--muted); margin-bottom:var(--s3);">You have written the plan and amended it once. The chart stands as it is.</div>`);
+    return; }
   const { matched, negated } = parsePlan(text);
-  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
-  if(dangers.length && !S.planWarned){ pharmacyCallback(text, matched, negated, dangers); return; }
+  // pharmacy rings about any danger they have not already asked about
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.planAsked.has(k));
+  if(dangers.length){ pharmacyCallback(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
 }
 function pharmacyCallback(text, matched, negated, dangers){
-  S.planWarned = true;
+  S.planWarned = true; dangers.forEach(k=>S.planAsked.add(k));
   const out = $("#planOut");
   out.innerHTML = `<div class="reflist"><div class="rq">Pharmacy rings the ward before the plan is processed:</div>`+
     `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, in a man who is actively bleeding… are you sure, doctor?”</div></div>`+
@@ -1769,9 +1796,10 @@ function pharmacyCallback(text, matched, negated, dangers){
   $("#pharmOn").onclick  = ()=>{ closePlan(text, matched, negated); };
 }
 function closePlan(text, matched, negated){
-  enactPlan(matched);
+  const sent = enactPlan(matched);
   tick(10);
   S.planWritten = true;
+  S.planSubs++; if(S.planSubs > 1) S.planAmended = true;
   const eff = effectivePlan(matched);   // judge the chart as it now stands, not just this submission
   renderRx(); renderObs();
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
@@ -1785,6 +1813,7 @@ function closePlan(text, matched, negated){
       return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
              (ok?``:`<br><span class="bw">${b.why}</span>`)+`</span></li>`; }).join("")+
     `</ul>`+
+    (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
