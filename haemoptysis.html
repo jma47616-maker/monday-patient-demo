@@ -2248,9 +2248,9 @@ function planResults(ids){
 /* EULAR 2022 / KDIGO 2024 — tonight's eight domains. Induction is renal's; it is not here. */
 const BUNDLE = [
   { k:"Recognise and protect", want:"Pulmonary-renal syndrome named; no anticoagulant, no more fluid",
-    ok:(m)=> S.dxCorrect && !S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids"),
+    ok:(m)=> S.dxCorrect && !S.rx.has("anticoag") && !S.rx.has("lyse") && !S.rx.has("fluids") && !S.given.size,
     why:()=> !S.dxCorrect ? "The name is the treatment: without it, every other line on the chart is aimed at something else."
-      : S.rx.has("anticoag") ? "You anticoagulated a man bleeding into his alveoli. NG158's interim anticoagulation has a bleeding-risk clause, and a falling haemoglobin with haemoptysis is what it is for."
+      : (S.rx.has("anticoag") || S.given.has("anticoag")) ? "You anticoagulated a man bleeding into his alveoli. NG158's interim anticoagulation has a bleeding-risk clause, and a falling haemoglobin with haemoptysis is what it is for."
       : "Fluid went in. Hypertensive, oedematous, JVP 3 cm, moist tongue, no postural drop — he was never dry, and a kidney passing 12 mL an hour into a nephritis does not want a bag of Hartmann's. It went into his lungs." },
   { k:"Oxygen and escalation", want:"Titrated oxygen, and critical care aware tonight",
     ok:(m)=> (S.rx.has("o2") || S.rx.has("niv")) && S.rx.has("itu"),
@@ -2574,7 +2574,7 @@ function showDeath(){
   const looked = S.examMore.has("back") || S.examMore.has("arms");
   const dip = S.ordered.has("dip"), micro = S.ordered.has("umicro"), abdo = S.examCore.has("abdo");
   const c = S.consequence;
-  $("#deathKicker").textContent = `${fmtClock(S.clock+95)} · AMU bay 3`;
+  $("#deathKicker").textContent = `${fmtClock(S.clock+95)} · AMU`;
   $("#deathHead").textContent = "You called it wrong. Then you called it wrong again.";
   $("#deathLede").innerHTML = `First “<b>${first}</b>”. Then, after the nurse rang to say he looked a lot sicker, “<b>${second}</b>”. Walter Brigg has died of a diagnosis that was written on his back.`;
   $("#deathArt").innerHTML = `<img src="vasc-death.svg" alt="Walter has died; the crash trolley, the flatline, and a urology two-week-wait letter arriving on time">`;
