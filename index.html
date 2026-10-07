@@ -1181,6 +1181,7 @@ const CASE = {
 const S = {
   clock: CASE.meta.startClock,
   asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
+  examEver: new Set(),   // every examination ever done: reassessing clears the two sets above so findings can be repeated
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), prDoneAt: null, prBeforeFBC: null, reexamCount: 0,
   dx: "", dxCorrect: false,
@@ -1473,6 +1474,7 @@ function submitExam(){
 $("#examForm").addEventListener("submit", e=>{ e.preventDefault(); submitExam(); });
 function doReexam(){
   S.reexamCount++; tick(20);
+  S.examCore.forEach(id=>S.examEver.add(id)); S.examMore.forEach(id=>S.examEver.add(id));
   // re-open key dynamic exams so they can be repeated
   // the dynamic findings can be repeated — clear them so they can be re-elicited
   S.examCore.delete("gen"); S.examCore.delete("cvs");
@@ -2015,8 +2017,8 @@ function scoreAndShow(){
 
   let keys=0;
   CASE.history.forEach(h=>{ if(h.key&&S.asked.has(h.id)) keys++; });
-  CASE.examCore.forEach(e=>{ if(e.key&&S.examCore.has(e.id)) keys++; });
-  CASE.examMore.forEach(e=>{ if(e.key&&S.examMore.has(e.id)) keys++; });
+  CASE.examCore.forEach(e=>{ if(e.key&&(S.examCore.has(e.id)||S.examEver.has(e.id))) keys++; });
+  CASE.examMore.forEach(e=>{ if(e.key&&(S.examMore.has(e.id)||S.examEver.has(e.id))) keys++; });
   ["glu","ecg","vbg","fbc","ue","gs","ecg2","ogd"].forEach(id=>{ if(S.ordered.has(id)) keys++; });
   add(`Discriminators gathered (${keys})`, keys*3);
 
