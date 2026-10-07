@@ -741,7 +741,7 @@ IV fluids
 
     <!-- ===================== HE DIED ===================== -->
     <section class="screen" id="s-death">
-      <div class="kicker">14:20 · bay 4</div>
+      <div class="kicker">22:40 · bay 2</div>
       <h2 id="deathHead">You called it wrong.</h2>
       <p class="lede" id="deathLede"></p>
       <div id="deathArt" style="margin:var(--s5) 0;"></div>
@@ -927,7 +927,7 @@ const CASE = {
     aliases:["temperature","temp","fever","pyrexia","fever chart","temperature trend","temperature readings","rigor","rigors","tympanic temperature","core temperature","nursing chart","how hot is he"] },
 
   { id:"mouth", name:"Mouth and dentition", key:true,
-    f:"The upper-left extraction socket is healed and quiet — no pus, no swelling. The mouth around it is not: heavy calculus along the gum line and two frankly carious molars.",
+    f:"The lower-left extraction socket is healed and quiet — no pus, no swelling. The mouth around it is not: heavy calculus along the gum line and two frankly carious molars.",
     aliases:["mouth","oral cavity","oral examination","oral hygiene","teeth","tooth","dentition","dental","dental examination","dental hygiene","gums","gingiva","extraction site","extraction socket","caries","mouth and teeth","teeth and gums","tongue","palate","buccal mucosa"] },
 
   { id:"spleen", name:"Palpate for organomegaly", key:true, imgOnly:true,
@@ -977,7 +977,7 @@ const CASE = {
     aliases:["jvp","jugular venous pressure","neck veins","jvp height","venous pressure","hepatojugular reflux"] },
   { id:"carotids", name:"Carotid pulses", f:"Both palpable and equal, normal character. No bruits.",
     aliases:["carotids","carotid pulse","carotid arteries","carotid bruits","bruits","listen to the carotids"] },
-  { id:"pulsechar", name:"Pulse character and volume", f:"125 and regular. Low volume, but no collapsing quality and no waterhammer.",
+  { id:"pulsechar", name:"Pulse character and volume", f:"125 and regular. Unusually full, with a collapsing quality: it falls away under your fingers.",
     aliases:["pulse","pulse character","pulse volume","pulse rate","radial pulse","feel the pulse","heart rate","rhythm","collapsing pulse","water hammer pulse"] },
   { id:"apex", name:"Apex beat and praecordium", f:"Apex undisplaced in the fifth space, mid-clavicular line. No heave, no thrill.",
     aliases:["apex beat","apex","praecordium","precordium","heave","heaves","thrill","thrills","palpate the apex","feel the apex","palpate the chest","cardiac palpation"] },
@@ -1518,7 +1518,8 @@ const S = {
   dx: "", dxCorrect: false, dxPart: false, dxSepsis: false, dxSpine: false, dxCardiac: false, dxAttempts: [], pushedOn: false,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
-  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
+  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false,
+  planSubs: 0, planAsked: new Set()
 };
 
 const $ = s => document.querySelector(s);
@@ -2090,19 +2091,29 @@ const PLAN_ITEMS = {
     aliases:["prophylactic dose enoxaparin","mechanical prophylaxis","prophylactic lmwh","thromboprophylaxis","vte prophylaxis","ted stockings","dalteparin","enoxaparin","clexane"] }
 };
 const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold off","omit","refrain from","stop the"];
+/* "no thrombolysis or heparin": the negation carries across one "or" / "nor", and only when what sits between
+   is a single term (one word, an item already read, or a known alias), so a new sentence does not inherit it */
+function negAcrossOr(t, i, aliasSet){
+  const m = (" " + t.slice(Math.max(0, i-60), i)).match(/^(.*)\s(?:or|nor)\s+$/); if(!m) return false;
+  const head = m[1] + " ";
+  return NEGATORS.some(n=>{ const k = head.lastIndexOf(" "+n+" "); if(k<0) return false;
+    const g = head.slice(k+n.length+2).trim().replace(/\s+/g," ");
+    return !!g && (!g.includes(" ") || aliasSet.has(g)); });
+}
 function parsePlan(text){
   let t = " " + norm(String(text).replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
   const matched = new Set(), negated = new Set();
   const pairs = [];
   Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
   pairs.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "stop the sertraline" beats "sertraline"
+  const aliasSet = new Set(pairs.map(p=>p[1]));
   for(const [k,a] of pairs){
     if(!a) continue;
     const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
     let m;
     while((m = re.exec(t)) !== null){
       const before = t.slice(Math.max(0, m.index-16), m.index);
-      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+$").test(before));
+      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+$").test(before)) || negAcrossOr(t, m.index, aliasSet);
       if(isNeg) negated.add(k); else matched.add(k);
       break;
     }
@@ -2120,11 +2131,34 @@ function effectivePlan(matched){
   return eff;
 }
 function enactPlan(matched){
+  const sent = [];
   matched.forEach(k=>{
     const it = PLAN_ITEMS[k]; if(!it) return;
     if(it.rx) S.rx.add(it.rx);
-    if(it.ix && !S.ordered.has(it.ix)) S.ordered.add(it.ix);
+    if(it.ix && !S.ordered.has(it.ix)){ S.ordered.add(it.ix); sent.push(it.ix); }
   });
+  return planResults(sent);
+}
+/* a test written in the plan is sent like any other: its result goes to the Investigate feed.
+   No ward time is added. Returns the names of what was shown. */
+function planResults(ids){
+  const feed=$("#feed"), names=[];
+  ids.forEach(id=>{
+    let x = findIx(id);
+    if(!x){ const f = allIx().find(y=>y.followUp && y.followUp.id===id); x = f && f.followUp; }
+    if(!x) return;
+    if(!names.length){ const rh=document.createElement("div"); rh.className="roundh"; rh.textContent=`Sent from your plan · ${fmtClock(S.clock)}`; feed.appendChild(rh); }
+    let body;
+    if(x.labs) body = x.labs.map(labRowHTML).join("");
+    else if(x.img) body = `<div class="finding"><img class="wide" src="${x.img}" alt="${x.imgAlt||''}"></div>`;
+    else if(x.asksSets && parseSets(S.cultSets)===null) body = `<div class="labtext">${S.rx.has("abx") ? "Taken after the first dose of antibiotic went in." : "Taken before any antibiotic."} Nothing back yet — the laboratory will not have anything for twelve hours.</div>`;
+    else body = `<div class="labtext">${x.textFn ? x.textFn() : x.text}</div>`;
+    if(x.note) body = `<div class="labtext"><span class="machine">${x.note}</span></div>` + body;
+    const d=document.createElement("div"); d.className="result"; d.innerHTML=`<div class="rn">${x.name}</div>${body}`; feed.appendChild(d);
+    names.push(x.name);
+  });
+  if(names.length) renderIx();
+  return names;
 }
 /* the BSG AUGIB care bundle — the six R's */
 const BUNDLE = [
@@ -2137,7 +2171,7 @@ const BUNDLE = [
     why:"He is septic and he needs volume — but he has moderate-to-severe aortic regurgitation and a stunned anterior wall. Two litres wide open is not resuscitation, it is pulmonary oedema. Give it in handfuls and look at him between each one." },
 
   { k:"Cultures before antibiotics", want:"Three sets, separate sites, 30–60 minutes apart — taken before the first dose",
-    ok:(m)=> (m.has("cult") || S.ordered.has("cult")) && !S.rx.has("abx") && S.cultSets !== "1",
+    ok:(m)=> (m.has("cult") || S.ordered.has("cult")) && !S.rx.has("abx") && parseSets(S.cultSets) !== 1,
     why:"One dose of vancomycin can sterilise the bottles for days. Culture-negative endocarditis means six weeks of blind therapy, no sensitivities, nothing to de-escalate to, and a worse outcome — and here it would be entirely your doing. Only refractory shock or new neurology buys you the right to treat first." },
 
   { k:"Antimicrobial", want:"IV vancomycin — the empirical choice in a severe penicillin allergy",
@@ -2167,13 +2201,18 @@ function renderRx(){
 function submitPlan(){
   const text = $("#planText").value.trim();
   if(!text) return;
+  // one plan and one amendment: a third submission is refused, and costs nothing
+  if(S.planSubs >= 2){ const o = $("#planOut");
+    if(!o.innerHTML.includes('class="planfull"')) o.insertAdjacentHTML("afterbegin", `<div class="planfull" style="font-size:.9rem; color:var(--muted); margin-bottom:var(--s3);">You have written the plan and amended it once. The chart stands as it is.</div>`);
+    return; }
   const { matched, negated } = parsePlan(text);
-  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
-  if(dangers.length && !S.planWarned){ pharmacyCallback(text, matched, negated, dangers); return; }
+  // pharmacy rings about any danger they have not already asked about
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.planAsked.has(k));
+  if(dangers.length){ pharmacyCallback(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
 }
 function pharmacyCallback(text, matched, negated, dangers){
-  S.planWarned = true;
+  S.planWarned = true; dangers.forEach(k=>S.planAsked.add(k));
   const out = $("#planOut");
   out.innerHTML = `<div class="reflist"><div class="rq">Pharmacy rings the ward before the plan is processed:</div>`+
     `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, in a man with septic emboli in his circulation… are you sure, doctor?”</div></div>`+
@@ -2186,9 +2225,10 @@ function pharmacyCallback(text, matched, negated, dangers){
   $("#pharmOn").onclick  = ()=>{ closePlan(text, matched, negated); };
 }
 function closePlan(text, matched, negated){
-  enactPlan(matched);
+  const sent = enactPlan(matched);
   tick(10);
   S.planWritten = true;
+  S.planSubs++; if(S.planSubs > 1) S.planAmended = true;
   const eff = effectivePlan(matched);   // judge the chart as it now stands, not just this submission
   renderRx(); renderObs();
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
@@ -2202,6 +2242,7 @@ function closePlan(text, matched, negated){
       return `<li data-ok="${ok?1:0}"><span class="mk">${ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
              (ok?``:`<br><span class="bw">${b.why}</span>`)+`</span></li>`; }).join("")+
     `</ul>`+
+    (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
@@ -2223,7 +2264,7 @@ const REFERRALS = {
   micro: { name:"Microbiology", rx:"micro",
     reply:()=> S.rx.has("abx")
       ? "“You’ve given it. Before the sets were in.”<br><br>“I want you to understand what that costs. Viridans strep is fastidious and vancomycin is exactly the drug that stops it growing. There is a fair chance those bottles now stay sterile, and if they do he has six weeks of empirical therapy, no organism, no MIC, nothing to narrow to, and no way of proving the bloodstream ever cleared. Culture-negative endocarditis does worse, and this one will have been made that way on your ward.”<br><br>“Send three sets anyway — separate sites, now. Keep the vancomycin going, trough before the fourth dose. And ring me before you touch the antibiotics again.”"
-      : (S.cultSets === "1"
+      : (parseSets(S.cultSets) === 1
         ? "“One set. That is the bit I’d change.”<br><br>“One positive bottle cannot be separated from a skin contaminant, and the Duke criteria are written around <b>persistently positive cultures from separate venepunctures</b>. With a single set I can tell you something grew; I can’t tell you it’s endocarditis. Get two more in before the vancomycin if there is any way of doing it.”<br><br>“Empirical cover: vancomycin, given the allergy. Send an MIC when it identifies and I’ll come to the ward round.”"
         : "“Good. Sets in first — that is the whole game, and most people don’t do it.”<br><br>“Gram-positive cocci in chains from separate sites, five weeks after a dental extraction, is viridans streptococcus until proved otherwise. Empirically: <b>vancomycin</b>, because that allergy history is a real one and I’m not testing it tonight. Once it identifies and I have an MIC we’ll almost certainly get him onto something kinder and narrower for the six weeks.”<br><br>“Repeat sets at 48 hours to document clearance — persistently positive cultures on appropriate therapy is one of the triggers for early surgery. And find the dentist. The portal of entry gets sorted before he goes home.”") },
 
@@ -2483,7 +2524,7 @@ function scoreAndShow(){
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} care-bundle domains`, S.bundleCovered*4);
 
   if(S.died){
-    add("He arrested at 14:20 and could not be resuscitated", -30);
+    add("He arrested at 22:40 and could not be resuscitated", -30);
   } else {
     let mgRight=0; CASE.mgmt.forEach(q=>{ if(S.mg[q.id]===true) mgRight++; });
     add(`Management decisions correct (${mgRight} of ${CASE.mgmt.length})`, mgRight*4);
