@@ -723,7 +723,7 @@ IV fluids
 
     <!-- ===================== HE DIED ===================== -->
     <section class="screen" id="s-death">
-      <div class="kicker">14:20 · bay 4</div>
+      <div class="kicker">04:50 · bay 6</div>
       <h2 id="deathHead">You called it wrong.</h2>
       <p class="lede" id="deathLede"></p>
       <div id="deathArt" style="margin:var(--s5) 0;"></div>
@@ -955,7 +955,7 @@ const CASE = {
         aliases:["pregnancy test","bhcg","hcg","beta hcg","urine pregnancy test","upt","is she pregnant"],
         text:"Negative." },
       { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"supp",
-        img:"ttp-ecg.jpg", imgFallback:"ttp-ecg-normal.png", imgAlt:"12-lead ECG",
+        img:"ttp-ecg-normal.png", imgAlt:"12-lead ECG",
         aliases:["ecg","12 lead ecg","twelve lead ecg","electrocardiogram","ekg"] },
       { id:"vbg",  name:"Venous blood gas", cost:15, costL:"15 min", tag:"key",
         aliases:["vbg","venous blood gas","gas","blood gas","abg","arterial blood gas","venous gas","lactate"],
@@ -1222,12 +1222,14 @@ const CASE = {
 const S = {
   clock: CASE.meta.startClock,
   asked: new Set(), examCore: new Set(), examMore: new Set(), examOrder: [],
+  examEver: new Set(),   // every examination ever done: reassessing clears the two sets above so findings can be repeated
   picked: new Set(), ordered: new Set(), round: 0, fbcBack: false,
   rx: new Set(), skinDoneAt: null, skinBeforeFBC: null, reexamCount: 0, lpAfterFBC: false,
   dx: "", dxCorrect: false,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, dxCommitted: false, mgStarted: false,
-  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false
+  planWritten: false, planWarned: false, planAmended: false, bundleCovered: 0, died: false,
+  planSubs: 0, planAsked: new Set()
 };
 
 const $ = s => document.querySelector(s);
@@ -1557,6 +1559,7 @@ function submitExam(){
 $("#examForm").addEventListener("submit", e=>{ e.preventDefault(); submitExam(); });
 function doReexam(){
   S.reexamCount++; tick(20);
+  S.examCore.forEach(id=>S.examEver.add(id)); S.examMore.forEach(id=>S.examEver.add(id));
   // re-open key dynamic exams so they can be repeated
   // the dynamic findings can be repeated — clear them so they can be re-elicited
   S.examCore.delete("gen"); S.examCore.delete("cns");
@@ -1859,13 +1862,18 @@ function renderRx(){
 function submitPlan(){
   const text = $("#planText").value.trim();
   if(!text) return;
+  // one plan and one amendment: a third submission is refused, and costs nothing
+  if(S.planSubs >= 2){ const o = $("#planOut");
+    if(!o.innerHTML.includes('class="planfull"')) o.insertAdjacentHTML("afterbegin", `<div class="planfull" style="font-size:.9rem; color:var(--muted); margin-bottom:var(--s3);">You have written the plan and amended it once. The chart stands as it is.</div>`);
+    return; }
   const { matched, negated } = parsePlan(text);
-  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger);
-  if(dangers.length && !S.planWarned){ pharmacyCallback(text, matched, negated, dangers); return; }
+  // pharmacy rings about any danger they have not already asked about
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.planAsked.has(k));
+  if(dangers.length){ pharmacyCallback(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
 }
 function pharmacyCallback(text, matched, negated, dangers){
-  S.planWarned = true;
+  S.planWarned = true; dangers.forEach(k=>S.planAsked.add(k));
   const out = $("#planOut");
   out.innerHTML = `<div class="reflist"><div class="rq">Pharmacy rings the ward before the plan is processed:</div>`+
     `<div style="margin:.5rem 0;">“${dangers.map(k=>PLAN_ITEMS[k].label).join(" — and ")}, in a woman with a platelet count of 18 and fragments on her film… are you sure, doctor?”</div></div>`+
@@ -1881,6 +1889,7 @@ function closePlan(text, matched, negated){
   enactPlan(matched);
   tick(10);
   S.planWritten = true;
+  S.planSubs++; if(S.planSubs > 1) S.planAmended = true;
   const eff = effectivePlan(matched);   // judge the chart as it now stands, not just this submission
   renderRx(); renderObs();
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
@@ -2105,12 +2114,12 @@ function scoreAndShow(){
   let keys=0, keyMax=0;
   const mark=hit=>{ keyMax++; if(hit) keys++; };
   CASE.history.forEach(h=>{ if(h.key) mark(S.asked.has(h.id)); });
-  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id)); });
-  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id)); });
+  CASE.examCore.forEach(e=>{ if(e.key) mark(S.examCore.has(e.id) || S.examEver.has(e.id)); });
+  CASE.examMore.forEach(e=>{ if(e.key) mark(S.examMore.has(e.id) || S.examEver.has(e.id)); });
   ["fbc","film","hapt","ue","coag","dip","gs","adamts","viro","preg","glu"].forEach(id=>mark(S.ordered.has(id)));
   add(`Discriminators gathered (${keys} of ${keyMax})`, Math.round(keys/keyMax*40));
 
-  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id));
+  const missedEx = CASE.examMore.filter(e=>e.key && !S.examMore.has(e.id) && !S.examEver.has(e.id));
   if(missedEx.length) add(`Key examinations never performed (${missedEx.length})`, -3*missedEx.length);
   if(!S.ordered.has("film")) add("The blood film never requested", -5);
   if(!S.ordered.has("hapt")) add("Haemolysis never screened for", -5);
@@ -2238,8 +2247,8 @@ function mpReturnBtn(score, max){
    or a debrief page) and DEBRIEF.live = true. Nothing else to change.
    ============================================================ */
 const DEBRIEF = {
-  live: false,
-  url:  "",                       // e.g. "ttp-debrief.mp4"
+  live: true,
+  url:  "ttp-debrief.html",
   blurb:"Microangiopathic haemolysis from film to plasma exchange — and why the urine infection was never a urine infection."
 };
 function renderDebrief(){
