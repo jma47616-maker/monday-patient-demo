@@ -777,7 +777,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
         <div class="card__label">How this case works</div>
         <ul class="points">
           <li><span class="n">1</span><span>He cannot tell you anything. <b>Ring the home</b>: one call, and it costs ward time like everything else.</span></li>
-          <li><span class="n">2</span><span><b>Examine him, then investigate.</b> Nothing is listed: you type what you want, the way you would ask for it.</span></li>
+          <li><span class="n">2</span><span><b>Examine him, then investigate.</b> Five core systems and five bedside tests are a tap. Everything else you type, the way you would ask for it.</span></li>
           <li><span class="n">3</span><span><b>Say what is going on</b>, write his plan as you would in the notes, and hand over for the night.</span></li>
         </ul>
       </div>
@@ -4375,7 +4375,8 @@ function closePlan(text, P){
     ...(["xfer","dialysis"].some(k=>done.includes(k)) ? ["renal"] : []), ...(["nephrost","spc"].some(k=>done.includes(k)) ? ["urol"] : [])])];
   teams.forEach(t=>{ if(t === "pharm") S.pharmVia = S.pharmVia || "plan"; });
   const replies = teams.map(referReply);
-  if(!P.late || replies.length) $("#planRefs").innerHTML = replies.map(r=>`<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`).join("");
+  const notes = info.notes.map(n=>`<div class="reflist"><div>${n}</div></div>`).join("");      /* what was written and not charted, and why */
+  if(!P.late || replies.length || notes) $("#planRefs").innerHTML = notes + replies.map(r=>`<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`).join("");
   /* the standards panel, at once, judged on the chart as it now stands */
   drawPanel();
   renderPlanForm(); renderChart(); renderStatus(); renderWait(); updateBar(); updateTabDots();
