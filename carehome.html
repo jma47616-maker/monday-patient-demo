@@ -4375,7 +4375,7 @@ function closePlan(text, P){
     ...(["xfer","dialysis"].some(k=>done.includes(k)) ? ["renal"] : []), ...(["nephrost","spc"].some(k=>done.includes(k)) ? ["urol"] : [])])];
   teams.forEach(t=>{ if(t === "pharm") S.pharmVia = S.pharmVia || "plan"; });
   const replies = teams.map(referReply);
-  const notes = info.notes.map(n=>`<div class="reflist"><div>${n}</div></div>`).join("");      /* what was written and not charted, and why */
+  const notes = [...info.notes, ...E.said].map(n=>`<div class="reflist"><div>${n}</div></div>`).join("");      /* what was written and not charted, and why */
   if(!P.late || replies.length || notes) $("#planRefs").innerHTML = notes + replies.map(r=>`<div class="reflist"><div class="rq">${r.name}, ${fmtClock(S.clock)}:</div><div>${r.text}</div></div>`).join("");
   /* the standards panel, at once, judged on the chart as it now stands */
   drawPanel();
