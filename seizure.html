@@ -1504,7 +1504,7 @@ function tick(min){
   S.clock += min; $("#clock").textContent = fmtClock(S.clock); renderObs(); checkPending();
   /* the untreated brain: no second fit — without hypertonic saline he deteriorates at 60 minutes
      and cones at 95 */
-  if(!S.died && S.hyperAt===null){ const e = elapsed(); if(e >= 95) deteriorate(2); else if(e >= 60) deteriorate(1); }
+  if(!S.died && S.hyperAt===null && !(P().bleeped && !S.dxCommitted)){ const e = elapsed(); if(e >= 60 && S.warnedAt===null) deteriorate(1); else if(e >= 95) deteriorate(2); }
 }
 
 /* ============================================================
@@ -2981,7 +2981,7 @@ function doBleep(){
   const p = P();
   p.bleeped = true;
   p.consequence = consequenceOf();
-  S.clock += 150; $("#clock").textContent = fmtClock(S.clock); renderObs();
+  S.clock += 150; $("#clock").textContent = fmtClock(S.clock); renderObs(); checkPending();
   const na = naNow(), g = p.consequence==="sedated" ? 10 : 12;
   const msg = p.consequence==="fluids"
     ? `“Doctor, it's Priya. The saline you wrote up has gone in — and the evening sodium is <b>${na}</b>. Lower. He's drowsy again, GCS ${g}, and he says his head's splitting. Can you come?”`
