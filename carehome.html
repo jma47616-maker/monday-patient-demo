@@ -358,6 +358,8 @@ img.zoomable { cursor: zoom-in; }
 #planRefs:empty, #planCards:empty, #planAsk:empty { display: none; }
 #planCards { margin-top: var(--s4); }
 .rumark { margin: 0 0 var(--s2); }
+/* "New confusion" is one finding: both words carry the flag colour (owner, 2026-10-11) */
+.obs .v.vword { font-size: .82rem; line-height: 1.2; letter-spacing: -.01em; }
 
 /* ---------- the death card ---------- */
 #deathArt img { width: 100%; display: block; border-radius: var(--r-lg); border: 1px solid var(--rule); box-shadow: var(--shadow); }
@@ -761,7 +763,7 @@ footer { padding: var(--s4) var(--s4) calc(var(--s4) + env(safe-area-inset-botto
           <div class="obs"><div class="k">SpO₂</div><div class="v">96</div><div class="u">% air</div></div>
           <div class="obs"><div class="k">BP</div><div class="v">148/82</div><div class="u">mmHg</div></div>
           <div class="obs" data-flag="hi"><div class="k">Pulse</div><div class="v">96</div><div class="u">/min · regular</div></div>
-          <div class="obs" data-flag="lo"><div class="k">Conscious</div><div class="v">New</div><div class="u">confusion · GCS 14 (E4 V4 M6)</div></div>
+          <div class="obs" data-flag="lo"><div class="k">Conscious</div><div class="v vword">New<br>confusion</div><div class="u">GCS 14 (E4 V4 M6)</div></div>
           <div class="obs"><div class="k">Temp</div><div class="v">37.9</div><div class="u">°C</div></div>
         </div>
         <div class="news"><span class="lbl">NEWS2 · capillary glucose 6.4 mmol/L</span><span class="val" data-tone="warn">4</span></div>
@@ -2570,9 +2572,9 @@ function renderObs(){
   const o = S.obsShown || Object.assign({ news:4 }, CASE.base.obs);
   const cells = [
     ["RR", o.rr, "/min", ""], ["SpO₂", o.spo2, "% air", ""], ["BP", o.bp, "mmHg", ""],
-    ["Pulse", o.hr, "/min", o.hr>90?"hi":""], ["Conscious", "New", "confusion", "lo"], ["Temp", o.temp, "°C", ""]
+    ["Pulse", o.hr, "/min", o.hr>90?"hi":""], ["Conscious", "New<br>confusion", "", "lo", "vword"], ["Temp", o.temp, "°C", ""]
   ];
-  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
+  $("#obsLive").innerHTML = cells.map(c=>`<div class="obs" data-flag="${c[3]}"><div class="k">${c[0]}</div><div class="v${c[4]?" "+c[4]:""}">${c[1]}</div><div class="u">${c[2]}</div></div>`).join("");
   $("#newsLive").textContent = o.news;
   $("#obsAt").textContent = "taken " + fmtClock(S.obsAt === null ? START : S.obsAt);
 }
