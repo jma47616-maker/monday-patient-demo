@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Acute kidney injury: the debrief, part 1 of 2 · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* AKI debrief additions */
+.wordmark > span { display:flex; flex-direction:column; }
+.wordmark .part { font-family:var(--font-mono); font-size:.72rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; }
+.wordmark .ttl { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ru { display:flex; gap:.3rem; margin:0 0 .9rem; }
+.ru span { font-family:var(--font-display); font-weight:800; width:2rem; height:2rem; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--paper-2); color:var(--muted); }
+.ru span.on { background:var(--accent); color:#fff; box-shadow:2px 2px 0 var(--ink); }
+.ruw { list-style:none; padding:0; display:grid; gap:.35rem; margin:.8rem 0; }
+.ruw li { display:flex; align-items:center; gap:.6rem; font-weight:600; }
+.ruw b { font-family:var(--font-display); font-weight:800; width:2rem; height:2rem; flex:none; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--gold); }
+.say.bun { margin:0 0 .9rem; background:var(--gold-bg); }
+.say.bun ul { list-style:none; padding:0; display:grid; gap:.4rem; font-weight:600; }
+.say { margin-bottom:.9rem; }
+.local.stan { border-style:solid; background:var(--accent-bg); }
+.pts + .local, .pts + .reason, .rv + .local { margin-top:1rem; }
+.sub2 { margin:.4rem 0 0; padding-left:1.1rem; display:grid; gap:.3rem; }
+.go-rv { margin:.9rem 0 0; }
+.go-rv[hidden] { display:none; }
+.opts--row { grid-template-columns:repeat(3,1fr); }
+.opts--row .opt { text-align:center; padding-left:.3rem; padding-right:.3rem; }
+.tile > button .tn { font-family:var(--font-mono); font-weight:600; width:1.7rem; height:1.7rem; flex:none; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--gold); }
+.pair { display:grid; gap:.8rem; margin-top:1rem; }
+.pair .fig { margin:0; }
+.next { display:inline-block; text-decoration:none; }
+.backlink { margin:0 0 .9rem; font-weight:600; }
+.also { margin-top:1rem; font-weight:600; }
+.txt > .fig--small { margin-top:1rem; }
+.txt > .pts + .pts, .txt > .fig + .pts { margin-top:.7rem; }
+.say.bun + .pts, .rv + .pts, .go-rv + .rv + .pts { margin-top:.9rem; }
+.src li a { overflow-wrap:anywhere; }
+.qa + .pts, .local + .pts, .local + .fig, .fig + .local { margin-top:1rem; }
+.fig img[alt] { font-size:.9rem; color:var(--muted); }
+.pts + .say { margin-top:.9rem; }
+@media (min-width:40rem) { .fig img[src$=".svg"] { max-width:26rem; margin-left:auto; margin-right:auto; } .fig.fig--small img { max-width:11rem; margin-left:0; } }
+@media (min-width:40rem) { .pair { grid-template-columns:1fr 1fr; align-items:start; } }
+@media (min-width:62rem) { .tiles { grid-template-columns:1fr; } .solo .tiles { grid-template-columns:repeat(2,1fr); } }
+@media print { .go-rv { display:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="ttl"><span class="long">Acute kidney injury: </span><em>the debrief</em></span><span class="part">Part 1 of 2</span></span></div>
+    <span class="count" id="count" aria-live="off">1 / 13</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2</b>What it is</a></li>
+    <li><a href="#c3"><b>3–4</b>What goes wrong</a></li>
+    <li><a href="#c5"><b>5–8</b>Causes</a></li>
+    <li><a href="#c9"><b>9</b>How it turns up</a></li>
+    <li><a href="#c10"><b>10–11</b>Tests</a></li>
+    <li><a href="#c12"><b>12</b>Part 2</a></li>
+    <li><a href="#c13"><b>13</b>Sources</a></li>
+    <li><a href="care-aki-debrief-2.html"><b>→</b>Part 2: what to do</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Acute kidney injury, part 1 of 2: what it is, why it happens and how to prove it. The debrief for week 7, Not himself</h1>
+
+<!-- 1 (fact check card 1) -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 13</span></div>
+  <p class="kick">Thursday, 15:05 · medical assessment</p>
+  <h2>His chart is nearly quiet. His kidneys are not.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-scene.svg" width="556" height="250" alt="A side bay on the medical assessment unit. An old man in a hospital gown is half off a trolley, a blanket bunched in his fists. A healthcare assistant has a hand on his shoulder."></figure>
+<div class="txt">
+<div class="people"><img src="care-aki-debrief-stanley.svg" width="120" height="120" alt="Stanley"></div>
+<ul class="pts">
+  <li>Stanley Garside, 84, was sent in from his nursing home. Since yesterday he has not known the staff, and this morning he hit a carer.</li>
+  <li>Pulse 96. Blood pressure 148/82. Temperature 37.9. Oxygen saturation 96% on air. His NEWS2 (the National Early Warning Score) is 4.</li>
+  <li>Creatinine 286 micromol/L. Three months ago it was 88. Potassium 5.8.</li>
+  <li>These two pages are about that pair of numbers: acute kidney injury (AKI), in anyone.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 2 (fact check card 2) -->
+<section class="card" id="c2" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">2 / 13</span></div>
+  <p class="kick">In plain English</p>
+  <h2>The kidneys have stopped keeping up, over hours or days.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-sink.svg" width="720" height="1060" alt="Two kidneys drawn as a sink draining the blood, with four streams leaving: fluid, potassium, acid and urea. In a second, smaller panel the outlet has narrowed and the four are backing up." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>AKI is a sudden fall in how well the kidneys clear the blood, over hours or days.</li>
+  <li>It is not one disease. It has many causes, and they often come together.</li>
+  <li>What builds up: fluid, potassium, acid and urea.</li>
+  <li>In the UK about one emergency admission to hospital in five is linked with AKI (NHS England 2014, as NICE’s Clinical Knowledge Summary reports it).</li>
+</ul>
+<div class="say">What you might say to a relative: “His kidneys have suddenly stopped clearing his blood properly. Often it can be turned round if we find the cause.”</div>
+</div>
+</div>
+</section>
+
+<!-- 3 (fact check card 3) -->
+<section class="card" id="c3" data-sec="What goes wrong">
+  <div class="meta"><span class="chip">What goes wrong</span><span class="num">3 / 13</span></div>
+  <p class="kick">The question on every AKI: where is the problem?</p>
+  <h2>Before the kidney, in the kidney, or after it.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-three-places.svg" width="720" height="900" alt="The heart and an artery into a kidney, the kidney itself, and the ureter, bladder and way out. Three numbered zones: 1 before the kidney, 2 in the kidney, 3 after the kidney." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>Before the kidney (pre-renal): too little blood flow or pressure reaching it. The commonest.</li>
+  <li>In the kidney (intrinsic): the kidney tissue itself is damaged.</li>
+  <li>After the kidney (post-renal): urine is made but cannot drain. The least common: about 1 in 10.</li>
+  <li>A problem before or after the kidney that goes on long enough can damage the kidney itself.</li>
+  <li>Often more than one is present.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley had some of the first and most of the third.</div>
+</div>
+</div>
+</section>
+
+<!-- 4 (fact check card 4) -->
+<section class="card" id="c4" data-sec="What goes wrong">
+  <div class="meta"><span class="chip">What goes wrong</span><span class="num">4 / 13</span></div>
+  <p class="kick">What is going wrong, inside</p>
+  <h2>Filtering needs pressure. Three ordinary things can each take some away.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-filter.svg" width="720" height="750" alt="One of the kidney’s filters drawn as a small bag with a vessel in, a vessel out and a pressure dial. Low fluid: less arrives. NSAID: the way in will not widen. ACE inhibitor or ARB: the way out widens." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>The kidney’s filters need pressure to work.</li>
+  <li>Too little fluid in the body: less blood arrives.</li>
+  <li>An NSAID (an anti-inflammatory painkiller such as ibuprofen) stops the vessel into the filter from widening.</li>
+  <li>An ACE inhibitor or ARB (such as ramipril or losartan) widens the vessel out of the filter, so the pressure inside falls.</li>
+  <li>The risk shows most when they are combined, in someone who is ill.</li>
+  <li>Few medicines are true poisons to the kidney. These change its blood flow.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 5 (fact check card 5) -->
+<section class="card" id="c5" data-sec="Causes">
+  <div class="meta"><span class="chip">Causes</span><span class="num">5 / 13</span></div>
+  <p class="kick">The decision: whose creatinine do you check?</p>
+  <h2>An ill adult with any of these needs a creatinine, set against their usual one.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-risk.svg" width="720" height="926" alt="Six small drawings: a birthday cake with 65 on it; a small kidney; a heart, a liver and a glucose meter; a thermometer beside an empty glass; a strip of tablets; one hand passing a cup to another." loading="lazy"></figure>
+<div class="txt">
+<p class="cap">NICE: in an ill adult with any of these, measure the creatinine and compare it with their usual one.</p>
+<ul class="pts">
+  <li>Aged 65 or over.</li>
+  <li>Kidneys already impaired: an eGFR (estimated glomerular filtration rate) under 60.</li>
+  <li>Heart failure, liver disease or diabetes.</li>
+  <li>Sepsis, or too little fluid in the body.</li>
+  <li>In the last week: an NSAID, an ACE inhibitor or ARB, a diuretic, or an aminoglycoside antibiotic such as gentamicin.</li>
+  <li>Relying on someone else for a drink, because of dementia or disability.</li>
+</ul>
+<button class="btn go-rv" type="button" data-rv="rv5" aria-expanded="false" aria-controls="rv5">Show the rest of NICE’s list</button>
+<div class="rv" id="rv5" tabindex="-1"><ul class="pts">
+  <li>Also: a previous AKI; passing little urine (under 0.5 mL per kg an hour); iodine contrast in the last week; symptoms or a history of a blocked urinary tract; early warning scores getting worse.</li>
+</ul></div>
+<div class="local stan"><b>Stanley</b>Stanley had three: his age, his medicines and his dementia.</div>
+</div>
+</div>
+</section>
+
+<!-- 6 (fact check card 6) -->
+<section class="card" id="c6" data-sec="Causes">
+  <div class="meta"><span class="chip">Causes</span><span class="num">6 / 13</span></div>
+  <p class="kick">Cause 1 of 3 · the commonest</p>
+  <h2>Not enough blood is reaching the kidney.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-before.svg" width="720" height="690" alt="The same drawing with zone 1, before the kidney, lit. An empty glass, a pressure gauge reading low and a strip of tablets feed into it: fluid, pressure, medicines." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>Too little fluid: not drinking (above all, someone who cannot get a drink without help), vomiting and diarrhoea, bleeding.</li>
+  <li>Low blood pressure or a weak pump: sepsis, heart failure, liver failure.</li>
+  <li>Medicines that lower the blood pressure, the fluid volume or the blood flow to the kidney: ACE inhibitors, ARBs, NSAIDs, loop diuretics.</li>
+  <li>Infection, low fluid, low blood pressure and medicines, often together, account for up to 8 in 10 cases of AKI.</li>
+  <li>Usually reversible if treated early.</li>
+</ul>
+<button class="btn go-rv" type="button" data-rv="rv6" aria-expanded="false" aria-controls="rv6">Show the full list</button>
+<div class="rv" id="rv6" tabindex="-1"><ul class="pts">
+  <li>Also: fluid lost through the kidneys; burns; spironolactone and similar medicines.</li>
+</ul></div>
+<div class="local stan"><b>Stanley</b>Stanley: days of sips, with ramipril and furosemide still being given. True, and not the whole answer.</div>
+</div>
+</div>
+</section>
+
+<!-- 7 (fact check card 7) -->
+<section class="card" id="c7" data-sec="Causes">
+  <div class="meta"><span class="chip">Causes</span><span class="num">7 / 13</span></div>
+  <p class="kick">Cause 2 of 3</p>
+  <h2>The kidney tissue itself is damaged.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-in.svg" width="720" height="1118" alt="The same drawing with zone 2, in the kidney, lit. It opens into one working unit of the kidney drawn large, with four parts: filter, tubule, tissue in between, vessels." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>Less common than the other two, and important not to miss: these need a specialist early.</li>
+  <li>Tubules: acute tubular necrosis; muscle breakdown (rhabdomyolysis); myeloma.</li>
+  <li>Filters (glomeruli): glomerulonephritis.</li>
+  <li>The tissue in between: interstitial nephritis, which a medicine can cause.</li>
+  <li>Blood vessels: vasculitis, a clot, debris breaking off an artery, a tear in an artery.</li>
+  <li>Drugs and toxins: some antibiotics, NSAIDs, proton pump inhibitors (such as omeprazole), allopurinol, iodine contrast, chemotherapy.</li>
+</ul>
+<button class="btn go-rv" type="button" data-rv="rv7" aria-expanded="false" aria-controls="rv7">Show the full list</button>
+<div class="rv" id="rv7" tabindex="-1"><ul class="pts">
+  <li>Rarer: lymphoma in the kidney; tumour lysis; antifreeze (ethylene glycol) poisoning; crystals from medicines such as aciclovir.</li>
+</ul></div>
+</div>
+</div>
+</section>
+
+<!-- 8 (fact check card 8) -->
+<section class="card" id="c8" data-sec="Causes">
+  <div class="meta"><span class="chip">Causes</span><span class="num">8 / 13</span></div>
+  <p class="kick">Cause 3 of 3 · the least common</p>
+  <h2>The urine is made and cannot get out.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-after.svg" width="720" height="1010" alt="The same drawing with zone 3, after the kidney, lit. The way out is drawn as a route: kidney, ureter, bladder, prostate, with a marker at each place a blockage can sit." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>The bladder will not empty: an enlarged prostate; a bladder whose nerves are not working; a blocked catheter.</li>
+  <li>Medicines can stop the bladder emptying too: those with anticholinergic effects (some antidepressants and bladder tablets among them) and opioids. Older people are at higher risk.</li>
+  <li>Something pressing or growing: a mass or tumour in the abdomen or pelvis.</li>
+  <li>Stones in the kidney or ureter.</li>
+  <li>The blockage raises the pressure inside the kidney and filtering falls.</li>
+</ul>
+<button class="btn go-rv" type="button" data-rv="rv8" aria-expanded="false" aria-controls="rv8">Show the full list</button>
+<div class="rv" id="rv8" tabindex="-1"><ul class="pts">
+  <li>Also: scarring behind the abdomen (retroperitoneal fibrosis); an infected, blocked kidney (pyonephrosis).</li>
+</ul></div>
+<div class="local stan"><b>Stanley</b>Stanley’s cause was here: three long-standing medicines that each make it harder for the bladder to empty, and an illness that put him on his bed.</div>
+</div>
+</div>
+</section>
+
+<!-- 9 (fact check card 9) -->
+<section class="card" id="c9" data-sec="How it turns up">
+  <div class="meta"><span class="chip">How it turns up</span><span class="num">9 / 13</span></div>
+  <p class="kick">The decision: when do you think of it?</p>
+  <h2>Often it does not turn up. A blood test finds it.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-doors.svg" width="720" height="580" alt="Four doors in a row. The first is much the largest: a blood result. The others: less urine; sick and dry; confused and drowsy." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>AKI often causes no symptoms, especially early.</li>
+  <li>When there are any: passing less urine, or a change in its colour; sickness, diarrhoea, looking dry; confusion, tiredness, drowsiness.</li>
+  <li>The laboratory compares each creatinine with the patient’s earlier results and flags a warning stage, 1 to 3.</li>
+  <li>It can only do that if there is a result from the last year to compare with.</li>
+  <li>And only if somebody reads it.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley looked like a confused old man with a temperature. The creatinine was the part nobody could see.</div>
+</div>
+</div>
+</section>
+
+<!-- 10 (fact check card 10) -->
+<section class="card question" id="c10" data-sec="Tests">
+  <div class="meta"><span class="chip chip--q">Stop and decide</span><span class="num">10 / 13</span></div>
+  <p class="kick">286 against 88</p>
+  <h2>One creatinine means little. Two give you the diagnosis and the stage.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-stages.svg" width="720" height="590" alt="A ladder of three steps. Stage 1: 1.5 times. Stage 2: 2 times. Stage 3: 3 times." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+<li>It is AKI if any one of these is true.<ul class="sub2"><li>Creatinine up by 26 micromol/L or more within 48 hours.</li><li>Creatinine up by half or more (1.5 times the baseline), known or presumed to have happened within the last 7 days.</li><li>Urine under 0.5 mL per kg an hour for more than 6 hours.</li></ul></li>
+<li>Stage 1: 1.5 to 1.9 times baseline. Stage 2: 2 to 2.9 times. Stage 3: 3 times or more.</li>
+<li>Also stage 3: a creatinine that has risen to 354 micromol/L or more, or dialysis started.</li>
+<li>Use whichever gives the worse stage.</li>
+</ul>
+<div class="qa">
+<p class="cap" style="margin-top:1rem">Stop and decide. 286 against 88.</p>
+<div class="opts opts--row" role="group" aria-label="Choose one"><button class="btn opt" type="button">Stage 1</button><button class="btn opt" type="button">Stage 2</button><button class="btn opt" type="button" data-ok="1">Stage 3</button></div>
+<div class="rv" tabindex="-1"><div class="local stan"><b>Stanley</b>286 ÷ 88 = 3.25. Stage 3. He weighs 68 kg, so 0.5 mL per kg an hour is 34 mL an hour.</div></div>
+</div>
+<ul class="pts">
+  <li>No earlier result at all? Repeat it. In hospital, a creatinine that moves over 12 to 24 hours shows the AKI is active.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 11 (fact check card 11) -->
+<section class="card" id="c11" data-sec="Tests">
+  <div class="meta"><span class="chip">Tests</span><span class="num">11 / 13</span></div>
+  <p class="kick">The decision: what do you send, and why?</p>
+  <h2>Each test answers one question.</h2>
+<div class="split split--wide">
+<figure class="fig"><img src="care-aki-debrief-tests.svg" width="720" height="980" alt="An outline of a body with eight numbered tags: three blood bottles at the arm, a urine dipstick, a bladder scanner, an ultrasound probe at the side, ECG leads, and a chart for observations and fluid." loading="lazy"></figure>
+<div class="txt">
+<p class="cap">Tap a test.</p>
+<div class="tiles" data-group="tests">
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests1"><span class="tn">1</span><span class="q">Creatinine and urea, against the last result</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests1">Is it AKI, what stage, and which way is it going?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests2"><span class="tn">2</span><span class="q">Potassium</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests2">Is the heart at risk?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests3"><span class="tn">3</span><span class="q">Bicarbonate, or a blood gas for the pH</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests3">How much acid has built up?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests4"><span class="tn">4</span><span class="q">Urine dipstick</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests4">Blood and protein. Is the kidney itself diseased?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests5"><span class="tn">5</span><span class="q">Bladder scan</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests5">Is the bladder full?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests6"><span class="tn">6</span><span class="q">Ultrasound of the kidneys and bladder</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests6">Is the way out blocked?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests7"><span class="tn">7</span><span class="q">ECG</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests7">Has a high potassium reached the heart?</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="tests8"><span class="tn">8</span><span class="q">Observations and a fluid chart</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="tests8">Is it sepsis? Dry or overloaded? How much urine?</div></div>
+</div>
+<button class="btn go-all" type="button" data-all="tests">Show all</button>
+<button class="btn go-rv" type="button" data-rv="rv11" aria-expanded="false" aria-controls="rv11">Only when the story asks</button>
+<div class="rv" id="rv11" tabindex="-1"><ul class="pts">
+  <li>Only when the story asks for them: a urine protein-to-creatinine ratio, if there is protein on the stick; a urine culture, if infection is suspected; creatine kinase, if muscle breakdown is suspected; lactate and a blood gas in sepsis or poor blood flow; antibody and myeloma tests (Part 2).</li>
+</ul></div>
+</div>
+</div>
+</section>
+
+<!-- 12 (fact check card 28) -->
+<section class="card" id="c12" data-sec="Part 2">
+  <div class="meta"><span class="chip">Part 2</span><span class="num">12 / 13</span></div>
+  <p class="kick">End of Part 1</p>
+  <h2>Next: what to do.</h2>
+<div class="solo">
+<p>ROUND UP letter by letter, potassium, who to call, what not to do, and going home.</p>
+<p style="margin-top:1rem"><a class="btn btn--accent next" href="care-aki-debrief-2.html">Go to Part 2 →</a></p>
+</div>
+</section>
+
+<!-- 13 (fact check card 26) -->
+<section class="card src" id="c13" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">13 / 13</span></div>
+  <h2>Where this comes from.</h2>
+<div class="solo">
+<ol>
+  <li>Harrogate and District NHS Foundation Trust. Clinical guideline (care bundle) for AKI management in adults: ROUND UP. Version 3, May 2025.</li>
+  <li>NICE NG148. Acute kidney injury: prevention, detection and management. 2019, updated October 2024. <a href="https://www.nice.org.uk/guidance/ng148">nice.org.uk/guidance/ng148</a></li>
+  <li>NICE Clinical Knowledge Summary. Acute kidney injury. Revised July 2023. <a href="https://cks.nice.org.uk/topics/acute-kidney-injury/">cks.nice.org.uk/topics/acute-kidney-injury</a></li>
+  <li>UK Kidney Association. Clinical practice guideline: acute kidney injury. August 2019. Its review date, August 2024, has passed. <a href="https://www.ukkidney.org/sites/default/files/FINAL-AKI-Guideline.pdf">ukkidney.org</a></li>
+  <li>UK Kidney Association. Treatment of acute hyperkalaemia in adults. June 2020. Its review date, June 2025, has passed. <a href="https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults">ukkidney.org</a></li>
+  <li>KDIGO. Clinical practice guideline for acute kidney injury. 2012. <a href="https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf">kdigo.org</a></li>
+  <li>NHS England. Algorithm for detecting acute kidney injury. 2014. <a href="https://www.england.nhs.uk/wp-content/uploads/2014/06/psa-aki-alg.pdf">england.nhs.uk</a></li>
+  <li>Think Kidneys (NHS England and the UK Renal Registry). Sick day guidance (2020), responding to AKI warning results (2018), medicines optimisation (2016). The programme ended in 2019 and its pages are an archive. <a href="https://www.thinkkidneys.nhs.uk/aki/resources/primary-care/">thinkkidneys.nhs.uk</a></li>
+  <li>Verhamme and colleagues. Drug-induced urinary retention: incidence, management and prevention. Drug Safety, 2008. <a href="https://doi.org/10.2165/00002018-200831050-00002">doi:10.2165/00002018-200831050-00002</a></li>
+</ol>
+<p class="credit">Guidelines change. Checked October 2026.</p>
+</div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    if (a.getAttribute('href').charAt(0) !== '#') return;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles and flip cards */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* tap to reveal */
+  function openRv(b) {
+    var rv = document.getElementById(b.getAttribute('data-rv'));
+    rv.classList.add('open'); b.setAttribute('aria-expanded', 'true'); b.hidden = true;
+    return rv;
+  }
+  each('.go-rv', function (b) { b.addEventListener('click', function () { openRv(b).focus({ preventScroll: true }); }); });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  function showAll(name) { each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); }); }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.tiles .tile', function (t) { setTile(t, true); });
+    each('.qa', function (q) { openQA(q); });
+    each('.go-rv', function (b) { openRv(b); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+</body>
+</html>

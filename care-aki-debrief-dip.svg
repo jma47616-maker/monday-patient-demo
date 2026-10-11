@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 872" width="600" height="872">
+  <title>Urinalysis printout</title>
+  <!-- A thermal-paper slip from a ward strip reader, lying on a desk. Each result is its own text element (cdp-glu, cdp-bil, cdp-ket, cdp-sg, cdp-blo, cdp-ph, cdp-pro, cdp-uro, cdp-nit, cdp-leu, cdp-time); each asterisk is its own text element (the result id with -flag added). -->
+  <defs>
+    <linearGradient id="cdp-paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9d6cf"/><stop offset=".05" stop-color="#f7f5ef"/><stop offset=".5" stop-color="#fbfaf6"/><stop offset=".93" stop-color="#f3f1ea"/><stop offset="1" stop-color="#cfccc4"/>
+    </linearGradient>
+    <linearGradient id="cdp-side" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity=".10"/><stop offset=".06" stop-color="#000" stop-opacity="0"/><stop offset=".94" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/>
+    </linearGradient>
+    <linearGradient id="cdp-desk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b9a98c"/><stop offset="1" stop-color="#9c8c70"/></linearGradient>
+    <filter id="cdp-grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="13"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .10 0"/>
+    </filter>
+    <filter id="cdp-wood" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".012 .35" numOctaves="3" seed="4"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 .25  0 0 0 0 .18  0 0 0 0 .10  0 0 0 .55 -.12"/>
+    </filter>
+    <filter id="cdp-shadow" x="-20%" y="-10%" width="140%" height="120%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="cdp-ink" x="-2%" y="-2%" width="104%" height="104%"><feGaussianBlur stdDeviation=".35"/></filter>
+  </defs>
+  <rect width="600" height="872" fill="url(#cdp-desk)"/>
+  <rect width="600" height="872" filter="url(#cdp-wood)"/>
+  <g transform="rotate(1.4 300 436)">
+    <rect x="84" y="30" width="448" height="806" fill="#1a140c" opacity=".45" filter="url(#cdp-shadow)"/>
+    <path d="M72 14 H528 V826 H72 Z" fill="url(#cdp-paper)"/>
+    <path d="M72 14 H528 V826 H72 Z" fill="url(#cdp-side)"/>
+    <g transform="translate(0 826)"><path d="M72 0 L78 7 L84 0 L90 7 L96 0 L102 7 L108 0 L114 7 L120 0 L126 7 L132 0 L138 7 L144 0 L150 7 L156 0 L162 7 L168 0 L174 7 L180 0 L186 7 L192 0 L198 7 L204 0 L210 7 L216 0 L222 7 L228 0 L234 7 L240 0 L246 7 L252 0 L258 7 L264 0 L270 7 L276 0 L282 7 L288 0 L294 7 L300 0 L306 7 L312 0 L318 7 L324 0 L330 7 L336 0 L342 7 L348 0 L354 7 L360 0 L366 7 L372 0 L378 7 L384 0 L390 7 L396 0 L402 7 L408 0 L414 7 L420 0 L426 7 L432 0 L438 7 L444 0 L450 7 L456 0 L462 7 L468 0 L474 7 L480 0 L486 7 L492 0 L498 7 L504 0 L510 7 L516 0 L522 7 L528 0 L528 0 Z" fill="#f3f1ea"/></g>
+    <path d="M72 14 H528 V826 H72 Z" filter="url(#cdp-grain)"/>
+    <g font-family="'Courier New', Courier, monospace" fill="#2b2a36" opacity=".9" filter="url(#cdp-ink)">
+      <rect x="96" y="44" width="408" height="50" fill="#2b2a36"/>
+      <text x="300" y="79" font-size="28" text-anchor="middle" fill="#f7f5ef" letter-spacing="3">URINALYSIS</text>
+      <text x="112" y="140" font-size="22">Time</text>
+      <text id="cdp-time" x="488" y="140" font-size="22" text-anchor="end">15:55</text>
+      <text x="112" y="176" font-size="22">Strip</text>
+      <text x="488" y="176" font-size="22" text-anchor="end">10 PARAMETER</text>
+      <path d="M96 200 H504" stroke="#2b2a36" stroke-width="2"/>
+      <text x="132" y="262" font-size="30">GLU</text><text id="cdp-glu" x="456" y="262" font-size="30" text-anchor="end">NEG</text><text x="132" y="318" font-size="30">BIL</text><text id="cdp-bil" x="456" y="318" font-size="30" text-anchor="end">NEG</text><text x="132" y="374" font-size="30">KET</text><text id="cdp-ket" x="456" y="374" font-size="30" text-anchor="end">1+</text><text id="cdp-ket-flag" x="92" y="378" font-size="32">*</text><text x="132" y="430" font-size="30">SG</text><text id="cdp-sg" x="456" y="430" font-size="30" text-anchor="end">1.015</text><text x="132" y="486" font-size="30">BLO</text><text id="cdp-blo" x="456" y="486" font-size="30" text-anchor="end">3+</text><text id="cdp-blo-flag" x="92" y="490" font-size="32">*</text><text x="132" y="542" font-size="30">pH</text><text id="cdp-ph" x="456" y="542" font-size="30" text-anchor="end">6.0</text><text x="132" y="598" font-size="30">PRO</text><text id="cdp-pro" x="456" y="598" font-size="30" text-anchor="end">1+</text><text id="cdp-pro-flag" x="92" y="602" font-size="32">*</text><text x="132" y="654" font-size="30">URO</text><text id="cdp-uro" x="456" y="654" font-size="30" text-anchor="end">NORMAL</text><text x="132" y="710" font-size="30">NIT</text><text id="cdp-nit" x="456" y="710" font-size="30" text-anchor="end">POS</text><text id="cdp-nit-flag" x="92" y="714" font-size="32">*</text><text x="132" y="766" font-size="30">LEU</text><text id="cdp-leu" x="456" y="766" font-size="30" text-anchor="end">2+</text><text id="cdp-leu-flag" x="92" y="770" font-size="32">*</text>
+      <path d="M96 782 H504" stroke="#2b2a36" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

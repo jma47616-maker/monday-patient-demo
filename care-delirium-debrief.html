@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Delirium: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* delirium debrief additions */
+.tile > button { justify-content:space-between; }
+.tile .back p + p { margin-top:.4rem; }
+.tile .back .him { display:block; margin-top:.35rem; font-weight:700; color:var(--accent-2); }
+details.more { border:2px solid var(--ink); border-radius:12px; background:var(--paper); margin-top:1rem; overflow:hidden; }
+details.more > summary { cursor:pointer; font-weight:700; padding:.6rem .8rem; min-height:2.75rem; background:var(--paper-3); list-style:none; display:flex; align-items:center; justify-content:space-between; gap:.6rem; }
+details.more > summary::-webkit-details-marker { display:none; }
+details.more > summary::after { content:"+"; font-family:var(--font-mono); font-size:1.2rem; }
+details.more[open] > summary::after { content:"–"; }
+details.more[open] > summary { border-bottom:2px solid var(--ink); }
+details.more > .pts { padding:.75rem .8rem; }
+.inst { padding:.5rem .75rem 0; font-size:.92rem; color:var(--ink-2); }
+.lic { font-size:.8rem; color:var(--muted); margin-top:.9rem; overflow-wrap:anywhere; }
+.meter { border:2px solid var(--ink); border-radius:12px; padding:.6rem .75rem .5rem; margin:0 0 .9rem; }
+.meter-bar { position:relative; height:1.4rem; border:2px solid var(--ink); border-radius:8px; background:var(--paper-3); overflow:hidden; }
+.meter-bar i { display:block; height:100%; width:0; background:var(--accent); transition:width .25s ease; }
+.meter-bar .mark { position:absolute; top:0; bottom:0; left:33.333%; width:3px; background:var(--ink); }
+.meter-lab { position:relative; height:1.2rem; font-family:var(--font-mono); font-size:.8rem; font-weight:600; }
+.meter-lab span { position:absolute; top:.1rem; }
+.meter-lab .m0 { left:0; } .meter-lab .m4 { left:33.333%; transform:translateX(-50%); } .meter-lab .m12 { right:0; }
+.meter p { font-family:var(--font-display); font-weight:800; font-size:1.15rem; margin-top:.15rem; }
+.pair { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; align-items:start; }
+.pair img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.ddd dd b { font-weight:600; }
+.link-out { font-weight:700; }
+@media (prefers-reduced-motion:reduce) { .meter-bar i { transition:none; } }
+@media print { details.more > .pts { display:block !important; } .meter { display:none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Delirium: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 21</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2–5</b>What it is</a></li>
+    <li><a href="#c6"><b>6–7</b>Spotting it</a></li>
+    <li><a href="#c8"><b>8–11</b>The causes</a></li>
+    <li><a href="#c12"><b>12–14</b>The tests</a></li>
+    <li><a href="#c15"><b>15–18</b>Treating it</a></li>
+    <li><a href="#c19"><b>19</b>What happens next</a></li>
+    <li><a href="#c20"><b>20</b>Back to Stanley</a></li>
+    <li><a href="#c21"><b>21</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Delirium: the debrief for week 7, Not himself</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 21</span></div>
+  <p class="kick">Thursday, 15:05 · medical assessment</p>
+  <h2>He has dementia. This is not his dementia.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-scene.svg" width="556" height="250" alt="Thursday, 15:05, a side bay: an old man half off a trolley with a blanket bunched in his fists, a healthcare assistant’s hand on his shoulder."></figure>
+    <div class="txt">
+      <div class="people"><img src="care-delirium-debrief-stanley.svg" width="120" height="120" alt="Stanley"></div>
+      <ul class="pts">
+        <li>Stanley Garside, 84, sent in from his nursing home. The ambulance sheet: “Staff report new confusion and aggression. Hit a carer this morning.”</li>
+        <li>On a normal day he repeats himself and cannot tell you the date. But he knows the staff, feeds himself and walks to the dining room with a frame.</li>
+        <li>Yesterday he did not know the nurse. Last night he tried to leave by the fire door.</li>
+        <li>Pulse 96. Blood pressure 148/82. Temperature 37.9 °C. Oxygen saturation 96% on air.</li>
+        <li>A change this fast has a name, and a cause to find. The name is delirium.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">2 / 21</span></div>
+  <p class="kick">The decision: what do you call this?</p>
+  <h2>Delirium is a sudden change in thinking and alertness, caused by something physical.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-onset.svg" width="720" height="540" alt="Two lines over time. Dementia: months to years, a slow fall. Delirium: hours to days, a sudden drop that comes and goes." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>In plain words: the brain stops working properly, quickly, because the body is ill. One hospital guide calls it a sign of “brain failure”.</li>
+        <li>It comes on over hours or days, and it comes and goes through the day.</li>
+        <li>What changes: attention, alertness and thinking. Up to half of patients also see or believe things that are not there.</li>
+        <li>It used to be called an “acute confusional state”. Write <strong>delirium</strong>.</li>
+        <li>It is a medical emergency. It can often be reversed if the cause is found and treated.</li>
+        <li>About one in five adults on an acute medical ward has it, and it is often missed. It is linked to falls, a longer stay, a move into long-term care, dementia and death.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">3 / 21</span></div>
+  <p class="kick">The decision: which patient gets missed?</p>
+  <h2>The quiet kind is the one that gets missed.</h2>
+  <div class="split">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-faces.svg" width="720" height="990" alt="Three patients. One half off a trolley, gripping a blanket. One curled on her side, eyes half shut, beside an untouched meal. One drawn half restless and half slumped." loading="lazy"></figure>
+    <div class="txt">
+      <p class="cap">Tap each one.</p>
+  <div class="tiles" data-group="faces" data-toggle="1">
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t1"><span class="q">The restless one</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t1"><strong>Hyperactive.</strong> Restless, agitated or aggressive, in a way that is out of character. Stanley.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t2"><span class="q">The still one</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t2"><strong>Hypoactive.</strong> Withdrawn, quiet and sleepy. Slow to answer, moving less, eating less.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t3"><span class="q">Half and half</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t3"><strong>Mixed.</strong> Signs of both.</div></div>
+  </div>
+  <button class="btn go-all" type="button" data-all="faces">Show all</button>
+      <ul class="pts">
+        <li>The quiet kind is common in older patients. One guide says hypoactive and mixed delirium go unrecognised in up to two thirds of cases.</li>
+        <li>Quiet does not mean comfortable: these patients can still be distressed.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">4 / 21</span></div>
+  <p class="kick">The decision: “he’s got dementia, that’s why he’s confused”</p>
+  <h2>The clue is the speed. If you cannot tell, treat it as delirium.</h2>
+  <div class="split split--wide">
+    <figure class="fig"><img src="care-delirium-debrief-three-lines.svg" width="720" height="650" alt="Three time lines. Delirium: hours to days, a sudden drop that wobbles. Dementia: months to years, a slow fall. Depression: weeks to months, a dip that returns." loading="lazy"></figure>
+    <div class="txt">
+      <div class="rows ddd">
+    <div class="row"><h3>Delirium</h3><dl><div><dt>Starts over</dt><dd>hours to days</dd></div><div><dt>Pattern</dt><dd>changes through the day</dd></div><div><dt>Alertness</dt><dd>often impaired</dd></div><div><dt>Gets better?</dt><dd>yes</dd></div></dl></div>
+    <div class="row"><h3>Dementia</h3><dl><div><dt>Starts over</dt><dd>months to years</dd></div><div><dt>Pattern</dt><dd>slowly worse; often worse at night</dd></div><div><dt>Alertness</dt><dd>often normal</dd></div><div><dt>Gets better?</dt><dd>not over time</dd></div></dl></div>
+    <div class="row"><h3>Depression</h3><dl><div><dt>Starts over</dt><dd>weeks to months</dd></div><div><dt>Pattern</dt><dd>comes in episodes; often worse in the morning</dd></div><div><dt>Alertness</dt><dd>often normal</dd></div><div><dt>Gets better?</dt><dd>yes</dd></div></dl></div>
+      </div>
+      <ul class="pts">
+        <li>These are the classic differences. In real patients they overlap, and many people have delirium and dementia together.</li>
+        <li>Depression can look like the quiet kind of delirium.</li>
+        <li>NICE: if you cannot tell delirium from dementia, manage the delirium first.</li>
+        <li>Stanley: dementia since 2021, and a change that is four days old.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="c5" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">5 / 21</span></div>
+  <p class="kick">84 · dementia · nine medicines</p>
+  <h2>A vulnerable brain needs only a small push.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-seesaw.svg" width="720" height="880" alt="Two see-saws. Young and fit: it takes major surgery to tip it. Older, with dementia: pain, constipation or a new tablet tips it." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>A young, fit person needs a large insult, such as major surgery, to become delirious. An older person with dementia can be tipped by pain, constipation or one new tablet.</li>
+        <li>NICE asks four questions of everyone coming into hospital or long-term care. <strong>65 or older? Dementia or other memory and thinking problems, now or before? A broken hip? Severely ill?</strong></li>
+        <li>Any one of them: at risk. Look for a change every day.</li>
+        <li>Stanley had at least two before anyone took a blood test.</li>
+      </ul>
+      <details class="more"><summary>Tap for the fuller list</summary>
+      <ul class="pts">
+        <li>Frailty. Several long-term conditions. A previous delirium. A previous stroke, other neurological disease, or falls.</li>
+        <li>Poor sight or hearing.</li>
+        <li>More than four medicines, and above all opioids, benzodiazepines and anticholinergic medicines.</li>
+        <li>Alcohol misuse. A history of depression.</li>
+        <li>Recent surgery or anaesthetic. A urinary catheter. Restraint. Pain.</li>
+        <li>Several moves between wards. A recent discharge from hospital.</li>
+      </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="Spotting it">
+  <div class="meta"><span class="chip">Spotting it</span><span class="num">6 / 21</span></div>
+  <p class="kick">The phone call · “that is not Stanley”</p>
+  <h2>Ask someone who knows them one question.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-phone.svg" width="800" height="360" alt="The office at his nursing home: an open ring binder, a corded telephone, a mug, a staff rota on the wall." loading="lazy"></figure>
+    <div class="txt">
+      <div class="people"><img src="care-delirium-debrief-nurse.svg" width="120" height="120" alt="The nurse at his home" loading="lazy"></div>
+      <ul class="pts">
+        <li>The single question: <strong>“Do you think he has been more confused lately?”</strong> Ask a relative, a carer, the care home. It picks up about four in five cases.</li>
+        <li>Stanley could tell us nothing. The nurse at his home could: “he lashed out … that is not Stanley.”</li>
+        <li>NICE lists four kinds of recent change. <strong>Thinking:</strong> confused, slow, poor concentration. <strong>Perception:</strong> seeing or hearing things. <strong>Body:</strong> moving less, restless, not eating, not sleeping. <strong>Behaviour:</strong> withdrawn, hard to engage, a change in mood.</li>
+        <li>Any of them, new within hours or days: do a 4AT.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="Spotting it">
+  <div class="meta"><span class="chip">Spotting it</span><span class="num">7 / 21</span></div>
+  <p class="kick">At the trolley</p>
+  <h2>Four items, about two minutes, no special training. Four or more suggests delirium.</h2>
+  <div class="solo" style="max-width:46rem">
+      <p class="cap">NICE names the 4AT as the test to use outside intensive care.</p>
+      <div class="meter stick" id="meter"><div class="meter-bar"><i id="mfill"></i><span class="mark"></span></div><div class="meter-lab" aria-hidden="true"><span class="m0">0</span><span class="m4">4</span><span class="m12">12</span></div><p id="mtxt" aria-live="polite">Stanley: tap a row to score him</p></div>
+      <div class="rows bw" data-group="bw">
+      <div class="row" data-pts="4"><h3>[1] ALERTNESS</h3><p class="inst">This includes patients who may be markedly drowsy (e.g. difficult to rouse and/or obviously sleepy during assessment) or agitated/hyperactive. Observe the patient. If asleep, attempt to wake with speech or a gentle touch on the shoulder. Ask the patient to state their name and address to assist rating.</p><div class="scale"><span>Normal (fully alert, but not agitated, throughout assessment): <b>0</b></span><span>Mild sleepiness for &lt;10 seconds after waking, then normal: <b>0</b></span><span>Clearly abnormal: <b>4</b></span></div><button class="btn" type="button">Score Stanley<span class="vh">: [1] ALERTNESS</span></button><p class="him">Stanley: agitated, climbing off the trolley · <b>4</b></p></div>
+      <div class="row" data-pts="2"><h3>[2] ABBREVIATED MENTAL TEST – 4 (AMT4)</h3><p class="inst">Ask the patient to state their age, date of birth, place (name of the hospital or building), current year</p><div class="scale"><span>No mistakes: <b>0</b></span><span>1 mistake: <b>1</b></span><span>2 or more mistakes / untestable: <b>2</b></span></div><button class="btn" type="button">Score Stanley<span class="vh">: [2] ABBREVIATED MENTAL TEST – 4 (AMT4)</span></button><p class="him">Stanley: answers none of them · <b>2</b></p></div>
+      <div class="row" data-pts="2"><h3>[3] ATTENTION (MONTHS BACKWARDS)</h3><p class="inst">Ask the patient: “Please tell me the months of the year in backwards order, starting at December.” To assist initial understanding one prompt of “what is the month before December?” is permitted.</p><div class="scale"><span>Achieves 7 months or more correctly: <b>0</b></span><span>Starts but scores &lt;7 months / refuses to start: <b>1</b></span><span>Untestable (cannot start because unwell, drowsy, inattentive): <b>2</b></span></div><button class="btn" type="button">Score Stanley<span class="vh">: [3] ATTENTION (MONTHS BACKWARDS)</span></button><p class="him">Stanley: “Where’s my coat.” · <b>2</b></p></div>
+      <div class="row" data-pts="4"><h3>[4] ACUTE CHANGE OR FLUCTUATING COURSE</h3><p class="inst">Evidence of significant change or fluctuation in: alertness, cognition, other mental function (e.g. paranoia, hallucinations) arising over the last 2 weeks and still evident in last 24 hrs</p><div class="scale"><span>No: <b>0</b></span><span>Yes: <b>4</b></span></div><button class="btn" type="button">Score Stanley<span class="vh">: [4] ACUTE CHANGE OR FLUCTUATING COURSE</span></button><p class="him">Stanley: not himself since yesterday · <b>4</b></p></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="bw">Show all</button>
+      <div class="rv" id="bwsum" tabindex="-1">
+      <ul class="pts">
+        <li><strong>4 + 2 + 2 + 4 = 12.</strong></li>
+        <li>4 or more suggests delirium. 1 to 3 suggests a memory and thinking problem but not delirium. 0 makes both unlikely, but does not rule them out.</li>
+        <li>A patient too drowsy or too agitated to answer still gets a score.</li>
+        <li>Once his bladder was drained he scored 7. Quieter, not clear.</li>
+        <li>Repeat it every day until he is better.</li>
+      </ul>
+      <figure class="fig fig--tall"><img src="care-delirium-debrief-4at-bar.svg" width="720" height="380" alt="The 4AT score as a bar from 0 to 12 with a mark at 4. 4 or more suggests delirium. Stanley: 12. Once drained: 7." loading="lazy"></figure>
+      </div>
+      <p class="lic">4AT © 2011–2014 Alasdair MacLullich, Tracy Ryan and Helen Cash. Licensed under CC BY 4.0: <a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a>. Official and current version: <a href="https://www.the4at.com/">https://www.the4at.com/</a>. No changes have been made. No warranty is given as to accuracy or fitness for purpose.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="The causes">
+  <div class="meta"><span class="chip">The causes</span><span class="num">8 / 21</span></div>
+  <p class="kick">The decision: what has done this?</p>
+  <h2>There is usually more than one cause. Look for all of them.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-causes.svg" width="720" height="1076" alt="A body outline with eight places to look: 1 Medicines, 2 Infection, 3 Fluid and salts, 4 Oxygen and circulation, 5 Pain, bladder and bowel, 6 Sugar, thyroid and liver, 7 The brain itself, 8 Surgery and surroundings." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>First, what kills quickly:</strong> low oxygen, low blood pressure, low blood sugar, and a drug that is poisoning him or has been stopped. Stanley: 96% on air, 148/82, glucose 6.4.</li>
+        <li><strong>Then eight places to look.</strong> Tap each for the full list.</li>
+      </ul>
+  <div class="tiles" data-group="causes" data-toggle="1">
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t4"><span class="q">1 Medicines</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t4">Next screen. Also alcohol or sedative withdrawal, and recreational drugs.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t5"><span class="q">2 Infection</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t5">Chest, urine, skin. Infection of the brain itself is uncommon.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t6"><span class="q">3 Fluid and salts</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t6">Dehydration. Kidney failure. Sodium too low or too high. High potassium. High calcium.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t7"><span class="q">4 Oxygen and circulation</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7">Low oxygen. High carbon dioxide. Heart failure. Heart attack. Low blood pressure.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t8"><span class="q">5 Pain, bladder and bowel</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t8">Pain, new or long-standing. Urine that cannot get out. Stool that cannot get out. Examine for each.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t9"><span class="q">6 Sugar, thyroid and liver</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t9">Glucose too low or too high. Thyroid overactive or underactive. Liver failure. Lack of thiamine (vitamin B1).</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t10"><span class="q">7 The brain itself</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t10">Stroke. Seizures, including ones with no shaking. A bleed under the skull (subdural haematoma).</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t11"><span class="q">8 Surgery and surroundings</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t11">An operation. Noise, lost sleep, a fall, restraint, new staff, an unfamiliar place, lost glasses or hearing aid, catheters and drips.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t12"><span class="q">Spell DELIRIUM</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t12"><strong>D</strong>rugs and <strong>D</strong>ehydration · <strong>E</strong>lectrolytes · <strong>L</strong>evel of pain · <strong>I</strong>nfection and <strong>I</strong>nflammation · <strong>R</strong>espiratory failure · <strong>I</strong>mpaction (constipation) · <strong>U</strong>rine retention · <strong>M</strong>etabolic.</div></div>
+  </div>
+  <button class="btn go-all" type="button" data-all="causes">Show all</button>
+      <ul class="pts">
+        <li>To remember them, <strong>PINCH ME:</strong> <strong>P</strong>ain, <strong>IN</strong>fection, <strong>N</strong>utrition, <strong>C</strong>onstipation, <strong>H</strong>ydration, <strong>M</strong>edication, <strong>E</strong>nvironment. Or spell <strong>DELIRIUM</strong> (tap).</li>
+        <li>In up to 30% no cause is found. Normal tests do not rule delirium out.</li>
+        <li>Stanley had three: influenza, a full bladder, and his medicines.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="The causes">
+  <div class="meta"><span class="chip">The causes</span><span class="num">9 / 21</span></div>
+  <p class="kick">“That’s the nine.”</p>
+  <h2>Read the whole list, including the tablets he has taken for years.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-nine-tablets.svg" width="720" height="850" alt="Stanley’s nine medicines as nine tablets: donepezil, ramipril, furosemide 1, clopidogrel, solifenacin 3, amitriptyline 3, co-codamol 1, senna, atorvastatin. Total 8." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Ask three things: what was started, what was stopped, and what has he always been on. Long-standing medicines can do it too.</li>
+        <li>The usual suspects: <strong>opioids, benzodiazepines, and anticholinergic medicines</strong> such as tricyclic antidepressants, bladder tablets and older antihistamines.</li>
+        <li>Anticholinergic effects add up. One published scale gives Stanley’s list 8: amitriptyline 3, solifenacin 3, codeine 1, furosemide 1. Three or more is the usual level for concern.</li>
+        <li>The scale counts effects on thinking. It does not measure the effect on the bladder, where codeine acts as an opioid.</li>
+        <li>Nothing on his list was new.</li>
+        <li>Stopping can cause it too: alcohol and sedatives above all. Do not suddenly stop a drug the body has come to depend on.</li>
+      </ul>
+      <details class="more"><summary>Tap for the full list of drug types</summary>
+      <ul class="pts">
+        <li>Benzodiazepines. Opioids. Tricyclic antidepressants. Antihistamines, especially the older ones. Antispasmodics and anti-sickness drugs. Medicines for Parkinson’s disease. Anticonvulsants. Steroids. Anti-inflammatory painkillers. Digoxin. Beta blockers. Diuretics. Theophylline. Lithium. Quinolone antibiotics.</li>
+        <li>Bought without a prescription: remedies containing diphenhydramine, chlorphenamine or promethazine; hyoscine for the bowel.</li>
+      </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="The causes">
+  <div class="meta"><span class="chip">The causes</span><span class="num">10 / 21</span></div>
+  <p class="kick">The bladder scan · one litre</p>
+  <h2>A full bladder can cause delirium, and the patient cannot tell you.</h2>
+  <div class="split">
+    <figure class="fig"><div class="pair"><img src="care-delirium-debrief-scan.svg" width="550" height="626" alt="A bladder scanner screen reading 999 mL." loading="lazy"><img src="care-delirium-debrief-bag.svg" width="400" height="560" alt="A urine drainage bag hanging on a trolley rail." loading="lazy"></div></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Stanley’s abdomen was soft. His bladder held a litre.</li>
+        <li>Urinary retention is commonly missed in older people. A patient with retention may still be passing urine.</li>
+        <li>It is not found unless someone looks: a bladder scan. For the bowel: the bowel chart, and an examination.</li>
+        <li>PINCH ME has no letter for the bladder. Add one.</li>
+        <li>Guidelines say avoid catheters, because they add to the risk of delirium. They also say treat retention. Both are right: use a catheter when it is needed, only while he is unwell, and plan its removal on the day it goes in.</li>
+        <li>Within the hour of being drained, Stanley was quieter and let people near him.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card question" id="c11" data-sec="The causes">
+  <div class="meta"><span class="chip chip--q">Stop and decide</span><span class="num">11 / 21</span></div>
+  <p class="kick">He hits out when he is washed and dressed</p>
+  <h2>Before you treat the behaviour, ask what it is telling you.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-message.svg" width="720" height="926" alt="An older man pulling his arm away from a carer’s hand. Above him, three things he might be trying to say: a sore knee, an empty cup, a toilet door." loading="lazy"></figure>
+    <div class="txt qa">
+      <p class="cap">The nurse: “He’s hit a carer and he’s climbing off the trolley. Can you write him up for something?”</p>
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button">Yes. Lorazepam now.</button>
+        <button class="btn opt" type="button" data-ok="1">Not yet. What is he trying to tell us?</button>
+        <button class="btn opt" type="button">Ask security to stand by.</button>
+      </div>
+      <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Not yet.</strong> First look for what is causing the agitation: pain, thirst, a need for the toilet.</li>
+        <li>People with dementia may show pain only in the face and in how they move. Look for it and treat it.</li>
+        <li>Stanley hit out when he was handled, not at rest. It was the only way he could report a litre in his bladder.</li>
+        <li>A sedative would have made him quiet and taken away the clue.</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="The tests">
+  <div class="meta"><span class="chip">The tests</span><span class="num">12 / 21</span></div>
+  <p class="kick">The decision: which tests, and why each?</p>
+  <h2>A short set of tests, each with a job. Not every test for every patient.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-tray.svg" width="720" height="1212" alt="A tray of tests: blood tubes, a glucose meter, a finger probe, an ECG lead, a bladder scanner, a urine pot with a strip, a culture bottle, a chest X-ray, a pain-score card." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>NICE lists no tests. The Scottish guideline does, and says to choose them from the history and the examination.</li>
+        <li><strong>For nearly everyone:</strong> observations and oxygen saturation · finger-prick glucose · kidney function and salts · full blood count · CRP · liver tests · calcium · ECG · a pain score · <strong>a bladder scan</strong>.</li>
+        <li><strong>If there is a reason:</strong> thyroid tests · vitamin B12 and folate · blood cultures · chest X-ray · urine dipstick and culture.</li>
+        <li>Do not order tests that will change nothing.</li>
+      </ul>
+      <p class="cap" style="margin-top:1rem">Tap a test for what it looks for, and what Stanley’s showed.</p>
+  <div class="tiles" data-group="tests" data-toggle="1">
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t13"><span class="q">Kidney function and salts</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t13">Dehydration, kidney injury, low sodium. <span class="him">Stanley: creatinine 286, from 88.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t14"><span class="q">Full blood count</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14">Anaemia, a raised white cell count. <span class="him">Stanley: white cells 6.8, lymphocytes 0.6.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t15"><span class="q">CRP</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t15">Inflammation or infection. <span class="him">Stanley: 84.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t16"><span class="q">Liver tests</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t16">Liver disease, infection in the bile ducts.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t17"><span class="q">Calcium</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t17">A high calcium causes confusion.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t18"><span class="q">Glucose</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t18">Too low or too high. <span class="him">Stanley: 6.4.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t19"><span class="q">ECG</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t19">A silent heart attack or an abnormal rhythm. <span class="him">Stanley: normal rhythm, 96 a minute.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t20"><span class="q">Bladder scan</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t20">Retention. <span class="him">Stanley: one litre.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t21"><span class="q">Pain score</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t21">Pain he cannot tell you about.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t22"><span class="q">Thyroid tests</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t22">Thyroid disease can cause confusion. <span class="him">Stanley: TSH 2.1.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t23"><span class="q">B12 and folate</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t23">If the diet is poor, or the red cells are large.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t24"><span class="q">Blood cultures</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t24">With a fever or sepsis.</div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t25"><span class="q">Chest X-ray</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t25">With chest symptoms or signs. <span class="him">Stanley: clear.</span></div></div>
+    <div class="tile"><button type="button" aria-expanded="false" aria-controls="t26"><span class="q">Urine dipstick and culture</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t26">Next screen.</div></div>
+  </div>
+  <button class="btn go-all" type="button" data-all="tests">Show all</button>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="The tests">
+  <div class="meta"><span class="chip">The tests</span><span class="num">13 / 21</span></div>
+  <p class="kick">Leucocytes positive · nitrite positive</p>
+  <h2>In an older person, a positive dipstick does not prove a urine infection.</h2>
+  <div class="split">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-dip.svg" width="600" height="872" alt="A printed urinalysis result. Nitrite positive, leucocytes 2+, blood 3+, protein 1+, ketones 1+." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>By the age of 80, about half of people living in care homes have bacteria in their urine without an infection. Treating it with antibiotics does no good and may do harm.</li>
+        <li>So over 65, do not use a dipstick to diagnose a urine infection. Go on symptoms: new pain on passing urine, or two of these: fever, new frequency or urgency, new incontinence, new or worse confusion, new pain low in the tummy, visible blood.</li>
+        <li>Fever and confusion only? Rule out other infections first.</li>
+        <li>Stanley’s stick was positive. His white cell count was normal, his swab showed influenza A, and his bladder held a litre.</li>
+        <li>His urine later grew <i>E. coli</i>. That was bacteria in the urine without a urinary infection.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="The tests">
+  <div class="meta"><span class="chip">The tests</span><span class="num">14 / 21</span></div>
+  <p class="kick">The decision: “shall we scan his head?”</p>
+  <h2>None of the three is routine. Each needs a reason.</h2>
+  <div class="split">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-three-doors.svg" width="720" height="1000" alt="Three doors. CT head, with five keys: focal signs; drowsy, unexplained; recent fall; head injury; anticoagulant. Lumbar puncture: not routine. EEG: suspected hidden seizures." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>CT head:</strong> not routinely. Think of it with new weakness or other focal signs, drowsiness nothing else explains, a recent fall, a head injury, or an anticoagulant.</li>
+        <li><strong>Lumbar puncture:</strong> not routinely.</li>
+        <li><strong>EEG (brain wave recording):</strong> only if you suspect seizures you cannot see.</li>
+        <li>Stanley: no fall, no focal signs, and clopidogrel is not an anticoagulant. No reason for any of the three.</li>
+      </ul>
+      <details class="more"><summary>Tap for more</summary>
+      <ul class="pts">
+        <li>Also think of a scan when a delirium is not clearing and no cause has been found.</li>
+        <li>In one small, old study of patients with fever and delirium, 80 of 81 spinal fluid samples grew no bacteria.</li>
+        <li>A lumbar puncture can distress a confused, agitated patient, and it has risks.</li>
+        <li>Hidden seizures may be commoner in delirium than was thought.</li>
+      </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">15 / 21</span></div>
+  <p class="kick">The decision: what goes in the nursing plan?</p>
+  <h2>The treatment is the cause, plus a dozen ordinary things done well.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-bedspace.svg" width="720" height="912" alt="One bed space from above: clock and calendar; glasses and hearing aids; drink and food in reach; up and walking; family; sleep at night; familiar staff, same bed." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>First: find and treat every cause.</strong></li>
+        <li>Then the list that prevents delirium also treats it. Tell him where he is and who you are. Glasses on, hearing aids in. A clock he can see. Drinks and food in reach, with help. Up and walking. Sleep at night. Familiar staff. <strong>No moves between beds or wards</strong> unless there is no choice.</li>
+        <li>Given as a package to people at risk, this care means fewer of them become delirious.</li>
+        <li><strong>The family.</strong> Tell them it is delirium, that it is common and usually temporary. Ask what he is normally like. Ask them to bring his glasses, hearing aids and something familiar, to sit with him, and to tell you if he changes.</li>
+      </ul>
+      <details class="more"><summary>Tap for the whole list</summary>
+      <ul class="pts">
+        <li>Good light and clear signs; a calendar; talk about familiar things.</li>
+        <li>Check for ear wax; dentures that fit.</li>
+        <li>Treat constipation; no catheter unless it is needed.</li>
+        <li>Check oxygen. Look for pain and treat it.</li>
+        <li>Review the medicines.</li>
+        <li>No procedures or drug rounds in sleeping hours; keep the noise down.</li>
+        <li>Speak calmly. Do not argue. Do not insist on a wash or a shave that can wait.</li>
+        <li>A “This is me” or “Getting to know me” form, filled in by the family.</li>
+        <li>Let him walk if it is safe. Relax the visiting hours. Extra staff if he is distressed.</li>
+      </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="card" id="c16" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">16 / 21</span></div>
+  <p class="kick">The decision: “can we give him something?”</p>
+  <h2>Sedation is the last step, and it never replaces the first three.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-steps.svg" width="720" height="800" alt="A staircase of four steps: 1 find the cause; 2 care without a drug; 3 calm without a drug; then a gate, only if distressed or in danger; 4 one drug, lowest dose, short." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Step 1.</strong> Find and treat the cause.</li>
+        <li><strong>Step 2.</strong> The care on the last screen.</li>
+        <li><strong>Step 3.</strong> Calm him without a drug: a quiet voice, time, space, someone he knows.</li>
+        <li><strong>The gate.</strong> Only if he is still distressed, or a danger to himself or others, and step 3 has failed or cannot be tried.</li>
+        <li><strong>Step 4.</strong> One drug. The lowest dose. By mouth if he will take it. Reviewed every day. Stopped within days: NICE says usually a week or less.</li>
+        <li>A sedative is not a restraint.</li>
+        <li>Sedatives carry risks, including falls and food or drink going down the wrong way. They can cause delirium themselves.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">17 / 21</span></div>
+  <p class="kick">Haloperidol 500 micrograms</p>
+  <h2>NICE names one drug and no dose. Start with half a milligram.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-haloperidol.svg" width="720" height="900" alt="A small tablet, haloperidol 0.5 mg, beside an ECG strip: ECG first. Four stop tags hang from it: Parkinson’s disease, Lewy body dementia, long QT, other QT medicines." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Haloperidol.</strong> In an older person, start with 0.5 mg by mouth. Into muscle only if he cannot take it by mouth.</li>
+        <li><strong>Before it:</strong> an ECG, and potassium, magnesium and calcium put right.</li>
+        <li><strong>The most in a day:</strong> the guides differ, from 2 mg to 5 mg in an older person. Use your own trust’s.</li>
+      </ul>
+      <details class="more"><summary>Who must not have it (tap)</summary>
+      <ul class="pts">
+        <li><strong>Parkinson’s disease.</strong></li>
+        <li><strong>Dementia with Lewy bodies.</strong></li>
+        <li><strong>A long QT interval</strong> on the ECG.</li>
+        <li><strong>Another medicine that lengthens the QT.</strong></li>
+        <li>Never two antipsychotics together without specialist advice.</li>
+        <li>Watch for a high fever, stiffness, confusion and a swinging blood pressure: a rare, dangerous reaction. Get senior help at once.</li>
+        <li>Alcohol withdrawal is treated differently: it has its own guideline.</li>
+      </ul>
+      </details>
+      <div style="height:1rem"></div>
+      <ul class="pts">
+        <li><strong>Stanley</strong> took three medicines that can lengthen the QT interval: amitriptyline, donepezil and solifenacin. Several guides would call haloperidol contraindicated for him. He did not need it. He needed his bladder drained.</li>
+        <li><strong>Lorazepam</strong> is not in the NICE guideline. Some local guides keep it for when an antipsychotic cannot be used. It can make confusion worse. Ask a senior.</li>
+        <li>Stop the drug before he goes home. If you cannot, say so in the discharge letter.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">18 / 21</span></div>
+  <p class="kick">He is trying to leave</p>
+  <h2>He may not be able to decide this for himself. Then you decide for him, by rules.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-balance.svg" width="720" height="880" alt="A pair of scales, safety against freedom, and a hand choosing the smallest of three weights: the least that works." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Start by assuming he can decide. Test his capacity for <strong>this decision, now</strong>. Delirium can take it away, and it can come back. Check again.</li>
+        <li>If he cannot decide: act in his best interests, ask the people close to him, and choose the way that restricts him least.</li>
+        <li><strong>Restraint</strong> means using force, or limiting his freedom to move. It is lawful only to prevent harm to him, and only the least force for the shortest time. Never to make the work easier.</li>
+        <li>If he is under continuous supervision and control, and not free to leave, that may be a <strong>deprivation of liberty</strong>. That needs formal authorisation: the Deprivation of Liberty Safeguards (<strong>DoLS</strong>). A hospital can give itself an urgent authorisation for up to seven days while it applies for a standard one.</li>
+        <li>The code says an urgent authorisation is not for an illness expected to clear quickly. So in most delirium: least restriction, review every day, and ask a senior early.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card" id="c19" data-sec="What happens next">
+  <div class="meta"><span class="chip">What happens next</span><span class="num">19 / 21</span></div>
+  <p class="kick">Settled, and still scoring 7</p>
+  <h2>Most delirium clears in days. Some does not, and it leaves a mark.</h2>
+  <div class="split">
+    <figure class="fig"><img src="care-delirium-debrief-recovery.svg" width="720" height="520" alt="A time line from today, through days and weeks, to six months. Most recover within days. About 1 in 5 recover more slowly." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Most clears within a few days. In about one in five it lasts weeks or months. One guide says recovery can take up to six months, and some people do not get all the way back.</li>
+        <li>Not clearing? Look again for a cause. Think about a head scan. Later, check for dementia, but one guide says not usually to diagnose it within six months of a delirium.</li>
+        <li><strong>Going home:</strong> write “delirium” in the discharge letter and the GP record. Ask the GP to see him.</li>
+        <li>He is at higher risk next time. Delirium is also a risk factor for later memory decline.</li>
+        <li>No driving until it has fully cleared.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="card" id="c20" data-sec="Back to Stanley">
+  <div class="meta"><span class="chip">Back to Stanley</span><span class="num">20 / 21</span></div>
+  <p class="kick">Thursday, 15:05, one last time</p>
+  <h2>Four explanations each fitted part of him. One fitted all of him.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="care-delirium-debrief-fits.svg" width="720" height="1624" alt="Five explanations. A urine infection fits new confusion, a temperature, CRP 84 and a positive dipstick; it leaves over a normal white cell count, influenza on the swab and a litre in the bladder. A chest infection fits cough, temperature and CRP 84; it leaves over a clear chest, normal oxygen, a clear X-ray and the kidneys. He is dry fits days of sips, a water tablet and urea 24.6; it leaves over normal blood pressure, not dry on examination and a litre in the bladder. It is his dementia fits nothing; it leaves over a change over four days. Influenza, a blocked bladder, and his medicines fits all of it." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>The reflex answers were a urine infection, a chest infection, “he’s dry”, and “it’s his dementia”.</li>
+        <li>What explained all of him: influenza, a bladder that had stopped emptying, and three long-standing medicines that stopped it.</li>
+        <li>The delirium was how he told us. His kidneys have their own page: <a class="link-out" href="care-aki-debrief-1.html">Acute kidney injury: the debrief</a>.</li>
+      </ul>
+      <h3 class="sub">Take home</h3>
+      <ol class="pts">
+        <li>New confusion over hours or days is delirium until proved otherwise, even in someone with dementia.</li>
+        <li>Ask someone who knows them. Do a 4AT. Four or more: look for causes.</li>
+        <li>There are usually several. Medicines, infection, pain, the bladder and the bowel come first.</li>
+        <li>Do not treat a dipstick. Do scan a bladder.</li>
+        <li>Cause first, care second, a drug last: haloperidol 0.5 mg, after an ECG, and never in Parkinson’s disease or dementia with Lewy bodies.</li>
+      </ol>
+      <svg style="width:7rem;margin-top:1.2rem" class="big-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="card src" id="c21" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">21 / 21</span></div>
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>Delirium guidelines</h3>
+  <ol start="1">
+    <li>NICE. Delirium: prevention, diagnosis and management in hospital and long-term care (CG103). 2010; updated January 2023. <a href="https://www.nice.org.uk/guidance/cg103">nice.org.uk/guidance/cg103</a></li>
+    <li>Scottish Intercollegiate Guidelines Network. Risk reduction and management of delirium (SIGN 157). 2019. <a href="https://www.sign.ac.uk/media/1423/sign157.pdf">sign.ac.uk</a></li>
+    <li>British Geriatrics Society. Delirium hub: delirium in specific settings and situations. <a href="https://www.bgs.org.uk/delirium-hub-delirium-in-specific-settings-and-situations">bgs.org.uk</a>. CGA in primary care settings: patients presenting with confusion and delirium. 2019. <a href="https://www.bgs.org.uk/resources/14-cga-in-primary-care-settings-patients-presenting-with-confusion-and-delirium">bgs.org.uk</a>. Clinical guidelines on delirium and transient loss of consciousness. 2014. <a href="https://www.bgs.org.uk/clinical-guidelines-on-delirium-and-loss-of-consciousness">bgs.org.uk</a></li>
+    <li>NHS Greater Glasgow and Clyde. Management of acutely disturbed patients, including delirium. Reviewed 2022. <a href="https://handbook.ggcmedicines.org.uk/guidelines/central-nervous-system/management-of-acutely-disturbed-patients-including-delirium/">handbook.ggcmedicines.org.uk</a></li>
+    <li>NHS Lanarkshire. Delirium guidelines, version 2.0. 2020. <a href="https://www.rightdecisions.scot.nhs.uk/m/1822/delirium-guideline.pdf">rightdecisions.scot.nhs.uk</a></li>
+    <li>Bedfordshire Hospitals. Guidelines for the prevention, recognition and management of delirium in adults in the acute hospital setting (CG387). 2018. <a href="https://www.bedfordshirehospitals.nhs.uk/wp-content/uploads/2020/10/Delirium-Assessment-Guide-attachment-1-042.pdf">bedfordshirehospitals.nhs.uk</a></li>
+  </ol>
+  <h3>The test, the dipstick and the drug</h3>
+  <ol start="7">
+    <li>The 4AT. <a href="https://www.the4at.com/">the4at.com</a></li>
+    <li>UK Health Security Agency. Diagnosis of urinary tract infections: quick reference tools for primary care. Updated 2025. <a href="https://www.gov.uk/government/publications/urinary-tract-infection-diagnosis">gov.uk</a></li>
+    <li>British National Formulary. Haloperidol. <a href="https://bnf.nice.org.uk/drugs/haloperidol/">bnf.nice.org.uk/drugs/haloperidol</a></li>
+    <li>MHRA. Haloperidol (Haldol): reminder of risks when used in elderly patients for the acute treatment of delirium. December 2021. <a href="https://www.gov.uk/drug-safety-update/haloperidol-haldol-reminder-of-risks-when-used-in-elderly-patients-for-the-acute-treatment-of-delirium">gov.uk</a></li>
+    <li>Boustani M, et al. Anticholinergic Cognitive Burden scale, 2012 update.</li>
+  </ol>
+  <h3>Capacity and liberty</h3>
+  <ol start="12">
+    <li>Mental Capacity Act 2005 Code of Practice. 2007. <a href="https://www.gov.uk/government/publications/mental-capacity-act-code-of-practice">gov.uk</a></li>
+    <li>Deprivation of liberty safeguards: Code of Practice to supplement the main Mental Capacity Act 2005 Code of Practice. 2008. <a href="https://www.gov.uk/government/publications/deprivation-of-liberty-code-of-practice">gov.uk</a></li>
+  </ol>
+  <h3>Supporting</h3>
+  <ol start="14">
+    <li>RCEMLearning. Assessment of dementia in the ED: dementia, delirium and depression. <a href="https://www.rcemlearning.co.uk/modules/assessment-of-dementia-in-the-ed/lessons/the-assessment-of-patients-with-dementia/topic/dementia-delirium-and-depression/">rcemlearning.co.uk</a></li>
+    <li>NICE Clinical Knowledge Summaries. Delirium: differential diagnosis. Revised April 2026. <a href="https://cks.nice.org.uk/topics/delirium/diagnosis/differential-diagnosis/">cks.nice.org.uk</a></li>
+  </ol>
+  <p class="credit">Local guides differ on doses. Follow your own trust’s. Checked October 2026.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* the 4AT rows and the score bar */
+  var bwRows = Array.prototype.slice.call(document.querySelectorAll('.bw .row')), sum = document.getElementById('bwsum'),
+      mfill = document.getElementById('mfill'), mtxt = document.getElementById('mtxt');
+  function paintScore() {
+    var score = 0, n = 0;
+    bwRows.forEach(function (r) { if (r.classList.contains('open')) { score += parseInt(r.getAttribute('data-pts'), 10); n++; } });
+    mfill.style.width = (score / 12 * 100) + '%';
+    if (n) mtxt.textContent = 'Stanley: ' + score + (n < bwRows.length ? ' so far' : '');
+    if (n === bwRows.length) sum.classList.add('open');
+  }
+  bwRows.forEach(function (r) {
+    r.querySelector('button').addEventListener('click', function () { r.classList.add('open'); paintScore(); });
+  });
+
+  /* show all */
+  function showAll(name) {
+    if (name === 'bw') { bwRows.forEach(function (r) { r.classList.add('open'); }); paintScore(); return; }
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+  }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.tiles .tile', function (t) { setTile(t, true); });
+    showAll('bw');
+    each('.qa', function (q) { openQA(q); });
+    each('details.more', function (d) { d.open = true; });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+</body>
+</html>

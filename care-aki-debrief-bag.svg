@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560">
+  <title>The bag on the trolley rail</title>
+  <!-- A drainage bag with a measuring chamber, hung from a trolley rail. The only figures are the bag's own printed scale. -->
+  <rect width="400" height="560" fill="#f3e5c8"/>
+  <!-- trolley rail -->
+  <path d="M0 62 H400" stroke="#241c15" stroke-width="20" stroke-linecap="round"/>
+  <path d="M0 62 H400" stroke="#aab4be" stroke-width="12"/>
+  <path d="M0 58 H400" stroke="#dfe5ea" stroke-width="3"/>
+  <!-- hanger -->
+  <path d="M150 112 V72 Q150 44 170 44 Q186 44 186 62 M250 112 V72 Q250 44 230 44 Q214 44 214 62" fill="none" stroke="#241c15" stroke-width="9" stroke-linecap="round"/>
+  <path d="M150 112 V72 Q150 44 170 44 Q186 44 186 62 M250 112 V72 Q250 44 230 44 Q214 44 214 62" fill="none" stroke="#fdf8ee" stroke-width="4" stroke-linecap="round"/>
+  <!-- inlet tubing, faintly pink -->
+  <path d="M400 150 Q330 140 318 96 Q306 70 270 92 Q258 104 262 128" fill="none" stroke="#241c15" stroke-width="15" stroke-linecap="round"/>
+  <path d="M400 150 Q330 140 318 96 Q306 70 270 92 Q258 104 262 128" fill="none" stroke="#f6e7c9" stroke-width="9" stroke-linecap="round"/>
+  <path d="M400 150 Q330 140 318 96 Q306 70 270 92 Q258 104 262 128" fill="none" stroke="#e19a8a" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+  <!-- measuring chamber -->
+  <rect x="118" y="112" width="164" height="118" rx="10" fill="#fbf6ea" stroke="#241c15" stroke-width="5"/>
+  <path d="M124 192 H276 V220 Q276 224 272 224 H128 Q124 224 124 220 Z" fill="#c98428" opacity=".85"/>
+  <path d="M178 112 V230 M222 112 V230" stroke="#241c15" stroke-width="3" opacity=".5"/>
+  <g stroke="#2b4f7a" stroke-width="2"><path d="M124 128 h20"/><path d="M124 140 h12"/><path d="M124 152 h20"/><path d="M124 164 h12"/><path d="M124 176 h20"/><path d="M124 188 h12"/><path d="M124 200 h20"/><path d="M124 212 h12"/></g>
+  <path d="M132 120 V184" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <!-- the bag -->
+  <path d="M112 244 Q112 230 126 230 H274 Q288 230 288 244 V500 Q288 522 266 522 H134 Q112 522 112 500 Z" fill="#fbf6ea" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M117 386.2 H283 V500 Q283 517 266 517 H134 Q117 517 117 500 Z" fill="#b9741c"/>
+  <path d="M117 386.2 H283 V395.2 H117 Z" fill="#d79a3c"/>
+  <path d="M230 406.2 V506" stroke="#8f5510" stroke-width="26" opacity=".35"/>
+  <path d="M126 250 V496" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity=".65"/>
+  <g id="cbg-scale"><path d="M274 496.4 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 484.8 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 473.2 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 461.6 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M264 450.0 H286" stroke="#2b4f7a" stroke-width="3"/><text x="258" y="456.0" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="17" fill="#2b4f7a">500</text><path d="M274 438.4 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 426.8 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 415.2 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 403.6 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M264 392.0 H286" stroke="#2b4f7a" stroke-width="3"/><text x="258" y="398.0" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="17" fill="#2b4f7a">1000</text><path d="M274 380.4 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 368.8 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 357.2 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 345.6 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M264 334.0 H286" stroke="#2b4f7a" stroke-width="3"/><text x="258" y="340.0" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="17" fill="#2b4f7a">1500</text><path d="M274 322.4 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 310.8 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 299.2 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M274 287.6 H286" stroke="#2b4f7a" stroke-width="2"/><path d="M264 276.0 H286" stroke="#2b4f7a" stroke-width="3"/><text x="258" y="282.0" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="17" fill="#2b4f7a">2000</text></g>
+  <!-- drain tap -->
+  <path d="M192 522 h16 v16 h-16 Z" fill="#fbf6ea" stroke="#241c15" stroke-width="4"/>
+  <rect x="180" y="536" width="40" height="12" rx="4" fill="#3f8f8a" stroke="#241c15" stroke-width="4"/>
+</svg>

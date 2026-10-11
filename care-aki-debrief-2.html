@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Acute kidney injury: the debrief, part 2 of 2 · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* AKI debrief additions */
+.wordmark > span { display:flex; flex-direction:column; }
+.wordmark .part { font-family:var(--font-mono); font-size:.72rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; }
+.wordmark .ttl { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ru { display:flex; gap:.3rem; margin:0 0 .9rem; }
+.ru span { font-family:var(--font-display); font-weight:800; width:2rem; height:2rem; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--paper-2); color:var(--muted); }
+.ru span.on { background:var(--accent); color:#fff; box-shadow:2px 2px 0 var(--ink); }
+.ruw { list-style:none; padding:0; display:grid; gap:.35rem; margin:.8rem 0; }
+.ruw li { display:flex; align-items:center; gap:.6rem; font-weight:600; }
+.ruw b { font-family:var(--font-display); font-weight:800; width:2rem; height:2rem; flex:none; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--gold); }
+.say.bun { margin:0 0 .9rem; background:var(--gold-bg); }
+.say.bun ul { list-style:none; padding:0; display:grid; gap:.4rem; font-weight:600; }
+.say { margin-bottom:.9rem; }
+.local.stan { border-style:solid; background:var(--accent-bg); }
+.pts + .local, .pts + .reason, .rv + .local { margin-top:1rem; }
+.sub2 { margin:.4rem 0 0; padding-left:1.1rem; display:grid; gap:.3rem; }
+.go-rv { margin:.9rem 0 0; }
+.go-rv[hidden] { display:none; }
+.opts--row { grid-template-columns:repeat(3,1fr); }
+.opts--row .opt { text-align:center; padding-left:.3rem; padding-right:.3rem; }
+.tile > button .tn { font-family:var(--font-mono); font-weight:600; width:1.7rem; height:1.7rem; flex:none; display:grid; place-items:center; border:2px solid var(--ink); border-radius:8px; background:var(--gold); }
+.pair { display:grid; gap:.8rem; margin-top:1rem; }
+.pair .fig { margin:0; }
+.next { display:inline-block; text-decoration:none; }
+.backlink { margin:0 0 .9rem; font-weight:600; }
+.also { margin-top:1rem; font-weight:600; }
+.txt > .fig--small { margin-top:1rem; }
+.txt > .pts + .pts, .txt > .fig + .pts { margin-top:.7rem; }
+.say.bun + .pts, .rv + .pts, .go-rv + .rv + .pts { margin-top:.9rem; }
+.src li a { overflow-wrap:anywhere; }
+.qa + .pts, .local + .pts, .local + .fig, .fig + .local { margin-top:1rem; }
+.fig img[alt] { font-size:.9rem; color:var(--muted); }
+.pts + .say { margin-top:.9rem; }
+@media (min-width:40rem) { .fig img[src$=".svg"] { max-width:26rem; margin-left:auto; margin-right:auto; } .fig.fig--small img { max-width:11rem; margin-left:0; } }
+@media (min-width:40rem) { .pair { grid-template-columns:1fr 1fr; align-items:start; } }
+@media (min-width:62rem) { .tiles { grid-template-columns:1fr; } .solo .tiles { grid-template-columns:repeat(2,1fr); } }
+@media print { .go-rv { display:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="ttl"><span class="long">Acute kidney injury: </span><em>the debrief</em></span><span class="part">Part 2 of 2</span></span></div>
+    <span class="count" id="count" aria-live="off">1 / 16</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2–12</b>What to do</a></li>
+    <li><a href="#c13"><b>13</b>What not to do</a></li>
+    <li><a href="#c14"><b>14</b>Afterwards</a></li>
+    <li><a href="#c15"><b>15</b>Take home</a></li>
+    <li><a href="#c16"><b>16</b>Sources</a></li>
+    <li><a href="care-aki-debrief-1.html"><b>→</b>Part 1: what it is, causes, tests</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Acute kidney injury, part 2 of 2: what to do. The debrief for week 7, Not himself</h1>
+
+<!-- 1 (fact check card 27) -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 16</span></div>
+  <p class="kick">Part 2 of 2 · Thursday, 15:05</p>
+  <h2>Stage 3 kidney injury, and a chart that looks nearly quiet. What do you do?</h2>
+<p class="backlink"><a href="care-aki-debrief-1.html">← Back to Part 1: what it is, its causes and the tests</a></p>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-scene.svg" width="556" height="250" alt="A side bay on the medical assessment unit. An old man in a hospital gown is half off a trolley, a blanket bunched in his fists. A healthcare assistant has a hand on his shoulder."></figure>
+<div class="txt">
+<ul class="pts">
+  <li>Stanley Garside, 84, was sent in from his nursing home, newly confused. This morning he hit a carer.</li>
+  <li>His observations were nearly normal: NEWS2 (the National Early Warning Score) 4.</li>
+  <li>Creatinine 286 micromol/L against 88 three months ago: 3.25 times his usual, which is stage 3 acute kidney injury (AKI). Potassium 5.8.</li>
+  <li>Part 1 covered what AKI is, its causes and the tests. This part is what to do.</li>
+</ul>
+<p class="also">His confusion has its own page. <a href="care-delirium-debrief.html">Delirium: the debrief</a></p>
+</div>
+</div>
+</section>
+
+<!-- 2 (fact check card 12) -->
+<section class="card" id="c2" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">2 / 16</span></div>
+  <p class="kick">What to do · the Harrogate bundle</p>
+  <h2>ROUND UP: seven letters.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-roundup.svg" width="720" height="886" alt="Seven tiles in a row, one for each letter of ROUND UP: R Repeat, O Obstruction, U Urinalysis, N NEWS, D Dry or Wet, U Urinary (I&amp;O), P Prescriptions." loading="lazy"><figcaption>The picture is our own drawing of the bundle, not the trust’s poster.</figcaption></figure>
+<div class="txt">
+<ul class="pts">
+  <li>ROUND UP is the AKI care bundle of Harrogate and District NHS Foundation Trust, version 3, May 2025.</li>
+</ul>
+<ol class="ruw"><li><b>R</b>Repeat</li><li><b>O</b>Obstruction</li><li><b>U</b>Urinalysis</li><li><b>N</b>NEWS</li><li><b>D</b>Dry or Wet</li><li><b>U</b>Urinary (I&amp;O)</li><li><b>P</b>Prescriptions</li></ol>
+<ul class="pts">
+  <li>It is for the first diagnosis and management of AKI in adult inpatients.</li>
+  <li>It is written to follow NICE’s guideline, NG148.</li>
+  <li>The letters are a memory aid. Nothing in the bundle says to do them in order.</li>
+  <li>It is what Stanley’s plan was marked against.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 3 (fact check card 13) -->
+<section class="card" id="c3" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">3 / 16</span></div>
+  <p class="kick">R · Repeat</p>
+  <h2>Set it against the last one, then check it every day.</h2>
+<div class="ru" aria-hidden="true"><span class="on">R</span><span>O</span><span>U</span><span>N</span><span>D</span><span>U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-trend.svg" width="720" height="480" alt="A small chart over three days with two lines from the same starting point. One falls: turning. One stays flat: not turning." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Daily U&amp;Es including potassium, calcium, bicarbonate, phosphate, FBC &amp; pH.”</li>
+  <li>“High risk hyperkalaemia associated with AKI”. The bundle says to treat it by the trust’s hyperkalaemia protocol.</li>
+  <li>“monitor fluid overload.”</li>
+  <li>“ABCDE Assessment if patient deteriorates”.</li>
+</ul></div>
+<ul class="pts">
+  <li>In plain words: kidney blood tests every day, with a full blood count and a blood gas.</li>
+  <li>NICE: daily creatinine is typical in hospital.</li>
+  <li>UK Kidney Association: at least daily until the kidney function is back to baseline or has settled.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley, once his bladder was drained: 286, then about 200 the next day, then about 140 by day three.</div>
+</div>
+</div>
+</section>
+
+<!-- 4 (fact check card 14) -->
+<section class="card" id="c4" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">4 / 16</span></div>
+  <p class="kick">O · Obstruction</p>
+  <h2>Look for a full bladder. A soft abdomen did not rule one out in Stanley.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span class="on">O</span><span>U</span><span>N</span><span>D</span><span>U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-backpressure.svg" width="720" height="1106" alt="Two panels. Top: a full bladder, with both ureters and both kidneys swollen and arrows of pressure going up. Bottom: a catheter in, the bladder small, the arrows gone." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Examine bladder, consider bladder scan.”</li>
+  <li>“Catheterise if palpable bladder, urinary retention, or oliguria.” Oliguria means passing very little urine.</li>
+  <li>“If obstruction on USS, refer to Urology.”</li>
+</ul></div>
+<ul class="pts">
+  <li>No cause found, or a blockage possible: an urgent ultrasound of the urinary tract within 24 hours.</li>
+  <li>Within 6 hours if an infected, blocked kidney (pyonephrosis) is suspected.</li>
+  <li>NICE: no routine ultrasound when the cause has already been found.</li>
+  <li>NICE: at once if the blocked kidney is infected, is the only kidney, or both sides are blocked, or the blockage is causing complications of AKI.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley: abdomen soft, nothing to feel. The scanner read 999 mL. The catheter drained 1,050 mL. He was calmer within the hour. His ultrasound: the drainage system of both kidneys was swollen (hydronephrosis).</div>
+</div>
+</div>
+<div class="pair"><figure class="fig"><img src="care-aki-debrief-scan.jpg" width="1024" height="626" alt="A bladder scanner printout: six ultrasound views of a large dark bladder, and a report page reading 999 mL." loading="lazy"><figcaption>A bladder scanner printout.</figcaption></figure><figure class="fig"><img src="care-aki-debrief-uss.jpg" width="814" height="444" alt="A kidney on ultrasound, with dark fluid-filled spaces branching in its centre." loading="lazy"><figcaption>A kidney ultrasound.</figcaption></figure></div>
+</section>
+
+<!-- 5 (fact check card 15) -->
+<section class="card" id="c5" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">5 / 16</span></div>
+  <p class="kick">U · Urinalysis</p>
+  <h2>Dip it to look for kidney disease. Do not dip it to diagnose an infection in an older person.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span class="on">U</span><span>N</span><span>D</span><span>U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-dipstick.svg" width="720" height="800" alt="One urine dipstick drawn large, its pads in two groups. Blood, protein: read these for the kidney. Leucocytes, nitrite: not a diagnosis of infection." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Dip the urine”.</li>
+  <li>“If proteinuria- send urine PCR”. PCR is the protein-to-creatinine ratio.</li>
+  <li>“If suspect infection- send urine MC&amp;S”. That is a culture.</li>
+  <li>“If haematuria + proteinuria and no infection- send renal screen” (next card).</li>
+</ul></div>
+<ul class="pts">
+  <li>NICE: dip for blood, protein, leucocytes, nitrites and glucose as soon as AKI is suspected. Write it down and act on it.</li>
+  <li>Nothing on the stick usually means a cause before the kidney, or a drug.</li>
+  <li>Through a catheter, read it with caution: the blood may be from the catheter.</li>
+  <li>To diagnose a urinary infection in someone over 65, do not use a dipstick.</li>
+  <li>By 80, about half of older adults in care homes have bacteria in the urine without infection. Antibiotics for that do no good and may do harm.</li>
+  <li>The same goes for anyone with a catheter.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley’s stick: leucocytes 2+, nitrite positive, blood 3+, protein 1+. He had bacteria in the urine without a urinary infection.</div>
+<figure class="fig fig--small"><img src="care-aki-debrief-dip.svg" width="600" height="872" alt="A printed urinalysis slip. Glucose negative, bilirubin negative, ketones 1+, specific gravity 1.015, blood 3+, pH 6.0, protein 1+, urobilinogen normal, nitrite positive, leucocytes 2+." loading="lazy"></figure>
+<ul class="pts">
+  <li>So one stick answers one question, about the kidney, and not the other, about infection.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 6 (fact check card 16) -->
+<section class="card" id="c6" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">6 / 16</span></div>
+  <p class="kick">The decision: do you send the antibody tests?</p>
+  <h2>Blood and protein with no other explanation: ring the kidney team. With an explanation: no screen.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span class="on">U</span><span>N</span><span>D</span><span>U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-screen.svg" width="720" height="620" alt="A signpost with two arms. One: no clear cause, blood and protein together, no infection, no catheter: think nephritis, ring the kidney team. The other: a clear cause: not needed." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>NICE: think of acute nephritis, and of the kidney team, when there is no obvious cause for the AKI and the dipstick shows blood and protein together, with no urinary infection and no injury from a catheter.</li>
+  <li>Other clues: a rash, joint pains, a red painful eye, nosebleeds, coughing blood.</li>
+</ul>
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>What the bundle’s screen contains: “ANA, ANCA, anti GBM, complement C3/C4, Immunoglobulins, serum &amp; urine myeloma screen.”</li>
+</ul></div>
+<ul class="pts">
+  <li>In plain words: antibody tests for vasculitis and similar diseases, and tests for myeloma.</li>
+  <li>NICE: discuss with a kidney specialist within 24 hours when the cause may need specialist treatment, or when no cause is clear.</li>
+  <li>These are tests for an AKI with no clear cause, an odd course or other features. They are not a routine AKI set.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley had blood and protein on his stick, from a catheter, with a litre in his bladder. A clear cause. No screen.</div>
+</div>
+</div>
+</section>
+
+<!-- 7 (fact check card 17) -->
+<section class="card" id="c7" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">7 / 16</span></div>
+  <p class="kick">N · NEWS</p>
+  <h2>A high score in AKI: think sepsis. A low score does not clear the kidneys.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span>U</span><span class="on">N</span><span>D</span><span>U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-news.svg" width="720" height="724" alt="An observation chart with a low score in front. Behind it a second chart, labelled creatinine, with a line running off the top." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“NEWS Score high- Consider co-existing sepsis”.</li>
+  <li>“Start Sepsis six care bundle if signs of sepsis”.</li>
+</ul></div>
+<ul class="pts">
+  <li>The UK Kidney Association recommends prompt identification and treatment of sepsis in AKI.</li>
+  <li>People with AKI are also at higher risk of catching an infection. Keep watching the observations.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>A low score does not clear the kidneys. Stanley’s NEWS2 was 4, with stage 3 AKI. His temperature and raised CRP were influenza A, found on the swab.</div>
+</div>
+</div>
+</section>
+
+<!-- 8 (fact check card 18) -->
+<section class="card question" id="c8" data-sec="What to do">
+  <div class="meta"><span class="chip chip--q">Stop and decide</span><span class="num">8 / 16</span></div>
+  <p class="kick">D · Dry or Wet</p>
+  <h2>Examine him first.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span>U</span><span>N</span><span class="on">D</span><span>U</span><span>P</span></div><div class="qa">
+<p class="cap">Days of sips. Urea 24.6. Blood pressure 148/82. Do you give a litre of fluid, fast?</p>
+<div class="opts" role="group" aria-label="Choose one"><button class="btn opt" type="button">Yes, he is dry.</button><button class="btn opt" type="button" data-ok="1">Examine him, and check the bladder.</button></div>
+<div class="rv" tabindex="-1">
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-drywet.svg" width="720" height="664" alt="A see-saw with a figure standing level in the middle. One end: may need fluid: low blood pressure, fast heart, slow capillary refill, cold hands. The other end: overloaded: swollen ankles, fluid on the lungs." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Prescribe IV fluid if indicated”.</li>
+  <li>“If fluid overload- discuss with senior or renal”.</li>
+  <li>“If BP low, hold BP lowering medications”.</li>
+</ul></div>
+<ul class="pts">
+  <li>Signs that someone may need fluid urgently (NICE): systolic blood pressure under 100; heart rate over 90; capillary refill over 2 seconds, or cold hands and feet; breathing rate over 20; NEWS 5 or more.</li>
+  <li>Look as well for a fall in blood pressure on standing, the neck veins, swollen ankles and fluid on the lungs.</li>
+  <li>If resuscitation is needed (NICE): 500 mL of a crystalloid containing 130 to 154 mmol/L of sodium, in under 15 minutes. Then reassess.</li>
+  <li>Give fluid with care in AKI: overload does harm.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley was neither dry nor overloaded on examination. He still needed some fluid: he was only sipping, and about to pass a great deal of urine. Not a fast litre. And a bag of fluid is no substitute for checking the bladder.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 9 (fact check card 19) -->
+<section class="card" id="c9" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">9 / 16</span></div>
+  <p class="kick">U · Urinary (I&amp;O)</p>
+  <h2>Measure what goes in and what comes out, and tell the nurses you want it.</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span>U</span><span>N</span><span>D</span><span class="on">U</span><span>P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-chart.svg" width="720" height="842" alt="A fluid chart with an In column and an Out column filling by the hour. After a mark labelled catheter, the Out column is much the taller." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Fluid Balance Chart at the bedside- ensure communicated to nursing team”.</li>
+  <li>“Daily evaluation of Input and Output”.</li>
+</ul></div>
+<ul class="pts">
+  <li>NICE: have a way to notice when someone at risk passes under 0.5 mL per kg an hour.</li>
+  <li>After a blocked bladder is drained, the kidneys can pour out urine: 200 mL an hour or more for two hours running, or more than 3 litres in 24 hours.</li>
+  <li>In the studies reviewed it happened in 15 to 78% of patients, and lasted 2 to 5 days on average.</li>
+  <li>It was more likely with a raised creatinine and a larger volume drained.</li>
+  <li>Low sodium (22 to 28%), low blood pressure (9%) and blood in the urine (11 to 55%) were reported. Most settled on their own.</li>
+  <li>There is no agreed recipe for replacing the fluid. Chart it every hour and review him.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley passed about 3 litres by the next morning.</div>
+<figure class="fig fig--small"><img src="care-aki-debrief-bag.svg" width="400" height="560" alt="A catheter drainage bag hanging on its stand." loading="lazy"></figure>
+</div>
+</div>
+</section>
+
+<!-- 10 (fact check card 20) -->
+<section class="card" id="c10" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">10 / 16</span></div>
+  <p class="kick">P · Prescriptions</p>
+  <h2>Of each medicine ask: is it affecting the kidney, or is the kidney now letting it build up?</h2>
+<div class="ru" aria-hidden="true"><span>R</span><span>O</span><span>U</span><span>N</span><span>D</span><span>U</span><span class="on">P</span></div><div class="split">
+<figure class="fig"><img src="care-aki-debrief-drugchart.svg" width="720" height="802" alt="A drug chart with six lines and no drug names. Three lines are lightly struck through: hold. Two carry a down arrow: reduce. One is untouched." loading="lazy"></figure>
+<div class="txt">
+<div class="say bun"><b>The bundle says</b><ul>
+  <li>“Dose adjustments for AKI, consider stopping nephrotoxins”.</li>
+  <li>“Consider if medication are clinically appropriate”.</li>
+</ul></div>
+<ul class="pts">
+  <li>Hold, for now: NSAIDs; ACE inhibitors and ARBs; diuretics.</li>
+  <li>Other blood-pressure tablets: hold or reduce, depending on the blood pressure.</li>
+  <li>Avoid if you can: aminoglycoside antibiotics such as gentamicin.</li>
+  <li>Avoid or reduce: trimethoprim. It raises potassium, more so with an ACE inhibitor, ARB or spironolactone. It also raises the creatinine without any true change in the kidney.</li>
+  <li>Reduce, because they build up: opioids, especially morphine and codeine; gabapentin and pregabalin; digoxin.</li>
+  <li>Diabetes tablets: metformin (avoid if the GFR is under 30) and sulfonylureas (they build up and can drop the blood sugar).</li>
+</ul>
+<button class="btn go-rv" type="button" data-rv="rv20" aria-expanded="false" aria-controls="rv20">Show more</button>
+<div class="rv" id="rv20" tabindex="-1"><ul class="pts">
+  <li>Also think about: spironolactone, eplerenone and amiloride (they raise potassium); direct oral anticoagulants (they may build up and cause bleeding); lithium; aciclovir (reduce the dose); a statin, if there is muscle breakdown.</li>
+</ul></div>
+<ul class="pts">
+  <li>Ask a pharmacist. NICE says to.</li>
+  <li>Review every medicine and write it down. Check the doses again as the kidney function changes.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley: ramipril and furosemide held. Co-codamol stopped or cut down. Solifenacin stopped. Amitriptyline held or tapered. A pharmacy review asked for.</div>
+</div>
+</div>
+</section>
+
+<!-- 11 (fact check card 21) -->
+<section class="card" id="c11" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">11 / 16</span></div>
+  <p class="kick">5.8 · the number that can stop a heart</p>
+  <h2>Know three bands, get an ECG, and fix the cause.</h2>
+<div class="split">
+<figure class="fig fig--tall"><img src="care-aki-debrief-potassium.svg" width="720" height="700" alt="An upright bar in three bands: 5.5 to 5.9 mild, 6.0 to 6.4 moderate, 6.5 and above severe. A pin marks 5.8." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>Three bands: mild, 5.5 to 5.9. Moderate, 6.0 to 6.4. Severe, 6.5 and above.</li>
+  <li>Often there are no symptoms. In severe cases, weakness or pins and needles.</li>
+  <li>In hospital, at 6.0 or above: an urgent 12-lead ECG.</li>
+  <li>Changes on the ECG: calcium into a vein. It protects the heart for 30 to 60 minutes. It does not lower the potassium.</li>
+  <li>Insulin with glucose moves potassium into the cells. It is recommended at 6.5 and above, and suggested at 6.0 to 6.4.</li>
+  <li>The potassium starts to fall within 15 minutes, and the effect lasts up to 4 to 6 hours. Then it can climb back.</li>
+  <li>The bundle: after insulin and dextrose, hyperkalaemia “will recur” unless the cause is treated so that potassium can leave in the urine, “eg: obstruction relieved or urine output re-established”.</li>
+</ul>
+<div class="local"><b>Check your local policy</b>No doses here. Use your trust’s hyperkalaemia protocol.</div>
+<div class="local stan"><b>Stanley</b>Stanley’s 5.8 was in the mild band. It was repeated, he had an ECG, the ramipril was held and the bladder was drained. No insulin. By the next morning it was about 5.2.</div>
+</div>
+</div>
+</section>
+
+<!-- 12 (fact check card 22) -->
+<section class="card" id="c12" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">12 / 16</span></div>
+  <p class="kick">The decision: who needs to know?</p>
+  <h2>Some things mean ring now. Stage 3 means ring within a day.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-calls.svg" width="720" height="346" alt="Three telephones side by side: kidney team, urology, critical care." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>NICE: refer at once for dialysis (renal replacement therapy) if any of these is not responding to treatment: high potassium; acid in the blood; fluid overload; fluid on the lungs; the effects of urea, such as inflammation round the heart or a clouded brain.</li>
+  <li>NICE gives no numbers. The UK Kidney Association gives potassium above 6.5 and pH below 7.15. The Harrogate bundle gives potassium above 6.0 and pH below 7.15.</li>
+  <li>Decide on the whole patient, not on one urea, creatinine or potassium result.</li>
+  <li>NICE: discuss with a kidney specialist within 24 hours for stage 3 AKI; no clear cause; a cause that may need them (vasculitis, glomerulonephritis, interstitial nephritis, myeloma); a poor response to treatment; complications; a kidney transplant; long-standing kidney disease at stage 4 or 5.</li>
+  <li>Not needed when the cause is clear and the kidneys are responding promptly.</li>
+  <li>Urology: a blocked kidney on the scan (see O, Obstruction).</li>
+  <li>For Harrogate the renal team is at York.</li>
+  <li>The bundle’s rule for moving a patient there: potassium below 6.5 with no ECG changes; pH above 7.2; breathing and circulation stable; alert. If not, critical care outreach or intensive care.</li>
+  <li>Before any of it, for someone with a lot else wrong: would dialysis offer benefit? Talk to them, their family and the team.</li>
+</ul>
+<div class="local stan"><b>Stanley</b>Stanley: stage 3, a clear cause, getting better, and a ReSPECT form saying not for resuscitation but for hospital and for treatment. A phone call for advice. No transfer and no dialysis.</div>
+</div>
+</div>
+</section>
+
+<!-- 13 (fact check card 23) -->
+<section class="card" id="c13" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">13 / 16</span></div>
+  <p class="kick">What not to do · each of these is somebody’s reflex</p>
+  <h2>Six reflexes, and the guideline behind each “no”.</h2>
+<div class="solo" style="max-width:56rem">
+<figure class="fig"><img src="care-aki-debrief-reflexes.svg" width="720" height="926" alt="Six small drawings: a urine dipstick, a bag of fluid, a syringe, a small infusion pump, a tablet, and a CT scanner." loading="lazy"></figure>
+<p class="cap">Tap a card to turn it.</p>
+<div class="tiles" data-group="flip" data-toggle="1">
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip1"><span class="q">“Positive dipstick. Start antibiotics.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip1">Not on the stick alone, in someone over 65 or with a catheter. UKHSA 2025.</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip2"><span class="q">“AKI. A litre of fluid, stat.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip2">Examine first, and check the bladder. The bundle: fluid “if indicated”.</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip3"><span class="q">“Not passing urine. Give furosemide.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip3">NICE: do not routinely offer a loop diuretic to treat AKI. Consider one for fluid overload.</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip4"><span class="q">“Low-dose dopamine for the kidneys.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip4">NICE: do not offer it.</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip5"><span class="q">“Trimethoprim for the urine.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip5">It raises potassium, and raises creatinine without a true change in the kidney. Think Kidneys.</div></div>
+<div class="tile"><button type="button" aria-expanded="false" aria-controls="flip6"><span class="q">“He needs a contrast CT, but his kidneys…”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="flip6">NICE 2024: in an emergency, do not delay the scan if the delay is the bigger risk. The extra risk of AKI is small, and is seen with an eGFR under 30.</div></div>
+</div>
+<button class="btn go-all" type="button" data-all="flip">Show all</button>
+</div>
+</section>
+
+<!-- 14 (fact check card 24) -->
+<section class="card" id="c14" data-sec="Afterwards">
+  <div class="meta"><span class="chip">Afterwards</span><span class="num">14 / 16</span></div>
+  <p class="kick">Afterwards</p>
+  <h2>AKI that has recovered is still a warning.</h2>
+<div class="split">
+<figure class="fig"><img src="care-aki-debrief-discharge.svg" width="720" height="842" alt="A discharge letter with four ticked boxes: AKI and its stage; cause; kidney function on leaving; medicines: avoid, restart. Beside it a calendar with marks on it." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>After AKI, long-term kidney disease and high blood pressure are more likely.</li>
+  <li>The discharge letter should say: that he had AKI; the worst stage; the cause; and the kidney function on leaving.</li>
+  <li>And: when to recheck the kidney function; which medicines were involved, which to avoid and which may come back; what the patient and family were told.</li>
+  <li>Recheck the creatinine after discharge. How soon depends on how well it has recovered.</li>
+  <li>Watch for long-term kidney disease for at least three years, even if the numbers are back to normal.</li>
+  <li>Restarting a medicine: go back to why it was started. Heart failure medicines restart as soon as it is clinically reasonable.</li>
+  <li>Check creatinine and potassium one to two weeks after restarting.</li>
+  <li>Tell the patient and family what raises the risk again: an illness with vomiting, diarrhoea or not drinking, and anti-inflammatory painkillers, including those bought over the counter.</li>
+  <li>“Sick day rules” (stopping certain tablets when ill) are widely taught. Think Kidneys said in 2020 that the evidence they reduce harm is “very weak”, and that stopping tablets has risks of its own.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- 15 (fact check card 25) -->
+<section class="card" id="c15" data-sec="Take home">
+  <div class="meta"><span class="chip">Take home</span><span class="num">15 / 16</span></div>
+  <p class="kick">Thursday, 15:05, one last time</p>
+  <h2>Two explanations each fitted part of him. One fitted all of it.</h2>
+<div class="split split--wide">
+<figure class="fig fig--tall"><img src="care-aki-debrief-fits.svg" width="720" height="994" alt="Three cards stacked. Urine infection: what it fits and what it leaves over. He is dry: what it fits and what it leaves over. Flu, three medicines, a blocked bladder: fits, with nothing left over." loading="lazy"></figure>
+<div class="txt">
+<ul class="pts">
+  <li>“Urine infection” fitted the confusion, the temperature and the dipstick. It left over a normal white cell count, influenza A on the swab, and a litre in the bladder.</li>
+  <li>“He is dry” fitted the days of sips and the urea. It left over a normal blood pressure, a normal lactate, an examination that found him neither dry nor overloaded, and the scan.</li>
+  <li>Influenza put him on his bed. Three medicines he had taken for years made it harder for his bladder to empty. The blocked bladder injured his kidneys.</li>
+  <li>Drained, he was calmer within the hour.</li>
+</ul>
+<div class="reason"><b>Our reasoning</b>Our reasoning, not something the case shows: a bladder holding a litre had probably been emptying poorly for some time, and in a man of 84 the prostate is the likely reason.</div>
+<h3 class="sub">Take home</h3>
+<ol class="pts">
+  <li>Read a creatinine beside the last one: 1.5, 2 and 3 times baseline are stages 1, 2 and 3.</li>
+  <li>Ask where: before the kidney, in it, or after it. Often more than one.</li>
+  <li>ROUND UP: all seven letters. Stanley’s abdomen was soft, and his bladder held a litre.</li>
+  <li>The dipstick is for blood and protein. It does not diagnose a urinary infection in an older person.</li>
+  <li>Go down the drug chart. Know the potassium. Know who to ring.</li>
+</ol>
+<svg style="width:7rem;margin-top:1.2rem" class="big-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg>
+</div>
+</div>
+</section>
+
+<!-- 16 (fact check card 26) -->
+<section class="card src" id="c16" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">16 / 16</span></div>
+  <h2>Where this comes from.</h2>
+<div class="solo">
+<ol>
+  <li>Harrogate and District NHS Foundation Trust. Clinical guideline (care bundle) for AKI management in adults: ROUND UP. Version 3, May 2025.</li>
+  <li>NICE NG148. Acute kidney injury: prevention, detection and management. 2019, updated October 2024. <a href="https://www.nice.org.uk/guidance/ng148">nice.org.uk/guidance/ng148</a></li>
+  <li>NICE Clinical Knowledge Summary. Acute kidney injury. Revised July 2023. <a href="https://cks.nice.org.uk/topics/acute-kidney-injury/">cks.nice.org.uk/topics/acute-kidney-injury</a></li>
+  <li>UK Kidney Association. Clinical practice guideline: acute kidney injury. August 2019. Its review date, August 2024, has passed. <a href="https://www.ukkidney.org/sites/default/files/FINAL-AKI-Guideline.pdf">ukkidney.org</a></li>
+  <li>UK Kidney Association. Treatment of acute hyperkalaemia in adults. June 2020. Its review date, June 2025, has passed. <a href="https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults">ukkidney.org</a></li>
+  <li>Think Kidneys (NHS England and the UK Renal Registry). Sick day guidance (2020), restarting medicines after AKI (2018), medicines optimisation (2016), problematic drugs (2017). The programme ended in 2019 and its pages are an archive. <a href="https://www.thinkkidneys.nhs.uk/aki/resources/primary-care/">thinkkidneys.nhs.uk</a></li>
+  <li>KDIGO. Clinical practice guideline for acute kidney injury. 2012. <a href="https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf">kdigo.org</a></li>
+  <li>NICE CG174. Intravenous fluid therapy in adults in hospital. 2013, updated 2017. <a href="https://www.nice.org.uk/guidance/cg174">nice.org.uk/guidance/cg174</a></li>
+  <li>UK Health Security Agency and NHS England. Diagnosis of urinary tract infections: quick reference tools. Updated July 2025. <a href="https://www.gov.uk/government/publications/urinary-tract-infection-diagnosis">gov.uk</a></li>
+  <li>NICE CG97. Lower urinary tract symptoms in men. 2010, updated 2015. <a href="https://www.nice.org.uk/guidance/cg97">nice.org.uk/guidance/cg97</a></li>
+  <li>Rigonalli and colleagues. Post-obstruction hyperdiuresis among patients with urinary retention: a mini review. European Urology Open Science, 2025. <a href="https://doi.org/10.1016/j.euros.2025.01.017">doi:10.1016/j.euros.2025.01.017</a></li>
+</ol>
+<p class="credit">Guidelines change. Checked October 2026.</p>
+</div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    if (a.getAttribute('href').charAt(0) !== '#') return;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles and flip cards */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* tap to reveal */
+  function openRv(b) {
+    var rv = document.getElementById(b.getAttribute('data-rv'));
+    rv.classList.add('open'); b.setAttribute('aria-expanded', 'true'); b.hidden = true;
+    return rv;
+  }
+  each('.go-rv', function (b) { b.addEventListener('click', function () { openRv(b).focus({ preventScroll: true }); }); });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  function showAll(name) { each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); }); }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.tiles .tile', function (t) { setTile(t, true); });
+    each('.qa', function (q) { openQA(q); });
+    each('.go-rv', function (b) { openRv(b); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+</body>
+</html>
