@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <title>The soles of his feet</title>
+  <!-- The soles of two feet from the foot end, skin unbroken. Drawn fallback for a photograph. No lettering. -->
+  <rect width="600" height="400" fill="#f3e5c8"/>
+  <path d="M0 170 C120 136 480 136 600 170 V400 H0 Z" fill="#fbf3e1" stroke="#241c15" stroke-width="5"/>
+  <path d="M40 240 q50 -12 60 30 M500 260 q36 -26 70 -6" fill="none" stroke="#e6dcc6" stroke-width="5" stroke-linecap="round"/>
+  <g>
+    <path d="M150 400 C150 370 160 350 166 330 L220 330 C226 350 240 370 244 400 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5" stroke-linejoin="round"/>
+    <ellipse cx="232" cy="84" rx="20" ry="25" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="199" cy="76" rx="14" ry="17" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="176" cy="82" rx="12" ry="15" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="156" cy="92" rx="11" ry="14" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="139" cy="106" rx="10" ry="13" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/>
+    <path d="M158 336 C144 312 146 262 144 216 C140 180 128 158 132 132 C136 110 156 102 188 100 C222 98 248 108 252 132 C256 158 244 180 238 216 C234 262 236 312 226 336 C216 358 170 358 158 336 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5" stroke-linejoin="round"/>
+    <path d="M166 322 C160 300 162 266 164 228 C204 246 220 280 220 326 C210 342 174 342 166 322 Z" fill="#c99672" opacity=".3"/>
+    <path d="M146 150 q48 24 100 2 M170 250 q14 -8 26 0" fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(600 0) scale(-1 1)">
+    <path d="M150 400 C150 370 160 350 166 330 L220 330 C226 350 240 370 244 400 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5" stroke-linejoin="round"/>
+    <ellipse cx="232" cy="84" rx="20" ry="25" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="199" cy="76" rx="14" ry="17" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="176" cy="82" rx="12" ry="15" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="156" cy="92" rx="11" ry="14" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/><ellipse cx="139" cy="106" rx="10" ry="13" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5"/>
+    <path d="M158 336 C144 312 146 262 144 216 C140 180 128 158 132 132 C136 110 156 102 188 100 C222 98 248 108 252 132 C256 158 244 180 238 216 C234 262 236 312 226 336 C216 358 170 358 158 336 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5.5" stroke-linejoin="round"/>
+    <path d="M166 322 C160 300 162 266 164 228 C204 246 220 280 220 326 C210 342 174 342 166 322 Z" fill="#c99672" opacity=".3"/>
+    <path d="M146 150 q48 24 100 2 M170 250 q14 -8 26 0" fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+</svg>

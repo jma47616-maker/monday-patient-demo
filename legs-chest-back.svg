@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 640" width="600" height="640">
+  <title>His back</title>
+  <!-- His back, sitting forward, a nurse's two hands on his shoulders, cut off at the waist by the blanket. Viewer's left is his left; the glucose sensor is on the back of that upper arm. No lettering, no rings. -->
+  <rect width="600" height="640" fill="#f3e5c8"/>
+  <path d="M252 0 L250 92 C210 112 150 120 104 134 C70 144 52 170 46 210 L30 640 L570 640 L554 210 C548 170 530 144 496 134 C450 120 390 112 350 92 L348 0 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M252 0 H348 L346 34 Q300 50 254 34 Z" fill="#7b766e" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M46 210 L30 640 H130 C114 430 130 280 160 210 C180 160 210 120 250 92 C210 112 150 120 104 134 C70 144 52 170 46 210 Z" fill="#c99672" opacity=".28"/>
+  <g fill="none" stroke="#241c15" stroke-width="4" stroke-linecap="round">
+    <path d="M124 232 C120 330 116 480 110 640"/><path d="M476 232 C480 330 484 480 490 640"/>
+  </g>
+  <g fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 70 V600"/>
+    <path d="M292 100 h16 M292 140 h16 M292 180 h16 M292 220 h16 M292 260 h16 M292 300 h16 M292 340 h16 M292 380 h16 M292 420 h16 M292 460 h16 M292 500 h16"/>
+    <path d="M214 196 C176 196 150 214 146 240 C150 290 180 340 214 366 C226 320 226 250 214 196 Z"/>
+    <path d="M386 196 C424 196 450 214 454 240 C450 290 420 340 386 366 C374 320 374 250 386 196 Z"/>
+    <path d="M160 420 q50 24 110 14 M440 420 q-50 24 -110 14 M166 470 q50 20 104 12 M434 470 q-50 20 -104 12"/>
+  </g>
+  <circle cx="74" cy="330" r="22" fill="#fbfaf5" stroke="#241c15" stroke-width="4"/><circle cx="74" cy="330" r="5" fill="#9fb0bd"/>
+  <path d="M150 0 L50 0 L68 86 L140 96 Z" fill="#4f5d78" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M150 90 C150 70 60 66 56 92 C52 122 64 168 74 176 C84 180 86 150 88 140 C94 162 104 182 110 150 C116 176 130 178 132 146 C140 160 152 150 150 90 Z" fill="#dcb696" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M450 0 L550 0 L532 86 L460 96 Z" fill="#4f5d78" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M450 90 C450 70 540 66 544 92 C548 122 536 168 526 176 C516 180 514 150 512 140 C506 162 496 182 490 150 C484 176 470 178 468 146 C460 160 448 150 450 90 Z" fill="#dcb696" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M0 546 Q150 532 300 542 Q450 552 600 540 V640 H0 Z" fill="#c5d3dc" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M30 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M126 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M222 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M318 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M414 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M510 574 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M78 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M174 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M270 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M366 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M462 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M558 612 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560" width="500" height="560">
+  <title>Chest radiograph</title>
+  <!-- Drawn fallback for a photograph: an AP semi-erect portable chest radiograph of a slim middle-aged man. Not house style, by the owner's decision. A side marker and no other lettering. -->
+  <defs>
+    <filter id="lcx-b3" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="lcx-b8" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter>
+    <filter id="lcx-b16" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="lcx-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>
+    <clipPath id="lcx-lungs"><path d="M232 112 C196 96 150 120 122 176 C100 226 92 276 92 322 C140 300 196 296 232 318 Z M268 112 C304 96 350 120 378 176 C400 226 408 280 408 336 C366 312 316 304 276 322 C262 280 268 180 268 112 Z"/></clipPath>
+    <radialGradient id="lcx-vig" cx=".5" cy=".5" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></radialGradient>
+  </defs>
+  <rect width="500" height="560" fill="#060607"/>
+  <g filter="url(#lcx-b8)">
+    <path d="M196 0 H304 L308 60 C360 70 430 84 500 120 V560 H0 V120 C70 84 140 70 192 60 Z" fill="#6f6f72"/>
+    <path d="M0 150 C40 180 60 300 54 560 H0 Z M500 150 C460 180 440 300 446 560 H500 Z" fill="#3c3c3f"/>
+  </g>
+  <g filter="url(#lcx-b8)">
+    <path d="M232 108 C194 90 146 116 118 174 C94 226 86 280 86 326 C138 302 196 298 234 322 Z" fill="#111113"/>
+    <path d="M268 108 C306 90 354 116 382 174 C406 226 414 284 414 340 C368 314 316 306 274 326 C262 280 268 180 268 108 Z" fill="#111113"/>
+  </g>
+  <g filter="url(#lcx-b16)"><rect x="224" y="0" width="52" height="560" fill="#a9a9ac" opacity=".85"/>
+    <path d="M236 180 C226 220 214 262 206 300 C230 330 300 338 346 322 C348 280 322 220 292 196 C278 184 250 176 236 180 Z" fill="#9a9a9d" opacity=".9"/></g>
+  <g filter="url(#lcx-b8)">
+    <path d="M40 560 V360 C80 318 170 296 240 326 C300 300 380 314 460 372 V560 Z" fill="#a4a4a7"/>
+    <ellipse cx="338" cy="366" rx="34" ry="16" fill="#2a2a2d"/>
+  </g>
+  <rect x="243" y="0" width="14" height="150" fill="#1b1b1d" opacity=".7" filter="url(#lcx-b3)"/>
+  <g fill="none" stroke="#d2d2d4" stroke-linecap="round" filter="url(#lcx-b3)">
+    <g stroke-width="7" opacity=".34"><path d="M232 96 C180 82 120 92 134 122" /><path d="M268 96 C320 82 380 92 366 122" /><path d="M232 122 C180 108 120 118 120 148" /><path d="M268 122 C320 108 380 118 380 148" /><path d="M232 148 C180 134 120 144 106 174" /><path d="M268 148 C320 134 380 144 394 174" /><path d="M232 174 C180 160 120 170 92 200" /><path d="M268 174 C320 160 380 170 408 200" /><path d="M232 200 C180 186 120 196 92 226" /><path d="M268 200 C320 186 380 196 408 226" /><path d="M232 226 C180 212 120 222 92 252" /><path d="M268 226 C320 212 380 222 408 252" /><path d="M232 252 C180 238 120 248 92 278" /><path d="M268 252 C320 238 380 248 408 278" /><path d="M232 278 C180 264 120 274 92 304" /><path d="M268 278 C320 264 380 274 408 304" /><path d="M232 304 C180 290 120 300 92 330" /><path d="M268 304 C320 290 380 300 408 330" /></g>
+    <g stroke-width="6" opacity=".2" clip-path="url(#lcx-lungs)"><path d="M112 150 C120 172 170 184 206 190" /><path d="M388 150 C380 172 330 184 294 190" /><path d="M100 180 C120 202 170 214 206 220" /><path d="M400 180 C380 202 330 214 294 220" /><path d="M88 210 C120 232 170 244 206 250" /><path d="M412 210 C380 232 330 244 294 250" /><path d="M88 240 C120 262 170 274 206 280" /><path d="M412 240 C380 262 330 274 294 280" /><path d="M88 270 C120 292 170 304 206 310" /><path d="M412 270 C380 292 330 304 294 310" /><path d="M88 300 C120 322 170 334 206 340" /><path d="M412 300 C380 322 330 334 294 340" /></g>
+    <path d="M238 96 C190 84 130 82 70 96 M262 96 C310 84 370 82 430 96" stroke-width="12" opacity=".6"/>
+    <path d="M132 130 C116 180 112 250 126 300 M368 130 C384 180 388 250 374 300" stroke-width="5" opacity=".28"/>
+    <path d="M250 20 V540" stroke-width="20" opacity=".16" stroke-dasharray="16 6"/>
+  </g>
+  <rect width="500" height="560" filter="url(#lcx-grain)"/>
+  <rect width="500" height="560" fill="url(#lcx-vig)"/>
+  <text x="452" y="52" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#e8e8ea">L</text>
+</svg>

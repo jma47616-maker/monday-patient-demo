@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 640" width="600" height="640">
+  <title>The front of his chest</title>
+  <!-- His chest from under the chin to the lower ribs, arms by his sides, a blanket across the lower ribs. Viewer's left is his right. The edge of the glucose sensor shows at the outer line of his left arm. No lettering, no rings. -->
+  <rect width="600" height="640" fill="#f3e5c8"/>
+  <path d="M252 0 L250 92 C210 112 150 120 104 134 C70 144 52 170 46 210 L30 640 L570 640 L554 210 C548 170 530 144 496 134 C450 120 390 112 350 92 L348 0 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M350 92 C390 112 450 120 496 134 C530 144 548 170 554 210 L570 640 H470 C486 430 470 280 440 210 C420 160 390 120 350 92 Z" fill="#c99672" opacity=".28"/>
+  <path d="M318 20 L326 94 L350 94 L348 0 Z" fill="#c99672" opacity=".4"/>
+  <g fill="none" stroke="#241c15" stroke-width="4" stroke-linecap="round">
+    <path d="M286 152 Q240 132 180 138 Q150 140 128 150"/><path d="M314 152 Q360 132 420 138 Q450 140 472 150"/>
+    <path d="M286 152 Q300 162 314 152"/>
+    <path d="M124 232 C120 330 116 480 110 640"/><path d="M476 232 C480 330 484 480 490 640"/>
+    <path d="M124 232 q10 -22 28 -34"/><path d="M476 232 q-10 -22 -28 -34"/>
+  </g>
+  <g fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round">
+    <path d="M300 168 V404"/><path d="M286 200 h28 M284 240 h32 M284 280 h32 M284 320 h32 M286 360 h28"/>
+    <path d="M140 300 C150 350 210 372 284 352"/><path d="M460 300 C450 350 390 372 316 352"/>
+    <path d="M150 400 q60 26 120 10 M450 400 q-60 26 -120 10 M156 444 q56 22 110 10 M444 444 q-56 22 -110 10 M164 486 q50 18 98 8 M436 486 q-50 18 -98 8"/>
+    <path d="M272 60 Q268 100 286 146 M328 60 Q332 100 314 146"/>
+  </g>
+  <circle cx="192" cy="318" r="9" fill="#c98f76" stroke="#241c15" stroke-width="3"/><circle cx="408" cy="318" r="9" fill="#c98f76" stroke="#241c15" stroke-width="3"/>
+  <path d="M560 306 q12 2 12 24 q0 22 -11 24 Z" fill="#fbfaf5" stroke="#241c15" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M0 512 Q150 498 300 508 Q450 518 600 506 V640 H0 Z" fill="#c5d3dc" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M30 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M126 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M222 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M318 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M414 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M510 540 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M78 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M174 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M270 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M366 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M462 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M558 578 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/>
+</svg>

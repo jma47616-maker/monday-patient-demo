@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360">
+  <title>His abdomen, your hand on it</title>
+  <!-- His abdomen from the lower ribs to a blanket fold across the hip bones, the examiner's flat hand on it, his own hands open at his sides. No scar, no mark, no lettering. -->
+  <rect width="600" height="360" fill="#fbf3e1"/>
+  <path d="M40 40 q30 -10 60 0 M500 320 q30 8 60 -2 M30 300 q20 8 40 0" fill="none" stroke="#e6dcc6" stroke-width="5" stroke-linecap="round"/>
+  <path d="M104 0 C96 80 90 180 86 232 C70 240 56 262 62 286 L104 292 C114 270 116 250 110 236 C118 160 126 80 130 0 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M96 250 v26 M84 252 v28 M73 256 v24" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/><path d="M150 0 L0 0 L0 360 L38 360 C42 240 50 100 54 0 Z" fill="#cfdccf" opacity="0"/><path d="M496 0 C504 80 510 180 514 232 C530 240 544 262 538 286 L496 292 C486 270 484 250 490 236 C482 160 474 80 470 0 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M504 250 v26 M516 252 v28 M527 256 v24" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/><path d="M450 0 L600 0 L600 360 L562 360 C558 240 550 100 546 0 Z" fill="#cfdccf" opacity="0"/>
+  <path d="M146 0 C140 90 138 200 144 300 H456 C462 200 460 90 454 0 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M400 0 C410 90 414 200 410 300 H456 C462 200 460 90 454 0 Z" fill="#c99672" opacity=".3"/>
+  <g fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round">
+    <path d="M176 0 C200 36 256 54 300 22 C344 54 400 36 424 0"/><path d="M300 40 V190"/><path d="M294 214 q6 10 12 0"/>
+    <path d="M176 270 q20 -14 44 -16 M424 270 q-20 -14 -44 -16"/>
+  </g>
+  <path d="M600 92 L470 104" stroke="#241c15" stroke-width="66"/><path d="M600 92 L470 104" stroke="#7fabb4" stroke-width="58"/>
+  <path d="M484 72 C440 62 390 66 340 76 C316 80 314 96 336 98 C314 100 312 118 334 120 C316 124 318 140 340 140 C330 148 338 160 356 158 C400 154 446 150 484 138 Z" fill="#dcb696" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M340 98 h70 M338 120 h76 M344 140 h66" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M0 296 Q150 282 300 292 Q450 302 600 290 V360 H0 Z" fill="#c5d3dc" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M30 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M126 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M222 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M318 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M414 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M510 324 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M78 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M174 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M270 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M366 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M462 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/><path d="M558 362 h36" stroke="#9fb0bd" stroke-width="4" stroke-linecap="round"/>
+</svg>

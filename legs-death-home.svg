@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-label="Terry has arrested: the monitor has flatlined and the crash trolley has arrived. His ghost hovers over the bed blowing into a hand-held spirometer; the chart on the end of the bed is a column of green ticks. The ghost says: But my obs were fine.">
+  <title>Terry has arrested</title>
+  <!-- The house comic ending, in the composition of weeks 1 to 3. The touch for this case: the chart on the end of the bed is all ticks, and the ghost is doing the breathing test now. No clock time on the tag, because the two endings happen at different hours. -->
+  <defs>
+    <pattern id="legsh-grain" width="7" height="7" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#b8552e" opacity=".06"/>
+    </pattern>
+    <linearGradient id="legsh-screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20262b"/>
+      <stop offset="1" stop-color="#141a1e"/>
+    </linearGradient>
+    <radialGradient id="legsh-glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#7ee08a" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#7ee08a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="560" fill="#faf6f0"/>
+  <rect width="900" height="560" fill="url(#legsh-grain)"/>
+
+  <!-- ================= monitor ================= -->
+  <g>
+    <rect x="512" y="46" width="330" height="212" rx="16" fill="#2b241d"/>
+    <rect x="526" y="60" width="302" height="168" rx="8" fill="url(#legsh-screen)"/>
+    <!-- the last few beats, fading away -->
+    <path d="M536 150 h34 l10 -30 l12 58 l12 -28 h26" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".35">
+      <animate attributeName="opacity" values=".45;0;0;.45" keyTimes="0;0.25;0.9;1" dur="6s" repeatCount="indefinite"/>
+    </path>
+    <!-- the flatline -->
+    <path d="M630 150 H820" fill="none" stroke="#7ee08a" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- sweep dot, going nowhere -->
+    <circle r="6" fill="#a9f2b3">
+      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="16" fill="url(#legsh-glow)">
+      <animateMotion path="M630 150 H820" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <!-- dead numbers -->
+    <text x="546" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#c6483a">0</text>
+    <text x="546" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">HR</text>
+    <text x="640" y="200" font-family="ui-monospace, monospace" font-size="30" fill="#c6483a">--/--</text>
+    <text x="640" y="222" font-family="ui-monospace, monospace" font-size="12" fill="#6e8189">NIBP</text>
+    <!-- alarm lamp -->
+    <circle cx="806" cy="82" r="9" fill="#c6483a">
+      <animate attributeName="opacity" values="1;.15;1" dur=".85s" repeatCount="indefinite"/>
+    </circle>
+    <!-- stand -->
+    <rect x="668" y="258" width="18" height="86" fill="#2b241d"/>
+    <rect x="628" y="344" width="98" height="14" rx="7" fill="#2b241d"/>
+  </g>
+
+  <!-- ================= bed ================= -->
+  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
+    <rect x="70" y="330" width="470" height="34" rx="10" fill="#cfd8dc"/>
+    <rect x="88" y="364" width="16" height="96" fill="#9aa4ac"/>
+    <rect x="506" y="364" width="16" height="96" fill="#9aa4ac"/>
+    <!-- headboard -->
+    <rect x="46" y="236" width="18" height="130" rx="8" fill="#9aa4ac"/>
+  </g>
+  <!-- the gown at his neck -->
+  <path d="M176 330 C182 304 214 298 236 312 L240 330 Z" fill="#cfdccf" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+  <!-- blanket -->
+  <path d="M196 330 C206 292 270 280 340 284 C420 288 500 296 522 330 Z" fill="#a9bcc4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#7f939c" stroke-width="3.5" opacity=".8" fill="none">
+    <path d="M250 292 C256 306 256 318 250 330"/>
+    <path d="M335 286 C341 302 341 316 335 330"/>
+    <path d="M420 292 C426 306 426 318 420 330"/>
+  </g>
+  <!-- pillow -->
+  <path d="M78 300 C74 268 110 250 148 254 C186 258 200 284 192 312 C184 336 106 338 78 300 Z" fill="#f2ede4" stroke="#2b241d" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- ================= Terry, definitively unwell ================= -->
+  <g>
+    <!-- ears -->
+    <ellipse cx="98" cy="284" rx="8" ry="14" fill="#e9c9ad" stroke="#2b241d" stroke-width="5"/>
+    <ellipse cx="202" cy="284" rx="8" ry="14" fill="#e9c9ad" stroke="#2b241d" stroke-width="5"/>
+    <!-- head -->
+    <ellipse cx="150" cy="280" rx="52" ry="50" fill="#e9c9ad" stroke="#2b241d" stroke-width="6"/>
+    <!-- pallor -->
+    <ellipse cx="121" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <ellipse cx="179" cy="300" rx="13" ry="7" fill="#b9c2c6" opacity=".5"/>
+    <!-- two days unshaven -->
+    <path d="M104 298 C110 322 130 331 150 331 C170 331 190 322 196 298 C186 314 168 322 150 322 C132 322 114 314 104 298 Z" fill="#8f8478" opacity=".34"/>
+    <!-- short greying hair -->
+    <path d="M97 270 C93 240 118 224 150 224 C182 224 207 240 203 270 C196 252 180 244 150 244 C120 244 104 252 97 270 Z" fill="#7b766e" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M103 258 C106 246 114 239 124 235 C116 242 110 250 103 258 Z" fill="#aaa59b"/>
+    <path d="M197 258 C194 246 186 239 176 235 C184 242 190 250 197 258 Z" fill="#aaa59b"/>
+    <path d="M138 230 q-6 4 -8 10 M162 230 q6 4 8 10" fill="none" stroke="#aaa59b" stroke-width="3" stroke-linecap="round"/>
+    <!-- brows -->
+    <path d="M116 258 q12 -5 24 0 M160 258 q12 -5 24 0" fill="none" stroke="#2b241d" stroke-width="5" stroke-linecap="round"/>
+    <!-- X eyes -->
+    <g stroke="#2b241d" stroke-width="7" stroke-linecap="round">
+      <path d="M118 268 l20 20 M138 268 l-20 20"/>
+      <path d="M164 268 l20 20 M184 268 l-20 20"/>
+    </g>
+    <!-- open mouth + lolling tongue -->
+    <ellipse cx="151" cy="310" rx="15" ry="11" fill="#7d5647" stroke="#2b241d" stroke-width="5"/>
+    <path d="M148 316 q10 16 20 4 q-4 -8 -14 -8 Z" fill="#c9737a" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- ============ the chart on the end of the bed: nothing but ticks ============ -->
+  <g>
+    <path d="M470 352 V372 M500 352 V372" stroke="#2b241d" stroke-width="5" stroke-linecap="round"/>
+    <g transform="rotate(4 485 420)">
+      <rect x="438" y="368" width="94" height="112" rx="8" fill="#fdf8ee" stroke="#2b241d" stroke-width="5.5"/>
+      <rect x="466" y="360" width="38" height="16" rx="5" fill="#9aa4ac" stroke="#2b241d" stroke-width="4.5"/>
+      <g stroke="#b9b3a8" stroke-width="6" stroke-linecap="round">
+        <path d="M452 398 h34"/><path d="M452 424 h26"/><path d="M452 450 h34"/>
+      </g>
+      <g fill="none" stroke="#3f9a5b" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M497 398 l7 7 l14 -16"/>
+        <path d="M497 424 l7 7 l14 -16"/>
+        <path d="M497 450 l7 7 l14 -16"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- what the ghost has to say (drawn under the ghost, so the tail tucks behind it) -->
+  <g>
+    <path d="M24 100 h182 a14 14 0 0 1 14 14 v34 l26 28 l-26 -6 v2 a14 14 0 0 1 -14 14 h-182 a14 14 0 0 1 -14 -14 v-58 a14 14 0 0 1 14 -14 Z"
+          fill="#faf6f0" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <g font-family="Georgia, 'Times New Roman', serif" font-style="italic" fill="#2b241d" text-anchor="middle" font-size="27">
+      <text x="115" y="137">But my obs</text>
+      <text x="115" y="169">were fine…</text>
+    </g>
+  </g>
+
+  <!-- ============ the soul, leaving, and doing the breathing test on the way ============ -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -18; 0 0" dur="5.5s" repeatCount="indefinite"/>
+
+    <!-- halo -->
+    <ellipse cx="312" cy="88" rx="38" ry="11" fill="none" stroke="#d8a13a" stroke-width="7"/>
+    <ellipse cx="312" cy="88" rx="38" ry="11" fill="none" stroke="#f0cf86" stroke-width="2.5"/>
+
+    <!-- body -->
+    <path d="M232 204 C232 144 264 110 312 110 C360 110 392 144 392 204 L392 260 L376 248 L360 260 L344 248 L328 260 L312 248 L296 260 L280 248 L264 260 L248 248 L232 258 Z"
+          fill="#f4f1ea" stroke="#2b241d" stroke-width="5" stroke-linejoin="round"/>
+    <!-- cel shading -->
+    <path d="M232 204 C232 148 258 114 294 110 C268 130 256 162 256 204 L256 254 L248 248 L232 258 Z" fill="#c9cfd4" opacity=".35"/>
+
+    <!-- the hand-held spirometer, mouthpiece in -->
+    <g>
+      <path d="M372 213 L424 202" stroke="#2b241d" stroke-width="19" stroke-linecap="butt"/>
+      <path d="M370 213.4 L426 201.6" stroke="#fdf8ee" stroke-width="10"/>
+      <g transform="rotate(7 452 196)">
+        <rect x="420" y="142" width="64" height="108" rx="13" fill="#fdf8ee" stroke="#2b241d" stroke-width="5.5"/>
+        <rect x="429" y="154" width="46" height="32" rx="5" fill="#d5e3cf" stroke="#2b241d" stroke-width="4"/>
+        <!-- no reading -->
+        <g stroke="#2b241d" stroke-width="4" stroke-linecap="round">
+          <animate attributeName="opacity" values="1;1;.15;1" keyTimes="0;.6;.8;1" dur="1.8s" repeatCount="indefinite"/>
+          <path d="M436 170 h7 M453 170 h6 M464 170 h5"/>
+          <path d="M448 173 v.5"/>
+        </g>
+        <circle cx="437" cy="204" r="6.5" fill="#c8531b" stroke="#2b241d" stroke-width="3.5"/>
+        <circle cx="453" cy="204" r="5.5" fill="#e8e3d6" stroke="#2b241d" stroke-width="3.5"/>
+        <circle cx="468" cy="204" r="5.5" fill="#e8e3d6" stroke="#2b241d" stroke-width="3.5"/>
+      </g>
+    </g>
+    <!-- the arm holding it -->
+    <g stroke-linecap="round" fill="none">
+      <path d="M376 244 Q404 256 432 240" stroke="#2b241d" stroke-width="21"/>
+      <path d="M376 244 Q404 256 432 240" stroke="#e9e2d6" stroke-width="12"/>
+    </g>
+    <path d="M424 228 q14 -9 26 -1 q10 9 0 18 q-13 8 -26 -1 q-7 -8 0 -16 Z" fill="#e9e2d6" stroke="#2b241d" stroke-width="4.5" stroke-linejoin="round"/>
+    <g stroke="#2b241d" stroke-width="2.6" stroke-linecap="round" fill="none">
+      <path d="M440 229 l2 9"/><path d="M448 231 l1 8"/>
+    </g>
+
+    <!-- face: trying very hard -->
+    <g fill="#2b241d">
+      <ellipse cx="316" cy="184" rx="7.5" ry="9"/>
+      <ellipse cx="354" cy="184" rx="7.5" ry="9"/>
+    </g>
+    <g stroke="#2b241d" stroke-linecap="round" fill="none">
+      <path d="M302 168 L326 160" stroke-width="6"/>
+      <path d="M344 160 L368 168" stroke-width="6"/>
+      <!-- puffed cheek -->
+      <path d="M346 204 q-12 10 -2 22" stroke-width="4.5"/>
+      <path d="M360 201 q9 -3 12 4 M360 226 q9 3 12 -4" stroke-width="4.5"/>
+    </g>
+    <!-- effort, and nothing to show for it -->
+    <g stroke="#b8552e" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".85">
+      <animate attributeName="opacity" values=".85;.2;.85" dur="1.8s" repeatCount="indefinite"/>
+      <path d="M404 176 q4 -9 -2 -16"/>
+      <path d="M390 180 q2 -7 -4 -12"/>
+    </g>
+  </g>
+
+  <!-- ================= crash trolley, arrived ================= -->
+  <g stroke="#2b241d" stroke-width="6" stroke-linejoin="round">
+    <rect x="596" y="392" width="150" height="112" rx="10" fill="#c6483a"/>
+    <path d="M596 428 H746 M596 464 H746" stroke-width="4"/>
+    <circle cx="626" cy="518" r="14" fill="#2b241d"/>
+    <circle cx="716" cy="518" r="14" fill="#2b241d"/>
+  </g>
+  <text x="671" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="19" font-weight="bold" fill="#faf6f0">CRASH</text>
+
+  <!-- the call, with no hour on it -->
+  <g>
+    <rect x="60" y="486" width="150" height="42" rx="8" fill="#2b241d" opacity=".9"/>
+    <text x="135" y="514" text-anchor="middle" font-family="ui-monospace, monospace" font-size="19" fill="#faf6f0">crash call</text>
+  </g>
+</svg>

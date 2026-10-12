@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <title>Harriet</title>
+  <!-- Harriet Ashworth: portrait. Mid-forties, hair tied back, coat still on, a folded sheet of paper in her hand. -->
+  <rect width="200" height="200" fill="#f3e5c8"/>
+  <g transform="translate(100 84) scale(.34)">
+    <path d="M-210 300 C-196 214 -124 190 -56 178 L56 178 C124 190 196 214 210 300 Z" fill="#d59a3f" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M-36 104 L-36 186 Q0 216 36 186 L36 104 Z" fill="#edd0b6" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M-56 178 L-10 250 L-90 300 L-150 300 C-140 240 -100 200 -56 178 Z" fill="#b27a26" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M56 178 L10 250 L90 300 L150 300 C140 240 100 200 56 178 Z" fill="#b27a26" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M-36 186 Q0 216 36 186 L10 250 L0 262 L-10 250 Z" fill="#f6ead0" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <circle cx="0" cy="-158" r="30" fill="#7a4b33" stroke="#241c15" stroke-width="9"/>
+    <ellipse cx="-84" cy="-6" rx="10" ry="20" fill="#e9c9ad" stroke="#241c15" stroke-width="9"/>
+    <ellipse cx="84" cy="-6" rx="10" ry="20" fill="#e9c9ad" stroke="#241c15" stroke-width="9"/>
+    <path d="M-82 -30 C-82 -112 -46 -142 0 -142 C46 -142 82 -112 82 -30 C82 48 50 126 0 126 C-50 126 -82 48 -82 -30 Z" fill="#edd0b6" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M-86 -6 C-98 -112 -52 -160 0 -160 C52 -160 98 -112 86 -6 C80 -62 58 -100 0 -116 C-58 -100 -80 -62 -86 -6 Z" fill="#7a4b33" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M0 -158 V-118" stroke="#241c15" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M-20 -150 C-52 -140 -72 -108 -78 -70" fill="none" stroke="#a06a48" stroke-width="5.3999999999999995" stroke-linecap="round"/>
+    <path d="M-22 -63 Q-46 -62 -68 -50" fill="none" stroke="#241c15" stroke-width="7.2" stroke-linecap="round"/>
+    <path d="M-67 -24 Q-42 -42 -17 -24 Q-42 -10 -67 -24 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="5.3999999999999995" stroke-linejoin="round"/>
+    <circle cx="-42" cy="-25" r="9" fill="#7a5a3c" stroke="#241c15" stroke-width="3.6"/><circle cx="-42" cy="-25" r="4" fill="#241c15"/>
+    <path d="M-67 -24 Q-42 -43 -17 -24" fill="none" stroke="#241c15" stroke-width="8.549999999999999" stroke-linecap="round"/>
+    <path d="M-60 -6 Q-42 0 -24 -6" fill="none" stroke="#c99672" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M-10 26 Q-13 34 -4 35" fill="none" stroke="#241c15" stroke-width="5.3999999999999995" stroke-linecap="round"/>
+    <path d="M20 -150 C52 -140 72 -108 78 -70" fill="none" stroke="#a06a48" stroke-width="5.3999999999999995" stroke-linecap="round"/>
+    <path d="M22 -63 Q46 -62 68 -50" fill="none" stroke="#241c15" stroke-width="7.2" stroke-linecap="round"/>
+    <path d="M17 -24 Q42 -42 67 -24 Q42 -10 17 -24 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="5.3999999999999995" stroke-linejoin="round"/>
+    <circle cx="42" cy="-25" r="9" fill="#7a5a3c" stroke="#241c15" stroke-width="3.6"/><circle cx="42" cy="-25" r="4" fill="#241c15"/>
+    <path d="M17 -24 Q42 -43 67 -24" fill="none" stroke="#241c15" stroke-width="8.549999999999999" stroke-linecap="round"/>
+    <path d="M24 -6 Q42 0 60 -6" fill="none" stroke="#c99672" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M10 26 Q13 34 4 35" fill="none" stroke="#241c15" stroke-width="5.3999999999999995" stroke-linecap="round"/>
+    <path d="M-22 72 Q0 70 22 72" fill="none" stroke="#8c4a3e" stroke-width="8.1" stroke-linecap="round"/>
+    <path d="M-10 86 Q0 89 10 86" fill="none" stroke="#c99672" stroke-width="3.6" stroke-linecap="round"/>
+    <g transform="translate(120 222) rotate(-8)">
+      <path d="M-58 -44 H58 V60 H-58 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+      <path d="M-58 8 H58" stroke="#8a949e" stroke-width="4.5"/>
+      <path d="M-40 -22 h70 M-40 -6 h56 M-40 26 h72 M-40 42 h48" stroke="#8a949e" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M-70 40 C-70 22 -30 22 -22 40 L-22 78 H-70 Z" fill="#edd0b6" stroke="#241c15" stroke-width="9" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>
