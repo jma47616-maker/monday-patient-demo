@@ -306,6 +306,10 @@ h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.18rem; lin
 .dxsuggest { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--s2); min-height: 0; }
 .dxsuggest button { min-height: 40px; padding: .3rem .8rem; border-radius: 999px; font: inherit; font-size: .86rem; cursor: pointer; background: var(--paper-2); color: var(--ink); border: 1.5px solid var(--rule-2); text-align: left; }
 #dxSaid h2 { font-size: clamp(1.9rem, 8vw, 2.6rem); margin-bottom: var(--s3); }
+/* the picture of a wrong verdict (800 x 420). Capped by width so it is about 180px tall on a phone and the button stays on the first screen. */
+#dxSaidArt { display: block; width: 100%; max-width: 21.5rem; height: auto; margin: 0 0 var(--s3); }
+#dxSaidArt[hidden] { display: none; }
+.dxtold { margin: 0 0 var(--s3); }
 
 /* call-backs */
 .cbbtns { display: flex; flex-direction: column; gap: var(--s2); margin-top: var(--s3); }
@@ -913,6 +917,7 @@ Admit to the ward
       </div>
       <div id="dxSaid" hidden>
         <h2 id="dxSaidHead"></h2>
+        <img id="dxSaidArt" alt="" hidden>
         <p class="lede" id="dxSaidNext"></p>
         <div class="btnrow">
           <button class="btn" id="dxOn">Write his plan</button>
@@ -1348,6 +1353,10 @@ const CASE = {
        "full" = the final chart in full, as UGIB case 1; "half" = the first chart in full, and points a line gains only
        at the amendment at half, rounded up. The owner said "exactly that" of UGIB and has not yet chosen "half". */
     amendRule: "full", weightKg: 68,
+    /* The diagnosis points (05-marking.md 26.2, Round 9). ONE LINE, read in one place (judgePicks in part4-plan.js).
+       Part 2 is the primary diagnosis. Written in: the recommendation. The unchanged scoring is { p1:8, p2:8, p3:8, all:6,
+       needPrimary:false }; the alternative (nothing without the primary) is { p1:8, p2:8, p3:8, all:6, needPrimary:true }. */
+    dxPts: { p1:5, p2:14, p3:5, all:6, needPrimary:false },
     patientFirst: "Stanley", patientLast: "Garside", daughter: "Alison",
     nurse: "Maureen Speight", home: "Hazelgarth Nursing Home",
     friNight: 1440 + 370 /* Friday 06:10, in clock minutes from Thursday 00:00 */,
@@ -1891,7 +1900,14 @@ const CASE = {
   /* ---- the diagnosis judge (05-marking.md section 4.2). Substring tiers (dxSub), because norm() deletes hyphens;
      tok = whole-word terms; all = groups whose every word must be in the clause. ---- */
   dxSay: { head:"His diagnoses", lede:"Commit up to three. Pick each from the list.", placeholder:"e.g. the condition you've reasoned to",
-           right:"Right.", wrong:"That is not right.", rightNext:"Now write his plan.", wrongNext:"He still needs a plan. Write it.",
+           right:"Right.", rightNext:"Now write his plan.",
+           /* Round 9 (05-marking.md 26.1): three verdicts. The middle heading is the owner's own phrase (2026-10-12). */
+           partial:"Partially correct.", partialNext:"Not the whole of it. He still needs a plan. Write it.",
+           wrong:"Wrong.", wrongNext:"You have not got the one that matters most. He still needs a plan. Write it.",
+           /* the word for the verdict wherever a later text names it (score row, refusal, ending, journey) */
+           word:{ right:"right", partial:"partially correct", wrong:"wrong" },
+           /* shown on a wrong verdict only; requested only at that moment (06-shotlist.md 5.12) */
+           oops:"care-oops.svg", oopsAlt:"The bay, unimpressed",
            empty:"Name a diagnosis to continue — that's the registrar's call you're being asked to make.", notListed:"Pick a diagnosis from the list.",
            lock:"Lock his diagnoses → write the plan" },
 
@@ -3201,14 +3217,18 @@ const DX_NO = new Map(CASE.conditions.map((c, i)=>[dxKey(c), i + 1]));       /* 
 const dxEntry = text => DX_NO.get(dxKey(text)) || 0;
 const dxIs = (n, cls) => CASE.dxClass[cls].includes(n);
 const dxName = n => CASE.conditions[n - 1];
-/* judgePicks([entry numbers]) -> the three parts. Order does not matter; the same entry twice counts once. */
+/* judgePicks([entry numbers]) -> the three parts and the verdict. Order does not matter; the same entry twice counts once.
+   Round 9 (05-marking.md 26.1): part 2 is the primary. All three = right; the primary and not all three = partial;
+   no primary = wrong, whatever else was picked. The points are CASE.meta.dxPts. */
 function judgePicks(nums){
   const picks = [...new Set(nums.filter(Boolean))], any = cls => picks.some(n=>dxIs(n, cls));
   const p1 = any("V") && !any("B");
   const p2 = (any("P2") || (any("K") && any("R"))) && !any("X");
   const p3 = any("P3");
   const n = (p1?1:0) + (p2?1:0) + (p3?1:0);
-  return { picks, p1, p2, p3, n, pts: n * 8 + (n === 3 ? 6 : 0), right: n === 3, k: picks.some(x=>x >= 21 && x <= 25) };
+  const D = CASE.meta.dxPts, verdict = n === 3 ? "right" : p2 ? "partial" : "wrong";
+  const pts = D.needPrimary && !p2 ? 0 : (p1 ? D.p1 : 0) + (p2 ? D.p2 : 0) + (p3 ? D.p3 : 0) + (n === 3 ? D.all : 0);
+  return { picks, p1, p2, p3, n, pts, verdict, right: verdict === "right", k: picks.some(x=>x >= 21 && x <= 25) };
 }
 
 /* ---------- the gate and the commit ---------- */
@@ -3216,7 +3236,15 @@ function renderCommitScreen(){
   DX_BOX.forEach(n=>{ $("#dxInput" + n).value = ""; $("#dxInput" + n).placeholder = CASE.dxSay.placeholder; $("#dxErr" + n).style.display = "none"; });
   $("#commitErr").style.display = "none";
   $("#dxHead").textContent = CASE.dxSay.head; $("#commitLede").textContent = CASE.dxSay.lede; $("#commitBtn").textContent = CASE.dxSay.lock;
-  $("#dxAsk").hidden = false; $("#dxSaid").hidden = true;
+  $("#dxAsk").hidden = false; $("#dxSaid").hidden = true; $("#dxSaid").removeAttribute("data-verdict"); dxArt(false);
+}
+/* the picture of a wrong verdict. Its file is asked for at that moment and never before: no src in the markup, no preload.
+   Nothing waits for it, and if it does not load it hides itself. */
+function dxArt(show){
+  const a = $("#dxSaidArt");
+  if(!show){ a.hidden = true; a.removeAttribute("src"); a.alt = ""; return; }
+  a.onerror = ()=>{ a.hidden = true; };
+  a.alt = CASE.dxSay.oopsAlt; a.src = CASE.dxSay.oops; a.hidden = false;
 }
 function tryCommitGate(){
   if(!LEDGER.all().some(e=>e.back && !e.deferred && !findIx(e.id).instant)){       /* hard block: no result is back yet ("Sent." and "Accepted. Routine inpatient list." are not results) */
@@ -3258,10 +3286,12 @@ $("#commitBtn").onclick = ()=>{
   S.dxParts = v; S.dxCommitted = true; S.commitAt = S.clock; S.commitSeq = LEDGER.all().length;
   S.pre = { exams:new Set([...S.examEver, ...S.examMore]), zones:new Set(S.zones), fourat:S.fourat.length };
   S.stageMax = 2;
-  /* right or wrong, and nothing else: the truth is held to the outcome */
+  /* one of three verdicts, and nothing else: the truth is held to the outcome */
   $("#dxAsk").hidden = true; $("#dxSaid").hidden = false;
-  $("#dxSaidHead").textContent = v.right ? CASE.dxSay.right : CASE.dxSay.wrong;
-  $("#dxSaidNext").textContent = v.right ? CASE.dxSay.rightNext : CASE.dxSay.wrongNext;
+  $("#dxSaid").setAttribute("data-verdict", v.verdict);
+  $("#dxSaidHead").textContent = CASE.dxSay[v.verdict];
+  $("#dxSaidNext").textContent = CASE.dxSay[v.verdict + "Next"];
+  dxArt(v.verdict === "wrong");
   renderTabs(); updateBar(); renderPlanForm(); renderWait();
 };
 $("#dxOn").onclick = ()=>{ go("work"); tab("rx"); renderChart(); };
@@ -4550,7 +4580,7 @@ function showEnding(){
     `<p><b>Friday, 06:10.</b></p>`+
     `<p>The healthcare assistant went in to turn him and could not wake him. He was not for resuscitation, and nobody tried.</p>`+
     `<p>${asked ? "The morning bloods you asked for, taken at half past five," : "The bloods taken on the early-morning round at half past five"} reached the laboratory at 05:55. The result was authorised at 06:38. <b>Potassium 6.8 mmol/L.</b></p>`+
-    `<p>You called it “${escapeHTML(S.dxText)}”.</p>` + endingParas().map(p=>`<p>${p}</p>`).join("")+
+    `<p>You called it “${escapeHTML(S.dxText)}”${(S.dxParts || {}).verdict === "right" ? ", and you were right." : `. That was ${CASE.dxSay.word[(S.dxParts || { verdict:"wrong" }).verdict]}.`}</p>` + endingParas().map(p=>`<p>${p}</p>`).join("")+
     `<p>A creatinine of 286 against 88 in July. A man who hit out when he was washed and dressed. Nine medicines, read to you over the telephone, three of which stop a bladder emptying. And a line in the trust's own bundle, second letter: <i>Examine bladder, consider bladder scan.</i></p>`+
     `<p>There was a litre of urine in Stanley Garside's bladder when he arrived, and it was still there at ten past six.</p>`;
   go("end");
@@ -4668,7 +4698,7 @@ const dangerDrug = k => saidDrug(k === "sed" ? (["halo","sedother","sedfor"].fin
    It is called three times: when the first panel settles (the first chart, kept in S.chartAtPanel), and at the
    outcome (the final chart). `dead` only decides whether the pharmacist's Friday review carried anything. */
 function chartState(dead){
-  const W = S.written, rx = S.rx, dx = S.dxParts || { picks:[], p1:false, p2:false, p3:false, n:0, pts:0, right:false, k:false };
+  const W = S.written, rx = S.rx, dx = S.dxParts || { picks:[], p1:false, p2:false, p3:false, n:0, pts:0, verdict:"wrong", right:false, k:false };
   const pre = S.pre || { exams:new Set(), zones:new Set(), fourat:0 };
   const seq0 = S.commitSeq === null ? Infinity : S.commitSeq;
   const hand = S.handoverAt === null ? Infinity : S.handoverAt;
@@ -4781,7 +4811,7 @@ function amendScore(A, F){ return CASE.meta.amendRule === "half" && F > A ? A + 
    chart and the ledger at the moment the panel is drawn. A catheter or a test asked for in that plan counts as there.
    The rows are data: a row can be reworded, regrouped or replaced without touching a score. */
 function panelFacts(){
-  const rx = S.rx, on = id => LEDGER.has(id), dx = S.dxParts || { k:false }, given = S.givenAnyway;
+  const rx = S.rx, on = id => LEDGER.has(id), dx = S.dxParts || { k:false, verdict:"wrong" }, given = S.givenAnyway;
   const cath = rx.has("cath") || rx.has("cathio");
   const kT = [...LEDGER.entries("ue"), ...LEDGER.entries("vbg")].map(e=>e.at).concat(LEDGER.entries("uerep").map(e=>e.due)).sort((a,b)=>a-b);
   const uabx = ["abxuti","tmp","nitro","gent"].some(k=>rx.has(k) || given.includes(k));
@@ -4900,7 +4930,7 @@ function computeScore(){
   /* --- the table --- */
   row(`Discriminators gathered (${hits} of 5)`, discPts);
   row(`Rivals examined for (${rivals} of 2)`, rivals);
-  row(`The diagnosis (${dx.n} of 3 parts)`, dx.pts);
+  row(`The diagnosis (${CASE.dxSay.word[dx.verdict]} · ${dx.n} of 3 parts)`, dx.pts);
   L.forEach(b=>row(`ROUND UP · ${b.k} · ${b.name}`, b.got));
   row("Beyond the letters", beyond.got);
   row("Delirium screen", del.got);
@@ -4941,7 +4971,7 @@ function computeScore(){
   const reflex = ["abxuti","abxchest","sepsis6","tmp","nitro","gent"].some(k=>rx.has(k) || given.includes(k)) || given.some(k=>["benzo","halobig","sed"].includes(k));
   const rank = dead ? "Found at ten past six." : total >= 147 ? (topOk ? "Second letter, first thought." : "Safe hands.") : total >= 115 ? "Safe hands." : total >= 80 ? "Half the bundle." : reflex ? "The reflex won." : "Back to the bundle.";
   const refused = !dead && total >= 147 && !topOk;
-  const refusedWhy = !dx.right ? "the diagnosis was not right" : dangerGiven ? `he was given ${dangerDrug(given[0])} after you were asked whether you were sure` : rx.has("sepsis6") ? "the Sepsis Six was started on a NEWS2 of 4" : "he was given an antibiotic for his chest";
+  const refusedWhy = dx.verdict === "partial" ? `the diagnosis was only ${CASE.dxSay.word.partial}` : !dx.right ? "the diagnosis was wrong" : dangerGiven ? `he was given ${dangerDrug(given[0])} after you were asked whether you were sure` : rx.has("sepsis6") ? "the Sepsis Six was started on a NEWS2 of 4" : "he was given an antibiotic for his chest";
 
   /* --- learning objectives (05-marking.md section 8): hit / part / miss --- */
   const mustMiss = Object.keys(C.musts).filter(k=>!C.musts[k]);
@@ -4959,7 +4989,7 @@ function computeScore(){
     v(bundleFirst >= 64 && !mustMissFirst.length, bundleFirst >= 40 || bundleFull >= 40),
     v(!abxEver && backBy("fbc"), !abxOn),
     v(!sedEver, !sedGiven),
-    v(dx.n === 3 && iso, dx.n >= 2)
+    v(dx.right && iso, dx.p2)                 /* Round 9: the objective follows the verdict, not the count of parts */
   ];
   return { rows, raw, total, capAt, rank, refused, refusedWhy, bundle, bundleFull, bundleFirst, mustMissFirst, marks, firstP, nowP, L, del, beyond, dx, hits, rivals, drillRight, dead, drained, lo, mustMiss, named, carried, byPharm, byAll,
            careIds:C.careIds, cathT, o1Pre, o1, o1First, percussed, dullLine, abxEver, abxWritten:abxEver, fbcSeen:backBy("fbc"), abxOn, sedEver, sedGiven, iso, flu, haloOk, ecgFirst, stickFirst, fired:[...fired], given, kTreats, stopped:given.filter(stopped) };
@@ -5029,7 +5059,7 @@ function loText(R){
     ["Get the whole diagnosis.", [
       "All three parts, and you acted on the first: he was in a side room.",
       dx.n === 3 ? (R.flu ? "All three parts, and he spent the night in an open bay." : "All three parts, with no swab back to act on.") : `You had ${parts.filter((_,i)=>pp[i]).join(" and ")} and not ${parts.filter((_,i)=>!pp[i]).join(" or ")}. The reason is in the diagnosis panel above.`,
-      `You called it “${escapeHTML(S.dxText)}”. ${dx.n ? "You had " + parts.filter((_,i)=>pp[i]).join(" and ") + ". " : ""}The rest is above.` ]]
+      `You called it “${escapeHTML(S.dxText)}”. ${dx.n ? "You had " + parts.filter((_,i)=>pp[i]).join(" and ") + ". " : ""}The one that mattered most was the kidney injury from retention, and you did not have it. The rest is above.` ]]
   ];
   return T.map((t,i)=>({ t:t[0], v:R.lo[i], s:t[1][R.lo[i]==="hit"?0:R.lo[i]==="part"?1:2] }));
 }
@@ -5057,14 +5087,17 @@ function dxPanelHTML(R){
   const r = [
     ["A viral infection", dx.p1, "Influenza A, on the swab, from a corridor of coughing residents.",
       bEntry ? `You picked ${dxName(bEntry)}. Neutrophils 5.4, a clear chest, a swab positive for influenza A.` : "None of your picks named the infection. It was influenza A: white count normal, lymphocytes 0.6, four others on his corridor ill."],
-    ["AKI secondary to urinary retention", dx.p2, "286 against 88, with a litre behind it.",
+    ["The main diagnosis: AKI secondary to urinary retention", dx.p2, "286 against 88, with a litre behind it.",
       any("X") ? "You gave his kidneys another disease." : !dx.k ? "None of your picks named the kidney injury: 286 against 88 is stage 3." : "You named a kidney injury and not what caused it. There was a litre in his bladder and both kidneys were dilated."],
     ["The retention due to his drugs", dx.p3, "Solifenacin, amitriptyline and codeine, together.",
       prost ? PROST + " What could be read off the sheet was the medicines." : "None of your picks said why the bladder stopped emptying. Three of his nine medicines do that: solifenacin, amitriptyline and codeine."]
   ];
-  return `<div class="card"><div class="card__label">The diagnosis, box by box and part by part</div>` + boxes +
+  const MAIN = "Left undrained, this is the one that kills him: potassium 6.8 by Friday morning.";
+  const told = { right:"", partial:" You had the diagnosis that mattered most, and not the whole of it.", wrong:" The diagnosis that mattered most was the kidney injury from retention, and you did not have it." }[dx.verdict];
+  return `<div class="card"><div class="card__label">The diagnosis, box by box and part by part</div>` +
+    `<p class="dxtold" data-verdict="${dx.verdict}">At the commit you were told: <b>${CASE.dxSay[dx.verdict]}</b>${told}</p>` + boxes +
     `<div class="card__label" style="margin-top:var(--s4);">The three parts</div>`+
-    r.map(x=>`<div class="lo" data-v="${x[1]?"hit":"miss"}"><span class="ic">${x[1]?"✓":"✗"}</span><div><div class="lt">${x[0]}</div><div class="ls">${x[1]?x[2]:x[3]}</div></div></div>`).join("")+
+    r.map((x, i)=>`<div class="lo" data-v="${x[1]?"hit":"miss"}"><span class="ic">${x[1]?"✓":"✗"}</span><div><div class="lt">${x[0]}</div><div class="ls">${x[1]?x[2]:x[3]}${i === 1 ? " " + MAIN : ""}</div></div></div>`).join("")+
     `<div class="truth"><b>Influenza A; acute kidney injury (stage 3) from urinary retention; the retention caused by his medicines.</b> Delirium was how it showed.</div></div>`;
 }
 function bundlePanelHTML(R){
@@ -5111,7 +5144,7 @@ function journeyHTML(R){
     `${S.examMore.has("bladder") ? `percussed his bladder at ${fmtClock(S.examAt.bladder)}` : "<b>never examined his bladder</b>"}, `+
     `${first("bscan") ? `asked for the scan at ${fmtClock(first("bscan").at)}` : "<b>never asked for a scan</b>"}, `+
     `${S.cathAt !== null ? `had a catheter in at ${fmtClock(S.cathAt)}` : "<b>never drained him</b>"}, `+
-    `sent <b>${LEDGER.size}</b> test${LEDGER.size===1?"":"s"} and record${LEDGER.size===1?"":"s"}, committed at ${fmtClock(S.commitAt)}, wrote ${S.planCount === 2 ? "a plan and an amendment" : "one plan"} `+
+    `sent <b>${LEDGER.size}</b> test${LEDGER.size===1?"":"s"} and record${LEDGER.size===1?"":"s"}, committed at ${fmtClock(S.commitAt)} (${CASE.dxSay.word[(S.dxParts || { verdict:"wrong" }).verdict]}), wrote ${S.planCount === 2 ? "a plan and an amendment" : "one plan"} `+
     `and handed over at ${fmtClock(S.handoverAt)}, ${Math.floor(tOf(S.handoverAt)/60)}h ${String(Math.round(tOf(S.handoverAt))%60).padStart(2,"0")}m after you picked him up. `+
     `You went back a tab <b>${S.revisits}</b> time${S.revisits===1?"":"s"}.`+ reexamSay()+
     (f ? ` Your 4AT at ${fmtClock(f.at)} was <b>${f.total}</b>; scored by the tool it is ${f.settled ? "7" : "12 (11 if item 3 is scored as refused)"}.` : "")+

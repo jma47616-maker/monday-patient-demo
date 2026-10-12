@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <title>The bay is not impressed</title>
+  <!-- One comic panel. The side bay has turned into a judging panel: Stanley, the healthcare assistant and the staff nurse each hold up a score paddle and look at the doctor, and so does a pigeon on the windowsill. The doctor scratches the back of the head and sweats. Digits only, no words. -->
+  <rect width="800" height="300" fill="#f6ead0"/>
+  <rect y="276" width="800" height="24" fill="#eddcb8"/>
+  <rect y="300" width="800" height="120" fill="#dfcda8"/>
+  <path d="M0 300 H800" stroke="#241c15" stroke-width="4"/>
+  <path d="M30 300 L170 300 L250 420 L60 420 Z" fill="#fdf6df" opacity=".55"/>
+  <path d="M0 372 H800" stroke="#cdb88e" stroke-width="2"/>
+
+  <g id="cop-window">
+    <rect x="24" y="40" width="136" height="128" rx="4" fill="#bfe3ea" stroke="#241c15" stroke-width="4"/>
+    <path d="M92 40 V168 M24 100 H160" stroke="#241c15" stroke-width="3"/>
+    <path d="M102 50 L134 50 L108 86 Z" fill="#ffffff" opacity=".45"/>
+    <rect x="14" y="168" width="158" height="11" rx="2" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/>
+  </g>
+
+  <path d="M640 24 H800" stroke="#241c15" stroke-width="4" stroke-linecap="round"/>
+  <g id="cop-curtain">
+    <path d="M700 26 H800 V356 Q752 344 706 356 Q694 190 700 26 Z" fill="#f0c9a0" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M718 32 Q710 190 720 348 M746 32 Q738 190 748 346 M774 32 Q766 190 776 348" fill="none" stroke="#d9703a" stroke-width="3" opacity=".5"/>
+  </g>
+
+  <!-- the pigeon, fourth judge -->
+  <g id="cop-pigeon">
+    <path d="M78 166 v-10 M94 166 v-10" stroke="#241c15" stroke-width="5" stroke-linecap="round"/>
+    <path d="M78 166 v-10 M94 166 v-10" stroke="#d9703a" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M40 150 L64 138 L66 156 Z" fill="#7e8994" stroke="#241c15" stroke-width="3.5" stroke-linejoin="round"/>
+    <ellipse cx="84" cy="144" rx="28" ry="19" fill="#aab4be" stroke="#241c15" stroke-width="4"/>
+        <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 0;3 -2;0 0;3 -2;0 0;0 0" keyTimes="0;.5;.52;.54;.56;.58;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M98 140 Q96 118 110 114 Q124 116 122 132 Q120 144 110 148 Z" fill="#aab4be" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M99 138 Q108 142 119 136 Q117 145 109 147 Z" fill="#7fa58a" stroke="#241c15" stroke-width="2"/>
+      <path d="M121 124 L134 128 L121 132 Z" fill="#d9703a" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="112" cy="125" r="6" fill="#fff" stroke="#241c15" stroke-width="2.2"/>
+      <circle cx="114.500" cy="126" r="2.6" fill="#241c15"/>
+      <path d="M105 121.500 H119" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 74 148;0 74 148;-12 74 148;7 74 148;0 74 148;0 74 148" keyTimes="0;.6;.64;.68;.72;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M74 148 L62 98" stroke="#241c15" stroke-width="7" stroke-linecap="round"/>
+      <path d="M74 148 L62 98" stroke="#c98a58" stroke-width="3" stroke-linecap="round"/>
+      <path d="M62 150 Q66 134 80 136 Q88 146 80 156 Q68 158 62 150 Z" fill="#7e8994" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="60" cy="80" r="20" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+      <ellipse cx="60" cy="80" rx="7" ry="11" fill="none" stroke="#b8552e" stroke-width="5.5"/>
+    </g>
+  </g>
+
+  <!-- healthcare assistant, behind the trolley -->
+  <g id="cop-hca">
+    <g transform="translate(330 31) scale(1.5)">
+      <path d="M24 168 C26 108 42 96 60 96 C78 96 94 108 96 168 Z" fill="#cdd9c4" stroke="#241c15" stroke-width="3"/>
+      <path d="M50 97 L60 110 L70 97" fill="#c99672" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M84 106 Q92 130 91 164" fill="none" stroke="#a9b99f" stroke-width="4" opacity=".7"/>
+      <path d="M52 82 h16 v14 c0 6 -16 6 -16 0 Z" fill="#b98562" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="37" cy="58" rx="4" ry="7" fill="#c99672" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="83" cy="58" rx="4" ry="7" fill="#c99672" stroke="#241c15" stroke-width="3"/>
+      <path d="M38 52 Q38 28 60 28 Q82 28 82 52 L81 70 Q78 86 67 90 L53 90 Q42 86 39 70 Z" fill="#c99672" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M69 32 Q80 38 80 54 L79 70 Q76 84 67 88 Q76 62 69 32 Z" fill="#a87550" opacity=".5"/>
+      <path d="M36 50 Q33 22 60 22 Q87 22 84 50 Q81 37 73 34 Q60 30 47 34 Q39 37 36 50 Z" fill="#33291f" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M39 44 Q40 37 45 35 M81 44 Q80 37 75 35" fill="none" stroke="#9c958a" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M60 60 q-4 9 0 11 q4 0 5 -2" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+      <rect x="49" y="75" width="22" height="9" rx="3.500" fill="#fff" stroke="#241c15" stroke-width="2.4"/>
+      <path d="M54.500 75 v9 M60 75 v9 M65.500 75 v9" stroke="#241c15" stroke-width="1.4"/>
+    </g>
+  </g>
+
+  <!-- trolley back rest, pillow, Stanley -->
+  <g id="cop-trolley-back">
+    <path d="M168 292 L176 112 Q177 100 190 100 L272 100 Q284 101 284 112 L288 292 Z" fill="#fdf8ee" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M186 114 L182 280" stroke="#e6dcc6" stroke-width="3"/>
+    <rect x="194" y="112" width="112" height="78" rx="22" fill="#ffffff" stroke="#241c15" stroke-width="4"/>
+    <path d="M210 178 q40 7 80 0" fill="none" stroke="#e6dcc6" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="cop-stanley" transform="translate(160 63) scale(1.5)">
+    <path d="M28 150 Q30 100 50 96 L72 94 Q92 98 94 150 Z" fill="#cfdccf" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M46 98 Q60 112 78 96" fill="none" stroke="#241c15" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M40 108 l4 4 M54 114 l4 3 M70 108 l4 4 M82 112 l3 4" stroke="#93a996" stroke-width="2" stroke-linecap="round"/>
+    <path d="M51 84 L50 100 Q60 108 70 99 L69 84 Z" fill="#e3bfa2" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 60 92;0 60 92;-5 60 92;5 60 92;-5 60 92;4 60 92;0 60 92;0 60 92" keyTimes="0;.7;.75;.8;.85;.9;.95;1" dur="5s" repeatCount="indefinite"/>
+      <ellipse cx="36" cy="60" rx="5" ry="10" fill="#e3bfa2" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="84" cy="60" rx="5" ry="10" fill="#e3bfa2" stroke="#241c15" stroke-width="3"/>
+      <path d="M38 52 Q38 26 60 26 Q82 26 82 52 Q82 72 74 84 Q67 94 60 94 Q53 94 46 84 Q38 72 38 52 Z" fill="#e9c9ad" stroke="#241c15" stroke-width="3"/>
+      <path d="M68 30 Q80 36 80 54 Q80 72 73 83 Q67 91 63 92 Q74 68 68 30 Z" fill="#cfa285" opacity=".5"/>
+      <path d="M36 50 Q29 36 36 26 Q32 20 38 17 Q42 15 44 19 Q46 11 53 14 Q56 15 57 18 Q62 9 69 14 Q72 16 71 20 Q78 13 83 19 Q85 23 82 27 Q91 36 84 50 Q82 37 74 33 Q62 28 48 32 Q40 37 36 50 Z" fill="#fbfaf5" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M45 21 Q46 26 50 29 M58 19 Q58 24 61 28 M71 21 Q69 26 71 30" fill="none" stroke="#c9c6bc" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M48 37 q12 -3 24 0" fill="none" stroke="#b98f73" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- brows: one up, one level -->
+      <path d="M44 49 q6 -3 12 0 M64 44 q6 -5 12 -1" fill="none" stroke="#fbfaf5" stroke-width="4.500" stroke-linecap="round"/>
+      <path d="M44 49 q6 -3 12 0 M64 44 q6 -5 12 -1" fill="none" stroke="#241c15" stroke-width="1.3" stroke-linecap="round"/>
+      <ellipse cx="50" cy="58" rx="5.200" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+      <ellipse cx="70" cy="58" rx="5.200" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+      <circle cx="53" cy="58.400" r="2.300" fill="#241c15"/>
+      <circle cx="73" cy="58.400" r="2.300" fill="#241c15"/>
+      <path d="M44.500 55.500 H55.500 M64.500 55.500 H75.500" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M43 68 q3 8 7 11 M77 68 q-3 8 -7 11" fill="none" stroke="#b98f73" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M60 58 q-5 12 0 15 q4 1 5 -3" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M45 76 Q49 91 60 93 Q71 91 75 76 Q70 86 60 86 Q50 86 45 76 Z" fill="#a9a59b" opacity=".4"/>
+      <!-- mouth: a small sideways smile -->
+      <path d="M53 81 q8 3 15 -3" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- mattress, blanket, frame -->
+  <g id="cop-trolley">
+    <ellipse cx="335" cy="404" rx="200" ry="8" fill="#241c15" opacity=".13"/>
+    <path d="M196 314 V386 M476 314 V386" fill="none" stroke="#241c15" stroke-width="12" stroke-linecap="round"/>
+    <path d="M196 314 V386 M476 314 V386" fill="none" stroke="#aab4be" stroke-width="6" stroke-linecap="round"/>
+    <path d="M186 362 H486" fill="none" stroke="#241c15" stroke-width="11" stroke-linecap="round"/>
+    <path d="M186 362 H486" fill="none" stroke="#7e8994" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="196" cy="394" r="11" fill="#55504a" stroke="#241c15" stroke-width="4"/><circle cx="196" cy="394" r="3" fill="#aab4be"/>
+    <circle cx="476" cy="394" r="11" fill="#55504a" stroke="#241c15" stroke-width="4"/><circle cx="476" cy="394" r="3" fill="#aab4be"/>
+    <rect x="150" y="288" width="366" height="27" rx="10" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+    <path d="M164 307 H502" stroke="#e6dcc6" stroke-width="3" stroke-linecap="round"/>
+    <path d="M178 296 L184 246 L214 240 L246 246 L280 240 L312 248 L352 262 L400 258 L446 262 L478 250 L500 258 L506 296 Q340 302 178 296 Z" fill="#a9cdd4" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M214 250 L210 282 M250 254 L256 284 M300 256 L330 284 M372 270 L398 286 M440 270 L470 284" fill="none" stroke="#7fabb4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Stanley's paddle arm -->
+  <g id="cop-stanley-arm">
+    <path d="M288 226 Q308 226 326 216" fill="none" stroke="#241c15" stroke-width="24" stroke-linecap="round"/>
+    <path d="M288 226 Q308 226 326 216" fill="none" stroke="#cfdccf" stroke-width="16" stroke-linecap="round"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 326 216;0 326 216;-10 326 216;6 326 216;0 326 216;0 326 216" keyTimes="0;.1;.14;.18;.22;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M326 216 L322 166" fill="none" stroke="#241c15" stroke-width="20" stroke-linecap="round"/>
+      <path d="M326 216 L322 166" fill="none" stroke="#e9c9ad" stroke-width="12" stroke-linecap="round"/>
+      <path d="M322 168 L328 110" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+      <path d="M322 168 L328 110" stroke="#c98a58" stroke-width="4.500" stroke-linecap="round"/>
+      <rect x="309" y="146" width="27" height="24" rx="10" fill="#e9c9ad" stroke="#241c15" stroke-width="4"/>
+      <path d="M314 154 h17 M314 161 h17" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="329" cy="86" r="31" fill="#fdf8ee" stroke="#241c15" stroke-width="5"/>
+      <path d="M321 78 L331 68 V104 M321 104 H341" fill="none" stroke="#b8552e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- healthcare assistant's arms: one hand over his eyes, one paddle -->
+  <g id="cop-hca-arms">
+    <path d="M374 196 Q372 214 388 222" fill="none" stroke="#241c15" stroke-width="24" stroke-linecap="round"/>
+    <path d="M374 196 Q372 214 388 222" fill="none" stroke="#cdd9c4" stroke-width="16" stroke-linecap="round"/>
+    <path d="M388 222 L402 136" fill="none" stroke="#241c15" stroke-width="20" stroke-linecap="round"/>
+    <path d="M388 222 L402 136" fill="none" stroke="#c99672" stroke-width="12" stroke-linecap="round"/>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 0;0 5;0 0;0 0" keyTimes="0;.36;.4;.46;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M392 108 Q392 98 404 98 L444 100 Q456 102 455 113 Q456 124 444 127 L404 130 Q392 130 392 108 Z" fill="#c99672" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M416 107 H451 M416 114 H453 M416 121 H450" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <path d="M466 194 Q486 196 502 188" fill="none" stroke="#241c15" stroke-width="24" stroke-linecap="round"/>
+    <path d="M466 194 Q486 196 502 188" fill="none" stroke="#cdd9c4" stroke-width="16" stroke-linecap="round"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 502 188;0 502 188;-10 502 188;6 502 188;0 502 188;0 502 188" keyTimes="0;.22;.26;.3;.34;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M502 188 L498 134" fill="none" stroke="#241c15" stroke-width="20" stroke-linecap="round"/>
+      <path d="M502 188 L498 134" fill="none" stroke="#c99672" stroke-width="12" stroke-linecap="round"/>
+      <path d="M498 136 L502 84" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+      <path d="M498 136 L502 84" stroke="#c98a58" stroke-width="4.500" stroke-linecap="round"/>
+      <rect x="485" y="114" width="27" height="24" rx="10" fill="#c99672" stroke="#241c15" stroke-width="4"/>
+      <path d="M490 122 h17 M490 129 h17" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="503" cy="60" r="31" fill="#fdf8ee" stroke="#241c15" stroke-width="5"/>
+      <ellipse cx="503" cy="60" rx="11" ry="17" fill="none" stroke="#b8552e" stroke-width="8"/>
+    </g>
+  </g>
+
+  <!-- staff nurse: flat stare, hand on hip, paddle -->
+  <g id="cop-nurse">
+    <path d="M532 420 L536 330 H622 L626 420 Z" fill="#33456b" stroke="#241c15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M534 206 Q508 250 522 292 L544 300" fill="none" stroke="#241c15" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M534 206 Q508 250 522 292 L544 300" fill="none" stroke="#6aa3c8" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(488 41) scale(1.5)">
+      <path d="M26 200 C24 108 42 95 60 95 C78 95 96 108 94 200 Z" fill="#6aa3c8" stroke="#241c15" stroke-width="3"/>
+      <path d="M49 96 L60 111 L71 96" fill="#faf0da" stroke="#241c15" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M46 98 L60 117 L74 98" fill="none" stroke="#fdf8ee" stroke-width="2.4"/>
+      <path d="M40 112 v6" stroke="#241c15" stroke-width="2.4"/>
+      <circle cx="40" cy="123" r="5" fill="#fdf8ee" stroke="#241c15" stroke-width="2.4"/>
+      <path d="M40 123 v-3 M40 123 h2" stroke="#241c15" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M52 82 h16 v14 c0 6 -16 6 -16 0 Z" fill="#f1cfb4" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="37" cy="58" rx="4" ry="7" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+      <ellipse cx="83" cy="58" rx="4" ry="7" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+      <path d="M38 52 Q38 28 60 28 Q82 28 82 52 Q82 70 72 82 Q66 90 60 91 Q54 90 48 82 Q38 70 38 52 Z" fill="#f6dcc4" stroke="#241c15" stroke-width="3"/>
+      <path d="M68 32 Q80 38 80 54 Q80 70 71 81 Q76 60 68 32 Z" fill="#e2bb9e" opacity=".5"/>
+      <path d="M36 54 Q32 24 58 22 Q86 20 84 54 Q82 44 78 40 Q66 46 44 34 Q38 42 36 54 Z" fill="#e6bf6a" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M46 30 Q58 38 76 38 M52 26 Q62 30 74 30" fill="none" stroke="#c0963f" stroke-width="2" stroke-linecap="round"/>
+      <!-- one brow up -->
+      <path d="M44 50 h11 M65 45 q6 -4 11 0" fill="none" stroke="#a37a34" stroke-width="2.8" stroke-linecap="round"/>
+      <ellipse cx="50" cy="57" rx="5.200" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+      <ellipse cx="70" cy="57" rx="5.200" ry="4" fill="#fff" stroke="#241c15" stroke-width="2"/>
+      <circle cx="53" cy="58" r="2.400" fill="#3d6a7a" stroke="#241c15" stroke-width="1"/>
+      <circle cx="73" cy="58" r="2.400" fill="#3d6a7a" stroke="#241c15" stroke-width="1"/>
+      <path d="M44.500 54.500 H55.500 M64.500 54.500 H75.500" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+      <g opacity="0">
+        <animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;.47;.49;.53;1" dur="5s" repeatCount="indefinite"/>
+        <ellipse cx="50" cy="57" rx="5.200" ry="4" fill="#f6dcc4" stroke="#241c15" stroke-width="2"/>
+        <ellipse cx="70" cy="57" rx="5.200" ry="4" fill="#f6dcc4" stroke="#241c15" stroke-width="2"/>
+      </g>
+      <g fill="#c98a62"><circle cx="46" cy="66" r="1"/><circle cx="50" cy="68" r="1"/><circle cx="54" cy="66" r="1"/><circle cx="66" cy="66" r="1"/><circle cx="70" cy="68" r="1"/><circle cx="74" cy="66" r="1"/></g>
+      <path d="M60 58 q-3 8 1 10" fill="none" stroke="#241c15" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M53 78 H67" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+    <rect x="532" y="288" width="26" height="24" rx="10" fill="#f6dcc4" stroke="#241c15" stroke-width="4"/>
+    <path d="M624 204 Q642 204 656 194" fill="none" stroke="#241c15" stroke-width="24" stroke-linecap="round"/>
+    <path d="M624 204 Q642 204 656 194" fill="none" stroke="#6aa3c8" stroke-width="16" stroke-linecap="round"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 656 194;0 656 194;-10 656 194;6 656 194;0 656 194;0 656 194" keyTimes="0;.34;.38;.42;.46;1" dur="5s" repeatCount="indefinite"/>
+      <path d="M656 194 L652 142" fill="none" stroke="#241c15" stroke-width="20" stroke-linecap="round"/>
+      <path d="M656 194 L652 142" fill="none" stroke="#f6dcc4" stroke-width="12" stroke-linecap="round"/>
+      <path d="M652 144 L655 94" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+      <path d="M652 144 L655 94" stroke="#c98a58" stroke-width="4.500" stroke-linecap="round"/>
+      <rect x="639" y="122" width="27" height="24" rx="10" fill="#f6dcc4" stroke="#241c15" stroke-width="4"/>
+      <path d="M644 130 h17 M644 137 h17" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="655" cy="70" r="31" fill="#fdf8ee" stroke="#241c15" stroke-width="5"/>
+      <ellipse cx="655" cy="70" rx="11" ry="17" fill="none" stroke="#b8552e" stroke-width="8"/>
+    </g>
+  </g>
+
+  <!-- the doctor: the shared avatar's look, having a moment -->
+  <g id="cop-doctor">
+    <path d="M700 96 v20 M716 90 v24 M732 88 v24 M748 90 v24 M764 96 v20" stroke="#33456b" stroke-width="4" stroke-linecap="round" opacity=".6">
+      <animate attributeName="opacity" values=".6;.3;.6" dur="2.5s" repeatCount="indefinite"/>
+    </path>
+    <g transform="translate(638 108) scale(.8)">
+      <animateTransform attributeName="transform" type="translate" additive="sum" values="0 0;0 4;0 0" dur="2.5s" repeatCount="indefinite"/>
+      <path d="M28 420 L28 200 C34 156 62 138 100 138 C138 138 166 156 172 200 L172 420 Z" fill="#4e7d84" stroke="#2b241d" stroke-width="4"/>
+      <path d="M84 146 L100 168 L116 146" fill="none" stroke="#2b241d" stroke-width="3.5"/>
+      <path d="M66 158 C70 182 84 192 100 192 C116 192 130 182 134 158" fill="none" stroke="#2b241d" stroke-width="4.5"/>
+      <circle cx="100" cy="192" r="7" fill="#b8552e" stroke="#2b241d" stroke-width="3"/>
+      <rect x="42" y="214" width="26" height="18" rx="3" fill="#faf6f0" stroke="#2b241d" stroke-width="3"/>
+      <path d="M46 220 h18" stroke="#b8552e" stroke-width="3"/>
+      <path d="M46 226 h14" stroke="#7a6f60" stroke-width="2"/>
+      <path d="M40 210 Q22 270 40 330" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M87 116 h26 v26 c0 8 -26 8 -26 0 Z" fill="#eccfae" stroke="#2b241d" stroke-width="3.5"/>
+      <ellipse cx="100" cy="82" rx="43" ry="47" fill="#f2d8b8" stroke="#2b241d" stroke-width="4"/>
+      <ellipse cx="72" cy="102" rx="11" ry="6" fill="#d9703a" opacity=".4"/>
+      <ellipse cx="128" cy="102" rx="11" ry="6" fill="#d9703a" opacity=".4"/>
+      <path d="M58 84 C54 46 74 28 100 28 C126 28 146 46 142 84 C138 66 132 58 126 54 C128 62 126 68 122 72 C118 58 112 50 100 48 C88 50 78 60 76 74 C70 68 68 60 72 52 C64 58 60 68 58 84 Z" fill="#3a3230" stroke="#2b241d" stroke-width="3.5"/>
+      <path d="M68 82 L90 75 M110 75 L132 82" stroke="#2b241d" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="76" cy="90" r="4.500" fill="#2b241d"/>
+      <circle cx="114" cy="90" r="4.500" fill="#2b241d"/>
+      <path d="M84 116 q5.500 -6 11 0 q5.500 6 11 0 q5.500 -6 11 0" fill="none" stroke="#2b241d" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- arm up, hand scratching the back of the head -->
+      <path d="M160 190 Q192 150 178 96" fill="none" stroke="#2b241d" stroke-width="30" stroke-linecap="round"/>
+      <path d="M160 190 Q192 150 178 96" fill="none" stroke="#4e7d84" stroke-width="21" stroke-linecap="round"/>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;-4 -3;0 0;-4 -3;0 0" dur=".9s" repeatCount="indefinite"/>
+        <path d="M178 98 L158 52" fill="none" stroke="#2b241d" stroke-width="25" stroke-linecap="round"/>
+        <path d="M178 98 L158 52" fill="none" stroke="#f2d8b8" stroke-width="16" stroke-linecap="round"/>
+        <path d="M134 44 Q134 30 148 30 L160 32 Q170 36 168 50 Q164 62 150 60 Q134 58 134 44 Z" fill="#f2d8b8" stroke="#2b241d" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M140 40 l12 3 M139 48 l12 3" stroke="#2b241d" stroke-width="2.4" stroke-linecap="round"/>
+      </g>
+      <!-- sweat -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 26" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;1;0" keyTimes="0;.7;1" dur="2.5s" repeatCount="indefinite"/>
+        <path d="M46 52 q-9 14 0 20 q9 -6 0 -20 Z" fill="#bfe3ea" stroke="#2b241d" stroke-width="3" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+</svg>
