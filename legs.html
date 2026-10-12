@@ -1903,7 +1903,7 @@ CASE.planSay = {
   /* one line a test, under the enacted chart, when the plan sends tests (04-ix-mx.md 4.3, round 7; proof N2) */
   sent: n => `Sent from your plan: ${n}. The result is on the list at the end.`, sentAway: n => `Sent away from your plan: ${n}. The result is on the list at the end.`, sentAwayOnly: n => `Sent away from your plan: ${n}.`,
   onhold: label => `${label} — on hold, not started, as you wrote`, booked: n => `Booked: ${n}.`, bookedOff: n => `Booked: ${n} — cancelled by the critical care team.`,
-  done: n => `Done at the bedside: ${n}.`, alreadySent: (n, at) => `${n} — already sent at ${at}.`,
+  done: n => `Done at the bedside: ${n}.`, asked: n => `Asked for from your plan: ${n}.`, alreadySent: (n, at) => `${n} — already sent at ${at}.`,
   notReadLast: (runs) => `Not read: ${runs.map(r=>`“${r}”`).join(" · ")}.`,
   fallback: (cond, label) => `${cond}: ${label} — not written up in advance.`,
   comms: { family:"Family updated", gp:"GP informed" },
@@ -2836,6 +2836,9 @@ function resultHTML(e){
 }
 function onLanded(e){
   const x = findIx(e.id), via = viaSay(e);
+  /* a vital capacity the plan had taken when one is already on the ledger stays on the ledger and is shown nowhere in play:
+     no card, no picture, no line in the Investigate row (04-ix-mx.md 4.6, round 16). His first reading is shown as any other. */
+  if(e.id === "fvc" && e.route === "plan" && LEDGER.entries("fvc")[0] !== e) return;
   if(isBed(e.id) || x.typedNow){
     (V.bed[e.id] = V.bed[e.id] || []).push({ at:e.backAt, html:e.result, route:e.route });
     if(e.id === "obs" && e.obs){ V.obsShown = e.obs; S.obsAt = e.backAt; renderObs(); }
@@ -5081,10 +5084,13 @@ function enactPlan(P){
   chartChanged();
   /* tests: through the one ledger, at no ward time; one already there is not sent again. A bedside one is done there and
      then; anything else is on the outcome's later list with the time it came back (04-ix-mx.md 4.3). */
-  const sentNotes = [], low = lowName;
+  const sentNotes = [], low = lowName; let ledgerGrew = false;
   const order = id => { const prev = LEDGER.last(id), x = findIx(id);
     if(prev && (!x.repeatable || !prev.back)){ sentNotes.push(L.alreadySent(x.name, fmtClock(prev.at))); return; }
     const r = sendIx(id, "plan"); if(!r.ok) return;
+    ledgerGrew = true;
+    /* a later vital capacity is not shown (4.6): "FVC now" gets the one line that it was asked for, a standing order none (its chart line is the order) */
+    if(id === "fvc" && LEDGER.entries("fvc")[0] !== r.entry){ if(P.fvc && P.fvc.now) sentNotes.push(L.asked(low(x.name))); return; }
     sentNotes.push(isMri(id) ? (S.rx.has("icu") ? L.bookedOff(x.name) : L.booked(x.name)) : r.entry.deferred ? (x.later ? L.sentAway : L.sentAwayOnly)(low(x.name)) : r.entry.later !== undefined ? L.sent(low(x.name)) : L.done(low(x.name))); };
   if(P.fvc && P.fvc.now) order("fvc");
   P.ix.filter(id=>id !== "fvc").forEach(order);
@@ -5121,7 +5127,7 @@ function enactPlan(P){
   const out = rows.map(r=>r.html).join("");
   const notes = [...new Set(P.notes.filter(Boolean))], sentLines = [...new Set(sentNotes)];
   V.noted = P.noted.slice(); V.notRead = P.notRead.slice();
-  $("#planOut").innerHTML = `<div class="chart"><div class="ct">Enacted · ${fmtClock(at)}</div>` + (out ? `<ul>${out}</ul>` : sentLines.length || P.noted.length ? "" : `<div style="font-size:.9rem;color:var(--muted);">Nothing new went on the chart.</div>`)+
+  $("#planOut").innerHTML = `<div class="chart"><div class="ct">Enacted · ${fmtClock(at)}</div>` + (out ? `<ul>${out}</ul>` : sentLines.length || P.noted.length || ledgerGrew ? "" : `<div style="font-size:.9rem;color:var(--muted);">Nothing new went on the chart.</div>`)+
     (sentLines.length ? `<ul class="notes sentlines">${sentLines.map(n=>`<li>${escHTML(n)}</li>`).join("")}</ul>` : "")+
     (P.noted.length ? `<ul class="notes noted">${P.noted.map(n=>`<li>${escHTML(n)}</li>`).join("")}</ul>` : "")+
     (notes.length ? `<ul class="notes">${notes.map(n=>`<li>${n}</li>`).join("")}</ul>` : "") + `</div>`+
