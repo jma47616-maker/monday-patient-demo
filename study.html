@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.11';
+const APP_VERSION='1.5.12';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -1202,13 +1202,15 @@ async function renderAdmin(){
   v.innerHTML=`<div class="kicker">Admin</div>
     <h2 class="view-h">The back office.</h2>
     <p class="lede">Yours only. Enforced by the database, not by hiding this tab — someone opening this view without the rights simply sees nothing.</p>
+    <div class="card"><div class="card__label">Feedback survey</div><div id="fbk"><div class="empty">Loading…</div></div></div>
     <div class="card"><div class="card__label">Case submissions</div><div id="subs"><div class="empty">Loading…</div></div></div>
     <div class="card"><div class="card__label">The cohort</div><div id="roster"><div class="empty">Loading…</div></div></div>
     <div class="card"><div class="card__label">Play log · replays before a saved score</div><div id="plsum"><div class="empty">Loading…</div></div></div>
     <div class="card"><div class="card__label">Play log · recent sessions</div><div id="plses"><div class="empty">Loading…</div></div></div>`;
   mount(v);
-  if(!SB||!USER||!IS_ADMIN){ ['#subs','#roster','#plsum','#plses'].forEach(s=>{$(s).innerHTML='<div class="empty">Not available.</div>';}); return; }
+  if(!SB||!USER||!IS_ADMIN){ ['#fbk','#subs','#roster','#plsum','#plses'].forEach(s=>{$(s).innerHTML='<div class="empty">Not available.</div>';}); return; }
   renderPlayLog();
+  renderFeedbackAdmin();
 
   const {data:subs,error:se}=await SB.from('submissions').select('id,created_at,body,payload').order('created_at',{ascending:false});
   const sb=$('#subs');
@@ -1235,6 +1237,49 @@ async function renderAdmin(){
         +`<td>${r.last_active?new Date(r.last_active).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'—'}</td></tr>`).join('')
       +`</tbody></table></div>`;
   }
+}
+
+/* Feedback survey (feedback.html -> public.feedback). admin_feedback() re-checks
+   is_admin() in its own body. A pseudonym appears only where the reader ticked
+   the link to their play record; every other row is anonymous and stays so.
+   Counts and medians only - the cohort is too small for anything else. */
+let FBK_ROWS=[];
+async function renderFeedbackAdmin(){
+  const {data,error}=await SB.rpc('admin_feedback',{p_round:null});
+  const box=$('#fbk'); if(!box) return;
+  if(error){ box.innerHTML='<div class="empty">Could not load ('+escapeHtml(error.message)+').</div>'; return; }
+  FBK_ROWS=data||[];
+  if(!FBK_ROWS.length){ box.innerHTML='<div class="empty">No responses yet.</div>'; return; }
+  const P=FBK_ROWS.map(r=>r.payload||{});
+  const nums=k=>P.map(p=>p[k]).filter(v=>typeof v==='number').sort((a,b)=>a-b);
+  const med=a=>a.length?(a.length%2?a[(a.length-1)/2]:(a[a.length/2-1]+a[a.length/2])/2):null;
+  const stat=(k,label,suffix='')=>{const a=nums(k); return a.length?`<b>${med(a)}${suffix}</b> ${label} (n=${a.length})`:''; };
+  const linked=FBK_ROWS.filter(r=>r.linked).length;
+  const line=[`<b>${FBK_ROWS.length}</b> ${FBK_ROWS.length===1?'response':'responses'}`,`<b>${linked}</b> linked to a play record`,
+    stat('sus_score','median usability score, out of 100'),stat('useful','median usefulness, out of 5'),stat('recommend','median recommend, out of 10')].filter(Boolean).join(' · ');
+  const show=v=>Array.isArray(v)?v.join(', '):(v===true?'yes':v===false?'no':String(v));
+  box.innerHTML=`<p style="font-size:.85rem;color:var(--muted);margin-bottom:var(--s3)">${line}</p>`
+    +`<p style="margin-bottom:var(--s3)"><button class="btn btn--sm btn--ghost" id="fbkCsv">Download as a spreadsheet (.csv)</button></p>`
+    +FBK_ROWS.map(r=>{
+      const p=r.payload||{};
+      const head=[p.grade,Array.isArray(p.weeks)?p.weeks.length+' weeks':'' ,typeof p.sus_score==='number'?'SUS '+p.sus_score:''].filter(Boolean).join(' · ');
+      const body=Object.keys(p).filter(k=>!/^sus\d+$/.test(k)).map(k=>`${k}: ${show(p[k])}`).join('\n');
+      return `<details class="subrow"><summary><b>${escapeHtml(r.pseudonym||'Anonymous')}</b> <span>${new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</span>`
+        +`${head?`<em>${escapeHtml(head)}</em>`:''}</summary><pre>${escapeHtml(body)}</pre></details>`;
+    }).join('');
+  $('#fbkCsv').onclick=feedbackCsv;
+}
+/* One row per response, one column per question. Built in the browser from
+   rows already fetched, so nothing new leaves the database. */
+function feedbackCsv(){
+  const keys=[...new Set(FBK_ROWS.flatMap(r=>Object.keys(r.payload||{})))].sort();
+  const cell=v=>{ if(v==null) return ''; const s=Array.isArray(v)?v.join('; '):String(v); return /[",\n\r]/.test(s)||/^[=+\-@]/.test(s)?'"'+(/^[=+\-@]/.test(s)?"'":'')+s.replace(/"/g,'""')+'"':s; };
+  const rows=[['created_at','round','linked','pseudonym',...keys].join(',')]
+    .concat(FBK_ROWS.map(r=>[r.created_at,r.round,r.linked?'yes':'no',r.pseudonym||'',...keys.map(k=>(r.payload||{})[k])].map(cell).join(',')));
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv'}));
+  a.download='monday-patient-feedback.csv'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 }
 
 /* The play log is written by playlog.js from inside each case, as the case is
