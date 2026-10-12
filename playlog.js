@@ -198,7 +198,56 @@
     if (score == null) return;
     outcomeLogged = true;
     var d = diffState(false);
-    push('outcome', { score: score, max: max, rank: rank, rows: rows.slice(0,60), diff: d || undefined, state: snapshot() }, 'out');
+    var data = { score: score, max: max, rank: rank, rows: rows.slice(0,60), diff: d || undefined, state: snapshot() };
+    /* push() replaces an oversized payload wholesale, which cost the larger
+       cases their score. Shed the bulk here instead - state, then the diff,
+       then rows from the end - so score, max and rank always arrive. */
+    var big = function(){ try { return JSON.stringify(data).length > DATA_LIMIT; } catch(_) { return true; } };
+    if (big()) { data.truncated = true; delete data.state; }
+    if (big()) delete data.diff;
+    while (data.rows.length && big()) data.rows.pop();
+    push('outcome', data, 'out');
+  }
+
+  /* ---------- autosave ---------- */
+  /* The attempts row used to be written only by the hub, after the player
+     pressed "Save result & return to the hub" - a finished run closed on the
+     outcome screen saved nothing. Write it here as soon as the score is final.
+     The row's id is left in localStorage first, so the hub can insert the same
+     id on return and read a duplicate-key error as "already saved". */
+  var autosaved = false;
+  function autosave(score, max){
+    if (autosaved) return;
+    if (typeof score !== 'number' || !isFinite(score)) return;
+    if (!WEEK || !Q.get('return')) return;                 /* not launched from the hub */
+    var stored = null, uid = null;
+    try { stored = JSON.parse(localStorage.getItem(TOKEN_KEY)); uid = stored.user.id; } catch(_) {}
+    if (!uid && !DEBUG) return;
+    autosaved = true;
+    var row = { id: uuid4(), student_id: uid, week_id: WEEK, case_id: CASE_ID, score: score, max_score: max };
+    try {
+      localStorage.setItem('mp-autosave', JSON.stringify({ id: row.id, uid: uid, week: WEEK, 'case': CASE_ID,
+                                                           score: score, max: max, t: Date.now() }));
+    } catch(_) {}
+    if (DEBUG) { window.MP_PLAYLOG.autosave = row; return; }
+    /* the refreshed session if supabase-js has loaded, else the stored one */
+    var sess = client ? client.auth.getSession().then(function(r){ return r && r.data && r.data.session; })
+                      : Promise.resolve(stored);
+    sess.then(function(s){
+      if (!s || !s.user || s.user.id !== uid || !s.access_token) return;
+      if ((s.expires_at || 0) * 1000 - 5000 < Date.now()) return;
+      var h = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + s.access_token,
+                'Content-Type': 'application/json', 'Prefer': 'return=minimal' };
+      /* An observer account saves no scores, and only the hub's own check
+         stops it - the database would accept the row. Ask the same question
+         the hub asks, and write only on an explicit "no". */
+      return fetch(SB_URL + '/rest/v1/rpc/is_observer', { method: 'POST', headers: h, body: '{}' })
+        .then(function(res){ return res.ok ? res.json() : null; })
+        .then(function(obs){
+          if (obs !== false) return;
+          return fetch(SB_URL + '/rest/v1/attempts', { method: 'POST', keepalive: true, headers: h, body: JSON.stringify(row) });
+        });
+    }).catch(function(){});
   }
 
   /* The one engine function every case shares for "the score is final".
@@ -209,6 +258,9 @@
     if (typeof orig === 'function') {
       window.mpReturnBtn = function(score, max){
         try { outcome(score, max); } catch(_) {}
+        /* only from here, never from the score scraped off the table: this
+           is the very number the return button would hand the hub */
+        try { autosave(score, max); } catch(_) {}
         return orig.apply(this, arguments);
       };
     }

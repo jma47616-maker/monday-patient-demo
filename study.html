@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.12';
+const APP_VERSION='1.5.13';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -916,7 +916,7 @@ async function boot(){
   const authErr=readAuthHashError();
   if(SB){
     const {data:{session}}=await SB.auth.getSession();
-    if(session){ await onSignedIn(session.user); await handleReturn(params); return; }
+    if(session){ await onSignedIn(session.user); await handleReturn(params); await claimAutosave(); return; }
   }
   if(authErr){ showLogin(); const m=$('#codemsg')&&getPending()?$('#codemsg'):$('#loginmsg'); m.dataset.t='err'; m.textContent=authErr; return; }
   // saveLocal() here seeds the guest-work mirror for anyone who was already
@@ -1056,6 +1056,7 @@ function signOut(){
   const wasGuest=GUEST;
   if(SB&&USER)SB.auth.signOut();
   localStorage.removeItem(LS+'-guest');
+  try{ localStorage.removeItem('mp-autosave'); }catch(_){}   // a case's auto-save marker must not outlive the session that wrote it
   /* Signing out of an ACCOUNT wipes this device's copy. It is only a mirror of
      server-side data, so the owner loses nothing - pullData() refetches it all
      on their next sign-in. Leaving it behind was showing the NEXT person on a
@@ -1075,10 +1076,38 @@ async function handleReturn(params){
   // never reaches the progress table) - it is what lets a later guest claim
   // write a complete attempts row.
   await upsertProgress(week,{caseDone:true,score,max});
-  if(SB&&USER&&!IS_OBSERVER){ await SB.from('attempts').insert({student_id:USER.id,week_id:week,case_id:caseId,score,max_score:max}); }
+  /* The case page may already have saved this attempt itself (playlog.js, the
+     moment the outcome appeared) and left a marker carrying the row's id. Insert
+     with that SAME id: if its row landed, this one is refused as a duplicate key
+     (23505) and nothing is counted twice; if its POST failed, this one is the save.
+     The result was never inspected here, so a 23505 already reads as success. */
+  const m=autosaveMarker();
+  const row={student_id:USER?.id,week_id:week,case_id:caseId,score,max_score:max};
+  if(m&&USER&&m.uid===USER.id&&m.week===week&&m.case===caseId&&+m.score===score) row.id=m.id;
+  if(SB&&USER&&!IS_OBSERVER){ await SB.from('attempts').insert(row); }
+  try{ localStorage.removeItem('mp-autosave'); }catch(_){}
   history.replaceState({},'',location.pathname);
   toast(`Saved — ${score}/${max} on this week's case.`);
   go('home');
+}
+function autosaveMarker(){ try{ return JSON.parse(localStorage.getItem('mp-autosave')||'null'); }catch(_){ return null; } }
+/* A marker still here at start-up was not consumed by a return: the player
+   closed the case tab instead of pressing the button. Show the case as done and
+   make sure the attempt row exists (same id, so a duplicate is refused). Someone
+   else's marker, or one more than a week old, is dropped unread. */
+async function claimAutosave(){
+  if(!SB||!USER) return;
+  const m=autosaveMarker();
+  // the case writes the marker for an observer too, with no row behind it: drop it, save nothing
+  if(IS_OBSERVER||!m||m.uid!==USER.id||!(Date.now()-new Date(m.t).getTime()<7*864e5)){ try{ localStorage.removeItem('mp-autosave'); }catch(_){} return; }
+  if(m.seen) return;
+  /* Kept, not removed: the case tab may still be open on its outcome screen, and
+     a later press of its return button must find the id or the attempt counts twice. */
+  try{ localStorage.setItem('mp-autosave',JSON.stringify({...m,seen:true})); }catch(_){}
+  // never lower a better score already on record for this case
+  await upsertProgress(m.week,{caseDone:true,score:Math.max(m.score,PROG[m.week]?.score??m.score),max:m.max});
+  await SB.from('attempts').insert({id:m.id,student_id:USER.id,week_id:m.week,case_id:m.case,score:m.score,max_score:m.max});
+  toast(`Saved — ${m.score}/${m.max} on the case you finished.`);
 }
 
 /* ============ app shell ============ */
@@ -1596,10 +1625,24 @@ function renderHome(){
      is time-limited and the hero immediately below already says the case is
      live - so nothing is actually lost by standing the case banner down. */
   const bannerHtml = feedbackBannerHTML() || caseBanner;
+  /* The one obvious next step: the lowest-numbered case this person can play and
+     has not done. The hero below is always the LATEST week, which for a new
+     account is case 8 and for a guest is a sign-up wall - neither is where to
+     start. Stood down when it would only repeat the hero. 'live' already means
+     released, inside the guest allowance and not done; the label stays "Case N". */
+  const nxt=PROGRAM.find(w=>w.caseId&&w.url&&weekState(w,PROG)==='live');
+  const nn=nxt?caseNo(nxt):0;
+  const nextCard=(nxt&&nxt.id!==cur.id)?`<div class="card" style="border-color:var(--accent)">
+      <div class="card__label">${t.cases?'Your next case':'Start here'}</div>
+      <div style="display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap">
+        <div style="flex:1;min-width:11rem;font-size:.9rem">${t.cases?`<b style="font-weight:600">Case ${nn}</b> · a new patient, about 15 minutes`:`<b style="font-weight:600">Start with case ${nn}</b> · about 15 minutes`}</div>
+        <button class="btn" data-launch="${nxt.id}">Start case ${nn} ↗</button>
+      </div></div>`:'';
   const v=el('div','view on');
   v.innerHTML=`${claimCardHTML()}${bannerHtml}
     <div class="greet"><h2 class="view-h">Good to see you, ${escapeHtml(PROFILE?.pseudonym||'Trainee')}.</h2><span class="thiswk">${thisWeekLabel()}</span></div>
     <p class="lede">Acute-medicine cases, one patient at a time. Here's where you are.</p>
+    ${nextCard}
     ${monthProgressHTML()}
     ${questMapHTML()}
     <div class="stats">
@@ -1613,7 +1656,7 @@ function renderHome(){
       <p>${rev?cur.sub+'. ':'A new patient this week — you go in blind. '}${!cur.caseId?'Interactive case in production.':curLocked?'New cases are for signed-in trainees — an account also holds your CPD record, certificate and leaderboard place.':'Work them up, commit a diagnosis, and manage it.'}</p>
       ${!cur.caseId?`<button class="btn btn--ghost" data-week="${cur.id}">See the case</button>`
         :curLocked?`<button class="btn" data-signup>Create a free account ↗</button>`
-        :`<button class="btn" data-launch="${cur.id}">Start case ↗</button>`}
+        :`<button class="btn${nextCard?' btn--ghost':''}" data-launch="${cur.id}">Start case ↗</button>`}
     </div>
     <div class="homestack">
     <div class="card">
