@@ -3341,7 +3341,7 @@ function mpReturnBtn(score, max){
   br.insertBefore(b, br.firstChild);
 }
 
-const DEBRIEF = { live:false, url:"", blurb:"A fit on day three: the A–E that finds it, why it wasn't withdrawal, 3% saline in the first hour, the ceiling of eight, and the bag nobody read." };
+const DEBRIEF = { live:true, url:"fit-debrief.html", blurb:"Low sodium from the start: why the brain minds, the route to the cause, 3% saline in the first hour, the correction limits, and the bag nobody read." };
 function renderDebrief(){
   const c = $("#debriefCard"); if(!c) return;
   c.innerHTML = DEBRIEF.live && DEBRIEF.url

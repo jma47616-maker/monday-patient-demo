@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hyponatraemia: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* debrief additions (shared with the week 4 page) */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* hyponatraemia debrief additions */
+.tiles.tiles--one { grid-template-columns:1fr; }
+.tile > button .stepn { flex:none; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.tile > button .q { font-weight:600; }
+.tile > button .q strong { font-weight:800; }
+.tile .back .him { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.02em; color:var(--accent-2); margin-right:.45rem; }
+.tile.open .back { background:var(--accent-bg); font-weight:600; }
+.crit .tile.open > button { background:var(--good-bg); }
+.crit .tile.open > button .q::before { content:"\2713\00a0"; color:var(--good); font-weight:800; }
+.txt > .pts + .pts, .txt > .go-all + .pts { margin-top:.2rem; }
+.txt > .fig--small { margin-bottom:.9rem; }
+.say + .local, .pts + .local, .pts + .reason, .pts + .say { margin-top:1rem; }
+.qa > .show-ans[hidden] { display:none; }
+.fig--map { margin:1.1rem auto 0; max-width:30rem; }
+.fig--map a { display:block; border-radius:12px; }
+.fig--map figcaption { text-align:center; font-weight:600; }
+html:not(.js) .go-all { display:none; }
+.toc a b { min-width:1.8rem; }
+@media (min-width:62rem) {
+  .toc, .toc[hidden] { max-height:calc(100vh - var(--top) - 7.5rem); overflow-y:auto; }
+  .toc a { min-height:2.1rem; padding:.15rem .6rem; font-size:.95rem; }
+  .toc a b { min-width:1.6rem; }
+  .split > .fig.stick-d { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Hyponatraemia: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 21</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2</b>What it is</a></li>
+    <li><a href="#c3"><b>3</b>Three questions</a></li>
+    <li><a href="#c4"><b>4</b>Why the brain minds</a></li>
+    <li><a href="#c5"><b>5</b>What it gets mistaken for</a></li>
+    <li><a href="#c6"><b>6</b>The hormone</a></li>
+    <li><a href="#c7"><b>7</b>The route</a></li>
+    <li><a href="#c8"><b>8</b>Six boxes</a></li>
+    <li><a href="#c9"><b>9</b>Before you write SIADH</a></li>
+    <li><a href="#c10"><b>10</b>What is switching it on?</a></li>
+    <li><a href="#c11"><b>11</b>Who gets hypertonic saline</a></li>
+    <li><a href="#c12"><b>12</b>The bolus</a></li>
+    <li><a href="#c13"><b>13</b>The limits</a></li>
+    <li><a href="#c14"><b>14</b>Osmotic demyelination</a></li>
+    <li><a href="#c15"><b>15</b>Overnight</a></li>
+    <li><a href="#c16"><b>16</b>If it overshoots</a></li>
+    <li><a href="#c17"><b>17</b>Then treat the cause</a></li>
+    <li><a href="#c18"><b>18</b>The ward’s part</a></li>
+    <li><a href="#c19"><b>19</b>The whole approach</a></li>
+    <li><a href="#c20"><b>20</b>Take home</a></li>
+    <li><a href="#c21"><b>21</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Hyponatraemia: the debrief for week 6, He fitted on the ward</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 21</span></div>
+  <p class="kick">Sunday 15:40 · bed 14</p>
+  <h2>He fitted on day three of a pneumonia. The answer was on a blood gas.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-pager.svg" width="360" height="240" alt="A pager reading 2417 URGENT, AMU BED 14."></figure>
+    <div class="txt">
+      <div class="people"><img src="fit-debrief-dennis.svg" width="120" height="120" alt="Dennis"></div>
+      <ul class="pts">
+        <li>Dennis Rowley, 71, a heavy drinker, on day three in hospital with a right-sided pneumonia.</li>
+        <li>A two-minute seizure. Then snoring and hard to rouse: Glasgow Coma Scale (GCS) 8.</li>
+        <li>His nurse had put that afternoon’s muddle down to alcohol withdrawal.</li>
+        <li>The blood gas: <strong>sodium 112 mmol/L</strong>.</li>
+        <li>This debrief is about low sodium: why the brain minds, how to find the cause, and how to raise it safely.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">2 / 21</span></div>
+  <p class="kick">112 mmol/L</p>
+  <h2>Hyponatraemia is a water problem: too much water for the sodium in the body.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d01-same-salt.svg" width="720" height="650" alt="Two beakers holding the same salt. One is labelled Normal. The other holds much more water and is labelled Hyponatraemia. Same salt. More water."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>A serum sodium below 135 mmol/L.</li>
+        <li>It is the commonest electrolyte disorder, found in 15 to 20% of emergency admissions to hospital.</li>
+        <li>It goes with more deaths and longer stays. Whether the sodium or the illness behind it is to blame is not known.</li>
+      </ul>
+      <div class="say"><b>To a relative</b>“The salt in his blood has become too dilute. His brain took on water, and that caused the fit.”</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">3 / 21</span></div>
+  <p class="kick">112 · since Thursday · a seizure</p>
+  <h2>Three questions sort every low sodium: how low, how long, how symptomatic.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d02-three-rulers.svg" width="720" height="770" alt="Three rulers. The number: mild, moderate, profound, with marks at 135, 130 and 125 and a pin at 112. The time: acute, chronic, with a mark at 48 hours and a pin at Since Thursday. The symptoms: mild or none, moderately severe, severe, with a pin at A seizure."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>How low?</strong> Mild 130 to 135, moderate 125 to 129, profound below 125.</li>
+        <li><strong>How long?</strong> Acute: under 48 hours. Chronic: 48 hours or more, or unknown.</li>
+        <li><strong>How symptomatic?</strong> Moderately severe: nausea without vomiting, confusion, headache. Severe: persistent vomiting, seizures, coma (GCS 8 or less), cardiorespiratory arrest.</li>
+        <li>Profound is a number. Severe is a symptom. They can disagree, and <strong>treatment follows the symptoms.</strong></li>
+        <li>Dennis: profound, chronic, severe.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="What is going wrong">
+  <div class="meta"><span class="chip">What is going wrong</span><span class="num">4 / 21</span></div>
+  <p class="kick">Sunday lunchtime · headache, nausea, muddled</p>
+  <h2>The brain swells when the sodium falls. Given two days it adapts, and that sets a trap.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d03-brain-cell.svg" width="720" height="1004" alt="One brain cell inside a skull, in three states. Normal. Sodium falls: water moves in, pressure rises. About 48 hours: solutes shed, size regained. Now a fast rise is the danger."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Water moves from dilute blood into brain cells. The brain swells and the pressure in the skull rises: headache, vomiting, drowsiness, seizures, coma.</li>
+        <li>Dennis had the headache, the nausea and the muddle from lunchtime, hours before the fit.</li>
+        <li>Over about 48 hours brain cells shed solutes and regain their size. That is why 48 hours divides acute from chronic.</li>
+        <li>The adapted brain is the one a fast rise harms: osmotic demyelination (card 14).</li>
+        <li>His sodium was already 129 on Thursday. His brain had adapted.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="c5" data-sec="How it turns up">
+  <div class="meta"><span class="chip">How it turns up</span><span class="num">5 / 21</span></div>
+  <p class="kick">CIWA 6, 5, 4</p>
+  <h2>On a ward, a low sodium hides behind the label the patient already wears.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d04-labels.svg" width="720" height="660" alt="A man in a hospital bed with two luggage labels tied to the bed rail: Withdrawal, and ?dehydrated. In front, a blood gas syringe with a slip reading Na 112."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>The symptoms are non-specific.</li>
+        <li><strong>“It’s the withdrawal.”</strong> About 80 hours since his last drink. His withdrawal score (CIWA) had fallen all day: 6, 5, 4. No tremor.</li>
+        <li><strong>“He’s dehydrated.”</strong> In his notes since admission. Yet his mouth was moist, he had no postural drop, and he was 1.1 kg heavier than on Thursday.</li>
+        <li>A blood gas machine reads the sodium directly, in minutes.</li>
+      </ul>
+      <div class="reason"><b>Our reasoning</b>An unexplained seizure on a ward deserves a gas and a glucose before anyone decides why.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="What is going wrong">
+  <div class="meta"><span class="chip">What is going wrong</span><span class="num">6 / 21</span></div>
+  <p class="kick">Urine osmolality 486</p>
+  <h2>One hormone decides how much water the kidney keeps.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d05-vasopressin.svg" width="720" height="1092" alt="Pituitary: vasopressin (ADH). Collecting duct: water taken back. Water kept. Urine concentrates. Three triggers: blood too concentrated; volume down; illness: nausea, pain, stress."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Vasopressin, or antidiuretic hormone (ADH), comes from the pituitary. In the kidney’s collecting duct it makes the kidney take water back, and the urine concentrates.</li>
+        <li>Two things release it: blood that is too concentrated, and a fall in circulating volume. The body defends volume first.</li>
+        <li>Illness releases it too: nausea, pain, stress, drugs.</li>
+        <li>The urine osmolality reads it out. At 100 mOsm/kg or below, vasopressin is off. Dennis’s was 486: on.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">7 / 21</span></div>
+  <p class="kick">Serum osmolality 238 · urine sodium 58</p>
+  <h2>Three laboratory results sort the causes before you lay a hand on the patient.</h2>
+  <div class="split">
+    <figure class="fig stick-d"><img src="fit-debrief-d06-route.svg" width="720" height="982" alt="The route in five steps. Serum osmolality: below 275, or normal or high. Urine osmolality: 100 or below, or above 100. Urine sodium: 30 or below, or above 30. Diuretic or kidney disease? The bedside: dry, normal or overloaded. Dennis’s path is marked in orange: below 275, above 100, above 30, normal."></figure>
+    <div class="txt">
+      <p class="cap">Tap each step.</p>
+      <div class="tiles tiles--one" data-group="route">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="r1"><span class="stepn" aria-hidden="true">1</span><span class="q"><strong>Serum osmolality.</strong> Below 275 mOsm/kg: the low sodium is real. Normal or high: an artefact, or another solute such as glucose.</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="r1"><b class="him">Dennis</b> 238. Real. Glucose 6.2.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="r2"><span class="stepn" aria-hidden="true">2</span><span class="q"><strong>Urine osmolality.</strong> 100 or below: too much water for the solute. Above 100: vasopressin is on.</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="r2"><b class="him">Dennis</b> 486. On.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="r3"><span class="stepn" aria-hidden="true">3</span><span class="q"><strong>Urine sodium.</strong> 30 mmol/L or below: the kidney is holding on to salt, so the circulation is underfilled. Above 30: it is not underfilled.</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="r3"><b class="him">Dennis</b> 58.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="r4"><span class="stepn" aria-hidden="true">4</span><span class="q"><strong>A diuretic, or kidney disease?</strong> Then the urine sodium cannot be trusted.</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="r4"><b class="him">Dennis</b> Neither.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="r5"><span class="stepn" aria-hidden="true">5</span><span class="q"><strong>Only now, the bedside:</strong> dry, normal or overloaded?</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="r5"><b class="him">Dennis</b> Normal.</div></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="route">Show all</button>
+      <ul class="pts">
+        <li>The bedside comes last because it is unreliable: its sensitivity and specificity are low.</li>
+        <li>Local flowcharts differ. NHS Greater Glasgow and Clyde’s sorts by volume at the bedside before the urine sodium, and cuts the urine sodium at 20. Use your trust’s.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">8 / 21</span></div>
+  <p class="kick">The decision: which box is he in?</p>
+  <h2>Every cause of true hyponatraemia sits in one of six boxes.</h2>
+  <div class="split">
+    <figure class="fig stick-d"><img src="fit-debrief-d07-six-boxes.svg" width="720" height="986" alt="Six boxes: urine osmolality 100 or below; urine sodium 30 or below and dry; urine sodium 30 or below and overloaded; urine sodium above 30 and dry; urine sodium above 30 with normal volume; a diuretic, or kidney disease."></figure>
+    <div class="txt">
+      <p class="cap">Tap a box.</p>
+      <div class="tiles tiles--one" data-group="boxes">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b1"><span class="q">Urine osmolality 100 or below</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b1"><strong>Too much water for the solute:</strong> primary polydipsia, “tea and toast”, beer potomania, inappropriate intravenous (IV) fluid.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b2"><span class="q">Urine sodium 30 or below · dry</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b2">Diarrhoea, vomiting, burns, sweating, third-space loss.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b3"><span class="q">Urine sodium 30 or below · overloaded</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b3">Heart failure, cirrhosis, nephrotic syndrome.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b4"><span class="q">Urine sodium above 30 · dry</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b4">Vomiting, primary adrenal insufficiency, salt wasting, diuretics.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b5"><span class="q">Urine sodium above 30 · normal volume</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b5"><strong>SIADH.</strong> Also secondary adrenal insufficiency and, very rarely, hypothyroidism. <span class="tag">Dennis</span></div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="b6"><span class="q">A diuretic, or kidney disease</span><span class="turn" aria-hidden="true">Open</span></button><div class="back" id="b6">Every cause stays open.</div></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="boxes">Show all</button>
+      <ul class="pts">
+        <li>Among drugs, think first of thiazides.</li>
+        <li>Dennis lives on “beer and the odd sandwich”, so the first box deserved a thought. A urine osmolality of 486 closed it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">9 / 21</span></div>
+  <p class="kick">TSH 1.9 · cortisol 612</p>
+  <h2>SIADH is a diagnosis of exclusion: six conditions, and you need all six.</h2>
+  <div class="split">
+    <figure class="fig stick-d"><img src="fit-debrief-d08-six-criteria.svg" width="720" height="782" alt="Six small drawings, one for each condition: a blood tube; a urine pot; a hand on a wrist; a urine pot with a salt crystal; a kidney with its adrenal gland, the thyroid and the pituitary; a crossed-out tablet."></figure>
+    <div class="txt">
+      <p class="cap">SIADH: the syndrome of inappropriate antidiuretic hormone secretion. Tap each line.</p>
+      <div class="tiles tiles--one crit" data-group="crit">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k1"><span class="q">Serum osmolality below 275</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k1"><b class="him">Dennis</b> 238</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k2"><span class="q">Urine osmolality above 100</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k2"><b class="him">Dennis</b> 486</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k3"><span class="q">Normal volume at the bedside</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k3"><b class="him">Dennis</b> Moist mouth, no oedema, no postural drop</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k4"><span class="q">Urine sodium above 30</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k4"><b class="him">Dennis</b> 58</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k5"><span class="q">No adrenal, thyroid, pituitary or kidney failure</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k5"><b class="him">Dennis</b> Cortisol 612, TSH 1.9, creatinine 58</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="k6"><span class="q">No recent diuretic</span><span class="turn" aria-hidden="true">Dennis</span></button><div class="back" id="k6"><b class="him">Dennis</b> None</div></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="crit">Show all</button>
+      <ul class="pts">
+        <li>Supporting: a low urate (his was 0.15 mmol/L), and a sodium that does not correct with 0.9% saline (his went from 129 to 124 across a litre).</li>
+        <li>The criteria require the glands to be excluded. Do not write SIADH until they are.</li>
+        <li>The guidelines now write “SIAD”. It is the same thing.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">10 / 21</span></div>
+  <p class="kick">Right lower zone</p>
+  <h2>SIADH is not the end of the search. Something is switching the vasopressin on.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-cxr.jpg" width="403" height="442" alt="Dennis’s chest radiograph."><figcaption>Dennis’s chest film: consolidation in the right lower zone.</figcaption></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>Chest:</strong> pneumonia, abscess, tuberculosis.</li>
+        <li><strong>Brain:</strong> subarachnoid haemorrhage, meningitis, stroke.</li>
+        <li><strong>Cancer:</strong> small cell lung cancer, cancers of the gut.</li>
+        <li><strong>Drugs:</strong> antidepressants, antiseizure drugs, antipsychotics, opioids, and others.</li>
+        <li><strong>Illness itself:</strong> pain, nausea, stress, an operation.</li>
+        <li>Dennis’s is on his chest film: consolidation in the right lower zone.</li>
+        <li>No clear cause? A CT of the body and an MRI of the head may be arranged, to look for cancer.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card question" id="c11" data-sec="Stop and decide">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 2</span><span class="num">11 / 21</span></div>
+  <p class="kick">Sodium 112 · GCS 8</p>
+  <h2>He has fitted and his sodium is 112. What is the first treatment for the sodium?</h2>
+  <div class="solo qa">
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button">Fluid restriction, and recheck in the morning.</button>
+        <button class="btn opt" type="button" data-ok="1">150 mL of 3% saline over 20 minutes.</button>
+        <button class="btn opt" type="button">A litre of 0.9% saline over four hours.</button>
+      </div>
+      <button class="btn go-all show-ans" type="button">Show the answer</button>
+      <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>3% saline, now.</strong> Severe symptoms mean a swelling brain, and the treatment is the same whatever the cause. Do not wait for the work-up.</li>
+        <li>The symptoms earn it, not the number.</li>
+        <li>UK guidance (Society for Endocrinology, 2022 update) gives the same pathway for moderately severe symptoms: nausea, confusion, headache. Those are common and non-specific, so that is a senior decision.</li>
+      </ul>
+      <figure class="fig fig--tall"><img src="fit-debrief-d09-symptom-steps.svg" width="720" height="916" alt="Three patients on three steps. Mild or none. Moderately severe: nausea, confusion, headache. Severe: seizure, coma, persistent vomiting. A syringe of 3% saline points at the top step: 3% saline now. A dashed line to the middle step: UK guidance: a senior decision."></figure>
+      </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">12 / 21</span></div>
+  <p class="kick">The first hour</p>
+  <h2>150 mL of 3% saline over 20 minutes. Check. Repeat. Stop at plus 5.</h2>
+  <div class="split split--wide">
+    <figure class="fig fig--tall"><img src="fit-debrief-d10-bolus-pathway.svg" width="720" height="956" alt="The pathway in five boxes. 150 mL of 3% saline over 20 minutes. Check the sodium. Second bolus while you wait. Up to three, until the sodium is up 5. Stop. Keep the line open. Treat the cause. Sodium at 6 hours, 12 hours, then daily. The first hour: aim for plus 5."></figure>
+    <div class="txt">
+      <ol class="pts">
+        <li>150 mL of 3% saline into a vein over 20 minutes.</li>
+        <li>Check the sodium. Start a second 150 mL while you wait for the result.</li>
+        <li>Up to three boluses, stopping once the sodium is 5 mmol/L higher. That is the first hour’s target.</li>
+        <li>Then stop. Keep the line open with as little 0.9% saline as you can, and treat the cause.</li>
+        <li>Sodium again at 6 hours, at 12 hours, then daily.</li>
+      </ol>
+      <ul class="pts" style="margin-top:1rem">
+        <li>Up 5 and no better? One further bolus, and look for another cause.</li>
+        <li>A senior decision, somewhere he can be watched closely. Boluses, not a drip, and no formula to work out the dose.</li>
+        <li>Follow the sodium on one machine, the gas analyser or the laboratory. Watch harder if one of the first two boluses lifts it by more than 5, or a third is needed.</li>
+        <li>UK and European guidance give the same regimen. Most of it is graded low-quality evidence.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>Is your ward’s bag 3%, 2.7% or 1.8%? The volume changes with the strength. Where is it kept, and who may give it?</div>
+      <div class="reason"><b>Our reasoning</b>If urine can be sent without delaying the saline, send it first. The bolus changes the urine.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">13 / 21</span></div>
+  <p class="kick">112 · the first 24 hours</p>
+  <h2>Ten in the first day, eight in each day after. These are limits, not targets.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d11-limits.svg" width="720" height="640" alt="A graph of the sodium against time, from the start through 1 hour and 24 hours to 48 hours. A stepped ceiling: no more than 10, then no more than 8 more. Above it: too fast. Beneath it the safe line: up 5, then steady. It starts at 112; the ceiling at 24 hours is 122."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>No more than <strong>10 mmol/L in the first 24 hours</strong>.</li>
+        <li>No more than <strong>8 mmol/L in each 24 hours after</strong>, until the sodium reaches 130.</li>
+        <li>The aim is smaller: up 5, then steady. Do not aim for normal.</li>
+        <li>For Dennis: no higher than 122 by Monday afternoon.</li>
+        <li>Neither the UK nor the European guideline sets a lower limit for high-risk patients. Many units aim lower.</li>
+      </ul>
+      <div class="say"><b>In the case</b>The registrar asked for 8: a cautious target inside the limit of 10, not a different rule.</div>
+      <div class="local"><b>Check your local policy</b>Does your unit aim lower in high-risk patients?</div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">14 / 21</span></div>
+  <p class="kick">Alcohol · malnutrition · potassium 3.3</p>
+  <h2>Osmotic demyelination arrives days later, and may not reverse.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d12-days-later.svg" width="720" height="630" alt="Seven days, numbered 0 to 6. Day 0: sodium raised too fast. Days 2 to 6 are shaded: typically 2 to 6 days later. Beneath: speech, swallowing, all four limbs."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>It follows chronic hyponatraemia corrected too fast, typically 2 to 6 days later.</li>
+        <li>Slurred speech, difficulty swallowing, weakness of all four limbs, confusion, coma. It can kill.</li>
+        <li>More likely with: alcohol misuse, malnutrition, advanced liver disease, a low potassium, thiazides or antidepressants, and a sodium that is lower for longer.</li>
+        <li>Dennis has three: alcohol, malnutrition, and a potassium of 3.3.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">15 / 21</span></div>
+  <p class="kick">Sunday night</p>
+  <h2>The dangerous hours come after the cause is treated.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d13-kidney-tap.svg" width="720" height="1030" alt="Two kidneys drawn as taps. Vasopressin on: a little concentrated urine. Vasopressin off: dilute urine pours out, and the sodium climbs by itself. Above 100 mL an hour: sodium every 2 hours."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Once the cause goes, vasopressin switches off. The kidney pours out dilute urine and the sodium climbs by itself.</li>
+        <li>It can happen with no hypertonic saline at all.</li>
+        <li>The warning is the urine. European advice: an output suddenly above 100 mL an hour means a sodium every 2 hours.</li>
+        <li>Overshooting is common: 44.9% at 24 hours in a UK series from 2022 (48 of 107 patients), with no case of demyelination.</li>
+        <li>Do not stop measuring because he looks better.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="card question" id="c16" data-sec="Stop and decide">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 2</span><span class="num">16 / 21</span></div>
+  <p class="kick">Suppose: Monday 06:00 · sodium 123</p>
+  <h2>Up 11 in 14 hours, and he is passing a lot of dilute urine. What now?</h2>
+  <div class="solo qa">
+      <div class="opts" role="group" aria-label="Choose one">
+        <button class="btn opt" type="button">Nothing. He is better, and it is heading the right way.</button>
+        <button class="btn opt" type="button" data-ok="1">Stop treatment and ring someone experienced.</button>
+        <button class="btn opt" type="button">Tighten the fluid restriction.</button>
+      </div>
+      <button class="btn go-all show-ans" type="button">Show the answer</button>
+      <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Stop, and ring.</strong> He is past 10 in 24 hours.</li>
+        <li>UK guidance: stop the hypertonic saline and consult a clinician experienced in over-correction, who may use hypotonic fluid, with or without desmopressin, to bring the sodium back. It gives no doses.</li>
+        <li>The figures are the European guideline’s, to agree with that expert: 10 mL/kg of electrolyte-free water (glucose solution, for example) over an hour, and desmopressin 2 micrograms into a vein, no more often than 8-hourly.</li>
+        <li>The evidence for this is graded very low.</li>
+      </ul>
+      <figure class="fig fig--tall"><img src="fit-debrief-d14-overshoot.svg" width="720" height="640" alt="The same graph. This time the sodium line climbs from 112 to 123, through the ceiling: past 10 in 24 hours. At the bend, a telephone: Stop. Ring. Bring it back."></figure>
+      </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">17 / 21</span></div>
+  <p class="kick">Tuesday 127 · Friday 134</p>
+  <h2>Then treat the box he is in. For SIADH: restrict fluid, and treat the driver.</h2>
+  <div class="split">
+    <figure class="fig"><img src="fit-debrief-d15-doors-ladder.svg" width="720" height="1232" alt="First, stop what is contributing. Three doors. Dry: saline. Overloaded: fluid restriction. SIADH, which opens onto a ladder: fluid restriction; urea, or a loop diuretic with salt tablets; tolvaptan: a specialist’s decision. Crossed out: demeclocycline, lithium."></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Everyone: stop the fluids and drugs that are contributing.</li>
+        <li><strong>Dry:</strong> 0.9% saline at 0.5 to 1.0 mL/kg an hour. These patients overshoot too.</li>
+        <li><strong>Overloaded:</strong> fluid restriction.</li>
+        <li><strong>SIADH, first:</strong> fluid restriction. The European guideline names no volume.</li>
+        <li><strong>SIADH, second:</strong> urea, or a loop diuretic with salt tablets. Not demeclocycline or lithium.</li>
+        <li><strong>Tolvaptan:</strong> not in the emergency. The 2014 European guideline recommends against it; NICE’s Clinical Knowledge Summary (2025) says a specialist may use it for SIADH.</li>
+        <li>Dennis: 127 on Tuesday on fluid restriction, 134 on Friday, and home.</li>
+      </ul>
+      <div class="local"><b>Check your local policy</b>How much fluid does your trust allow in SIADH?</div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">18 / 21</span></div>
+  <p class="kick">Friday to Sunday · glucose 5%, a litre every 8 hours</p>
+  <h2>The drip was a prescription. The result that should have stopped it went unread.</h2>
+  <div class="split split--wide">
+    <figure class="fig"><img src="fit-debrief-d16-sodium-timeline.svg" width="720" height="851" alt="Dennis’s sodium from Thursday to Sunday. Thursday 129. Friday 124. Saturday: no bloods. Sunday 06:00 118. Sunday 15:40 112, the fit. Beneath, the fluids: 0.9% saline, 1 litre; then glucose 5%, 1 litre every 8 hours. On Sunday morning a whiteboard: 08:12 phoned. Not reviewed."></figure>
+    <div class="txt">
+      <figure class="fig fig--small"><img src="fit-debrief-bag.svg" width="400" height="600" alt="The bag on his drip stand: Glucose 5%, 1000 mL."></figure>
+      <ul class="pts">
+        <li>Thursday: sodium 129, labelled “?dehydrated”. A litre of 0.9% saline. Friday: 124.</li>
+        <li>Friday’s ward round: “encourage oral fluids, continue IVI. Repeat U&amp;E Mon.” Then glucose 5%, three litres a day. Saturday: no bloods.</li>
+        <li>Sunday 06:00: 118. The laboratory phoned it through at 08:12. Nobody reviewed it. He fitted at about 15:40.</li>
+        <li>Illness had his vasopressin on. UK guidance lists inappropriate IV fluid among the causes of hyponatraemia.</li>
+        <li>NICE: maintenance is 25 to 30 mL/kg a day, with sodium in it. More than 2.5 litres a day raises the risk of hyponatraemia. Review the fluid and the blood results every day.</li>
+      </ul>
+      <div class="reason"><b>Our reasoning</b>Once the glucose is used up, 5% glucose is water.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card" id="c19" data-sec="The whole approach">
+  <div class="meta"><span class="chip">The whole approach</span><span class="num">19 / 21</span></div>
+  <p class="kick">One card to keep</p>
+  <h2>The whole approach to a low sodium, on one card.</h2>
+  <div class="solo">
+      <ul class="pts">
+        <li>The symptoms decide the first hour. The laboratory finds the cause. The cause decides the rest.</li>
+        <li>Everything on it is on the cards before this one.</li>
+      </ul>
+      <figure class="fig fig--map"><a href="fit-debrief-d17-whole-approach.svg" target="_blank" rel="noopener"><img src="fit-debrief-d17-whole-approach.svg" width="720" height="2916" alt="A low sodium: the whole approach, in five steps. 1 Assess. How low? Below 125 is profound. How long? 48 hours or more, or unknown, is chronic. How symptomatic? 2 Act on the symptoms. Severe (seizure, coma, persistent vomiting) or moderately severe (nausea, confusion, headache, a senior decision): 150 mL of 3% saline over 20 minutes, up to three, stop at plus 5. Mild or none: there is time, find the cause first. 3 Investigate. Serum osmolality: below 275, it is real. Urine osmolality: above 100, vasopressin is on. Urine sodium: 30 or below, or above 30. Diuretic or kidney disease? The bedside, last: dry, normal or overloaded. Exclude the glands before you write SIADH. 4 Why, and 5 Treat it. Urine osmolality 100 or below, too much water for the solute: stop what is contributing. Dry (diarrhoea, vomiting, diuretics, adrenal insufficiency): 0.9% saline, 0.5 to 1.0 mL/kg an hour. Overloaded (heart failure, cirrhosis, nephrotic syndrome): fluid restriction. Normal volume, SIADH: fluid restriction, treat the driver. In every box: check the drugs and the drip. Beside it all, from step 2 down: no more than 10 in the first 24 hours, then 8 a day. Past it? Stop, and ring."></a><figcaption>Tap the picture to open it full size.</figcaption></figure>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="card" id="c20" data-sec="Back to Dennis">
+  <div class="meta"><span class="chip">Back to Dennis</span><span class="num">20 / 21</span></div>
+  <p class="kick">Sunday 15:40, one last time</p>
+  <h2>A pneumonia switched his vasopressin on. A drip supplied the water. A result went unread.</h2>
+  <div class="solo">
+      <div class="people"><img src="fit-debrief-dennis.svg" width="120" height="120" alt="Dennis"></div>
+      <h3 class="sub">Take home</h3>
+      <ol class="pts">
+        <li>Hyponatraemia is a water problem. Ask how low, how long, how symptomatic.</li>
+        <li>Severe symptoms: 150 mL of 3% saline over 20 minutes, repeated until the sodium is up 5. Before the work-up.</li>
+        <li>Never more than 10 in the first 24 hours. Keep measuring overnight.</li>
+        <li>Osmolalities and urine sodium first, the bedside last. SIADH only once the glands and diuretics are excluded.</li>
+        <li>IV fluid is a prescription. Review it, and the sodium, every day.</li>
+      </ol>
+      <svg style="width:7rem;margin-top:1.2rem" class="big-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="card src" id="c21" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">21 / 21</span></div>
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>Emergency treatment</h3>
+  <ol>
+    <li>Ball S, Barth J, Levy M, and the Society for Endocrinology Clinical Committee. Emergency management of severe and moderately severely symptomatic hyponatraemia in adult patients. Society for Endocrinology emergency guidance, 2022 update.</li>
+  </ol>
+  <h3>Diagnosis and the rest</h3>
+  <ol start="2">
+    <li>Spasovski G, et al. Clinical practice guideline on diagnosis and treatment of hyponatraemia. <i>European Journal of Endocrinology</i> 2014;170(3):G1–G47. <a href="https://doi.org/10.1530/EJE-13-1020">doi:10.1530/EJE-13-1020</a>. Its recommendations were checked in the guideline group’s condensed version: <i>BANTAO Journal</i> 2014;12(2):65–74. <a href="https://doi.org/10.2478/bj-2014-0014">doi:10.2478/bj-2014-0014</a></li>
+  </ol>
+  <h3>Causes</h3>
+  <ol start="3">
+    <li>NICE Clinical Knowledge Summary. Hyponatraemia (revised October 2025). <a href="https://cks.nice.org.uk/topics/hyponatraemia/">cks.nice.org.uk/topics/hyponatraemia</a></li>
+  </ol>
+  <h3>Fluids</h3>
+  <ol start="4">
+    <li>NICE. Intravenous fluid therapy in adults in hospital (CG174; 2013, updated 2017). <a href="https://www.nice.org.uk/guidance/cg174">nice.org.uk/guidance/cg174</a></li>
+  </ol>
+  <h3>Also</h3>
+  <ol start="5">
+    <li>Arshad MF, et al. Hypertonic saline for severe symptomatic hyponatraemia: real-world findings from the UK. <i>Endocrine Connections</i> 2022;11(5):e220007. <a href="https://doi.org/10.1530/EC-22-0007">doi:10.1530/EC-22-0007</a></li>
+    <li>NHS Greater Glasgow and Clyde. Flowchart 1: Investigation of hyponatraemia in adults. An example of a local flowchart.</li>
+  </ol>
+  <p class="credit">Guidelines change. Checked October 2026.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+    if (sec && toc.scrollHeight > toc.clientHeight + 2) {
+      var tr = toc.getBoundingClientRect(), ar = sec.getBoundingClientRect();
+      if (ar.top < tr.top + 36) toc.scrollTop -= (tr.top + 36 - ar.top);
+      else if (ar.bottom > tr.bottom - 8) toc.scrollTop += (ar.bottom - tr.bottom + 8);
+    }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tap-to-reveal tiles: the route (card 7), the six boxes (card 8), the six criteria (card 9) */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: options are shuffled; any button reveals; the answer is marked; nothing is called wrong */
+  each('.qa .opts', function (box) {
+    var o = Array.prototype.slice.call(box.children);
+    for (var i = o.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = o[i]; o[i] = o[j]; o[j] = t; }
+    o.forEach(function (x) { box.appendChild(x); });
+  });
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    var sa = q.querySelector('.show-ans'); if (sa) sa.hidden = true;
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* show all */
+  function showAll(name) {
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+  }
+  each('.go-all[data-all]', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  each('.show-ans', function (b) { b.addEventListener('click', function () { var q = b.parentNode; if (openQA(q)) q.querySelector('.rv').focus({ preventScroll: true }); }); });
+  function revealAll() {
+    showAll('route'); showAll('boxes'); showAll('crit');
+    each('.qa', function (q) { openQA(q); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- Dennis Rowley, 71: portrait for the chat. Thin, weathered, grey stubble, drowsy and a little lost. Bold ink, cel shading, house palette. -->
+  <rect width="120" height="120" fill="#f3e5c8"/>
+  <circle cx="60" cy="60" r="56" fill="#faf0da" stroke="#241c15" stroke-width="3"/>
+  <!-- nasal cannula tube -->
+  <path d="M33 78 C24 90 28 104 42 108" fill="none" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M87 78 C96 90 92 104 78 108" fill="none" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <!-- neck (thin, stringy) and gown -->
+  <path d="M50 84 L48 98 M70 84 L72 98" stroke="#241c15" stroke-width="2" stroke-linecap="round"/>
+  <path d="M38 96 Q60 88 82 96 L88 120 L32 120 Z" fill="#c9d7d3" stroke="#241c15" stroke-width="3"/>
+  <path d="M46 100 l4 4 M58 98 l4 4 M70 100 l4 4 M40 110 l4 4 M64 110 l4 4 M78 108 l4 4" stroke="#8fa6a0" stroke-width="2" stroke-linecap="round"/>
+  <path d="M52 94 Q60 102 68 94" fill="none" stroke="#241c15" stroke-width="2.5"/>
+  <!-- head: long, thin, hollow cheeks -->
+  <path d="M34 54 Q34 24 60 24 Q86 24 86 54 Q86 76 76 86 Q68 94 60 94 Q52 94 44 86 Q34 76 34 54 Z" fill="#dcae8a" stroke="#241c15" stroke-width="3"/>
+  <path d="M66 30 Q84 34 84 56 Q84 76 74 86 Q66 92 62 92 Q76 70 66 30 Z" fill="#c38f6c" opacity=".5"/>
+  <!-- hollow cheeks -->
+  <path d="M42 66 q4 8 8 10 M78 66 q-4 8 -8 10" fill="none" stroke="#a8765a" stroke-width="2" stroke-linecap="round"/>
+  <!-- weathered: forehead lines, broken veins on the nose -->
+  <path d="M46 36 q14 -4 28 0 M48 41 q12 -3 24 0" fill="none" stroke="#a8765a" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- ears -->
+  <ellipse cx="33" cy="58" rx="5" ry="9" fill="#dcae8a" stroke="#241c15" stroke-width="3"/>
+  <ellipse cx="87" cy="58" rx="5" ry="9" fill="#dcae8a" stroke="#241c15" stroke-width="3"/>
+  <!-- receding grey hair: sides only, a thin wisp on top -->
+  <path d="M35 50 Q34 34 42 28 M85 50 Q86 34 78 28" fill="none" stroke="#b9b6ae" stroke-width="6" stroke-linecap="round"/>
+  <path d="M35 50 Q34 34 42 28 M85 50 Q86 34 78 28" fill="none" stroke="#241c15" stroke-width="1.4" stroke-linecap="round" opacity=".55"/>
+  <path d="M54 26 q4 -4 10 -1" fill="none" stroke="#b9b6ae" stroke-width="3" stroke-linecap="round"/>
+  <!-- grey stubble -->
+  <path d="M42 74 Q46 90 60 92 Q74 90 78 74 Q72 84 60 84 Q48 84 42 74 Z" fill="#9c958a" opacity=".45"/>
+  <g fill="#6d675e">
+    <circle cx="48" cy="80" r=".9"/><circle cx="52" cy="84" r=".9"/><circle cx="56" cy="87" r=".9"/><circle cx="62" cy="88" r=".9"/><circle cx="67" cy="86" r=".9"/><circle cx="72" cy="82" r=".9"/><circle cx="45" cy="76" r=".9"/><circle cx="75" cy="77" r=".9"/><circle cx="59" cy="84" r=".9"/><circle cx="64" cy="83" r=".9"/>
+  </g>
+  <!-- brows: grey, bushy, a little puzzled (one higher) -->
+  <path d="M42 47 q7 -5 14 -2 M64 44 q8 -4 14 2" fill="none" stroke="#9c958a" stroke-width="4" stroke-linecap="round"/>
+  <!-- eyes: half-lidded, heavy, drowsy -->
+  <ellipse cx="50" cy="55" rx="5" ry="3.6" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <ellipse cx="71" cy="55" rx="5" ry="3.6" fill="#fff" stroke="#241c15" stroke-width="2"/>
+  <circle cx="50.5" cy="57" r="2" fill="#241c15"/>
+  <circle cx="71.5" cy="57" r="2" fill="#241c15"/>
+  <!-- heavy upper lids, drooping -->
+  <path d="M44.6 55.4 Q50 49.6 55.4 55.4 Q50 57.4 44.6 55.4 Z" fill="#c38f6c" stroke="#241c15" stroke-width="2" stroke-linejoin="round">
+    <animate attributeName="d" values="M44.6 55.4 Q50 49.6 55.4 55.4 Q50 57.4 44.6 55.4 Z;M44.6 55.4 Q50 49.6 55.4 55.4 Q50 60.4 44.6 55.4 Z;M44.6 55.4 Q50 49.6 55.4 55.4 Q50 57.4 44.6 55.4 Z" keyTimes="0;.5;1" dur="4.6s" repeatCount="indefinite"/>
+  </path>
+  <path d="M65.6 55.4 Q71 49.6 76.4 55.4 Q71 57.4 65.6 55.4 Z" fill="#c38f6c" stroke="#241c15" stroke-width="2" stroke-linejoin="round">
+    <animate attributeName="d" values="M65.6 55.4 Q71 49.6 76.4 55.4 Q71 57.4 65.6 55.4 Z;M65.6 55.4 Q71 49.6 76.4 55.4 Q71 60.4 65.6 55.4 Z;M65.6 55.4 Q71 49.6 76.4 55.4 Q71 57.4 65.6 55.4 Z" keyTimes="0;.5;1" dur="4.6s" repeatCount="indefinite"/>
+  </path>
+  <!-- bags under the eyes -->
+  <path d="M45 60 q5 3 10 0 M66 60 q5 3 10 0" fill="none" stroke="#a8765a" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- nose, a little ruddy -->
+  <path d="M60 56 q-5 11 1 14 q4 0 4 -4" fill="none" stroke="#241c15" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="61" cy="67" rx="4" ry="2.6" fill="#d17a66" opacity=".5"/>
+  <!-- nasal cannula prongs -->
+  <path d="M52 72 H68" stroke="#7aa9b3" stroke-width="3" stroke-linecap="round"/>
+  <!-- mouth: slack, slightly open, a bit bewildered -->
+  <path d="M54 80 q6 -1.5 12 1 q-6 3 -12 -1 Z" fill="#8a4a3a" stroke="#241c15" stroke-width="1.8" stroke-linejoin="round"/>
+  <!-- confusion swirl -->
+  <path d="M92 26 q6 -6 10 0 q2 6 -4 7 q-4 0 -3 -4" fill="none" stroke="#b8552e" stroke-width="2.4" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate" values="0 97 27;360 97 27" dur="3.2s" repeatCount="indefinite"/>
+  </path>
+</svg>
