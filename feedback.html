@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fdf8ee">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<title>The Monday Patient · Feedback</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#fdf8ee;--paper-2:#faf0da;--paper-3:#f3e5c8;
+  --ink:#241c15;--ink-2:#463a2c;--muted:#7a6a52;--faint:#a08c6e;
+  --rule:#e8dcc2;--rule-2:#d9c9a6;
+  --accent:#c8531b;--accent-2:#a53f12;--accent-bg:#fbe4d3;--accent-ink:#fdf6f0;
+  --good:#3f7d52;--good-bg:#e6f0e6;--gold:#e0a521;
+  --fd:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;--fb:"Geist",system-ui,sans-serif;--fm:"Geist Mono",ui-monospace,monospace;
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.5rem;--s6:2rem;--s7:3rem;
+}
+*{box-sizing:border-box;margin:0}
+html,body{overflow-x:clip}html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;padding:var(--s5) var(--s4) var(--s7)}
+button,input,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+h1,h2{font-family:var(--fd);font-weight:700;letter-spacing:-.02em;line-height:1.12}
+.wrap{max-width:44rem;margin:0 auto}
+[hidden]{display:none!important}
+
+/* ---- brand: the 5a mark, inlined, exactly as the hub carries it ---- */
+.brand{display:flex;align-items:center;gap:.5rem;margin-bottom:var(--s5)}
+.mp-mark{height:1.25em;width:auto;flex:none}
+.brand span{white-space:nowrap;position:relative;padding-bottom:.55em;font-family:var(--fd);font-size:1.15rem;font-weight:700}
+.brand em{font-style:normal;color:var(--accent-2)}
+.wm-ecg{position:absolute;left:0;right:0;bottom:0;height:auto;display:block}
+@media (max-width:479px){ .brand span{display:none} .brand .mp-mark{height:1.9em} }
+
+.kicker{font-family:var(--fm);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s2)}
+h1{font-size:2rem;margin-bottom:var(--s3)}
+.lede{color:var(--ink-2);margin-bottom:var(--s4)}
+.lede b{color:var(--ink);font-weight:600}
+
+.note{display:flex;gap:var(--s3);align-items:flex-start;background:var(--paper-2);border:2px solid var(--ink);border-radius:14px;box-shadow:2px 2px 0 rgba(36,28,21,.85);padding:var(--s3) var(--s4);font-size:.86rem;color:var(--ink-2);margin-bottom:var(--s5)}
+.note b{color:var(--ink);font-weight:600}
+.note ul{margin:var(--s1) 0 0;padding-left:1.1rem}
+
+section{border-top:2px solid var(--ink);padding-top:var(--s5);margin-top:var(--s6)}
+h2{font-size:1.25rem;margin-bottom:var(--s2)}
+h2 .n{font-family:var(--fm);font-size:.8rem;font-weight:600;color:var(--accent-2);margin-right:.5rem}
+.hint{font-size:.86rem;color:var(--muted);margin-bottom:var(--s3)}
+
+.q{margin-top:var(--s5)}
+.q>.ql,fieldset>legend{display:block;font-size:.95rem;font-weight:600;margin-bottom:var(--s2);padding:0}
+fieldset{border:0;padding:0;min-width:0}
+.sub{font-size:.78rem;color:var(--faint);margin-top:var(--s1)}
+textarea,input[type=text]{width:100%;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:var(--s3);line-height:1.5}
+textarea:focus,input[type=text]:focus{outline:3px solid var(--accent-bg);border-color:var(--accent)}
+textarea{resize:vertical;min-height:4.2rem;overflow:hidden}
+
+/* choices: real radios and checkboxes, drawn as chips */
+.opts{display:flex;gap:var(--s2);flex-wrap:wrap}
+.opts label{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:.45rem .85rem;background:#fff;border:2px solid var(--ink);border-radius:999px;font-size:.9rem;font-weight:500;cursor:pointer;user-select:none}
+.opts input{position:absolute;opacity:0;width:0;height:0}
+.opts label:has(input:checked){background:var(--accent);color:var(--accent-ink);box-shadow:2px 2px 0 var(--ink)}
+.opts label:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.opts--col{flex-direction:column;align-items:stretch}
+.opts--col label{border-radius:12px}
+
+/* 1-5 scales: five equal cells that always fit a 375px row */
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale--11{grid-template-columns:repeat(11,1fr);gap:3px}
+.scale label{position:relative;display:flex;align-items:center;justify-content:center;min-height:44px;background:#fff;border:2px solid var(--ink);border-radius:10px;font-family:var(--fm);font-weight:600;cursor:pointer;user-select:none}
+.scale input{position:absolute;opacity:0;width:0;height:0}
+.scale label:has(input:checked){background:var(--accent);color:var(--accent-ink);box-shadow:2px 2px 0 var(--ink)}
+.scale label:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.ends{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:var(--s1)}
+
+.item{background:var(--paper-2);border:2px solid var(--ink);border-radius:14px;padding:var(--s3) var(--s4) var(--s4);margin-top:var(--s3)}
+.item>legend,.item>.it{float:left;width:100%;font-size:.93rem;font-weight:600;margin-bottom:var(--s3)}
+.item>legend+*{clear:both}
+.pair{display:grid;gap:var(--s3)}
+.pair .tag{font-family:var(--fm);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);font-weight:600;margin-bottom:var(--s1)}
+@media (min-width:40rem){ .pair{grid-template-columns:1fr 1fr} }
+
+.tick{display:flex;gap:var(--s3);align-items:flex-start;background:var(--paper-2);border:2px solid var(--ink);border-radius:14px;padding:var(--s4);font-size:.92rem;margin-top:var(--s3);cursor:pointer}
+.tick input{margin-top:.2rem;width:1.15rem;height:1.15rem;accent-color:var(--accent);flex:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:var(--s3) var(--s5);background:var(--accent);color:var(--accent-ink);font-weight:700;border:2px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);text-decoration:none}
+.btn:not([disabled]):active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.btn[disabled]{opacity:.7}
+.btn--wide{width:100%}
+.actions{position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 72%,transparent);padding:var(--s5) 0 var(--s2);margin-top:var(--s6)}
+.saved{font-size:.78rem;color:var(--faint);text-align:center;min-height:1.2em;margin-top:var(--s2)}
+.saved[data-t=ok]{color:var(--good)}
+.saved[data-t=err]{color:var(--accent-2);font-weight:600}
+.pending{margin-top:var(--s4);background:var(--accent-bg);border:2px solid var(--ink);border-radius:14px;padding:var(--s3) var(--s4);font-size:.86rem}
+.pending button{background:none;border:none;color:var(--accent-2);font-weight:600;text-decoration:underline;padding:0}
+
+.done{text-align:center;padding:var(--s7) 0}
+.done h1{font-size:2.2rem}
+.done p{color:var(--ink-2);max-width:32rem;margin:0 auto var(--s5)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:1ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em><svg class="wm-ecg" viewBox="298 108 516 26" fill="none" aria-hidden="true"><path d="M300 122 H600 L612 122 L622 112 L632 130 L642 122 H812" stroke="#C8531B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+
+  <div id="formView">
+  <div class="kicker">Feedback · about 5 minutes</div>
+  <h1>Was it worth your fifteen minutes?</h1>
+  <p class="lede">I am writing The Monday Patient up as an evaluation, and I need to know what you actually got out of it: what you learned, what got in the way, and why you stopped if you did. <b>Honest and specific beats kind.</b></p>
+  <p class="lede">Please fill it in even if you played one case, or none. Every question is optional.</p>
+
+  <div class="note"><span aria-hidden="true">🔒</span><div><b>Before you start</b>
+    <ul>
+      <li>It is voluntary. Not taking part changes nothing for you.</li>
+      <li>It is anonymous: no name, no email. Your answers are not tied to your account unless you tick the box at the end.</li>
+      <li>Results will be reported as group figures in a paper and a conference poster.</li>
+      <li>Your answers save on this device as you go, and leave it only when you press Send.</li>
+    </ul></div></div>
+
+  <form id="f" novalidate></form>
+
+  <div class="actions">
+    <button class="btn btn--wide" id="send" type="button">Send</button>
+    <div class="saved" id="saved" role="status"></div>
+  </div>
+  <p class="pending" id="pending" hidden></p>
+  </div>
+
+  <div id="doneView" class="done" hidden>
+    <div class="kicker">Sent</div>
+    <h1>Thank you.</h1>
+    <p id="doneMsg">That is exactly what I needed. It goes straight into what gets built next.</p>
+    <a class="btn" id="back" href="study.html">Back to the hub</a>
+  </div>
+
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ============================================================
+   THE ROUND. One constant names this run of the survey; it is stored
+   on every row, so a later round with the same wording can be told
+   apart from this one. Change it (and nothing else) to run it again.
+   ============================================================ */
+const ROUND = '2026-10';
+const LS = 'mp-feedback-' + ROUND;
+const SENT_FLAG = LS + '-sent';      // the hub reads this to take its banner down
+
+/* Weeks as the hub titles them. `skill` names the topic, so a week's
+   confidence row is only ever drawn once the reader has ticked that week
+   as played - the cases are blind until solved. To add a released week,
+   add a line here. */
+const WEEKS = [
+  {id:'w01', t:'The collapse',            skill:'Assessing and resuscitating an upper GI bleed'},
+  {id:'w02', t:'The second attendance',   skill:'Recognising infective endocarditis'},
+  {id:'w03', t:"She isn't making sense",  skill:'Recognising a thrombotic microangiopathy, and knowing when to think TTP'},
+  {id:'w04', t:'He will not keep still',  skill:'Recognising and managing thyroid storm'},
+  {id:'w05', t:'He coughed up blood',     skill:'Recognising a pulmonary-renal syndrome'},
+  {id:'w06', t:'He fitted on the ward',   skill:'Treating severe symptomatic hyponatraemia safely'},
+  {id:'w07', t:'Not himself',             skill:'Working up new confusion in an older patient'},
+  {id:'w08', t:'He can’t get up',         skill:'Spotting respiratory failure in neuromuscular weakness'}
+];
+const GENERIC = [
+  {id:'commit', skill:'Committing to a diagnosis when you are not certain'},
+  {id:'plan',   skill:'Writing a complete initial management plan under time pressure'}
+];
+
+/* The System Usability Scale (Brooke 1996), "system" worded as "app".
+   Wording and order are fixed: the score is only comparable if they are. */
+const SUS = [
+  'I think that I would like to use this app frequently.',
+  'I found the app unnecessarily complex.',
+  'I thought the app was easy to use.',
+  'I think that I would need the support of a technical person to be able to use this app.',
+  'I found the various functions in this app were well integrated.',
+  'I thought there was too much inconsistency in this app.',
+  'I would imagine that most people would learn to use this app very quickly.',
+  'I found the app very cumbersome to use.',
+  'I felt very confident using the app.',
+  'I needed to learn a lot of things before I could get going with this app.'
+];
+
+/* ---------- builders ---------- */
+const radios = (name, opts, col) => `<div class="opts${col?' opts--col':''}">` + opts.map(o =>
+  `<label><input type="radio" name="${name}" value="${esc(o)}">${esc(o)}</label>`).join('') + `</div>`;
+const checks = (name, opts) => `<div class="opts opts--col">` + opts.map(o =>
+  `<label><input type="checkbox" name="${name}" value="${esc(o[0])}">${esc(o[1])}</label>`).join('') + `</div>`;
+const scale = (name, n=5, from=1) => `<div class="scale${n>5?' scale--11':''}">` + Array.from({length:n}, (_,i) =>
+  `<label><input type="radio" name="${name}" value="${i+from}" aria-label="${i+from}">${i+from}</label>`).join('') + `</div>`;
+const ends = (a,b) => `<div class="ends"><span>${a}</span><span>${b}</span></div>`;
+const q = (label, inner, extra='') => `<fieldset class="q" ${extra}><legend>${label}</legend>${inner}</fieldset>`;
+const text = (id, label, rows=2, sub='') => `<div class="q"><label class="ql" for="${id}">${label}</label><textarea id="${id}" rows="${rows}"></textarea>${sub?`<div class="sub">${sub}</div>`:''}</div>`;
+const agree = (name, label) => `<fieldset class="item"><legend>${label}</legend>${scale(name)}${ends('Strongly disagree','Strongly agree')}</fieldset>`;
+const confRow = (id, skill, attr='') => `<fieldset class="item" ${attr}><legend>${esc(skill)}</legend><div class="pair">
+  <div><div class="tag">Before you started</div>${scale('conf_'+id+'_before')}</div>
+  <div><div class="tag">Now</div>${scale('conf_'+id+'_now')}</div></div>${ends('1 = not at all confident','5 = very confident')}</fieldset>`;
+
+$('#f').innerHTML = `
+<section>
+  <h2><span class="n">1</span>You</h2>
+  ${q('Which cases did you play?', checks('weeks', WEEKS.map((w,i) => [w.id, `Week ${i+1} · ${w.t}`]).concat([['none','None of them']])))}
+  ${q('What did you mostly play on?', radios('device', ['Phone','Tablet','Laptop or desktop','A mix']))}
+  ${q('Your grade', radios('grade', ['Medical student','FY1–2','IMT1–3 / JCF','ST4+ / registrar','Consultant / SAS','ACP / ANP / PA','Other']))}
+</section>
+
+<section data-played>
+  <h2><span class="n">2</span>Using the app</h2>
+  <p class="hint">Ten standard statements, so the app can be compared with others. Half are worded negatively on purpose. Go with your first reaction.</p>
+  ${SUS.map((s,i) => agree('sus'+(i+1), `${i+1}. ${s}`)).join('')}
+</section>
+
+<section data-played>
+  <h2><span class="n">3</span>Confidence</h2>
+  <p class="hint">Two ratings for each: how confident you <b>really</b> were before you started, looking back, and how confident you are now. Only the cases you ticked are shown.</p>
+  ${WEEKS.map(w => confRow(w.id, w.skill, `data-week="${w.id}" hidden`)).join('')}
+  ${GENERIC.map(g => confRow(g.id, g.skill)).join('')}
+</section>
+
+<section data-played>
+  <h2><span class="n">4</span>What you took away</h2>
+  ${text('learned', 'Name one thing you learned that you did not know before.', 2)}
+  ${q('Have you done anything differently at work because of a case?', radios('work_change', ['Yes, definitely','Maybe','No','I have not been at work']))}
+  ${text('work_text', 'If so, what?', 2)}
+  ${q('Have you looked up a guideline or paper because a case prompted you?', radios('looked_up', ['Yes','No']))}
+  ${q('Have you talked a case over with a colleague?', radios('discussed', ['Yes','No']))}
+</section>
+
+<section data-played>
+  <h2><span class="n">5</span>Was it worth it?</h2>
+  ${q('Overall, how useful was it to your clinical learning?', scale('useful') + ends('Not at all','Extremely'))}
+  ${q('Compared with fifteen minutes of your usual revision or teaching, fifteen minutes on a case was…', radios('compare', ['Much worse','Worse','About the same','Better','Much better']))}
+  ${q('The difficulty was…', radios('difficulty', ['Far too easy','A bit too easy','About right','A bit too hard','Far too hard']))}
+  ${q('Roughly how long did a case take you?', radios('minutes', ['Under 10 min','10–15 min','15–20 min','20–30 min','Over 30 min']))}
+</section>
+
+<section data-played>
+  <h2><span class="n">6</span>The way it works</h2>
+  <p class="hint">Three things the cases do on purpose. Did they help?</p>
+  ${agree('typing', 'Typing what I wanted to examine and order, with nothing listed, made me think the way I do at work.')}
+  ${agree('wrongdx', 'A wrong diagnosis ending the case was fair.')}
+  ${agree('freeplan', 'Writing the management plan in my own words was better than picking from a list.')}
+  ${q('The scoring, ranks and leaderboard…', radios('scoring', ['Helped a lot','Helped a bit','Made no difference','Made it feel less serious','Put me off']))}
+  ${q('The written debriefs after a case…', radios('debriefs', ['I have not opened one','Added nothing','Added a bit','Added a lot','Were the best part']))}
+  ${q('A new case every week is…', radios('frequency', ['Not often enough','About right','Too often: fortnightly would suit','Too often: monthly would suit']))}
+  ${q('Did it ever feel like a chore?', radios('chore', ['Never','Occasionally','Often','Always']))}
+</section>
+
+<section>
+  <h2><span class="n">7</span>If you stopped, or skipped weeks</h2>
+  <p class="hint">The most useful answers on this page. Tick any that apply; skip it if you played them all.</p>
+  ${q('What got in the way?', checks('stopped', [
+    ['time','I did not have time'],['forgot','I forgot'],['unaware','I did not know a new case was out'],
+    ['signin','Signing in was a problem'],['long','The cases took too long'],['hard','Too hard, or I kept getting it wrong'],
+    ['stuck','I got stuck and did not know what the app wanted'],['broke','Something did not work'],
+    ['topic','The topics were not relevant to me'],['enjoy','I was not enjoying it'],['rotated','I changed rota, ward or job']]))}
+  ${text('stopped_other', 'Anything else, in your own words', 2)}
+</section>
+
+<section>
+  <h2><span class="n">8</span>Last three</h2>
+  ${q('How likely are you to recommend it to a colleague?', scale('recommend', 11, 0) + ends('0 = not at all','10 = certainly'), 'data-played')}
+  ${text('best', 'What was the best thing about it?', 2)}
+  ${text('change', 'If I could change only one thing, what should it be?', 2)}
+  ${text('topic', 'A topic you want covered', 1)}
+</section>
+
+<section>
+  <h2><span class="n">9</span>Before you send</h2>
+  <label class="tick"><input type="checkbox" id="quote_ok" checked><span>My written answers may be <b>quoted anonymously</b> in the paper or poster. Untick this and they will be counted but never quoted.</span></label>
+  <label class="tick" id="linkBox" hidden><input type="checkbox" id="link"><span><b>Optional:</b> link these answers to my play record (which cases I finished, my scores, how I worked through them), so that what people say can be set against what they did. Only your pseudonym's record is used, never your name or email. Left unticked, this form cannot be traced to you.</span></label>
+  <p class="sub" id="linkNote" hidden>Linking to your play record is only offered when this form is opened from the hub while signed in.</p>
+</section>`;
+
+const form = $('#f');
+const fields = [...document.querySelectorAll('#f input, #f textarea')];
+
+/* ---------- what shows ---------- */
+function refresh(){
+  const picked = fields.filter(el => el.name === 'weeks' && el.checked).map(el => el.value);
+  const none = picked.includes('none');
+  /* "None of them" and a week cannot both stand: the last one touched wins */
+  document.querySelectorAll('[data-played]').forEach(el => el.hidden = none);
+  document.querySelectorAll('[data-week]').forEach(el => el.hidden = none || !picked.includes(el.dataset.week));
+}
+form.addEventListener('change', e => {
+  const el = e.target;
+  if(el.name === 'weeks' && el.checked){
+    fields.forEach(o => { if(o.name === 'weeks' && (el.value === 'none') !== (o.value === 'none')) o.checked = false; });
+  }
+  refresh(); save();
+});
+
+/* ---------- autosave ---------- */
+function grow(el){ if(el.tagName !== 'TEXTAREA') return; el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
+function key(el){ return el.type === 'radio' ? 'r:' + el.name : el.type === 'checkbox' && el.name ? 'c:' + el.name + ':' + el.value : el.id; }
+function save(){
+  const d = {};
+  fields.forEach(el => {
+    if(el.type === 'radio'){ if(el.checked) d[key(el)] = el.value; }
+    else if(el.type === 'checkbox') d[key(el)] = el.checked;
+    else d[key(el)] = el.value;
+  });
+  try{ localStorage.setItem(LS, JSON.stringify(d)); }catch(_){}
+}
+function load(){
+  let d; try{ d = JSON.parse(localStorage.getItem(LS) || 'null'); }catch(_){ return; }
+  if(!d) return;
+  fields.forEach(el => {
+    const v = d[key(el)];
+    if(el.type === 'radio'){ if(v === el.value) el.checked = true; }
+    else if(el.type === 'checkbox'){ if(typeof v === 'boolean') el.checked = v; }
+    else if(v){ el.value = v; }
+  });
+}
+fields.forEach(el => { if(el.tagName === 'TEXTAREA') el.addEventListener('input', () => { grow(el); save(); }); });
+
+let flashT;
+function flash(msg, type){
+  const s = $('#saved'); s.textContent = msg; s.dataset.t = type || '';
+  clearTimeout(flashT); flashT = setTimeout(() => { s.textContent = ''; s.dataset.t = ''; }, type === 'err' ? 8000 : 3000);
+}
+
+/* ---------- the answers, as one flat object ---------- */
+function answers(){
+  const o = {};
+  fields.forEach(el => {
+    if(el.closest('[hidden]')) return;                       // never send what the reader could not see
+    if(el.id === 'link') return;                             // handled by the send, not an answer
+    if(el.type === 'radio'){ if(el.checked) o[el.name] = /^\d+$/.test(el.value) ? +el.value : el.value; }
+    else if(el.type === 'checkbox' && el.name){ if(el.checked) (o[el.name] = o[el.name] || []).push(el.value); }
+    else if(el.type === 'checkbox') o[el.id] = el.checked;
+    else if(el.value.trim()) o[el.id] = el.value.trim().slice(0, 2000);
+  });
+  /* SUS score, only when all ten are answered: odd items score (x-1), even items (5-x), sum x 2.5 */
+  const s = SUS.map((_,i) => o['sus'+(i+1)]);
+  if(s.every(v => typeof v === 'number')) o.sus_score = s.reduce((t,v,i) => t + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
+  return o;
+}
+const answered = o => Object.keys(o).some(k => k !== 'quote_ok');
+
+/* ============================================================
+   SENDING. Same rule as the case form: a failed send never costs
+   anyone their answers. They are saved locally first, a failure
+   parks the row in an outbox that retries by itself, and the row
+   carries a client-made id so a retry cannot land twice.
+
+   The publishable key can add a row and cannot read one: the
+   feedback table has an INSERT policy and an admin-only SELECT.
+
+   LINKAGE. A row carries student_id only when the reader ticked the
+   box AND a live hub session is on this device; that send goes out
+   under their own token, and the database refuses any student_id
+   that is not the sender's. If the session has lapsed the row goes
+   unlinked, and the reader is told so.
+   ============================================================ */
+const SB_URL = 'https://mjldqraifzpncjyafdkd.supabase.co';
+const SB_KEY = 'sb_publishable_9SqBEM4bxhYgNdaFwe_j9A_yXINlFBF';
+const TOKEN_KEY = 'sb-mjldqraifzpncjyafdkd-auth-token';
+const OUTBOX = LS + '-outbox';
+
+function session(){
+  try{
+    const s = JSON.parse(localStorage.getItem(TOKEN_KEY) || 'null');
+    if(!s || !s.access_token || !s.user || !s.user.id) return null;
+    if(s.expires_at && s.expires_at * 1000 < Date.now() + 15000) return null;
+    return { token: s.access_token, uid: s.user.id };
+  }catch(_){ return null; }
+}
+function uuid(){
+  if(crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random()*16|0; return (c === 'x' ? r : (r&0x3|0x8)).toString(16);
+  });
+}
+function readOutbox(){ try{ return JSON.parse(localStorage.getItem(OUTBOX) || '[]'); }catch(_){ return []; } }
+function writeOutbox(a){ try{ localStorage.setItem(OUTBOX, JSON.stringify(a)); }catch(_){} showPending(); }
+
+async function insert(row, token){
+  const res = await fetch(SB_URL + '/rest/v1/feedback', {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (token || SB_KEY), 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify(row)
+  });
+  if(res.ok) return;
+  let t = ''; try{ t = await res.text(); }catch(_){}
+  if(res.status === 409 || t.indexOf('23505') > -1) return;   // a retry of a row already there
+  const e = new Error('HTTP ' + res.status + ' ' + t.slice(0,120)); e.status = res.status; throw e;
+}
+/* Resolves 'linked' or 'anon' once a row has landed; throws if nothing did. */
+async function post(item){
+  const row = { id: item.id, round: ROUND, payload: item.payload, page: 'feedback ' + location.pathname };
+  const s = item.link ? session() : null;
+  if(s){
+    try{ await insert(Object.assign({ student_id: s.uid }, row), s.token); return 'linked'; }
+    catch(e){ if(e.status !== 401 && e.status !== 403) throw e; }   // a lapsed session falls through, unlinked
+  }
+  await insert(row); return 'anon';
+}
+async function flush(){
+  const box = readOutbox();
+  if(!box.length || !navigator.onLine) return;
+  const left = []; let how = null;
+  for(const item of box){ try{ how = await post(item); }catch(e){ left.push(item); } }
+  writeOutbox(left);
+  if(!left.length && how) finished(how, box[box.length-1].link);
+}
+function showPending(){
+  const el = $('#pending');
+  if(!readOutbox().length){ el.hidden = true; return; }
+  el.hidden = false;
+  el.innerHTML = '<b>Not sent yet.</b> Your answers are saved on this device and will send themselves when there is a connection. <button type="button" id="retry">Try again now</button>';
+  $('#retry').onclick = flush;
+}
+function finished(how, wanted){
+  try{ localStorage.setItem(SENT_FLAG, '1'); localStorage.removeItem(LS); }catch(_){}
+  if(wanted && how !== 'linked') $('#doneMsg').textContent = 'Your answers arrived. Your sign-in had lapsed, so they were sent without the link to your play record.';
+  $('#formView').hidden = true; $('#doneView').hidden = false; window.scrollTo(0,0);
+}
+
+$('#send').onclick = async () => {
+  const payload = answers();
+  if(!answered(payload)){ flash('Nothing to send yet. Answer whichever questions you like first.', 'err'); return; }
+  const btn = $('#send'); btn.disabled = true; btn.textContent = 'Sending…';
+  const item = { id: uuid(), payload, link: !$('#linkBox').hidden && $('#link').checked };
+  try{ finished(await post(item), item.link); }
+  catch(e){
+    writeOutbox(readOutbox().concat([item]));
+    flash('Could not send. It is saved here and will keep trying.', 'err');
+  }
+  btn.disabled = false; btn.textContent = 'Send';
+};
+window.addEventListener('online', flush);
+
+/* ---------- start ---------- */
+load();
+if(session()) $('#linkBox').hidden = false; else $('#linkNote').hidden = false;
+refresh();
+fields.forEach(grow);
+/* the hub passes itself as ?return= so the last button goes back where they came from */
+try{
+  const r = new URLSearchParams(location.search).get('return');
+  if(r && new URL(r, location.href).origin === location.origin) $('#back').href = r;
+}catch(_){}
+showPending();
+flush();
+</script>
+</body>
+</html>

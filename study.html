@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.6';
+const APP_VERSION='1.5.7';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -721,17 +721,19 @@ const TEASERS       = 2;         // how many not-yet-released cases to preview a
    promises no name, no email and no way to trace an answer back,
    and appending a week id or pseudonym would quietly break that.
    ============================================================ */
-const FEEDBACK = null;   /* feedback round closed 2026-09-28 */
+const FEEDBACK = {url:'feedback.html', until:'2026-11-09', round:'2026-10'};   /* in-app form (feedback/), saves to public.feedback; the Google Form round closed 2026-09-28 */
 function feedbackLive(){
   if(!FEEDBACK || !FEEDBACK.url) return false;
+  /* the form sets this flag when it has been sent from this device */
+  try{ if(FEEDBACK.round && localStorage.getItem('mp-feedback-'+FEEDBACK.round+'-sent')) return false; }catch(_){}
   if(!FEEDBACK.until) return true;
   return new Date() <= new Date(FEEDBACK.until+'T23:59:59');
 }
 function feedbackBannerHTML(){
   if(!feedbackLive()) return '';
   return `<div class="banner banner--fb"><span aria-hidden="true">◆</span>`
-    + `<div>Four weeks, four cases. Before I build any more — <b>what worked, what didn't?</b> Anonymous, about 4 minutes.</div>`
-    + `<a class="btn btn--sm" href="${FEEDBACK.url}" target="_blank" rel="noopener">Give feedback ↗</a></div>`;
+    + `<div>I am writing this up. <b>Was it worth your fifteen minutes?</b> Anonymous, about 5 minutes, even if you stopped playing.</div>`
+    + `<a class="btn btn--sm" href="${BASE}${FEEDBACK.url}?v=${APP_VERSION}&return=${encodeURIComponent(location.origin+location.pathname)}">Give feedback</a></div>`;
 }
 const isOpen    = w => OPEN_WEEKS.includes(w.id);
 
