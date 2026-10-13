@@ -1879,7 +1879,7 @@ CASE.rx = [
   { id:"vrii", t:"Variable-rate intravenous insulin infusion" },
   { id:"cbg", t:"Capillary glucose every {n} hours", tNo:"Capillary glucose monitoring" },
   { id:"noinsulin", t:"Insulin held" },
-  { id:"regmeds", t:"Regular medicines: {w}" },
+  { id:"regmeds", t:"Regular medicines: {w}", tOne:"{d}: {w}" },
   { id:"dsn", t:"Diabetes specialist nurse — called" },
   { id:"ward", t:"Admit: acute medical unit" },
   { id:"home", t:"Discharged home" },
@@ -1895,6 +1895,10 @@ CASE.rx = [
   { id:"okafor", t:"Dr Okafor's secretary — called" },
   { id:"physio", t:"Physiotherapy — called" }
 ];
+/* fix round 17 (proof pass 10): the tests whose names are plural, so that "… were already sent …" and "… are already in
+   this round." agree with the name. A list, not a guess from the last letter: "Blood gas" and "Urine dipstick" are singular,
+   "Urea and electrolytes" and "ANA and ANCA" are not. */
+CASE.ixPlural = ["obs","ket","ue","lft","ig","b12","autoab","gang","achr","cult","ncs"];
 CASE.planSay = {
   second: "No second course is written up in advance.",
   nurseIcu: "I'm not putting that on him down here. I'm ringing the unit.",
@@ -1950,7 +1954,7 @@ CASE.dangers = {
                (screened ? "He coughed on the second teaspoon when I screened him. " : "His wife says he choked on his tea this morning. Nobody's looked at his swallow. ") + "Do you want me to give it?" },
   sedate:  { who:"danielle", text: (d, scan) => scan ? `${d} before the scanner? You want me to give that and send him round on his own?` : `${d}? You want me to give that and leave him on his own?`,
              textPrn: clause => `You've written “${clause}”. You want me to give that when I see fit, and leave him on his own?`, dflt:"Lorazepam" },
-  home:    { who:"danielle", text: () => "He can't sit himself up and his wife can't lift him. Are you sending him home?" },
+  home:    { who:"danielle", text: () => "He can't sit himself up and his wife can't lift him. Are you sending him home?", give:"Send him home anyway" },      /* fix round 17: nothing is "given" */
   lysis:   { who:"bev", text: () => "I've come down with the box. What's the onset time? The ambulance sheet says a fortnight." }
 };
 CASE.dangerBtn = { off:"Take it off", give:"Give it anyway" };
@@ -1958,7 +1962,9 @@ CASE.lysisMinutes = 75;
 /* queries that are not dangers (6.2) */
 CASE.queries = {
   regmeds:   { who:"imran", text:"His ramipril, statin and sertraline all go by mouth. How do you want them?",
-               one: d => `${d} goes by mouth. How do you want it?`, many: list => `His ${list} all go by mouth. How do you want them?`, usual:["ramipril","statin","sertraline"], opts:[["Hold them today","hold"],["Down a nasogastric tube","ngt"],["By mouth","oral"]] },
+               one: d => `${d} goes by mouth. How do you want it?`, many: list => `His ${list} all go by mouth. How do you want them?`, usual:["ramipril","statin","sertraline"], opts:[["Hold them today","hold"],["Down a nasogastric tube","ngt"],["By mouth","oral"]],
+               /* fix round 17 (proof pass 10): asked about one drug, the first answer and the chart line are about that drug */
+               optsOne:[["Hold it today","hold"],["Down a nasogastric tube","ngt"],["By mouth","oral"]] },
   opioid:    { who:"imran", text:"He told the nurse he's got no pain. What's the morphine for?", textFor: drug => `He told the nurse he's got no pain. What's the ${drug} for?`, opts:[["Take it off","off"],["Give it","give"]] },
   noinsulin: { who:"imran", text:"No insulin at all? He's type 1.", opts:[["Take it off","off"],["Keep the glargine","basal"],["Yes, hold it","hold"]] },
   heplp:     { who:"imran", text:"Heparin and a lumbar puncture on the same chart. Which do you want first?", opts:[["The puncture; heparin four hours after","lp"],["Heparin now","hep"]] },
@@ -2627,6 +2633,8 @@ const LEDGER = Ledger.create({ find: findIx, now: () => S.clock, fmt: fmtClock, 
 S.ordered = LEDGER.sent; S.landed = LEDGER.landed;      /* real Sets: read them, never .add() to them */
 const fvcReadings = () => LEDGER.entries("fvc").map(e=>({ at:e.at, v:e.v }));
 /* a test by its display name: lower case, except where the name is an abbreviation ("HbA1c", "CT head", "ANA and ANCA") */
+/* fix round 17: the ledger's sentence and the round's agree in number with the test's name (CASE.ixPlural, data) */
+const agree = (id, why) => { const x = findIx(id); return why && x && CASE.ixPlural.includes(id) ? String(why).replace(x.name + " was ", x.name + " were ").replace(x.name + " is still on its way", x.name + " are still on their way").replace(x.name + " is ", x.name + " are ") : why; };
 const lowName = n => String(n || "").replace(/^[A-Z][a-z]+(?:-[a-z]+)*(?=\s|$)/, w=>w.toLowerCase());
 const holdName = () => { const x = S.holdFor && findIx(S.holdFor); return x ? (x.holdName || lowName(x.name)) : (S.holdWord || "result"); };      /* lower case, but "CT head" keeps its capitals */
 /* what a held treatment waited on cost: that test's clock cost (04-ix-mx.md 4.3); nothing for a send-away */
@@ -2853,7 +2861,7 @@ function onLanded(e){
 function sendIx(id, route){
   const x = findIx(id);
   const r = LEDGER.order(id, route);
-  if(!r.ok) return r;
+  if(!r.ok){ if(r.why) r.why = agree(id, r.why); return r; }
   const e = r.entry;
   if(route !== "ice" && !e.deferred && e.due > e.at){ e.later = e.due; e.due = Infinity; }
   return r;
@@ -3899,7 +3907,7 @@ function matchIx(query){
 /* would the ledger refuse this? Its own sentence, asked before any clock is spent. */
 function refusal(id){
   const x = findIx(id), prev = LEDGER.last(id);
-  if(prev && (!x.repeatable || !prev.back)) return LEDGER.order(id, "bedside").why;      /* a refused order changes nothing */
+  if(prev && (!x.repeatable || !prev.back)) return agree(id, LEDGER.order(id, "bedside").why);      /* a refused order changes nothing */
   return null;
 }
 /* a bedside test: stamped and valued at the clock when its row is tapped; the clock then moves by its cost */
@@ -3940,7 +3948,7 @@ $("#ixGroups").addEventListener("click", ev=>{ const b = ev.target && ev.target.
 function addToRound(id){
   const x = findIx(id);
   if(isBed(id) || x.typedNow){ const r = bedTap(id, true); return r.ok ? { ok:true } : { ok:false, why:r.why }; }      /* a bedside name typed on ICE is the same tap, the same ledger */
-  if(S.picked.has(id)) return { ok:false, why:`${x.name} is already in this round.` };
+  if(S.picked.has(id)) return { ok:false, why:agree(id, `${x.name} is already in this round.`) };
   const why = refusal(id); if(why) return { ok:false, why };
   if(isMri(id) && S.rx.has("icu")) return { ok:false, why:CASE.ixSay.mriDeclined };      /* not booked, no clock, nothing on the ledger (3.6) */
   S.picked.add(id); renderBasket();
@@ -3972,8 +3980,8 @@ function submitIx(){
     const put = m.ids.filter(id=>!S.picked.has(id) && !refusal(id)); put.forEach(id=>S.picked.add(id));
     /* fix round 13 (proof 9): asked for again with nothing left to add, the set answers as one test does ("… is already in
        this round."), in the plural; a test of the set that was sent earlier gives the ledger's own sentence, once each */
-    const whys = []; if(!put.length){ const inRound = m.ids.filter(id=>S.picked.has(id)).map(id=>findIx(id).name);
-      if(inRound.length) whys.push(inRound.length === 1 ? `${inRound[0]} is already in this round.` : `${inRound.slice(0, -1).map((n, i)=>i ? lowName(n) : n).join(", ")} and ${lowName(inRound[inRound.length - 1])} are already in this round.`);
+    const whys = []; if(!put.length){ const inIds = m.ids.filter(id=>S.picked.has(id)), inRound = inIds.map(id=>findIx(id).name);
+      if(inRound.length) whys.push(inRound.length === 1 ? agree(inIds[0], `${inRound[0]} is already in this round.`) : `${inRound.slice(0, -1).map((n, i)=>i ? lowName(n) : n).join(", ")} and ${lowName(inRound[inRound.length - 1])} are already in this round.`);
       m.ids.filter(id=>!S.picked.has(id)).forEach(id=>{ const w = refusal(id); if(w && !whys.includes(w)) whys.push(w); }); }
     msg.innerHTML = put.length ? `<div class="notefound" data-added="${put.join(" ")}">${CASE.ixSay.added(put.map(id=>lowName(findIx(id).name)).join(", "))}</div>` : whys.map(w=>`<div class="notefound">${w}</div>`).join("");
     $("#ixInput").value = ""; renderBasket(); return; }
@@ -4095,8 +4103,9 @@ const PLAN_ITEMS = [
   /* 5.7 where he goes */
   { id:"ward", kind:"rx", ord:true, aliases:["admit","admit medics","admit amu","amu","medical ward","admit under medicine","neuro ward","neurology ward","side room"] },
   /* an instruction to send him home now, and nothing else. The bare word "discharge" is not an alias; "discharge" or
-     "home" standing as the whole clause is read by the engine. */
-  { id:"home", ref:true, kind:"danger", aliases:["discharge home","discharge today","discharge now","discharge tonight","discharge with","discharge and","discharge to gp","d/c home","d/c today","home today","home now","home tonight","home with","can go home","send home","fit for discharge","medically fit for discharge","mffd","fit for home","tto","ttos","gp follow up","gp to follow up","gp review in","outpatient neurology","opd neurology","neurology clinic","neurology outpatients","outpatient follow up","safety net","safety netting","same day emergency care","sdec follow up","ambulatory follow up","ambulatory care follow up","physio and discharge","then home","physio then home"] },
+     "home" standing as the whole clause is read by the engine. Fix round 17 (proof pass 10; owner, 2026-10-13): "send him
+     home" added, the ending screen's own words; not yet in 04-ix-mx.md 5.7. */
+  { id:"home", ref:true, kind:"danger", aliases:["discharge home","discharge today","discharge now","discharge tonight","discharge with","discharge and","discharge to gp","d/c home","d/c today","home today","home now","home tonight","home with","can go home","send home","send him home","fit for discharge","medically fit for discharge","mffd","fit for home","tto","ttos","gp follow up","gp to follow up","gp review in","outpatient neurology","opd neurology","neurology clinic","neurology outpatients","outpatient follow up","safety net","safety netting","same day emergency care","sdec follow up","ambulatory follow up","ambulatory care follow up","physio and discharge","then home","physio then home"] },
   { id:"lysis", ref:true, kind:"danger", aliases:["thrombolysis","thrombolyse","alteplase","tenecteplase","tpa","stroke thrombolysis","stroke call","activate stroke pathway","code stroke","thrombectomy","hyperacute stroke unit","hasu"] },
   { id:"antiplt", ref:true, kind:"rx", ord:true, aliases:["aspirin 300","aspirin","clopidogrel","antiplatelet"] },
   { id:"niv", ref:true, kind:"nurse", aliases:["niv","bipap","cpap","non invasive ventilation","high flow","optiflow"] },
@@ -4952,8 +4961,8 @@ function submitPlan(text){
       const scan = ["mrispine","mribrain"].some(x=>LEDGER.has(x) || P.ix.includes(x));
       const line = id === "oral" ? D.text(drug, LEDGER.has("swallow")) : id === "sedate" ? (d.prn ? D.textPrn(d.prn) : D.text(drug || D.dflt, scan || !!d.scan)) : D.text(drug || D.dflt);
       sheet(D.who, line, [
-        [CASE.dangerBtn.off, ()=>{ takeOff(P, id); nextDanger(); }],
-        [CASE.dangerBtn.give, ()=>{ S.given.add(id); P.given[id] = true; if(d.doubt){ S.written.add(id); V.wrote[id] = d.raw || ""; } if(drug) V.drugSaid[id] = drug; if(id === "home"){ endHome(P); return; } nextDanger(); }]
+        [D.off || CASE.dangerBtn.off, ()=>{ takeOff(P, id); nextDanger(); }],
+        [D.give || CASE.dangerBtn.give, ()=>{ S.given.add(id); P.given[id] = true; if(d.doubt){ S.written.add(id); V.wrote[id] = d.raw || ""; } if(drug) V.drugSaid[id] = drug; if(id === "home"){ endHome(P); return; } nextDanger(); }]
       ], id);
       return;
     }
@@ -4983,14 +4992,17 @@ function endHome(P){
 }
 function nextQuery(P){
   const q = P.queries.shift();
-  const ask = (id, handlers, text) => { const Q = CASE.queries[id]; P.asked.push(id); if(id === "regmeds") V.queryText = text || Q.text; sheet(Q.who, text || Q.text, Q.opts.map(([label, k])=>[label, ()=>{ handlers[k](); nextQuery(P); }]), id); };
+  const ask = (id, handlers, text, opts) => { const Q = CASE.queries[id]; P.asked.push(id); if(id === "regmeds") V.queryText = text || Q.text; sheet(Q.who, text || Q.text, (opts || Q.opts).map(([label, k])=>[label, ()=>{ handlers[k](); nextQuery(P); }]), id); };
   if(q === "regmeds"){
     /* asked always, once a plan: he has not passed a swallow screen whatever is on the ledger (04-ix-mx.md 6.2) */
     const Q = CASE.queries.regmeds, names = P.tablets.length ? P.tablets : Q.usual, nm = d => d === "ppi" ? "PPI" : d;
     const list = names.map(nm), usualOnly = list.length === Q.usual.length && list.every((d, i)=>d === Q.usual[i]);
-    const text = usualOnly ? Q.text : list.length === 1 && !/s$/.test(list[0]) ? Q.one(list[0] === "PPI" ? "PPI" : cap(list[0])) : Q.many(list.length > 1 ? list.slice(0, -1).join(", ") + " and " + list[list.length - 1] : list[0]);
-    return ask("regmeds", { hold: ()=>P.rx.set("regmeds", { fixed:"held today" }), ngt: ()=>{ P.rx.set("regmeds", { fixed:"down the nasogastric tube" }); if(!P.rx.has("ngt")) P.rx.set("ngt", {}); },
-      oral: ()=>{ P.rx.set("regmeds", { fixed:"by mouth" }); if(!S.given.has("oral")){ P.dangers.oral = { drug:"his tablets" }; P.lateOral = true; } } }, text);
+    /* fix round 17: asked about one drug ("… How do you want it?"), the answers say "it" and the chart line names the drug */
+    const one = !usualOnly && list.length === 1 && !/s$/.test(list[0]) ? (list[0] === "PPI" ? "PPI" : cap(list[0])) : null;
+    const text = usualOnly ? Q.text : one ? Q.one(one) : Q.many(list.length > 1 ? list.slice(0, -1).join(", ") + " and " + list[list.length - 1] : list[0]);
+    P.tabOne = one;
+    return ask("regmeds", { hold: ()=>P.rx.set("regmeds", { fixed:"held today", one }), ngt: ()=>{ P.rx.set("regmeds", { fixed:"down the nasogastric tube", one }); if(!P.rx.has("ngt")) P.rx.set("ngt", {}); },
+      oral: ()=>{ P.rx.set("regmeds", { fixed:"by mouth", one }); if(!S.given.has("oral")){ P.dangers.oral = { drug:"his tablets" }; P.lateOral = true; } } }, text, one ? Q.optsOne : Q.opts);
   }
   if(q === "opioid") return ask("opioid", { off: ()=>{}, give: ()=>P.rx.set("opioid", { raw:P.opioidRaw || "", fixed:(P.opioidRaw || "Opioid") + ", given" }) }, CASE.queries.opioid.textFor(P.opioidDrug || "morphine"));
   if(q === "noinsulin") return ask("noinsulin", { off: ()=>{}, basal: ()=>P.rx.set("basal", {}), hold: ()=>P.rx.set("noinsulin", {}) });
@@ -5003,7 +5015,7 @@ function nextQuery(P){
     P.lateOral = false;
     const D = CASE.dangers.oral; S.written.add("oral"); P.asked.push("oral");
     sheet(D.who, D.text(P.dangers.oral.drug, LEDGER.has("swallow")), [
-      [CASE.dangerBtn.off, ()=>{ takeOff(P, "oral"); P.rx.set("regmeds", { fixed:"held today" }); nextQuery(P); }],
+      [CASE.dangerBtn.off, ()=>{ takeOff(P, "oral"); P.rx.set("regmeds", { fixed:"held today", one:P.tabOne }); nextQuery(P); }],
       [CASE.dangerBtn.give, ()=>{ S.given.add("oral"); P.given.oral = true; V.drugSaid.oral = P.dangers.oral.drug; nextQuery(P); }] ], "oral");
     return;
   }
@@ -5023,7 +5035,7 @@ function enactPlan(P){
   P.rx.forEach((v, id)=>{
     const R = RX_BY_ID[id]; if(!R) return;
     let t = R.t;
-    if(v.fixed) t = id === "regmeds" ? R.t.replace("{w}", v.fixed) : v.fixed;
+    if(v.fixed) t = id === "regmeds" ? (v.one ? R.tOne.replace("{d}", escHTML(v.one)) : R.t).replace("{w}", v.fixed) : v.fixed;
     else if(id === "vte") t = (/\b(enoxaparin|clexane|dalteparin|fragmin|tinzaparin)\b/i.test(v.raw) ? escHTML(v.raw) : R.tNo) + (P.hepAfter ? ", four hours after the lumbar puncture" : "") + R.tail;
     else if(id === "obsfreq") t = v.n ? R.t.replace("every {n} hours", v.n === 1 ? "every hour" : `every ${v.n} hours`) : R.tNo;
     else if(id === "cbg") t = v.n ? R.t.replace("every {n} hours", v.n === 1 ? "every hour" : `every ${v.n} hours`) : R.tNo;
@@ -5031,6 +5043,10 @@ function enactPlan(P){
     else if(id === "comms") t = [...new Set(v.each.map(e=>/\bgp\b/.test(e.alias) ? L.comms.gp : L.comms.family))].join(" · ");
     else if(id === "holdmed") t = v.each.map(e=>R.t.replace("{w}", cap(e.alias.replace(/^(?:with)?hold /, "")))).join(" · ");
     else if(id === "care") t = [...new Set(v.each.map(e=>/rehab/.test(e.alias) ? L.care.rehab : escHTML(cap(e.raw || ""))))].join(" · ");
+    /* fix round 17 (proof pass 10): each analgesic in its own words, as `care` is; the line showed the first clause only and
+       a second drug left no trace. An amendment adds what the line does not already say */
+    else if(id === "pain"){ const had = S.rx.has(id) && V.rxText[id] ? V.rxText[id] : "", parts = [...new Set((v.each || [{ raw:v.raw }]).map(e=>escHTML(cap(e.raw || ""))))].filter(p=>p && !had.toLowerCase().includes(p.toLowerCase()));
+      t = [had, ...parts].filter(Boolean).join(" · "); }
     else if(/\{w\}/.test(t)) t = t.replace("{w}", escHTML(cap(v.raw || "")));
     if(["care","comms","holdmed"].includes(id) && S.rx.has(id) && V.rxText[id] && !V.rxText[id].includes(t)) t = V.rxText[id] + " · " + t;      /* an amendment adds to the line */
     put(id, t + readAs(v));
@@ -5797,7 +5813,7 @@ function mpReturnBtn(score, max){
   br.insertBefore(b, br.firstChild);
 }
 /* the Friday debrief: locked until it is released. To release: set url and live. */
-const DEBRIEF = { live:false, url:"", blurb:"The breath the chart cannot see: what was measured, when the call was made, and the anatomy under the hammer." };
+const DEBRIEF = { live:true, url:"legs-debrief.html", blurb:"The breath the chart cannot see: what was measured, when the call was made, and the anatomy under the hammer." };
 function renderDebrief(){
   const c = $("#debriefCard"); if(!c) return;
   c.innerHTML = DEBRIEF.live && DEBRIEF.url
