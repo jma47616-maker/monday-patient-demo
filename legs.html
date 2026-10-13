@@ -4396,6 +4396,13 @@ function planHits(s){
 const NEG_RE = /(?:^|\s)(no|not|not for|avoid|avoiding|do not|dont|hold off|withhold|omit|without|nil|never|neither|rather than|instead of|no role for|no need for|no indication for|contraindicated|x)\s+(?:(?:for|a|an|the|any|to|give|start|role|need|fit|indication)\s+){0,2}$/;
 /* after the item, in its clause; a noun that belongs to the item may stand between ("steroid card not needed", "TTOs not yet") */
 const POSTNEG_RE = /^\s*(?:(?!not\b|and\b|or\b|then\b|if\b|unless\b|when\b|once\b|until\b|after\b|before\b)[a-z]+\s+){0,2}?(?:is |are |was |were |to be |should be )?(?:avoided|withheld|omitted|held|stopped|not indicated|not needed|not required|not necessary|not given|not for now|not yet|not appropriate|contraindicated|unnecessary|declined|refused|rejected|cancelled|considered and rejected)\b/;
+/* Fix round 18 (owner, 2026-10-13): a sentence that says sending him home would be unsafe refuses the discharge. These forms
+   stand on the discharge item only (`home`), never on another item, and are never carried to a neighbour (5.11, Principle 1).
+   A negative in front of one ("not unsafe to", "no longer too weak to") is two negatives, and the item is read as written. */
+const HOME_UNSAFE = /(?<!(?:^| )(?:not|never|nor|isnt|no longer) )(?:(?:not safe|unsafe|isnt safe|not fit|unfit|not ready) (?:to|for)|too (?:weak|unwell|unsafe) to|cannot safely|cant safely|should not|shouldnt|must not|mustnt)/.source;
+const HOME_UNSAFE_RE = new RegExp("(?:^| )" + HOME_UNSAFE + " +(?:(?:be|go|get|send|let|him|to|discharge|discharged) +){0,4}$");
+/* the same forms on the bare word, where no alias was written: "unsafe to discharge", "not fit to go home" */
+const HOME_UNSAFE_BARE_RE = new RegExp("(?:^| )" + HOME_UNSAFE + " (?:(?:be|go|get|send|let|him|to) ){0,4}(discharged?|home)(?= )");
 /* "Steroids: no.", "Steroids - not for." */
 const POSTNO_RE = /^\s*(?:no|not for|nil|none)\s*(?=,|$)/;      /* only when the "no" ends the clause: a comma or the end of the sentence follows */
 /* two negatives are an order: "do not withhold IVIg", "don't delay IVIg", "do not stop the FVCs" */
@@ -4518,6 +4525,9 @@ function parsePlan(text){
       else if(x.t === "mri") hits.push({ id:"ix:" + (LEDGER.has("mribrain") && !LEDGER.has("mrispine") ? "mribrain" : "mrispine"), kind:"ix", ix:LEDGER.has("mribrain") && !LEDGER.has("mrispine") ? "mribrain" : "mrispine", alias:"mri", start:off[i], end:off[i] + 3, bare:true }); });
     hits.sort((p, q)=>p.start - q.start);
     { const m = /\b(?:no|not for|not fit for|not ready for|not safe for) (?:discharge|home)\b/.exec(s); if(m && !hits.some(h=>h.id === "home" && h.start >= m.index && h.end <= m.index + m[0].length + 1)){ P.neg.push("home"); useSpan(m.index, cEnd(m.index)); } }
+    { const m = HOME_UNSAFE_BARE_RE.exec(s), w = m ? m.index + m[0].length - m[1].length : 0;      /* fix round 18: only where the word is in no alias of any kind ("home meds", "discharge summary", a discharge alias) */
+      if(m && !hits.some(h=>h.start < w + m[1].length && h.end > w)){ P.neg.push("home"); useSpan(m.index, w + m[1].length);
+        if(!P.negHow.home) P.negHow.home = { quote:rawSpan(cStart(m.index), cEnd(m.index)) || rawS, gid:si + ":u", si, ceil:false }; if(!("home" in P.pos)) P.pos.home = si * 100000 + w; } }
     hits.forEach(h=>{ if(!h.bare) useSpan(h.start, h.end); const k = tokAt(h.start); for(let i = k; i < T.length && off[i] < h.end; i++) if(T[i].typed && h.kind !== "noop") h.loose = { typed:words[T[i].w].replace(/[.,;:]+$/, ""), word:T[i].t }; });
     const nowait = NOWAIT_RE.test(s);
     if(nowait) P.unhold = true;
@@ -4537,6 +4547,11 @@ function parsePlan(text){
       h.neg = h.negPre || h.negPost;
       h.negFrom = h.start; h.negTo = h.end;
       if(h.negPre){ const m = NEG_RE.exec(h.before); h.negFrom = h.start - m[0].replace(/^\s+/, "").length; h.pair = /^(?:rather than|instead of)$/.test(m[1]) || (m[1] === "not" && !!prev && /^[\s,]*not\s+$/.test(s.slice(prev.end, h.start))); if(h.pair) h.negFrom = prev && /^[\s,]*(?:not|rather than|instead of)\s+$/.test(s.slice(prev.end, h.start)) ? prev.start : h.negFrom; }
+      /* fix round 18: "not safe to", "unsafe to", "too weak to", "cannot safely", "shouldn't" … standing on the discharge item
+         refuse it, and nothing else (`solo`: rows b and c do not carry it on). Where row a already read the words ("not fit
+         to", "should not", "must not") the reading is row a's, as it was; the words are only marked as read. */
+      if(h.id === "home"){ const u = HOME_UNSAFE_RE.exec(h.before);
+        if(u){ const from = h.start - u[0].replace(/^\s+/, "").length; if(!h.negPre){ h.negPre = h.neg = true; h.solo = true; h.negFrom = from; } useSpan(from, h.start); } }
       if(h.negPost) h.negTo = postM ? h.end + postM[0].length : h.end + POSTNO_RE.exec(s.slice(h.end))[0].length;
       /* "DNACPR", "DNAR", "DNR" are themselves negatives: alone, CPR refused; with a negative, he is for CPR */
       if(h.id === "cpr" && /^(?:dnacpr|dnar|dnr)$/.test(h.alias)){ if(h.neg){ h.forCpr = true; h.neg = h.negPre = h.negPost = false; if(postM) useSpan(h.end, h.end + postM[0].length); } else { h.neg = h.negPre = true; } }
@@ -4602,7 +4617,7 @@ function parsePlan(text){
          A danger after an open comma or a "+" is an order that rings, flagged as in doubt (rows 48, 66, 89, 90) */
       for(let i = 0; i < real.length; i++){ const h = real[i]; if(!h.negPre || h.listed || h.group) continue;
         const mem = [h], dbt = []; let last = i;
-        if(!h.pair){
+        if(!h.pair && !h.solo){
           let e = i; while(e + 1 < real.length && free(real[e + 1]) && COMMA.test(gap(real[e], real[e + 1]))) e++;
           const closed = e > i && e + 1 < real.length && free(real[e + 1]) && closing(real[e], real[e + 1]), items = closed ? real.slice(i + 1, e + 2) : [];
           if(closed && items.every(o=>soft(o) || isTrt(o))){ items.forEach(o=>{ (isTrt(o) ? dbt : mem).push(o); }); last = e + 1; }
