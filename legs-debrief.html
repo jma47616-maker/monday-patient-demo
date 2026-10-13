@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Guillain–Barré syndrome: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+/* The week 4 debrief shell (site/thy-debrief.html), copied 2026-10-08. Additions for this page are at the end. */
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* additions first made for the week 4 debrief */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* additions for the Guillain-Barre debrief */
+.fig.bare img { border:0; background:none; }
+.pair { display:grid; grid-template-columns:minmax(0,170px) minmax(0,1fr); gap:.75rem; align-items:center; }
+.pair img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig.loop { margin:.2rem 0; }
+.figs .fig + .fig { margin-top:1rem; }
+.tiles--1 { grid-template-columns:1fr !important; }
+.tile .back p + p { margin-top:.5rem; }
+.tile .back .pts { gap:.5rem; }
+.grid, .cmp, .d2tbl { width:100%; border-collapse:separate; border-spacing:0; border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); margin:0 0 1rem; table-layout:fixed; }
+.grid th, .grid td, .cmp th, .cmp td, .d2tbl th, .d2tbl td { padding:.4rem .3rem; border-bottom:1.5px solid var(--rule-2); text-align:center; vertical-align:middle; overflow-wrap:anywhere; }
+.grid tr:last-child > *, .cmp tr:last-child > *, .d2tbl tr:last-child > * { border-bottom:0; }
+.grid thead th { font-size:.64rem; font-weight:600; line-height:1.2; overflow-wrap:normal; padding-left:.15rem; padding-right:.15rem; background:var(--paper-3); vertical-align:bottom; border-bottom:2px solid var(--ink); }
+.grid thead td { background:var(--paper-3); border-bottom:2px solid var(--ink); width:25%; }
+.grid tbody th { text-align:left; font-family:var(--font-display); font-size:.8rem; line-height:1.15; padding-left:.4rem; overflow-wrap:normal; }
+.grid td { font-family:var(--font-mono); font-size:.78rem; font-weight:600; }
+.grid td.y { background:var(--good-bg); color:#234d31; }
+.grid td.n { color:var(--muted); }
+.grid td.m { background:var(--gold-bg); }
+.grid tr.all > th { background:var(--accent-bg); }
+.grid tr.all > td { background:var(--accent); color:#fff; }
+.cmp { margin:.7rem 0 0; }
+.cmp th { font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; background:var(--paper-3); border-bottom:2px solid var(--ink); }
+.cmp td { text-align:left; padding:.4rem .6rem; font-size:.95rem; }
+.cmp td + td, .cmp th + th { border-left:1.5px solid var(--rule-2); font-weight:600; }
+.d2tbl th[scope=row] { text-align:left; padding-left:.5rem; font-size:.9rem; }
+.d2tbl thead th { font-family:var(--font-mono); background:var(--paper-3); border-bottom:2px solid var(--ink); }
+.d2tbl thead td { background:var(--paper-3); border-bottom:2px solid var(--ink); width:40%; }
+.js .d2tbl { display:none; }
+.stops, .mapsw, .tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:0 0 1rem; }
+.stops .btn, .mapsw .btn, .tabs .btn { flex:1 1 0; padding-left:.4rem; padding-right:.4rem; }
+.stops .btn { font-family:var(--font-mono); }
+.tabs .btn { font-size:.92rem; min-width:0; padding-left:.2rem; padding-right:.2rem; }
+.btn[aria-pressed="true"], .btn[aria-selected="true"] { background:var(--ink); color:var(--paper); }
+.js .rv:not(.open) #ldb-d04-scan { display:none; }
+.js .tabpanel:not(.on) { display:none; }
+.tabpanel + .tabpanel { margin-top:1.5rem; }
+.js .tabpanel + .tabpanel { margin-top:0; }
+.js .map:not(.on) { display:none; }
+.rts { list-style:none; padding:0; display:grid; gap:.4rem; margin:0 0 .8rem; }
+.rt > button { display:flex; align-items:center; justify-content:space-between; gap:.6rem; width:100%; text-align:left; font:inherit; font-weight:600; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:10px; padding:.3rem .7rem; min-height:2.75rem; cursor:pointer; }
+.rt > button:hover { background:var(--gold-bg); }
+.rt .root { width:4.6rem; flex:none; font-family:var(--font-mono); font-weight:600; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .55rem; white-space:nowrap; min-width:2.2rem; text-align:center; }
+.js .rt:not(.open) .root { color:transparent; background:var(--paper-3); user-select:none; }
+.rt.lit > button { background:var(--accent-bg); }
+.d9 svg g[id^="ldb-d09-m"] { cursor:pointer; }
+.d9 svg g.lit { stroke:#c8531b; }
+.rvbtn { display:block; }
+.pres p + p { margin-top:.55rem; }
+.solo.wide { max-width:none; }
+.card.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+@media (min-width:62rem) {
+  .grid thead th { font-size:.85rem; } .tabs .btn { font-size:1rem; } .grid td { font-size:.9rem; } .grid tbody th { font-size:1rem; }
+  .tabs { max-width:34rem; } .mapsw { max-width:22rem; }
+  .pair { grid-template-columns:minmax(0,150px) minmax(0,1fr); }
+}
+@media print {
+  .d2tbl { display:table !important; } .stops, .tabs, .mapsw, .rvbtn { display:none !important; }
+  .tabpanel, .map { display:block !important; } .rt .root { color:inherit !important; background:var(--gold) !important; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Guillain–Barré syndrome: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 17</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-labelledby="toch" hidden>
+  <h2 id="toch">Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2</b>What it is</a></li>
+    <li><a href="#c3"><b>3–5</b>The breathing</a></li>
+    <li><a href="#c6"><b>6–8</b>Recognising it</a></li>
+    <li><a href="#c9"><b>9–10</b>The examination</a></li>
+    <li><a href="#c11"><b>11</b>The tests</a></li>
+    <li><a href="#c12"><b>12–13</b>The first hours</a></li>
+    <li><a href="#c14"><b>14</b>What not to do</a></li>
+    <li><a href="#c15"><b>15</b>What happens next</a></li>
+    <li><a href="#c16"><b>16</b>Back to Terry</a></li>
+    <li><a href="#c17"><b>17</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Guillain–Barré syndrome: the debrief</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 17</span></div>
+  <p class="kick">Wednesday, 10:40 · majors, bed 6</p>
+  <h2>His NEWS2 was 1. He was on a ventilator before morning.</h2>
+  <div class="split"><figure class="fig"><img src="legs-scene.svg" width="800" height="340" alt="Terry on the trolley, Harriet beside him"></figure><div class="txt"><div class="people"><img src="legs-terry.svg" width="200" height="200" alt="Terry"><img src="legs-harriet.svg" width="200" height="200" alt="Harriet"></div><ul class="pts"><li>Terry Ashworth is 46.</li><li>For twelve days pins and needles have climbed from both feet to his legs, then to his hands.</li><li>Yesterday evening his voice went thick.</li><li>This morning he could not get out of bed.</li><li>Respiratory rate 20. Saturation 97% on air. Blood pressure 145/93. Pulse 92. Temperature 37.0. Alert.</li><li>NEWS2: 1.</li><li>On his record: type 1 diabetes, hypertension, high cholesterol, and “functional neurological disorder (2023)”.</li><li>His first words: “Before you look at that screen. This is not like last time.”</li><li>Whatever was done that day, he was intubated that night.</li><li>Planned and on the unit, or an emergency on the ward at ten past two: that was what the day decided.</li></ul></div></div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="What it is">
+  <div class="meta"><span class="chip">What it is</span><span class="num">2 / 17</span></div>
+  <p class="kick">In plain English</p>
+  <h2>An illness of the nerve roots and nerves, moving by the day.</h2>
+  <div class="split"><figure class="fig"><img src="legs-db-d01-pathway.svg" width="600" height="240" alt="One motor pathway, from the brain to a muscle" loading="lazy"></figure><div class="txt"><ul class="pts"><li>In Guillain–Barré syndrome the nerves that carry orders from the spinal cord to the muscles stop carrying them.</li><li>An infection sets off an immune response that turns on the nerve roots and the nerves.</li><li>A lower motor neurone lesion takes away the reflex and the tone.</li><li>It gets worse for days to weeks, and for no more than four weeks.</li><li>About one in five needs a ventilator.</li><li>About one or two people in every 100,000 get it each year.</li><li>A hospital serving 300,000 people would expect three to six a year (our arithmetic).</li></ul></div></div>
+</section>
+
+<!-- 3 -->
+<section class="card question" id="c3" data-sec="The breathing">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 2</span><span class="num">3 / 17</span></div>
+  <p class="kick">10:40 · NEWS2 1</p>
+  <h2>His chart is quiet. His wife is not. What do you want to know about his breathing?</h2>
+  <div class="solo qa"><ul class="pts"><li>Respiratory rate 20. Saturation 97% on air. NEWS2 1.</li><li>Harriet: “He’s stopping for a breath halfway through a sentence, and he never did that.”</li></ul><div class="opts" role="group"><button class="btn opt" type="button">Repeat the observations in an hour</button><button class="btn opt" type="button">An arterial blood gas</button><button class="btn opt" type="button" data-ok="1">His vital capacity</button><button class="btn opt" type="button">A chest radiograph</button></div><div class="rv" tabindex="-1"><h3 class="sub">His vital capacity.</h3><div class="d2" data-swap="{&quot;ldb-d02-time&quot;: [&quot;10:40&quot;, &quot;12:40&quot;, &quot;19:40&quot;], &quot;ldb-d02-fvc&quot;: [&quot;1.70 L&quot;, &quot;1.58 L&quot;, &quot;1.16 L&quot;], &quot;ldb-d02-rr&quot;: [&quot;20&quot;, &quot;22&quot;, &quot;26&quot;], &quot;ldb-d02-spo2&quot;: [&quot;97%&quot;, &quot;96%&quot;, &quot;94%&quot;], &quot;ldb-d02-pco2&quot;: [&quot;5.0&quot;, &quot;5.4&quot;, &quot;5.9&quot;], &quot;ldb-d02-news&quot;: [&quot;1&quot;, &quot;3&quot;, &quot;5&quot;]}"><figure class="fig"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <title>A spirometer, a bedside monitor and a blood gas printout</title>
+  <!-- Three instruments drawn with the 10:40 values. The page inlines this file and swaps six things by id: ldb-d02-time, ldb-d02-fvc, ldb-d02-rr, ldb-d02-spo2, ldb-d02-pco2, ldb-d02-news, and the y and height of ldb-d02-bar. Labels: rows 3.10 to 3.16. -->
+  <rect width="600" height="320" fill="#faf0da"/>
+  <rect x="12" y="10" width="98" height="34" rx="17" fill="#241c15"/>
+  <text id="ldb-d02-time" x="61" y="34" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#fdf8ee">10:40</text>
+  <rect x="17" y="61" width="280" height="176" rx="12" fill="#241c15"/><rect x="12" y="56" width="280" height="176" rx="12" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+  <text x="28" y="88" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">Vital capacity</text>
+  <text id="ldb-d02-fvc" x="28" y="158" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#241c15">1.70 L</text>
+  <rect x="240" y="74" width="36" height="140" rx="6" fill="#efe6d2" stroke="#241c15" stroke-width="3.5"/>
+  <rect id="ldb-d02-bar" x="243" y="91.5" width="30" height="122.5" rx="4" fill="#c8531b"/>
+  <path d="M234 91.5 h-8 V112.5 h8" fill="none" stroke="#241c15" stroke-width="3" stroke-linejoin="round"/>
+  <text x="220" y="112" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">Reserve</text>
+  <path d="M30 190 h70 l14 -14 M30 208 h50" fill="none" stroke="#d9d2c4" stroke-width="6" stroke-linecap="round"/>
+  <rect x="309" y="61" width="284" height="176" rx="12" fill="#241c15"/><rect x="304" y="56" width="284" height="176" rx="12" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+  <rect x="313" y="65" width="266" height="158" rx="7" fill="#1f2a33"/>
+  <text x="325" y="98" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#f6ead0">Respiratory rate</text><text id="ldb-d02-rr" x="568" y="100" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#57d18a">20</text>
+  <path d="M325 114 H568" stroke="#3c4a55" stroke-width="2"/>
+  <text x="325" y="150" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#f6ead0">Saturation on air</text><text id="ldb-d02-spo2" x="568" y="152" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#8fd3ea">97%</text>
+  <path d="M325 166 H568" stroke="#3c4a55" stroke-width="2"/>
+  <text x="325" y="202" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#f6ead0">NEWS2</text><text id="ldb-d02-news" x="568" y="204" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#e0a521">1</text>
+  <path d="M17 251 H593 V313 H17 Z" fill="#241c15"/>
+  <path d="M12 246 H588 L581 253.8 L588 261.5 L581 269.2 L588 277.0 L581 284.8 L588 292.5 L581 300.2 L588 308.0 H12 Z" fill="#fbfaf5" stroke="#241c15" stroke-width="3.5" stroke-linejoin="round"/>
+  <text x="28" y="287" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">pCO2</text><text id="ldb-d02-pco2" x="98" y="289" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#241c15">5.0</text><text x="158" y="287" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#241c15">kPa (range 4.7 to 6.0)</text>
+  <path d="M440 266 h120 M440 282 h90 M440 298 h110" stroke="#d9d2c4" stroke-width="5" stroke-linecap="round"/>
+</svg></figure><div class="stops" role="group"><button class="btn stop" type="button" aria-pressed="true" data-stop="0">10:40</button><button class="btn stop" type="button" aria-pressed="false" data-stop="1">12:40</button><button class="btn stop" type="button" aria-pressed="false" data-stop="2">19:40</button></div><table class="d2tbl"><thead><tr><td></td><th scope="col">10:40</th><th scope="col">12:40</th><th scope="col">19:40</th></tr></thead><tbody><tr><th scope="row">Vital capacity</th><td>1.70 L</td><td>1.58 L</td><td>1.16 L</td></tr><tr><th scope="row">Respiratory rate</th><td>20</td><td>22</td><td>26</td></tr><tr><th scope="row">Saturation on air</th><td>97%</td><td>96%</td><td>94%</td></tr><tr><th scope="row">pCO2</th><td>5.0</td><td>5.4</td><td>5.9 kPa (range 4.7 to 6.0)</td></tr><tr><th scope="row">NEWS2</th><td>1</td><td>3</td><td>5</td></tr></tbody></table></div><ul class="pts"><li>From 12:40 to 19:40 his vital capacity was under 20 mL/kg, with a NEWS2 of 3 and a normal pCO2.</li><li>A quiet breath uses a small part of what the muscles can do, so it survives long after the deep breath has gone.</li><li>He keeps his carbon dioxide normal by breathing faster and shallower.</li><li>The gas turns only when the muscles are down to about a quarter of their strength.</li><li>Missed, it can end in death or brain injury from lack of oxygen.</li></ul></div></div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="The breathing">
+  <div class="meta"><span class="chip">The breathing</span><span class="num">4 / 17</span></div>
+  <p class="kick">80 kg × 20 mL = 1.6 litres</p>
+  <h2>Twenty millilitres a kilogram, or a fall of a third. That is the call.</h2>
+  <div class="split"><figure class="fig bare"><div class="pair"><img src="legs-db-d03-litre-scale.svg" width="360" height="560" alt="A litre scale for an 80 kg man" loading="lazy"><img src="legs-db-spiro-170.svg" width="600" height="450" alt="The spirometer" loading="lazy"></div></figure><div class="txt"><ul class="pts"><li>Take the best of three blows.</li><li>Below 20 mL/kg, call critical care.</li><li>60 kg: 1.2 L. 70 kg: 1.4 L. 80 kg: 1.6 L.</li><li>A fall of more than 30% in 24 hours means critical care now, whatever the number.</li><li>Repeat it four-hourly while he is getting worse.</li><li>By 10 mL/kg the guideline calls ventilation “almost inevitable”.</li><li>That is far too late for a first call.</li></ul><h3 class="sub">No spirometer to hand?</h3><ul class="pts"><li>Ask him to take the deepest breath he can and count aloud until it runs out.</li><li>If he cannot reach 20, it is abnormal.</li><li>Terry reached 15 at 10:40 and 13 after 12:40.</li><li>Lie him flat and watch his abdomen.</li><li>Terry’s moved in as he breathed in.</li></ul><figure class="fig loop"><img src="legs-flat-1.svg" width="600" height="300" alt="His chest and abdomen, lying flat" loading="lazy"></figure><ul class="pts"><li>The abdomen moving in as he breathes in usually means considerable weakness of the diaphragm.</li></ul><div class="local"><b>Check your local pathway</b>Find out today where your ward’s spirometer is kept and who can use it at night.</div></div></div>
+</section>
+
+<!-- 5 -->
+<section class="card question" id="c5" data-sec="The breathing">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 2</span><span class="num">5 / 17</span></div>
+  <p class="kick">1.70 L at 10:40 · 21 mL/kg · above the line</p>
+  <h2>His vital capacity is 1.70 litres at 10:40. What now?</h2>
+  <div class="solo qa"><div class="opts" role="group"><button class="btn opt" type="button">It is above 1.6. Repeat it tomorrow.</button><button class="btn opt" type="button" data-ok="1">Repeat it four-hourly, and ring critical care now.</button><button class="btn opt" type="button">Repeat it four-hourly, and ring critical care when it crosses 1.6.</button><button class="btn opt" type="button">MRI of his spine first, then decide.</button></div><div class="rv" tabindex="-1"><h3 class="sub">Ring now.</h3><ul class="pts"><li>On the guideline’s flow chart, aspiration or the threat of it is enough on its own to make a patient high risk.</li><li>He coughed on his tea that morning.</li></ul><h3 class="sub">Measure again.</h3><ul class="pts"><li>Two blows in one sitting may differ by up to 0.15 litres and still count as the same reading.</li><li>On his readings that took three hours: 1.52 L at 13:40.</li></ul><figure class="fig"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360">
+  <title>His vital capacity through the day</title>
+  <!-- One straight line from 1.70 at 10:40 to 1.10 at 20:40, then flat, from the case's own table. An orange line at 1.6; the 12:40 reading, the first under it, is marked. The group ldb-d04-scan (a bracket over 11:16 to 15:16 and the point at 15:16) is for the page to hide until the answer is shown. Labels: rows 5.17 to 5.20. -->
+  <rect width="600" height="360" fill="#faf0da"/>
+  <rect x="71" y="35" width="520" height="268" rx="10" fill="#241c15"/><rect x="66" y="30" width="520" height="268" rx="10" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+  <path d="M66 112 H586" stroke="#c8531b" stroke-width="5"/>
+  <path d="M84 78 L492 282 H580" fill="none" stroke="#241c15" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M166 119 V298" stroke="#241c15" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>
+  <circle cx="166" cy="119" r="9" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+  <circle cx="84" cy="78" r="7" fill="#241c15"/>
+  <path d="M84 298 v10 M166 298 v10 M492 298 v10" stroke="#241c15" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="84.0" y="336" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">10:40</text><text x="165.60000000000002" y="336" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">12:40</text><text x="492.00000000000006" y="336" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">20:40</text>
+  <text x="58" y="80.0" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">1.70</text><text x="58" y="125.99999999999996" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#a53f12">1.6</text><text x="58" y="288.99999999999994" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">1.10</text>
+  <g id="ldb-d04-scan">
+    <path d="M108 66 V54 H272 V66" fill="none" stroke="#241c15" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+    <text x="285.68" y="62" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">Four hours for a scan</text><text x="285.68" y="88" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">that was not performed</text>
+    <path d="M272 66 V158" stroke="#241c15" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>
+    <circle cx="272" cy="170" r="9" fill="#fdf8ee" stroke="#241c15" stroke-width="4"/>
+    <text x="289.68" y="165.8" text-anchor="start" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#241c15">1.43 L at 15:16</text>
+  </g>
+</svg></figure><h3 class="sub">The scan.</h3><ul class="pts"><li>Ask for the spine MRI at 11:16 and the ward clock reads 15:16 when the report comes.</li><li>“MRI whole spine. Not performed. Patient unable to lie supine for positioning; examination abandoned.”</li><li>It is not a reason to pause the measuring, the calls or the treatment.</li></ul></div></div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="Recognising it">
+  <div class="meta"><span class="chip">Recognising it</span><span class="num">6 / 17</span></div>
+  <p class="kick">Feet, legs, hands, speech</p>
+  <h2>Weak in arms and legs, reflexes gone, worse for days. That is the diagnosis.</h2>
+  <div class="solo"><div class="tiles tiles--1" data-group="req"><div class="tile"><button type="button" aria-expanded="false" aria-controls="t6-0"><span class="q">Required</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t6-0"><ul class="pts"><li>Weakness of arms and legs that is getting worse.</li><li>Tendon reflexes reduced or absent in the weak limbs.</li><li>Getting worse for no more than four weeks.</li></ul></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t6-1"><span class="q">Supports it</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t6-1"><ul class="pts"><li>Both sides much alike.</li><li>Sensory symptoms that are mild beside the weakness.</li><li>A weak face on both sides.</li><li>An infection in the six weeks before.</li></ul></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t6-2"><span class="q">Think again</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t6-2"><ul class="pts"><li>One side clearly and persistently worse.</li><li>A sensory level.</li><li>Brisk reflexes or upgoing plantars.</li><li>Bladder or bowel trouble.</li><li>Fever at the start.</li><li>Altered consciousness.</li><li>More than 50 white cells in the spinal fluid.</li><li>No worsening after 24 hours, or still worsening after four weeks.</li></ul></div></div></div><button class="btn go-all" type="button" data-all="req">Show all</button><ul class="pts"><li>Bladder or bowel trouble makes it less likely but does not exclude it.</li><li>Early on, reflexes can still be normal or brisk.</li><li>Terry had all three of the first, most of the second, and none of the third.</li></ul></div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="Recognising it">
+  <div class="meta"><span class="chip">Recognising it</span><span class="num">7 / 17</span></div>
+  <p class="kick">Each explained part of him</p>
+  <h2>Four other answers each explained something. One explained everything.</h2>
+  <div class="solo"><figure class="fig"><img src="legs-db-d01b-pathway-named.svg" width="600" height="240" alt="The same motor pathway with three places named" loading="lazy"></figure><table class="grid"><thead><tr><td></td><th scope="col">Weak arms and hands</th><th scope="col">Weak face, slurred speech</th><th scope="col">No reflexes in the arms</th><th scope="col">Tingling hands</th><th scope="col">Both sides alike, nothing sudden</th></tr></thead><tbody><tr><th scope="row">Cauda equina</th><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="m">can be</td></tr><tr><th scope="row">Stroke</th><td class="y">yes</td><td class="y">yes</td><td class="n">no</td><td class="n">no</td><td class="n">no</td></tr><tr><th scope="row">Myasthenia gravis</th><td class="y">yes</td><td class="y">yes</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td></tr><tr><th scope="row">His 2023 episode</th><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td></tr><tr class="all"><th scope="row">Guillain–Barré syndrome</th><td class="y">yes</td><td class="y">yes</td><td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr></tbody></table><div class="tiles tiles--1" data-group="look"><div class="tile"><button type="button" aria-expanded="false" aria-controls="t7-0"><span class="q">Cauda equina</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7-0"><ul class="pts"><li>Cauda equina is suspected on bladder, bowel, sexual and saddle symptoms with leg or back pain.</li><li>He had weak arms, a weak face and slurred speech, which the cauda equina cannot reach.</li><li>If the symptoms are there, a normal examination does not rule it out.</li><li>A bladder scan supports. It must not be used alone.</li><li>The national pathway: a residual under 200 mL “could not exclude CES”.</li><li>Six in ten of those who went to emergency surgery had less than 200 mL left in the bladder.</li><li>Normal anal tone is not reassurance.</li><li>Back pain does not sort the two: pain is a supportive feature of Guillain–Barré syndrome.</li></ul></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t7-1"><span class="q">Stroke</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7-1"><ul class="pts"><li>A brainstem stroke can weaken both sides and slur the speech.</li></ul></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t7-2"><span class="q">Myasthenia gravis</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7-2"><ul class="pts"><li>Myasthenia fatigues: the voice fades by fifty and the eyes cannot hold an upward gaze.</li><li>It leaves feeling and reflexes alone.</li><li>Steroids are central to treating myasthenia and are recommended against here.</li></ul></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t7-3"><span class="q">The old label.</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t7-3"><ul class="pts"><li>The label was three years old. The signs were twelve days old.</li><li>NICE: new symptoms or signs in an adult with a functional neurological diagnosis are assessed as they would be in anyone.</li></ul><table class="cmp"><thead><tr><th scope="col">2023</th><th scope="col">This fortnight</th></tr></thead><tbody><tr><td>One leg</td><td>Both legs, then both hands</td></tr><tr><td>One afternoon</td><td>Twelve days</td></tr><tr><td>No tingling</td><td>Tingling from the first day</td></tr><tr><td>Reflexes present</td><td>Reflexes absent</td></tr></tbody></table></div></div></div><button class="btn go-all" type="button" data-all="look">Show all</button></div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="Recognising it">
+  <div class="meta"><span class="chip">Recognising it</span><span class="num">8 / 17</span></div>
+  <p class="kick">Nerja, three weeks ago</p>
+  <h2>He had not been ill. Four of his family had.</h2>
+  <div class="split"><figure class="fig"><img src="legs-db-d08-timeline.svg" width="600" height="520" alt="From the shared meal to his feet" loading="lazy"></figure><div class="txt"><ul class="pts"><li>About two thirds of patients recall an infection in the six weeks before.</li><li>About a third recall nothing.</li><li>Campylobacter jejuni, a cause of food poisoning, is the infection most often found.</li><li>In the largest study, three in ten had blood-test evidence of a recent Campylobacter infection.</li><li>You do not have to have been ill with it.</li><li>Four of Terry’s family were ill nine days before his feet began to tingle.</li><li>A history of recent diarrhoea helps when the answer is yes and tells you nothing when it is no.</li><li>Testing for the infection rarely helps: the result usually arrives after the diagnosis.</li><li>In Terry the organism was never proved.</li></ul></div></div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="The examination">
+  <div class="meta"><span class="chip">The examination</span><span class="num">9 / 17</span></div>
+  <p class="kick">Look, tone, power, reflexes, sensation</p>
+  <h2>Examine him in order, and say it in one breath.</h2>
+  <div class="solo"><button class="btn rvbtn" type="button" aria-expanded="false" aria-controls="pres9">Tap for a model presentation.</button><div class="rv pres" id="pres9" tabindex="-1"><p>“Mr Ashworth is 46, with twelve days of tingling and then weakness, climbing from his feet.”</p><p>“He has symmetrical weakness of all four limbs, worse distally.”</p><p>“Power is grade 1 at the ankles and toes and 3 at the hips.”</p><p>“It is 3 in the hands, wrists and elbows and 4 at the shoulders.”</p><p>“Tone is reduced.”</p><p>“I could not obtain a reflex in the arms or the legs, even with reinforcement.”</p><p>“The toes did not move to the plantar stimulus.”</p><p>“Light touch is lost at the feet and reduced to the knees and in the fingers, with no sensory level.”</p><p>“He has bilateral facial weakness, full eye movements and slurred speech.”</p><p>“Neck flexion and cough are weak.”</p><p>“This is an acute, symmetrical, lower motor neurone weakness with mild distal sensory loss.”</p><p>“I think this is Guillain–Barré syndrome, and I want his vital capacity measured now.”</p></div></div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="The examination">
+  <div class="meta"><span class="chip">The examination</span><span class="num">10 / 17</span></div>
+  <p class="kick">Fifteen movements · five jerks · three maps</p>
+  <h2>Cover the answers. Tap to check.</h2>
+  <div class="solo wide"><div class="tabs" role="tablist"><button class="btn" type="button" role="tab" id="tab10-0" aria-selected="true" aria-controls="tp10-0">Myotomes</button><button class="btn" type="button" role="tab" id="tab10-1" aria-selected="false" aria-controls="tp10-1">Reflexes</button><button class="btn" type="button" role="tab" id="tab10-2" aria-selected="false" aria-controls="tp10-2">Dermatomes</button></div><div class="tabpanel on" role="tabpanel" id="tp10-0" aria-labelledby="tab10-0" data-group="rt1"><div class="split"><figure class="fig fig--tall d9"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 700">
+  <title>A plain figure with fifteen arrows, one at each movement</title>
+  <!-- The figure of the case's maps from the front, untinted, with arms. Viewer's left is his right. Fifteen arrows, ids ldb-d09-m01 to ldb-d09-m15, in the order of rows 10.04 to 10.18; each group also holds an invisible disc of radius 36 to take the tap. No lettering. -->
+  <rect width="600" height="700" fill="#faf0da"/>
+  <g fill="#f1dcc4" stroke="#241c15" stroke-width="5" stroke-linejoin="round"><path d="M200 0 L150 0 C138 100 136 200 140 268 C138 300 146 338 160 338 C174 338 176 300 172 268 C176 200 186 120 200 64 Z"/><path d="M400 0 L450 0 C462 100 464 200 460 268 C462 300 454 338 440 338 C426 338 424 300 428 268 C424 200 414 120 400 64 Z"/></g>
+  <path d="M196 0 C198 60 200 100 204 140 C210 170 212 190 208 215 C200 240 192 265 192 310 C192 360 200 410 206 452 C208 480 200 505 202 528 C206 565 220 590 224 612 C222 630 202 656 196 676 C194 690 202 695 212 694 C220 694 230 694 238 694 C248 692 250 676 250 660 C250 640 254 630 254 612 C256 580 264 550 262 520 C260 495 264 478 264 455 C266 410 280 350 300 322 C320 350 334 410 336 455 C336 478 340 495 338 520 C336 550 344 580 346 612 C346 630 350 640 350 660 C350 676 352 692 362 694 C370 694 380 694 388 694 C398 695 406 690 404 676 C398 656 378 630 376 612 C380 590 394 565 398 528 C400 505 392 480 394 452 C400 410 408 360 408 310 C408 265 400 240 392 215 C388 190 390 170 396 140 C400 100 402 60 404 0 Z" fill="#f1dcc4" stroke="#241c15" stroke-width="5.5" stroke-linejoin="round"/>
+  <g fill="none" stroke="#b9825f" stroke-width="3" stroke-linecap="round"><circle cx="242" cy="48" r="5"/><path d="M204 236 L286 300" opacity=".8"/><path d="M250 440 Q234 428 218 440 M248 468 Q234 478 220 468"/><path d="M236 682 v10 M226 683 v10 M216 683 v9 M207 682 v8"/><path d="M166 318 v14 M156 318 v14"/><circle cx="358" cy="48" r="5"/><path d="M396 236 L314 300" opacity=".8"/><path d="M350 440 Q366 428 382 440 M352 468 Q366 478 380 468"/><path d="M364 682 v10 M374 683 v10 M384 683 v9 M393 682 v8"/><path d="M434 318 v14 M444 318 v14"/><path d="M295 192 q5 8 10 0"/></g>
+  <g id="ldb-d09-arrows">
+    <g id="ldb-d09-m01" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="127" cy="29" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M150 44 L104 14"/><path d="M124 13 L104 14 L111 33"/></g>
+    <g id="ldb-d09-m02" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="114" cy="203" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M114 226 L114 180"/><path d="M126 196 L114 180 L102 196"/></g>
+    <g id="ldb-d09-m03" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="486" cy="203" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M486 180 L486 226"/><path d="M474 210 L486 226 L498 210"/></g>
+    <g id="ldb-d09-m04" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="103" cy="292" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M124 292 L82 292"/><path d="M98 280 L82 292 L98 304"/></g>
+    <g id="ldb-d09-m05" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="497" cy="292" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M518 292 L476 292"/><path d="M492 280 L476 292 L492 304"/></g>
+    <g id="ldb-d09-m06" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="117" cy="359" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M134 344 L100 374"/><path d="M104 354 L100 374 L120 372"/></g>
+    <g id="ldb-d09-m07" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="483" cy="359" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M500 374 L466 344"/><path d="M486 346 L466 344 L470 364"/></g>
+    <g id="ldb-d09-m08" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="159" cy="388" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M136 388 L182 388"/><path d="M166 400 L182 388 L166 376"/><path d="M152 376 L136 388 L152 400"/></g>
+    <g id="ldb-d09-m09" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="240" cy="329" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M240 352 L240 306"/><path d="M252 322 L240 306 L228 322"/></g>
+    <g id="ldb-d09-m10" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="360" cy="329" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M360 306 L360 352"/><path d="M348 336 L360 352 L372 336"/></g>
+    <g id="ldb-d09-m11" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="455" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M176 478 L176 432"/><path d="M188 448 L176 432 L164 448"/></g>
+    <g id="ldb-d09-m12" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="424" cy="455" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M424 432 L424 478"/><path d="M412 462 L424 478 L436 462"/></g>
+    <g id="ldb-d09-m13" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="176" cy="641" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M176 664 L176 618"/><path d="M188 634 L176 618 L164 634"/></g>
+    <g id="ldb-d09-m14" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="322" cy="670" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M322 692 L322 648"/><path d="M334 664 L322 648 L310 664"/></g>
+    <g id="ldb-d09-m15" fill="none" stroke="#8a8378" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><circle cx="430" cy="647" r="36" stroke="none" fill="#fdf8ee" fill-opacity="0"/><path d="M430 624 L430 670"/><path d="M418 654 L430 670 L442 654"/></g>
+  </g>
+</svg></figure><div class="txt"><ul class="rts"><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m01"><span class="q">Shoulder abduction</span><span class="root">C5</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m02"><span class="q">Elbow flexion</span><span class="root">C5, C6</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m03"><span class="q">Elbow extension</span><span class="root">C7</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m04"><span class="q">Wrist extension</span><span class="root">C6</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m05"><span class="q">Wrist flexion</span><span class="root">C6, C7</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m06"><span class="q">Finger extension</span><span class="root">C7</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m07"><span class="q">Finger flexion</span><span class="root">C8</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m08"><span class="q">Finger abduction</span><span class="root">T1</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m09"><span class="q">Hip flexion</span><span class="root">L1, L2</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m10"><span class="q">Hip extension</span><span class="root">L5, S1</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m11"><span class="q">Knee extension</span><span class="root">L3, L4</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m12"><span class="q">Knee flexion</span><span class="root">L5, S1</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m13"><span class="q">Ankle dorsiflexion</span><span class="root">L4, L5</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m14"><span class="q">Great toe extension</span><span class="root">L5</span></button></li><li class="rt"><button type="button" aria-expanded="false" data-m="ldb-d09-m15"><span class="q">Ankle plantarflexion</span><span class="root">S1, S2</span></button></li></ul><button class="btn go-all" type="button" data-all="rt1">Show all</button></div></div></div><div class="tabpanel" role="tabpanel" id="tp10-1" aria-labelledby="tab10-1" data-group="rt2"><div class="split"><div class="figs"><figure class="fig"><img src="legs-db-d09b-jerk-lower.svg" width="600" height="400" alt="The knee jerk, the ankle jerk and the plantar response" loading="lazy"></figure><figure class="fig"><img src="legs-db-d09b-jerk-upper.svg" width="600" height="400" alt="The biceps, supinator and triceps jerks" loading="lazy"></figure></div><div class="txt"><ul class="rts"><li class="rt"><button type="button" aria-expanded="false"><span class="q">Ankle</span><span class="root">S1</span></button></li><li class="rt"><button type="button" aria-expanded="false"><span class="q">Knee</span><span class="root">L3, L4</span></button></li><li class="rt"><button type="button" aria-expanded="false"><span class="q">Biceps</span><span class="root">C5, C6</span></button></li><li class="rt"><button type="button" aria-expanded="false"><span class="q">Supinator</span><span class="root">C5, C6</span></button></li><li class="rt"><button type="button" aria-expanded="false"><span class="q">Triceps</span><span class="root">C6, C7</span></button></li></ul><button class="btn go-all" type="button" data-all="rt2">Show all</button><ul class="pts"><li>The case printed the short form, C7.</li><li>If a reflex is hard to get, reinforce it: clench the teeth for the arms, pull interlocked fingers apart for the legs.</li><li>Terry’s toes did not move.</li></ul></div></div></div><div class="tabpanel" role="tabpanel" id="tp10-2" aria-labelledby="tab10-2" data-group="rt3"><p class="cap">The three maps, with the points to test. Switch between front, back and arms.</p><div class="split"><div class="figs maps"><div class="mapsw" role="group"><button class="btn" type="button" aria-pressed="true" data-map="0">Front</button><button class="btn" type="button" aria-pressed="false" data-map="1">Back</button><button class="btn" type="button" aria-pressed="false" data-map="2">Arms</button></div><div class="map on" data-map="0"><figure class="fig fig--tall"><img src="legs-map-lower-front.svg" width="600" height="700" alt="His trunk and legs" loading="lazy"></figure></div><div class="map" data-map="1"><figure class="fig fig--tall"><img src="legs-map-lower-back.svg" width="600" height="700" alt="His trunk and legs" loading="lazy"></figure></div><div class="map" data-map="2"><figure class="fig fig--tall"><img src="legs-map-upper.svg" width="600" height="640" alt="His arms" loading="lazy"></figure></div></div><div class="txt"><ul class="pts"><li>What it added up to: nothing felt at the feet, faint to the knees and in the fingers, normal on the trunk.</li><li>No sensory level.</li><li>Ordinary feeling beside the anus is one reassuring finding. It is not a rule-out.</li></ul></div></div></div></div>
+</section>
+
+<!-- 11 -->
+<section class="card" id="c11" data-sec="The tests">
+  <div class="meta"><span class="chip">The tests</span><span class="num">11 / 17</span></div>
+  <p class="kick">Protein 0.98 g/L · 2 white cells</p>
+  <h2>Every test supports. None confirms. None is waited for.</h2>
+  <div class="split"><figure class="fig"><img src="legs-db-d11-csf-bars.svg" width="600" height="260" alt="Two bars: how often the spinal fluid protein is raised, early and later" loading="lazy"></figure><div class="txt"><ul class="pts"><li>Lumbar puncture. Protein up, cells normal or nearly so.</li><li>The older name is albumino-cytological dissociation (Leonhard 2019).</li><li>Protein was raised in half of those sampled in the first three days, and in 84% after a week.</li><li>A normal protein in the first week excludes nothing.</li><li>More than 50: think again.</li><li>Terry’s, on day twelve: protein 0.98 g/L, 2 white cells.</li><li>Immunoglobulin can raise the protein and the cells in the spinal fluid.</li><li>So take the fluid first, if that causes no delay.</li><li>Nerve conduction. Supports an early diagnosis, and can be normal in the first week.</li><li>MRI spine. Only for a real question of cord compression or myelitis.</li><li>Bladder scan. Terry’s showed 45 mL after voiding.</li><li>It supports. It is never used alone.</li><li>The diagnosis is clinical. Treatment does not wait for any of these.</li></ul></div></div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="The first hours">
+  <div class="meta"><span class="chip">The first hours</span><span class="num">12 / 17</span></div>
+  <p class="kick">Before any result is back</p>
+  <h2>Measure, repeat, call, protect the swallow, monitor, treat.</h2>
+  <div class="split split--wide"><figure class="fig fig--tall"><img src="legs-db-d12-first-hours.svg" width="600" height="980" alt="Six things to do in the first hours, in order" loading="lazy"></figure><div class="txt"><ul class="pts"><li>A planned intubation carries fewer complications than an emergency one.</li><li>Terry coughed on the second teaspoon of his swallow screen.</li><li>Nil by mouth does not mean no insulin.</li><li>In type 1 diabetes the long-acting insulin carries on, and if he will miss more than one meal he needs an insulin infusion as well.</li><li>Then: thromboprophylaxis, and ask about pain.</li></ul><div class="local"><b>Check your local pathway</b>Know before the night shift who these three calls go to in your hospital.</div></div></div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="The first hours">
+  <div class="meta"><span class="chip">The first hours</span><span class="num">13 / 17</span></div>
+  <p class="kick">Either. Only one.</p>
+  <h2>Immunoglobulin or plasma exchange: equally good. Choose what you can start.</h2>
+  <div class="split"><figure class="fig"><img src="legs-db-d13-balance.svg" width="600" height="360" alt="A level balance: an infusion bag on one pan, an exchange machine on the other" loading="lazy"></figure><div class="txt"><ul class="pts"><li>Who: anyone who cannot walk unaided, as soon as possible.</li><li>Immunoglobulin is recommended within two weeks of the first weakness, and is reasonable up to four.</li><li>Plasma exchange, within four weeks.</li><li>Immunoglobulin: 0.4 g/kg a day for five days.</li><li>Plasma exchange: four to five exchanges over one to two weeks.</li><li>The guideline has no preference: six trials, 567 patients, no significant difference.</li><li>NHS England asks for exchange to be preferred where it is appropriate and easy to get.</li><li>IgA deficiency with known anti-IgA antibodies is a contraindication to immunoglobulin.</li><li>Kidney impairment is a caution.</li><li>Those are reasons to prefer exchange.</li><li>Neither treatment is known to change the vital capacity the same day.</li></ul><div class="local"><b>Check your local pathway</b>Find out how immunoglobulin is requested where you work, and where the nearest plasma exchange is.</div></div></div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="What not to do">
+  <div class="meta"><span class="chip">What not to do</span><span class="num">14 / 17</span></div>
+  <p class="kick">Six reflexes to resist</p>
+  <h2>Each of these sounds reasonable at the bedside.</h2>
+  <div class="solo wide"><div class="tiles" data-group="flip"><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-1"><img src="legs-db-d14-tile-1.svg" width="240" height="200" alt="A vial" loading="lazy"><span class="q">“It’s immune. Methylprednisolone?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-1"><p>No.</p><p>The guideline recommends strongly against oral steroids and weakly against intravenous.</p><p>Intravenous methylprednisolone showed no benefit in 242 patients.</p><p>Diabetes was commoner in those given steroids.</p></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-2"><img src="legs-db-d14-tile-2.svg" width="240" height="200" alt="Two bags, one after the other" loading="lazy"><span class="q">“Exchange, then immunoglobulin, to be sure?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-2"><p>No.</p><p>The guideline recommends strongly against it: probably no extra benefit, more adverse events, more cost.</p><p>Exchange after immunoglobulin washes out the immunoglobulin just given.</p></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-3"><img src="legs-db-d14-tile-3.svg" width="240" height="200" alt="A second infusion bag" loading="lazy"><span class="q">“Day five and he’s no stronger. A second course?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-3"><p>No.</p><p>The guideline recommends strongly against it.</p><p>In the trial there was no benefit, and serious adverse events in 35% against 16%.</p><p>About 40% of patients have not improved four weeks after treatment. That is not failure.</p></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-4"><img src="legs-db-d14-tile-4.svg" width="240" height="200" alt="A monitor showing a saturation" loading="lazy"><span class="q">“Sats 97, gas normal. His breathing is fine.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-4"><p>No.</p><p>Those change last. Measure the vital capacity.</p></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-5"><img src="legs-db-d14-tile-5.svg" width="240" height="200" alt="A scanner and a clock" loading="lazy"><span class="q">“MRI spine first. Then we’ll decide.”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-5"><p>Ask for it if the cord is a real question.</p><p>Do not wait for it.</p></div></div><div class="tile"><button type="button" aria-expanded="false" aria-controls="t14-6"><img src="legs-db-d14-tile-6.svg" width="240" height="200" alt="A small tablet" loading="lazy"><span class="q">“He can’t lie still for the scanner. A little lorazepam?”</span><span class="turn" aria-hidden="true">Turn</span></button><div class="back" id="t14-6"><p>No.</p><p>The BNF lists marked neuromuscular respiratory weakness as a contraindication to benzodiazepines.</p></div></div></div><button class="btn go-all" type="button" data-all="flip">Show all</button></div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="What happens next">
+  <div class="meta"><span class="chip">What happens next</span><span class="num">15 / 17</span></div>
+  <p class="kick">Days, weeks, months</p>
+  <h2>Treatment starts the recovery. It does not end the watching.</h2>
+  <div class="split"><figure class="fig"><img src="legs-db-d15-course.svg" width="600" height="320" alt="The course over six months, not to scale" loading="lazy"></figure><div class="txt"><ul class="pts"><li>The first days. He may still get worse after treatment starts.</li><li>Keep measuring until significant worsening is unlikely.</li><li>Four weeks. About 40% have not improved. That does not mean the treatment failed.</li><li>Within two months. About one in ten worsens again after first improving or levelling off.</li><li>This is a treatment-related fluctuation, and re-treatment may be considered.</li><li>Still worsening beyond eight weeks, or three or more such dips: think of the chronic form, about 5%.</li><li>Two thirds of deaths come after discharge from intensive care, from breathing and the heart.</li><li>Six months. About 80% walk on their own.</li></ul></div></div>
+</section>
+
+<!-- 16 -->
+<section class="card" id="c16" data-sec="Back to Terry">
+  <div class="meta"><span class="chip">Back to Terry</span><span class="num">16 / 17</span></div>
+  <p class="kick">What the day showed</p>
+  <h2>The chart was right, and so was his wife.</h2>
+  <div class="split"><figure class="fig"><img src="legs-saved.svg" width="800" height="420" alt="The unit, the next morning" loading="lazy"></figure><div class="txt"><ul class="pts"><li>Nothing given that day changed his breathing.</li><li>What changed the night was who had been called and who was measuring.</li></ul><h3 class="sub">Five things to do differently.</h3><ol class="pts"><li>Weak and getting weaker: take the vital capacity, write it in litres and mL/kg, and write when it is next due.</li><li>Ring critical care at 20 mL/kg, at a fall of a third, or at a failing swallow. Do not wait for the chart.</li><li>Take a tendon hammer to all four limbs, and examine the arms and the face before you blame the spine.</li><li>One immunotherapy, no steroids, and keep measuring after it starts.</li><li>Read the old label after you have listened to the patient.</li></ol><svg class="big-mark" style="width:7rem;margin-top:1.2rem" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpl" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpl)"/><rect y="113" width="260" height="67" fill="url(#mpl)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg></div></div>
+</section>
+
+<!-- 17 -->
+<section class="card src" id="c17" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">17 / 17</span></div>
+  <h2>Where this comes from</h2>
+  <div class="solo"><ol class=""><li>EAN/PNS guideline on Guillain–Barré syndrome, Eur J Neurol 2023.</li><li>Leonhard, Nat Rev Neurol 2019.</li><li>NICE NG127, 2019, updated 2023.</li><li>NHS England immunoglobulin policy, 2025.</li><li>BNF.</li><li>GIRFT national cauda equina pathway, February 2023, updated March 2026.</li><li>ATS/ERS spirometry standard, 2019.</li><li>Mangera 2012 and Racca 2020, reviews of breathing in neurological disease.</li><li>Royal College of Physicians, NEWS2, 2017.</li><li>ABN myasthenia guideline, 2015.</li><li>JBDS 03, diabetes and surgery, 2016.</li><li>Roots and dermatome points: ISNCSCI worksheet 2019; MRC Aids 1976; patient.info examination pages 2026.</li><li>Read as abstracts only: Fokke 2014; Rees 1995; Takahashi 2005; Leonhard 2022; Walgaard 2021.</li><li>Local trust guideline, as an example of UK ward practice: Norfolk and Norwich, 2022.</li></ol><p class="credit">Guidelines change. Checked October 2026.</p></div>
+</section>
+
+</main>
+</div>
+
+<div class="stepper" role="group">
+  <button class="btn" id="prev" type="button">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button">Next →</button>
+</div>
+
+<script>
+/* The week 4 debrief script (site/thy-debrief.html), with that page's score rows removed and this page's
+   controls added: the three-stop instrument, the tabs, the self-test rows, the map switch, the model presentation. */
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles: the three criteria, the look-alikes rows, the six reflexes */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* the three-stop instrument: swap the numbers and the bar */
+  var BAR = [[91.5, 122.5], [112.5, 101.5], [186, 28]];
+  each('.d2', function (d) {
+    var swap = JSON.parse(d.getAttribute('data-swap'));
+    function show(i) {
+      Object.keys(swap).forEach(function (id) { var el = document.getElementById(id); if (el) el.textContent = swap[id][i]; });
+      var b = document.getElementById('ldb-d02-bar');
+      if (b) { b.setAttribute('y', BAR[i][0]); b.setAttribute('height', BAR[i][1]); }
+      each('.stop', function (s) { s.setAttribute('aria-pressed', s.getAttribute('data-stop') === String(i) ? 'true' : 'false'); }, d);
+    }
+    each('.stop', function (s) { s.addEventListener('click', function () { show(parseInt(s.getAttribute('data-stop'), 10)); }); }, d);
+  });
+
+  /* the model presentation */
+  function setRv(btn, open) {
+    var rv = document.getElementById(btn.getAttribute('aria-controls'));
+    rv.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.rvbtn', function (b) { b.addEventListener('click', function () { setRv(b, b.getAttribute('aria-expanded') !== 'true'); }); });
+
+  /* tabs */
+  each('.tabs', function (tb) {
+    var tabs = Array.prototype.slice.call(tb.querySelectorAll('[role=tab]'));
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (x) {
+          var on = x === t;
+          x.setAttribute('aria-selected', on ? 'true' : 'false');
+          document.getElementById(x.getAttribute('aria-controls')).classList.toggle('on', on);
+        });
+      });
+    });
+  });
+
+  /* self-test rows: the root is hidden until the row, or its arrow on the figure, is tapped */
+  function setRt(li, open) {
+    li.classList.toggle('open', open);
+    var b = li.querySelector('button');
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var m = b.getAttribute('data-m');
+    if (m) { var g = document.getElementById(m); if (g) g.classList.toggle('lit', open); li.classList.toggle('lit', open); }
+  }
+  each('.rt', function (li) {
+    var b = li.querySelector('button');
+    b.addEventListener('click', function () { setRt(li, !li.classList.contains('open')); });
+    var m = b.getAttribute('data-m'), g = m && document.getElementById(m);
+    if (g) g.addEventListener('click', function () { setRt(li, !li.classList.contains('open')); });
+  });
+
+  /* the map switch */
+  each('.maps', function (box) {
+    each('.mapsw .btn', function (b) {
+      b.addEventListener('click', function () {
+        var k = b.getAttribute('data-map');
+        each('.mapsw .btn', function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }, box);
+        each('.map', function (m) { m.classList.toggle('on', m.getAttribute('data-map') === k); }, box);
+      });
+    }, box);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* show all */
+  function showAll(name) {
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+    each('.tabpanel[data-group="' + name + '"] .rt', function (li) { setRt(li, true); });
+  }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.go-all', function (b) { showAll(b.getAttribute('data-all')); b.hidden = true; });
+    each('.qa', function (q) { openQA(q); });
+    each('.rvbtn', function (b) { setRv(b, true); });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+
+</script>
+</body>
+</html>

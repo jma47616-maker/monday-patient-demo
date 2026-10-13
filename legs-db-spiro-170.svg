@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <title>The spirometer</title>
+  <!-- The case's spirometer, re-exported with its reading written in: 1.70 L at 10:40 (row 4.17). -->
+  <rect width="600" height="450" fill="#f3e5c8"/>
+  <path d="M0 392 H600 V450 H0 Z" fill="#ead9b6"/>
+  <g id="ldb-sp-mask">
+    <path d="M214 150 H140" stroke="#241c15" stroke-width="40" stroke-linecap="butt"/><path d="M214 150 H140" stroke="#fdf8ee" stroke-width="31"/>
+    <path d="M150 84 C96 84 44 112 40 150 C44 188 96 216 150 216 C166 196 166 104 150 84 Z" fill="#dfeef0" stroke="#241c15" stroke-width="5" stroke-linejoin="round" opacity=".95"/>
+    <path d="M150 84 C96 84 44 112 40 150 C44 188 96 216 150 216" fill="none" stroke="#9fc6cc" stroke-width="12" stroke-linecap="round" opacity=".8"/>
+    <path d="M150 84 C96 84 44 112 40 150 C44 188 96 216 150 216 C166 196 166 104 150 84 Z" fill="none" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M70 126 q20 -18 50 -22" fill="none" stroke="#fdf8ee" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M470 450 C470 400 440 360 404 340 L404 300 L470 290 C540 320 580 380 584 450 Z" fill="#8fbbd0" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="212" y="104" width="196" height="318" rx="30" fill="#fdf8ee" stroke="#241c15" stroke-width="6"/>
+  <rect x="212" y="104" width="196" height="318" rx="30" fill="none" stroke="#e6dcc6" stroke-width="3" transform="translate(0 0) scale(1)" opacity=".0"/>
+  <path d="M212 132 H408" stroke="#e6dcc6" stroke-width="4"/>
+  <rect x="228" y="150" width="164" height="112" rx="10" fill="#d5e3cf" stroke="#241c15" stroke-width="5"/>
+  <text x="240" y="178" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#241c15">FVC</text>
+  <text id="ldb-sp-time" x="382" y="178" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#241c15">10:40</text>
+  <text id="ldb-sp-value" x="352" y="244" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="62" font-weight="700" fill="#241c15">1.70</text>
+  <text x="360" y="244" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#241c15">L</text>
+  <circle cx="258" cy="292" r="13" fill="#c8531b" stroke="#241c15" stroke-width="4"/><circle cx="310" cy="292" r="13" fill="#e8e3d6" stroke="#241c15" stroke-width="4"/><circle cx="362" cy="292" r="13" fill="#e8e3d6" stroke="#241c15" stroke-width="4"/>
+  <g fill="#8fbbd0" stroke="#241c15" stroke-width="5" stroke-linejoin="round">
+    <path d="M420 322 C380 314 300 316 262 322 C244 326 244 348 262 350 C300 352 380 352 420 350 Z"/>
+    <path d="M424 354 C384 348 300 350 258 356 C240 360 240 382 258 384 C300 386 384 386 424 384 Z"/>
+    <path d="M426 388 C390 382 310 384 270 390 C252 394 252 414 270 416 C310 418 390 418 426 416 Z"/>
+    <path d="M196 250 C178 262 172 300 184 330 C196 352 222 350 226 330 C228 300 222 262 214 250 C210 244 202 244 196 250 Z"/>
+  </g>
+  <path d="M276 336 h60 M274 370 h64 M286 403 h56" stroke="#6c9db5" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

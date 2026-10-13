@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" width="240" height="200">
+  <title>A monitor showing a saturation</title>
+  <!-- A spot drawing for the front of a tile. The only lettering is the figure on the monitor, from row 14.17. -->
+  <rect width="240" height="200" fill="#fdf8ee"/>
+  <rect x="34" y="34" width="172" height="112" rx="12" fill="#e8e3d6" stroke="#241c15" stroke-width="5"/><rect x="46" y="46" width="148" height="88" rx="6" fill="#1f2a33"/><path d="M56 112 q10 -22 20 0 q10 22 20 0 q10 -22 20 0" fill="none" stroke="#8fd3ea" stroke-width="4" stroke-linecap="round"/><text x="184" y="96" text-anchor="end" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#8fd3ea">97%</text><path d="M120 146 V168 M84 172 H156" stroke="#241c15" stroke-width="7" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" width="240" height="200">
+  <title>A scanner and a clock</title>
+  <!-- A spot drawing for the front of a tile. No lettering. -->
+  <rect width="240" height="200" fill="#fdf8ee"/>
+  <circle cx="104" cy="100" r="70" fill="#e8e3d6" stroke="#241c15" stroke-width="5"/><circle cx="104" cy="100" r="34" fill="#1f2a33" stroke="#241c15" stroke-width="5"/><path d="M20 150 H150" stroke="#241c15" stroke-width="13" stroke-linecap="round"/><path d="M20 150 H150" stroke="#cfe3e6" stroke-width="6" stroke-linecap="round"/><circle cx="192" cy="54" r="32" fill="#fdf8ee" stroke="#241c15" stroke-width="5"/><path d="M192 34 V54 L206 64" fill="none" stroke="#c8531b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

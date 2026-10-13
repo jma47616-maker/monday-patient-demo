@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" width="600" height="260">
+  <title>Two bars: how often the spinal fluid protein is raised, early and later</title>
+  <!-- Two bars drawn to the same scale, 50 and 84 out of 100; the dotted line is 100. Labels: rows 11.16 to 11.18. -->
+  <rect width="600" height="260" fill="#faf0da"/>
+  <text x="300" y="34" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#241c15">Spinal fluid protein raised</text>
+  <path d="M40 196 H560" stroke="#241c15" stroke-width="5" stroke-linecap="round"/>
+  <path d="M40 46 H560" stroke="#d9d2c4" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+  <rect x="110" y="126" width="110" height="70" fill="#241c15"/><rect x="105" y="121" width="110" height="75" fill="#f0a27c" stroke="#241c15" stroke-width="4"/><rect x="390" y="75" width="110" height="121" fill="#241c15"/><rect x="385" y="70" width="110" height="126" fill="#c8531b" stroke="#241c15" stroke-width="4"/>
+  <text x="160" y="236" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#241c15">First three days: 50%</text><text x="440" y="236" text-anchor="middle" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#241c15">After a week: 84%</text>
+</svg>
