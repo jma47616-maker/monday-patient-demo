@@ -976,8 +976,8 @@ Bloods
         <ul class="pearls">
           <li><b>A–E is not a ritual; it is where the reversible causes live.</b> Airway first and held (a post-ictal snore is partial obstruction: position, suction, an NPA if there is a gag — never a Guedel if there is). Oxygen to a target. At C, a gas from the cannula already in his arm and a look at what is running through it. At D, a glucose. Treat as you find, call each letter, and go back to A whenever anything changes.</li>
           <li><b>Any seizure on a ward gets a glucose and a gas before anyone decides why.</b> A drinker who fits on day three is withdrawal until you look — and withdrawal seizures cluster 6–48 hours after the last drink. At 80 hours, with a CIWA of 4 on a benzodiazepine regimen, look for something else. The gas had the answer in ten minutes.</li>
-          <li><b>Severe symptoms mean hypertonic saline, now.</b> A seizure, a GCS of 8 or less, persistent vomiting, cardiorespiratory distress. <em>ESE 2014: 150 mL of 3% over 20 minutes, sodium at 20 minutes, repeat up to twice until +5 mmol/L. Society for Endocrinology: 100 mL over 10 minutes, up to three times.</em> Then stop. Don't wait for the work-up — but if the urine can go in a pot first without delaying anything, send it: results after 3% are harder to read.</li>
-          <li><b>The ceiling: 10 in the first 24 hours — and 8 if he is high-risk.</b> Alcohol, malnutrition, hypokalaemia, liver disease, a sodium of 105 or less. Dennis had three. Osmotic demyelination arrives days later — dysarthria, dysphagia, quadriparesis — and it is prevented, not treated.</li>
+          <li><b>Severe symptoms mean hypertonic saline, now.</b> A seizure, a GCS of 8 or less, persistent vomiting, cardiorespiratory distress. <em>Society for Endocrinology (2022) and ESE 2014: 150 mL of 3% over 20 minutes, sodium at 20 minutes, repeat up to twice until +5 mmol/L.</em> Then stop. Don't wait for the work-up — but if the urine can go in a pot first without delaying anything, send it: results after 3% are harder to read.</li>
+          <li><b>The ceiling: 10 in the first 24 hours, then 8 a day (Society for Endocrinology, ESE). Many units aim for 8 in high risk:</b> Alcohol, malnutrition, hypokalaemia, liver disease, a sodium of 105 or less. Dennis had three. Osmotic demyelination arrives days later — dysarthria, dysphagia, quadriparesis — and it is prevented, not treated.</li>
           <li><b>The danger is overnight.</b> When the ADH drive goes — the pneumonia settles, the nausea stops, the drip comes down — the kidney dumps water and the sodium climbs by itself. Measure it 4–6-hourly, watch the urine output, write the ceiling in the notes, and know the rescue: 5% glucose ~10 mL/kg and desmopressin 2 micrograms IV.</li>
           <li><b>Classify before you label.</b> Serum osmolality low (true hypotonicity). Urine osmolality over 100 (ADH is on — not potomania or polydipsia). Urine sodium over 30 (not salt-hungry — not hypovolaemic, unless diuretics or the adrenals). Clinically euvolaemic. Then exclude hypothyroidism and adrenal insufficiency, and diuretics. Only then is it SIADH.</li>
           <li><b>0.9% saline can make SIADH worse.</b> With a urine osmolality of 486, a litre of saline is excreted in about 630 mL of urine and the rest is kept as water. If the urine is more concentrated than the fluid, the fluid lowers the sodium.</li>
@@ -1036,10 +1036,10 @@ Bloods
    Community-acquired pneumonia → SIADH → acute-on-chronic severe symptomatic hyponatraemia
    (Na 112) → a generalised tonic-clonic seizure, made worse by two days of maintenance 5% glucose,
    in a man with alcohol dependence — which puts him in the high-risk group for osmotic
-   demyelination (≤8 mmol/L in 24 h).
+   demyelination (guideline ceiling ≤10 mmol/L in the first 24 h; many units aim for 8 in high risk).
    Marked against: ESE/ERA-EDTA/ESICM clinical practice guideline on hyponatraemia (Eur J Endocrinol
    2014;170:G1) · Society for Endocrinology emergency guidance on severe symptomatic hyponatraemia
-   (2022 update: 100 mL 3% over 10 min, up to three times) · NICE NG250 Pneumonia (2025) ·
+   (2022 update: 150 mL 3% over 20 min, repeat up to twice until +5; ≤10 mmol/L in the first 24 h, ≤8 per 24 h after) · NICE NG250 Pneumonia (2025) ·
    NICE CG100 alcohol-use disorders (withdrawal) · NICE CG174 IV fluids in adults.
    ============================================================ */
 const CASE = {
@@ -1337,7 +1337,7 @@ const CASE = {
     { id:"hyperinf", t:"3% saline as a continuous infusion", kind:"good" },
     { id:"recheck",  t:"Sodium rechecked after each bolus", kind:"good" },
     { id:"namon",    t:"Sodium 4–6-hourly", kind:"good" },
-    { id:"nalimit",  t:"Correction ceiling: ≤8 mmol/L in 24 h", kind:"good" },
+    { id:"nalimit",  t:"Correction ceiling written (≤10 mmol/L in the first 24 h)", kind:"good" },
     { id:"relower",  t:"Overcorrection rescue plan", kind:"good" },
     { id:"stopfluids", t:"Hypotonic IV fluid stopped", kind:"good" },
     { id:"kvo",      t:"Line kept open (0.9% saline, minimal volume)", kind:"good" },
@@ -1376,25 +1376,25 @@ const CASE = {
   mgmt: [
     { id:"first", tag:"The first ten minutes", q:"He fitted, he is drowsy, and the gas says sodium 112. What is the first treatment for the sodium?",
       opts:[
-        { t:"A 3% saline bolus — 150 mL over 20 min (ESE) or 100 mL over 10 min (SfE) — recheck, and repeat up to twice more", ok:true },
+        { t:"A 3% saline bolus — 150 mL over 20 minutes — recheck, and repeat up to twice more", ok:true },
         { t:"Fluid restrict to 1 litre a day and recheck in the morning", ok:false },
         { t:"1 litre of 0.9% saline over four hours", ok:false },
         { t:"Tolvaptan 15 mg orally", ok:false } ],
-      teach:"<b>Severe symptoms — a seizure, a GCS of 8 or less, persistent vomiting, cardiorespiratory distress — mean hypertonic saline now, whatever the cause and however long it has been low.</b> The ESE 2014 guideline gives 150 mL of 3% over 20 minutes, a sodium at 20 minutes, and up to two repeats until the sodium is 5 mmol/L higher; the Society for Endocrinology's emergency guidance gives 100 mL over 10 minutes, up to three times. A small rise of 4–6 mmol/L is enough to shrink a swollen brain. Fluid restriction takes days; 0.9% saline can lower the sodium in SIADH; tolvaptan is not an emergency drug and the ESE recommends against it." },
-    { id:"target", tag:"How far, how fast", q:"The bolus is in. How much should the sodium rise — and what is the 24-hour ceiling in this man?",
+      teach:"<b>Severe symptoms — a seizure, a GCS of 8 or less, persistent vomiting, cardiorespiratory distress — mean hypertonic saline now, whatever the cause and however long it has been low.</b> The Society for Endocrinology's emergency guidance (2022 update) and the ESE 2014 guideline give the same regimen: 150 mL of 3% over 20 minutes, a sodium at 20 minutes, and up to two repeats until the sodium is 5 mmol/L higher. (The 100 mL bolus you may see quoted is the US expert panel's, 2013.) A small rise of 4–6 mmol/L is enough to shrink a swollen brain. Fluid restriction takes days; 0.9% saline can lower the sodium in SIADH; tolvaptan is not an emergency drug and the ESE recommends against it." },
+    { id:"target", tag:"How far, how fast", q:"The bolus is in. How much should the sodium rise — and what is the ceiling?",
       opts:[
-        { t:"About 5 mmol/L in the first hour, then stop; no more than 8 mmol/L in the first 24 hours, because he is high-risk", ok:true },
+        { t:"About 5 mmol/L in the first hour, then stop; no more than 10 mmol/L in the first 24 hours, and 8 in each 24 hours after", ok:true },
         { t:"About 10 mmol/L in the first hour, then 1 mmol/L an hour until 135", ok:false },
         { t:"Back to 135 within 24 hours, now that the seizure has proved it is dangerous", ok:false },
         { t:"2 mmol/L an hour until the symptoms settle, with no daily limit", ok:false } ],
-      teach:"The first hour's target is a <b>rise of about 5 mmol/L</b> — then the hypertonic saline stops. The ESE ceiling is <b>10 mmol/L in the first 24 hours and 8 in each 24 hours after</b>; in anyone at <b>high risk of osmotic demyelination the ceiling is 8 in 24 hours from the start</b> — and a drinker who is malnourished and hypokalaemic is the textbook high-risk patient. The brain has already adapted to the low sodium by shedding osmolytes. Correct faster than it can take them back up, and the cells shrink and the myelin splits." },
+      teach:"The first hour's target is a <b>rise of about 5 mmol/L</b> — then the hypertonic saline stops. The Society for Endocrinology (2022) and the ESE 2014 guideline set the same ceiling: <b>no more than 10 mmol/L in the first 24 hours, and 8 in each 24 hours after</b>, until the sodium is 130. Neither sets a lower limit for patients at high risk of osmotic demyelination; the US expert panel (2013) does — 8 in any 24 hours — and many UK units adopt it for someone like Dennis, a malnourished, hypokalaemic drinker. Know your local policy. The brain has already adapted to the low sodium by shedding osmolytes. Correct faster than it can take them back up, and the cells shrink and the myelin splits." },
     { id:"ods", tag:"Who is at risk", q:"Which of these puts Dennis at high risk of osmotic demyelination?",
       opts:[
         { t:"Alcohol dependence, malnutrition and a low potassium", ok:true },
         { t:"His age, the fever and the pneumonia", ok:false },
         { t:"Being male, smoking and a raised CK", ok:false },
         { t:"The seizure, and the fact that the fall was acute", ok:false } ],
-      teach:"The recognised risk factors for osmotic demyelination are <b>a sodium of 105 or below, hypokalaemia, alcoholism, malnutrition and advanced liver disease</b> (US expert panel 2013; they are the same list the ESE uses). Dennis has three of them. An <i>acute</i> fall — under 48 hours — is actually <i>lower</i> risk, because the brain has had less time to adapt; but his fall is acute-on-chronic, from 129 on Thursday, and nobody should bet a pons on the difference. The consequence arrives two to six days later: dysarthria, dysphagia, quadriparesis, locked-in. It is prevented, not treated." },
+      teach:"The recognised risk factors for osmotic demyelination are <b>a sodium of 105 or below, hypokalaemia, alcoholism, malnutrition and advanced liver disease</b> (US expert panel 2013; NICE CKS gives alcohol, malnutrition, liver disease and low potassium). Dennis has three of them. An <i>acute</i> fall — under 48 hours — is actually <i>lower</i> risk, because the brain has had less time to adapt; but his fall is acute-on-chronic, from 129 on Thursday, and nobody should bet a pons on the difference. The consequence arrives two to six days later: dysarthria, dysphagia, quadriparesis, locked-in. It is prevented, not treated." },
     { id:"saline", tag:"Why saline makes it worse", q:"His urine osmolality is 486. Why can a litre of 0.9% saline LOWER his sodium?",
       opts:[
         { t:"He excretes the salt in concentrated urine and keeps much of the water", ok:true },
@@ -2528,7 +2528,7 @@ const PLAN_ITEMS = {
     "4 hourly na","4 hourly sodium","6 hourly na","6 hourly sodium","na 4 hourly","na 6 hourly","sodium 4 hourly","sodium 6 hourly","4hrly na","6hrly na","na 4hrly","na 6hrly","q4h na","q6h na","na q4h","na q6h",
     "regular na","regular sodium","serial na","serial sodium","frequent na","frequent sodium","close na monitoring","close sodium monitoring","monitor na","monitor sodium","monitor the sodium","monitor the na","na monitoring","sodium monitoring",
     "u e 4 hourly","u e 6 hourly","ue 4 hourly","ue 6 hourly","4 hourly u e","6 hourly u e","repeat u e","repeat u es","repeat ue","repeat ues","repeat bloods","repeat the bloods","6 and 12 hours","at 6 and 12","6 12 hours","hourly na","hourly sodium","2 hourly na","2 hourly sodium") },
-  nalimit: { label:"A correction ceiling named (≤8 mmol/L in 24 h)", rx:"nalimit", aliases:A(
+  nalimit: { label:"A correction ceiling named (≤10 mmol/L in the first 24 h)", rx:"nalimit", aliases:A(
     "8 mmol","8mmol","8 in 24","8 in 24h","8 in 24hrs","8 in 24 hrs","8 per 24","8 per 24h","8 24h","8 24 h","8 24hrs","8 in 24 hours","8 over 24","8 in the first 24","by more than 8","more than 8","exceed 8","limit of 8","limit to 8","limit 8","max 8","maximum 8","no more than 8","not more than 8","less than 8","8 a day","8 per day",
     "10 in 24","10 per 24","10 in the first 24","no more than 10","max 10","limit of 10",
     "rise of 5","rise by 5","increase of 5","increase by 5","target rise","aim for a rise","target of 5","aim 5","aim for 5","5 in 1 hour","5 in the first hour",
@@ -2727,9 +2727,9 @@ const BUNDLE = [
     via:()=> S.rx.has("recheck") !== (S.rx.has("namon") || S.gasCount>=2),
     viaNote:"Half of it: a recheck after the bolus, or regular monitoring after — you need both. The first tells you when to stop the 3%; the second catches the overnight autocorrection.",
     why:"The sodium was not rechecked after the bolus, and nothing was set up to watch it overnight. Every hypertonic protocol is a loop: give, measure, decide." },
-  { k:"The ceiling", want:"A limit written down — ≤8 mmol/L in 24 h in this high-risk man — and nothing that corrects to normal",
+  { k:"The ceiling", want:"A limit written down — no more than 10 mmol/L in the first 24 hours — and nothing that corrects to normal",
     ok:()=> S.rx.has("nalimit") && !S.rx.has("rapid") && !S.rx.has("tolvaptan") && !(S.rx.has("hyperinf") && !S.rx.has("nalimit")),
-    why:()=> S.rx.has("rapid") ? "“Correct to normal” is how osmotic demyelination happens. The ceiling is 8 mmol/L in 24 hours in a drinker who is malnourished and hypokalaemic." : S.rx.has("tolvaptan") ? "Tolvaptan is not an emergency treatment, the ESE recommends against it, and it is famous for overcorrecting." : "No ceiling was written. The night team need a number — 8 mmol/L in 24 hours for him — and what to do if it is breached." },
+    why:()=> S.rx.has("rapid") ? "“Correct to normal” is how osmotic demyelination happens. The guideline ceiling is 10 mmol/L in the first 24 hours, and many units aim for 8 in a drinker who is malnourished and hypokalaemic." : S.rx.has("tolvaptan") ? "Tolvaptan is not an emergency treatment, the ESE recommends against it, and it is famous for overcorrecting." : "No ceiling was written. The night team need a number — no more than 10 in the first 24 hours, lower if your unit's policy says so for high risk — and what to do if it is breached." },
   { k:"Stop the harm", want:"The 5% glucose stopped; no saline load",
     ok:()=> S.dexStopAt!==null && !S.rx.has("fluids"),
     why:()=> S.rx.has("fluids") ? "Fluid went in. In a man whose urine osmolality is 486, 0.9% saline sheds its salt and leaves water behind; the sodium falls further." : "The 5% glucose kept running — a litre every eight hours of what becomes free water, into a man who cannot excrete it." },
@@ -3010,7 +3010,7 @@ function rise24(){
   if(S.dexStopAt===null) drift -= 4;
   if(S.rx.has("fluids")) drift -= 2;
   if(S.rx.has("restrict")) drift += 2.5;
-  drift += S.dexStopAt!==null ? 4 : 1;                        // the ADH drive fades: pneumonia, nausea, the drip
+  drift += S.dexStopAt!==null ? 5 : 1;                        // the ADH drive fades: pneumonia, nausea, the drip
   if(S.rx.has("tolvaptan")) drift += 10;
   if(S.rx.has("rapid")) drift += 4;
   const raw = hyper + drift;
@@ -3026,15 +3026,15 @@ function epilogueHTML(){
   const r = rise24(), na24 = 112 + r.final;
   let h = `<b>Sunday night.</b> ${S.hyperAt!==null ? `The 3% went in at ${fmtClock(CASE.meta.startClock+S.hyperAt)}. ${S.rx.has("recheck") ? "Three boluses, a gas after each; he was up by five within the hour and the 3% stopped." : "One bolus, and nobody rechecked — he came up by two, and stayed drowsy longer than he needed to."}` : "No hypertonic saline."} By midnight he was talking. By two he wanted a cigarette.<br><br>`;
   if(r.caught && r.watched){
-    h += `<b>Monday, 03:00.</b> The ADH drive fell away as the pneumonia settled and the drip came down, and he started passing litres of dilute urine. The 4-hourly sodium caught it at ${112+7} — ${r.raw > 8 ? `on course for a rise of ${r.raw} in 24 hours` : "close to the ceiling"} — and because the ceiling was written in the notes, the night registrar knew what to do: a bag of 5% glucose and 2 micrograms of desmopressin. <b>24-hour rise: ${r.final} mmol/L.</b> Inside the limit.<br><br>`;
+    h += `<b>Monday, 03:00.</b> The ADH drive fell away as the pneumonia settled and the drip came down, and he started passing litres of dilute urine. The 4-hourly sodium caught it at ${112+7} — ${r.raw > 10 ? `on course for a rise of ${r.raw} in 24 hours` : "close to the ceiling"} — and because the ceiling was written in the notes, the night registrar knew what to do: a bag of 5% glucose and 2 micrograms of desmopressin. <b>24-hour rise: ${r.final} mmol/L.</b> Inside the limit.<br><br>`;
   } else if(r.caught){
-    h += `<b>Monday, 03:00.</b> He started passing litres of dilute urine. The sodium checks you asked for caught it at ${Math.round(na24)} — but nobody had written a ceiling, and it took the night registrar an hour to decide that 9 in 24 hours was too many for a drinker. <b>24-hour rise: ${r.final} mmol/L</b> — just over the line, and pulled back.<br><br>`;
-  } else if(r.final > 8){
+    h += `<b>Monday, 03:00.</b> He started passing litres of dilute urine. The sodium checks you asked for caught it at ${Math.round(na24)} — but nobody had written a ceiling, and it took the night registrar an hour to decide what to do. <b>24-hour rise: ${r.final} mmol/L</b> — inside the guideline's 10, closer than anyone wanted in a drinker, and pulled back.<br><br>`;
+  } else if(r.final > 10){
     h += `<b>Monday.</b> Nobody was measuring. The sodium on the morning bloods was <b>${Math.round(na24)}</b> — <b>up ${r.final} in 24 hours</b>, in a malnourished, hypokalaemic drinker. He was bright, chatty and grateful.<br><br><b>Thursday.</b> His speech thickened. By Friday he could not swallow, and by Saturday he could not move his arms. The MRI showed the trident-shaped signal in the pons. <b>Osmotic demyelination</b>: the seizure had been survived; the correction had not. It is prevented, not treated.<br><br>`;
   } else {
     h += `<b>Monday.</b> The morning sodium was <b>${Math.round(na24)}</b>: a rise of ${r.final} in 24 hours${r.final<4?" — slow, and the day team had to push":""}.<br><br>`;
   }
-  if(!(r.final > 8 && !r.caught)){
+  if(!(r.final > 10 && !r.caught)){
     h += `<b>Tuesday.</b> ${S.rx.has("restrict")?"On a litre a day, grumbling about it.":"The day team started a fluid restriction."} Sodium 127. ${S.rx.has("narrow")?"Clarithromycin stopped and switched to oral amoxicillin, as the sputum said.":"Microbiology suggested stopping the clarithromycin and switching to oral amoxicillin."} CRP 60.<br><br>`+
       `<b>Friday.</b> Sodium 134 off restriction. Home, with an alcohol-liaison appointment, a letter to the GP that says <i>SIADH secondary to pneumococcal pneumonia; please recheck sodium in one week</i>, and advice about driving after a seizure. ${S.rx.has("escalation")?"Jean, who you rang, was there to take him.":"Jean took him home. Nobody had rung her on Sunday; Priya did, in the end."}`;
   }
@@ -3095,7 +3095,7 @@ function showDeath(){
     `<b>It was hyponatraemia — SIADH from a pneumococcal pneumonia</b>, driven down from 129 to 112 by two days of 5% glucose, with a 06:00 result of 118 on the whiteboard. `+
     `${S.ordered.has("abg") ? "You had the arterial gas. The number was on it." : "The gas was on the first-results screen. The number was on it."} `+
     `${S.ae.assessed.has("c_bag") ? "You read the bag at C." : "The bag on the drip stand said glucose 5% in blue capitals, and nobody read it."}<br><br>`+
-    `Treated — 3% saline in the first hour, a ceiling of eight, the drip down, the pneumonia treated — this is a man who goes home on Friday. At the morbidity meeting the consultant drew a line from the bag to the whiteboard to the gas machine, and did not say anything else.`;
+    `Treated — 3% saline in the first hour, a ceiling in the notes, the drip down, the pneumonia treated — this is a man who goes home on Friday. At the morbidity meeting the consultant drew a line from the bag to the whiteboard to the gas machine, and did not say anything else.`;
   go("death");
 }
 $("#deathOn").onclick = ()=> scoreAndShow();
@@ -3226,7 +3226,7 @@ function scoreAndShow(){
     if(S.rx.has("recheck")) add("Sodium rechecked after each bolus", 3);
   }
   if(S.rx.has("namon")) add("Sodium monitored 4–6-hourly", 2);
-  if(S.rx.has("nalimit")) add("A ceiling of 8 mmol/L in 24 h written down", 4);
+  if(S.rx.has("nalimit")) add("A correction ceiling written down", 4);
   if(S.rx.has("relower")) add("Overcorrection rescue plan", 2);
   if(S.dexStopAt!==null) add(S.ae.pausedDrip ? "The drip paused during the A–E" : "The 5% glucose stopped", S.ae.pausedDrip ? 4 : 3);
   if(S.rx.has("restrict")) add("Fluid restriction", 3);
@@ -3247,7 +3247,7 @@ function scoreAndShow(){
   if(S.rx.has("cdpup")) add("Chlordiazepoxide increased", -3);
   if(S.rx.has("aed")) add("Antiepileptic loaded for a provoked seizure", -2);
   const r = rise24();
-  if(!S.died && r.final > 8 && !r.caught) add(`24-hour rise of ${r.final} mmol/L — osmotic demyelination`, -15);
+  if(!S.died && r.final > 10 && !r.caught) add(`24-hour rise of ${r.final} mmol/L — osmotic demyelination`, -15);
 
   if(S.planWritten || S.bundleCovered) add(`Management covered ${S.bundleCovered} of ${BUNDLE.length} bundle domains`, S.bundleCovered*3);
 
@@ -3291,11 +3291,11 @@ function scoreAndShow(){
       `The 3% went in${S.hyperAt!==null&&S.hyperAt>60?`, but ${S.hyperAt} minutes after the fit`:""}${!S.rx.has("recheck")?", and nobody rechecked the sodium after it":""}. Bolus, measure, repeat, stop.`,
       "No hypertonic saline. A seizure from a sodium of 112 is the definition of severe symptoms, and the only treatment that works in the time a brain has is 3% saline."
     ], "Treat the brain first: hypertonic saline, now", ""),
-    hitIf(S.rx.has("nalimit") && S.rx.has("namon") && !(r.final>8 && !r.caught), S.rx.has("nalimit") || S.rx.has("namon"), [
-      `A ceiling of 8 written down, the sodium watched, and the overnight autocorrection caught. 24-hour rise: ${r.final}.`,
+    hitIf(S.rx.has("nalimit") && S.rx.has("namon") && !(r.final>10 && !r.caught), S.rx.has("nalimit") || S.rx.has("namon"), [
+      `A ceiling written down, the sodium watched, and the overnight autocorrection caught. 24-hour rise: ${r.final}.`,
       `${S.rx.has("nalimit")?"You wrote a ceiling but nobody was measuring often enough to hold it. ":"You measured, but never wrote a ceiling — the night team had to guess. "}24-hour rise: ${r.final}.`,
-      `No ceiling and no monitoring. 24-hour rise: ${r.final}${r.final>8?" — in a drinker, malnourished and hypokalaemic. That is osmotic demyelination.":"."}`
-    ], "Correct safely: +5, then a ceiling of 8 — and watch for autocorrection", ""),
+      `No ceiling and no monitoring. 24-hour rise: ${r.final}${r.final>10?" — in a drinker, malnourished and hypokalaemic. That is osmotic demyelination.":"."}`
+    ], "Correct safely: +5, then no more than 10 in 24 h — and watch for autocorrection", ""),
     hitIf(p2.dxCorrect && !p2.corrected && !p2.dxPartial && !S.siadhNoScreen, p2.dxCorrect, [
       "Hypotonic (serum 238), concentrated urine (486), urine sodium over 30, euvolaemic, off diuretics, TSH and cortisol normal: SIADH, earned rather than assumed. And the pneumonia behind it.",
       p2.corrected ? `You called the cause “${p2.firstDx}” first, and the evening sodium told you otherwise.` : S.siadhNoScreen ? "SIADH — right, but named before the thyroid and adrenal glands were checked. It is a diagnosis of exclusion." : `“${p2.dx}” — part of it. The drip made it worse; the pneumonia's ADH made it happen.`,
