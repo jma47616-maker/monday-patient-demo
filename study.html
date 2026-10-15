@@ -253,7 +253,7 @@ textarea:focus-visible{outline-color:var(--accent-2)}
 .evidence-badge--inline b{font-size:inherit;white-space:normal;text-overflow:clip;min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
 @media print{
-  #login,.side,.tabs,.topbar,.nav,.overlay,.banner,.btn,.disclaimer--app{display:none!important}
+  #login,#chooser,.side,.tabs,.topbar,.nav,.overlay,.banner,.btn,.disclaimer--app{display:none!important}
   body,#app.on{display:block!important;background:#fff}
   .cert{display:block!important}
   .disclaimer--cert{border-color:#999;color:#333}
@@ -580,6 +580,33 @@ textarea:focus-visible{outline-color:var(--accent-2)}
   .loginbox .wm-ecg path { animation: none; stroke-dashoffset: 0; }
 }
 /* ===== END quest-map hub layer ===== */
+
+/* ===== chooser: pick a programme after sign-in (2026-10-15) =====
+   Outside the generated hub layer on purpose, so apply-hub.py leaves it be. */
+#chooser { display: none; min-height: 100dvh; padding: var(--s5) var(--s4); background: var(--paper); }
+#chooser.on { display: block; }
+.chooser__box { max-width: 44rem; margin: 0 auto; }
+.chooser__box .brand { display: flex; align-items: center; gap: var(--s2); font-family: var(--fd); font-weight: 800; font-size: 1.3rem; letter-spacing: -.02em; margin-bottom: var(--s6); }
+.chooser__box .brand em { font-style: normal; color: var(--accent); }
+.chooser__box .brand .mp-mark { width: 2.4rem; height: auto; }
+.chooser__h { font-size: 2.1rem; margin: 0 0 var(--s2); }
+.chooser__grid { display: grid; grid-template-columns: 1fr; gap: var(--s4); margin-bottom: var(--s5); }
+@media (min-width: 600px) { .chooser__grid { grid-template-columns: repeat(2, 1fr); } }
+.ptile { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s2); text-align: left;
+  min-height: 9rem; padding: var(--s5); background: var(--paper-2); color: var(--ink); font: inherit; cursor: pointer;
+  border: 2px solid var(--ink); border-radius: 18px; box-shadow: 4px 4px 0 rgba(36, 28, 21, .9); transition: transform .1s, box-shadow .1s; }
+.ptile:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 rgba(36, 28, 21, .9); }
+.ptile:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 rgba(36, 28, 21, .9); }
+.ptile:focus-visible { outline: 3px solid var(--accent-2); outline-offset: 3px; }
+.ptile__ico { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; font-size: 1.3rem; background: var(--accent-bg); border: 2px solid var(--ink); border-radius: 12px; }
+.ptile__t { font-family: var(--fd); font-weight: 800; font-size: 1.35rem; letter-spacing: -.01em; }
+.ptile__d { font-size: .9rem; color: var(--muted); padding-right: var(--s5); }
+.ptile__go { position: absolute; right: var(--s4); bottom: var(--s4); font-size: 1.3rem; font-weight: 700; color: var(--accent-2); }
+.chooser__back { margin-bottom: var(--s5); }
+.chooser__out { font-size: .85rem; color: var(--muted); }
+.chooser__out button { background: none; border: none; padding: 0; font: inherit; color: var(--accent-2); text-decoration: underline; cursor: pointer; }
+#chooser .disclaimer { margin-top: var(--s6); }
+.topbar .m-brand { cursor: pointer; }
 </style>
 </head>
 <body>
@@ -622,6 +649,15 @@ textarea:focus-visible{outline-color:var(--accent-2)}
       <button class="btn btn--ghost btn--wide" id="resendLink">Send a new link</button>
       <button class="btn btn--ghost btn--wide" id="backEmail" style="margin-top:var(--s2)">Use a different email</button>
     </div>
+    <div class="disclaimer disclaimer--login" data-disclaimer></div>
+  </div>
+</section>
+
+<!-- ============ CHOOSER (after sign-in) ============ -->
+<section id="chooser" aria-label="Choose a programme">
+  <div class="chooser__box">
+    <div class="brand"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span>The Monday <em>Patient</em></span></div>
+    <div class="chooser__body"></div>
     <div class="disclaimer disclaimer--login" data-disclaimer></div>
   </div>
 </section>
@@ -690,7 +726,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.20';
+const APP_VERSION='1.5.21';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -1112,23 +1148,58 @@ async function claimAutosave(){
 }
 
 /* ============ app shell ============ */
-const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['paces','PACES','✦'],['leaderboard','Board','♦'],['submit','Submit','✚']];
+/* PACES is not in the sidebar (owner, 2026-10-15): it is reached from the
+   chooser. 'switch' is not a view - it goes back to the chooser. */
+const NAV=[['home','Home','⌂'],['programme','Programme','▦'],['activity','Activity','◷'],['cpd','CPD','✎'],['leaderboard','Board','♦'],['submit','Submit','✚'],['switch','Switch','⇆']];
 let VIEW='home';
 function buildNav(){
   // the Admin entry is appended rather than living in NAV, so it exists only
   // for an admin. Hiding it is a courtesy - the database is what enforces it.
-  const items = IS_ADMIN ? NAV.concat([['admin','Admin','⚙']]) : NAV;
-  const mk=(cont,mobile)=>{cont.innerHTML='';items.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>go(id);b.dataset.v=id;cont.appendChild(b);});};
+  const items = IS_ADMIN ? NAV.slice(0,-1).concat([['admin','Admin','⚙'],NAV[NAV.length-1]]) : NAV;
+  const mk=(cont,mobile)=>{cont.innerHTML='';items.forEach(([id,label,ico])=>{const b=el('button',null,`<span class="ico">${ico}</span>${label}`);b.onclick=()=>id==='switch'?showChooser():go(id);b.dataset.v=id;cont.appendChild(b);});};
   mk($('#nav-d')); mk($('#nav-m'));
 }
 function enterApp(){
-  $('#login').style.display='none'; $('#app').classList.add('on');
+  $('#login').style.display='none';
   $('#who-name').textContent=PROFILE?.pseudonym||'Trainee'; refreshProfChip();
   $('#who-cohort').textContent=(GUEST?'guest mode':PROFILE?.cohort||'');
-  buildNav(); go('home'); updateBell();
+  buildNav(); updateBell();
+  // coming back from a finished case: straight to Home, where the save lands
+  if(new URLSearchParams(location.search).get('mp_done')) openHub('home'); else showChooser();
+}
+
+/* ============ the chooser ============
+   After sign-in, and on every fresh visit, the trainee picks a programme
+   before the hub (owner's sketch, 2026-10-15). UKMLA is written in but
+   hidden until the owner releases it - flip `hidden` to show the tile. */
+const PROGRAMMES=[
+  {id:'weekly', ico:'⌂', title:'Weekly patients', text:'A new acute-medicine case every Monday — about fifteen minutes on your phone.', open:()=>openHub('home')},
+  {id:'paces',  ico:'✦', title:'PACES', text:'Signs and differentials for the stations. No timer, no score.', open:()=>showPacesPage()},
+  {id:'ukmla',  ico:'✎', title:'UKMLA', text:'The MLA content map, in plain English.', hidden:true, open:()=>{ location.href=`${BASE}mla.html?v=${APP_VERSION}`; }}
+];
+function openHub(v){ $('#chooser').classList.remove('on'); $('#app').classList.add('on'); go(v||'home'); }
+function chooserShell(inner){
+  const c=$('#chooser'); $('#app').classList.remove('on'); $('#login').style.display='none';
+  c.querySelector('.chooser__body').innerHTML=inner; c.classList.add('on'); window.scrollTo({top:0});
+  document.body.dataset.view='chooser';
+}
+function showChooser(){
+  const name=escapeHtml(PROFILE?.pseudonym||'Doctor');
+  chooserShell(`<div class="kicker">${GUEST?'Guest mode':'Signed in'}</div>
+    <h1 class="chooser__h">Hello, ${name}.</h1>
+    <p class="lede">What are you working on today?</p>
+    <div class="chooser__grid">${PROGRAMMES.filter(p=>!p.hidden).map(p=>`<button class="ptile" data-p="${p.id}"><span class="ptile__ico" aria-hidden="true">${p.ico}</span><span class="ptile__t">${p.title}</span><span class="ptile__d">${p.text}</span><span class="ptile__go" aria-hidden="true">→</span></button>`).join('')}</div>
+    <p class="chooser__out"><button id="ch-out">Sign out</button></p>`);
+  $('#chooser').querySelectorAll('.ptile').forEach(b=>b.onclick=()=>PROGRAMMES.find(p=>p.id===b.dataset.p).open());
+  $('#ch-out').onclick=signOut;
+}
+function showPacesPage(){
+  chooserShell(`<button class="btn btn--ghost btn--sm chooser__back" id="ch-back">← All programmes</button>${pacesHTML()}`);
+  $('#ch-back').onclick=showChooser;
 }
 function go(v){ VIEW=v; document.body.dataset.view=v; document.querySelectorAll('.nav button,.tabs button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v))); renderActive(); window.scrollTo({top:0}); }
 $('#signout-d').onclick=signOut;
+$('.topbar .m-brand').onclick=showChooser;   // the logo goes back to the chooser
 
 /* ============ account editor ============ */
 /* The pseudonym is the trainee's public identity on the leaderboard, so the
@@ -1181,11 +1252,11 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleProf(false);
 const _ep=$('#editprof-d'); if(_ep)_ep.onclick=openAcct;
 
 /* ============ views ============ */
-function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit,paces:renderPaces,admin:renderAdmin}[VIEW]; if(f) f(); }
+function renderActive(){ const f={home:renderHome,programme:renderProgramme,activity:renderActivity,cpd:renderCPD,leaderboard:renderLeaderboard,submit:renderSubmit,admin:renderAdmin}[VIEW]; if(f) f(); }
 
-function renderPaces(){
-  const v=el('div','view on');
-  v.innerHTML=`<div class="kicker">PACES</div>
+/* The PACES page lives on the chooser screen (showPacesPage), not in the hub. */
+function pacesHTML(){
+  return `<div class="kicker">PACES</div>
     <h2 class="view-h">Signs and differentials.</h2>
     <p class="lede">Quick-fire revision for the stations. A sign or a set of findings comes up, you type what it is and what else it could be, and the model answer shows what you named and what you left out. No timer and no score — it is only there for learning.</p>
     <div class="card">
@@ -1197,7 +1268,6 @@ function renderPaces(){
       <div class="card__label">More stations</div>
       <p style="font-size:.92rem;color:var(--muted)">Other stations will be added here as they are written.</p>
     </div>`;
-  mount(v);
 }
 
 function renderSubmit(){
