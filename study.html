@@ -690,7 +690,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.18';
+const APP_VERSION='1.5.19';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -698,7 +698,8 @@ const APP_VERSION='1.5.18';
    printable certificate. Change it here and it changes everywhere. */
 const DISCLAIMER_HTML=`
   <p><span class="ico" aria-hidden="true">🔒</span><span><b>Caldicott Compliant &amp; Fictionalized</b>: All clinical scenarios, laboratory values, imaging, and patient names are 100% fictionalized composite cases. No real patient data is stored or processed.</span></p>
-  <p><span class="ico" aria-hidden="true">🩺</span><span><b>Medical Simulation Only</b>: For medical education and clinical simulation only. Clinical decision-making in live patient care must adhere to local trust protocols and senior consultation.</span></p>`;
+  <p><span class="ico" aria-hidden="true">🩺</span><span><b>Medical Simulation Only</b>: For medical education and clinical simulation only. Clinical decision-making in live patient care must adhere to local trust protocols and senior consultation.</span></p>
+  <p class="mp-copyright" style="font-size:9px;opacity:.6;justify-content:center">&copy; 2026 Dr Naveen Vijayakumar. All rights reserved.</p>`;
 document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIMER_HTML;});
 
 /* ============ programme ============ */

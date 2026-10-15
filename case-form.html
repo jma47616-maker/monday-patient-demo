@@ -225,6 +225,12 @@ textarea{resize:vertical;min-height:4.5rem;overflow:hidden}
     <label class="gov"><input type="checkbox" id="q_gov"><span>The patient is <b>fictional</b>, or fully anonymised to Caldicott standard — no real identifiers, no real dates, nothing traceable to an actual person or admission.</span></label>
   </section>
 
+  <section>
+    <h2><span class="n">12</span>Permission to use your case</h2>
+    <p class="hint">Required to send. You keep the copyright in what you write; this lets me build it into the app and keep it there.</p>
+    <label class="gov"><input type="checkbox" id="q_lic"><span>This case is <b>my own work</b> (or I have permission for anything I have included from others), and I grant <b>Dr Naveen Vijayakumar</b>, the owner of The Monday Patient, a free, worldwide, non-exclusive, perpetual and irrevocable licence to use, adapt, edit, publish and sublicense it, in The Monday Patient or any successor to it. I will be credited as its author unless I ask not to be.</span></label>
+  </section>
+
   </form>
 
   <div class="actions">
@@ -346,7 +352,10 @@ function asText(){
   o += block('10. SOURCES', val('q_src'));
   o += '11. GOVERNANCE\n' + ($('#q_gov').checked
         ? 'Confirmed fictional or fully anonymised to Caldicott standard.'
-        : 'NOT YET CONFIRMED — please tick box 11 before sending.') + '\n';
+        : 'NOT YET CONFIRMED — please tick box 11 before sending.') + '\n\n';
+  o += '12. PERMISSION\n' + ($('#q_lic').checked
+        ? 'Own work; non-exclusive, perpetual, irrevocable licence granted to Dr Naveen Vijayakumar to use, adapt, publish and sublicense it in The Monday Patient. Author credited unless they ask otherwise.'
+        : 'NOT GIVEN — box 12 must be ticked before the case can be used.') + '\n';
   return o;
 }
 
@@ -434,6 +443,7 @@ function showPending(){
 $('#send').onclick = async () => {
   const body = asText();
   if(!Object.keys(answers()).length){ flash('Nothing to send yet — fill something in first', false, 'err'); return; }
+  if(!$('#q_lic').checked){ flash('Tick box 12 to send — without your permission I cannot use the case', false, 'err'); $('#q_lic').focus(); return; }
   if(!$('#q_gov').checked && !confirm('You have not confirmed box 11 — that the patient is fictional or fully anonymised.\n\nSend it anyway?')) return;
   let log = ''; try{ log = localStorage.getItem(SENTLOG) || ''; }catch(_){}
   if(log === body && !confirm('You have already sent this version. Send another copy?')) return;
@@ -489,5 +499,8 @@ fields.forEach(grow);
 showPending();
 flush(true);
 </script>
+<!-- BEGIN copyright notice -->
+<p class="mp-copyright" style="margin:.75rem auto 0;padding:0 1rem .5rem;font-size:9px;line-height:1.3;text-align:center;opacity:.45;color:inherit">&copy; 2026 Dr Naveen Vijayakumar. All rights reserved.</p>
+<!-- END copyright notice -->
 </body>
 </html>
