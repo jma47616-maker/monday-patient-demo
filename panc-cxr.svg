@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560" width="500" height="560">
+  <title>Chest radiograph</title>
+  <!-- Drawn fallback for a photograph, in the manner of week 8's film: an erect PA chest radiograph of a heavy-set man. Clear lungs, a heart of normal size, both domes sharp, the stomach's gas bubble with a level under the left dome. A side marker and no other lettering. -->
+  <defs><filter id="panc-cxr-b2" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter><filter id="panc-cxr-b4" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="4"/></filter><filter id="panc-cxr-b8" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter><filter id="panc-cxr-b16" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter><filter id="panc-cxr-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="5"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .10 0"/></filter><radialGradient id="panc-cxr-vig" cx=".5" cy=".5" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient><clipPath id="panc-cxr-lungs"><path d="M232 104 C194 88 146 112 118 170 C96 222 86 286 86 352 C110 360 194 352 234 360 Z M268 104 C306 88 354 112 382 170 C404 222 414 290 414 362 C372 370 316 360 272 366 C262 280 268 180 268 104 Z"/></clipPath></defs>
+  <rect width="500" height="560" fill="#060607"/>
+  <g filter="url(#panc-cxr-b8)">
+    <path d="M196 0 H304 L308 56 C364 66 436 82 500 112 V560 H0 V112 C64 82 136 66 192 56 Z" fill="#747477"/>
+    <path d="M0 140 C46 170 66 300 60 560 H0 Z M500 140 C454 170 434 300 440 560 H500 Z" fill="#424245"/>
+  </g>
+  <g filter="url(#panc-cxr-b8)">
+    <path d="M232 104 C194 88 146 112 118 170 C96 222 86 286 86 382 C130 364 194 352 234 360 Z" fill="#141416"/>
+    <path d="M268 104 C306 88 354 112 382 170 C404 222 414 290 414 392 C372 370 316 360 272 366 C262 280 268 180 268 104 Z" fill="#141416"/>
+  </g>
+  <g filter="url(#panc-cxr-b4)" stroke="#5a5a5e" stroke-width="3" fill="none" clip-path="url(#panc-cxr-lungs)" opacity=".7">
+    <path d="M226 200 C200 210 170 230 150 270 M226 214 C200 240 180 270 170 310 M274 204 C300 214 330 236 352 276 M274 220 C304 250 322 286 330 320"/>
+  </g>
+  <g filter="url(#panc-cxr-b16)"><rect x="226" y="0" width="48" height="560" fill="#a6a6a9" opacity=".85"/>
+    <path d="M236 186 C222 230 206 280 200 320 C236 346 316 352 352 330 C354 286 326 228 294 202 C280 190 252 182 236 186 Z" fill="#9c9c9f" opacity=".95"/></g>
+  <g filter="url(#panc-cxr-b8)">
+    <path d="M30 560 V420 C40 352 110 318 168 320 C212 322 238 346 250 372 C266 350 300 330 342 334 C404 340 458 372 470 430 V560 Z" fill="#a8a8ab"/>
+  </g>
+  <g filter="url(#panc-cxr-b2)">
+    <path d="M316 352 C326 344 360 344 374 352 L376 370 H314 Z" fill="#232326"/>
+    <path d="M314 370 H376" stroke="#8c8c90" stroke-width="2"/>
+  </g>
+  <rect x="245" y="0" width="10" height="150" fill="#2a2a2d" opacity=".45" filter="url(#panc-cxr-b2)"/>
+  <g fill="none" stroke="#d4d4d6" stroke-linecap="round" filter="url(#panc-cxr-b2)">
+    <g stroke-width="7" opacity=".32"><path d="M234 100 C186 84 128 92 112 128"/><path d="M266 100 C314 84 372 92 388 128"/><path d="M234 127 C186 111 128 119 110 155"/><path d="M266 127 C314 111 372 119 390 155"/><path d="M234 154 C186 138 128 146 108 182"/><path d="M266 154 C314 138 372 146 392 182"/><path d="M234 181 C186 165 128 173 106 209"/><path d="M266 181 C314 165 372 173 394 209"/><path d="M234 208 C186 192 128 200 104 236"/><path d="M266 208 C314 192 372 200 396 236"/><path d="M234 235 C186 219 128 227 102 263"/><path d="M266 235 C314 219 372 227 398 263"/><path d="M234 262 C186 246 128 254 100 290"/><path d="M266 262 C314 246 372 254 400 290"/><path d="M234 289 C186 273 128 281 98 317"/><path d="M266 289 C314 273 372 281 402 317"/><path d="M234 316 C186 300 128 308 96 344"/><path d="M266 316 C314 300 372 308 404 344"/></g>
+    <path d="M232 92 C190 72 120 70 66 92 M268 92 C310 72 380 70 434 92" stroke-width="12" opacity=".6"/>
+    <path d="M60 110 C40 130 34 150 40 170 M440 110 C460 130 466 150 460 170" stroke-width="16" opacity=".35"/>
+  </g>
+  <rect width="500" height="560" fill="url(#panc-cxr-vig)"/>
+  <rect width="500" height="560" filter="url(#panc-cxr-grain)"/>
+  <text x="462" y="52" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#e8e8ea" text-anchor="middle">L</text>
+</svg>

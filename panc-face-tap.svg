@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" width="480" height="480">
+  <title>The side of his face</title>
+  <!-- His face in profile, looking left. A doctor's fingertip comes in from the upper right and taps three times just in front of the ear lobe; on each tap the corner of his mouth on that side jerks up and out, then settles. Loops every 3.4 s. No words. -->
+  <rect width="480" height="480" fill="#f3e5c8"/>
+  <rect y="410" width="480" height="70" fill="#e3e0d8"/>
+  <path d="M240 330 L232 430 L392 430 L392 290 Z" fill="#dcc0a6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M250 58 C320 52 400 90 418 160 C430 210 420 260 396 296 C380 318 360 330 334 332 C300 336 262 338 220 340 C196 342 166 344 150 340 C132 336 120 326 120 316 C118 304 122 296 118 288 C112 284 112 278 118 274 C112 270 112 264 116 260 C112 256 114 250 122 248 C112 244 96 240 90 232 C86 224 100 214 112 202 C122 192 126 182 128 170 C130 140 140 110 160 92 C184 70 214 60 250 58 Z" fill="#dcc0a6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M150 316 C190 330 260 330 320 322 C360 316 390 296 404 270 L400 296 C384 320 356 334 330 334 C290 338 210 344 150 340 C138 336 128 330 124 322 Z" fill="#7d736a" opacity=".25"/>
+  <path d="M396 296 C380 318 360 330 334 332 C300 336 262 338 220 340 L230 330 C280 330 340 326 372 304 Z" fill="#c99672" opacity=".35"/>
+  <path d="M160 92 C184 70 214 60 250 58 C320 52 400 90 418 160 C426 190 426 214 420 236 C410 210 396 188 378 176 C356 162 330 158 304 162 C290 140 262 124 232 118 C206 112 180 104 160 92 Z" fill="#6f6a63" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M220 76 Q290 62 360 84" fill="none" stroke="#9b968d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M318 200 C314 176 342 166 356 182 C370 200 366 242 352 262 C344 274 326 274 322 260 C320 244 322 220 318 200 Z" fill="#dcc0a6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M330 204 C328 190 344 186 350 198 C356 212 352 232 344 244" fill="none" stroke="#b9825f" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M142 164 Q166 154 192 162" fill="none" stroke="#4a443e" stroke-width="7" stroke-linecap="round"/>
+  <path d="M148 184 Q164 176 180 184 Q166 192 148 188 Z" fill="#fbf8f2" stroke="#241c15" stroke-width="3"/>
+  <circle cx="156" cy="185" r="3.8" fill="#241c15"/>
+  <path d="M150 200 Q166 206 182 200" fill="none" stroke="#b9825f" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M110 232 Q120 238 126 230" fill="none" stroke="#241c15" stroke-width="3" stroke-linecap="round"/>
+  <path d="M152 252 Q162 266 156 286" fill="none" stroke="#b9825f" stroke-width="3" stroke-linecap="round">
+    <animate attributeName="d" values="M152 252 Q162 266 156 286;M152 252 Q162 266 156 286;M160 244 Q172 258 166 276;M160 244 Q172 258 166 276;M152 252 Q162 266 156 286;M152 252 Q162 266 156 286;M160 244 Q172 258 166 276;M160 244 Q172 258 166 276;M152 252 Q162 266 156 286;M152 252 Q162 266 156 286;M160 244 Q172 258 166 276;M160 244 Q172 258 166 276;M152 252 Q162 266 156 286;M152 252 Q162 266 156 286" keyTimes="0.0000;0.0882;0.1029;0.1382;0.1618;0.2647;0.2794;0.3147;0.3382;0.4412;0.4559;0.4912;0.5147;1.0000" dur="3.4s" repeatCount="indefinite"/>
+  </path>
+  <path d="M118 274 Q136 277 154 276" fill="none" stroke="#241c15" stroke-width="4" stroke-linecap="round">
+    <animate attributeName="d" values="M118 274 Q136 277 154 276;M118 274 Q136 277 154 276;M118 274 Q140 270 164 260;M118 274 Q140 270 164 260;M118 274 Q136 277 154 276;M118 274 Q136 277 154 276;M118 274 Q140 270 164 260;M118 274 Q140 270 164 260;M118 274 Q136 277 154 276;M118 274 Q136 277 154 276;M118 274 Q140 270 164 260;M118 274 Q140 270 164 260;M118 274 Q136 277 154 276;M118 274 Q136 277 154 276" keyTimes="0.0000;0.0882;0.1029;0.1382;0.1618;0.2647;0.2794;0.3147;0.3382;0.4412;0.4559;0.4912;0.5147;1.0000" dur="3.4s" repeatCount="indefinite"/>
+  </path>
+  <g transform="translate(290 276)">
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="26 -34;26 -34;0 0;0 0;26 -34;26 -34;0 0;0 0;26 -34;26 -34;0 0;0 0;26 -34;26 -34" keyTimes="0.0000;0.0676;0.1029;0.1324;0.1559;0.2441;0.2794;0.3088;0.3324;0.4206;0.4559;0.4853;0.5088;1.0000" dur="3.4s" repeatCount="indefinite"/>
+      <g transform="scale(.82) rotate(-6)">
+        <path d="M0 0 C-4 -10 0 -18 10 -20 L96 -110 C112 -124 136 -104 122 -88 L36 4 C28 12 6 10 0 0 Z" fill="#f0d2b6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M4 -8 Q8 -16 16 -16" fill="none" stroke="#241c15" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M50 -56 q6 4 4 10 M78 -84 q6 4 4 10" fill="none" stroke="#c4946f" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M96 -110 C120 -140 170 -150 200 -140 L240 -170 L260 -120 L190 -60 C160 -50 130 -70 122 -88" fill="#f0d2b6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M232 -176 L268 -126 L300 -150 L262 -200 Z" fill="#5d7f8f" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+</svg>

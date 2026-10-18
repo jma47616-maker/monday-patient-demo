@@ -726,7 +726,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.21';
+const APP_VERSION='1.5.22';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -745,7 +745,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06','w07','w08'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06','w07','w08','w09'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 
@@ -835,10 +835,10 @@ const PROGRAM=[
   evidence:'EAN/PNS 2023 guideline on Guillain–Barré syndrome · BJA Education 2025 · EGRIS / mEGOS',
   obj:['Recognise acute flaccid areflexic weakness, and separate it from cord, cauda equina and myasthenia','Measure the vital capacity — the observation chart cannot see a failing diaphragm','Escalate on the trend: the 20/30/40 rule and EGRIS','Treat on clinical grounds — IVIg or plasma exchange, never both, never steroids','Do not let a three-year-old functional label do your thinking'],
   read:[{t:'EAN/PNS 2023 — diagnosis and treatment of Guillain–Barré syndrome',url:'https://doi.org/10.1111/ene.16073'},{t:'Guillain–Barré syndrome — BJA Education 2025',url:'https://www.bjaed.org/article/S2058-5349(25)00046-0/fulltext'},{t:'Spirometry for ICU admission and ventilation in GBS — systematic review',url:'https://doi.org/10.1016/j.jcrc.2023.154337'},{t:'Suxamethonium is contraindicated in Guillain–Barré syndrome',url:'https://pubmed.ncbi.nlm.nih.gov/1800653/'}]},
- {id:'w09',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
-  evidence:'NICE NG148 · KDIGO 2012 AKI · UK Kidney Association acute kidney injury',
-  obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
-  read:[{t:'NICE NG148 — acute kidney injury'}]},
+ {id:'w09',t:'Doubled up',sub:'Perforated ulcer vs inferior MI vs ischaemic bowel',month:'Month 3',caseId:'pancreatitis',url:BASE+'pancreatitis.html',debrief:'notes',
+  evidence:'NICE NG104 · revised Atlanta classification 2012 · WATERFALL 2022 · Society for Endocrinology acute hypocalcaemia guidance',
+  obj:['Make the diagnosis on two of three: the pain and an enzyme over three times the upper limit, without waiting for imaging','Image with a purpose: ultrasound for the cause, not CT to prove an early diagnosis','Go and look when he says he feels funny: the hands, the mouth, the calcium and the ECG','Give intravenous calcium on a monitor, and repeat the level','Check and replace the magnesium, or the calcium will not hold','Find the cause and start the basics: fluid, analgesia, a QT-safe antiemetic, feeding'],
+  read:[{t:'NICE NG104 — pancreatitis',url:'https://www.nice.org.uk/guidance/ng104'},{t:'Revised Atlanta classification of acute pancreatitis (2012)',url:'https://doi.org/10.1136/gutjnl-2012-302779'},{t:'WATERFALL — aggressive or moderate fluid resuscitation in acute pancreatitis',url:'https://doi.org/10.1056/NEJMoa2202884'},{t:'Society for Endocrinology — emergency management of acute hypocalcaemia',url:'https://doi.org/10.1530/EC-16-0056'}]},
  {id:'w10',t:'Sepsis & the deteriorating patient',sub:'ABCDE and the Sepsis Six',month:'Month 3',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
   evidence:'NICE NG51 · UK Sepsis Trust Sepsis Six · Surviving Sepsis Campaign 2021 hour-1 bundle',
   obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
@@ -870,7 +870,11 @@ const PROGRAM=[
  {id:'w17',t:'Hyperkalaemia',sub:'The potassium that stops the heart',month:'Month 3',caseId:null,url:null,debrief:'video',
   evidence:'UK Kidney Association 2023 treatment of acute hyperkalaemia · RCUK 2025 peri-arrest arrhythmias',
   obj:['ECG changes of hyperkalaemia','Calcium, then shift, then remove','Find the underlying cause'],
-  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]}
+  read:[{t:'Renal Association — treatment of hyperkalaemia'},{t:'RCUK — peri-arrest'}]},
+ {id:'w18',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
+  evidence:'NICE NG148 · KDIGO 2012 AKI · UK Kidney Association acute kidney injury',
+  obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
+  read:[{t:'NICE NG148 — acute kidney injury'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};
