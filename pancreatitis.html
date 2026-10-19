@@ -2460,7 +2460,7 @@ const DATA_MARKING = (function(){
         notes:{ core:"IV fluid written meets the core, with or without a volume or a rate (\"IV fluids\" alone is charted as a litre over eight hours).",
                 given:"A big bolus or a fast rate given anyway does not meet the core or its extra (never credited and charged together); each is charged once after the cap (−8, −3). A separate correct bolus or rate on the chart earns its parts." } },
       { k:2, name:"Pain and sickness", max:6, parts:[
-          { label:"Analgesia", core:true, pts:4, any:["opioid","analgesia"], miss:"No opioid, for pain of 9 out of 10.",
+          { label:"Analgesia", core:true, pts:4, any:["opioid","analgesia"], miss:"No analgesia beyond the paracetamol, for pain of 9 out of 10: an opioid.",
             instead:{ opioidpo:"The opioid was by mouth, in a man who had vomited more than ten times." } },
           { label:"Antiemetic", pts:2, any:["cyc"], alt:{ pts:1, any:["aeother"] }, miss:"Tip: an antiemetic without a QT caution. Cyclizine 50 mg IV." } ],
         notes:{ ondan:"Ondansetron (or haloperidol, droperidol, domperidone) never meets the antiemetic part; given anyway, −8 after the cap. It does not remove cyclizine’s 2.",
@@ -2620,7 +2620,7 @@ const DATA_MARKING = (function(){
             miss:"Magnesium was never measured and never given. In a man who drinks instead of eating, it is why the calcium fell so soon, and why it would not hold." } },
     { id:"LO6", name:"Find the cause, start the basics",
       items:[ ["etoh2","how much he drinks","asked"], ["gall","gallstone symptoms","asked"], ["drugs","his medicines","asked"],
-              ["fluid","IV fluid","bolus, ivf, ivfslow, ivfbig or ivffast on the chart (fluid given anyway still counts here, though not in row 1)"], ["opioid","an opioid","opioid on the chart (an opioid by mouth does not count)"],
+              ["fluid","IV fluid","bolus, ivf, ivfslow, ivfbig or ivffast on the chart (fluid given anyway still counts here, though not in row 1)"], ["opioid","analgesia","opioid or analgesia on the chart, as row 2 credits it (an opioid by mouth does not count); the id stays opioid"],
               ["antiemetic","an antiemetic without a QT caution","cyc or aeother on the chart, and ondan not given anyway"],
               ["feed","a plan to feed","nbmnow, feedplan, diet, surg or gastro on the chart"] ],
       hit:"6 or 7 of the 7", part:"3 to 5", miss:"0 to 2",
@@ -5838,7 +5838,7 @@ const PL_DOUBLE_NEG_RE = /\b(?:(?:do not|dont|never|not|no need to)\s+(?:withhol
 const PL_DOUBLE_POST_RE = /^\s*(?:should|must|is|are|can)?\s*(?:not|never) (?:be )?(?:withheld|omitted|stopped|delayed|missed|held)\b/;
 const PL_ONHOLD_POST_RE = /^\s*(?:is |are |to be |was |were )?(?:on hold|held for now|hold for now|withheld for now|held)\b/;
 const PL_ONHOLD_PRE_RE = /(?:^|\s)(?:hold off on|hold off|hold)\s+(?:the\s+)?$/;
-const PL_DISCRETION_RE = /^\s*(?:prn|as required|as needed|if needed|if required)\b/;
+const PL_DISCRETION_RE = /^\s*(?:prn|as required|as needed|if needed|if required|when required|when needed)\b/;
 const PL_COND_WORDS = ["in the event", "in case", "should he", "should she", "should it", "should his", "should the", "if", "once", "when", "unless", "after", "prn"];
 const PL_HEDGE_PRE = ["for consideration of", "low threshold for", "likely to need", "probably needs", "probably need", "discuss whether", "might need", "may require", "think about", "may need", "will need", "consider", "?"];
 const PL_HEDGE_POST = ["in due course", "at some point", "eventually"];
@@ -6135,8 +6135,8 @@ function parsePlan(text){
       a0 = c + 1;
     });
     /* a drug written PRN is an order, given as a PRN, whatever the drug: the PRN is the condition itself. "if agitated" is a condition. */
-    real.forEach(h=>{ if(h.kind !== "danger" && h.kind !== "rx") return;
-      if(h.cond && !h.cond.carried && PL_DISCRETION_RE.test(h.cond.tail)){ h.cond = null; h.content = false; } });
+    real.forEach(h=>{ if(h.kind !== "danger" && h.kind !== "rx" && h.kind !== "query") return;
+      if(h.cond && !h.cond.carried && PL_DISCRETION_RE.test(h.cond.tail)){ h.cond = null; h.content = false; h.prn = true; } });
     /* planRead rule 8: a condition word inside a phrase belongs to the phrase ("diet as tolerated when vomiting settles") */
     real.forEach(h=>{ if(!h.cond || h.cond.carried) return;
       const tails = PL_COND_TAILS[h.id] || [], t = h.cond.tail.trim();
@@ -6212,7 +6212,7 @@ function parsePlan(text){
         Object.keys(PR.timed[h.id].alsoSets || {}).forEach(other=>{ if(PR.timed[h.id].alsoSets[other].some(w=>plHas(h.alias, w))) add(other); });
         return; }
       if(h.kind === "team"){ if(!P.teams.includes(h.id)) P.teams.push(h.id); return; }
-      if(h.kind === "query"){ if(!P.queries.some(q=>q.id === h.id)) P.queries.push({ id:h.id, si }); return; }
+      if(h.kind === "query"){ if(!P.queries.some(q=>q.id === h.id)) P.queries.push({ id:h.id, si, prn:!!h.prn || /(?:^| )(?:prn|as required|as needed|when required|when needed|if required|if needed)(?= |$)/.test(h.clause) }); return; }
       if(h.kind === "danger"){
         const typed = rawSpan(h.start, h.end) || h.alias, base = pnorm(typed).split(" ").map(w=>PL_DRUG_OF[w] || w);
         const named = ["ondansetron","haloperidol","droperidol","domperidone"].find(d=>base.includes(d));
@@ -6413,10 +6413,11 @@ function submitPlan(text){
   let aeAsked = false;
   const askAntiemetic = () => { aeAsked = true;
     const q = Q.antiemetic, opts = q.shuffle ? shuffled(q.opts.length).map(i=>q.opts[i]) : q.opts.slice();
-    plSheet(q.who, q.text, opts.map(([label, k])=>[label, ()=>{
+    const prn = P.queries.some(x=>x.id === "antiemetic" && x.prn) ? " PRN" : "";      /* a PRN antiemetic is charted as a PRN */
+    plSheet(q.who, q.text, opts.map(([label0, k])=>{ const label = label0 + prn; return [label0, ()=>{
       if(k === "ondan") P.dangers.ondan = { drug:"ondansetron", raw:label, asked:true };
       else P.rx.set(k, { raw:label, own:label, alias:k, each:[label] });
-      nextDanger(); }, k]), "antiemetic"); };
+      nextDanger(); }, k]; }), "antiemetic"); };
   const nextDanger = () => {
     while(queue.length){
       const id = queue.shift();
