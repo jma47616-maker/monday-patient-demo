@@ -1924,12 +1924,12 @@ const DATA_IX = (function(){
 
   /* ---------- the calcium, by what has been given and when ----------
      m     = minutes since the latest calcium bolus went on the chart (cabolus, or carepeat if written later)
-     class = fell    no magnesium, no calcium infusion
-             nearly  calcium infusion, no magnesium
-             part    magnesium, no calcium infusion
-             held    magnesium and calcium infusion
-     Magnesium, and the infusion, count only if on the chart no later than 90 minutes after that bolus (judgement:
-     no source gives magnesium an effect inside two hours; it is the case's teaching device).
+     class = fell    no calcium infusion (with or without magnesium)
+             inf     calcium infusion (with or without magnesium)
+     Magnesium makes no difference within the case's hours: it does not acutely raise PTH or calcium, because the
+     resistance lasts several days (Fong and Khan 2012, from the debrief's fact check); its effect is told on the outcome
+     (the trust guideline's "lag period of about 2 days"). The infusion counts only if it went on the chart no later than
+     90 minutes after that bolus; later, a second bolus is needed (judgement).
      No bolus: `untreated`, by minutes since 07:40 (judgement), plus `infOnly` for each full hour a calcium infusion
      has run alone.
      The "going in" band (0 to 9 minutes) and the `fell` column start from the level he had drifted to when the
@@ -1944,21 +1944,21 @@ const DATA_IX = (function(){
     albuminGap:0.14,                 /* total = adjusted − 0.14 (albumin 33 g/L) */
     easedAt:1.78,                    /* at or above this adjusted calcium the hand and the mouth are in their eased state */
     bands:[
-      { from:0,   fell:[1.62,0.84], nearly:[1.62,0.84], part:[1.62,0.84], held:[1.62,0.84] },
-      { from:10,  fell:[1.92,1.00], nearly:[1.92,1.00], part:[1.92,1.00], held:[1.92,1.00] },
-      { from:45,  fell:[1.80,0.94], nearly:[1.88,0.98], part:[1.86,0.97], held:[1.92,1.00] },
-      { from:90,  fell:[1.66,0.86], nearly:[1.84,0.96], part:[1.80,0.94], held:[1.94,1.01] },
-      { from:180, fell:[1.63,0.85], nearly:[1.82,0.95], part:[1.78,0.93], held:[1.96,1.02] } ],
+      { from:0,   fell:[1.62,0.84], inf:[1.62,0.84] },
+      { from:10,  fell:[1.92,1.00], inf:[1.92,1.00] },
+      { from:45,  fell:[1.80,0.94], inf:[1.88,0.98] },
+      { from:90,  fell:[1.66,0.86], inf:[1.84,0.96] },
+      { from:180, fell:[1.63,0.85], inf:[1.82,0.95] } ],
     untreated:[ { from:0, v:[1.62,0.84] }, { from:180, v:[1.58,0.82] }, { from:300, v:[1.55,0.80] } ],
     later:{ infusionNoMagnesiumWednesday:1.71 },
     infOnly:{ perHour:[0.03,0.015], cap:[0.12,0.06] }
   };
-  /* caAt({ m, mg, inf, elapsed, infOnlyMin }) -> { cls, adj, tot, ion } as printed strings */
+  /* caAt({ m, inf, elapsed, infOnlyMin }) -> { cls, adj, tot, ion } as printed strings. `mg`, if passed, is ignored. */
   function caAt(o){
     o = o || {};
     let adj = caCourse.base.adj, ion = caCourse.base.ion, cls = "none";
     if(typeof o.m === "number" && o.m >= 0){
-      cls = o.mg ? (o.inf ? "held" : "part") : (o.inf ? "nearly" : "fell");
+      cls = o.inf ? "inf" : "fell";
       const b = caCourse.bands.filter(x => o.m >= x.from).pop();
       adj = b[cls][0]; ion = b[cls][1];
       if(b.from === 0 || cls === "fell"){                 /* start from where he had drifted to */
@@ -2479,7 +2479,7 @@ const DATA_MARKING = (function(){
           { label:"Magnesium measured", pts:2, ledger:["mg"], miss:"Tip: measure it as well, so you know when to stop." } ],
         notes:{ checked:"Checked is a magnesium on the ledger by any route, the plan included (owner, after play). The same test also fills its discriminator slot: magnesium is the one test the standard’s own row names, so it is credited in both.",
                 core:"Replacing it is the core, so a magnesium measured and not replaced shows ✗ with the core’s line.",
-                late:"Written late (the calcium slipped first) still earns the 4; the slip is −4 under score.before.sequelae.",
+                slip:"Magnesium does not hold the calcium on the day (Fong and Khan 2012): a bolus with no infusion slips at 90 minutes whether or not magnesium was given, and that slip (−4) is charged under score.before.sequelae. The magnesium keeps its 6.",
                 resultCond:"\"Replace magnesium if low\" earns the 4 once it is enacted, in play or in the run-on.", mgoral:"Oral magnesium in a man who is vomiting earns nothing." } },
       { k:5, name:"Watching it", max:5, needs:"a calcium bolus (cabolus or carepeat) on the chart; without one the row scores 0 and shows no ✗ of its own (row 3 carries it)", parts:[
           { label:"A repeat after the bolus", core:true, pts:4, any:["recalc","reecg"], orFlag:["caRepeated","ecgRepeated"], miss:"No repeat calcium or ECG after the bolus: both at two hours, in the trust’s acute hypocalcaemia guideline." },
@@ -2518,7 +2518,7 @@ const DATA_MARKING = (function(){
           dry:{ pts:-12, at:"its third stage (14:10, organ failure, state dry2)" },
           dryslow:{ pts:-3, at:"its second stage" },
           ca_untreated:{ pts:-20, at:"its second stage (12:40, stridor, state caWorse)" },
-          ca_slip:{ pts:-4, at:"when it fires" },
+          ca_slip:{ pts:-4, at:"when it fires (a bolus with no calcium infusion to follow, magnesium or not)" },
           ca_slip2:{ pts:-4, at:"when it fires" },
           pain:{ pts:-2, at:"when it fires", unless:"row 2’s core part is met (an opioid, or “analgesia” with no drug): then no deduction; the nurse’s call and the closing line still show (owner, after play)" },
           nbm_standing:{ pts:-2, at:"when it fires (the soft fault); never with surg or gastro on the chart, who carry the plan to feed" } },
@@ -2607,17 +2607,14 @@ const DATA_MARKING = (function(){
             missPush:"The calcium went in as a push. Given fast it causes flushing, a falling pressure, a slow pulse and arrhythmia (The trust’s acute hypocalcaemia guideline).",
             missDied:"The case ended before the plan." } },
     { id:"LO5", name:"The magnesium",
-      hit:"mg on the ledger; mgrx on the chart; the calcium part of row 3 met; ca_untreated never reached its second stage (stridor); ca_slip did not fire",
-      part:"mg sent and not replaced; or mgrx and ca_slip fired; or mgrx with mg never sent; or mg sent and replaced but the calcium never given, or given only after the stridor; or died with mg sent",
+      hit:"mg on the ledger and mgrx on the chart (whatever happened to the calcium on the day)",
+      part:"mg sent and not replaced; or mgrx with mg never sent; or died with mg sent",
       miss:"mg never sent and mgrx never charted; or died without it",
-      say:{ hit:"Magnesium measured and replaced in time, so the calcium held.",
+      say:{ hit:"Magnesium measured and replaced. It does not hold the calcium today, which is the infusion’s job; it lets the calcium settle on its own over the next two days.",
             partNotGiven:"Magnesium {mg0} was on the screen and nothing was written for it. Without it any rise in the calcium may be transient (The trust’s acute hypocalcaemia guideline).",
-            partLate:"The magnesium was replaced, but only after the calcium had slipped back.",
-            partAfterStridor:"The magnesium was measured and replaced, but his calcium went untreated until his breathing turned noisy. Holding the calcium only matters once it has been given in time.",
-            partNoCalcium:"The magnesium was measured and replaced, but the calcium it was meant to hold was never given.",
             partUnmeasured:"Magnesium was replaced without being measured. The right instinct in a drinker; measure it as well, so you know when to stop.",
             partDied:"You sent the magnesium. The case ended before the plan.",
-            miss:"Magnesium was never measured and never given. In a man who drinks instead of eating, it is why the calcium fell so soon, and why it would not hold." } },
+            miss:"Magnesium was never measured and never given. In a man who drinks instead of eating, it is why the calcium fell so soon, and without it the calcium will not settle on its own." } },
     { id:"LO6", name:"Find the cause, start the basics",
       items:[ ["etoh2","how much he drinks","asked"], ["gall","gallstone symptoms","asked"], ["drugs","his medicines","asked"],
               ["fluid","IV fluid","bolus, ivf, ivfslow, ivfbig or ivffast on the chart (fluid given anyway still counts here, though not in row 1)"], ["opioid","analgesia","opioid or analgesia on the chart, as row 2 credits it (an opioid by mouth does not count); the id stays opioid"],
@@ -2644,9 +2641,9 @@ const DATA_MARKING = (function(){
     { id:"ca", tag:"Calcium", q:"A man with an adjusted calcium of 1.6 mmol/L, a hand in spasm and a QTc of 510 ms. What do you give?",
       opts:[{t:"Calcium gluconate 10%, 20 mL IV over 10 minutes, on a monitor", ok:true},{t:"Calcium gluconate 10%, 20 mL IV as a quick push, on a cardiac monitor"},{t:"Oral calcium carbonate now, with the calcium repeated at 2 hours"},{t:"PTH and vitamin D sent, and calcium gluconate when they are back"}],
       teach:"An adjusted calcium below 1.9 with symptoms or ECG changes is severe: 10–20 mL of 10% calcium gluconate IV over about 10 minutes with ECG monitoring, then repeat the ECG and the calcium at 2 hours. Too fast causes hypotension, bradycardia and arrhythmia. <em>(The trust’s acute hypocalcaemia guideline; Society for Endocrinology emergency guidance 2016.)</em>" },
-    { id:"mg", tag:"Calcium", q:"A man two hours after a calcium gluconate bolus: his calcium has fallen back to where it started. What do you check?",
-      opts:[{t:"Magnesium", ok:true},{t:"Vitamin D"},{t:"PTH"},{t:"Phosphate"}],
-      teach:"A calcium that will not hold: check the magnesium. Without replacing it, any rise in calcium may be transient. Magnesium sulfate 24 mmol over 24 hours. Low magnesium also blunts the PTH response, which is why a PTH can read \"normal\" with a calcium this low. <em>(The trust’s acute hypocalcaemia guideline; Society for Endocrinology 2016.)</em>" },
+    { id:"mg", tag:"Calcium", q:"Two hours after a calcium gluconate bolus, a man’s calcium has fallen back to where it started. What keeps it up today?",
+      opts:[{t:"A calcium gluconate infusion", ok:true},{t:"Magnesium sulfate over 24 hours"},{t:"Oral calcium carbonate, three times a day"},{t:"A second bolus, then nothing more"}],
+      teach:"A bolus lasts a couple of hours; an infusion holds the level: 100 mL of 10% calcium gluconate in a litre, at 50–100 mL an hour, with the calcium rechecked. Check and replace the magnesium as well: without it any rise may be transient, and once it is corrected the calcium settles on its own over about two days, not within hours. Low magnesium also blunts the PTH response, which is why a PTH can read “normal” with a calcium this low. <em>(The trust’s acute hypocalcaemia guideline; Society for Endocrinology 2016; Fong and Khan 2012.)</em>" },
     { id:"hv", tag:"Calcium", q:"A man breathing fast. What does blowing off carbon dioxide do to his calcium?",
       opts:[{t:"Lowers the ionised calcium a little; leaves the total unchanged", ok:true},{t:"Lowers the total calcium, and with it the adjusted calcium as well"},{t:"Raises the ionised calcium a little; leaves the total unchanged"},{t:"Lowers the ionised and the total calcium equally"}],
       teach:"An alkalosis moves calcium onto albumin: about 0.05 mmol/L less ionised calcium for every 0.1 rise in pH, with the total untouched. A low adjusted calcium, a long QT and a low magnesium are not explained by fast breathing. <em>(Parasa et al., Anesth Essays Res 2014.)</em>" },
@@ -2665,7 +2662,7 @@ const DATA_MARKING = (function(){
     "<b>The ultrasound is for the cause.</b> He drinks 110 units a week, and it still is not assumed. <em>(NICE NG104 1.2.1; WSES 2019.)</em>",
     "<b>\"Funny\" means go and look.</b> Round the mouth, and a hand that has been cramped since four in the morning. Then a calcium, and an ECG. <em>(Society for Endocrinology 2016; the trust’s acute hypocalcaemia guideline.)</em>",
     "<b>Calcium on a monitor, then again at two hours.</b> 20 mL of 10% calcium gluconate over 10 minutes with ECG monitoring; the calcium and the ECG repeated at 2 hours; an infusion to hold it. <em>(The trust’s acute hypocalcaemia guideline; Society for Endocrinology 2016.)</em>",
-    "<b>The magnesium is why it happened so soon.</b> Symptomatic low calcium sixteen hours into pancreatitis is unusual from the pancreas alone. A drinker’s low magnesium blunts the parathyroid response and makes the calcium fall faster; until it is replaced, the calcium will not hold. <em>(The trust’s acute hypocalcaemia guideline; Ahmed et al. 2016.)</em>",
+    "<b>The magnesium is why it happened so soon.</b> Symptomatic low calcium sixteen hours into pancreatitis is unusual from the pancreas alone. A drinker’s low magnesium blunts the parathyroid response and makes the calcium fall faster; replacing it lets the calcium settle over about two days, and on the day an infusion holds the level. <em>(The trust’s acute hypocalcaemia guideline; Ahmed et al. 2016.)</em>",
     "<b>Moderate fluid, not aggressive.</b> A bolus if he is dry, then about 1.5 mL/kg an hour, reassessed. Aggressive fluid tripled overload (20.5% against 6.3%) and helped nobody. <em>(WATERFALL, NEJM 2022; NICE CG174.)</em>",
     "<b>Not ondansetron with a long QT.</b> Correct the potassium and magnesium first, or use cyclizine. No prophylactic antibiotics; fever and a CRP of 46 are the inflammation. <em>(MHRA 2012; BNF; NICE NG104 1.2.3.)</em>"
   ];
@@ -2709,8 +2706,8 @@ const DATA_MARKING = (function(){
              ["ice","ultrasound abdomen"],["send"],
              ["commit",...RIGHT], ["plan",{ref:2}], ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:{ hx:7, ex:6, ix:6, n:19, pts:38 }, keyExamMissed:["chvostek"], pivotalMissed:[], noise:0, ctBlind:0,
-        plan:{ fluid:8, pain:6, calcium:13, magnesium:6, watching:5, cause:5, who:4, feeding:2, total:49 }, prompted:0, sequelae:{},
-        drill:{ right:6, pts:24 }, time:{ treatElapsed:217.5, pts:-5 }, death:0, beforeCap:143, after:{ dangers:0, dock:0, ctTrap:0 }, shown:143,
+        plan:{ fluid:8, pain:6, calcium:13, magnesium:6, watching:5, cause:5, who:4, feeding:2, total:49 }, prompted:0, sequelae:{ ca_slip:-4 },
+        drill:{ right:6, pts:24 }, time:{ treatElapsed:217.5, pts:-5 }, death:0, beforeCap:139, after:{ dangers:0, dock:0, ctTrap:0 }, shown:139,
         rank:"Registrar instinct.", lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"hit", LO5:"hit", LO6:"hit" } } },
 
     { id:"g_callback_fixed", name:"The reflex plan, every call-back taken off, then put right in the amendment",
@@ -2817,16 +2814,16 @@ const DATA_MARKING = (function(){
     { id:"g_phone", name:"A numbered list typed on a phone (plan 11)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:11}], ["close"], ["drill",ALL8] ],
       expect:{ dx:"full", dxPts:40, disc:{ hx:7, ex:7, ix:6, n:20, pts:40 }, keyExamMissed:[], pivotalMissed:[], noise:0, ctBlind:0,
-        plan:{ fluid:7, pain:6, calcium:13, magnesium:6, watching:4, cause:5, who:4, feeding:2, total:47 }, prompted:0, sequelae:{},
-        drill:{ right:8, pts:32 }, time:{ treatElapsed:85.5, pts:10 }, death:0, beforeCap:169, after:{ dangers:0, dock:0, ctTrap:0 }, shown:160,
+        plan:{ fluid:7, pain:6, calcium:13, magnesium:6, watching:4, cause:5, who:4, feeding:2, total:47 }, prompted:0, sequelae:{ ca_slip:-4 },
+        drill:{ right:8, pts:32 }, time:{ treatElapsed:85.5, pts:10 }, death:0, beforeCap:165, after:{ dangers:0, dock:0, ctTrap:0 }, shown:160,
         rank:"Consultant calm.", lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"hit", LO5:"hit", LO6:"hit" } } },
 
     { id:"g_negation", name:"Negation and treatment written against a result (plan 8)",
       acts:[ ["workup","W0m"], ["commit",...RIGHT], ["plan",{ref:8}], ["close"], ["drill",ALL8] ],
       expect:{ dx:"full", dxPts:40, disc:{ hx:7, ex:7, ix:5, n:19, pts:38 }, keyExamMissed:[], pivotalMissed:[], noise:0, ctBlind:0,
         plan:{ fluid:7, pain:0, calcium:13, magnesium:6, watching:0, cause:0, who:0, feeding:2, total:28 }, prompted:-2,
-        sequelae:{ pain:-2 },
-        drill:{ right:8, pts:32 }, time:{ treatElapsed:85.5, pts:10 }, death:0, beforeCap:144, after:{ dangers:0, dock:0, ctTrap:0 }, shown:144,
+        sequelae:{ pain:-2, ca_slip:-4 },
+        drill:{ right:8, pts:32 }, time:{ treatElapsed:85.5, pts:10 }, death:0, beforeCap:140, after:{ dangers:0, dock:0, ctTrap:0 }, shown:140,
         rank:"Registrar instinct.", lo:{ LO1:"hit", LO2:"miss", LO3:"hit", LO4:"part", LO5:"hit", LO6:"part" } } },
 
     { id:"g_push", name:"Calcium written as a push: a monitored bed at the nurse's question, then the push taken off (plan 9)",
@@ -3483,7 +3480,7 @@ const DATA_PLANS = (function(){
     { n:2, name:"good, terse",
       text:"IV Ca gluconate 10ml 10% on monitor. Replace Mg. Rpt Ca + ECG 2h. 500ml Hartmanns stat then 1L 8 hrly. Morphine, cyclizine. I/O chart. USS abdo. Pabrinex, CIWA. D/w surgeons. Not for abx.",
       expect:["cabolus","monitor","mgrx","recalc","reecg","bolus","ivf","opioid","cyc","fbal","pabrinex","ciwa","surg"],
-      ix:["uss"], cb:[], query:[], info:["twolines"], neg:["abx"], seq:["filled","ca_bolus","ca_held"] },
+      ix:["uss"], cb:[], query:[], info:["twolines"], neg:["abx"], seq:["filled","ca_bolus","ca_slip"] },
 
     { n:3, name:"mediocre: the abdomen and nothing else",
       text:"Acute pancreatitis. IV fluids. Analgesia - morphine 10mg IV. Antiemetic. NBM. Glasgow score. Refer surgeons. Check calcium.",
@@ -3514,7 +3511,7 @@ const DATA_PLANS = (function(){
       pre:["ecg","gas","fbc","ue","lft","crp","lipase","bone","mg"],
       text:"No antibiotics. No CT unless he fails to improve at 48-72h. Avoid ondansetron - QTc long. Not for NSAIDs. Calcium gluconate if Ca <1.9. Replace magnesium if low. ITU if systolic <90 despite fluids. Hartmann's 10 ml/kg bolus then 1.5 ml/kg/h.",
       expect:["cabolus","mgrx","bolus","ivf","monitor"],
-      ix:[], cb:[["camon","mon"]], query:[], info:["twolines"], neg:["abx","ctreq","ondan","nsaid"], noted:["icu"], not:["icu","ivfbig"], seq:["filled","ca_bolus","ca_held","pain"] },
+      ix:[], cb:[["camon","mon"]], query:[], info:["twolines"], neg:["abx","ctreq","ondan","nsaid"], noted:["icu"], not:["icu","ivfbig"], seq:["filled","ca_bolus","ca_slip","pain"] },
 
     { n:9, name:"dangerous: calcium as a push",
       text:"IV calcium gluconate 20ml stat push. Fluids 500ml bolus. Morphine. Metoclopramide.",
@@ -3529,7 +3526,7 @@ const DATA_PLANS = (function(){
     { n:11, name:"good, a numbered list typed on a phone",
       text:"1. fluids - hartmanns 500 stat then 125/hr 2. morphine + cyclizine 3. ca gluconate 10% 20mls over 10 min w/ ecg monitoring 4. mg replacement 5. rpt bone profile 2 hrs 6. uss 7. surgeons 8. pabrinex + ciwa 9. vte proph 10. keep nbm today, dietitian",
       expect:["bolus","ivf","opioid","cyc","cabolus","monitor","mgrx","recalc","surg","pabrinex","ciwa","vte","nbmnow","diet"],
-      ix:["uss"], cb:[], query:[], info:["twolines"], not:["nbm"], seq:["filled","ca_bolus","ca_held","fed"] }
+      ix:["uss"], cb:[], query:[], info:["twolines"], not:["nbm"], seq:["filled","ca_bolus","ca_slip","fed"] }
   ];
 })();
 
@@ -3657,20 +3654,21 @@ const DATA_SEQUELAE = (function(){
       when:{ has:["cabolus"] }, reverse:false, rearm:false,
       stages:[ { after:10, obs:{ rr:-2, hr:-4 }, flags:{ caEased:true } } ] },
 
-    { id:"ca_slip", priority:5, timing:"judgement", source:"02-evidence.md · G1, G2, N4 · section 5 row 4 (the fall is sourced: Ahmed, begins after 30 min; HDFT, transient. That magnesium inside 90 minutes prevents it is judgement) · section 12b",
-      when:{ has:["cabolus"], lacks:["mgrx","cainf"] },
+    { id:"ca_slip", priority:5, timing:"judgement", source:"02-evidence.md · G1, G2, F7, N4 · section 5 row 4 (the fall is sourced: Ahmed, begins after 30 min; HDFT, transient) · Fong and Khan 2012 (magnesium does not act within hours)",
+      when:{ has:["cabolus"], lacks:["cainf"] },
       stages:[ { after:90, obs:{ rr:+2, hr:+4 }, flags:{ caEased:false, caSlipped:true },
                  call:{ who:K, text:c => live(c, "Cubicle 6. His hands have gone again, same as before, and he says the feeling’s back round his mouth.") } } ],
       reverse:{ within:90, to:"clear", late:"hold" },
-      epilogue:{ harm:c => "The calcium gluconate opened his hands. An hour and a half later the spasm was back, and nothing had been written to follow the bolus. "
-          + (O(c, "mg") ? "His magnesium was {mg0}, and nothing had been written for it." : "His magnesium had not been measured.") } },
+      epilogue:{ harm:c => "The calcium gluconate opened his hands. An hour and a half later the spasm was back: nothing had been written to follow the bolus. "
+          + (R(c, "mgrx") ? "The ward started an infusion that evening. With the magnesium replaced, from Wednesday his calcium held without it."
+             : O(c, "mg") ? "His magnesium was {mg0}, and nothing had been written for it." : "His magnesium had not been measured.") } },
 
     { id:"ca_again", priority:6, timing:"judgement", source:"02-evidence.md · F4 (SfE: “This can be repeated until the patient is asymptomatic”)",
       when:{ has:["carepeat"] }, reverse:false, rearm:false,
       stages:[ { after:10, obs:{ rr:-2, hr:-4 }, flags:{ caEased:true, caSlipped:false } } ] },
 
     { id:"ca_slip2", priority:7, timing:"judgement", source:"02-evidence.md · G2 · section 5 row 4 · section 12b",
-      when:{ has:["carepeat"], lacks:["mgrx","cainf"] },
+      when:{ has:["carepeat"], lacks:["cainf"] },
       stages:[ { after:90, obs:{ rr:+2, hr:+4 }, flags:{ caEased:false, caSlipped:true },
                  call:{ who:K, text:c => live(c, "Cubicle 6. It’s worn off again. His hands are back as they were.") } } ],
       reverse:{ within:90, to:"clear", late:"hold" },
@@ -3688,12 +3686,11 @@ const DATA_SEQUELAE = (function(){
       stages:[ { after:0, flags:{ unmonitored:true } } ],
       epilogue:"He had his calcium on a majors trolley, with nothing recording his heart." },
 
-    { id:"ca_held", priority:1, timing:"epilogue", tellsAt:820, source:"02-evidence.md · F7, F8, G2, G4 (HDFT: normalises after a lag of about 2 days)",
-      when:{ flag:["closed"], has:["cabolus","mgrx"] }, reverse:false, rearm:false,
+    { id:"ca_held", priority:1, timing:"epilogue", tellsAt:3340, source:"02-evidence.md · F7, F8, G2, G4 (HDFT: normalises after a lag of about 2 days) · Fong and Khan 2012",
+      when:{ flag:["closed"], has:["cabolus","cainf","mgrx"] }, reverse:false, rearm:false,
       stages:[ { after:0, flags:{ caHeld:true } } ],
       epilogue:(c, api) => api.flag("caSlipped") ? null
-        : R(c, "cainf") ? "With the magnesium running, his calcium held on the infusion. From Wednesday it held with no infusion at all."
-        : "With the magnesium running, his calcium held after the bolus. " + TEAM(c, "medreg", "The medical registrar", "The on-call doctor") + " added an infusion to keep it there." },
+        : "His calcium held on the infusion. With the magnesium replaced, from Wednesday it held with no infusion at all." },
 
     { id:"ca_infonly", priority:1, timing:"epilogue", tellsAt:3240, source:"02-evidence.md · G2, G4 · section 12b (the infusion holds in play; what the magnesium costs is told days later)",
       when:{ flag:["closed"], has:["cabolus","cainf"], lacks:["mgrx"] }, reverse:false, rearm:false,
@@ -3865,7 +3862,6 @@ const LOAD_VALS = (function(){
     kg: String(CASE.meta.weightKg), qtc: String(CASE.ecg.qtc),
     adj0: f2(cc.base.adj), ion0: f2(cc.base.ion), mg0: f2(CASE.mgCourse.base),
     lipase: lab("lipase", "Lipase"), amylase: lab("amylase", "Amylase"),
-    ca10: f2(cc.bands[1].held[0]), ca90fell: f2(cc.bands[3].fell[0]), ca90part: f2(cc.bands[3].part[0]), ca90held: f2(cc.bands[3].held[0]),
     caWed: f2(cc.later.infusionNoMagnesiumWednesday)
   };
 })();
@@ -3877,7 +3873,7 @@ function fillDeep(v){
   if(v && typeof v === "object" && Object.getPrototypeOf(v) === Object.prototype){ const o = {}; Object.keys(v).forEach(k=>{ o[k] = fillDeep(v[k]); }); return o; }
   return v;
 }
-CASE.sequelae = fillDeep(DATA_SEQUELAE);                   /* {ca10} {ca90…} {caWed} {mg0} {lipase} in the epilogue lines */
+CASE.sequelae = fillDeep(DATA_SEQUELAE);                   /* {caWed} {mg0} {lipase} in the epilogue lines */
 
 /* ---------- the registry, mpCall() and the event bus ----------
    A page registers what the shell and the other pages may ask of it: PAGES.exam = { init, renderExam, ... }.
@@ -3976,15 +3972,15 @@ const isBed = id => IX_GROUP[id] === "bedside";
    ============================================================ */
 /* the latest calcium bolus on the chart: cabolus, or carepeat if written later */
 function bolusAt(){ const a = ["cabolus","carepeat"].filter(id=>S.rx.has(id) && typeof S.rxAt[id] === "number").map(id=>S.rxAt[id]); return a.length ? Math.max(...a) : null; }
-/* the argument DATA_IX.caAt() takes, at minute t (default: now). Magnesium and the infusion count only once charted, and
-   only if charted no later than 90 minutes after that bolus (ix.js, caCourse). Elapsed is minutes since 07:40. */
+/* the argument DATA_IX.caAt() takes, at minute t (default: now). The infusion counts only once charted, and only if
+   charted no later than 90 minutes after that bolus (ix.js, caCourse). Magnesium makes no difference within the case's
+   hours, so it is not passed. Elapsed is minutes since 07:40. */
 function caInput(t){
   if(t === undefined) t = nowT();
   const b = bolusAt(), o = { elapsed: Math.round(t - START) };
   const on = id => S.rx.has(id) && typeof S.rxAt[id] === "number" && S.rxAt[id] <= t;
   if(b !== null && t >= b){
     o.m = t - b;
-    o.mg = on("mgrx") && S.rxAt.mgrx <= b + 90;
     o.inf = on("cainf") && S.rxAt.cainf <= b + 90;
   } else if(on("cainf")) o.infOnlyMin = t - S.rxAt.cainf;
   return o;
@@ -7212,15 +7208,11 @@ function judgeLOs(Q){
       else if(unmon) out.push({ v:"part", t:s.partUnmon });
       else if(!repeat) out.push({ v:"part", t:s.partNoRepeat });
       else out.push({ v:"hit", t:s.hit }); } }
-  /* LO5 the magnesium */
-  { const s = L("LO5").say, sent = LEDGER.has("mg"), given = !died && rxHas("mgrx"), slip = SEQ.fired("ca_slip");
-    const stridor = seqCounts("ca_untreated");
+  /* LO5 the magnesium: measured and replaced is the hit, whatever the calcium did on the day */
+  { const s = L("LO5").say, sent = LEDGER.has("mg"), given = !died && rxHas("mgrx");
     if(died) out.push(sent ? { v:"part", t:s.partDied } : { v:"miss", t:s.miss });
-    else if(given && !sent) out.push({ v:"part", t:s.partUnmeasured });
-    else if(given && slip) out.push({ v:"part", t:s.partLate });
-    else if(given && !calciumMet()) out.push({ v:"part", t:s.partNoCalcium });
-    else if(given && stridor) out.push({ v:"part", t:s.partAfterStridor });
-    else if(given) out.push({ v:"hit", t:s.hit });
+    else if(given && sent) out.push({ v:"hit", t:s.hit });
+    else if(given) out.push({ v:"part", t:s.partUnmeasured });
     else if(sent) out.push({ v:"part", t:s.partNotGiven });
     else out.push({ v:"miss", t:s.miss }); }
   /* LO6 find the cause, start the basics: seven items */
@@ -7468,7 +7460,7 @@ function mpReturnBtn(score, max){
   br.insertBefore(b, br.firstChild);
 }
 /* the debrief: locked until it is released. To release: set url and live. */
-const DEBRIEF = { live:false, url:"", blurb:"The debrief for this case opens after the week." };
+const DEBRIEF = { live:true, url:"panc-debrief.html", blurb:"Two pages: what was happening in his abdomen and how it is managed, then why the calcium fell, what it does to nerves and the heart, and how to put it back." };
 function renderDebrief(){
   const c = $("#debriefCard"); if(!c) return;
   c.innerHTML = DEBRIEF.live && DEBRIEF.url

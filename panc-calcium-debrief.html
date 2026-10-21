@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Low calcium: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* pancreatitis debrief additions */
+.tiles--one { grid-template-columns:1fr !important; }
+.tiles--letters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (min-width:40rem) { .tiles--letters { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.tiles--letters .tile > button { min-height:3rem; }
+.tiles--letters .q b, .score .q b { font-family:var(--font-display); font-size:1.15em; color:var(--accent-2); }
+.fig--mid img { max-width:22rem; }
+.tally { font-weight:700; margin:.4rem 0 .6rem; }
+.js .walk > li { display:none; }
+.js .walk > li.on { display:list-item; }
+.walkbar { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:.8rem 0 .4rem; }
+.walkbar .n { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-right:auto; }
+.path a { font-weight:700; }
+@media (max-width:39.99rem) { .card > .split > .fig, .card .txt > .fig, .card > .solo > .fig, .card .rv > .fig { margin-left:-.55rem; margin-right:-.55rem; } }
+.hot { position:relative; } .hot .hs { position:absolute; display:block; border-radius:10px; } .hot .hs:hover, .hot .hs:focus-visible { background:rgba(200,83,27,.12); }
+@media print { .js .walk > li { display:list-item !important; } .walkbar, .tally { display:none !important; } }
+
+/* calcium debrief additions */
+.swapbtn { margin:.2rem 0 .2rem; }
+.row .fig img { border-width:2px; }
+.fig .missing { border:2px dashed var(--ink); border-radius:12px; padding:2rem 1rem; text-align:center; color:var(--muted); background:var(--paper-2); }
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Low calcium: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 27</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2–6</b>Holding it steady</a></li>
+    <li><a href="#c7"><b>7–11</b>When it falls</a></li>
+    <li><a href="#c12"><b>12–15</b>Why it falls</a></li>
+    <li><a href="#c16"><b>16–18</b>Magnesium</a></li>
+    <li><a href="#c19"><b>19–24</b>Treating it</a></li>
+    <li><a href="#c25"><b>25–26</b>Back to Dean</a></li>
+    <li><a href="#c27"><b>27</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Low calcium and magnesium: the debrief for week 9, Doubled up</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 27</span></div>
+  <p class="kick">Monday 07:40 · cubicle 6</p>
+  <h2>He said he felt funny. His hands said the rest.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-scene.svg" width="800" height="340" alt="Cubicle 6: Dean on the trolley, grey and sweating, holding a sick bowl."></figure>
+    <div class="txt">
+      <div class="people"><img src="panc-calcium-dean.svg" width="200" height="200" alt="Dean"></div>
+      <ul class="pts">
+        <li>Dean Marsden, 48. Sixteen and a half hours of pain in the top of his belly.</li>
+        <li>Since about 04:00 he has “felt funny”, around his mouth and all over, and his hands cramp.</li>
+        <li>Adjusted calcium <strong>1.62</strong> (normal 2.20 to 2.60). Magnesium <strong>0.44</strong> (0.70 to 1.00). QTc <strong>510 ms</strong>.</li>
+        <li>Why did a sore belly end in a claw hand and a long QT? And why would the calcium not stay up? <a href="panc-debrief.html">Debrief 1</a> is about his pancreas; this page is about his calcium.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="Holding it steady">
+  <div class="meta"><span class="chip">Holding it steady</span><span class="num">2 / 27</span></div>
+  <p class="kick">In every millilitre of blood</p>
+  <h2>Calcium in blood comes in three forms, and only the free one works.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d02-fractions.svg" width="720" height="745" alt="A drop of blood split into three layers by size. About half: free (ionised) calcium, the part that does the work. About 40%: riding on albumin, doing nothing while bound. About 10%: joined to small partners such as citrate and phosphate. Free calcium is normally about 1.1 to 1.3 mmol/L."></figure>
+    <div class="txt">
+      <p>Only the free (ionised) calcium does the work. The lab’s total counts all three.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="Holding it steady">
+  <div class="meta"><span class="chip">Holding it steady</span><span class="num">3 / 27</span></div>
+  <p class="kick">How the body keeps it there</p>
+  <h2>Four organs keep it in a narrow band, and one hormone runs them.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d03-loop-1.svg" width="720" height="1022" data-frames="panc-calcium-d03-loop-1.svg|panc-calcium-d03-loop-2.svg|panc-calcium-d03-loop-3.svg|panc-calcium-d03-loop-4.svg" data-frame-h="1022|1022|1022|1022" data-full="panc-calcium-d03-loop.svg" data-full-h="1022" alt="A loop down the page. Blood calcium falls. The parathyroid glands, behind the thyroid, release parathyroid hormone (PTH). PTH acts on: 1, bone releases calcium; 2, the kidney keeps calcium instead of losing it in urine; 3, the kidney activates vitamin D (calcitriol); 4, vitamin D makes the gut absorb more calcium. Blood calcium rises, and an arrow back up the side: PTH falls back (negative feedback)." loading="lazy"></figure>
+    <div class="txt">
+      <p>Blood calcium is held in a narrow range by parathyroid hormone (PTH) and vitamin D.</p>
+      <ol class="pts walk" data-walk>
+        <li>When calcium falls, the parathyroid glands, behind the thyroid in the neck, release PTH.</li>
+        <li>PTH makes bone release calcium.</li>
+        <li>PTH makes the kidney keep calcium instead of losing it in the urine, and makes the kidney switch on vitamin D (calcitriol).</li>
+        <li>Switched-on vitamin D makes the gut absorb more calcium. As the calcium rises, PTH falls back (negative feedback).</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="Holding it steady">
+  <div class="meta"><span class="chip">Holding it steady</span><span class="num">4 / 27</span></div>
+  <p class="kick">Calcium 1.48 · albumin 33</p>
+  <h2>A low albumin makes the total look low while the free calcium is fine. So the lab adjusts it.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d04-albumin.svg" width="720" height="1041" alt="Two jars of blood. Normal albumin: many albumin carriers, each with a calcium on it, and free calcium floating. Low albumin (Dean: 33 g/L): fewer carriers, the same free calcium. Free calcium: the same in both. Total: lower when albumin is low. Adjusted calcium = total + 0.02 times (40 minus albumin in g/L). Dean: 1.48 + 0.02 times (40 minus 33) = 1.62. Each laboratory may use its own version. In the very sick the adjusted figure can mislead; a blood gas prints the free (ionised) calcium directly, and fast." loading="lazy"></figure>
+    <div class="txt">
+      <p>Less albumin means less bound calcium, so the total falls while the free calcium stays the same.</p>
+      <ul class="pts" style="margin-top:.8rem">
+        <li>In one intensive care study the adjusted figure missed about one in five low ionised calcium results (sensitivity 78%).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="c5" data-sec="Holding it steady">
+  <div class="meta"><span class="chip">Holding it steady</span><span class="num">5 / 27</span></div>
+  <p class="kick">Breathing 28 when the crew arrived</p>
+  <h2>Acid and alkali move calcium on and off albumin. Fast breathing moves it; it does not remove it.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d05-ph.svg" width="720" height="772" alt="Two panels. Before: an albumin with six seats, two taken by calcium, and four free calcium floating. After over-breathing, blood more alkaline: five seats taken and one free calcium left. Over-breathing blows off carbon dioxide and makes blood more alkaline. About 0.05 mmol/L less free calcium for every 0.1 rise in pH. The total, and so the adjusted, calcium do not change: calcium moves between the bound and free forms of the same total (our reasoning)." loading="lazy"></figure>
+    <div class="txt">
+      <p>Fast breathing moves calcium from free to bound. It does not take calcium out of the blood.<span class="tag">Our reasoning</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card question" id="c6" data-sec="Holding it steady">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 2</span><span class="num">6 / 27</span></div>
+  <p class="kick">06:10 · breathing 28, coached to 22</p>
+  <h2>Tingling, a cramping hand, fast breathing at the door. Is this over-breathing?</h2>
+  <div class="solo qa">
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="btn opt" type="button">Yes, it is over-breathing</button>
+      <button class="btn opt" type="button" data-ok="1">Not on its own: measure the calcium</button>
+    </div>
+    <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Over-breathing can cause tingling and hand spasm by itself.</strong> In ten volunteers, three minutes of it gave tingling fingers to all ten, with no significant change in ionised calcium.</li>
+        <li>But it cannot explain a low adjusted calcium, a long QT or a low magnesium. Dean had all three.</li>
+        <li>His gas showed no marked alkalosis (venous pH 7.41). At his arterial pH of 7.44, breathing accounts for about 0.02 mmol/L of his ionised calcium.</li>
+      </ul>
+      <figure class="fig fig--mid"><img src="panc-calcium-gas.svg" width="600" height="992" alt="Dean’s blood gas printout." loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="When it falls">
+  <div class="meta"><span class="chip">When it falls</span><span class="num">7 / 27</span></div>
+  <p class="kick">Monday 04:00 · “I feel funny”</p>
+  <h2>Low calcium makes nerves fire on their own.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d07-threshold-normal.svg" width="720" height="570" data-swap="panc-calcium-d07-threshold-low.svg" data-swap-alt="A nerve’s charge drawn against time, with a resting line and a dashed trigger point (threshold). Normal calcium: the trigger point is well above rest; the same nudge falls short. Calcium outside the nerve keeps its sodium gates closed at rest. Low calcium: the trigger point sits closer to rest; the same nudge reaches it and the nerve fires. With less calcium the gates open more easily, and the nerve fires with little or no push." alt="A nerve’s charge drawn against time, with a resting line and a dashed trigger point (threshold). Normal calcium: the trigger point is well above rest; the same nudge falls short. Calcium outside the nerve keeps its sodium gates closed at rest. Low calcium: the trigger point sits closer to rest; the same nudge reaches it and the nerve fires. With less calcium the gates open more easily, and the nerve fires with little or no push." loading="lazy"><button class="btn swapbtn" type="button" data-label="Back to normal calcium">Lower the calcium</button></figure>
+    <div class="txt">
+      <p>Calcium outside a nerve holds it back from firing. Ten times more calcium has about the same effect as moving the nerve 15 mV further from its trigger point (threshold). Take calcium away and the nerve fires unasked (neuromuscular irritability).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="When it falls">
+  <div class="meta"><span class="chip">When it falls</span><span class="num">8 / 27</span></div>
+  <p class="kick">From 04:00 to 07:40</p>
+  <h2>It starts at the mouth and fingertips and climbs to the throat.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d08-ladder.svg" width="720" height="1143" alt="A ladder, mild at the bottom and more dangerous at the top. 1, tingling round the mouth and in the fingers (perioral and digital paraesthesiae). 2, cramps. 3, hands and feet cramp into claws (carpopedal spasm, tetany). 4, the voice box clamps shut (laryngospasm); the airways tighten (bronchospasm). 5, fits (seizures); confusion. 6, low blood pressure and abnormal heart rhythms. It usually starts with the tingling before the muscles join in. Symptoms usually appear below an adjusted calcium of about 1.9 mmol/L. But speed matters: a fast fall causes symptoms at levels a slow fall does not." loading="lazy"></figure>
+    <div class="txt">
+      <p>Read it from the bottom up. Dean had reached the third rung by 07:40.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="c9" data-sec="When it falls">
+  <div class="meta"><span class="chip">When it falls</span><span class="num">9 / 27</span></div>
+  <p class="kick">His hands, 07:40</p>
+  <h2>The claw: wrist and knuckles bent, fingers straight.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-hand.jpg" width="1024" height="929" alt="Dean’s hands at 07:40." loading="lazy"><figcaption>Dean’s hands at 07:40.</figcaption></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>The wrist and the knuckles bend; the fingers stay straight.</li>
+        <li>The feet cramp the same way, which is why it is called carpopedal (hand and foot) spasm.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="When it falls">
+  <div class="meta"><span class="chip">When it falls</span><span class="num">10 / 27</span></div>
+  <p class="kick">At the bedside</p>
+  <h2>Two bedside tests, each asking whether a nerve is on a hair trigger.</h2>
+  <div class="rows rows--2">
+    <div class="row">
+      <h3>Trousseau’s sign</h3>
+      <figure class="fig" style="margin:.6rem .75rem 0"><img src="panc-calcium-cuff-rest.svg" width="700" height="470" data-swap="panc-calcium-cuff.svg" alt="His left arm with a blood-pressure cuff on, the hand open." loading="lazy"></figure>
+      <dl>
+        <dd><button class="btn swapbtn" type="button" data-label="Show the arm again">Pump up the cuff</button></dd>
+        <dd>A blood-pressure cuff pumped above the systolic pressure and held for three minutes. The squeezed nerve (median nerve) runs short of blood, and an irritable nerve fires: the hand curls.</dd>
+        <dd>The more reliable sign. A review reports it positive in 94% of people with low calcium and 1 to 4% of healthy people.</dd>
+      </dl>
+    </div>
+    <div class="row">
+      <h3>Chvostek’s sign</h3>
+      <figure class="fig" style="margin:.6rem .75rem 0"><img src="panc-calcium-face-tap-rest.svg" width="480" height="480" data-swap="panc-calcium-face-tap.svg" alt="The side of his face, a finger ready to tap in front of the ear." loading="lazy"></figure>
+      <dl>
+        <dd><button class="btn swapbtn" type="button" data-label="Show the face again">Tap the cheek</button></dd>
+        <dd>A tap on the cheek about 2 cm in front of the earlobe, below the cheekbone, over the facial nerve: the upper lip twitches.</dd>
+        <dd>A poor guide. In a survey of 3,434 adults, a positive sign went with normal to high calcium, not low.</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card" id="c11" data-sec="When it falls">
+  <div class="meta"><span class="chip">When it falls</span><span class="num">11 / 27</span></div>
+  <p class="kick">QTc 510 ms</p>
+  <h2>In the heart, low calcium stretches the flat part of the beat: a long QT.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d11-st-qt.svg" width="720" height="1041" alt="Two heartbeats drawn on ECG paper, one above the other. Normal: a short flat ST segment and a normal QT. Low calcium (Dean): the same beat with a much longer flat ST segment, so the QT is longer. Low calcium lengthens the flat part of the beat (the ST segment), and so the QT. The T wave keeps its ordinary shape; there is no ST elevation." loading="lazy"><div class="strip" style="margin-top:1rem"><img src="panc-calcium-ecg.svg" width="1060" height="500" alt="Dean’s first 12-lead ECG." loading="lazy"></div><p class="hint hint--swipe">Swipe to see the whole film.</p><figcaption>Dean’s first ECG.</figcaption></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>It can produce ECG changes that mimic a heart attack: why an inferior heart attack was a fair worry for Dean.</li>
+        <li>Low potassium and low magnesium lengthen the QT too. Dean had calcium 1.62, magnesium 0.44 and potassium 3.4.</li>
+        <li>A long QT can lead to a twisting rhythm (torsade de pointes), though with low calcium this is less common than with low potassium or magnesium.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="Why it falls">
+  <div class="meta"><span class="chip">Why it falls</span><span class="num">12 / 27</span></div>
+  <p class="kick">18% of hospital patients · 85% in intensive care</p>
+  <h2>Every cause breaks the loop in one of four places.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d12-loop-breaks.svg" width="720" height="1888" alt="A loop down the page. Blood calcium falls. The parathyroid glands, behind the thyroid, release parathyroid hormone (PTH). PTH acts on: 1, bone releases calcium; 2, the kidney keeps calcium instead of losing it in urine; 3, the kidney activates vitamin D (calcitriol); 4, vitamin D makes the gut absorb more calcium. Blood calcium rises, and an arrow back up the side: PTH falls back (negative feedback). Four numbered breaks. 1, no hormone: damage at neck surgery, the commonest cause in hospital; hypoparathyroidism, autoimmune or genetic. 2, hormone that cannot be made or obeyed: low magnesium. 3, no vitamin D: severe deficiency. 4, calcium pulled out of the blood: pancreatitis; muscle breakdown and tumour lysis, where released phosphate binds calcium; large transfusions. Also critical illness and septic shock, kidney failure and drugs." loading="lazy"></figure>
+    <div class="txt">
+      <p>Low calcium is common: about 18% of hospital patients and 85% in intensive care. Read down the loop; each red number is a place it breaks.</p>
+      <p class="path" style="margin-top:.6rem">More on: <a href="#c13">pancreatitis</a> · <a href="#c14">transfusion</a> · <a href="#c15">drugs</a> · <a href="#c16">magnesium</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="Why it falls">
+  <div class="meta"><span class="chip">Why it falls</span><span class="num">13 / 27</span></div>
+  <p class="kick">Where the two debriefs meet</p>
+  <h2>In pancreatitis, fat round the gland turns to soap, and the soap takes the calcium.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d13-soap.svg" width="720" height="881" alt="Three steps down the page. 1: enzymes leaking from the inflamed gland digest the fat around it. 2: the fatty acids are freed. 3: they bind calcium into chalky soaps (saponification). In the first week, a parathyroid that fails to respond and low magnesium add to the fall. Later in the illness, sepsis takes over as a cause." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>A low calcium is common in severe attacks: a review reports it in 86% of severe and 39% of mild attacks. The signs of it are rare.</li>
+        <li>Dean’s fell fast, within sixteen hours, because his magnesium was already low.<span class="tag">Our reasoning</span></li>
+      </ul>
+      <div class="tiles tiles--one">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="t13a"><span class="q">Should every low calcium in pancreatitis get IV calcium?</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="t13a">No trial has tested correcting calcium in pancreatitis. One review advises caution and finds no evidence for treating a mild fall that causes no symptoms. But everyone treats a low calcium that causes symptoms or ECG changes, whatever the cause. Dean had both.</div></div>
+      </div>
+      <p style="margin-top:.8rem">The pancreas itself: <a href="panc-debrief.html#c23">debrief 1, the bridge</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card" id="c14" data-sec="Why it falls">
+  <div class="meta"><span class="chip">Why it falls</span><span class="num">14 / 27</span></div>
+  <p class="kick">Remember week 1’s bleed</p>
+  <h2>Blood bags carry citrate, and citrate grabs calcium.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d14-citrate.svg" width="720" height="725" alt="A bag of red cells with small citrate shapes inside, most holding a calcium. Stored blood contains citrate: a unit of red cells can carry up to 3 g. Citrate binds calcium, so large transfusions can drop the calcium fast. The liver clears citrate, about 3 g in five minutes in an adult without cirrhosis; poor liver function slows it. A low calcium in a major bleed worsens low blood pressure and clotting. Massive transfusion is one of the reasons to give IV calcium." loading="lazy"></figure>
+    <div class="txt">
+      <p>Think of it whenever someone has had many units of blood.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="Why it falls">
+  <div class="meta"><span class="chip">Why it falls</span><span class="num">15 / 27</span></div>
+  <p class="kick">Before you blame the illness</p>
+  <h2>Check the drug chart: several drugs lower calcium, some through magnesium.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d15-drug-chart.svg" width="720" height="885" alt="A drug chart with eight entries ringed in red. Omeprazole, acid-suppressing (a PPI), lowers magnesium. Furosemide, a loop diuretic. An IV bisphosphonate, especially with low vitamin D. Some anticonvulsants. Phosphate. Foscarnet. Cisplatin, chemotherapy. Gentamicin, an aminoglycoside." loading="lazy"></figure>
+    <div class="txt">
+      <p>Acid-lowering tablets (proton pump inhibitors, PPIs) such as omeprazole lower calcium by lowering magnesium. Loop diuretics such as furosemide lower magnesium too.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="card" id="c16" data-sec="Magnesium">
+  <div class="meta"><span class="chip">Magnesium</span><span class="num">16 / 27</span></div>
+  <p class="kick">PTH 3.2, back on Wednesday</p>
+  <h2>Magnesium is the key the parathyroid needs, both to release its hormone and to be obeyed.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d16-lock-key.svg" width="720" height="1098" alt="Two panels. With magnesium: the parathyroid glands, a magnesium key in an open lock, an arrow of PTH reaching bone and kidney, ticked: PTH is released, and bone and kidney respond to it. Severe low magnesium: the glands greyed, the lock shut and no key, the PTH arrow faint, bone and kidney crossed: the glands stop releasing PTH, and bone and kidney respond less. With a low calcium a healthy gland should push PTH up; a normal PTH beside a low calcium is too low. Dean, back on Wednesday: PTH 3.2 pmol/L (1.6 to 6.9), with an adjusted calcium of 1.62." loading="lazy"></figure>
+    <div class="txt">
+      <p>A low magnesium does not just add to a low calcium: it switches off the hormone that would correct it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="Magnesium">
+  <div class="meta"><span class="chip">Magnesium</span><span class="num">17 / 27</span></div>
+  <p class="kick">The bolus works, then it slips</p>
+  <h2>Without magnesium, the calcium goes up and comes back down.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d17-course.svg" width="720" height="918" alt="A chart, in the case, of adjusted calcium against minutes after the bolus, with a dashed line where symptoms usually appear, about 1.9. Bolus alone: 1.62, then 1.92 at 10 minutes, 1.80 at 45, 1.66 at 90 and 1.63 at three hours. Bolus, then infusion: 1.92, 1.88, 1.84, 1.82. After a bolus the level begins to fall within about 30 minutes. Without magnesium any rise in calcium may be short-lived. Giving magnesium does not lift PTH or calcium at once; once it is replaced, calcium may right itself after about two days." loading="lazy"></figure>
+    <div class="txt">
+      <div class="say"><b>In the case</b>After a bolus alone: 1.62 → 1.92 at 10 minutes → 1.80 at 45 → 1.66 at 90 → 1.63 at three hours. With an infusion after the bolus: 1.88, 1.84, 1.82.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="Magnesium">
+  <div class="meta"><span class="chip">Magnesium</span><span class="num">18 / 27</span></div>
+  <p class="kick">110 to 120 units a week</p>
+  <h2>A drinker’s magnesium leaks out of a bucket.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d18-bucket.svg" width="720" height="1310" alt="A bucket with a little magnesium in the bottom. 1, a tap above giving only a trickle: too little in, a poor diet. 2, a hole on one side: lost in the urine, heavy drinking increases the magnesium passed in urine. 3, a hole on the other side: lost from the gut, diarrhoea. 4, a hole in the bottom: lost through drugs, PPIs and loop diuretics. Only about 0.3% of the body’s magnesium is in the blood; half is in bone, a quarter in muscle. Low magnesium usually comes with low potassium: it makes the kidney waste potassium. Dean’s potassium: 3.4." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Low magnesium is common in drinkers and in the poorly nourished. Dean drank 110 to 120 units a week, ate little and had lost weight.</li>
+        <li>Severe is below 0.4 mmol/L; symptoms are more likely below 0.5.</li>
+        <li>Potassium replacement works less well until magnesium is given.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card" id="c19" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">19 / 27</span></div>
+  <p class="kick">Adjusted calcium 1.62 · QTc 510</p>
+  <h2>How low, and does it show? The trust’s chart in one picture.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d19-flowchart-plain.svg" width="720" height="1341" data-swap="panc-calcium-d19-flowchart.svg" data-swap-alt="The trust’s acute hypocalcaemia guideline as three cards, graded by adjusted calcium. Mild, 1.9 to below 2.2 mmol/L: no symptoms, calcium by mouth; symptoms, IV calcium. Moderately severe, 1.8 to 1.89 with no ECG change or circulatory trouble: 10% calcium gluconate 10 mL IV over 5 minutes with ECG monitoring. Severe, below 1.8, or below 1.9 with ECG changes or a struggling circulation: 10% calcium gluconate 20 mL IV over 10 minutes with ECG monitoring; call the senior on call; move to a monitored bed. Get an ECG if below 1.9 or symptoms; send U&amp;E, bone profile, magnesium, PTH and vitamin D. The guideline’s table uses two grades only. National guidance: 10 to 20 mL in 50 to 100 mL of 5% glucose over 10 minutes, repeated until symptoms settle. Dean’s card, severe, is lit: below 1.9 with a long QT." alt="The trust’s acute hypocalcaemia guideline as three cards, graded by adjusted calcium. Mild, 1.9 to below 2.2 mmol/L: no symptoms, calcium by mouth; symptoms, IV calcium. Moderately severe, 1.8 to 1.89 with no ECG change or circulatory trouble: 10% calcium gluconate 10 mL IV over 5 minutes with ECG monitoring. Severe, below 1.8, or below 1.9 with ECG changes or a struggling circulation: 10% calcium gluconate 20 mL IV over 10 minutes with ECG monitoring; call the senior on call; move to a monitored bed. Get an ECG if below 1.9 or symptoms; send U&amp;E, bone profile, magnesium, PTH and vitamin D. The guideline’s table uses two grades only. National guidance: 10 to 20 mL in 50 to 100 mL of 5% glucose over 10 minutes, repeated until symptoms settle." loading="lazy"><button class="btn swapbtn" type="button" data-label="Hide Dean’s path">Light up Dean’s path</button></figure>
+    <div class="txt">
+      <p>Dean: adjusted calcium 1.62 with a long QT. Find his box.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="card" id="c20" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">20 / 27</span></div>
+  <p class="kick">The first 10 minutes</p>
+  <h2>The bolus: 20 mL of 10% calcium gluconate over 10 minutes, on a monitor.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d20-bolus.svg" width="720" height="949" alt="Three pictures in a row: a syringe, 20 mL of 10% calcium gluconate; a clock, over 10 minutes; a monitor, ECG monitoring throughout and after. No monitored bed free? A portable or crash-trolley monitor is acceptable for the first dose, so treatment is not delayed. A wide cannula, checked often: calcium is very irritant to veins. Never mixed with bicarbonate, phosphate or sulfate (including magnesium sulfate): it precipitates. Given too fast: flushing, a chalky taste, low blood pressure, a slow pulse, abnormal rhythms; cardiac arrest has occurred. Calcium boosts digoxin’s effect on the heart." loading="lazy"></figure>
+    <div class="txt">
+      <p>Slow, watched and on its own line.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="card" id="c21" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">21 / 27</span></div>
+  <p class="kick">The next 24 hours</p>
+  <h2>Then hold it: an infusion, and a level at two hours.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d21-timeline.svg" width="720" height="860" alt="A timeline down the page. 0: the bolus, 20 mL of 10% calcium gluconate over 10 minutes. 2 hours: repeat the ECG and calcium. Then the infusion: 100 mL of 10% calcium gluconate in 1,000 mL of 0.9% sodium chloride at 50 to 100 mL an hour (national guidance also allows 5% glucose). 2 to 4 hours into it: recheck the calcium and adjust the rate. Recheck at its end. Keep going until the cause is treated." loading="lazy"></figure>
+    <div class="txt">
+      <p>The bolus wears off. The infusion holds the level while the cause is treated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="card" id="c22" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">22 / 27</span></div>
+  <p class="kick">Magnesium 0.44</p>
+  <h2>Replace the magnesium alongside, and expect it to climb slowly.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d22-magnesium.svg" width="720" height="1203" alt="A chart of magnesium with bands: normal 0.70 to 1.00; symptoms more likely below 0.5; severe below 0.4. A dashed line climbs from Dean’s 0.44 at the start to about 0.68 the next day, still below normal. Magnesium sulfate 24 mmol (6 g) over 24 hours, in 500 mL of 0.9% sodium chloride or 5% glucose. Each gram raises the blood level by only about 0.04 mmol/L a day later. So 6 g from 0.44 reaches about 0.68 by the next day: one bag will not finish the job (our reasoning). One review advises correcting magnesium before calcium. Never in the same line as the calcium. Check your local policy: the magnesium guideline." loading="lazy"></figure>
+    <div class="txt">
+      <p>Alongside the calcium, never in the same line.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="card question" id="c23" data-sec="Treating it">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 2</span><span class="num">23 / 27</span></div>
+  <p class="kick">Adjusted calcium 1.62 · both hands cramping</p>
+  <h2>The nurse offers calcium tablets, and asks whether to wait for the PTH.</h2>
+  <div class="solo qa">
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="btn opt" type="button">Tablets, and wait for the PTH</button>
+      <button class="btn opt" type="button" data-ok="1">IV calcium now; send the PTH, don’t wait for it</button>
+    </div>
+    <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>IV calcium now.</strong> Calcium tablets are for a mild low calcium that causes no symptoms. Symptoms or a long QT make it an emergency.</li>
+        <li>PTH and vitamin D should ideally be taken before treatment starts, but never wait for them before treating.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="card" id="c24" data-sec="Treating it">
+  <div class="meta"><span class="chip">Treating it</span><span class="num">24 / 27</span></div>
+  <p class="kick">Still vomiting</p>
+  <h2>Do not stretch a long QT further.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-calcium-d24-qt-stack.svg" width="720" height="914" alt="A bar built from blocks: a normal QT, then low calcium, low magnesium and low potassium, reaching a dashed line: Dean, QTc 510 ms; a dashed block beyond it, a QT drug: then ondansetron, plus 15 ms. Each adds length; the sizes are a sketch. Low calcium, low magnesium and low potassium all lengthen the QT. Ondansetron lengthens it, more with higher doses; correct low potassium and magnesium before giving it. In the case, ondansetron lengthened Dean’s QTc by 15 ms and brought single early beats. Cyclizine: the BNF lists no QT caution." loading="lazy"></figure>
+    <div class="txt">
+      <p class="cap">Five more ward drugs. Tap each.</p>
+      <div class="tiles tiles--one" data-group="qt">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="q1"><span class="q">Haloperidol</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="q1">The BNF says do not give it with a prolonged QTc. Correct salt imbalances first.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="q2"><span class="q">Citalopram</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="q2">Do not give it with a prolonged QT.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="q3"><span class="q">Erythromycin and clarithromycin</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="q3">Erythromycin: MHRA advice is not to give it with a long QT or salt imbalances. Clarithromycin: caution.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="q4"><span class="q">Levofloxacin</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="q4">Quinolones can prolong the QT.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="q5"><span class="q">Methadone</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="q5">ECG monitoring when there are QT risk factors, including salt imbalances.</div></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="qt">Show all</button>
+      <p class="hint" style="margin-top:.6rem">Metoclopramide, prochlorperazine and domperidone also list QT prolongation as a side effect.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="card" id="c25" data-sec="Back to Dean">
+  <div class="meta"><span class="chip">Back to Dean</span><span class="num">25 / 27</span></div>
+  <p class="kick">What the morning showed</p>
+  <h2>Every finding, and where it came from.</h2>
+  <div class="split">
+    <figure class="fig fig--small"><img src="panc-calcium-dean.svg" width="200" height="200" alt="Dean" loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts path">
+        <li>The funny mouth and the cramping hand: an irritable nerve (<a href="#c7">7</a>, <a href="#c8">8</a>, <a href="#c9">9</a>, <a href="#c10">10</a>).</li>
+        <li>Calcium 1.48 became 1.62 adjusted, still far too low (<a href="#c4">4</a>).</li>
+        <li>Ionised calcium 0.84 at a pH of 7.41: not the breathing (<a href="#c5">5</a>, <a href="#c6">6</a>).</li>
+        <li>QTc 510: calcium, magnesium and potassium together (<a href="#c11">11</a>).</li>
+        <li>Magnesium 0.44 and a “normal” PTH of 3.2: the missing key (<a href="#c16">16</a>), from a drinker’s bucket (<a href="#c18">18</a>).</li>
+        <li>The cause: soap round an inflamed pancreas (<a href="#c13">13</a>). The speed of his fall came from his background, not the pancreas alone.<span class="tag">Our reasoning</span></li>
+        <li>The fix: a bolus on a monitor, an infusion, magnesium, cyclizine not ondansetron, and a repeat at two hours (<a href="#c19">19</a>–<a href="#c24">24</a>).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 26 -->
+<section class="card" id="c26" data-sec="Back to Dean">
+  <div class="meta"><span class="chip">Back to Dean</span><span class="num">26 / 27</span></div>
+  <p class="kick">Take home</p>
+  <h2>Five things to keep.</h2>
+  <div class="solo">
+    <ol class="pts">
+      <li>The free calcium is the one that matters. Adjust for albumin, and a gas prints the free calcium directly.</li>
+      <li>Tingling and a claw hand mean an irritable nerve. Measure the calcium before blaming the breathing.</li>
+      <li>Symptoms or a long QT: 20 mL of 10% calcium gluconate over 10 minutes, on a monitor. Repeat the ECG and calcium at two hours.</li>
+      <li>No magnesium, no lasting calcium.</li>
+      <li>Keep drugs that lengthen the QT away from a long QT.</li>
+    </ol>
+    <p style="margin-top:1rem">The other half of Dean’s morning: <a href="panc-debrief.html">debrief 1, acute pancreatitis</a>.</p>
+  </div>
+</section>
+
+<!-- 27 -->
+<section class="card src" id="c27" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">27 / 27</span></div>
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>The sources this page is built from</h3>
+  <ol>
+    <li>The trust’s acute hypocalcaemia guideline: Guidelines for the Management of Acute Hypocalcaemia in Adults (undated).</li>
+    <li>Turner J, Gittoes N, Selby P. Society for Endocrinology emergency guidance: emergency management of acute hypocalcaemia in adult patients. <i>Endocr Connect</i> 2016;5:G7–G8. <a href="https://doi.org/10.1530/EC-16-0056">doi:10.1530/EC-16-0056</a></li>
+    <li>Nickson C. Hypocalcaemia. LITFL Critical Care Compendium. <a href="https://litfl.com/hypocalcaemia/">litfl.com/hypocalcaemia</a>. Burns E, Buttner R. Hypocalcaemia. LITFL ECG Library. <a href="https://litfl.com/hypocalcaemia-ecg-library/">litfl.com</a></li>
+    <li>Doshi A, Davies G. Hypocalcaemia. Mind the Bleep. <a href="https://mindthebleep.com/hypocalcaemia/">mindthebleep.com</a></li>
+    <li>Wallis J. Bone profile interpretation; Managing electrolyte disturbances. Geeky Medics. <a href="https://geekymedics.com/bone-profile-interpretation/">geekymedics.com</a></li>
+    <li>Ahmed A, et al. Hypocalcemia in acute pancreatitis revisited. <i>Indian J Crit Care Med</i> 2016;20:173–177. <a href="https://doi.org/10.4103/0972-5229.178182">doi:10.4103/0972-5229.178182</a></li>
+  </ol>
+  <h3>Primary sources, used where those are silent</h3>
+  <ol start="7">
+    <li>Fong J, Khan A. Hypocalcemia: updates in diagnosis and management for primary care. <i>Can Fam Physician</i> 2012;58:158–162. <a href="https://www.cfp.ca/content/58/2/158">cfp.ca</a></li>
+    <li>Cooper MS, Gittoes NJL. Diagnosis and management of hypocalcaemia. <i>BMJ</i> 2008;336:1298. <a href="https://doi.org/10.1136/bmj.39582.589433.BE">doi:10.1136/bmj.39582.589433.BE</a></li>
+    <li>Armstrong CM, Cota G. Calcium block of Na⁺ channels and its effect on closing rate. <i>PNAS</i> 1999;96:4154–4157. <a href="https://doi.org/10.1073/pnas.96.7.4154">doi:10.1073/pnas.96.7.4154</a></li>
+    <li>Hujoel IA. The association between serum calcium levels and Chvostek sign. <i>Neurol Clin Pract</i> 2016. <a href="https://doi.org/10.1212/CPJ.0000000000000270">doi:10.1212/CPJ.0000000000000270</a></li>
+    <li>Alanazi M, et al. Tetany in a young female not resulting from hypocalcemia. <i>Cureus</i> 2023. <a href="https://doi.org/10.7759/cureus.43521">doi:10.7759/cureus.43521</a></li>
+    <li>Schini M, Hannan FM, Walsh JS, Eastell R. Reference interval for albumin-adjusted calcium based on a large UK population. <i>Clin Endocrinol</i> 2021;94:34–39. <a href="https://doi.org/10.1111/cen.14326">doi:10.1111/cen.14326</a></li>
+    <li>James MT, et al. Derivation and internal validation of an equation for albumin-adjusted calcium. <i>BMC Clin Pathol</i> 2008;8:12. <a href="https://doi.org/10.1186/1472-6890-8-12">doi:10.1186/1472-6890-8-12</a></li>
+    <li>Steele T, et al. Albumin-adjusted calcium concentration should not be used to identify hypocalcaemia in critical illness. <i>Crit Care</i> 2013;17(Suppl 2):P446. <a href="https://doi.org/10.1186/cc12384">doi:10.1186/cc12384</a></li>
+    <li>Parasa M, et al. Cramps and tingling: a diagnostic conundrum. <i>Anesth Essays Res</i> 2014;8:247–249. <a href="https://doi.org/10.4103/0259-1162.134524">doi:10.4103/0259-1162.134524</a>. Stadler G, et al. <i>Praxis</i> 1995;84:328–334.</li>
+    <li>El-Sherif N, Turitto G. Electrolyte disorders and arrhythmogenesis. <i>Cardiol J</i> 2011;18:233–245.</li>
+    <li>Potestio CP, et al. The incidence, degree, and timing of hypocalcemia from massive transfusion. <i>Cureus</i> 2022. <a href="https://doi.org/10.7759/cureus.22093">doi:10.7759/cureus.22093</a></li>
+    <li>Jahnen-Dechent W, Ketteler M. Magnesium basics. <i>Clin Kidney J</i> 2012;5(Suppl 1):i3–i14. <a href="https://doi.org/10.1093/ndtplus/sfr163">doi:10.1093/ndtplus/sfr163</a></li>
+    <li>Mathews V, et al. A prospective observational study to identify the effectiveness of intravenous magnesium replacement in an intensive care setting. <i>J Anaesthesiol Clin Pharmacol</i> 2022;38:453–457. <a href="https://doi.org/10.4103/joacp.JOACP_530_20">doi:10.4103/joacp.JOACP_530_20</a></li>
+    <li>MHRA. Ondansetron for intravenous use: dose-dependent QT interval prolongation. <a href="https://www.gov.uk/drug-safety-update/ondansetron-for-intravenous-use-dose-dependent-qt-interval-prolongation">gov.uk</a>. BNF monographs (bnf.nice.org.uk): ondansetron, cyclizine, haloperidol, citalopram, erythromycin, clarithromycin, levofloxacin, methadone, metoclopramide, prochlorperazine, domperidone.</li>
+    <li>Goodchild G, Chouhan M, Johnson GJ. Practical guide to the management of acute pancreatitis. <i>Frontline Gastroenterology</i> 2019;10:292–299. <a href="https://doi.org/10.1136/flgastro-2018-101102">doi:10.1136/flgastro-2018-101102</a></li>
+  </ol>
+  <p class="credit">Guidelines change. Checked October 2026.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles (screen 3) and flip cards (screen 16) */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* step-through lists */
+  each('[data-walk]', function (ol) {
+    var items = Array.prototype.slice.call(ol.children), i = 0;
+    var bar = document.createElement('div'); bar.className = 'walkbar';
+    bar.innerHTML = '<span class="n"></span><button class="btn" type="button">Back</button><button class="btn btn--accent" type="button">Next step</button><button class="btn" type="button">Show all</button>';
+    ol.parentNode.insertBefore(bar, ol.nextSibling);
+    var n = bar.querySelector('.n'), b = bar.querySelectorAll('button');
+    var fimg = ol.closest('.card').querySelector('img[data-frames]'), frames = fimg ? fimg.getAttribute('data-frames').split('|') : null;
+    function show(k, all) {
+      i = Math.max(0, Math.min(items.length - 1, k));
+      if (frames) { var src = all ? fimg.getAttribute('data-full') : frames[Math.min(i, frames.length - 1)]; if (fimg.getAttribute('src') !== src) { var fh = (fimg.getAttribute('data-frame-h') || '').split('|'); fimg.setAttribute('height', all ? fimg.getAttribute('data-full-h') : (fh[Math.min(i, fh.length - 1)] || fimg.getAttribute('height'))); fimg.setAttribute('src', src); } }
+      items.forEach(function (li, j) { li.classList.toggle('on', all || j <= i); });
+      n.textContent = all ? 'All ' + items.length + ' steps' : 'Step ' + (i + 1) + ' of ' + items.length;
+      b[0].disabled = all || i === 0; b[1].disabled = all || i === items.length - 1;
+      if (all) b[2].hidden = true;
+    }
+    b[0].addEventListener('click', function () { show(i - 1); });
+    b[1].addEventListener('click', function () { show(i + 1); });
+    b[2].addEventListener('click', function () { show(items.length - 1, true); });
+    ol._all = function () { show(items.length - 1, true); };
+    show(0);
+  });
+
+  /* Glasgow tally */
+  var gt = document.getElementById('gtally');
+  function tally() {
+    if (!gt) return;
+    var opened = 0, pts = 0, all = document.querySelectorAll('.score .tile');
+    each('.score .tile', function (t) { if (t.classList.contains('open')) { opened++; pts += parseInt(t.getAttribute('data-pts'), 10); } });
+    gt.textContent = opened === all.length ? 'Dean at 07:40 scores ' + pts + ': the calcium. Not severe by this count, and the count is not complete until 48 hours.' : 'Dean so far: ' + pts + ', with ' + opened + ' of ' + all.length + ' letters checked.';
+  }
+  each('.score .tile > button', function (b) { b.addEventListener('click', tally); });
+
+  /* Glasgow card: score Dean */
+  var gimg = document.getElementById('gimg'), gbtn = document.getElementById('gbtn');
+  function scoreDean() { if (!gimg) return; gimg.setAttribute('src', 'panc-db-d14-pancreas-score.svg'); gimg.setAttribute('alt', 'The Glasgow score filled in for Dean at 07:40: only the calcium, 1.62, scores. Total 1.'); if (gbtn) gbtn.hidden = true; }
+  if (gbtn) gbtn.addEventListener('click', scoreDean);
+
+  /* show all */
+  function showAll(name) {
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+    if (name === 'glasgow') tally();
+  }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.tiles .tile', function (t) { setTile(t, true); }); tally(); scoreDean();
+    each('[data-walk]', function (ol) { ol._all(); });
+    each('.qa', function (q) { openQA(q); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+
+  /* swap images: cuff, cheek tap, and diagrams with frames */
+  each('img[data-swap]', function (img) {
+    var a = img.getAttribute('src'), b = img.getAttribute('data-swap'), altA = img.getAttribute('alt'), altB = img.getAttribute('data-swap-alt') || altA;
+    var btn = img.closest('.row, .fig').parentNode.querySelector('.swapbtn') || img.closest('.fig').querySelector('.swapbtn');
+    if (!btn) return;
+    var l0 = btn.textContent, l1 = btn.getAttribute('data-label') || l0, on = false;
+    btn.addEventListener('click', function () {
+      on = !on; img.setAttribute('src', on ? b : a); img.setAttribute('alt', on ? altB : altA); btn.textContent = on ? l1 : l0;
+    });
+    img._show = function () { if (!on) btn.click(); };
+  });
+  window.addEventListener('beforeprint', function () { each('img[data-swap]', function (i) { if (i._show) i._show(); }); });
+  paint();
+})();
+</script>
+<!-- BEGIN copyright notice -->
+<p class="mp-copyright" style="margin:.75rem auto 0;padding:0 1rem .5rem;font-size:9px;line-height:1.3;text-align:center;opacity:.45;color:inherit">&copy; 2026 Dr Naveen Vijayakumar. All rights reserved.</p>
+<!-- END copyright notice -->
+</body>
+</html>

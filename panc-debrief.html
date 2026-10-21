@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Acute pancreatitis: the debrief · The Monday Patient</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20260%20180%22%20fill%3D%22none%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22mpf%22%20width%3D%2213%22%20height%3D%2213%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M13%200%20H0%20V13%22%20stroke%3D%22%23C8531B%22%20stroke-opacity%3D%22.18%22%20fill%3D%22none%22/%3E%3C/pattern%3E%3C/defs%3E%3Crect%20width%3D%22260%22%20height%3D%2285%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Crect%20y%3D%22113%22%20width%3D%22260%22%20height%3D%2267%22%20fill%3D%22url%28%23mpf%29%22/%3E%3Cpath%20d%3D%22M0%2085%20H92%20M168%2085%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%2085%20L112%2014%20L130%2058%20L148%2039%20L168%2085%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3Cpath%20d%3D%22M0%2099%20H260%22%20stroke%3D%22%23241C15%22%20stroke-width%3D%226%22/%3E%3Cpath%20d%3D%22M0%20113%20H92%20M168%20113%20H260%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22square%22/%3E%3Cpath%20d%3D%22M92%20113%20C92%20148%20168%20148%20168%20113%22%20stroke%3D%22%23C8531B%22%20stroke-width%3D%229%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className = 'js';</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper:#fdf8ee; --paper-2:#faf0da; --paper-3:#f3e5c8;
+  --ink:#241c15; --ink-2:#463a2c; --muted:#6b5c46;
+  --rule:#e8dcc2; --rule-2:#d9c9a6;
+  --accent:#c8531b; --accent-2:#a53f12; --accent-bg:#fbe4d3;
+  --good:#3f7d52; --good-bg:#e6f0e6; --danger:#b23b2e; --danger-bg:#f7e3df;
+  --gold:#e0a521; --gold-bg:#fbf0cf;
+  --font-display:"Bricolage Grotesque","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",monospace;
+  --shadow:3px 3px 0 rgba(36,28,21,.85);
+  --top:3.6rem;
+}
+* { box-sizing:border-box; margin:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body { background:var(--paper-2); color:var(--ink); font-family:var(--font-body); font-size:1.0625rem; line-height:1.55; overflow-x:hidden; }
+img { max-width:100%; height:auto; display:block; }
+a { color:var(--accent-2); text-underline-offset:.15em; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; border-radius:6px; }
+.skip { position:absolute; left:-999px; top:0; background:var(--ink); color:var(--paper); padding:.75rem 1rem; z-index:50; }
+.skip:focus { left:.5rem; top:.5rem; }
+.vh { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* top bar */
+.top { position:sticky; top:0; z-index:20; background:var(--paper); overflow-x:clip; border-bottom:2px solid var(--ink); }
+.top-in { display:flex; align-items:center; gap:.75rem; padding:.5rem 1rem; min-height:var(--top); max-width:84rem; margin:0 auto; }
+.wordmark { display:flex; align-items:center; gap:.5rem; font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.1; min-width:0; }
+.wordmark .mp-mark { height:1.9rem; width:auto; flex:none; }
+.wordmark span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.wordmark em { font-style:normal; color:var(--accent); font-weight:800; }
+@media (max-width:26rem) { .wordmark .long { display:none; } .top-in { gap:.5rem; padding:.5rem .6rem; } .wordmark { font-size:.98rem; gap:.4rem; } .wordmark .mp-mark { height:1.6rem; } .count { font-size:.8rem; padding:.15rem .45rem; } #tocbtn { padding:.55rem .6rem; } }
+.wordmark > span { min-width:0; flex:0 1 auto; }
+.count { margin-left:auto; font-family:var(--font-mono); font-weight:600; font-size:.9rem; white-space:nowrap; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.15rem .6rem; }
+.btn { font:inherit; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:.55rem .9rem; min-height:2.75rem; min-width:2.75rem; cursor:pointer; }
+.btn:hover { background:var(--paper-3); }
+.btn:active { transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.btn--accent { background:var(--accent); color:#fff; }
+.btn--accent:hover { background:var(--accent-2); }
+.btn[disabled] { cursor:default; opacity:1; }
+.prog { height:6px; background:var(--paper-3); }
+.prog i { display:block; height:100%; width:0; background:var(--accent); transition:width .2s linear; }
+
+/* layout */
+.wrap { max-width:84rem; margin:0 auto; padding:1rem .75rem 5rem; }
+.toc { background:var(--paper); border:2px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:.5rem; margin-bottom:1rem; }
+.toc[hidden] { display:none; }
+.toc h2 { font-family:var(--font-display); font-size:1rem; padding:.4rem .6rem; }
+.toc ol { list-style:none; padding:0; }
+.toc a { display:flex; gap:.6rem; align-items:center; min-height:2.75rem; padding:.3rem .6rem; border-radius:10px; text-decoration:none; color:var(--ink); font-weight:600; }
+.toc a:hover { background:var(--paper-3); }
+.toc a.on { background:var(--accent-bg); }
+.toc a b { font-family:var(--font-mono); font-size:.8rem; color:var(--muted); min-width:3.2rem; }
+
+.card { background:var(--paper); border:2px solid var(--ink); border-radius:16px; box-shadow:var(--shadow); padding:1rem; margin:0 0 1.25rem; scroll-margin-top:calc(var(--top) + 1rem); }
+.meta { display:flex; align-items:center; gap:.5rem; margin-bottom:.6rem; flex-wrap:wrap; }
+.chip { font-family:var(--font-mono); font-size:.78rem; font-weight:600; letter-spacing:.02em; text-transform:uppercase; background:var(--gold); border:2px solid var(--ink); border-radius:999px; padding:.1rem .6rem; }
+.chip--q { background:var(--accent); color:#fff; }
+.num { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-left:auto; }
+.card h2 { font-family:var(--font-display); font-weight:800; font-size:1.45rem; line-height:1.15; letter-spacing:-.01em; margin-bottom:.9rem; text-wrap:balance; }
+.fig { margin:0 0 1rem; }
+.fig img { width:100%; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.fig figcaption { font-size:.9rem; color:var(--muted); margin-top:.4rem; }
+.fig--small img { max-width:11rem; }
+.fig--tall img { max-width:26rem; margin:0 auto; }
+.strip { overflow-x:auto; border:2px solid var(--ink); border-radius:12px; background:var(--paper); -webkit-overflow-scrolling:touch; }
+.strip img { width:100%; min-width:36rem; border:0; border-radius:0; }
+.strip + .cap, .cap { font-size:.95rem; font-weight:600; margin:.4rem 0 .9rem; }
+.hint { font-size:.85rem; color:var(--muted); margin:.3rem 0 .6rem; }
+.pts { list-style:none; padding:0; display:grid; gap:.7rem; }
+.pts > li { padding-left:1.1rem; position:relative; }
+.pts > li::before { content:""; position:absolute; left:0; top:.6em; width:.5rem; height:.5rem; background:var(--accent); border:1.5px solid var(--ink); border-radius:2px; }
+ol.pts { counter-reset:n; }
+ol.pts > li { counter-increment:n; padding-left:2.4rem; }
+ol.pts > li::before { content:counter(n); top:0; width:1.7rem; height:1.7rem; border-radius:8px; background:var(--gold); border:2px solid var(--ink); font-family:var(--font-mono); font-weight:600; font-size:.9rem; display:grid; place-items:center; }
+.say { background:var(--paper-2); border:2px solid var(--ink); border-radius:12px; padding:.75rem .9rem; margin-top:.9rem; }
+.say b { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; color:var(--muted); margin-bottom:.2rem; }
+.obs { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem; margin:0 0 1rem; }
+.obs div { border:2px solid var(--ink); border-radius:10px; padding:.4rem .6rem; background:var(--paper-2); }
+.obs dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.obs dd { font-family:var(--font-display); font-weight:800; font-size:1.3rem; line-height:1.1; }
+.rows { display:grid; gap:.7rem; margin:0 0 1rem; }
+.row { border:2px solid var(--ink); border-radius:12px; overflow:hidden; background:var(--paper); }
+.row h3 { font-family:var(--font-display); font-size:1.05rem; font-weight:700; background:var(--paper-3); padding:.5rem .75rem; border-bottom:2px solid var(--ink); }
+.row dl { padding:.55rem .75rem; display:grid; gap:.45rem; }
+.row dt { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; color:var(--muted); }
+.row dd { margin:0; }
+.local { border:2px dashed var(--ink); background:var(--gold-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.local b:first-child, .reason b:first-child { display:block; font-family:var(--font-mono); font-size:.78rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:.2rem; }
+.reason { border:2px solid var(--ink); border-left:10px solid var(--accent); background:var(--accent-bg); border-radius:12px; padding:.7rem .9rem; margin-top:1rem; }
+.tag { display:inline-block; font-family:var(--font-mono); font-size:.72rem; font-weight:600; text-transform:uppercase; background:var(--accent-bg); border:1.5px solid var(--accent-2); color:var(--accent-2); border-radius:6px; padding:0 .35rem; margin-left:.25rem; vertical-align:.08em; white-space:nowrap; }
+.credit { font-size:.88rem; color:var(--muted); margin-top:.8rem; }
+.steps { display:grid; gap:.6rem; }
+.steps p b { font-family:var(--font-display); }
+
+/* questions */
+.opts { display:grid; gap:.6rem; margin:1rem 0 .6rem; }
+.opt { text-align:left; width:100%; font-weight:600; }
+.opt.right { background:var(--good-bg); border-color:var(--good); box-shadow:3px 3px 0 var(--good); }
+.opt.wrong { background:var(--danger-bg); border-color:var(--danger); box-shadow:3px 3px 0 var(--danger); }
+.fb { font-weight:700; min-height:1.6em; margin:.4rem 0; }
+.qfoot { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+.card.answer.locked > :not(.lock) { display:none; }
+.card.answer:not(.locked) > .lock { display:none; }
+.lock { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:space-between; }
+.lock p { font-weight:600; }
+.card.answer.locked { border-style:dashed; background:var(--paper-2); box-shadow:none; }
+
+.src h3 { font-family:var(--font-display); font-size:1.05rem; margin:1rem 0 .4rem; }
+.src ol { padding-left:1.4rem; display:grid; gap:.5rem; font-size:.98rem; }
+.src li { overflow-wrap:anywhere; }
+.big-mark { width:7rem; margin:0 0 1rem; }
+
+/* stepper */
+.stepper { display:none; }
+
+@media (min-width:40rem) {
+  .card { padding:1.4rem 1.5rem; }
+  .card h2 { font-size:1.7rem; }
+  .obs { grid-template-columns:repeat(4,1fr); }
+}
+@media (min-width:62rem) {
+  .wrap { display:grid; grid-template-columns:15rem minmax(0,1fr); gap:1.5rem; padding:1.5rem 1.5rem 6rem; align-items:start; }
+  .toc, .toc[hidden] { display:block; position:sticky; top:calc(var(--top) + 1.5rem); margin:0; }
+  #tocbtn { display:none; }
+  main { max-width:62rem; }
+  .card { padding:1.6rem 1.8rem; margin-bottom:1.75rem; }
+  .card h2 { font-size:1.9rem; max-width:40ch; }
+  .split { display:grid; grid-template-columns:minmax(0,22rem) minmax(0,1fr); gap:2rem; align-items:start; }
+  .split--wide { grid-template-columns:minmax(0,26rem) minmax(0,1fr); }
+  .split > .fig { margin:0; }
+  .split > .txt { position:sticky; top:calc(var(--top) + 1.5rem); max-width:38rem; }
+  .solo { max-width:44rem; }
+  .rows--3 { grid-template-columns:repeat(3,1fr); }
+  .rows--2 { grid-template-columns:repeat(2,1fr); }
+  .strip img { min-width:0; }
+  .hint--swipe { display:none; }
+  .stepper { display:flex; gap:.6rem; position:fixed; left:max(1.5rem, calc((100vw - 84rem) / 2 + 1.5rem)); width:15rem; bottom:1.25rem; z-index:20; }
+  .stepper .btn { flex:1; padding-left:.4rem; padding-right:.4rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+  .prog i { transition:none; }
+  .btn:active { transform:none; }
+}
+@media print {
+  body { background:#fff; font-size:11pt; }
+  .top, .toc, .stepper, .opts, .qfoot, .fb, .lock, .skip, .hint--swipe { display:none !important; }
+  .wrap { display:block; padding:0; }
+  .card { box-shadow:none; break-inside:avoid; break-after:page; margin:0; border-width:1px; }
+  .card.answer.locked > :not(.lock) { display:revert; }
+  .split { display:block; }
+  .fig img { max-height:120mm; width:auto; margin:0 auto; }
+  .strip { overflow:visible; } .strip img { min-width:0; max-height:none; width:100%; }
+}
+
+/* thyroid debrief additions */
+.kick { font-family:var(--font-mono); font-size:.82rem; font-weight:600; color:var(--accent-2); text-transform:uppercase; letter-spacing:.02em; margin-bottom:.35rem; }
+.people { display:flex; gap:.6rem; margin:0 0 .9rem; }
+.people img { width:4.25rem; height:4.25rem; border:2px solid var(--ink); border-radius:12px; background:var(--paper-2); }
+.fig svg { width:100%; height:auto; display:block; border:2px solid var(--ink); border-radius:12px; background:var(--paper); }
+.go-all { margin:.2rem 0 .9rem; }
+.tiles { display:grid; gap:.7rem; margin:0 0 .6rem; }
+.tile { border:2px solid var(--ink); border-radius:12px; background:var(--paper); overflow:hidden; }
+.tile > button { display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; font:inherit; font-weight:700; color:var(--ink); background:var(--paper-3); border:0; padding:.5rem .7rem; min-height:3.5rem; cursor:pointer; }
+.tile > button:hover { background:var(--gold-bg); }
+.tile > button img { width:5.2rem; flex:none; background:var(--paper); border:2px solid var(--ink); border-radius:8px; }
+.tile > button .q { flex:1; min-width:0; }
+.tile > button .turn { font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; color:var(--muted); flex:none; }
+.tile.open > button .turn { visibility:hidden; }
+.tile .back { padding:.6rem .75rem; border-top:2px solid var(--ink); background:var(--paper); }
+.js .tile:not(.open) .back { display:none; }
+.js .rv:not(.open) { display:none; }
+.rv { margin-top:1rem; }
+.rv .fig { margin-top:1rem; }
+.opt[aria-disabled="true"] { cursor:default; }
+.scale { padding:.5rem .75rem; display:flex; flex-wrap:wrap; gap:.35rem .4rem; font-size:.92rem; }
+.scale span { border:1.5px solid var(--rule-2); border-radius:8px; padding:.05rem .4rem; background:var(--paper-2); }
+.scale span b { font-family:var(--font-mono); }
+.bw .row > button { display:block; width:calc(100% - 1.5rem); margin:0 .75rem .65rem; }
+.bw .him { margin:0; padding:.5rem .75rem; border-top:2px solid var(--ink); background:var(--accent-bg); font-weight:600; }
+.bw .him b { font-family:var(--font-display); font-size:1.15rem; }
+.js .bw .row:not(.open) .him { display:none; }
+.js .bw .row.open > button { display:none; }
+.stick { position:sticky; top:calc(var(--top) + .4rem); z-index:5; background:var(--paper); }
+#thd-bwps-bar > :nth-child(n+9) { display:none; }
+.bwkey { display:flex; flex-wrap:wrap; gap:.2rem .7rem; padding:.3rem .6rem .45rem; font-size:.8rem; font-weight:600; }
+.bwkey i { display:inline-block; width:.8rem; height:.8rem; border:1.5px solid var(--ink); border-radius:3px; margin-right:.3rem; vertical-align:-.08rem; }
+.tbl { display:grid; gap:.6rem; margin:0 0 1rem; }
+.when { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; background:var(--gold); border:1.5px solid var(--ink); border-radius:999px; padding:0 .45rem; margin-right:.45rem; white-space:nowrap; }
+.sub { font-family:var(--font-display); font-weight:800; font-size:1.1rem; margin:1.1rem 0 .6rem; }
+svg.big-mark { height:auto; display:block; }
+.src li a { overflow-wrap:anywhere; }
+@media (min-width:40rem) { .tiles { grid-template-columns:repeat(2,1fr); } }
+@media (min-width:62rem) {
+  .split > .fig.stick { position:sticky; top:calc(var(--top) + 1.5rem); }
+}
+@media print {
+  .tile .back, .rv, .bw .him { display:block !important; }
+  .go-all, .tile .turn, .bw .row > button { display:none !important; }
+  .stick { position:static; }
+}
+
+/* pancreatitis debrief additions */
+.tiles--one { grid-template-columns:1fr !important; }
+.tiles--letters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (min-width:40rem) { .tiles--letters { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+.tiles--letters .tile > button { min-height:3rem; }
+.tiles--letters .q b, .score .q b { font-family:var(--font-display); font-size:1.15em; color:var(--accent-2); }
+.fig--mid img { max-width:22rem; }
+.tally { font-weight:700; margin:.4rem 0 .6rem; }
+.js .walk > li { display:none; }
+.js .walk > li.on { display:list-item; }
+.walkbar { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:.8rem 0 .4rem; }
+.walkbar .n { font-family:var(--font-mono); font-size:.85rem; color:var(--muted); margin-right:auto; }
+.path a { font-weight:700; }
+@media (max-width:39.99rem) { .card > .split > .fig, .card .txt > .fig, .card > .solo > .fig, .card .rv > .fig { margin-left:-.55rem; margin-right:-.55rem; } }
+.hot { position:relative; } .hot .hs { position:absolute; display:block; border-radius:10px; } .hot .hs:hover, .hot .hs:focus-visible { background:rgba(200,83,27,.12); }
+@media print { .js .walk > li { display:list-item !important; } .walkbar, .tally { display:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#c1">Skip to the debrief</a>
+<header class="top">
+  <div class="top-in">
+    <div class="wordmark"><svg class="mp-mark" viewBox="0 0 260 180" fill="none" aria-hidden="true"><defs><pattern id="mpg" width="13" height="13" patternUnits="userSpaceOnUse"><path d="M13 0 H0 V13" stroke="#C8531B" stroke-opacity=".18" fill="none"/></pattern></defs><rect width="260" height="85" fill="url(#mpg)"/><rect y="113" width="260" height="67" fill="url(#mpg)"/><path d="M0 85 H92 M168 85 H260" stroke="#241C15" stroke-width="9" stroke-linecap="square"/><path d="M92 85 L112 14 L130 58 L148 39 L168 85" stroke="#241C15" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="M0 99 H260" stroke="#241C15" stroke-width="6"/><path d="M0 113 H92 M168 113 H260" stroke="#C8531B" stroke-width="9" stroke-linecap="square"/><path d="M92 113 C92 148 168 148 168 113" stroke="#C8531B" stroke-width="9" stroke-linecap="round"/></svg><span><span class="long">Acute pancreatitis: </span><em>the debrief</em></span></div>
+    <span class="count" id="count" aria-live="off">1 / 25</span>
+    <button class="btn" id="tocbtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+  </div>
+  <div class="prog" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" id="toc" aria-label="Contents" hidden>
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#c1"><b>1</b>The patient</a></li>
+    <li><a href="#c2"><b>2–4</b>What goes wrong</a></li>
+    <li><a href="#c5"><b>5–9</b>Why it happens</a></li>
+    <li><a href="#c10"><b>10–11</b>How it turns up</a></li>
+    <li><a href="#c12"><b>12–14</b>How to prove it</a></li>
+    <li><a href="#c15"><b>15–16</b>How bad is it</a></li>
+    <li><a href="#c17"><b>17–21</b>What to do</a></li>
+    <li><a href="#c22"><b>22</b>What can follow</a></li>
+    <li><a href="#c23"><b>23</b>The bridge</a></li>
+    <li><a href="#c24"><b>24</b>Back to Dean</a></li>
+    <li><a href="#c25"><b>25</b>Sources</a></li>
+  </ol>
+</nav>
+
+<main id="main">
+<h1 class="vh">Acute pancreatitis: the debrief for week 9, Doubled up</h1>
+
+<!-- 1 -->
+<section class="card" id="c1" data-sec="The patient">
+  <div class="meta"><span class="chip">The patient</span><span class="num">1 / 25</span></div>
+  <p class="kick">Monday 07:40 · cubicle 6</p>
+  <h2>Sixteen hours of pain, a sick bowl, and “I feel funny”.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-scene.svg" width="800" height="340" alt="Cubicle 6: Dean on the trolley with his knees drawn up, grey and sweating, holding a sick bowl."></figure>
+    <div class="txt">
+      <div class="people"><img src="panc-db-dean.svg" width="200" height="200" alt="Dean"></div>
+      <ul class="pts">
+        <li>Dean Marsden, 48, a plasterer, on his own.</li>
+        <li>Pain since Sunday 15:00, at its worst within ten minutes, going through to his back. Vomiting more than ten times through the night.</li>
+        <li>At triage: pulse 118, breathing 22, blood pressure 112/70, temperature 37.8 °C, pain 9 out of 10.</li>
+        <li>His lipase came back at <strong>2,310 U/L</strong> (normal 13 to 60).</li>
+        <li>This page is about the pancreas. <a href="panc-calcium-debrief.html">Debrief 2</a> is about why he felt “funny”.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="c2" data-sec="What goes wrong">
+  <div class="meta"><span class="chip">What goes wrong</span><span class="num">2 / 25</span></div>
+  <p class="kick">Before anything goes wrong</p>
+  <h2>The pancreas has two jobs, and it keeps its digestive juices switched off until they leave.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d01-gland.svg" width="720" height="1125" alt="The pancreas in place behind the stomach: its head in the curve of the duodenum, its tail at the spleen, and the pancreatic duct meeting the bile duct at one outlet, the ampulla." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Its protein-digesting enzymes leave the gland switched off (zymogens). In the gut, an enzyme in the gut lining (enteropeptidase, or enterokinase) turns trypsinogen into trypsin, which switches on the rest in a chain (a cascade).</li>
+        <li>The pancreatic duct and the bile duct share one outlet into the duodenum (the ampulla). Remember it for gallstones.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="c3" data-sec="What goes wrong">
+  <div class="meta"><span class="chip">What goes wrong</span><span class="num">3 / 25</span></div>
+  <p class="kick">Sunday 15:00</p>
+  <h2>Pancreatitis starts when trypsin is switched on inside the gland, and the gland digests itself (autodigestion).</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d02-cell-1.svg" width="720" height="450" data-frames="panc-db-d02-cell-1.svg|panc-db-d02-cell-2.svg|panc-db-d02-cell-3.svg|panc-db-d02-cell-4.svg" data-frame-h="450|450|450|450" data-full="panc-db-d02-cell.svg" data-full-h="1810" alt="One enzyme-making cell in four frames: injured; calcium building up; enzyme packets meeting waste packets; trypsin switched on and the cell digesting itself." loading="lazy"></figure>
+    <div class="txt">
+      <ol class="pts walk" data-walk>
+        <li>It starts with injury to the cells that make the enzymes (acinar cells).</li>
+        <li>Calcium builds up inside the injured cell.</li>
+        <li>The enzyme packets and the cell’s waste-disposal packets (lysosomes) come together (co-localisation).</li>
+        <li>Trypsinogen is turned into trypsin too early, inside the gland. The switched-on enzymes digest the gland itself (autodigestion) and set off inflammation.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="c4" data-sec="What goes wrong">
+  <div class="meta"><span class="chip">What goes wrong</span><span class="num">4 / 25</span></div>
+  <p class="kick">07:15 · pulse 118, breathing 22</p>
+  <h2>The fire spreads: inflammation in the gland becomes inflammation of the whole body (SIRS).</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d03-cascade-1.svg" width="720" height="964" data-frames="panc-db-d03-cascade-1.svg|panc-db-d03-cascade-2.svg|panc-db-d03-cascade-3.svg|panc-db-d03-cascade-4.svg" data-frame-h="964|964|964|964" data-full="panc-db-d03-cascade.svg" data-full-h="964" alt="A cascade: the inflamed gland releases alarm signals into the blood; vessels leak; the lungs, kidneys and circulation are at risk." loading="lazy"></figure>
+    <div class="txt">
+      <ol class="pts walk" data-walk>
+        <li>The inflamed gland releases chemical alarm signals (cytokines), such as TNF-α and interleukin-6.</li>
+        <li>The inflammation spreads to the whole body (systemic inflammatory response syndrome, SIRS): fever, a fast pulse, fast breathing.</li>
+        <li>Blood vessels in and around the gland turn leaky (increased vascular permeability), and fluid leaves the blood for the tissues.</li>
+        <li>When SIRS persists, the lungs, the kidneys and the circulation may fail.</li>
+      </ol>
+      <figure class="fig" style="margin-top:1rem"><img src="panc-db-d04-leak.svg" width="720" height="900" alt="A leaky vessel: 2 to 4 litres move from the blood into the tissues and the belly in 48 hours, leaving less blood, and thicker." loading="lazy"></figure>
+      <p>The blood concentrates: urea and haematocrit rise. A urea that rises in the first day goes with more organ failure and death.</p>
+      <div class="tiles tiles--one">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="t5a"><span class="q">Dean’s numbers</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="t5a">Pulse 118, breathing 22. Hb 164, haematocrit 0.49, urea 9.6 with creatinine 98, and a night of vomiting on top. Dry, with SIRS, and no organ failure yet.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="c5" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">5 / 25</span></div>
+  <p class="kick">The causes</p>
+  <h2>Gallstones and alcohol cause three-quarters of it. Every cause gets in by one of three doors, and alcohol uses all three.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d05-causes.svg" width="720" height="736" alt="Gallstones about 50%, alcohol about 25%; no cause found in about 10%." loading="lazy" style="margin-bottom:1rem"><img src="panc-db-d06-three-doors.svg" width="720" height="1165" alt="Three doors into one enzyme-making cell: a blocked duct, an injured cell, and a cell that mishandles its own contents. Alcohol’s tag hangs on all three." loading="lazy"></figure>
+    <div class="txt">
+      <p>In the UK, about 15 to 42 people per 100,000 a year, and rising. The three doors are the three ways a cause starts the damage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="card" id="c6" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">6 / 25</span></div>
+  <p class="kick">The commonest cause in the UK</p>
+  <h2>A gallstone that blocks the duct switches the enzymes on inside the gland.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d07-stone.svg" width="720" height="690" alt="The shared outlet, the ampulla, with a gallstone stuck in it and juice backing up both the bile duct and the pancreatic duct." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>A stone blocking the pancreatic duct switches the enzymes on, and the gland digests itself.</li>
+        <li>An ALT of 150 or more within 48 hours of the pain starting points to gallstones (right 85% of the time). Dean’s ALT was 58.</li>
+        <li>After a mild gallstone attack the gallbladder is removed in the same admission or within 2 weeks.</li>
+        <li>Urgent ERCP (a camera through the mouth to the duct outlet) only for infected bile ducts (cholangitis) or a blocked bile duct.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="c7" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">7 / 25</span></div>
+  <p class="kick">110 to 120 units a week</p>
+  <h2>Alcohol poisons the cell and plugs the ducts.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d08-alcohol.svg" width="720" height="832" alt="A glass with three arrows into the enzyme-making cell: a direct poison, protein plugs in the small ducts, and juice flowing backwards." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>To call an attack alcohol-related, more than five years of heavy drinking is needed: over about 50 g a day, which is about 6 UK units.</li>
+        <li>NICE: do not assume it is the alcohol just because he drinks. So Dean’s ultrasound was still done: no gallstones.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="c8" data-sec="Why it happens">
+  <div class="meta"><span class="chip">Why it happens</span><span class="num">8 / 25</span></div>
+  <p class="kick">Everything else</p>
+  <h2>The rest of the list is short, but each one changes what you do.</h2>
+  <div class="solo">
+    <figure class="fig"><img src="panc-db-d09-mnemonic.svg" width="720" height="1395" alt="The memory aid I GET SMASHED, letter by letter: idiopathic, gallstones, ethanol, trauma, steroids, mumps and malignancy, autoimmune, scorpion sting, high triglycerides and high calcium, ERCP, drugs." loading="lazy"></figure>
+    <p>A memory aid, I GET SMASHED. Triglycerides count only above 11.3 mmol/L.</p>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card question" id="c9" data-sec="Why it happens">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 1 of 2</span><span class="num">9 / 25</span></div>
+  <p class="kick">Triglycerides 3.4 · ibuprofen for six weeks</p>
+  <h2>Did either of these cause Dean’s attack?</h2>
+  <div class="solo qa">
+    <ul class="pts">
+      <li>His triglycerides were 3.4 mmol/L. He had taken ibuprofen two or three times a day for six weeks.</li>
+    </ul>
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="btn opt" type="button">The triglycerides</button>
+      <button class="btn opt" type="button" data-ok="1">Neither</button>
+    </div>
+    <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>Neither.</strong> Triglycerides cause pancreatitis only above 11.3 mmol/L.</li>
+        <li>Ibuprofen (an NSAID) is on a children’s guideline’s list of drug causes, but not on the adult list in NICE’s summary. Drug causes are “more often falsely attributed”.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="c10" data-sec="How it turns up">
+  <div class="meta"><span class="chip">How it turns up</span><span class="num">10 / 25</span></div>
+  <p class="kick">At its worst in ten minutes</p>
+  <h2>Pain in the top of the belly, through to the back, with vomiting and a fast pulse.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d10-pain-map.svg" width="720" height="813" alt="A body outline from the front and the back, with the pain in the upper middle of the abdomen going straight through to the back." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Vomiting; sweaty, a fast pulse, fast breathing, signs of being dry (hypovolaemia); fever from the inflammation.</li>
+        <li>A tender, perhaps swollen abdomen; quiet bowel sounds if the gut has stopped (ileus).</li>
+        <li>When alcohol is the cause, the pain may start less suddenly and be harder to place. Dean’s was at its worst in ten minutes.</li>
+        <li>Bruising around the navel (Cullen’s sign) or in the flanks (Grey Turner’s sign) is rare and late. It means bleeding behind the abdomen.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card" id="c11" data-sec="How it turns up">
+  <div class="meta"><span class="chip">How it turns up</span><span class="num">11 / 25</span></div>
+  <p class="kick">What else it could be</p>
+  <h2>Three emergencies look the same from the end of the trolley. Dean was each of them until tested.</h2>
+  <div class="solo" style="max-width:56rem">
+    <p class="cap">Tap each one.</p>
+    <div class="tiles" data-group="mimics">
+      <div class="tile"><button type="button" aria-expanded="false" aria-controls="m1"><img src="panc-db-cxr.jpg" width="630" height="564" alt="Dean’s erect chest film" loading="lazy"><span class="q">A perforated ulcer</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="m1">An erect chest X-ray looks for free gas under the diaphragm: Dean’s had none. A perforation can raise the amylase too, sometimes above three times normal.</div></div>
+      <div class="tile"><button type="button" aria-expanded="false" aria-controls="m2"><img src="panc-db-ecg.svg" width="1060" height="500" alt="Dean’s first ECG" loading="lazy"><span class="q">A heart attack (inferior)</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="m2">Everyone with epigastric pain has an ECG. Dean’s had no ST elevation; its long QT belongs to <a href="panc-calcium-debrief.html#c11">debrief 2</a>.</div></div>
+      <div class="tile"><button type="button" aria-expanded="false" aria-controls="m3"><span class="q">Ischaemic bowel</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="m3">It can also raise the amylase. When the diagnosis is uncertain, CT can rule it out (mesenteric ischaemia), and a perforation too.</div></div>
+    </div>
+    <button class="btn go-all" type="button" data-all="mimics">Show all</button>
+    <p style="margin-top:1rem">Also on the list: a leaking aortic aneurysm, aortic dissection, a ruptured oesophagus.</p>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="c12" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">12 / 25</span></div>
+  <p class="kick">Lipase 2,310 (13 to 60)</p>
+  <h2>Two of three makes the diagnosis: the pain, an enzyme over three times normal, imaging.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d11-two-of-three.svg" width="720" height="646" alt="Three rings: typical pain, an enzyme at least three times normal, typical imaging. Two are lit for Dean." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Dean had the pain and the enzyme, so no scan was needed to make the diagnosis.</li>
+        <li><strong>The height of the enzyme has no relation to how severe the attack is.</strong> Dean’s was about 38 times the upper limit.</li>
+      </ul>
+      <figure class="fig" style="margin-top:1rem"><img src="panc-db-d12-enzyme-curves.svg" width="720" height="896" alt="Lipase rises in 4 to 8 hours and peaks at 24, staying up longer; amylase rises in 6 to 24 hours and peaks at 48. Dean at 16 hours is marked." loading="lazy"></figure>
+      <p>Send the lipase. Amylase can be normal when alcohol is the cause.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 -->
+<section class="card" id="c13" data-sec="How to prove it">
+  <div class="meta"><span class="chip">How to prove it</span><span class="num">13 / 25</span></div>
+  <p class="kick">The first round</p>
+  <h2>Every first test has a job, and most are about the cause and the danger, not the diagnosis.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-uss.jpg" width="1024" height="821" alt="Dean’s abdominal ultrasound, transverse view of the upper abdomen, with markings." loading="lazy"><figcaption>Dean’s ultrasound: “Gallbladder: thin-walled, no calculi, no sludge. Common bile duct 4 mm.”</figcaption></figure>
+    <div class="txt">
+      <p class="cap">Tap a test for its job.</p>
+      <div class="tiles tiles--one" data-group="tests">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x1"><span class="q">ECG</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x1">So that a heart attack is not missed.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x2"><span class="q">Blood gas</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x2">Oxygen and acid–base; also the lactate and the ionised calcium.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x3"><span class="q">Full blood count</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x3">A raised white count is part of SIRS.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x4"><span class="q">Urea and creatinine</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x4">The fluid lost, and the kidneys.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x5"><span class="q">Liver tests</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x5">A gallstone cause.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x6"><span class="q">Calcium, triglycerides, glucose</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x6">Causes, and the calcium is also a complication. Glucose is monitored.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x7"><span class="q">CRP</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x7">Measured early and repeated; it peaks after 48 to 72 hours.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x8"><span class="q">Erect chest X-ray</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x8">Looks for free gas from a perforation.</div></div>
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="x9"><span class="q">Ultrasound</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="x9">For gallstones. Bowel gas hides the view in 25 to 30% of patients.</div></div>
+      </div>
+      <button class="btn go-all" type="button" data-all="tests">Show all</button>
+    </div>
+  </div>
+</section>
+
+<!-- 14 -->
+<section class="card question" id="c14" data-sec="How to prove it">
+  <div class="meta"><span class="chip chip--q">Stop and decide · 2 of 2</span><span class="num">14 / 25</span></div>
+  <p class="kick">The lipase is back and the pain fits</p>
+  <h2>“Shall we CT him to confirm?”</h2>
+  <div class="solo qa">
+    <div class="opts" role="group" aria-label="Choose one">
+      <button class="btn opt" type="button">CT now</button>
+      <button class="btn opt" type="button" data-ok="1">No CT</button>
+    </div>
+    <div class="rv" tabindex="-1">
+      <ul class="pts">
+        <li><strong>No CT.</strong> With the pain and the enzyme, CT is “not usually required for diagnosis” on admission.</li>
+        <li>CT is not advised in the first 48 hours unless the diagnosis is uncertain. Early CT did not improve outcomes.</li>
+        <li>Good reasons for CT: doubt about the diagnosis (a perforation, bowel losing its blood supply), or no improvement at 48 to 72 hours.</li>
+        <li>To look for dead tissue (necrosis), the best time is 72 to 96 hours after the pain began.</li>
+      </ul>
+      <figure class="fig fig--tall"><img src="panc-db-ct.jpg" width="1024" height="1024" alt="CT of the upper abdomen, portal venous phase, at the level of the pancreas and kidneys." loading="lazy"><figcaption>The CT he would have had: “The pancreas is diffusely swollen … It enhances uniformly throughout. No peripancreatic fluid collection.”</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="card" id="c15" data-sec="How bad is it">
+  <div class="meta"><span class="chip">How bad is it</span><span class="num">15 / 25</span></div>
+  <p class="kick">07:40 · not yet gradable</p>
+  <h2>Severity is graded on organ failure and how long it lasts, so Dean could not be graded at 07:40.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d13-severity.svg" width="720" height="1291" alt="A 48-hour track in three lanes: mild with no organ failure; moderately severe with organ failure that ends before 48 hours; severe with organ failure that runs past 48 hours." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Under-filled, Dean would have become <strong>moderately severe</strong>: organ failure that resolves within 48 hours.</li>
+        <li>80 to 85% of attacks are mild, with a death rate of 1 to 3%. About 20% are moderately severe or severe, with a death rate of 13 to 35%.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section class="card" id="c16" data-sec="How bad is it">
+  <div class="meta"><span class="chip">How bad is it</span><span class="num">16 / 25</span></div>
+  <p class="kick">SIRS: three of four by the first bloods</p>
+  <h2>Look for SIRS now. Most scores need 48 hours.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d14-pancreas-score-blank.svg" id="gimg" width="720" height="866" alt="The Glasgow score as a card of eight letters spelling PANCREAS, each with its cut-off." loading="lazy"><button class="btn" type="button" id="gbtn" style="margin-top:.6rem">Score Dean at 07:40</button></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li><strong>SIRS</strong> is two or more of: pulse over 90; temperature below 36 or above 38 °C; white count below 4 or above 12; breathing over 20 (or pCO₂ below 32 mmHg). Dean: pulse 118, breathing 22, white count 14.2. His 37.8 °C does not count.</li>
+        <li>SIRS on admission, and still present at 48 hours, predicts a severe attack. Persistent SIRS: 25% died, against 8% when it passed.</li>
+        <li>Glasgow, Ranson and APACHE II can only be completed after 48 hours. No score beats watching for persistent SIRS.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="card" id="c17" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">17 / 25</span></div>
+  <p class="kick">The first hours</p>
+  <h2>The first hours, on one picture.</h2>
+  <div class="split">
+    <figure class="fig"><div class="hot"><img src="panc-db-d15-pathway.svg" width="720" height="1184" alt="The first hours as one vertical flow: ABCDE; IV fluid; pain relief; an antiemetic; oxygen only if needed; a monitored bed if SIRS; feed early; find and treat the cause; check calcium and magnesium." loading="lazy"><a class="hs" href="#c18" style="left:3.3%;top:12.3%;width:93.3%;height:8.9%" aria-label="Go to: Moderate fluid"></a><a class="hs" href="#c19" style="left:3.3%;top:23.8%;width:93.3%;height:7.8%" aria-label="Go to: Pain relief"></a><a class="hs" href="#c19" style="left:3.3%;top:34.1%;width:93.3%;height:8.7%" aria-label="Go to: The antiemetic"></a><a class="hs" href="#c20" style="left:3.3%;top:66.8%;width:93.3%;height:8.9%" aria-label="Go to: Feeding"></a><a class="hs" href="#c21" style="left:3.3%;top:78.3%;width:93.3%;height:7.8%" aria-label="Go to: Treat the cause"></a><a class="hs" href="#c23" style="left:3.3%;top:88.6%;width:93.3%;height:8.9%" aria-label="Go to: Calcium and magnesium"></a></div><figcaption>Tap a box to jump to its card.</figcaption></figure>
+    <div class="txt">
+      <p class="path">Go to: <a href="#c18">fluid</a> · <a href="#c19">pain and sickness</a> · <a href="#c20">feeding</a> · <a href="#c21">the cause</a> · <a href="#c23">calcium</a>.</p>
+      <ul class="pts" style="margin-top:.8rem">
+        <li>No prophylactic antibiotics: the fever and the CRP are the inflammation.</li>
+      </ul>
+      <p class="hint">Who looks after him is the admitting team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="card" id="c18" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">18 / 25</span></div>
+  <p class="kick">78 kg</p>
+  <h2>Moderate fluid, not a flood.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d16-fluid.svg" width="720" height="834" alt="Two bars from the WATERFALL trial: fluid overload in 6.3% with moderate fluid and 20.5% with aggressive fluid." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Hartmann’s is preferred; 0.9% sodium chloride is acceptable.</li>
+        <li>If he is dry: a bolus of 10 mL/kg, or 500 mL over less than 15 minutes. Then about 1.5 mL/kg an hour.</li>
+        <li>Reassess within 6 hours, then through 48: pulse, blood pressure, urine, a falling urea.</li>
+      </ul>
+      <div class="tiles tiles--one">
+        <div class="tile"><button type="button" aria-expanded="false" aria-controls="t21a"><span class="q">Work it out for Dean (78 kg)</span><span class="turn" aria-hidden="true">Tap</span></button><div class="back" id="t21a">A bolus of 780 mL, then 117 mL an hour.</div></div>
+      </div>
+      <div class="local"><b>Check your local policy</b>UK guidance has not been rewritten since the trial; these rates come from it and an American guideline.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="card" id="c19" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">19 / 25</span></div>
+  <p class="kick">Pain 9 out of 10 · still vomiting</p>
+  <h2>Treat the pain properly, and pick an antiemetic that leaves the QT alone.</h2>
+  <div class="split">
+    <figure class="fig"><div class="strip"><img src="panc-db-ecg.svg" width="1060" height="500" alt="Dean’s first 12-lead ECG." loading="lazy"></div><p class="hint hint--swipe">Swipe to see the whole film.</p><figcaption>Dean’s first ECG: QTc 510 ms.</figcaption></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Opioids (morphine or fentanyl) are the most used. No restriction on any painkiller is supported, and everyone should have pain relief within 24 hours.</li>
+        <li><strong>Cyclizine</strong> 50 mg IV, up to three times a day. The BNF lists no QT caution for it.</li>
+        <li><strong>Ondansetron</strong> lengthens the QT, more with higher doses. Correct a low potassium and magnesium first, and take care with any QT risk. Dean’s QTc was 510 ms, potassium 3.4, magnesium 0.44.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="card" id="c20" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">20 / 25</span></div>
+  <p class="kick">When the vomiting settles</p>
+  <h2>Feed him as soon as he can eat. Starving the gland does not rest it.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d17-feeding.svg" width="720" height="954" alt="A three-step ladder: food by mouth, then food by tube into the gut, and only then feeding into a vein." loading="lazy"></figure>
+    <div class="txt">
+      <p>NICE: do not keep people nil by mouth without a clear reason, such as vomiting. In moderately severe or severe attacks, food by tube into the gut starts within 72 hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="card" id="c21" data-sec="What to do">
+  <div class="meta"><span class="chip">What to do</span><span class="num">21 / 25</span></div>
+  <p class="kick">About 18 hours from his last drink</p>
+  <h2>Treat the cause. For Dean, the alcohol.</h2>
+  <div class="solo">
+    <ul class="pts">
+      <li>Advise him to stop drinking.</li>
+      <li>Offer thiamine into a vein, then by mouth: he is a harmful drinker, poorly nourished, admitted with an acute illness.</li>
+      <li>Withdrawal in hospital: a symptom-triggered regimen, with a tool such as CIWA-Ar, and a benzodiazepine. Benzodiazepines, thiamine, folic acid and multivitamins are generally used.</li>
+      <li>Follow-up and contact with alcohol services help to prevent another attack.</li>
+      <li>For gallstones, see <a href="#c6">card 6</a>.</li>
+    </ul>
+    <div class="local"><b>Check your local policy</b>Your trust’s alcohol withdrawal regimen.</div>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="card" id="c22" data-sec="What can follow">
+  <div class="meta"><span class="chip">What can follow</span><span class="num">22 / 25</span></div>
+  <p class="kick">Days, weeks, months</p>
+  <h2>Most recover in a week. The early danger is the whole body; the later danger is the gland.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d18-timeline.svg" width="720" height="1334" alt="A timeline from days to weeks to months: organ failure early; walled-off collections from about four weeks; another attack or chronic pancreatitis later." loading="lazy"></figure>
+    <div class="txt">
+      <p>Gas outside the bowel on CT means infection of the dead tissue is presumed.</p>
+      <figure class="fig"><img src="panc-db-ct-severe.jpg" width="1024" height="729" alt="CT of the upper abdomen in a severe attack, portal venous phase." loading="lazy"><figcaption>Not Dean: a severe attack. “CT, portal venous phase: the pancreas and the tissue around it are replaced by a mixed collection that enhances poorly, with pockets of gas.”</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="card" id="c23" data-sec="The bridge">
+  <div class="meta"><span class="chip">The bridge</span><span class="num">23 / 25</span></div>
+  <p class="kick">Adjusted calcium 1.62 · magnesium 0.44</p>
+  <h2>His calcium fell because fat round the gland soaks it up, and his low magnesium stopped the body putting it back.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-d19-calcium.svg" width="720" height="684" alt="A fat droplet next to the gland binding calcium into soap, and a dimmed parathyroid gland." loading="lazy"></figure>
+    <div class="txt">
+      <ul class="pts">
+        <li>Early in pancreatitis, calcium falls partly because fat broken down around the gland binds it (calcium soaps).</li>
+        <li>Low magnesium blunts the parathyroid hormone that should restore the calcium. His PTH came back “normal” at 3.2 while his calcium was 1.62: too low for that calcium.</li>
+        <li>So his calcium fell sooner than the pancreas alone explains. The drinker’s background explains the speed.<span class="tag">Our reasoning</span></li>
+        <li><a href="panc-calcium-debrief.html#c13">Debrief 2</a> tells the rest.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 24 -->
+<section class="card" id="c24" data-sec="Back to Dean">
+  <div class="meta"><span class="chip">Back to Dean</span><span class="num">24 / 25</span></div>
+  <p class="kick">What the morning showed</p>
+  <h2>The pain and one blood test made the diagnosis. The rest was finding the cause and keeping him out of trouble.</h2>
+  <div class="split">
+    <figure class="fig"><img src="panc-db-after.svg" width="800" height="420" alt="The next morning on the ward: Dean sitting up, calm, with a drip stand beside him." loading="lazy"></figure>
+    <div class="txt">
+      <p>The pain and an enzyme made it. The ultrasound looked for the cause, and the drinking was it. With moderate fluid he stays out of organ failure.</p>
+      <p class="sub">Take home</p>
+      <ol class="pts">
+        <li>Two of three: the pain, an enzyme over three times normal, imaging.</li>
+        <li>CT answers a question. It does not prove the diagnosis.</li>
+        <li>Grade by organ failure over 48 hours. Watch for SIRS.</li>
+        <li>Moderate fluid, early food, no antibiotics.</li>
+        <li>Find the cause and treat it.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 25 -->
+<section class="card src" id="c25" data-sec="Sources">
+  <div class="meta"><span class="chip">Sources</span><span class="num">25 / 25</span></div>
+  <h2>Where this comes from.</h2>
+  <div class="solo">
+  <h3>The sources this page is built from</h3>
+  <ol>
+    <li>Goodchild G, Chouhan M, Johnson GJ. Practical guide to the management of acute pancreatitis. <i>Frontline Gastroenterology</i> 2019;10:292–299. <a href="https://doi.org/10.1136/flgastro-2018-101102">doi:10.1136/flgastro-2018-101102</a></li>
+    <li>NICE. Pancreatitis (NG104). <a href="https://www.nice.org.uk/guidance/ng104">nice.org.uk/guidance/ng104</a></li>
+    <li>NICE Clinical Knowledge Summaries. Pancreatitis – acute (last revised May 2021). <a href="https://cks.nice.org.uk/topics/pancreatitis-acute/">cks.nice.org.uk/topics/pancreatitis-acute</a></li>
+    <li>Geeky Medics. Acute pancreatitis. <a href="https://geekymedics.com/acute-pancreatitis/">geekymedics.com</a></li>
+    <li>BSPGHAN. Guidelines for the diagnosis and management of pancreatitis in children, v1.0 (January 2024). Background only.</li>
+  </ol>
+  <h3>Primary sources, used where those are silent</h3>
+  <ol start="6">
+    <li>Banks PA, et al. Classification of acute pancreatitis 2012: revision of the Atlanta classification. <i>Gut</i> 2013;62:102–111. <a href="https://doi.org/10.1136/gutjnl-2012-302779">doi:10.1136/gutjnl-2012-302779</a></li>
+    <li>de-Madaria E, et al. Aggressive or moderate fluid resuscitation in acute pancreatitis (WATERFALL). <i>N Engl J Med</i> 2022;387:989–1000. <a href="https://doi.org/10.1056/NEJMoa2202884">doi:10.1056/NEJMoa2202884</a></li>
+    <li>Tenner S, et al. American College of Gastroenterology guidelines: management of acute pancreatitis. <i>Am J Gastroenterol</i> 2024;119:419–437. <a href="https://doi.org/10.14309/ajg.0000000000002645">doi:10.14309/ajg.0000000000002645</a></li>
+    <li>Leppäniemi A, et al. 2019 WSES guidelines for the management of severe acute pancreatitis. <i>World J Emerg Surg</i> 2019;14:27. <a href="https://doi.org/10.1186/s13017-019-0247-0">doi:10.1186/s13017-019-0247-0</a></li>
+    <li>NICE. Intravenous fluid therapy in adults in hospital (CG174). <a href="https://www.nice.org.uk/guidance/cg174">nice.org.uk/guidance/cg174</a></li>
+    <li>NICE. Alcohol-use disorders: physical complications (CG100). <a href="https://www.nice.org.uk/guidance/cg100">nice.org.uk/guidance/cg100</a></li>
+    <li>MHRA. Ondansetron for intravenous use: dose-dependent QT interval prolongation. Drug Safety Update. <a href="https://www.gov.uk/drug-safety-update/ondansetron-for-intravenous-use-dose-dependent-qt-interval-prolongation">gov.uk</a>. BNF: cyclizine, ondansetron.</li>
+    <li>Ahmed A, et al. Hypocalcemia in acute pancreatitis revisited. <i>Indian J Crit Care Med</i> 2016;20:173–177. <a href="https://doi.org/10.4103/0972-5229.178182">doi:10.4103/0972-5229.178182</a></li>
+    <li>Freiburghaus AU, Roduner J, Hadorn HB. Activation of human pancreatic proteolytic enzymes: the role of enteropeptidase and trypsin. <i>JPGN Reports</i> 2021;2(4):e138. <a href="https://doi.org/10.1097/PG9.0000000000000138">doi:10.1097/PG9.0000000000000138</a></li>
+    <li>Orekhova A, et al. Evolutionary expansion of polyaspartate motif in the activation peptide of mouse cationic trypsinogen. <i>Am J Physiol Gastrointest Liver Physiol</i> 2021;321:G719–G734. <a href="https://doi.org/10.1152/ajpgi.00265.2021">doi:10.1152/ajpgi.00265.2021</a></li>
+  </ol>
+  <p class="credit">Guidelines change. Checked October 2026.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="stepper" role="group" aria-label="Step through the cards">
+  <button class="btn" id="prev" type="button" aria-label="Previous card">← Previous</button>
+  <button class="btn btn--accent" id="next" type="button" aria-label="Next card">Next →</button>
+</div>
+
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('main > .card'));
+  var total = cards.length;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var toc = document.getElementById('toc'), tocbtn = document.getElementById('tocbtn');
+  var tocLinks = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function topOffset() { return document.querySelector('.top').offsetHeight + 16; }
+  function findCurrent() {
+    var line = topOffset() + 8, idx = 0;
+    for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= line) idx = i; else break; }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = cards.length - 1;
+    return idx;
+  }
+  function paint() {
+    var current = findCurrent();
+    count.textContent = (current + 1) + ' / ' + total;
+    bar.style.width = ((current + 1) / total * 100) + '%';
+    var sec = null;
+    tocLinks.forEach(function (a) { if (parseInt(a.getAttribute('href').slice(2), 10) <= current + 1) sec = a; });
+    tocLinks.forEach(function (a) {
+      if (a === sec) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); }
+      else { a.classList.remove('on'); a.removeAttribute('aria-current'); }
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () { ticking = false; paint(); });
+  }, { passive: true });
+  window.addEventListener('resize', paint);
+  var pend = null, pendT = null;
+  function goTo(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    pend = i; clearTimeout(pendT); pendT = setTimeout(function () { pend = null; }, 900);
+    var y = cards[i].getBoundingClientRect().top + window.scrollY - topOffset();
+    window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function step(d) { goTo((pend !== null ? pend : findCurrent()) + d); }
+  document.getElementById('prev').addEventListener('click', function () { step(-1); });
+  document.getElementById('next').addEventListener('click', function () { step(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+  });
+  tocbtn.addEventListener('click', function () {
+    var open = toc.hasAttribute('hidden');
+    if (open) toc.removeAttribute('hidden'); else toc.setAttribute('hidden', '');
+    tocbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  tocLinks.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.matchMedia('(max-width: 61.99rem)').matches) { toc.setAttribute('hidden', ''); tocbtn.setAttribute('aria-expanded', 'false'); }
+      goTo(parseInt(a.getAttribute('href').slice(2), 10) - 1);
+    });
+  });
+
+  /* tiles (screen 3) and flip cards (screen 16) */
+  function setTile(t, open) {
+    t.classList.toggle('open', open);
+    t.querySelector('button').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  each('.tiles', function (g) {
+    each('.tile', function (t) {
+      t.querySelector('button').addEventListener('click', function () { setTile(t, !t.classList.contains('open')); });
+    }, g);
+  });
+
+  /* stop and decide: any button reveals; the answer is marked; nothing is called wrong */
+  function openQA(q) {
+    var box = q.querySelector('.opts'), rv = q.querySelector('.rv');
+    if (box.getAttribute('data-done')) return false;
+    box.setAttribute('data-done', '1');
+    each('.opt', function (x) { x.setAttribute('aria-disabled', 'true'); if (x.hasAttribute('data-ok')) x.classList.add('right'); }, box);
+    rv.classList.add('open');
+    return true;
+  }
+  each('.qa', function (q) {
+    each('.opt', function (o) {
+      o.addEventListener('click', function () {
+        if (!openQA(q)) return;
+        o.setAttribute('aria-pressed', 'true');
+        q.querySelector('.rv').focus({ preventScroll: true });
+      });
+    }, q);
+  });
+
+  /* sticky offsets follow the real header height */
+  var topEl = document.querySelector('.top');
+  function setTop() { if (topEl) document.documentElement.style.setProperty('--top', topEl.offsetHeight + 'px'); }
+  setTop(); window.addEventListener('resize', setTop); window.addEventListener('load', setTop);
+
+  /* step-through lists */
+  each('[data-walk]', function (ol) {
+    var items = Array.prototype.slice.call(ol.children), i = 0;
+    var bar = document.createElement('div'); bar.className = 'walkbar';
+    bar.innerHTML = '<span class="n"></span><button class="btn" type="button">Back</button><button class="btn btn--accent" type="button">Next step</button><button class="btn" type="button">Show all</button>';
+    ol.parentNode.insertBefore(bar, ol.nextSibling);
+    var n = bar.querySelector('.n'), b = bar.querySelectorAll('button');
+    var fimg = ol.closest('.card').querySelector('img[data-frames]'), frames = fimg ? fimg.getAttribute('data-frames').split('|') : null;
+    function show(k, all) {
+      i = Math.max(0, Math.min(items.length - 1, k));
+      if (frames) { var src = all ? fimg.getAttribute('data-full') : frames[Math.min(i, frames.length - 1)]; if (fimg.getAttribute('src') !== src) { var fh = (fimg.getAttribute('data-frame-h') || '').split('|'); fimg.setAttribute('height', all ? fimg.getAttribute('data-full-h') : (fh[Math.min(i, fh.length - 1)] || fimg.getAttribute('height'))); fimg.setAttribute('src', src); } }
+      items.forEach(function (li, j) { li.classList.toggle('on', all || j <= i); });
+      n.textContent = all ? 'All ' + items.length + ' steps' : 'Step ' + (i + 1) + ' of ' + items.length;
+      b[0].disabled = all || i === 0; b[1].disabled = all || i === items.length - 1;
+      if (all) b[2].hidden = true;
+    }
+    b[0].addEventListener('click', function () { show(i - 1); });
+    b[1].addEventListener('click', function () { show(i + 1); });
+    b[2].addEventListener('click', function () { show(items.length - 1, true); });
+    ol._all = function () { show(items.length - 1, true); };
+    show(0);
+  });
+
+  /* Glasgow tally */
+  var gt = document.getElementById('gtally');
+  function tally() {
+    if (!gt) return;
+    var opened = 0, pts = 0, all = document.querySelectorAll('.score .tile');
+    each('.score .tile', function (t) { if (t.classList.contains('open')) { opened++; pts += parseInt(t.getAttribute('data-pts'), 10); } });
+    gt.textContent = opened === all.length ? 'Dean at 07:40 scores ' + pts + ': the calcium. Not severe by this count, and the count is not complete until 48 hours.' : 'Dean so far: ' + pts + ', with ' + opened + ' of ' + all.length + ' letters checked.';
+  }
+  each('.score .tile > button', function (b) { b.addEventListener('click', tally); });
+
+  /* Glasgow card: score Dean */
+  var gimg = document.getElementById('gimg'), gbtn = document.getElementById('gbtn');
+  function scoreDean() { if (!gimg) return; gimg.setAttribute('src', 'panc-db-d14-pancreas-score.svg'); gimg.setAttribute('alt', 'The Glasgow score filled in for Dean at 07:40: only the calcium, 1.62, scores. Total 1.'); if (gbtn) gbtn.hidden = true; }
+  if (gbtn) gbtn.addEventListener('click', scoreDean);
+
+  /* show all */
+  function showAll(name) {
+    each('.tiles[data-group="' + name + '"] .tile', function (t) { setTile(t, true); });
+    if (name === 'glasgow') tally();
+  }
+  each('.go-all', function (b) { b.addEventListener('click', function () { showAll(b.getAttribute('data-all')); b.hidden = true; }); });
+  function revealAll() {
+    each('.tiles .tile', function (t) { setTile(t, true); }); tally(); scoreDean();
+    each('[data-walk]', function (ol) { ol._all(); });
+    each('.qa', function (q) { openQA(q); });
+    each('.go-all', function (b) { b.hidden = true; });
+  }
+  if (/[?&]reveal=1/.test(location.search)) revealAll();
+  window.addEventListener('beforeprint', revealAll);
+  paint();
+})();
+</script>
+<!-- BEGIN copyright notice -->
+<p class="mp-copyright" style="margin:.75rem auto 0;padding:0 1rem .5rem;font-size:9px;line-height:1.3;text-align:center;opacity:.45;color:inherit">&copy; 2026 Dr Naveen Vijayakumar. All rights reserved.</p>
+<!-- END copyright notice -->
+</body>
+</html>
