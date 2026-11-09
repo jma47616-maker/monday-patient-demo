@@ -1908,6 +1908,8 @@ const DATA_HISTORY = {
      ecg.line           — the machine's own line of figures under the film; {hr} from the observations
      alsoOpens          — (on bc) ordering this by any route also puts these records on the ledger at no cost, and the
                           card shows them with the new order: repeating the cultures opens Sunday's results
+     A request for an ANA includes the anti-dsDNA (owner, 2026-11-09): plain "ana", "ana test", "antinuclear antibody" are in
+     ixSay.panels with ana + dsdna, which ICE reads before the catalogue's aliases; "dsdna" alone sends dsdna only.
      A 06:00 look never waits for the round: it is back at its own send time plus lookCost, whatever else is in the
      batch. The round's clock jump counts only the tests that take a new sample (owner, D-9).
      cueOk              — notes for the builder; never shown to the player
@@ -2089,7 +2091,7 @@ const DATA_IX = (function(){
       { id:"gs", name:"Group and save", defer:true, tag:"supp", ack:"Sent.", when:"Tuesday", later:"Group O RhD positive. Antibody screen negative.",
         aliases:A("group and save|g&s|gs|group and screen|crossmatch|cross match|g and s|xmatch") },
       { id:"ana", name:"Antinuclear antibody", defer:true, tag:"key", ack:"Sent to immunology.", when:"Wednesday", later:"ANA positive, titre 1:1280, homogeneous pattern.",
-        aliases:A("ana|antinuclear antibody|antinuclear antibodies|anti nuclear antibody|anti nuclear antibodies|ana titre|antinuclear factor|anf") },
+        aliases:A("ana only|ana alone|ana on its own|antinuclear antibody only|ana without dsdna") },   /* the usual words are the ANA panel (ixSay.panels): ana + dsdna */
       { id:"dsdna", name:"Anti-dsDNA antibodies", defer:true, tag:"key", ack:"Sent to immunology.", when:"Thursday", later:"Anti-dsDNA 412 IU/mL (<10).",
         aliases:A("dsdna|ds dna|anti dsdna|anti ds dna|double stranded dna|anti double stranded dna|double stranded dna antibodies|dna antibodies|anti dna") },
       { id:"ena", name:"Extractable nuclear antigens", defer:true, tag:"supp", ack:"Sent to immunology.", when:"Friday", later:"Anti-Sm positive · Anti-RNP positive · Anti-Ro positive · Anti-La negative · Anti-Scl-70 negative · Anti-Jo-1 negative.",
@@ -2196,7 +2198,7 @@ const DATA_IX = (function(){
                 "6 weeks ago, face to face. Three weeks of painful, stiff hands and wrists in the mornings; works in a nursery lifting children. “No obvious synovitis. ?Overuse.” Rheumatoid factor negative, CRP 9. Ibuprofen 400 mg three times a day as needed; physiotherapy if no better. Weight 60 kg.",
                 "10 days ago, telephone. A week of sore throat and evening temperatures; “glandular fever at work”. Advised fluids and paracetamol; review if not better in a week. Not examined. No bloods." ] },
       { id:"microrec", name:"Microbiology results", cost:2, tag:"key",
-        aliases:A("micro results|microbiology results|culture results|cultures from sunday|admission cultures|ed cultures|previous cultures|chase cultures|blood culture results|culture result|microbiology|ice micro|sunday cultures"),
+        aliases:A("micro results|microbiology results|culture results|cultures from sunday|admission cultures|ed cultures|previous cultures|chase cultures|blood culture results|culture result|microbiology|ice micro|sunday cultures|urine culture results|urine culture result|chase urine cultures|chase urine culture|chase blood cultures|chase the cultures|chase micro|micro result|sundays cultures|sunday urine culture|ed urine culture"),
         lines:[ "Blood cultures, Sunday 14:05 (ED), two sets, aerobic and anaerobic: no growth at 43 hours. Final report at 5 days.",
                 "Urine, Sunday 14:30: white cells 30 /µL (<10) · red cells 20 /µL (<10) · epithelial cells scanty. Culture: no growth.",
                 "MRSA screen, Sunday: not detected." ] },
@@ -2257,7 +2259,7 @@ const DATA_IX = (function(){
     famCat:A("scan|scans|imaging"),
     /* panels: a clinician's order set, sent whole like ixRoutine (owner, 2026-11-09). None of these words is a catalogue alias. */
     panels:[
-      { q:A("ana screen|autoimmune screen|autoimmune bloods|autoimmune profile|connective tissue screen|connective tissue disease screen|ctd screen|lupus screen|ana and dsdna|ana dsdna"), ids:["ana","dsdna"] },
+      { q:A("ana|ana test|ana level|antinuclear antibody|antinuclear antibodies|anti nuclear antibody|anti nuclear antibodies|antinuclear factor|anf|ana titre|send ana|check ana|repeat ana|ana screen|autoimmune screen|autoimmune bloods|autoimmune profile|connective tissue screen|connective tissue disease screen|ctd screen|lupus screen|ana and dsdna|ana dsdna"), ids:["ana","dsdna"] },
       { q:A("viral screen|virology|viral serology|virus screen|viral bloods|viruses|viral pcr|viral pcrs|virology screen|hiv ebv cmv"), ids:["hiv","ebv","cmv"] },
       { q:A("bbv screen|blood borne virus screen|blood borne viruses|bbv"), ids:["hiv","hep"] },
       { q:A("hlh screen|hlh bloods|hlh panel|hlh work up|hlh workup|hscore bloods|h score bloods|hscore panel|hscore"), ids:["ferritin","clot","tg","ldh","ast"] }
@@ -2604,7 +2606,7 @@ const DATA_MARKING = (function(){
     "mas","hlh","shlh","secondary hlh","macrophage activation syndrome","macrophage activation","haemophagocytic lymphohistiocytosis",
     "hemophagocytic lymphohistiocytosis","haemophagocytic syndrome","hemophagocytic syndrome","haemophagocytosis","hemophagocytosis",
     "sle mas","slemas","sle hlh","slehlh","sle with mas","mas secondary to sle","hlh secondary to sle","sle complicated by mas",
-    "lupus with mas","mas in sle","hlh in sle","sle associated mas","hscore","h score","high hscore",
+    "lupus with mas","mas in sle","hlh in sle","sle associated mas",
     "stills","adult onset stills","adult onset stills disease","aosd","not stills","not aosd"
   ];
 
@@ -2713,7 +2715,10 @@ const DATA_MARKING = (function(){
        part of the row scores 0 (row 5 only; without it a spoiled core scores 0 alone and the other parts keep their result);
        planEnacted = met when a plan has been enacted (S.planCount > 0); allOf = chart ids (written or rung) that must all be
        on; before = minutes from START: an `any` id counts only if it first went on the chart (written, or rung with 📞
-       Refer, whichever came first) strictly before START + before, on unrounded minutes. */
+       Refer, whichever came first) strictly before START + before, on unrounded minutes; inFirstPlan = an `any` id counts if
+       it was written in the FIRST plan (S.rxBy[id] === "plan", put there by the first submission, whatever the clock read) or
+       rung with 📞 Refer before any later box was written (the amendment or the reopened box: before min(S.amendAt,
+       S.reopenAt), else before the close). A part carrying both `inFirstPlan` and `before` is met when EITHER holds. */
     /* Order sets (plan-vocab.js kind "ix" with an ix array): one written phrase sends every test in it. Each test goes on
        the ledger by the plan route and is credited once, as that test, wherever it scores (discriminators, rows 2–4,
        pivotal); the set id itself is never credited and never charged. The same act typed test by test scores the same. */
@@ -2758,15 +2763,16 @@ const DATA_MARKING = (function(){
             alt:[ { pts:2, ledgerTwoOf:["hiv","ebv","cmv"], say:"Two of the three. All three belong in every work-up." } ],
             miss:"No HIV, EBV and CMV. Each can drive it, and each changes the treatment." } ] },
       { k:5, key:"antibiotics", name:"Antibiotics", max:7, parts:[
-          { label:"Antibiotics kept", core:true, pts:4, planEnacted:true, voidsRow:true,
+          { label:"Antibiotics kept", core:true, pts:5, planEnacted:true, voidsRow:true,
             note:"a plan has been enacted, and abxstop was not given anyway (taken off at the call-back still meets it)",
             spoiledBy:["abxstop"], miss:"The antibiotics were stopped, in a febrile woman with neutrophils of 1.4, about to have high-dose steroid." },
           { label:"A documented review", pts:2, any:["abxcont","abxreview","micro"], notFrom:"callback",
             miss:"Tip: make the 48–72 hour antibiotic review a decision you write down." },
-          { label:"Prophylaxis once steroid starts", pts:1, any:["pjp","fungproph"], via:["micro"],
-            miss:"Tip: Pneumocystis prophylaxis once high-dose steroid starts." } ],
+          { label:"Prophylaxis once steroid starts", pts:0, tipOnly:true, any:["pjp","fungproph"], via:["micro"],
+            miss:"Tip: Pneumocystis prophylaxis follows once high-dose steroid has started; it is not part of today’s plan." } ],
         notes:{ spoiled:"abxstop given anyway voids the whole row (0 of 7) and is charged −8 after the cap.",
                 callback:"abxcont put on the chart by \"Keep the antibiotics\" at the call-back meets the core, not the review; the catch costs −2 (score.before.prompted).",
+                prophylaxis:"Owner, 2026-11-09: PJP prophylaxis comes later and is not scored. Its point moved to the core (4 → 5), so the row stays 7 and the plan 50. tipOnly: shown as a tip when missing, as a ✓ with no points when written; never a ✗.",
                 escalation:"abxesc earns nothing and costs nothing here: escalation is not harmful in itself; its harm is the untreated course it stands in for." } },
       { k:6, key:"chart", name:"The drug chart", max:6, parts:[
           { label:"Enoxaparin held", core:true, pts:4, any:["vtehold"], spoiledBy:["anticoag"],
@@ -2779,10 +2785,10 @@ const DATA_MARKING = (function(){
           { label:"Rheumatology or haematology", core:true, pts:3, any:["rheum","haem"], miss:"Neither rheumatology nor haematology was told." },
           { label:"Both", pts:2, allOf:["rheum","haem"], miss:"Tip: both teams. Rheumatology direct the treatment after the first pulse; haematology the film, the marrow and the lymphoma work-up." } ] },
       { k:8, key:"critical", name:"Critical care", max:3, parts:[
-          { label:"Outreach or critical care told", core:true, pts:3, any:["icu"], before:180,
-            alt:[ { pts:1, any:["icu"], say:"Told only after the second call, when she was bleeding with a NEWS2 of 16. A NEWS2 of 7 at 09:20 called for it then." } ],
+          { label:"Outreach or critical care told", core:true, pts:3, any:["icu"], inFirstPlan:true, before:180,
+            alt:[ { pts:1, any:["icu"], say:"Added only after the second call, when she was bleeding with a NEWS2 of 16. A NEWS2 of 7 called for it in your first plan." } ],
             miss:"Critical care was not told. A NEWS2 of 7 calls for an emergency assessment." } ],
-        notes:{ when:"The core needs critical care on the chart (written or rung) before 12:20, strictly, as LO5 does; told at or after 12:20 is the late tier (1 point, ✗ with its line)." } },
+        notes:{ when:"Owner, 2026-11-09: critical care named in the first plan (or rung before any later box) earns the core whenever that plan was written, because the Treat tab does not exist before the commit and a slow diagnosis is already charged by the time band. Otherwise it must go on before 12:20 (an amendment before the call still counts). The late tier (1 point, ✗ with its line) is for critical care first added in the amendment or the reopened box at or after 12:20." } },
       { k:9, key:"leftout", name:"Left out, on purpose", max:0, parts:[
           { label:"No products for numbers, no G-CSF, no etoposide from the ward", core:true, pts:0, spoiledBy:["etop","gcsf"], spoiledByFlag:["prodNoBleed"],
             miss:"Something that should have been left out went in." } ],
@@ -2903,7 +2909,7 @@ const DATA_MARKING = (function(){
               ["virus","HIV, EBV and CMV","all three on the ledger by the close"],
               ["vte","the enoxaparin held","vtehold on the chart and anticoag not given"],
               ["nsaid","the ibuprofen stopped","stopnsaid on the chart and nsaid not"],
-              ["icu","critical care told early","icu on the chart (written or rung) before minute 180 (12:20)"] ],
+              ["icu","critical care told with the first plan","as row 8's core: icu in the first plan or rung before any later box (inFirstPlan), or on the chart before minute 180 (12:20)"] ],
       hit:"4 or 5 of the 5, and nothing given anyway", part:"2 or 3, and nothing given anyway",
       miss:"0 or 1; or any danger given anyway (missDanger); or a wrong diagnosis (missWrong); or the plan not reached because she crashed before the commit or before any plan was enacted (missNoPlan)",
       order:"wrong → noPlan → danger → count",
@@ -3000,8 +3006,8 @@ const DATA_MARKING = (function(){
              ["ice","triglycerides, complement, urine PCR, GP record"],["send"],
              ["commit",...RIGHT], ["plan",{ref:2}], ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:{ hx:6, ex:6, ix:7, n:19, pts:38 }, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(16,0,5,5,6,4,5,3), sequelae:{}, drill:{ right:6, pts:24 }, time:{ treatElapsed:171, pts:5 }, death:0,
-        beforeCap:151, after:{ dangers:0, dock:0 }, shown:151, rank:"Consultant calm.",
+        plan:P(16,0,5,5,7,4,5,3), sequelae:{}, drill:{ right:6, pts:24 }, time:{ treatElapsed:171, pts:5 }, death:0,
+        beforeCap:152, after:{ dangers:0, dock:0 }, shown:152, rank:"Consultant calm.",
         lo:{ LO1:"part", LO2:"hit", LO3:"hit", LO4:"hit", LO5:"hit" } } },
 
     { id:"g_callback_fixed", name:"Antibiotics stopped and taken off at the call-back; dexamethasone; the rest put right in the amendment (plan 7)",
@@ -3015,8 +3021,8 @@ const DATA_MARKING = (function(){
     { id:"g_untreated", name:"The sepsis reflex, nothing for the cause: the crash call in the run-on (plan 5)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:5}], ["close"] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(0,1,5,5,4,0,0,0), sequelae:{ nsaid:-3 }, drill:{ right:0, pts:0 }, time:{ treatElapsed:null, pts:0 }, death:-30,
-        beforeCap:62, after:{ dangers:0, dock:0 }, shown:62, rank:"The morbidity meeting.",
+        plan:P(0,1,5,5,5,0,0,0), sequelae:{ nsaid:-3 }, drill:{ right:0, pts:0 }, time:{ treatElapsed:null, pts:0 }, death:-30,
+        beforeCap:63, after:{ dangers:0, dock:0 }, shown:63, rank:"The morbidity meeting.",
         lo:{ LO1:"miss", LO2:"hit", LO3:"hit", LO4:"miss", LO5:"part" } } },
 
     { id:"g_wrong_sepsis", name:"Decoy-chaser: the anchor, a thin work-up, procalcitonin, called septic shock",
@@ -3040,8 +3046,8 @@ const DATA_MARKING = (function(){
     { id:"g_still_mas", name:"The complication named under the best decoy, the terse plan (plan 2)",
       acts:[ ["workup","W1"], ["commit","Adult-onset Still's disease","Macrophage activation syndrome"], ["plan",{ref:2}], ["close"], ["drill",ALL8] ],
       expect:{ dx:"partialDecoy", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(16,1,5,5,6,4,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
-        beforeCap:167, after:{ dangers:0, dock:-20 }, shown:140, rank:"Registrar instinct.",
+        plan:P(16,1,5,5,7,4,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
+        beforeCap:168, after:{ dangers:0, dock:-20 }, shown:140, rank:"Registrar instinct.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"miss", LO4:"hit", LO5:"hit" } } },
 
     { id:"g_everything", name:"Orders everything in one round, then the model plan",
@@ -3059,15 +3065,15 @@ const DATA_MARKING = (function(){
     { id:"g_referral", name:"A referral and nothing for the cause: the registrar comes after the second call (plan 3)",
       acts:[ ["workup","W0"], ["commit",...RIGHT], ["plan",{ref:3}], ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(8,3,5,0,6,0,3,0), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:null, pts:0 }, death:0,
-        beforeCap:109, after:{ dangers:0, dock:0 }, shown:109, rank:"You survived the post-take.",
+        plan:P(8,3,5,0,7,0,3,0), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:null, pts:0 }, death:0,
+        beforeCap:110, after:{ dangers:0, dock:0 }, shown:110, rank:"You survived the post-take.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"part", LO5:"miss" } } },
 
     { id:"g_pred", name:"\"Start steroids\", answered with prednisolone (plan 4)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:4}], ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(4,1,5,5,6,4,0,0), sequelae:{ predonly:-10 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:null, pts:0 }, death:0,
-        beforeCap:119, after:{ dangers:0, dock:0 }, shown:119, rank:"A safe pair of hands.",
+        plan:P(4,1,5,5,7,4,0,0), sequelae:{ predonly:-10 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:null, pts:0 }, death:0,
+        beforeCap:120, after:{ dangers:0, dock:0 }, shown:120, rank:"A safe pair of hands.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"part", LO5:"part" } } },
 
     { id:"g_abxstop", name:"The antibiotics stopped and given anyway, with methylprednisolone (plan 6)",
@@ -3080,22 +3086,22 @@ const DATA_MARKING = (function(){
     { id:"g_pe", name:"Treated as a clot, products for the numbers, the anticoagulation given anyway: the crash in the run-on (plan 8)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:8}], ["close"] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:-3, prompted:0,
-        plan:P(0,1,5,5,6,0,0,0), sequelae:{ plt_tx:-3, cryo_tx:-3 }, drill:{ right:0, pts:0 }, time:{ treatElapsed:null, pts:0 }, death:-30,
-        beforeCap:58, after:{ dangers:-8, dock:0 }, shown:50, rank:"The morbidity meeting.",
+        plan:P(0,1,5,5,7,0,0,0), sequelae:{ plt_tx:-3, cryo_tx:-3 }, drill:{ right:0, pts:0 }, time:{ treatElapsed:null, pts:0 }, death:-30,
+        beforeCap:59, after:{ dangers:-8, dock:0 }, shown:51, rank:"The morbidity meeting.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"miss", LO5:"miss" } } },
 
     { id:"g_negation", name:"Negation and treatment written against a result, no teams (plan 9)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:9}], ["close"], ["drill",ALL8] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(14,1,5,5,6,6,0,0), sequelae:{ cryo_tx:-3 }, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
-        beforeCap:156, after:{ dangers:0, dock:0 }, shown:156, rank:"Registrar instinct.",
+        plan:P(14,1,5,5,7,6,0,0), sequelae:{ cryo_tx:-3 }, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
+        beforeCap:157, after:{ dangers:0, dock:0 }, shown:157, rank:"Registrar instinct.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"part", LO5:"hit" } } },
 
     { id:"g_hold", name:"The steroid made to wait for the marrow, haematology referred (plan 10)",
       acts:[ ["workup","W1"], ["commit",...RIGHT], ["plan",{ref:10}], ["close"], ["drill",D5] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(8,1,5,5,6,0,3,0), sequelae:{ untreated:-20 }, drill:{ right:5, pts:20 }, time:{ treatElapsed:null, pts:0 }, death:0,
-        beforeCap:108, after:{ dangers:0, dock:0 }, shown:108, rank:"You survived the post-take.",
+        plan:P(8,1,5,5,7,0,3,0), sequelae:{ untreated:-20 }, drill:{ right:5, pts:20 }, time:{ treatElapsed:null, pts:0 }, death:0,
+        beforeCap:109, after:{ dangers:0, dock:0 }, shown:109, rank:"You survived the post-take.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"miss", LO5:"part" } } },
 
     { id:"g_late", name:"Nothing for the cause until the second call reopens the box; treated at 13:02, intensive care",
@@ -3106,15 +3112,15 @@ const DATA_MARKING = (function(){
              ["reopen",{ text:"IV methylprednisolone 1 g now. Critical care outreach review. Rheumatology and haematology today.", answers:[] }],
              ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(16,3,5,5,6,4,5,1), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:222, pts:-5 }, death:0,
-        beforeCap:124, after:{ dangers:0, dock:0 }, shown:124, rank:"You survived the post-take.",
+        plan:P(16,3,5,5,7,4,5,1), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:222, pts:-5 }, death:0,
+        beforeCap:125, after:{ dangers:0, dock:0 }, shown:125, rank:"You survived the post-take.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"part", LO5:"part" } } },
 
     { id:"g_partialA", name:"The disease named, the complication box empty (plan 2)",
       acts:[ ["workup","W1"], ["commit","Systemic lupus erythematosus",""], ["plan",{ref:2}], ["close"], ["drill",ALL8] ],
       expect:{ dx:"partialA", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(16,1,5,5,6,4,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
-        beforeCap:167, after:{ dangers:0, dock:-20 }, shown:140, rank:"Registrar instinct.",
+        plan:P(16,1,5,5,7,4,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:102, pts:10 }, death:0,
+        beforeCap:168, after:{ dangers:0, dock:-20 }, shown:140, rank:"Registrar instinct.",
         lo:{ LO1:"hit", LO2:"part", LO3:"hit", LO4:"hit", LO5:"hit" } } },
 
     { id:"g_partialC", name:"The complication named alone, the model plan (plan 1)",
@@ -3141,8 +3147,8 @@ const DATA_MARKING = (function(){
              ["reopen",{ text:"IV methylprednisolone 1 g now. Critical care outreach review. Rheumatology and haematology today.", answers:[] }],
              ["close"], ["drill",D6] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(16,1,0,0,6,4,5,1), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:180, pts:-5 }, death:0,
-        beforeCap:112, after:{ dangers:0, dock:0 }, shown:112, rank:"You survived the post-take.",
+        plan:P(16,1,0,0,7,4,5,1), sequelae:{ untreated:-20 }, drill:{ right:6, pts:24 }, time:{ treatElapsed:180, pts:-5 }, death:0,
+        beforeCap:113, after:{ dangers:0, dock:0 }, shown:113, rank:"You survived the post-take.",
         lo:{ LO1:"hit", LO2:"hit", LO3:"hit", LO4:"part", LO5:"part" } } },
 
     { id:"g_crash_nodx", name:"A full work-up and no commit: the crash call at 13:50 before any diagnosis (D-8)",
@@ -3157,8 +3163,8 @@ const DATA_MARKING = (function(){
              ["plan",{ text:"IV methylprednisolone 1 g once the ferritin is back. Continue meropenem; review antibiotics at 72 hours. Hold enoxaparin. Stop ibuprofen. Rheumatology and haematology today. Critical care outreach review.", answers:[] }],
              ["until",170], ["close"], ["drill",ALL8] ],
       expect:{ dx:"full", dxPts:40, disc:DISC20, keyExamMissed:[], pivotalMissed:[], noise:0, prompted:0,
-        plan:P(10,1,5,5,6,6,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:null, pts:0 }, death:0,
-        beforeCap:153, after:{ dangers:0, dock:0 }, shown:153, rank:"Registrar instinct.",
+        plan:P(10,1,5,5,7,6,5,3), sequelae:{}, drill:{ right:8, pts:32 }, time:{ treatElapsed:null, pts:0 }, death:0,
+        beforeCap:154, after:{ dangers:0, dock:0 }, shown:154, rank:"Registrar instinct.",
         lo:{ LO1:"hit", LO2:"part", LO3:"hit", LO4:"part", LO5:"hit" } } }
   ];
 
@@ -3203,7 +3209,8 @@ const DATA_MARKING = (function(){
      planRead.resultCond.ffp uses `highAbove` (week 9 has only `lowBelow`)
      fillerFromMarking      the diagnosis words the judge accepts (DATA_MARKING) are read as headings and ignored, so no blind
                             word need be written in this file
-     standard.rows: core.ledgerAll (every test on the ledger), core.andFlag (a flag that must also be set), via (a referral
+     standard.rows: core.ledgerAll (every test on the ledger), core.andFlag (a flag that must also be set),
+                            core.timely { inFirstPlan, orFlag } and reason field notInFirstPlan (row 8), via (a referral
                             carries the row, shown ◐), spoiledByFlag, spoiledByIf (a condition: any of these ids on the chart
                             and the flags in notFlag unset)
      rx: mpteam (the team's steroid, charted by the plan page (rxBy "team") when teamSteroid is set), joinSame (every abxesc word in the
@@ -3385,13 +3392,16 @@ const DATA_PLAN_VOCAB = (function(){
 
     /* ---- tests in a plan's own words. Every alias in ix.js is also read. ---- */
     /* order sets: one phrase, several tests (the reader takes an array in `ix`); the same sets are ixSay.panels on ICE */
-    anascreen:{ kind:"ix", ix:["ana","dsdna"], is:"test", aliases:A("ana screen|autoimmune screen|autoimmune bloods|autoimmune profile|connective tissue screen|connective tissue disease screen|ctd screen|lupus screen|ana and dsdna|ana dsdna|ana + dsdna|ana/dsdna|send ana and dsdna|autoantibodies|autoimmune serology") },
+    anascreen:{ kind:"ix", ix:["ana","dsdna"], is:"test", aliases:A("ana|ana test|ana level|antinuclear antibody|antinuclear antibodies|anti nuclear antibody|anti nuclear antibodies|antinuclear factor|anf|ana titre|send ana|check ana|repeat ana|ana screen|autoimmune screen|autoimmune bloods|autoimmune profile|connective tissue screen|connective tissue disease screen|ctd screen|lupus screen|ana and dsdna|ana dsdna|ana + dsdna|ana/dsdna|send ana and dsdna|autoantibodies|autoimmune serology") },
     viroscreen:{ kind:"ix", ix:["hiv","ebv","cmv"], is:"test", aliases:A("viral screen|virology|viral serology|virus screen|viral bloods|viruses|viral pcr|viral pcrs|virology screen|send virology|hiv ebv cmv|hiv ebv and cmv|hiv/ebv/cmv|ebv cmv hiv|viral load screen|infection screen hiv ebv cmv") },
     bbvscreen:{ kind:"ix", ix:["hiv","hep"], is:"test", aliases:A("bbv screen|blood borne virus screen|blood borne viruses|bbv|bbvs") },
-    hlhscreen:{ kind:"ix", ix:["ferritin","clot","tg","ldh","ast"], is:"test", aliases:A("hlh screen|hlh bloods|hlh panel|hlh work up|hlh workup|hscore bloods|h score bloods|hscore panel|hscore|send hscore|calculate hscore|hscore calculation") },
+    hlhscreen:{ kind:"ix", ix:["ferritin","clot","tg","ldh","ast"], is:"test", aliases:A("h score|h score bloods|calculate the hscore|calculate the h score|calculate h score|work out the hscore|work out the h score|score the hscore|hscore score|hlh screen|hlh bloods|hlh panel|hlh work up|hlh workup|hscore bloods|h score bloods|hscore panel|hscore|send hscore|calculate hscore|hscore calculation") },
+    chartlook:{ kind:"ix", ix:"drugchart", is:"test", aliases:A("look at the drug chart|look at drug chart|check the drug chart|check drug chart|review the drug chart|review drug chart|review her drug chart|review medications|medication review|review the kardex|check the kardex") },
+    obslook:  { kind:"ix", ix:"obschart", is:"test", aliases:A("look at the obs chart|look at obs chart|review the obs chart|review obs chart|check the obs chart|check obs chart|review the news chart|look at the news chart|review obs trend|look at the temperature chart|review temperature chart|review fever chart") },
+    bloodlook:{ kind:"ix", ix:["fbc","ue","lft","crp","clot","esr"], is:"test", aliases:A("look at the bloods|look at bloods|review the bloods|review bloods|check the bloods|chase bloods|chase the bloods|chase todays bloods|look at this mornings bloods|review this mornings bloods|review todays bloods|look at todays bloods|chase morning bloods") },
     marrowreq:{ kind:"ix", ix:"marrow", is:"test", aliases:A("arrange bone marrow|arrange marrow|bone marrow today|marrow today|request bone marrow|bm aspirate and trephine|bone marrow examination|same day marrow|bone marrow this afternoon") },
-    recreq:   { kind:"ix", ix:"gprec", is:"test", aliases:A("request gp records|obtain gp records|look at gp records|check gp records|review gp records|gp records review|old gp bloods|review gp bloods|check previous bloods|review previous bloods|look at old bloods") },
-    cultchase:{ kind:"ix", ix:"microrec", is:"test", aliases:A("chase cultures|chase blood cultures|check cultures|review cultures|follow up cultures|chase micro|check micro|review culture results") },
+    recreq:   { kind:"ix", ix:"gprec", is:"test", aliases:A("look at the gp record|look at gp record|check the gp record|check gp record|review the gp record|review gp record|chase gp records|chase gp record|look at old bloods|look at previous bloods|check old bloods|look at old results|check old results|look at previous results|review previous results|request gp records|obtain gp records|look at gp records|check gp records|review gp records|gp records review|old gp bloods|review gp bloods|check previous bloods|review previous bloods|look at old bloods") },
+    cultchase:{ kind:"ix", ix:"microrec", is:"test", aliases:A("chase urine cultures|chase urine culture|urine culture results|urine culture result|check urine cultures|review urine cultures|chase the cultures|look at the cultures|look at cultures|review the cultures|check the cultures|look at micro|look at the micro|check micro results|review micro|review micro results|micro results|chase micro results|chase the micro|chase culture results|look at culture results|sundays cultures|look at sundays cultures|chase cultures|chase blood cultures|check cultures|review cultures|follow up cultures|chase micro|check micro|review culture results") },
     ferrcheck:{ kind:"ix", ix:"ferritin", is:"test", aliases:A("check ferritin|send ferritin|add ferritin|add on ferritin|ferritin please|send a ferritin") },
     tgcheck:  { kind:"ix", ix:"tg", is:"test", aliases:A("check triglycerides|send triglycerides|add triglycerides|add on triglycerides|check tgs|fasting triglycerides|fasting tgs|fasting lipids in the morning") },
     compcheck:{ kind:"ix", ix:"comp", is:"test", aliases:A("check complement|send complement|add complement|check c3 and c4|send c3 and c4|check c3 c4|send c3 c4|c3|c4|c3 c4|c3 and c4|c3/c4") },
@@ -3696,7 +3706,7 @@ const DATA_PLAN_VOCAB = (function(){
         tips:[
           { has:["abxesc"], say:"Adding antibiotics changes nothing in a fever that is not bacterial." },
           { lacks:["abxreview","micro"], say:"Make the 48–72 hour antibiotic review a documented decision." },
-          { lacks:["pjp"], any:["mp","dex"], say:"Pneumocystis prophylaxis once high-dose steroid starts." } ] },
+          { lacks:["pjp"], any:["mp","dex"], say:"Pneumocystis prophylaxis once high-dose steroid starts." } ] },   /* PJP: a tip only, never a ✗, not scored (owner) */
       { k:6, name:"The drug chart", want:"Enoxaparin held",
         core:{ any:["vtehold"] }, spoiledBy:["anticoag"],
         reasons:[
@@ -3710,10 +3720,13 @@ const DATA_PLAN_VOCAB = (function(){
         reasons:[ { lacks:["rheum","haem"], say:"Neither rheumatology nor haematology was told." } ],
         tips:[ { has:["haem"], lacks:["rheum"], say:"Rheumatology as well: they direct the treatment after the first pulse." },
                { has:["rheum"], lacks:["haem"], say:"Haematology as well: the film, the marrow and the lymphoma work-up." } ] },
-      { k:8, name:"Critical care", want:"Outreach or critical care told at a NEWS2 of 7, before the 12:20 call",
-        core:{ any:["icu"], andFlag:["icuInTime"] },
+      { k:8, name:"Critical care", want:"Outreach or critical care told at a NEWS2 of 7",
+        /* in time if critical care is in the FIRST plan (or rung from Refer before any later box), whatever the clock; or,
+           failing that, added before the 12:20 call (icuInTime). Late only when first added in the amendment or the
+           reopened box after the second call (owner, 2026-11-09 evening). */
+        core:{ any:["icu"], timely:{ inFirstPlan:true, orFlag:["icuInTime"] } },
         reasons:[ { lacks:["icu"], say:"Critical care was not told. A NEWS2 of 7 calls for an emergency assessment." },
-                  { has:["icu"], notFlag:["icuInTime"], say:"Critical care was first told after the 12:20 call, at a NEWS2 of 16." } ], tips:[] },
+                  { has:["icu"], notInFirstPlan:["icu"], notFlag:["icuInTime"], say:"Added only after the second call, at a NEWS2 of 16. A NEWS2 of 7 calls for an emergency assessment." } ], tips:[] },
       { k:9, name:"Left out, on purpose", want:"No blood products for numbers, no G-CSF, no etoposide from the ward",
         core:{}, spoiledBy:["etop","gcsf"], spoiledByFlag:["prodNoBleed"],
         /* the row turns ✗ the minute a product is charted while she is not bleeding (no sick2), not 30–60 min later when
@@ -3846,6 +3859,8 @@ const DATA_PLANS = (function(){
                   the replies and in DATA_IX.fevAt (hiAt = the minute it was set: SEQ.history(), row team_mp, stage 0)
      prodNoBleed  a blood product given for numbers (the panel and the marking)
      icuOnRound   critical care called before the 10:50 call · icuInTime  called before the 12:20 call (standard row 8)
+   ctx.rxBox (from the shell): the box each chart id first came from, "first" | "amend" | "reopen"; icu_early and icu_late
+   read it, so critical care named in the first plan is never told as late, however late that plan was written.
      anticoagOoze, abxStopped, etopGiven, steroidHeld   for the replies and the marking
    When teamSteroid is set the plan page charts `mpteam` (rxBy "team") (plan-vocab rx) with the team's name and the minute.
    A call may carry `reopen:true` (seizure/deterioration-call): when it rings, if nothing for the cause is on the chart, the plan
@@ -3873,6 +3888,10 @@ const DATA_SEQUELAE = (function(){
   const LOWNAME = c => R(c, "pred") ? "prednisolone" : R(c, "hydrocort") ? "hydrocortisone" : R(c, "dexlow") ? "dexamethasone" : "methylprednisolone";
   const TEAMNAME = c => CALLED(c, "rheum") ? "the rheumatology registrar" : "the haematology registrar";
   const DEAD = api => !!api.ended();
+  /* where critical care first went on the chart: "first" (the first plan, or Refer before any later box), "amend",
+     "reopen" (seqCtx.rxBox, passed by the shell). Late = added after the 12:20 call AND not in the first plan; a slow
+     first plan is never late. Without rxBox, the clock alone decides. */
+  const ICU_LATE = c => { const box = c.rxBox && c.rxBox.icu; return !c.flags.icuInTime && (box ? box !== "first" : true); };
 
   return [
     /* ================= the course: nothing for the cause ================= */
@@ -4003,13 +4022,13 @@ const DATA_SEQUELAE = (function(){
       stages:[ { after:0, flags:{ icuInTime:true } } ] },
 
     { id:"icu_early", priority:1, timing:"epilogue", tellsAt:700, source:"02-evidence.md · F3 (NEWS2 7: emergency assessment, continuous monitoring, usually higher-dependency care)",
-      when:{ flag:["closed","icuInTime"], fn:c => !c.flags.sick2 }, reverse:false, rearm:false,
+      when:{ flag:["closed"], fn:c => CALLED(c, "icu") && !c.flags.sick2 && !ICU_LATE(c) }, reverse:false, rearm:false,
       stages:[ { after:0 } ],
       epilogue:(c, api) => DEAD(api) ? null : api.flag("icuOnRound") ? "Outreach saw her on the round, and she spent the first night on the high-dependency unit."
         : "Outreach saw her before midday, after the nurse’s first call, and she spent the first night on the high-dependency unit." },
 
     { id:"icu_late", priority:4, timing:"epilogue", tellsAt:740, source:"02-evidence.md · F3 (must at NEWS2 7)",
-      when:{ flag:["closed","sick2"], fn:c => CALLED(c, "icu") && !c.flags.icuInTime }, reverse:false, rearm:false,
+      when:{ flag:["closed","sick2"], fn:c => CALLED(c, "icu") && !c.flags.icuInTime && ICU_LATE(c) }, reverse:false, rearm:false,
       stages:[ { after:0 } ],
       epilogue:"Critical care outreach were first asked to see her after the nurse’s call at twenty past twelve, at a NEWS2 of 16." },
 
@@ -4126,7 +4145,7 @@ const S = {
   /* ix */
   picked: new Set(), round: 0,
   /* plan */
-  rx: new Set(), rxAt: {}, rxBy: {}, rxN: 0, written: new Set(), given: new Set(), withdrawn: new Set(), avoided: new Set(), refs: new Set(),
+  rx: new Set(), rxAt: {}, rxBy: {}, rxBox: {}, rxN: 0, written: new Set(), given: new Set(), withdrawn: new Set(), avoided: new Set(), refs: new Set(),
   cbAnswers: {}, drugSaid: {}, condWait: [], holdWait: [],
   planCount: 0, planAt: null, amendAt: null, amendOpen: false, reopenOpen: false, reopenCount: 0, reopenAt: null, planBusy: false,
   /* outcome */
@@ -4306,7 +4325,7 @@ S.ordered = LEDGER.sent; S.landed = LEDGER.landed;      /* real Sets: read them,
 /* what every sequelae row reads (data/sequelae.js header), and what the referral replies read (plan-vocab.js) */
 function seqCtx(){
   return { rx:S.rx, ordered:S.ordered, back:S.landed, elapsed:Math.round(nowT() - START),
-    flags:Object.assign({}, SEQ.flags(), S.flags), asked:S.asked, drug:S.drugSaid,
+    flags:Object.assign({}, SEQ.flags(), S.flags), asked:S.asked, drug:S.drugSaid, rxBox:S.rxBox,
     refs:new Set([...S.refs, ...[...S.rx].filter(id=>CASE.teams && CASE.teams[id])]) };     /* every team rung: Refer, or written in the plan */
 }
 const SEQ = Sequelae.create(CASE.sequelae, {
@@ -6951,8 +6970,17 @@ function plAnswer(P, id, k){
 const PL_PLAYER = new Set(["plan","amend","reopen","query"]);
 /* put an id on the chart, recording how it got there (S.rxBy). A later write by the player of an id that came by a
    call-back or a hold takes the player's route. */
+/* S.rxBox (owner, 2026-11-09 evening): which box first put each chart id there — "first", "amend" or "reopen". Written once,
+   never overwritten. A write outside a box (Refer, a hold released, a result met, the team's steroid) counts as "first" until
+   a later box has been submitted, then as the box after it. V.plRxBox mirrors it until shell.js declares S.rxBox. */
+let PL_BOX_NOW = null;
+const plBoxNow = () => PL_BOX_NOW || (S.planCount < 2 && !S.reopenCount ? "first" : S.reopenCount && S.planCount >= 2 ? "reopen" : S.reopenCount ? "amend" : "reopen");
+V.plRxBox = {};
+const plBoxes = () => S.rxBox || V.plRxBox;
+function plSetBox(id){ [V.plRxBox, S.rxBox].forEach(B=>{ if(B && !(id in B)) B[id] = plBoxNow(); }); }
 function addRx(id, text, by){
   const fresh = !S.rx.has(id);
+  plSetBox(id);
   if(fresh){ S.rx.add(id); S.rxAt[id] = nowT(); V.rxSeq[id] = ++S.rxN; S.rxBy[id] = by || "plan"; }
   else if(by && PL_PLAYER.has(by) && (S.rxBy[id] === "callback" || S.rxBy[id] === "hold")) S.rxBy[id] = by;
   if(text) V.rxText[id] = text;
@@ -6984,6 +7012,7 @@ function plLine(id, v){
 const plTestName = id => plLow((findIx(id) || { name:id }).name);
 function enactPlan(P){
   const L = PSAY, at = nowT(), added = [], sentNotes = [], condLines = [], route = P.mode || "plan", offFrom = V.rxOff.length;
+  PL_BOX_NOW = route === "plan" ? "first" : route;
   const readAs = v => v && v.loose ? ` <span class="readas">${L.readAs(escHTML(v.loose.typed), v.loose.word)}</span>` : "";
   const keepLine = id => S.holdWait.some(w=>w.done && w.id === id);              /* "— started 10:22, when the ferritin came back" stays */
   const put = (id, text, v, by) => { if(addRx(id, keepLine(id) ? null : text, by || (v && v.by) || route)) added.push(id); else if(text && !keepLine(id)) V.rxText[id] = text; if(v && v.loose && !keepLine(id)) V.rxText[id] = chartLine(id) + readAs(v);
@@ -7069,6 +7098,7 @@ function enactPlan(P){
   $("#planText").value = "";
   S.planBusy = false;
   V.panel.push(judgePanel());
+  PL_BOX_NOW = null;
   drawPanel(); renderPlanForm(); renderChart(); mpCall("ix", "renderIx"); mpCall("ix", "renderStatus"); updateTabDots(); updateBar();
   mpEmit("planned", S.planCount);
 }
@@ -7179,11 +7209,17 @@ function plSpoiled(row){
   return false;
 }
 const plOwn = id => S.rx.has(id) && S.rxBy[id] !== "hold";
+const plInFirst = ids => ids.some(id=>S.rx.has(id) && plBoxes()[id] === "first");
+/* core.timely: in the first plan (inFirstPlan, by S.rxBox), or every orFlag flag set */
+function plTimely(c){
+  const t = c.timely; if(!t) return true;
+  return (t.inFirstPlan && plInFirst(c.any || [])) || (!!(t.orFlag && t.orFlag.length) && t.orFlag.every(plFlagOn));
+}
 function plRowOk(row){
   const has = plOwn, c = row.core || {};
   const keys = Object.keys(c).filter(k=>k !== "andFlag");
   const core = (!keys.length || (c.any || []).some(has) || (c.ledgerAll ? c.ledgerAll.every(plOnLedger) : false) || (c.ledgerAny || []).some(plOnLedger))
-    && (c.andFlag || []).every(plFlagOn);
+    && (c.andFlag || []).every(plFlagOn) && plTimely(c);
   if(plSpoiled(row)) return false;
   if(core) return true;
   if(row.via && (row.via.any || []).some(id=>seqCtx().refs.has(id) || has(id))) return "via";
@@ -7197,7 +7233,7 @@ function plLines(list){
   return (list || []).filter(r=>
     (r.has || []).every(has) && !(r.lacks || []).some(has) && (!r.any || r.any.some(has))
     && (r.ledgerHas || []).every(plOnLedger) && !(r.ledgerLacks || []).some(plOnLedger)
-    && (r.flag || []).every(plFlagOn) && !(r.notFlag || []).some(plFlagOn))
+    && (r.flag || []).every(plFlagOn) && !(r.notFlag || []).some(plFlagOn) && !(r.notInFirstPlan && plInFirst(r.notInFirstPlan)))
     .map(r=>r.say).filter(Boolean);
 }
 const plReasons = row => plLines(row.reasons);
@@ -7597,7 +7633,7 @@ function meets(p){
   if(p.planEnacted && S.planCount > 0) return { line:"A plan on the chart" };
   if(p.allOf && p.allOf.every(onChart)) return { line:p.allOf.map(id=>chartLine(id) || id).join(", ") };
   if(p.any){ const id = p.any.find(id=>(id === "mp" || id === "dex" ? rxHas(id) && S.rxBy[id] !== "hold" : onChart(id))
-      && !(p.notFrom && S.rxBy[id] === p.notFrom) && (p.before === undefined || firstOn(id) < START + p.before));
+      && !(p.notFrom && S.rxBy[id] === p.notFrom) && inTime(p, id));
     if(id) return { id, line:chartLine(id) || (RX_BY_ID[id] && RX_BY_ID[id].tNo) || id }; }
   if(p.ledgerAll && p.ledgerAll.every(led)) return { line:p.ledgerAll.map(id=>findIx(id).name).join(", ") };
   if(p.ledgerAny){ const id = p.ledgerAny.find(led); if(id) return { line:`${findIx(id).name} · ${fmtClock(LEDGER.entries(id)[0].at)}` }; }
@@ -7615,6 +7651,20 @@ function firstOn(id){
   (V.refReplies || []).forEach(r=>{ if(r && (r.id === id || r.team === id) && typeof r.at === "number") t.push(r.at); });
   return t.length ? Math.min(...t) : (onChart(id) ? START : Infinity);
 }
+/* inFirstPlan: on the chart with the first plan (written in it, at or before S.planAt), or rung with 📞 Refer before any
+   later box was written (the amendment or the reopened box; before the close if neither) */
+function inFirstPlan(id){
+  if(S.rxBy[id] === "plan" && typeof S.rxAt[id] === "number" && S.planAt !== null && S.rxAt[id] <= S.planAt) return true;
+  const later = [S.amendAt, S.reopenAt].filter(t=>t !== null && t !== undefined), limit = later.length ? Math.min(...later) : Infinity;
+  const rung = (V.refReplies || []).filter(r=>r && (r.id === id || r.team === id) && r.via === "button" && typeof r.at === "number").map(r=>r.at);
+  if(S.rxBy[id] === "refer" && typeof S.rxAt[id] === "number") rung.push(S.rxAt[id]);
+  return rung.some(t=>t < limit);
+}
+/* a part's timing: with inFirstPlan and/or before, met when either holds; with neither, always */
+function inTime(p, id){
+  if(p.inFirstPlan === undefined && p.before === undefined) return true;
+  return (!!p.inFirstPlan && inFirstPlan(id)) || (p.before !== undefined && firstOn(id) < START + p.before);
+}
 /* a second sample of a test taken in play (any route): the 06:00 look and a new sample, or two new samples */
 const repeatedInPlay = id => { const E = LEDGER.entries(id); return E.length >= 2 && E.some(e=>!e.look && e.sampleAt >= START); };
 const POSITIVE = ["any", "ledgerAll", "ledgerAny", "ledgerTwoOf", "ledgerRepeat", "flag", "via", "planEnacted", "allOf"];
@@ -7625,7 +7675,7 @@ function judgePart(row, p){
   if(!spoiled){
     /* a part with nothing to meet (row 9's core) is met unless it is spoiled */
     const m = POSITIVE.some(k=>p[k]) ? meets(p) : { line:"" };
-    if(m){ got = p.pts; line = m.line; met = true; }
+    if(m){ got = p.tipOnly ? 0 : p.pts; line = m.line; met = true; }        /* tipOnly: a ✓ with no points, never scored */
     else if(p.alt){
       const best = p.alt.map(a=>({ a, m:meets(a) })).filter(x=>x.m).sort((x, y)=>y.a.pts - x.a.pts)[0];
       if(best){ got = best.a.pts; line = best.m.line; altSay = best.a.say || ""; }
@@ -7807,7 +7857,7 @@ function judgeLOs(Q){
       virus: ["hiv", "ebv", "cmv"].every(led),
       vte: rxHas("vtehold") && !S.given.has("anticoag") && !rxHas("anticoag"),
       nsaid: rxHas("stopnsaid") && !rxHas("nsaid"),
-      icu: onChart("icu") && firstOn("icu") < START + 180
+      icu: !!meets(OC_SCORE.rows.find(r=>r.key === "critical").parts.find(p=>p.core))          /* row 8's core, the same test */
     };
     const items = lo.items.map(([id, label])=>({ label, ok:!!met[id] }));
     const n = items.filter(x=>x.ok).length, done = items.filter(x=>x.ok).map(x=>x.label), missing = items.filter(x=>!x.ok).map(x=>x.label);
@@ -7876,10 +7926,10 @@ function domainsHTML(Q){
     if(r.met){
       li = r.parts.map((p, i)=>p.ok === true || p.ok === "part"
           ? `<li data-ok="1"><span class="mk">✓</span><span>${label(p, i)}</span><span class="p">${p.max ? `${p.pts} / ${p.max}` : ""}</span></li>`
-          : `<li data-ok="tip" class="tip"><span class="mk">·</span><span><span class="why">${p.miss}</span></span><span class="p">0 / ${p.max}</span></li>`).join("");
+          : `<li data-ok="tip" class="tip"><span class="mk">·</span><span><span class="why">${p.miss}</span></span><span class="p">${p.max ? `0 / ${p.max}` : ""}</span></li>`).join("");
     } else {
       li = `<li data-ok="0"><span class="mk">✗</span><span><span class="why">${core.alt || core.miss}</span></span><span class="p">${core.max ? `${core.pts} / ${core.max}` : ""}</span></li>`
-        + r.parts.map((p, i)=>[p, i]).filter(([p])=>p !== core && p.pts > 0).map(([p, i])=>`<li data-ok="1"><span class="mk">✓</span><span>${label(p, i)}</span><span class="p">${p.pts} / ${p.max}</span></li>`).join("");
+        + r.parts.map((p, i)=>[p, i]).filter(([p])=>p !== core && (p.pts > 0 || p.ok === true)).map(([p, i])=>`<li data-ok="1"><span class="mk">✓</span><span>${label(p, i)}</span><span class="p">${p.pts} / ${p.max}</span></li>`).join("");
     }
     li += r.shown.map(s=>`<li data-ok="${s.ok ? 1 : 0}"><span class="mk">${s.ok ? "✓" : "✗"}</span><span>${s.what}${s.written ? ` <span class="why">· as you wrote</span>` : ""}</span><span class="p"></span></li>`).join("");
     const mark = `<span class="rowmk" data-ok="${r.met ? 1 : 0}">${r.met ? "✓" : "✗"}</span>`;
