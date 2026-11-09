@@ -813,13 +813,754 @@ IV fluids
 
 <script>
 "use strict";
+/* BEGIN shared vocab (engine/vocab.js) */
+/* The Monday Patient — shared clinical vocabulary (shared engine module, 2026-11-09).
+
+   Built from the scoring audit of November 2026 (audit/scoring-2026-11/), whose five root causes
+   were: every case keeps its own vocabulary; negation is read wrongly in both directions; the
+   diagnosis judge loses punctuation; time and condition words make orders conditional; nothing
+   shows what was not read. This file is the shared answer to the first four. It is plain data and
+   small pure functions: no DOM, no case ids, no state. The case keeps its own ids and decides what
+   a reading means for its own score.
+
+   Pasted into a case between the markers its applier uses, or required by node (engine/test-vocab.js).
+   It defines one global, `Vocab`. No look-behind regexes (older iPhone Safari cannot parse them,
+   and a single parse error kills the whole case script).
+
+   The usual pipeline for a typed plan:
+     Vocab.clauseSplit(raw)            -> clauses (never splits "0.9%" or "1.5 mg")
+     Vocab.prep(clause)                -> normalise + abbreviations + brands/classes, in one string
+     Vocab.findTerm(text, alias)       -> where the case's own alias sits (whole words)
+     Vocab.readTerm(text, i, len, {alreadyOn}) -> ordered | held | avoided | continued | conditional
+                                          | prn | monitor | threshold | reason | reference
+   Run the case's aliases through Vocab.prep() too, so both sides are spelt the same way. */
+var Vocab = (function(){
+  "use strict";
+
+  /* ------------------------------------------------------------------ small regex helpers */
+  function esc(s){ return s.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&"); }
+  function byLen(a, b){ return b.length - a.length; }
+  // A whole-phrase matcher with our own word boundary (letters and digits are "word"; & + / % are
+  // not, so "u&e" and "g+s" can be matched as one phrase). Group 1 is the boundary, group 2 the form.
+  function phraseRe(forms){
+    const alts = forms.filter(Boolean).slice().sort(byLen).map(esc).join("|");
+    return new RegExp("(^|[^a-z0-9])(" + (alts || "(?!x)x") + ")(?=$|[^a-z0-9])", "g");
+  }
+  function scan(text, re){
+    const out = []; let m; re.lastIndex = 0;
+    while((m = re.exec(text))){
+      const s = m.index + m[1].length;
+      out.push({ start:s, end:s + m[2].length, form:m[2] });
+      re.lastIndex = s + m[2].length;
+    }
+    return out;
+  }
+  function replaceForms(text, re, map){
+    return text.replace(re, function(all, pre, form){ return pre + map[form]; });
+  }
+  const set = a => new Set(a);
+
+  /* ------------------------------------------------------------------ 6a. normalise */
+  // Closed list of plurals folded to the singular, so "beta blockers", "plasma exchanges",
+  // "cannulae" and "cultures" read like the case's singular aliases.
+  const SINGULAR = {
+    blockers:"blocker", exchanges:"exchange", cannulae:"cannula", cannulas:"cannula", cultures:"culture",
+    steroids:"steroid", corticosteroids:"corticosteroid", antibiotics:"antibiotic", gases:"gas",
+    transfusions:"transfusion", fluids:"fluid", referrals:"referral", infusions:"infusion", boluses:"bolus",
+    ecgs:"ecg", trops:"trop", troponins:"troponin", fvcs:"fvc", vbgs:"vbg", abgs:"abg", nsaids:"nsaid",
+    doacs:"doac", noacs:"noac", ppis:"ppi", lmwhs:"lmwh", intensivists:"intensivist", anticoagulants:"anticoagulant",
+    antiplatelets:"antiplatelet", nephrotoxics:"nephrotoxic", nephrotoxins:"nephrotoxin",
+    antihypertensives:"antihypertensive", antiemetics:"antiemetic", benzodiazepines:"benzodiazepine",
+    benzos:"benzo", opioids:"opioid", diuretics:"diuretic", thinners:"thinner", medications:"medication",
+    medicines:"medicine", meds:"medication", drugs:"drug", tablets:"tablet", vegetations:"vegetation",
+    platelets:"platelet", plts:"plt", thionamides:"thionamide", surgeons:"surgeon", physicians:"physician",
+    antiinflammatories:"antiinflammatory", cannulations:"cannulation", venflons:"venflon"
+  };
+  const ANTI_JOIN = /\banti (?=(?:coag|thyroid|biotic|emetic|epilep|platelet|hypertens|histamine|pyretic|convuls|psychotic|fungal|viral|microbial|inflammat|arrhythm|depress|diuretic|embolism))/g;
+
+  function normalise(text){
+    let s = String(text == null ? "" : text);
+    if(s.normalize) s = s.normalize("NFD").replace(/[̀-ͯ]/g, "");      // é -> e
+    s = s.toLowerCase();
+    s = s.replace(/['`´‘’ʼ′]/g, "");                       // don't -> dont, u&e's -> u&es
+    s = s.replace(/["“”«»]/g, " ");
+    s = s.replace(/\r?\n+|[•·◦▪‣⁃]/g, " ; ");          // lines and bullets are clause ends
+    s = s.replace(/\^\s*2\b/g, "2").replace(/\^/g, "");                              // m^2 -> m2
+    s = s.replace(/≤|<=/g, "≤").replace(/≥|>=/g, "≥");
+    s = s.replace(/(^|[^a-z0-9])([a-z](?:\.[a-z])+)\.?(?=$|[^a-z0-9])/g,             // i.v. -> iv, n.b.m -> nbm
+      function(m, p, ab){ return p + ab.replace(/\./g, ""); });
+    s = s.replace(/\b(vs|approx|incl|dr|mr|mrs|ms|cf|etc)\./g, "$1");
+    s = s.replace(/(\d)\.(\d)/g, "$1\u0001$2");                                      // keep decimals
+    s = s.replace(/\.+(?=\s|$)/g, " ; ").replace(/\./g, " ").replace(/\u0001/g, ".");// full stop = clause end
+    s = s.replace(/(\d)\s*[-‐-―−]\s*(\d)/g, "$1 to $2");             // 4-6 hourly -> 4 to 6 hourly
+    s = s.replace(/(^|\s)[-‐-―−]+(?=\s|$)/g, " , ");                  // "Steroids – no role": a soft break
+    s = s.replace(/[-‐-―−]+/g, " ");                                  // pip-taz -> pip taz
+    s = s.replace(ANTI_JOIN, "anti");                                                // anti-coagulation -> anticoagulation
+    s = s.replace(/(\d)([a-z]+)/g, function(m, d, u){                                // 1.5mg -> 1.5 mg, 4hrly -> 4 hrly
+      return /^(st|nd|rd|th|x)$/.test(u) ? m : d + " " + u; });
+    s = s.replace(/[!?*#\[\]{}|~_\\@$]/g, " ");
+    s = s.replace(/[a-z0-9]+/g, function(w){
+      if(SINGULAR[w]) return SINGULAR[w];
+      const m = /^([a-z]+olog)ists$/.exec(w); return m ? m[1] + "ist" : w; });       // haematologists -> haematologist
+    s = s.replace(/\s*([,;:])\s*/g, " $1 ");
+    s = s.replace(/\s+/g, " ").replace(/(?:\s*;\s*)+/g, " ; ");
+    s = s.replace(/^[\s,;:]+|[\s,;:]+$/g, "");
+    return s;
+  }
+
+  /* ------------------------------------------------------------------ 1. abbreviations */
+  // [canonical, [surface forms]]. Forms are run through normalise() when the module loads, so they
+  // may be written as people type them. Every canonical is already in normalised form.
+  const ABBREV = [
+    ["u&e", ["u&e","u&es","u&e's","u+e","u+es","u + e","u & e","u & es","ue","ues","u es","u and e","u and es",
+             "u and e's","urea and electrolytes","urea & electrolytes","renal function","renal function tests",
+             "renal profile","kidney function","kidney function tests"]],
+    ["blood culture", ["blood cultures","blood c/s","blood c s","blood cs","blood cx","bcx","bcs","bloods cultures"]],
+    ["blood culture x3", ["bcx3","bc x3","bc x 3","bcx 3","bcs x3","blood cx x3","cultures x3","culture x3","blood c/s x3"]],
+    ["antibiotic", ["abx","anti biotics","antibiotcs","antibiotic's","antibiotiocs"]],
+    ["iv fluid", ["ivf","ivfs","iv fluids","intravenous fluid","intravenous fluids","iv fluid","ivfluid"]],
+    ["iv infusion", ["ivi"]],
+    ["nil by mouth", ["nbm","npo","nil po","nil per os","nil orally","keep nbm"]],
+    ["group and save", ["g&s","g+s","g & s","g + s","g and s","group & save","group n save","group save","g s"]],
+    ["crossmatch", ["xm","x match","xmatch","cross match","crossmatched","cross matched","cross match blood"]],
+    ["critical care outreach", ["ccot","outreach","outreach team","critical care outreach team","ccot team"]],
+    ["critical care", ["itu","icu","hdu","intensive care","intensive care unit","intensive therapy unit",
+                       "high dependency","high dependency unit","level 2 care","level 3 care","level 2 bed",
+                       "level 3 bed","level two care","level three care","intensivist","critical care unit"]],
+    ["registrar", ["spr","str","registrar"]],
+    ["tomorrow", ["tmrw","tmw","tmr","tomoz","tomo","2moro","tomorow","tommorow","tommorrow"]],
+    ["discuss with", ["d/w","disc w/","discuss w/"]],
+    ["review", ["r/v"]],
+    ["follow up", ["f/u"]],
+    ["with", ["w/"]],
+    ["without", ["w/o"]],
+    ["hourly", ["hrly","hourley"]],
+    ["fluid balance", ["i/o","ip/op","ip op","input/output","input output","intake and output","intake output",
+                       "in/out","fluid chart","fluid balance chart","strict fluid balance","fb chart","strict input output"]],
+    ["lying and standing blood pressure", ["lsbp","ls bp","l s bp","lying standing bp","lying and standing bp",
+                       "lying/standing bp","postural bp","orthostatic bp","lying standing blood pressure"]],
+    ["capillary refill time", ["crt","cap refill","cap refil","capillary refill"]],
+    ["cxr", ["chest xr","chest xray","chest x ray","chest radiograph","chest film"]],
+    ["vbg", ["venous gas","venous blood gas"]],
+    ["abg", ["arterial gas","arterial blood gas"]],
+    ["fbc", ["full blood count","fbcs"]],
+    ["lft", ["lfts","liver function","liver function tests","liver function test"]],
+    ["coagulation screen", ["coag","coags","coag screen","clotting","clotting screen","coagulation","pt aptt",
+                            "pt/aptt","pt and aptt","pt & aptt","coagulation profile"]],
+    ["troponin", ["trop","hs trop","hstrop","hs troponin","high sensitivity troponin","tni","tnt","hs tni"]],
+    ["ecg", ["ekg","electrocardiogram"]],
+    ["echo", ["echocardiogram","echo cardiogram","echocardiography","echo cardiography"]],
+    ["tte", ["transthoracic echo","transthoracic echocardiogram","trans thoracic echo","transthoracic echocardiography"]],
+    ["toe", ["tee","transoesophageal echo","trans oesophageal echo","transesophageal echo","transoesophageal",
+             "transoesophageal echocardiogram","trans oesophageal echocardiogram"]],
+    ["ct head", ["cth","ct brain"]],
+    ["ctpa", ["ct pa","ct pulmonary angiogram","ct pulmonary angiography"]],
+    ["lumbar puncture", ["lp"]],
+    ["ogd", ["gastroscopy","gastroscope","upper gi endoscopy","oesophagogastroduodenoscopy","scope","urgent scope","endoscopy"]],
+    ["ng tube", ["ngt","nasogastric tube"]],
+    ["urinary catheter", ["iduc","foley","foley catheter","urethral catheter","catheterise","catheterize"]],
+    ["news2", ["news 2"]],
+    ["cardiac monitoring", ["telemetry","cardiac monitor","ecg monitoring","continuous ecg monitoring",
+                            "continuous cardiac monitoring"]],
+    ["speech and language therapy", ["slt","salt referral","salt team","salt review","salt assessment",
+                            "salt swallow assessment","speech and language","speech & language therapy"]],
+    ["physiotherapy", ["physio"]],
+    ["vte prophylaxis", ["vte","thromboprophylaxis","vte ppx","dvt prophylaxis","vte prevention"]],
+    ["ted stockings", ["teds","ted","anti embolism stockings","antiembolism stockings","flowtron","flowtrons",
+                       "ipc","intermittent pneumatic compression"]],
+    ["cannula", ["venflon","canula","canular","canulla","cannular","cannulae"]],
+    ["oxygen", ["o2","supplemental o2"]],
+    ["potassium", ["k+"]],
+    ["sodium", ["na+"]],
+    ["hyperkalaemia", ["hyperk","hyper k","hyperkalemia","high potassium"]],
+    ["hypokalaemia", ["hypok","hypo k","hypokalemia"]],
+    ["hyponatraemia", ["hypona","hypo na","hyponatremia"]],
+    ["major haemorrhage protocol", ["mhp","massive haemorrhage protocol","massive hemorrhage protocol",
+                                    "major hemorrhage protocol"]],
+    ["transfusion", ["tranfusion","transfussion","transfuison"]],
+    ["transfuse", ["tranfuse","transfues"]],
+    ["thrombolysis", ["lysis","thrombolyse","thrombolyze","lyse"]],
+    ["dnacpr", ["dnar","dnr"]],
+    ["morning", ["mane"]],
+    ["morning bloods", ["am bloods"]],
+    ["nsaid", ["non steroidal","nonsteroidal","non steroidal antiinflammatory","non steroidal antiinflammatory drug",
+               "nonsteroidal antiinflammatory drug","antiinflammatory","antiinflammatory drug"]],
+    ["fvc", ["forced vital capacity","vital capacity"]]
+  ];
+  // "reg" means registrar only after a word that says so: "reg paracetamol" is regular paracetamol.
+  ["the","med","medical","surg","surgical","on call","inform","call","bleep","ring","discuss with","d/w","speak to","contact"]
+    .forEach(function(p){
+      const pre = p === "med" ? "medical" : p === "surg" ? "surgical" : p === "d/w" ? "discuss with" : p;
+      ABBREV.push([pre + " registrar", [p + " reg", p + " spr"]]);
+    });
+  ABBREV.push(["registrar review", ["reg review"]]);
+
+  /* ------------------------------------------------------------------ 2. brands and classes */
+  const BRANDS = [
+    ["apixaban", ["eliquis"]], ["rivaroxaban", ["xarelto"]], ["edoxaban", ["lixiana"]], ["dabigatran", ["pradaxa"]],
+    ["enoxaparin", ["clexane","inhixa","enoxaparine"]], ["dalteparin", ["fragmin"]], ["tinzaparin", ["innohep"]],
+    ["warfarin", ["marevan","coumadin"]], ["clopidogrel", ["plavix"]], ["ticagrelor", ["brilique","brilinta"]],
+    ["co amoxiclav", ["augmentin","coamoxiclav","co amox"]],
+    ["piperacillin tazobactam", ["tazocin","pip taz","piptaz","pip/taz","pip tazo","piperacillin/tazobactam",
+                                 "pip tazobactam","piperacillin and tazobactam"]],
+    ["co trimoxazole", ["septrin","cotrimoxazole","bactrim"]],
+    ["methylprednisolone", ["solumedrol","solu medrol","solumedrone","solu medrone","methylpred","methyl pred",
+                            "methyl prednisolone","methylprednisoloen","methylprednisone","methyl prednisone",
+                            "methy prednisone","methy prednisolone","methylprednisolon"]],
+    ["iv methylprednisolone", ["ivmp","iv mp","iv methylpred"]],
+    ["prednisolone", ["pred","prednisone","prednisalone","prednisolon"]],
+    ["hydrocortisone", ["solucortef","solu cortef","hydrocort","hydrocostisone","hydrocortisol"]],
+    ["nitrofurantoin", ["macrobid","macrodantin","nitro furantoin"]], ["oseltamivir", ["tamiflu"]],
+    ["ibuprofen", ["nurofen","brufen"]], ["diclofenac", ["voltarol"]], ["naproxen", ["naprosyn"]],
+    ["omeprazole", ["losec"]], ["esomeprazole", ["nexium"]], ["lansoprazole", ["zoton"]],
+    ["furosemide", ["frusemide","lasix"]], ["paracetamol", ["acetaminophen","panadol","calpol"]],
+    ["amiodarone", ["cordarone"]], ["chlordiazepoxide", ["librium"]], ["lorazepam", ["ativan"]],
+    ["diazepam", ["valium"]], ["levetiracetam", ["keppra"]], ["tranexamic acid", ["txa","cyklokapron"]],
+    ["propylthiouracil", ["ptu"]], ["carbimazole", ["neomercazole"]], ["salbutamol", ["ventolin"]],
+    ["vancomycin", ["vanc","vanco"]], ["gentamicin", ["gent","gentamycin"]],
+    ["ivig", ["iv immunoglobulin","intravenous immunoglobulin","iv ig","iv immunoglobulins"]],
+    ["plasma exchange", ["plex","pex","tpe","plasmapheresis","therapeutic plasma exchange","plasma exchange therapy"]],
+    ["terlipressin", ["glypressin"]], ["noradrenaline", ["norad","norepinephrine"]], ["adrenaline", ["epinephrine"]],
+    ["midazolam", ["midaz","buccal midaz"]]
+  ];
+  // Class words in the text become one class key; membersOf(key) lists the generics it covers.
+  const CLASS_WORDS = [
+    ["blood thinner", ["blood thinner","thinner","blood thinning medication","blood thinning drug"]],
+    ["anticoagulant", ["anticoagulant","anticoagulation","anticoag","anticoags","anticoagulant medication",
+                       "anticoagulant drug","anticoagulation therapy"]],
+    ["antiplatelet", ["antiplatelet","antiplatelet agent","antiplatelet drug","antiplatelet medication"]],
+    ["doac", ["doac","noac","direct oral anticoagulant"]],
+    ["lmwh", ["lmwh","low molecular weight heparin"]],
+    ["beta blocker", ["beta blocker","betablocker","b blocker","beta adrenergic blocker","bb blocker"]],
+    ["ppi", ["ppi","proton pump inhibitor"]],
+    ["antithyroid drug", ["antithyroid drug","antithyroid medication","antithyroid medicine","antithyroid treatment",
+                          "antithyroid","antithyroid therapy","antithryroid"]],
+    ["thionamide", ["thionamide"]],
+    ["nephrotoxic drug", ["nephrotoxic drug","nephrotoxic medication","nephrotoxic medicine","nephrotoxic",
+                          "nephrotoxin","nephrotoxic agent"]],
+    ["antihypertensive", ["antihypertensive","antihypertensive medication","bp medication","blood pressure medication",
+                          "blood pressure tablet","bp tablet"]],
+    ["ace inhibitor", ["ace inhibitor","acei","ace i"]],
+    ["arb", ["arb","angiotensin receptor blocker"]],
+    ["benzodiazepine", ["benzodiazepine","benzo"]],
+    ["opioid", ["opioid","opiate"]],
+    ["diuretic", ["diuretic"]],
+    ["corticosteroid", ["corticosteroid","steroid","corticosteriod","corticosteriods","steriod","steriods",
+                        "coricisteriods","cotivosteriods","cortico steroid","corticosterioid"]]
+  ];
+  const M = {
+    doac:["apixaban","rivaroxaban","edoxaban","dabigatran"],
+    lmwh:["enoxaparin","dalteparin","tinzaparin"],
+    antiplatelet:["aspirin","clopidogrel","ticagrelor","prasugrel","dipyridamole"],
+    nsaid:["naproxen","ibuprofen","diclofenac","celecoxib","etoricoxib","indometacin","ketorolac","mefenamic acid"],
+    "beta blocker":["bisoprolol","propranolol","atenolol","metoprolol","esmolol","carvedilol","labetalol","nebivolol","sotalol"],
+    ppi:["omeprazole","lansoprazole","pantoprazole","esomeprazole","rabeprazole"],
+    "antithyroid drug":["carbimazole","propylthiouracil"],
+    corticosteroid:["prednisolone","methylprednisolone","hydrocortisone","dexamethasone"],
+    "ace inhibitor":["ramipril","lisinopril","perindopril","enalapril"],
+    arb:["losartan","candesartan","irbesartan","valsartan"],
+    benzodiazepine:["lorazepam","diazepam","midazolam","chlordiazepoxide","clonazepam"],
+    opioid:["morphine","oxycodone","codeine","tramadol","fentanyl"],
+    diuretic:["furosemide","bumetanide","bendroflumethiazide","indapamide","spironolactone"]
+  };
+  M.thionamide = M["antithyroid drug"].slice();
+  M.anticoagulant = M.doac.concat(M.lmwh, ["warfarin","heparin","unfractionated heparin","fondaparinux","argatroban"]);
+  M["blood thinner"] = M.anticoagulant.concat(M.antiplatelet);   // the lay word covers both (UGIB: apixaban AND aspirin)
+  M["nephrotoxic drug"] = M.nsaid.concat(M["ace inhibitor"], M.arb, ["gentamicin","amikacin","vancomycin"]);
+  M.antihypertensive = M["ace inhibitor"].concat(M.arb, M["beta blocker"], ["amlodipine","nifedipine","bendroflumethiazide","indapamide","doxazosin"]);
+  const CLASSES = M;
+  // Sound-alike drugs that must never be fuzzy-matched onto each other, and other known drug words
+  // (a word that is itself a known drug is never "corrected" into a different one).
+  const FUZZY_BLOCK = [["clonazepam","lorazepam"],["hydroxyzine","hydralazine"],["carbimazole","carbamazepine"],
+    ["amiodarone","amlodipine"],["metformin","metronidazole"],["prednisolone","propranolol"],["naloxone","naproxen"],
+    ["cefuroxime","ceftriaxone"],["dexamethasone","desmopressin"],["insulin","inulin"]];
+  const EXTRA_DRUGS = ["clonazepam","hydroxyzine","hydralazine","carbamazepine","amlodipine","metformin","metronidazole",
+    "naloxone","cefuroxime","ceftriaxone","desmopressin","insulin","heparin","aspirin","dexamethasone","pantoprazole",
+    "thiamine","pabrinex","phenytoin","sodium valproate","morphine","ondansetron","metoclopramide","cyclizine",
+    "doxycycline","clarithromycin","amoxicillin","levofloxacin","rituximab","cyclophosphamide","octreotide","ceftriaxone"];
+
+  /* ------------------------------------------------------------------ 3. specialties */
+  // names count on their own; ctx words count only beside a referral word or a team suffix
+  // ("refer to renal", "renal team"), because "renal function", "neuro obs", "urine micro" and
+  // "surgical emphysema" are not referrals.
+  const SPECIALTIES = {
+    gastroenterology:{ names:["gastroenterology","gastroenterologist","gastro","gastro team","endoscopist",
+      "on call endoscopist","gi team","gi registrar","gi reg","upper gi team","gastroenterology team"], ctx:["gi"] },
+    haematology:{ names:["haematology","hematology","haematologist","hematologist","haem","haem team","heme",
+      "haemotology","heamatology","haematolgy","haematology team"], ctx:[] },
+    endocrinology:{ names:["endocrinology","endocrinologist","endo","endo team","endocrine team","endocrinology team"],
+      ctx:["endocrine"] },
+    rheumatology:{ names:["rheumatology","rheumatologist","rheum","rheum team","rheumy","rheumatology team"], ctx:[] },
+    nephrology:{ names:["nephrology","nephrologist","renal team","renal registrar","renal reg","renal unit",
+      "renal physician","renal consultant","nephrology team"], ctx:["renal","kidney"] },
+    neurology:{ names:["neurology","neurologist","neuro team","neuro registrar","neuro reg","neurology team"], ctx:["neuro"] },
+    cardiology:{ names:["cardiology","cardiologist","cardio team","cards team","cardiology team"], ctx:["cardio","cards"] },
+    microbiology:{ names:["microbiology","microbiologist","micro team","infectious diseases","infectious disease",
+      "id team","id consultant","id registrar","id physician","microbiology team"], ctx:["micro","id"] },
+    surgery:{ names:["surgeon","general surgeon","general surgery","gen surg","surgical team","surgical registrar",
+      "surgical on call","surgery team","colorectal team","upper gi surgeon","on call surgeon"], ctx:["surgical","surgery"] },
+    "critical care":{ names:["critical care","critical care outreach","critical care team","intensive care","intensivist",
+      "outreach","outreach team","itu","icu","hdu","high dependency","high dependency unit","intensive care unit",
+      "level 2 care","level 3 care","ccot"], ctx:[] },
+    respiratory:{ names:["respiratory team","respiratory physician","resp team","chest team","respiratory registrar",
+      "respiratory medicine"], ctx:["respiratory","resp"] },
+    geriatrics:{ names:["geriatrics","geriatrician","care of the elderly","coe team","frailty team","elderly care"], ctx:[] },
+    "palliative care":{ names:["palliative care","palliative team","palliative care team","palliative"], ctx:[] }
+  };
+  const REFER_FRAMES = ["refer","referral","referred","discuss","discussion","discussing","discussed","inform","call",
+    "ring","bleep","contact","page","review","reviewed","input","advice","tci","liaise","involve","consult","escalate",
+    "transfer","admit","admission","under","speak","handover","phone","d/w"];
+  const TEAM_SUFFIX = ["team","review","referral","consult","opinion","input","reg","registrar","spr","consultant",
+    "on call","advice","unit","physician","specialist","nurse"];
+
+  /* ------------------------------------------------------------------ 4. negation */
+  const NEGATION = {
+    // pre-negators. "held": the verb takes the drug down. "avoid": the drug is refused.
+    held:["stop","stopping","stop all","hold","holding","hold off","hold off on","withhold","withholding","withold",
+      "witholding","with hold","with holding","omit","omitting","suspend","suspending","pause","pausing","discontinue",
+      "discontinuing","cease","ceasing","take down","turn off","switch off","remove","no more","no further",
+      "come off","take off","taken off"],
+    avoid:["no","nil","not","never","avoid","avoiding","dont","do not","does not need","doesnt need","dont need",
+      "does not require","doesnt require","no need for","no need to","no indication for","no role for","not for",
+      "without","refrain from","decline","declined","nor","neither","wont","will not","not needed for"],
+    // post-negators, after the drug: "X held", "X: hold", "X not indicated"
+    postHeld:["held","on hold","stopped","withheld","witheld","omitted","suspended","paused","discontinued","ceased",
+      "taken down","turned off","switched off","temporarily held"],
+    postAvoid:["not indicated","contraindicated","contra indicated","not recommended","no role","not effective",
+      "ineffective","of no benefit","no benefit","not beneficial","not required","not needed","not necessary",
+      "unnecessary","not routinely","not routine","avoided","to be avoided","not to be given","not given","not appropriate","inappropriate",
+      "declined","allergic","allergy"],
+    // imperative after the drug ("Aspirin: hold") counts only when nothing follows it but a pause or "until"
+    postImperative:["stop","hold","omit","withhold","withold","suspend","pause","discontinue","cease","avoid"],
+    // closed list of words allowed between the negator and the drug (never any word: "no improvement, give TXA")
+    fillers:["the","a","an","any","all","her","his","their","its","this","that","these","those","tonights","todays",
+      "tonight","today","morning","evening","dose","doses","of","prophylactic","chemical","pharmacological",
+      "mechanical","further","more","regular","routine","current","usual","existing","home","iv","oral","po","sc","im",
+      "intravenous","subcutaneous","empirical","empiric","therapeutic","treatment","additional","extra","routinely",
+      "currently","for","now","yet","anticoagulant"],
+    verbFillers:["give","giving","start","starting","use","using","attempt","attempting","prescribe","prescribing",
+      "administer","administering","commence","commencing","initiate","initiating","offer","continue","continuing",
+      "restart","restarting","resume","add","adding","need","needs","require","requires","recommend","advise","be",
+      "been","to","try","trying","run","put","on","be given"],
+    joiners:["and","or","nor",",","/","&"],
+    // words that end a negator's reach
+    breakers:["but","then","however","except","although","whereas","so","instead","otherwise","later","thereafter","while","whilst"],
+    // a new instruction ends a list ("stop aspirin and give PPI")
+    positive:["give","start","continue","add","send","check","commence","begin","restart","resume","prescribe",
+      "administer","request","order","arrange","book","refer","increase","transfuse","plus","keep","maintain","switch",
+      "change","convert","replace","perform","do","repeat","recheck","measure","monitor","treat","escalate","call",
+      "discuss","inform","consider","titrate","load","bolus"],
+    // phrases that look like refusals but are not ("nil by mouth" does not refuse the next drug)
+    exempt:["nil by mouth","nil orally","nil per os","nil po","no known","not known","no change","no improvement",
+      "no response","not improving","not responding","no better","if no","if not","no allergies","nkda"],
+    rule:"A refusal of a drug the patient is already on reads as HELD (stopped: credit the hold). A refusal of a drug "
+      + "not started reads as AVOIDED (no danger call-back). 'Do not stop X' reads as CONTINUED."
+  };
+
+  /* ------------------------------------------------------------------ 5. conditions */
+  const CONDITIONS = {
+    hard:["if","unless","provided","providing","in case","in the event","should"],   // "should" only opening a phrase
+    soft:["when","once","after","following","post","whenever","as soon as"],          // conditional only with a threshold
+    prn:["prn","as required","as needed","if needed","if required","if necessary","on standby","standby","to hand",
+         "on hand","available","sos"],
+    monitor:["monitor","monitoring","watch","watch for","watch out for","observe","observe for","look out for",
+             "keep an eye on","trend","serial","surveillance","be aware of","beware","beware of","risk of"],
+    reason:["given","due to","because of","in view of","secondary to","owing to"],
+    reference:["after","following","post","once","until","till","before","prior to","pending","awaiting","during"],
+    referNow:["after discussion with","following discussion with","after discussing with","once discussed with",
+              "pending discussion with","discuss with","d/w"],
+    rule:"Conditions govern only their own phrase (commas and spaced dashes end a phrase). 'ICU if FVC<20' does not "
+      + "order ICU; 'monitor platelets' and 'when plt>50' do not order platelets; 'after 2 hours', 'post bolus', "
+      + "'4 hourly' and 'once daily' are times, not conditions. 'After discussion with <team>' is a referral now."
+  };
+  const TIME_RE = /\b(?:(?:after|in|within|post|over|every|for|at)\s+\d[\d.]*(?:\s+to\s+\d[\d.]*)?\s*(?:min|mins|minute|minutes|h|hr|hrs|hour|hours|day|days|week|weeks|wk|wks)|(?:once|twice)\s+(?:daily|weekly|a day|a week|only)|\d[\d.]*\s*(?:hourly|h|hr|hrs)\b\s*(?:hourly)?)\b/g;
+  const THRESH_RE = /[<>≤≥]|\b(?:above|below|less than|more than|greater than|at least|exceeds?|exceeding|reach(?:es)?|normali[sz]e[sd]?|improv\w*|deteriorat\w*|worsen\w*|results?|back|confirmed|positive|negative|stable|tolerat\w*|over \d|under \d)\b/;
+
+  /* ------------------------------------------------------------------ build the matchers */
+  function buildMap(entries){
+    const map = {};
+    entries.forEach(function(e){
+      const canon = e[0];
+      map[canon] = canon;                                 // identity: "critical care outreach" is never re-expanded
+      e[1].forEach(function(f){ const n = normalise(f); if(n && !map[n]) map[n] = canon; });
+    });
+    return map;
+  }
+  const ABBREV_MAP = buildMap(ABBREV);
+  const BRAND_MAP = buildMap(BRANDS.concat(CLASS_WORDS));
+  const ABBREV_RE = phraseRe(Object.keys(ABBREV_MAP));
+  const BRAND_RE = phraseRe(Object.keys(BRAND_MAP));
+
+  const NEG_KIND = {};
+  NEGATION.avoid.forEach(f => { NEG_KIND[normalise(f)] = "avoid"; });
+  NEGATION.held.forEach(f => { NEG_KIND[normalise(f)] = "held"; });
+  const NEG_RE = phraseRe(Object.keys(NEG_KIND));
+  const EXEMPT_RE = phraseRe(NEGATION.exempt.map(normalise));
+  const POST_KIND = {};
+  NEGATION.postAvoid.forEach(f => { POST_KIND[normalise(f)] = "avoid"; });
+  NEGATION.postHeld.forEach(f => { POST_KIND[normalise(f)] = "held"; });
+  NEGATION.postImperative.forEach(f => { POST_KIND[normalise(f)] = f === "avoid" ? "avoid-imp" : "held-imp"; });
+  const POST_RE = new RegExp("^(" + Object.keys(POST_KIND).sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const FILL = set(NEGATION.fillers), VFILL = set(NEGATION.verbFillers), JOIN = set(NEGATION.joiners),
+        BREAK = set(NEGATION.breakers), POS = set(NEGATION.positive);
+  const COND_WORDS = set(["if","unless","when","once","after","until","till","pending","following","before","provided","should"]);
+  const POST_FILL = set(["is","are","was","were","be","been","being","should","must","to","currently","now","for","at",
+    "present","already","also","both","all","therefore","which","as","it","they","this","here","temporarily",",",":",
+    "(",")","has","have","will"]);
+  const IMP_OK_AFTER = set([",",";",")","until","till","til","pending","for","while","whilst","meanwhile","today",
+    "tonight","now","temporarily","and"]);
+
+  /* ------------------------------------------------------------------ 6b. expanders */
+  function expandAbbrev(text){ return replaceForms(normalise(text), ABBREV_RE, ABBREV_MAP).replace(/\s+/g, " ").trim(); }
+  function expandBrands(text){ return replaceForms(normalise(text), BRAND_RE, BRAND_MAP).replace(/\s+/g, " ").trim(); }
+  function prep(text){ return expandBrands(expandAbbrev(text)); }
+  function membersOf(key){ return (CLASSES[prep(key)] || CLASSES[key] || []).slice(); }
+  function classesOf(drug){ const d = prep(drug); return Object.keys(CLASSES).filter(k => CLASSES[k].indexOf(d) >= 0); }
+
+  /* ------------------------------------------------------------------ 6c. clauses */
+  // Splits typed text into clauses: newlines, semicolons, list bullets, and full stops followed by a
+  // space or the end. Never splits "0.9%", "1.5 mg", "i.v." or "e.g.". Commas stay inside a clause.
+  function clauseSplit(text){
+    let s = String(text == null ? "" : text).replace(/\r/g, "");
+    s = s.replace(/^[ \t]*(?:\d+[.)]|[-*–—•·>])[ \t]+/gm, "\n");    // "1. ", "2) ", "- ", "• "
+    s = s.replace(/(\d)\.(\d)/g, "$1\u0001$2");
+    s = s.replace(/(^|[^A-Za-z0-9])((?:[A-Za-z]\.)+[A-Za-z]\.?)(?=$|[^A-Za-z0-9])/g,
+      function(m, p, ab){ return p + ab.replace(/\./g, "\u0002"); });
+    s = s.replace(/\b(vs|approx|incl|dr|mr|mrs|ms|cf|etc)\./gi, "$1\u0002");
+    return s.split(/\n+|;|[•·◦▪‣⁃]|\.+(?=\s|$)/)
+      .map(c => c.replace(/\u0001/g, ".").replace(/\u0002/g, ".").trim())
+      .filter(c => /[A-Za-z0-9]/.test(c));
+  }
+  // Clauses, then commas: the units a "Not understood:" line reports.
+  function segments(text){
+    const out = [];
+    clauseSplit(text).forEach(c => c.split(/,|\s[-–—]\s/).forEach(p => { p = p.trim(); if(/[A-Za-z0-9]/.test(p)) out.push(p); }));
+    return out;
+  }
+
+  /* ------------------------------------------------------------------ term finding and fuzzy */
+  function findTerm(text, term){
+    const t = normalise(term); if(!t) return [];
+    return scan(text, phraseRe([t])).map(m => ({ index:m.start, length:m.end - m.start }));
+  }
+  function tolerance(n){ return n <= 5 ? 0 : n <= 7 ? 1 : 2; }
+  function editDistance(a, b, max){                                // optimal string alignment (a swap costs 1)
+    if(max == null) max = 99;
+    if(Math.abs(a.length - b.length) > max) return max + 1;
+    const d = [];
+    for(let i = 0; i <= a.length; i++){ d[i] = [i]; }
+    for(let j = 0; j <= b.length; j++){ d[0][j] = j; }
+    for(let i = 1; i <= a.length; i++){
+      let rowMin = 99;
+      for(let j = 1; j <= b.length; j++){
+        const c = a[i-1] === b[j-1] ? 0 : 1;
+        d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + c);
+        if(i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
+        if(d[i][j] < rowMin) rowMin = d[i][j];
+      }
+      if(rowMin > max) return max + 1;
+    }
+    return d[a.length][b.length];
+  }
+  const KNOWN = new Set();
+  BRANDS.forEach(e => { KNOWN.add(e[0]); e[1].forEach(f => KNOWN.add(normalise(f))); });
+  Object.keys(CLASSES).forEach(k => CLASSES[k].forEach(d => KNOWN.add(d)));
+  EXTRA_DRUGS.forEach(d => KNOWN.add(d));
+  function blocked(a, b){ return FUZZY_BLOCK.some(p => (p[0] === a && p[1] === b) || (p[0] === b && p[1] === a)); }
+  // A typed word matches a catalogue word: exact, or within an edit budget that grows with length
+  // (exact at 5 letters or fewer, 1 edit at 6-7, 2 at 8+). A known drug is never corrected into another.
+  function fuzzyEq(word, term){
+    if(word === term || BRAND_MAP[word] === term || ABBREV_MAP[word] === term) return true;   // a listed spelling of it
+    if(blocked(word, term) || KNOWN.has(word)) return false;
+    const tol = tolerance(Math.min(word.length, term.length));
+    return tol > 0 && editDistance(word, term, tol) <= tol;
+  }
+  function fuzzyFind(text, term){
+    const exact = findTerm(text, term);
+    if(exact.length) return Object.assign({ fuzzy:false }, exact[0]);
+    const tw = normalise(term).split(" ").filter(Boolean); if(!tw.length) return null;
+    const words = []; const re = /[a-z0-9&+%.]+/g; let m;
+    while((m = re.exec(text))) words.push({ t:m[0], s:m.index, e:m.index + m[0].length });
+    for(let i = 0; i + tw.length <= words.length; i++){
+      let all = true;
+      for(let k = 0; k < tw.length && all; k++) all = fuzzyEq(words[i+k].t, tw[k]);
+      if(all){ const s = words[i].s, e = words[i + tw.length - 1].e; return { index:s, length:e - s, fuzzy:true, matched:text.slice(s, e) }; }
+    }
+    return null;
+  }
+
+  /* ------------------------------------------------------------------ 6d. negation reader */
+  function toks(text, from, to){
+    const out = []; const re = /[a-z0-9&+%.]+|[<>≤≥=]+|[,;:()\/]/g; let m;
+    const sub = text.slice(from, to);
+    while((m = re.exec(sub))) out.push({ t:m[0], s:from + m.index, e:from + m.index + m[0].length });
+    return out;
+  }
+  function isDose(t){
+    return /^(?:\d[\d.]*%?|x\d+|\d+x|mg|g|mcg|microgram|micrograms|ml|mls|l|litre|litres|unit|units|iu|mmol|kg|m2|stat|od|bd|tds|qds|nocte|morning|prn|hourly|daily)$/.test(t);
+  }
+  function isItemWord(t){
+    return /^[a-z0-9&+%.]+$/.test(t) && !POS.has(t) && !BREAK.has(t) && !COND_WORDS.has(t) && !JOIN.has(t) && !NEG_KIND[t];
+  }
+  function mask(text){
+    return text.replace(EXEMPT_RE, function(all, pre, form){ return pre + form.replace(/[^ ]/g, "_"); });
+  }
+  // The words between a negator and the drug: fillers only, or a list ("stop naproxen and aspirin").
+  function gapOk(g){
+    if(g.some(x => x.t === ";" || BREAK.has(x.t))) return false;
+    let i = 0; const n = g.length;
+    while(i < n && (FILL.has(g[i].t) || VFILL.has(g[i].t) || isDose(g[i].t) || (g[i].t === "/" && i > 0 && isDose(g[i-1].t)))) i++;
+    if(i === n) return true;
+    for(let items = 0; items < 5; items++){
+      let c = 0;
+      while(i < n && (isItemWord(g[i].t) || g[i].t === "(" || g[i].t === ")")){ if(!isDose(g[i].t) && /[a-z]/.test(g[i].t)) c++; if(c > 3) return false; i++; }
+      if(c === 0) return false;
+      let j = 0; while(i < n && JOIN.has(g[i].t)){ i++; j++; }
+      if(j === 0) return false;
+      while(i < n && (FILL.has(g[i].t) || isDose(g[i].t))) i++;
+      if(i === n) return true;
+    }
+    return false;
+  }
+  function untilOf(text, from){
+    const rest = text.slice(from).split(";")[0];
+    const m = /(?:^|[^a-z0-9])(?:until|till|til|pending)\s+([^,;]*)/.exec(rest);
+    return m ? m[1].trim() : null;
+  }
+  // isNegated(clause, termIndex[, termLength]) -> null | { kind:"held"|"avoid"|"continued", word, pos, until }
+  // `clause` should already be normalised (Vocab.prep). termLength defaults to the word at termIndex.
+  function isNegated(clause, termIndex, termLength){
+    const text = mask(String(clause));
+    if(termLength == null){ const w = /^[a-z0-9&+%.]+/.exec(text.slice(termIndex)); termLength = w ? w[0].length : 0; }
+    const termEnd = termIndex + termLength;
+    const negs = scan(text, NEG_RE).filter(n => n.end <= termIndex).reverse();
+    for(let k = 0; k < negs.length; k++){
+      const n = negs[k], gap = toks(text, n.end, termIndex);
+      if(gap.some(x => x.t === ";")) break;
+      // "TXA not indicated, IV fluids": that "not" belongs to the item before it, never to the fluids
+      const pp = POST_RE.exec(text.slice(n.start));
+      if(pp && pp[1].length > n.form.length && /[a-z0-9]\s*$/.test(text.slice(0, n.start).split(/[,;]/).pop())) continue;
+      if(!gapOk(gap)) continue;
+      const kind = NEG_KIND[n.form];
+      if(kind === "held"){
+        const before = negs.slice(k + 1).find(a => NEG_KIND[a.form] === "avoid" && a.end <= n.start &&
+          toks(text, a.end, n.start).every(x => ["to","be","need","needs"].indexOf(x.t) >= 0));
+        if(before) return { kind:"continued", word:before.form + " " + n.form, pos:"pre", until:null };
+      }
+      return { kind:kind, word:n.form, pos:"pre", until:untilOf(text, termEnd) };
+    }
+    // after the drug
+    const g = toks(text, termEnd, text.length);
+    let i = 0;
+    for(let guard = 0; guard < 16 && i < g.length; guard++){
+      const t = g[i].t;
+      if(t === ";" || BREAK.has(t)) return null;
+      const pm = POST_RE.exec(text.slice(g[i].s));
+      if(pm){
+        const kind = POST_KIND[pm[1]];
+        if(kind === "held-imp" || kind === "avoid-imp"){
+          const nx = toks(text, g[i].s + pm[1].length, text.length)[0];
+          if(nx && !IMP_OK_AFTER.has(nx.t)) return null;          // "TXA, stop aspirin": the stop belongs to aspirin
+        }
+        return { kind:kind.replace("-imp", ""), word:pm[1], pos:"post", until:untilOf(text, g[i].s) };
+      }
+      if(POST_FILL.has(t) || isDose(t)){ i++; continue; }
+      if(t === "and" || t === "or" || t === "/" || t === "&"){
+        i++; let c = 0; while(i < g.length && c < 3 && isItemWord(g[i].t) && !POST_RE.test(text.slice(g[i].s))){ i++; c++; }
+        if(!c) return null; continue;
+      }
+      return null;
+    }
+    return null;
+  }
+
+  /* ------------------------------------------------------------------ 6e. conditions and readTerm */
+  function segmentAround(text, idx, end){
+    let s = idx; while(s > 0 && text[s-1] !== "," && text[s-1] !== ";") s--;
+    let e = end; while(e < text.length && text[e] !== "," && text[e] !== ";") e++;
+    let ps = s - 1, pe = s - 1;
+    if(ps >= 0 && text[ps] === ","){ ps--; while(ps > 0 && text[ps-1] !== "," && text[ps-1] !== ";") ps--; } else { ps = pe = -1; }
+    return { s:s, e:e, prev: ps >= 0 ? text.slice(ps, pe).trim() : "" };
+  }
+  const wordsRe = list => new RegExp("(?:^|[^a-z0-9])(?:" + list.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const tailRe = (list, n) => new RegExp("(?:^|[^a-z0-9])(?:" + list.slice().sort(byLen).map(esc).join("|") + ")\\s+(?:[a-z0-9&+%.]+\\s+){0," + n + "}$");
+  const HARD_RE = wordsRe(CONDITIONS.hard.filter(w => w !== "should"));
+  const HARD_START = /^(?:if|unless|provided|providing|in case|in the event|should)(?=$|[^a-z0-9])/;
+  const SOFT_RE = new RegExp("(?:^|[^a-z0-9])(" + CONDITIONS.soft.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])", "g");
+  const PRN_AFTER = new RegExp("^\\s*(?:[a-z0-9&+%./]+\\s+){0,3}?(?:" + CONDITIONS.prn.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const PRN_BEFORE = tailRe(["prn","standby","as required","sos","if needed","if required","if necessary"], 1);
+  const MON_BEFORE = tailRe(CONDITIONS.monitor, 2);
+  const MON_AFTER = /^\s*(?:count\s+|level\s+|levels\s+)?(?:monitoring|surveillance)(?=$|[^a-z0-9])/;
+  const REASON_BEFORE = tailRe(CONDITIONS.reason, 2);
+  const REF_BEFORE = new RegExp("(?:^|[^a-z0-9])(?:" + CONDITIONS.reference.slice().sort(byLen).map(esc).join("|") + ")\\s+(?:(?:the|her|his|a|an|this|that|first|1st|initial)\\s+)?$");
+  const TH_SKIP = set(["count","level","levels","is","of","value","values","concentration","conc","remains","stays","rise","rises","fall","falls","drop","drops"]);
+  function maskTime(t){ return t.replace(TIME_RE, m => m.replace(/[^ ]/g, "_")); }
+  function between(text, a, b){ return toks(text, a, b).filter(x => /[a-z0-9]/.test(x.t)).length; }
+
+  // conditionOf(clause, termIndex, termLength) -> null | { kind, word }
+  // kind: threshold | monitor | reason | reference | prn | conditional | sequenced
+  function conditionOf(clause, termIndex, termLength){
+    const text = maskTime(String(clause));
+    const end = termIndex + (termLength == null ? ((/^[a-z0-9&+%.]+/.exec(text.slice(termIndex)) || [""])[0].length) : termLength);
+    const seg = segmentAround(text, termIndex, end);
+    const before = text.slice(seg.s, termIndex), after = text.slice(end, seg.e);
+    // threshold: "plt >50", "platelets below 30" (not "over 15 min", which is masked as a time)
+    const at = toks(text, end, seg.e);
+    let i = 0; if(at[i] && TH_SKIP.has(at[i].t)) i++;
+    if(at[i] && (/^[<>≤≥=]/.test(at[i].t) || (/^(above|below|over|under|less|more|greater|exceeds?|exceeding)$/.test(at[i].t) && at.slice(i+1, i+3).some(x => /^\d/.test(x.t)))))
+      return { kind:"threshold", word:at[i].t };
+    let m;
+    if((m = MON_BEFORE.exec(before)) || MON_AFTER.test(after)) return { kind:"monitor", word:m ? m[0].trim().split(" ")[0] : "monitoring" };
+    if((m = REASON_BEFORE.exec(before))) return { kind:"reason", word:m[0].trim().split(" ")[0] };
+    if((m = REF_BEFORE.exec(before))) return { kind:"reference", word:m[0].trim().split(" ")[0] };
+    if((m = PRN_AFTER.exec(after)) || (m = PRN_BEFORE.exec(before))) return { kind:"prn", word:m[0].trim() };
+    // hard conditions: inside the phrase before the term, just after it ("ICU if FVC<20"), or an
+    // opening "If K>6," governing the next phrase
+    const segText = text.slice(seg.s, seg.e).trim();
+    if(HARD_RE.test(before) || HARD_START.test(segText)) return { kind:"conditional", word:(before.match(HARD_RE) || segText.match(HARD_START) || [""])[0].trim() };
+    // ...but a frequency in between ("spirometry every 1 hr if <20") means the order was complete
+    const ha = HARD_RE.exec(after);
+    if(ha && between(text, end, end + ha.index) <= 2 && text.slice(end, end + ha.index).indexOf("_") < 0) return { kind:"conditional", word:ha[0].trim() };
+    if(seg.prev && (HARD_START.test(seg.prev) || (/^(when|once|after|following)\b/.test(seg.prev) && THRESH_RE.test(seg.prev))))
+      return { kind:"conditional", word:seg.prev.split(" ")[0] };
+    // soft conditions need a threshold ("when plt >50"); otherwise they only sequence the order
+    let sm; SOFT_RE.lastIndex = 0;
+    while((sm = SOFT_RE.exec(before))){ if(THRESH_RE.test(before.slice(sm.index))) return { kind:"conditional", word:sm[1] }; }
+    SOFT_RE.lastIndex = 0;
+    if((sm = SOFT_RE.exec(after)) && between(text, end, end + sm.index) <= 2 && text.slice(end, end + sm.index).indexOf("_") < 0)
+      return THRESH_RE.test(after.slice(sm.index)) ? { kind:"conditional", word:sm[1] } : { kind:"sequenced", word:sm[1] };
+    return null;
+  }
+
+  // readTerm(clause, termIndex, termLength, { alreadyOn }) -> { status, negation, condition, until, timing }
+  //   ordered      write it on the chart (also "sequenced": "repeat calcium after the bolus")
+  //   continued    "do not stop apixaban"
+  //   held         refused, and the patient is on it: credit the hold
+  //   avoided      refused, and the patient is not on it: no danger call-back
+  //   conditional  "ICU if FVC<20", "LMWH when plt>50": not an order now
+  //   prn          "midazolam on standby", "analgesia PRN": a contingency; the case decides
+  //   monitor      "monitor platelets": the thing is measured, not given
+  //   threshold    "plt >50": a number, not an order
+  //   reason       "given low platelets": named as the reason
+  //   reference    "after IVIG", "post bolus", "until thionamide given": an event used for timing
+  function readTerm(clause, termIndex, termLength, opts){
+    opts = opts || {};
+    const text = String(clause);
+    const neg = isNegated(text, termIndex, termLength);
+    const tm = maskTime(text) !== text ? (text.match(TIME_RE) || [])[0] || null : null;
+    if(neg){
+      if(neg.kind === "continued") return { status:"continued", negation:neg, condition:null, until:null, timing:tm };
+      return { status: opts.alreadyOn ? "held" : "avoided", negation:neg, condition:null, until:neg.until, timing:tm };
+    }
+    const c = conditionOf(text, termIndex, termLength);
+    const status = !c ? "ordered" : c.kind === "sequenced" ? "ordered" : c.kind;
+    return { status:status, negation:null, condition:c, until:null, timing:tm };
+  }
+  // Does this status put the thing on the chart (and so, for a danger item, earn the call-back)?
+  function isOrder(status){ return status === "ordered" || status === "continued"; }
+
+  /* ------------------------------------------------------------------ teams */
+  const TEAM_FORM = {}, TEAM_CTX = {};
+  Object.keys(SPECIALTIES).forEach(function(k){
+    SPECIALTIES[k].names.forEach(f => { TEAM_FORM[normalise(f)] = k; });
+    SPECIALTIES[k].ctx.forEach(f => { const n = normalise(f); if(!TEAM_FORM[n]) { TEAM_FORM[n] = k; TEAM_CTX[n] = true; } });
+  });
+  const TEAM_RE = phraseRe(Object.keys(TEAM_FORM));
+  const FRAME_BEFORE = tailRe(REFER_FRAMES.concat(["discuss with","speak to","refer to","referral to","under the","admit under"]), 2);
+  const SUFFIX_AFTER = new RegExp("^\\s*(?:" + TEAM_SUFFIX.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  // teamsIn(text) -> { text, teams:[{ team, form, index, length, status }] }, one entry per team.
+  // status: referred | conditional | avoided. Any mention of a team counts as a referral ("Hematology"
+  // at the end of a plan), including "after discussion with rheumatology".
+  function teamsIn(raw){
+    const text = expandAbbrev(raw);
+    const best = {}, rank = { referred:3, conditional:2, avoided:1 };
+    scan(text, TEAM_RE).forEach(function(m){
+      const team = TEAM_FORM[m.form];
+      if(TEAM_CTX[m.form] && !FRAME_BEFORE.test(text.slice(0, m.start)) && !SUFFIX_AFTER.test(text.slice(m.end))) return;
+      const r = readTerm(text, m.start, m.end - m.start);
+      if(["monitor","threshold","reason"].indexOf(r.status) >= 0) return;
+      const status = r.status === "held" || r.status === "avoided" ? "avoided"
+                   : r.status === "conditional" || r.status === "prn" ? "conditional" : "referred";
+      if(!best[team] || rank[status] > rank[best[team].status])
+        best[team] = { team:team, form:m.form, index:m.start, length:m.end - m.start, status:status };
+    });
+    return { text:text, teams:Object.keys(best).map(k => best[k]) };
+  }
+
+  /* ------------------------------------------------------------------ diagnosis clauses */
+  // dxClauses(raw) -> [{ text, denied, raw }]. Split BEFORE normalising, on , ; : ( ) / spaced dashes,
+  // "but", and before "not"/"no", so "Not ITP – TTP" and "Thyroid storm, not an addisonian crisis"
+  // keep their positive clause. The case judges each clause with its own tiers: correct if any
+  // clause is correct and not denied; a denied clause must not cancel a positive one.
+  const DX_LEAD = /^(?:not|no|never|neither|nor|excluded|exclude|ruled out|rule out|unlikely|less likely|without)\s+(?:an?\s+|the\s+)?/;
+  const DX_TRAIL = /\s+(?:excluded|ruled out|unlikely|less likely|not likely|not the cause|doubtful)$/;
+  function dxClauses(raw){
+    let s = String(raw == null ? "" : raw);
+    s = s.replace(/\s[-‐-―−]+\s/g, " , ");
+    s = s.replace(/\b(?:rather than|instead of)\b/gi, ", not ").replace(/\bbut\b/gi, ",");
+    s = s.replace(/\s+(not|no)\s+/gi, " ,$1 ");
+    return s.split(/[,;:()\/]|\.(?=\s|$)/).map(function(part){
+      let t = normalise(part).replace(/^[\s,;:]+|[\s,;:]+$/g, "");
+      if(!t) return null;
+      let denied = false;
+      if(DX_LEAD.test(t)){ denied = true; t = t.replace(DX_LEAD, ""); }
+      if(DX_TRAIL.test(t)){ denied = true; t = t.replace(DX_TRAIL, ""); }
+      return t ? { text:t, denied:denied, raw:part.trim() } : null;
+    }).filter(Boolean);
+  }
+
+  return {
+    // data
+    ABBREV, BRANDS, CLASS_WORDS, CLASSES, SPECIALTIES, REFER_FRAMES, TEAM_SUFFIX, NEGATION, CONDITIONS, FUZZY_BLOCK,
+    // helpers
+    normalise, expandAbbrev, expandBrands, prep, membersOf, classesOf, clauseSplit, segments,
+    findTerm, fuzzyFind, fuzzyEq, editDistance, tolerance,
+    isNegated, conditionOf, readTerm, isOrder, teamsIn, dxClauses
+  };
+})();
+if(typeof module !== "undefined" && module.exports) module.exports = Vocab;
+/* END shared vocab */
 
 /* ============================================================
    CASE DATA — this object is the weekly authoring template.
    To build week 2, copy this block and refill it.
    ============================================================ */
 const CASE = {
-  meta: { dxAccepted: ["upper gi bleed","ugib","upper gastrointestinal bleed","upper gi haemorrhage","upper gi hemorrhage","bleeding peptic ulcer","peptic ulcer bleed","peptic ulcer haemorrhage","gi bleed","gastrointestinal bleed","melaena","haematemesis"],
+  /* the diagnosis is JUDGED, not looked up (judgeDx): any dxAny word, or every word of one dxAll group
+     (a trailing * is a prefix), in a clause that is not denied and holds no dxBlock substring.
+     "non variceal" is cleared before the block test. dxSub: substrings tested with spaces removed. */
+  meta: { dxAny: ["ugib","augib","ugih","melaena","haematemesis","hematemesis"],
+          dxAll: [["upper","gi|gastrointestinal|gastro","bleed*|haemorrhag*|hemorrhag*"],
+                  ["ugi","bleed*|haemorrhag*|hemorrhag*"],
+                  ["gi|gastrointestinal","bleed*|haemorrhag*|hemorrhag*"],
+                  ["peptic|duodenal|gastric","ulcer*"],
+                  ["peptic|duodenal|gastric|stomach|oesophageal|oesophagus|esophageal|esophagus|upper|gi|ugi|gastrointestinal","ulcer*","bleed*|haemorrhag*|hemorrhag*"]],
+          /* an ulcer named at a site outside the upper gut is refused, whatever else the clause says */
+          dxUlcerSite: /\b(?:legs?|sacral|sacrum|rectum|rectal|anal|anus|small bowel|bowel|crohn\w*|ileal|ileum|jejunal|jejunum|colonic|mouth|oral|lip|tongue|skin|venous|arterial|diabetic|foot|feet|heel|buttocks?|genital|vulval|penile|corneal?|eye)\b|(?<!blood )\bpressure\b/,
+          /* "Ulcer bleed or NSTEMI": a hedge is judged on every alternative; only an upper-GI source may sit beside it */
+          dxHedgeOk: /^(?:peptic|duodenal|gastric|stomach|oesophageal|esophageal|gastritis|oesophagitis|esophagitis|duodenitis|gastric erosions?|erosions?|erosive gastritis|erosive oesophagitis)$/,
+          /* a lower-gut site refuses any answer, ulcer or not; a competing diagnosis refuses the whole answer */
+          dxLowerSite: /\b(?:caecum|caecal|cecum|cecal|sigmoid|small (?:bowel|intestine)|large (?:bowel|intestine)|intestinal ulcer|(?<!per )rectum|rectal|anal|anus|colonic|ileum|ileal|jejunum|jejunal|crohn\w*|angiodysplas\w*|meckel\w*|stomal|bowels?|sacral|sacrum|decubitus|bed ?sores?|sores?|legs?|skin|venous)\b|(?<!blood )\bpressure (?:sores?|areas?|injur\w*|ulcer\w*|damage)\b/,
+          dxCompete: /\b(?:n?stemi|acs|acute coronary|coronary syndrome|myocardial infarct\w*|heart attack|(?<!type 2 )(?<!type ii )mi|unstable angina|vasovagal|orthostatic|postural hypotension|cardiac syncope|\w*arrhythmi\w*|\w*dysrhythmi\w*|heart block|atrial flutter|flutter|angina|\w*ischaemi\w*|\w*ischemi\w*|ihd|cad|coronary|cardiogenic|tamponade|aaa|aneurysm\w*|thromboembol\w*|sick sinus|ventricular tachycardi\w*|vt|svt|pe|pulmonary embol\w*|aortic stenosis|aortic dissection|dissection|boerhaave\w*|seps\w*|septic|seizure|epilep\w*|stroke|tia|hypoglyc\w*)\b/,
+          /* round 8: a clause that commits may use only these words (after "non variceal" is cleared); any other
+             word ("piles", "lower", "improbable", "tachyarrhythmia", "absent") makes the answer fail, as an exact
+             list did on live. A denied clause must name something else (dxCompete or dxAlt) and never the bleed. */
+          dxWords: ("upper ugi ugib augib ugih gi gastrointestinal gastro bleed bleeds bleeding bled haemorrhage haemorrhages "+
+                    "haemorrhaging hemorrhage hemorrhages hemorrhaging haemorrhagic hemorrhagic melaena melena haematemesis "+
+                    "hematemesis peptic duodenal duodenum gastric stomach oesophageal esophageal oesophagus esophagus ulcer "+
+                    "ulcers ulceration ulcerated gastritis oesophagitis esophagitis duodenitis erosion erosions erosive hiatus "+
+                    "hernia cameron disease pud nsaid nsaids naproxen aspirin ibuprofen apixaban doac doacs anticoagulant "+
+                    "anticoagulants anticoagulation anticoagulated antiplatelet antiplatelets h pylori helicobacter induced "+
+                    "related associated acute major massive severe significant brisk active ongoing chronic shock hypovolaemic "+
+                    "hypovolemic hypovolaemia hypovolemia anaemia anemia iron deficiency af fast atrial fibrillation rapid "+
+                    "ventricular response tachycardia tachycardic sinus collapse syncope faint hypotension hypotensive low "+
+                    "blood pressure bp type 2 ii mi a an the from with on of in and or to due secondary caused causing by "+
+                    "leading resulting likely most probable probably suspected").split(" "),
+          dxAlt: /\b(?:af|atrial fibrillation|fast af|variceal|varices|varix|lower gi|lower|cardiac|syncope|vasovagal|vaso vagal|orthostatic|type 2 mi|demand|anaemia|anemia|aki)\b/,
+          dxSub: [["uppergi","bleed"],["uppergi","haemorrh"],["uppergi","hemorrh"]],
+          dxBlock: ["lower","variceal","varice","varix","angiodysplas","mallory","perforat","diverticul","colitis","colon","haemorrhoid",
+                    "leg ulcer","venous ulcer","pressure ulcer","rectal ulcer","anal ulcer","mouth ulcer","oral ulcer",
+                    "foot ulcer","diabetic ulcer","corneal ulcer","skin ulcer","arterial ulcer","colonic ulcer","stercoral"],
           dxName: "Upper GI bleed", startClock: 522 /* 08:42 in minutes */ },
 
   history: [
@@ -856,10 +1597,10 @@ const CASE = {
       aliases:["pr","pr exam","per rectum","rectal","rectal exam","rectal examination","dre","digital rectal","digital rectal exam","back passage","stool","stool inspection","inspect the stool","melaena","malena"] },
     { id:"post", name:"Lying and standing blood pressure", key:true, tone:"alert",
       f:"Lying 96/58, pulse 138. Standing at one minute: 74/48, pulse 152 — he greys out and has to sit straight back down.",
-      aliases:["lying and standing bp","lying standing bp","postural bp","postural blood pressure","orthostatic bp","orthostatic blood pressure","lying and standing blood pressure","postural drop","standing bp","lying standing"] },
+      aliases:["lying and standing bp","lying standing bp","postural bp","postural blood pressure","orthostatic bp","orthostatic blood pressure","lying and standing blood pressure","postural drop","standing bp","lying standing","lsbp","ls bp","l s bp","lying standing blood pressure","postural observations","postural obs"] },
     { id:"hydr", name:"Volume status", key:true,
       f:"Dry mucous membranes, reduced skin turgor, JVP not visible even lying flat. Capillary refill 3 s, peripheries cool to the elbows. Intravascularly deplete.",
-      aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration"] },
+      aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration","cap refill","crt","capillary refill time"] },
     { id:"pulse", name:"Pulse character", key:true, tone:"alert",
       f:"Irregularly irregular, thready and low volume, around 138 at the radial — with an apex–radial deficit. No collapsing character.",
       aliases:["pulse","pulse character","radial pulse","feel the pulse","apex radial","apex radial deficit","heart rate","rhythm","pulse rate","irregular pulse"] },
@@ -943,13 +1684,13 @@ const CASE = {
         aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets"],
         labs:[{n:"Hb", v:"72", r:"130–170", u:"g/L", flag:"lo", base:"134 (3 months ago)"},{n:"MCV", v:"84", r:"80–99", u:"fL"},{n:"WCC", v:"11.2", r:"4.0–11.0", u:"×10⁹/L", flag:"hi"},{n:"Platelets", v:"412", r:"150–400", u:"×10⁹/L", flag:"hi"}] },
       { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key",
-        aliases:["ue","u and e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium"],
+        aliases:["ue","u and e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","ues","u and es","u es","u and e s","kidney function","kidney function tests","renal function tests"],
         labs:[{n:"Sodium", v:"138", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.3", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"14.6", r:"2.5–7.8", u:"mmol/L", flag:"hi", base:"5.1 (3 months ago)"},{n:"Creatinine", v:"92", r:"59–104", u:"µmol/L"}] },
       { id:"lft",  name:"Liver function tests", cost:60, costL:"60 min", tag:"supp",
         aliases:["lft","lfts","liver function","liver function tests","liver","bilirubin","alt","alp","albumin"],
         labs:[{n:"Bilirubin", v:"9", r:"<21", u:"µmol/L"},{n:"ALT", v:"28", r:"<41", u:"U/L"},{n:"ALP", v:"84", r:"30–130", u:"U/L"},{n:"Albumin", v:"38", r:"35–50", u:"g/L"}] },
       { id:"coag", name:"Coagulation screen", cost:60, costL:"60 min", tag:"trap",
-        aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen"],
+        aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen","coag screen","pt aptt","pt and aptt","clotting studies"],
         labs:[{n:"INR", v:"1.1", r:"0.9–1.2"},{n:"APTT", v:"31", r:"24–36", u:"s"},{n:"Fibrinogen", v:"3.1", r:"2.0–4.0", u:"g/L"}] },
       { id:"antixa",name:"Anti-Xa level (apixaban-calibrated)", cost:180, costL:"3 h", tag:"supp",
         aliases:["anti xa","antixa","anti xa level","apixaban level","doac level","factor xa level","drug level","anticoagulant level"],
@@ -958,7 +1699,7 @@ const CASE = {
         aliases:["troponin","trop","hs troponin","high sensitivity troponin","cardiac enzymes","tnt","tni"],
         labs:[{n:"hs-cTnT", v:"34", r:"<14", u:"ng/L", flag:"hi"}] },
       { id:"gs",   name:"Group & save + crossmatch", cost:45, costL:"45 min", tag:"key",
-        aliases:["group and save","gs","g and s","crossmatch","cross match","xmatch","group and screen","blood bank","transfusion sample","type and screen"],
+        aliases:["group and save","gs","g and s","crossmatch","cross match","xmatch","group and screen","blood bank","transfusion sample","type and screen","crossmatch units","crossmatch 2 units","cross match units"],
         text:"Sample received. Two units crossmatched and available in 40 minutes; the lab asks whether you want more standing by." },
       { id:"crp",  name:"C-reactive protein", cost:60, costL:"60 min", tag:"supp",
         aliases:["crp","c reactive protein","inflammatory markers","esr"],
@@ -1083,7 +1824,7 @@ const CASE = {
     { id:"hold", t:"Stop the naproxen and aspirin", kind:"good", why:"Remove the cause of the bleed." },
     { id:"stopdoac", t:"Stop the apixaban", kind:"good", why:"He is bleeding on a DOAC. Stopping it is the first and most important anticoagulation decision." },
     { id:"cath", t:"Catheterise & monitor urine output", kind:"good", why:"Reasonable to track response to resuscitation." },
-    { id:"bblock", t:"IV metoprolol to rate-control the AF", kind:"danger", why:"A negative inotrope into a shocked, bleeding man — the tachycardia is his compensation, not his problem." },
+    { id:"bblock", t:"IV rate or rhythm control of the AF", kind:"danger", why:"A negative inotrope into a shocked, bleeding man — the tachycardia is his compensation, not his problem." },
     { id:"dccv",  t:"DC cardioversion — 'unstable AF'", kind:"danger", why:"The instability is haemorrhagic, not arrhythmic. Cardioversion does not replace lost blood." },
     { id:"lmwh", t:"Treatment-dose anticoagulation (?PE / cardiac)", kind:"danger", why:"Anticoagulating an active GI bleed — the dangerous miss this case is built around." },
     { id:"ppi",  g:"further", t:"IV PPI infusion before endoscopy", note:"Charted — though NICE doesn’t recommend routine PPI pre-endoscopy. The high-dose infusion (80 mg + 8 mg/h) earns its keep after endotherapy. The gastro reg will still ask." },
@@ -1421,15 +2162,30 @@ function lev2(a,b){
   return m[a.length][b.length];
 }
 function examPhrases(e){ return [e.name, ...(e.aliases||[])].map(norm); }
+/* filler and generic clinical verbs are stripped from the QUERY only (ported from Case 4): "look at his
+   hands" lands, while a bare "look", "check" or "examine him" reduces to nothing and is refused */
+const NOISE_WORDS = new Set(["the","a","an","her","his","him","she","he","they","them","for","of","to","at","in","on",
+  "and","or","with","please","can","could","you","do","does","did","done","some","any","is","it","its","that","this",
+  "have","has","had","lets","let","us","we","i","want","would","like","need","just","now","then","also","again",
+  "look","looking","looks","check","checking","checks","examine","examining","examined","examination","exam","exams",
+  "inspect","inspecting","assess","assessing","assessment","perform","performing","review","reviewing",
+  "test","testing","tests","screen","screening","order","send","get","request","requesting","patient","patients"]);
+function queryTokens(q){ return q.split(" ").filter(t=>t && !NOISE_WORDS.has(t)); }
 function matchExam(query){
   const q = norm(query);
   if(!q) return {kind:"none"};
-  // exact name or alias
+  // exact name or alias — on the query as typed, then on the query without its filler words
   for(const e of CASE.examMore){ if(examPhrases(e).includes(q)) return {kind:"one", id:e.id}; }
+  const qT = queryTokens(q);
+  if(!qT.length) return {kind:"none"};   // nothing but filler words — refuse rather than guess
+  const qF = qT.join(" ");
+  for(const e of CASE.examMore){ if(examPhrases(e).includes(qF)) return {kind:"one", id:e.id}; }
   // token match with typo tolerance scaled to word length —
   // a flat tolerance of 2 made "chest" match "check", offering the PR to someone who never asked for it
   const tol = t => t.length>=8 ? 2 : t.length>=5 ? 1 : 0;
-  const qT = q.split(" ").filter(Boolean);
+  // a lone fragment of three letters or fewer ("cap") is only ever an exact alias, never part of a
+  // longer one — otherwise "cap" opens "cap refill" (volume status) for someone who never asked
+  if(qT.length===1 && qT[0].length<=3) return {kind:"none"};
   const cands = CASE.examMore.filter(e=>examPhrases(e).some(p=>{
     const pT = p.split(" ");
     return qT.every(t=>pT.some(x=>{
@@ -1488,7 +2244,7 @@ $("#rxReassessBtn").onclick = doReexam;
 /* ---------- investigations ---------- */
 /* bedside stays a tap — it is on the trolley. Everything else is typed on ICE. */
 function allIx(){ return Object.keys(CASE.ix).flatMap(g=>CASE.ix[g]); }
-function ixPhrases(x){ return [x.name, ...(x.aliases||[])].map(norm); }
+function ixPhrases(x){ return [x.name, ...(x.aliases||[])].map(p=>norm(String(p).replace(/&/g," and "))); }   // the query turns & into "and" too
 function matchIx(query){
   const q = norm(String(query).replace(/&/g," and "));
   if(!q) return {kind:"none"};
@@ -1568,6 +2324,8 @@ function submitIx(){
     msg.querySelectorAll("button").forEach(btn=>btn.onclick=()=>place(btn.dataset.id));
     return;
   }
+  // an examination typed on ICE: say where it lives, without naming what it would show
+  if(matchExam(raw).kind==="one"){ msg.innerHTML = `<div class="notefound">“${escHTML(raw)}” is an examination, not a test — do it on the Examine tab.</div>`; return; }
   msg.innerHTML = `<div class="notefound">“${raw}” — not available on ICE, or not recognised. Try another wording.</div>`;
 }
 $("#ixForm").addEventListener("submit", e=>{ e.preventDefault(); submitIx(); });
@@ -1641,9 +2399,9 @@ const RX_DANGERS = ["txa","lmwh","bblock","dccv"];
    ============================================================ */
 const PLAN_ITEMS = {
   /* --- Resuscitation --- */
-  iv:      { label:"IV access and fluid", rx:"iv", aliases:["two large bore cannulae","large bore cannulae","large bore access","two cannulas","two cannulae","iv access","ivi","iv fluids","iv fluid","intravenous fluids","fluid resuscitation","resuscitate with fluid","crystalloid","hartmanns","hartmann's","normal saline","saline bolus","fluid bolus","fluid challenge","500ml bolus","cannulate"] },
-  blood:   { label:"Transfusion", rx:"blood", aliases:["transfuse","transfusion","blood transfusion","give blood","packed red cells","red cells","units of blood","prbc","activate transfusion","2 units","two units","four units","major haemorrhage protocol","activate major haemorrhage","code red"] },
-  gs:      { label:"Group & save / crossmatch", ix:"gs", aliases:["group and save","group & save","crossmatch","cross match","crossmatch blood","g and s","transfusion sample","type and screen"] },
+  iv:      { label:"IV access and fluid", rx:"iv", aliases:["two large bore cannulae","large bore cannulae","large bore access","two cannulas","two cannulae","iv access","ivi","iv fluids","iv fluid","intravenous fluids","fluid resuscitation","fluid resus","fluids resus","resus fluid","resuscitate with fluid","crystalloid","hartmanns","hartmann's","normal saline","saline bolus","fluid bolus","fluid challenge","500ml bolus","cannulate","cannula","cannulas","cannulae","wide bore","wide bore cannula","large bore cannula","large bore","two cannula","iv cannula"] },
+  blood:   { label:"Transfusion", rx:"blood", aliases:["transfuse","transfusion","blood transfusion","give blood","packed red cells","red cells","units of blood","prbc","activate transfusion","2 units","two units","four units","major haemorrhage protocol","activate major haemorrhage","code red","1 unit","one unit","o negative","o neg","emergency blood","urgent blood","massive haemorrhage protocol","tranfusion","tranfuse","red cell transfusion","transfusing","blood"] },
+  gs:      { label:"Group & save / crossmatch", ix:"gs", aliases:["group and save","group & save","crossmatch","cross match","crossmatch blood","g and s","transfusion sample","type and screen","crossmatch units","g&s","group + save"] },
   o2:      { label:"Oxygen", rx:"o2", aliases:["oxygen","high flow oxygen","o2","supplemental oxygen","15 litres"] },
   cath:    { label:"Catheter and urine output", rx:"cath", aliases:["catheter","catheterise","urinary catheter","monitor urine output","strict fluid balance","hourly urine output","input output chart"] },
 
@@ -1653,8 +2411,8 @@ const PLAN_ITEMS = {
   /* --- Rx --- */
   /* bare drug names are included as a fallback: "stop the apixaban and the naproxen" has its
      "stop the" consumed by the longer alias, so the second drug must still be recognisable alone */
-  stopdoac:{ label:"Stop the apixaban", rx:"stopdoac", aliases:["stop the apixaban","stop apixaban","withhold apixaban","hold the apixaban","hold apixaban","stop the doac","stop doac","stop the anticoagulation","stop anticoagulation","stop his anticoagulant","withhold anticoagulation","omit apixaban","suspend anticoagulation","apixaban","doac","anticoagulant"] },
-  hold:    { label:"Stop the NSAID and aspirin", rx:"hold", aliases:["stop the naproxen","stop naproxen","stop the nsaid","stop nsaids","stop the nsaids","stop aspirin","stop the aspirin","stop naproxen and aspirin","withhold nsaids","hold the naproxen","stop antiplatelets","stop the antiplatelet","naproxen","aspirin","nsaid","nsaids","antiplatelets"] },
+  stopdoac:{ label:"Stop the apixaban", rx:"stopdoac", aliases:["stop the apixaban","stop apixaban","withhold apixaban","hold the apixaban","hold apixaban","stop the doac","stop doac","stop the anticoagulation","stop anticoagulation","stop his anticoagulant","withhold anticoagulation","omit apixaban","suspend anticoagulation","apixaban","doac","anticoagulant","anticoagulation","eliquis","his anticoagulant","anticoagulants"] },
+  hold:    { label:"Stop the NSAID and aspirin", rx:"hold", aliases:["stop the naproxen","stop naproxen","stop the nsaid","stop nsaids","stop the nsaids","stop aspirin","stop the aspirin","stop naproxen and aspirin","withhold nsaids","hold the naproxen","stop antiplatelets","stop the antiplatelet","naproxen","aspirin","nsaid","nsaids","antiplatelets","antiplatelet","anti inflammatory","antiinflammatories"] },
   ppi:     { label:"Proton pump inhibitor", rx:"ppi", aliases:["ppi","proton pump inhibitor","omeprazole","pantoprazole","iv ppi","ppi infusion","esomeprazole","lansoprazole"] },
   revers:  { label:"Discuss reversal with haematology", rx:"revers", aliases:["discuss with haematology","haematology advice","refer haematology","reversal","reverse the anticoagulation","andexanet","prothrombin complex","pcc","octaplex","beriplex","reversal agent"] },
   vitk:    { label:"Vitamin K", teach:"Vitamin K does nothing to a factor Xa inhibitor — it reverses warfarin. He is on apixaban.", aliases:["vitamin k","phytomenadione","konakion"] },
@@ -1663,44 +2421,202 @@ const PLAN_ITEMS = {
 
   /* --- dangers --- */
   txa:     { label:"Tranexamic acid", rx:"txa", danger:true, aliases:["tranexamic acid","tranexamic","txa","cyklokapron"] },
-  lmwh:    { label:"Treatment-dose anticoagulation", rx:"lmwh", danger:true, aliases:["treatment dose anticoagulation","therapeutic anticoagulation","treatment dose enoxaparin","therapeutic enoxaparin","treatment dose lmwh","heparin infusion","anticoagulate him","start anticoagulation","dalteparin treatment dose","clexane treatment dose"] },
-  bblock:  { label:"Rate control with a beta-blocker", rx:"bblock", danger:true, aliases:["metoprolol","bisoprolol","beta blocker","rate control","rate controlled","control the rate","digoxin","verapamil","diltiazem","slow the heart rate"] },
+  lmwh:    { label:"Treatment-dose anticoagulation", rx:"lmwh", danger:true, aliases:["treatment dose anticoagulation","therapeutic anticoagulation","treatment dose enoxaparin","therapeutic enoxaparin","treatment dose lmwh","heparin infusion","anticoagulate him","start anticoagulation","dalteparin treatment dose","clexane treatment dose","enoxaparin treatment dose","clexane treatment dose","lmwh treatment dose","treatment dose","therapeutic dose","therapeutic dose enoxaparin","therapeutic lmwh","therapeutic heparin","treatment dose heparin","full dose heparin","unfractionated heparin","ufh infusion","heparin drip","anticoagulate","anticoagulate for","fully anticoagulate","full anticoagulation","treatment anticoagulation","therapeutic fondaparinux","treatment dose fondaparinux"] },
+  bblock:  { label:"Drugs to slow or convert the AF", rx:"bblock", danger:true, aliases:["amiodarone","flecainide","chemical cardioversion","metoprolol","bisoprolol","beta blocker","rate control","rate controlled","control the rate","digoxin","verapamil","diltiazem","slow the heart rate"] },
   dccv:    { label:"DC cardioversion", rx:"dccv", danger:true, aliases:["dc cardioversion","cardiovert","cardioversion","synchronised shock","shock him","dccv"] },
 
   /* --- Refer --- */
-  refer:   { label:"Refer gastroenterology", rx:"refer", aliases:["refer to gastro","refer gastro","refer gastroenterology","call gastro","call the gastro registrar","gastro referral","discuss with gastroenterology","call the on call gastroenterologist","phone gastro","bleep gastro","endoscopy referral","refer to the endoscopist"] },
-  ogd:     { label:"Request the OGD", ix:"ogd", aliases:["ogd","request an ogd","request ogd","book an ogd","endoscopy","upper gi endoscopy","gastroscopy","book endoscopy","scope him","scope within 24 hours","urgent endoscopy"] },
+  refer:   { label:"Refer gastroenterology", rx:"refer", aliases:["refer to gastro","refer gastro","refer gastroenterology","call gastro","call the gastro registrar","gastro referral","discuss with gastroenterology","call the on call gastroenterologist","phone gastro","bleep gastro","endoscopy referral","refer to the endoscopist","refer to gastroenterology","gastroenterology referral","gastroenterology review","gastro review","call gastroenterology","gastroenterologist","inform gastro","discuss with gastro","on call endoscopist","tci gastro"] },
+  ogd:     { label:"Request the OGD", ix:"ogd", aliases:["ogd","request an ogd","request ogd","book an ogd","endoscopy","upper gi endoscopy","gastroscopy","book endoscopy","scope him","scope within 24 hours","urgent endoscopy","scope","gastroscope"] },
   itu:     { label:"Critical care involvement", rx:"itu", aliases:["critical care","itu","icu","hdu","intensive care","outreach","critical care outreach","refer itu","level 2 bed"] },
   surg:    { label:"Inform the surgeons", rx:"surg", aliases:["surgeons","surgical team","refer surgery","inform the surgeons","surgical referral","surgical opinion"] },
 
   /* --- Review --- */
   nbm:     { label:"Nil by mouth", rx:"nbm", aliases:["nil by mouth","nbm","keep him fasted","fast him","nil orally","nothing by mouth"] },
-  bed:     { label:"Ward bed", rx:"bed", aliases:["ward bed","admit","admission","medical bed","request a bed","find a bed","admit him","monitored bed","admit to the ward"] },
-  obs:     { label:"Close observation", rx:"obs", aliases:["hourly obs","close monitoring","regular observations","frequent obs","monitor observations","news2 monitoring","continuous monitoring","cardiac monitoring","observations every 15 minutes","repeat the obs"] },
-  repeat:  { label:"Repeat bloods", ix:"fbc", aliases:["repeat bloods","repeat the bloods","recheck the haemoglobin","repeat fbc","repeat full blood count","recheck hb","serial haemoglobin","repeat the fbc"] },
-  rebleed: { label:"A documented rebleed plan", rx:"rebleed", aliases:["rebleed plan","escalation plan","plan if he rebleeds","if he rebleeds","rebleeding plan","document a plan","treatment escalation plan"] },
-  vte:     { label:"VTE prophylaxis", teach:"While he is actively bleeding, VTE prophylaxis is mechanical only — no chemical prophylaxis.", aliases:["vte prophylaxis","dalteparin","enoxaparin","clexane","thromboprophylaxis","ted stockings","mechanical prophylaxis"] }
+  bed:     { label:"Ward bed", rx:"bed", aliases:["ward bed","admit","admission","medical bed","request a bed","find a bed","admit him","monitored bed","admit to the ward","request bed"] },
+  obs:     { label:"Close observation", rx:"obs", aliases:["hourly obs","close monitoring","regular observations","frequent obs","monitor observations","news2 monitoring","continuous monitoring","cardiac monitoring","observations every 15 minutes","repeat the obs","hourly observations","obs hourly","monitor obs","news2","reassess"] },
+  repeat:  { label:"Repeat bloods", ix:"fbc", aliases:["repeat bloods","repeat the bloods","recheck the haemoglobin","repeat fbc","repeat full blood count","recheck hb","serial haemoglobin","repeat the fbc","repeat hb","serial hb"] },
+  rebleed: { label:"A documented rebleed plan", rx:"rebleed", aliases:["rebleed plan","escalation plan","plan if he rebleeds","if he rebleeds","rebleeding plan","document a plan","treatment escalation plan","monitor for further bleed","monitor for rebleeding","monitor for rebleed"] },
+  vte:     { label:"VTE prophylaxis", teach:"While he is actively bleeding, VTE prophylaxis is mechanical only — no chemical prophylaxis.", aliases:["vte prophylaxis","dalteparin","enoxaparin","clexane","thromboprophylaxis","ted stockings","mechanical prophylaxis","prophylactic vte","chemical vte prophylaxis"] }
 };
-const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold off","omit","refrain from","stop the"];
-function parsePlan(text){
-  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
-  const matched = new Set(), negated = new Set();
-  const pairs = [];
-  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
-  pairs.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "stop the apixaban" beats "apixaban"
-  for(const [k,a] of pairs){
-    if(!a) continue;
-    const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
-    let m;
-    while((m = re.exec(t)) !== null){
-      const before = t.slice(Math.max(0, m.index-16), m.index);
-      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+$").test(before));
-      if(isNeg) negated.add(k); else matched.add(k);
-      break;
-    }
-    if(matched.has(k) || negated.has(k)) t = t.replace(re, " ; ");
+/* one lay phrase that means two items: "stop blood thinners" stops the apixaban AND the aspirin */
+const PLAN_MULTI = { "blood thinner":["stopdoac","hold"] };
+/* the patient is ON these: a refusal of the drug ("Withhold DOAC", "Omit aspirin", "No NSAIDs") is the
+   hold being written, so it is credited, never listed as avoided. "Do not stop apixaban" stays a
+   refusal of the stop. Danger items are never marked here: "no TXA" must stay an avoidance. */
+const PLAN_ON = new Set(["stopdoac","hold"]);
+/* referrals written with a team name in any spelling (Vocab.teamsIn) */
+const PLAN_TEAMS = { gastroenterology:"refer", haematology:"revers", "critical care":"itu", surgery:"surg" };
+/* the plan is read clause by clause through the shared vocabulary (Vocab, engine/vocab.js): both the
+   typed text and every alias go through Vocab.prep(), so plurals, brands (Eliquis), abbreviations
+   (U&Es, G+S, ITU) and hyphens meet in the middle. Each hit is read by Vocab.readTerm, which knows held
+   verbs, avoid words, post-negators ("TXA not indicated"), list carry ("stop naproxen and aspirin"),
+   double negatives and conditions. A negated hit beats a matched one in the same clause. */
+const PLAN_STARTERS = /(?:^|[^a-z])(?:continue|continuing|restart|restarting|resume|resuming|start|starting|keep on|keep him on|keep|give|giving|increase|uptitrate|load|loading|prescribe|commence|add|carry on)(?:\s+(?:the|his|on|her|with|regular|usual))*\s*$/;
+/* a list carries its verb: "continue naproxen and aspirin" continues both. The words before the drug
+   are peeled back over earlier list items ("naproxen and ", "x , ") before the starter is looked for. */
+const PLAN_LISTITEM = /(?:^|\s)(?:the |his |her )?[a-z0-9&+.\/-]+\s*(?:,|and|&|\+|or|plus)\s*$/;
+function planStarted(before){
+  let b = before;
+  for(let i=0; i<6; i++){
+    if(PLAN_STARTERS.test(b)) return true;
+    const m = b.match(PLAN_LISTITEM); if(!m || !m[0]) return false;
+    b = b.slice(0, b.length - m[0].length);
   }
-  return { matched, negated };
+  return PLAN_STARTERS.test(b);
+}
+/* a drug the patient is on, written with a dose or a load ("Aspirin 300mg", "aspirin and ticagrelor
+   load"), or followed by a continue ("apixaban to continue"), is being given, not stopped */
+const PLAN_DOSED = /^\s*(?:(?:,|and|&|\+|plus)\s*[a-z0-9]+(?:\s+[a-z0-9]+)?\s*)*(?:\d|load\b|loading\b|stat\b|bd\b|od\b|tds\b|qds\b|nocte\b|mane\b|po\b|orally\b|daily\b|once daily\b|twice daily\b|regularly\b|regular\b|prn\b)/;
+const PLAN_KEPT = /^\s*(?:(?:,|and|&|\+|plus)\s*[a-z0-9]+(?:\s+[a-z0-9]+)?\s*)*(?:[:\-–]\s*)?(?:to\s+|should\s+|can\s+|will\s+|may\s+|is\s+|be\s+)*(?:continue[ds]?|continuing|be continued|carry on|carries on|as before|as usual|as normal|unchanged|same|ok to continue|fine to continue)\b/;
+let PLAN_PAIRS = null;
+function planPairs(){
+  if(PLAN_PAIRS) return PLAN_PAIRS;
+  const seen = {};
+  PLAN_PAIRS = [];
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>{
+    const p = Vocab.prep(a); if(!p) return;
+    // a stop-item reads its own verb: "stop apixaban" is the drug after a held verb, so that
+    // "do not stop apixaban" reads as a double negative instead of matching an alias that says "stop"
+    if(PLAN_ON.has(k) && /^(?:stop|withhold|hold|omit|suspend)\b/.test(p)) return;
+    const key = k+"|"+p; if(seen[key]) return; seen[key] = 1;
+    PLAN_PAIRS.push([[k], p]);
+  }));
+  Object.entries(PLAN_MULTI).forEach(([a,ids])=>PLAN_PAIRS.push([ids, Vocab.prep(a)]));
+  PLAN_PAIRS.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "start anticoagulant" beats "anticoagulant"
+  return PLAN_PAIRS;
+}
+/* what one reading means for one item: "on" = charted, "neg" = refused/avoided, null = not an order */
+function planVerdict(k, r, clause, idx, end){
+  const it = PLAN_ITEMS[k];
+  if(PLAN_ON.has(k)){
+    if(r.status==="held") return "on";
+    if(r.status==="continued") return null;                       // "do not stop apixaban"
+    if(["monitor","threshold","reason","reference"].includes(r.status)) return null;
+    const after = end==null ? "" : clause.slice(end);
+    if(PLAN_DOSED.test(after) || PLAN_KEPT.test(after)) return null; // "aspirin 300mg", "apixaban to continue"
+    return planStarted(clause.slice(0, idx)) ? null : "on";       // a bare name, unless "continue apixaban"
+  }
+  if(r.status==="held" || r.status==="avoided") return "neg";
+  if(it.danger) return ["ordered","continued","conditional","prn"].includes(r.status) ? "on" : null;
+  if(it.ix) return "on";                                          // "monitor Hb" is an order of the test
+  return ["reason","reference"].includes(r.status) ? null : "on";
+}
+/* does the gap between a negator and an item hold another item, not just fillers ("not to", "any further")? */
+const PLAN_GAP_WORDS = new Set([].concat(Vocab.NEGATION.fillers, Vocab.NEGATION.verbFillers, Vocab.NEGATION.joiners));
+function planPastItem(span){
+  return span.split(/[\s,;:()\/&]+/).some(w => w && /[a-z]/.test(w) && !PLAN_GAP_WORDS.has(w) && !/^\d/.test(w));
+}
+function planCat(k){ const it = PLAN_ITEMS[k]; return PLAN_ON.has(k) ? "on" : (it.danger || it.teach) ? "avoid" : "do"; }
+function parsePlan(text){
+  const matched = new Set(), negated = new Set(), read = [];
+  const pairs = planPairs();
+  Vocab.clauseSplit(String(text)).forEach(raw=>{
+    const clause = Vocab.prep(raw);
+    const hits = [];                                              // non-overlapping, longest alias first
+    const cOn = new Set(), cNeg = new Set();
+    for(const [ids,a] of pairs){
+      for(const h of Vocab.findTerm(clause, a)){
+        const e = h.index + h.length;
+        if(hits.some(o=>h.index<o.e && e>o.s)) continue;
+        hits.push({ ids, s:h.index, e, len:h.length });
+      }
+    }
+    hits.forEach(h=>{
+      let r = Vocab.readTerm(clause, h.s, h.len, { alreadyOn: h.ids.every(k=>PLAN_ON.has(k)) });
+      // a negator carries along a list only across items of the same kind: "stop naproxen and aspirin",
+      // "no TXA or beta blockers" — but never "stop naproxen, PPI, refer gastro"
+      if(r.negation && r.negation.pos==="pre"){
+        const at = clause.lastIndexOf(r.negation.word, h.s);
+        const cat = planCat(h.ids[0]);
+        // a refusal ends at the item it governs: "No cardiology referral, transfuse, refer gastro" refuses the
+        // cardiology team only. Past the first item, an order that opens on its own verb ("transfuse", "refer
+        // gastro") is a new instruction, and a refused team never carries onto the next thing to be done.
+        const span = at>=0 ? clause.slice(at + r.negation.word.length, h.s) : "";
+        const pastItem = planPastItem(span);
+        const ownVerb = new RegExp("^(?:" + Vocab.NEGATION.positive.join("|") + ")\\w*\\b").test(clause.slice(h.s, h.e));
+        // the refused team must be a finished item of its own, closed by a comma before this one
+        const lastComma = span.lastIndexOf(",");
+        const teamDone = lastComma>=0 ? span.slice(0, lastComma) : "";
+        // a refused team ends at that team for a drug to avoid as well ("No cardiology referral, bisoprolol"
+        // orders the bisoprolol), unless the drug sits in an or-list of refusals ("…, beta blockers or TXA")
+        const orListed = /^\s*,?\s*(?:or|nor)\s/.test(clause.slice(h.e)) || /(?:^|\s)(?:or|nor)\s*$/.test(clause.slice(0, h.s));
+        const teamSpan = (cat==="do" || (cat==="avoid" && !orListed)) && !!teamDone && (/(?:^|[^a-z])(?:referral|refer|referred|review|opinion|input|consult)(?:$|[^a-z])/.test(teamDone) || Vocab.teamsIn(teamDone).teams.length>0);
+        if(at>=0 && pastItem && (ownVerb || teamSpan)){
+          const c = Vocab.conditionOf(clause, h.s, h.len);
+          r = { status: !c || c.kind==="sequenced" ? "ordered" : c.kind, negation:null, condition:c };
+        } else
+        if(at>=0 && hits.some(o=>o!==h && o.s>=at+r.negation.word.length && o.e<=h.s && planCat(o.ids[0])!==cat)){
+          const c = Vocab.conditionOf(clause, h.s, h.len);
+          r = { status: !c || c.kind==="sequenced" ? "ordered" : c.kind, negation:null, condition:c };
+        }
+      } else if(r.negation && r.negation.pos==="post"){
+        // and backwards: "IV fluids and naproxen stop" stops the naproxen, not the fluids
+        const at = clause.indexOf(r.negation.word, h.e);
+        const cat = planCat(h.ids[0]);
+        if(at>=0 && hits.some(o=>o!==h && o.s>=h.e && o.e<=at && planCat(o.ids[0])!==cat)){
+          const c = Vocab.conditionOf(clause, h.s, h.len);
+          r = { status: !c || c.kind==="sequenced" ? "ordered" : c.kind, negation:null, condition:c };
+        }
+      }
+      // an LMWH written at a treatment dose ("enoxaparin 1.5 mg/kg", "clexane 80mg BD") is the
+      // anticoagulation trap, not prophylaxis
+      let ids = h.ids;
+      if(ids.length===1 && ids[0]==="vte" && /^(?:enoxaparin|dalteparin|tinzaparin|lmwh|low molecular weight heparin)$/.test(clause.slice(h.s, h.e)) &&
+         /^[^,;]*?(?:mg\s*\/\s*kg|units?\s*\/\s*kg|\bbd\b|\btwice daily\b|\b12 hourly\b|\btreatment\b|\btherapeutic\b)/.test(clause.slice(h.e))) ids = ["lmwh"];
+      // transfusion means red cells: "platelet transfusion", "FFP transfusion" are not the blood item, and a
+      // bare "blood" is a transfusion only as a whole order ("fluid resus then blood"), never "blood cultures",
+      // "blood pressure" or "check blood"
+      if(ids.length===1 && ids[0]==="blood"){
+        const term = clause.slice(h.s, h.e), pre = clause.slice(0, h.s), post = clause.slice(h.e);
+        if(/(?:^|[^a-z])(?:platelets?|plt|ffp|plasma|cryo|cryoprecipitate|albumin)\s*(?:of\s+)?$/.test(pre) && !/(?:^|[^a-z])(?:and|\+|&|plus)\s*$/.test(pre)) ids = [];
+        else if(term==="blood" && !( /^(?:|.*(?:^|[^a-z])(?:then|and|plus|give|start|with|or|\+|&))\s*$/.test(pre) &&
+                 /^\s*(?:$|[,;.](?![^;.]*cultur)(?!\s*(?:cultures?|pressure|glucose|sugars?|gas|tests?|count|film|results?|loss)(?=$|[^a-z]))|(?:if|when|once|as|after|products?|x?\d|units?)(?=$|[^a-z]))/.test(post) )) ids = [];
+      }
+      ids.forEach(k=>{
+        const v = planVerdict(k, r, clause, h.s, h.e);
+        if(v==="on") cOn.add(k); else if(v==="neg") cNeg.add(k);
+      });
+    });
+    const tIn = Vocab.teamsIn(raw);
+    tIn.teams.forEach(tm=>{
+      const k = PLAN_TEAMS[tm.team]; if(!k) return;
+      let avoided = tm.status==="avoided";
+      // "Not referring to gastroenterology", "won't be referring to gastro": a negated referral verb refuses the team
+      if(!avoided && /(?:^|[^a-z])(?:not|no|never|don'?t|won'?t|without)\s+(?:be\s+|going\s+to\s+|planning\s+to\s+|planning\s+on\s+)?(?:referring|refer|referral|consulting|involving|calling|asking|bleeping|contacting)\s+(?:(?:to|the|with|in|on|for)\s+)*$/i.test(tIn.text.slice(0, tm.index))) avoided = true;
+      // the same list boundary as the drugs: "stop apixaban, OGD, gastro referral" stops the apixaban,
+      // it does not refuse the referral. A refusal reaches a team only across items of its own kind.
+      if(avoided){
+        const neg = Vocab.isNegated(tIn.text, tm.index, tm.length);
+        if(neg && neg.pos==="pre"){
+          const at = tIn.text.lastIndexOf(neg.word, tm.index);
+          const span = at>=0 ? Vocab.prep(tIn.text.slice(at + neg.word.length, tm.index)) : "";
+          if(span && planPairs().some(([ids,a])=>planCat(ids[0])!==planCat(k) && Vocab.findTerm(span, a).length)) avoided = false;
+        }
+      }
+      if(avoided) cNeg.add(k); else cOn.add(k);
+    });
+    cNeg.forEach(k=>{ cOn.delete(k); negated.add(k); });
+    cOn.forEach(k=>matched.add(k));
+  });
+  matched.forEach(k=>negated.delete(k));
+  return { matched, negated, unread: planUnread(text) };
+}
+/* the words the reader could not place, quoted back so the one amendment can fix them */
+const escHTML = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+const PLAN_FILLER = new Set(["and","then","also","plus","the","a","an","for","to","of","in","on","with","him","his","he","patient","pt","plan","management","stat","now","asap","urgent","urgently","x2","x1","please","pls","etc","if","needed","required","daily","once","twice","hourly"]);
+const PLAN_VERBONLY = new Set(["stop","stopped","hold","held","omit","omitted","withhold","withheld","suspend","suspended","cease","ceased","discontinue","discontinued","continue","continued","avoid","no","not"]);
+function planUnread(text){
+  const pairs = planPairs();
+  return Vocab.segments(String(text)).filter(seg=>{
+    const p = Vocab.prep(seg);
+    const words = p.split(/[^a-z0-9&+]+/).filter(w=>w && !PLAN_FILLER.has(w) && !/^\d/.test(w));
+    if(!words.length) return false;
+    if(words.every(w=>PLAN_VERBONLY.has(w))) return false;   // "Apixaban - stop": the verb of the item before
+    if(pairs.some(([,a])=>Vocab.findTerm(p, a).length)) return false;
+    if(Vocab.teamsIn(seg).teams.some(tm=>PLAN_TEAMS[tm.team])) return false;
+    return true;
+  });
 }
 /* the chart is cumulative — anything already enacted still counts when the plan is amended */
 function effectivePlan(matched){
@@ -1744,6 +2660,8 @@ const BUNDLE = [
   { k:"Recognition",     want:"Recognise it as an acute upper GI bleed",
     ok:()=> S.dxCorrect, why:"You named it — that is recognition." },
   { k:"Resuscitation",   want:"Two large-bore cannulae, fluid, and crossmatched blood",
+    /* round 8: as live — access and fluid are required; blood alone no longer earns this domain (it gave every
+       wrong plan that transfused +4 over live). Blood alone still earns "Resuscitated the shocked patient". */
     ok:(m)=> m.has("iv") && (m.has("blood")||m.has("gs")||S.ordered.has("gs")),
     why:"Access and volume come before everything else." },
   { k:"Risk assessment", want:"Score him — Glasgow-Blatchford, on the pre-resuscitation numbers",
@@ -1807,6 +2725,7 @@ function closePlan(text, matched, negated){
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
   S.bundleCovered = covered;
   const teaches = [...matched, ...negated].filter(k=>PLAN_ITEMS[k].teach);
+  const unread = planUnread(text);
   const out = $("#planOut");
   out.innerHTML =
     `<div class="bundle"><h4>Your plan against the care bundle</h4>`+
@@ -1817,6 +2736,7 @@ function closePlan(text, matched, negated){
     `</ul>`+
     (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    (unread.length?`<div class="bw" style="margin-bottom:var(--s2);">Not understood: ${unread.map(u=>`“${escHTML(u)}”`).join(" · ")}</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
     (eff.has("refer") || eff.has("ogd") ? referFinding() : ``)+
@@ -1906,11 +2826,81 @@ $("#toCommit").onclick = ()=>{
 };
 $("#gateBack").onclick=()=>{ $("#commitGate").hidden=true; };
 $("#gateGo").onclick=()=>{ $("#commitGate").hidden=true; go("commit"); };
+/* the diagnosis is judged clause by clause (Vocab.dxClauses splits on punctuation BEFORE normalising,
+   and turns hyphens into spaces): "Not AF – upper GI bleed" and "Upper GI bleed, not ACS" commit the
+   bleed; "AF, not an upper GI bleed" does not. A denied clause never cancels a positive one. */
+function judgeDx(raw){
+  const m = CASE.meta;
+  const word = (w, toks) => w.split("|").some(alt => alt.endsWith("*")
+    ? toks.some(t => t.startsWith(alt.slice(0,-1))) : toks.includes(alt));
+  // "Upper GI bleed? no, AF": a question answered "no" is a denial of the clause it asks about
+  // other ways of writing a hedge become "or" before the clauses are cut: "vs." (whose full stop would
+  // otherwise end the clause), a lone "v", a slash ("UGIB / NSTEMI", "and/or") and a query ("UGIB ?NSTEMI")
+  const hedged = String(raw == null ? "" : raw)
+    .replace(/([^,;:()\/?]*)\?\s*(?:no|nope)\s*(?:[,.;:!]|[-‐-―−]\s|$)/gi, (all, q) => " not " + q + " , ")
+    .replace(/\b(?:vs|v)\.?(?=\s|$)/gi, " or ").replace(/\bversus\b/gi, " or ")
+    .replace(/\s*(?:and\s*)?\/\s*/gi, " or ").replace(/\?\s*(?=[a-z])(?!yes\b)/gi, " or ").replace(/\bor(?:\s+or)+\b/gi, "or");
+  const pass = t => {
+    if(!t) return false;
+    const cleared = t.replace(/\bnon ?variceal\b/g," ");
+    if((m.dxBlock||[]).some(b => cleared.includes(b))) return false;
+    if(m.dxUlcerSite && /\bulcer/.test(t) && m.dxUlcerSite.test(t)) return false;
+    const toks = t.split(" ");
+    if((m.dxAny||[]).some(w => toks.includes(w))) return true;
+    if((m.dxAll||[]).some(g => g.every(w => word(w, toks)))) return true;
+    const flat = t.replace(/ /g,"");
+    return (m.dxSub||[]).some(g => g.every(s => flat.includes(s)));
+  };
+  const all = Vocab.dxClauses(hedged)
+    .map(c => ({ denied:c.denied, text:c.text.replace(/&/g," and ").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim(),
+                 whole:String(c.raw).toLowerCase().replace(/[^a-z ]/g," ").replace(/\s+/g," ").trim() }));
+  // a denial written as its own clause denies the clause before it: "UGIB (unlikely)", "Upper GI bleed: unlikely",
+  // "Upper GI bleed - unlikely", "Upper GI bleed. Unlikely.", "Upper GI bleed, not"
+  const alone = /^(?:(?:very|highly|most|probably|possibly|definitely|now) )?(?:unlikely|not likely|less likely|doubtful|excluded|ruled out|not|no|nope|not the cause|not it|not this)$/;
+  all.forEach((c, i) => { if(i && alone.test(c.whole)) all[i-1].denied = true; });
+  // a clause ending "no" ("UGIB no"), or carrying "non" or "doubt" ("non upper GI bleed", "Doubt UGIB"), is
+  // not a commitment; "non-variceal" is cleared first
+  all.forEach(c => { const t = c.text.replace(/\bnon ?variceal\b/g," ");
+    if(/\bnon\b|\bdoubt\w*|\s(?:no|not|nope)$/.test(t)) c.denied = true; });
+  // "Upper GI bleed, no doubt": an affirmation, not a denial
+  const affirm = /^(?:no|without|beyond) (?:any )?doubts?$|^(?:undoubtedly|definitely|certainly|confirmed)$/;
+  const live = all.filter(c => !affirm.test(c.whole));
+  // round 8: every clause is accounted for. A committing clause uses only dxWords and no dxBlock word; a denied
+  // clause names something other than the bleed. "GI bleed, lower", "GI bleed from piles", "UGIB, improbable",
+  // "Melaena not present", "Upper GI bleed - excluded by normal Hb" and "UGIB with tachyarrhythmia" all fail.
+  if(m.dxWords){
+    const W = new Set(m.dxWords);
+    const dxNamed = t => pass(t) || /\b(?:ugib|augib|ugih|melaena|melena|haematemesis|hematemesis|upper gi|ugi|gi bleed\w*|gastrointestinal)\b/.test(t);
+    for(const c of live){
+      const t = c.text.replace(/\bnon ?variceal\b/g," ").replace(/\s+/g," ").trim();
+      if(!t) continue;
+      if(c.denied || alone.test(c.whole)){
+        if(alone.test(c.whole)){ if(c === all[0]) return false; continue; }   // denies the clause before it ("Unlikely, UGIB" fails)
+        if(dxNamed(t)) return false;                 // the bleed itself is denied or doubted
+        if(!((m.dxCompete && m.dxCompete.test(t)) || (m.dxAlt && m.dxAlt.test(t)))) return false;
+      } else {
+        if(t.split(" ").some(w => !W.has(w))) return false;
+        if((m.dxBlock||[]).some(b => t.includes(b))) return false;
+      }
+    }
+  }
+  const clauses = live.filter(c => !c.denied && !alone.test(c.whole)).map(c => c.text);
+  // a hedge with a second diagnosis is not a commitment: every alternative must stand on its own
+  const hedge = /(?:^| )(?:or|vs|versus)(?: |$)/;
+  if(clauses.some(t => hedge.test(t) && t.split(hedge).map(a => a.replace(/^(?:either|maybe|possibly|probably|likely) /,"").trim())
+       .some(a => a && !pass(a) && !(m.dxHedgeOk && m.dxHedgeOk.test(a))))) return false;
+  // a second, competing diagnosis anywhere in the answer ("UGIB, NSTEMI", "UGIB + NSTEMI", "Could be UGIB,
+  // could be NSTEMI") is not a commitment; nor is a lower-gut site in any clause ("GI ulcer bleed - pressure sore")
+  if(m.dxCompete && clauses.some(t => m.dxCompete.test(t))) return false;
+  if(m.dxLowerSite && clauses.some(t => m.dxLowerSite.test(t))) return false;
+  if(m.dxUlcerSite && clauses.some(t => /\bulcer/.test(t)) && clauses.some(t => m.dxUlcerSite.test(t))) return false;
+  return clauses.some(pass);
+}
 $("#commitBtn").onclick = ()=>{
   const v=$("#dxInput").value.trim();
   if(!v){ $("#commitErr").style.display="block"; return; }
   $("#commitErr").style.display="none";
-  S.dx=v; S.dxCorrect = CASE.meta.dxAccepted.includes(norm(v));
+  S.dx=v; S.dxCorrect = judgeDx(v);
   S.dxCommitted = true;
   // a wrong diagnosis is not survivable here — he is treated for the wrong thing and bleeds on
   if(!S.dxCorrect){ S.died = true; showDeath(); return; }
@@ -2030,7 +3020,7 @@ function scoreAndShow(){
   if(S.rx.has("lmwh")) add("Anticoagulated an active bleed", -12);
   if(S.rx.has("txa")) add("Gave tranexamic acid — HALT-IT says no", -6);
   if(S.rx.has("stopdoac")) add("Stopped the apixaban", 6);
-  if(S.rx.has("bblock")) add("Beta-blocked a shocked, bleeding man", -10);
+  if(S.rx.has("bblock")) add("Rate- or rhythm-controlled a shocked, bleeding man", -10);
   if(S.rx.has("dccv")) add("Cardioverted haemorrhagic shock", -10);
   if(S.reexamCount>0) add("Reassessed after intervention", 6);
   const referFull = S.rx.has("refer") && S.ordered.has("gs") && (S.rx.has("iv")||S.rx.has("blood")) && S.rx.has("bed") && S.rx.has("ogd") && S.rx.has("nbm");
@@ -2075,7 +3065,9 @@ function scoreAndShow(){
     prTxt,
     S.ordered.has("ue")?{v:"hit",t:"Read the urea:creatinine disproportion",s:"You sent a U&E — urea 14.6 with a normal creatinine is the fingerprint of an upper GI bleed."}:{v:"miss",t:"Read the urea:creatinine disproportion",s:"You never sent a U&E. The disproportionate urea is one of the clearest clues to an upper GI source."},
     (S.rx.has("iv")||S.rx.has("blood"))?(S.reexamCount>0?{v:"hit",t:"Resuscitate, then reassess the response",s:"You resuscitated and went back to check he was responding — exactly right."}:{v:"part",t:"Resuscitate, then reassess the response",s:"You resuscitated but didn't reassess — always go back and check the sick patient is responding."}):{v:"miss",t:"Resuscitate, then reassess the response",s:"He was shocked and you didn't resuscitate. Fluids and blood come before the diagnosis."},
-    (RX_DANGERS.some(d=>S.rx.has(d))||S.mg.txa===false)?{v:"miss",t:"Resist the treatments that harm",s:"Something you gave was working against him. A type-2 troponin on a Hb of 72 is demand, not ACS; HALT-IT buried tranexamic acid in GI bleeding; and beta-blocking or cardioverting haemorrhagic shock takes away the compensation keeping him alive."}:{v:"hit",t:"Resist the treatments that harm",s:"You dodged every drug trap — no anticoagulation for a demand troponin, no tranexamic acid, and you left his rate alone while you filled him up."},
+    /* the miss is for a harm actually charted; a wrong drill answer on TXA alone is a knowledge gap */
+    (!RX_DANGERS.some(d=>S.rx.has(d)) && S.mg.txa===false)?{v:"part",t:"Resist the treatments that harm",s:"Nothing you charted harmed him — but in the drill you reached for tranexamic acid. HALT-IT found no benefit in GI bleeding and more venous thrombosis; revisit it in the debrief."}:
+    RX_DANGERS.some(d=>S.rx.has(d))?{v:"miss",t:"Resist the treatments that harm",s:"Something you gave was working against him. A type-2 troponin on a Hb of 72 is demand, not ACS; HALT-IT buried tranexamic acid in GI bleeding; and beta-blocking or cardioverting haemorrhagic shock takes away the compensation keeping him alive."}:{v:"hit",t:"Resist the treatments that harm",s:"You dodged every drug trap — no anticoagulation for a demand troponin, no tranexamic acid, and you left his rate alone while you filled him up."},
     (S.rx.has("stopdoac")&&S.mg.doac)?{v:"hit",t:"Manage the anticoagulated bleeder",s:"You stopped the apixaban early and knew that a normal INR proves nothing about a DOAC."}:S.rx.has("stopdoac")?{v:"part",t:"Manage the anticoagulated bleeder",s:"You stopped the apixaban — revisit why the clotting screen is falsely reassuring, and who decides about reversal."}:{v:"miss",t:"Manage the anticoagulated bleeder",s:"He bled on apixaban and it was never stopped. That is the first anticoagulation decision, and it outranks every reversal debate."},
     (S.mg.risk&&S.mg.obs&&S.mg.trans)?{v:"hit",t:"Risk-stratify and transfuse correctly",s:"Glasgow-Blatchford on the pre-resuscitation numbers, and transfusion on instability with the right thresholds — all correct."}:{v:"part",t:"Risk-stratify and transfuse correctly",s:"Revisit Glasgow-Blatchford, which observations to score, and the transfusion thresholds (70 / 80 with cardiovascular disease, target 70–100) in the debrief."},
     (S.mg.var&&S.mg.citep&&S.mg.scope)?{v:"hit",t:"Manage the bleed: drugs, cautions, endoscopy",s:"Terlipressin plus antibiotics, the cardiac caution, and endoscopy timing — all correct."}:{v:"part",t:"Manage the bleed: drugs, cautions, endoscopy",s:"The terlipressin cautions (IHD, PVD, hyponatraemia, long QTc) and endoscopy timing are the high-yield revision points here."}

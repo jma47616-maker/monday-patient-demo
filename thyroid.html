@@ -819,6 +819,717 @@ IV fluids
 
 <script>
 "use strict";
+/* BEGIN shared vocab (engine/vocab.js) */
+/* The Monday Patient — shared clinical vocabulary (shared engine module, 2026-11-09).
+
+   Built from the scoring audit of November 2026 (audit/scoring-2026-11/), whose five root causes
+   were: every case keeps its own vocabulary; negation is read wrongly in both directions; the
+   diagnosis judge loses punctuation; time and condition words make orders conditional; nothing
+   shows what was not read. This file is the shared answer to the first four. It is plain data and
+   small pure functions: no DOM, no case ids, no state. The case keeps its own ids and decides what
+   a reading means for its own score.
+
+   Pasted into a case between the markers its applier uses, or required by node (engine/test-vocab.js).
+   It defines one global, `Vocab`. No look-behind regexes (older iPhone Safari cannot parse them,
+   and a single parse error kills the whole case script).
+
+   The usual pipeline for a typed plan:
+     Vocab.clauseSplit(raw)            -> clauses (never splits "0.9%" or "1.5 mg")
+     Vocab.prep(clause)                -> normalise + abbreviations + brands/classes, in one string
+     Vocab.findTerm(text, alias)       -> where the case's own alias sits (whole words)
+     Vocab.readTerm(text, i, len, {alreadyOn}) -> ordered | held | avoided | continued | conditional
+                                          | prn | monitor | threshold | reason | reference
+   Run the case's aliases through Vocab.prep() too, so both sides are spelt the same way. */
+var Vocab = (function(){
+  "use strict";
+
+  /* ------------------------------------------------------------------ small regex helpers */
+  function esc(s){ return s.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&"); }
+  function byLen(a, b){ return b.length - a.length; }
+  // A whole-phrase matcher with our own word boundary (letters and digits are "word"; & + / % are
+  // not, so "u&e" and "g+s" can be matched as one phrase). Group 1 is the boundary, group 2 the form.
+  function phraseRe(forms){
+    const alts = forms.filter(Boolean).slice().sort(byLen).map(esc).join("|");
+    return new RegExp("(^|[^a-z0-9])(" + (alts || "(?!x)x") + ")(?=$|[^a-z0-9])", "g");
+  }
+  function scan(text, re){
+    const out = []; let m; re.lastIndex = 0;
+    while((m = re.exec(text))){
+      const s = m.index + m[1].length;
+      out.push({ start:s, end:s + m[2].length, form:m[2] });
+      re.lastIndex = s + m[2].length;
+    }
+    return out;
+  }
+  function replaceForms(text, re, map){
+    return text.replace(re, function(all, pre, form){ return pre + map[form]; });
+  }
+  const set = a => new Set(a);
+
+  /* ------------------------------------------------------------------ 6a. normalise */
+  // Closed list of plurals folded to the singular, so "beta blockers", "plasma exchanges",
+  // "cannulae" and "cultures" read like the case's singular aliases.
+  const SINGULAR = {
+    blockers:"blocker", exchanges:"exchange", cannulae:"cannula", cannulas:"cannula", cultures:"culture",
+    steroids:"steroid", corticosteroids:"corticosteroid", antibiotics:"antibiotic", gases:"gas",
+    transfusions:"transfusion", fluids:"fluid", referrals:"referral", infusions:"infusion", boluses:"bolus",
+    ecgs:"ecg", trops:"trop", troponins:"troponin", fvcs:"fvc", vbgs:"vbg", abgs:"abg", nsaids:"nsaid",
+    doacs:"doac", noacs:"noac", ppis:"ppi", lmwhs:"lmwh", intensivists:"intensivist", anticoagulants:"anticoagulant",
+    antiplatelets:"antiplatelet", nephrotoxics:"nephrotoxic", nephrotoxins:"nephrotoxin",
+    antihypertensives:"antihypertensive", antiemetics:"antiemetic", benzodiazepines:"benzodiazepine",
+    benzos:"benzo", opioids:"opioid", diuretics:"diuretic", thinners:"thinner", medications:"medication",
+    medicines:"medicine", meds:"medication", drugs:"drug", tablets:"tablet", vegetations:"vegetation",
+    platelets:"platelet", plts:"plt", thionamides:"thionamide", surgeons:"surgeon", physicians:"physician",
+    antiinflammatories:"antiinflammatory", cannulations:"cannulation", venflons:"venflon"
+  };
+  const ANTI_JOIN = /\banti (?=(?:coag|thyroid|biotic|emetic|epilep|platelet|hypertens|histamine|pyretic|convuls|psychotic|fungal|viral|microbial|inflammat|arrhythm|depress|diuretic|embolism))/g;
+
+  function normalise(text){
+    let s = String(text == null ? "" : text);
+    if(s.normalize) s = s.normalize("NFD").replace(/[̀-ͯ]/g, "");      // é -> e
+    s = s.toLowerCase();
+    s = s.replace(/['`´‘’ʼ′]/g, "");                       // don't -> dont, u&e's -> u&es
+    s = s.replace(/["“”«»]/g, " ");
+    s = s.replace(/\r?\n+|[•·◦▪‣⁃]/g, " ; ");          // lines and bullets are clause ends
+    s = s.replace(/\^\s*2\b/g, "2").replace(/\^/g, "");                              // m^2 -> m2
+    s = s.replace(/≤|<=/g, "≤").replace(/≥|>=/g, "≥");
+    s = s.replace(/(^|[^a-z0-9])([a-z](?:\.[a-z])+)\.?(?=$|[^a-z0-9])/g,             // i.v. -> iv, n.b.m -> nbm
+      function(m, p, ab){ return p + ab.replace(/\./g, ""); });
+    s = s.replace(/\b(vs|approx|incl|dr|mr|mrs|ms|cf|etc)\./g, "$1");
+    s = s.replace(/(\d)\.(\d)/g, "$1\u0001$2");                                      // keep decimals
+    s = s.replace(/\.+(?=\s|$)/g, " ; ").replace(/\./g, " ").replace(/\u0001/g, ".");// full stop = clause end
+    s = s.replace(/(\d)\s*[-‐-―−]\s*(\d)/g, "$1 to $2");             // 4-6 hourly -> 4 to 6 hourly
+    s = s.replace(/(^|\s)[-‐-―−]+(?=\s|$)/g, " , ");                  // "Steroids – no role": a soft break
+    s = s.replace(/[-‐-―−]+/g, " ");                                  // pip-taz -> pip taz
+    s = s.replace(ANTI_JOIN, "anti");                                                // anti-coagulation -> anticoagulation
+    s = s.replace(/(\d)([a-z]+)/g, function(m, d, u){                                // 1.5mg -> 1.5 mg, 4hrly -> 4 hrly
+      return /^(st|nd|rd|th|x)$/.test(u) ? m : d + " " + u; });
+    s = s.replace(/[!?*#\[\]{}|~_\\@$]/g, " ");
+    s = s.replace(/[a-z0-9]+/g, function(w){
+      if(SINGULAR[w]) return SINGULAR[w];
+      const m = /^([a-z]+olog)ists$/.exec(w); return m ? m[1] + "ist" : w; });       // haematologists -> haematologist
+    s = s.replace(/\s*([,;:])\s*/g, " $1 ");
+    s = s.replace(/\s+/g, " ").replace(/(?:\s*;\s*)+/g, " ; ");
+    s = s.replace(/^[\s,;:]+|[\s,;:]+$/g, "");
+    return s;
+  }
+
+  /* ------------------------------------------------------------------ 1. abbreviations */
+  // [canonical, [surface forms]]. Forms are run through normalise() when the module loads, so they
+  // may be written as people type them. Every canonical is already in normalised form.
+  const ABBREV = [
+    ["u&e", ["u&e","u&es","u&e's","u+e","u+es","u + e","u & e","u & es","ue","ues","u es","u and e","u and es",
+             "u and e's","urea and electrolytes","urea & electrolytes","renal function","renal function tests",
+             "renal profile","kidney function","kidney function tests"]],
+    ["blood culture", ["blood cultures","blood c/s","blood c s","blood cs","blood cx","bcx","bcs","bloods cultures"]],
+    ["blood culture x3", ["bcx3","bc x3","bc x 3","bcx 3","bcs x3","blood cx x3","cultures x3","culture x3","blood c/s x3"]],
+    ["antibiotic", ["abx","anti biotics","antibiotcs","antibiotic's","antibiotiocs"]],
+    ["iv fluid", ["ivf","ivfs","iv fluids","intravenous fluid","intravenous fluids","iv fluid","ivfluid"]],
+    ["iv infusion", ["ivi"]],
+    ["nil by mouth", ["nbm","npo","nil po","nil per os","nil orally","keep nbm"]],
+    ["group and save", ["g&s","g+s","g & s","g + s","g and s","group & save","group n save","group save","g s"]],
+    ["crossmatch", ["xm","x match","xmatch","cross match","crossmatched","cross matched","cross match blood"]],
+    ["critical care outreach", ["ccot","outreach","outreach team","critical care outreach team","ccot team"]],
+    ["critical care", ["itu","icu","hdu","intensive care","intensive care unit","intensive therapy unit",
+                       "high dependency","high dependency unit","level 2 care","level 3 care","level 2 bed",
+                       "level 3 bed","level two care","level three care","intensivist","critical care unit"]],
+    ["registrar", ["spr","str","registrar"]],
+    ["tomorrow", ["tmrw","tmw","tmr","tomoz","tomo","2moro","tomorow","tommorow","tommorrow"]],
+    ["discuss with", ["d/w","disc w/","discuss w/"]],
+    ["review", ["r/v"]],
+    ["follow up", ["f/u"]],
+    ["with", ["w/"]],
+    ["without", ["w/o"]],
+    ["hourly", ["hrly","hourley"]],
+    ["fluid balance", ["i/o","ip/op","ip op","input/output","input output","intake and output","intake output",
+                       "in/out","fluid chart","fluid balance chart","strict fluid balance","fb chart","strict input output"]],
+    ["lying and standing blood pressure", ["lsbp","ls bp","l s bp","lying standing bp","lying and standing bp",
+                       "lying/standing bp","postural bp","orthostatic bp","lying standing blood pressure"]],
+    ["capillary refill time", ["crt","cap refill","cap refil","capillary refill"]],
+    ["cxr", ["chest xr","chest xray","chest x ray","chest radiograph","chest film"]],
+    ["vbg", ["venous gas","venous blood gas"]],
+    ["abg", ["arterial gas","arterial blood gas"]],
+    ["fbc", ["full blood count","fbcs"]],
+    ["lft", ["lfts","liver function","liver function tests","liver function test"]],
+    ["coagulation screen", ["coag","coags","coag screen","clotting","clotting screen","coagulation","pt aptt",
+                            "pt/aptt","pt and aptt","pt & aptt","coagulation profile"]],
+    ["troponin", ["trop","hs trop","hstrop","hs troponin","high sensitivity troponin","tni","tnt","hs tni"]],
+    ["ecg", ["ekg","electrocardiogram"]],
+    ["echo", ["echocardiogram","echo cardiogram","echocardiography","echo cardiography"]],
+    ["tte", ["transthoracic echo","transthoracic echocardiogram","trans thoracic echo","transthoracic echocardiography"]],
+    ["toe", ["tee","transoesophageal echo","trans oesophageal echo","transesophageal echo","transoesophageal",
+             "transoesophageal echocardiogram","trans oesophageal echocardiogram"]],
+    ["ct head", ["cth","ct brain"]],
+    ["ctpa", ["ct pa","ct pulmonary angiogram","ct pulmonary angiography"]],
+    ["lumbar puncture", ["lp"]],
+    ["ogd", ["gastroscopy","gastroscope","upper gi endoscopy","oesophagogastroduodenoscopy","scope","urgent scope","endoscopy"]],
+    ["ng tube", ["ngt","nasogastric tube"]],
+    ["urinary catheter", ["iduc","foley","foley catheter","urethral catheter","catheterise","catheterize"]],
+    ["news2", ["news 2"]],
+    ["cardiac monitoring", ["telemetry","cardiac monitor","ecg monitoring","continuous ecg monitoring",
+                            "continuous cardiac monitoring"]],
+    ["speech and language therapy", ["slt","salt referral","salt team","salt review","salt assessment",
+                            "salt swallow assessment","speech and language","speech & language therapy"]],
+    ["physiotherapy", ["physio"]],
+    ["vte prophylaxis", ["vte","thromboprophylaxis","vte ppx","dvt prophylaxis","vte prevention"]],
+    ["ted stockings", ["teds","ted","anti embolism stockings","antiembolism stockings","flowtron","flowtrons",
+                       "ipc","intermittent pneumatic compression"]],
+    ["cannula", ["venflon","canula","canular","canulla","cannular","cannulae"]],
+    ["oxygen", ["o2","supplemental o2"]],
+    ["potassium", ["k+"]],
+    ["sodium", ["na+"]],
+    ["hyperkalaemia", ["hyperk","hyper k","hyperkalemia","high potassium"]],
+    ["hypokalaemia", ["hypok","hypo k","hypokalemia"]],
+    ["hyponatraemia", ["hypona","hypo na","hyponatremia"]],
+    ["major haemorrhage protocol", ["mhp","massive haemorrhage protocol","massive hemorrhage protocol",
+                                    "major hemorrhage protocol"]],
+    ["transfusion", ["tranfusion","transfussion","transfuison"]],
+    ["transfuse", ["tranfuse","transfues"]],
+    ["thrombolysis", ["lysis","thrombolyse","thrombolyze","lyse"]],
+    ["dnacpr", ["dnar","dnr"]],
+    ["morning", ["mane"]],
+    ["morning bloods", ["am bloods"]],
+    ["nsaid", ["non steroidal","nonsteroidal","non steroidal antiinflammatory","non steroidal antiinflammatory drug",
+               "nonsteroidal antiinflammatory drug","antiinflammatory","antiinflammatory drug"]],
+    ["fvc", ["forced vital capacity","vital capacity"]]
+  ];
+  // "reg" means registrar only after a word that says so: "reg paracetamol" is regular paracetamol.
+  ["the","med","medical","surg","surgical","on call","inform","call","bleep","ring","discuss with","d/w","speak to","contact"]
+    .forEach(function(p){
+      const pre = p === "med" ? "medical" : p === "surg" ? "surgical" : p === "d/w" ? "discuss with" : p;
+      ABBREV.push([pre + " registrar", [p + " reg", p + " spr"]]);
+    });
+  ABBREV.push(["registrar review", ["reg review"]]);
+
+  /* ------------------------------------------------------------------ 2. brands and classes */
+  const BRANDS = [
+    ["apixaban", ["eliquis"]], ["rivaroxaban", ["xarelto"]], ["edoxaban", ["lixiana"]], ["dabigatran", ["pradaxa"]],
+    ["enoxaparin", ["clexane","inhixa","enoxaparine"]], ["dalteparin", ["fragmin"]], ["tinzaparin", ["innohep"]],
+    ["warfarin", ["marevan","coumadin"]], ["clopidogrel", ["plavix"]], ["ticagrelor", ["brilique","brilinta"]],
+    ["co amoxiclav", ["augmentin","coamoxiclav","co amox"]],
+    ["piperacillin tazobactam", ["tazocin","pip taz","piptaz","pip/taz","pip tazo","piperacillin/tazobactam",
+                                 "pip tazobactam","piperacillin and tazobactam"]],
+    ["co trimoxazole", ["septrin","cotrimoxazole","bactrim"]],
+    ["methylprednisolone", ["solumedrol","solu medrol","solumedrone","solu medrone","methylpred","methyl pred",
+                            "methyl prednisolone","methylprednisoloen","methylprednisone","methyl prednisone",
+                            "methy prednisone","methy prednisolone","methylprednisolon"]],
+    ["iv methylprednisolone", ["ivmp","iv mp","iv methylpred"]],
+    ["prednisolone", ["pred","prednisone","prednisalone","prednisolon"]],
+    ["hydrocortisone", ["solucortef","solu cortef","hydrocort","hydrocostisone","hydrocortisol"]],
+    ["nitrofurantoin", ["macrobid","macrodantin","nitro furantoin"]], ["oseltamivir", ["tamiflu"]],
+    ["ibuprofen", ["nurofen","brufen"]], ["diclofenac", ["voltarol"]], ["naproxen", ["naprosyn"]],
+    ["omeprazole", ["losec"]], ["esomeprazole", ["nexium"]], ["lansoprazole", ["zoton"]],
+    ["furosemide", ["frusemide","lasix"]], ["paracetamol", ["acetaminophen","panadol","calpol"]],
+    ["amiodarone", ["cordarone"]], ["chlordiazepoxide", ["librium"]], ["lorazepam", ["ativan"]],
+    ["diazepam", ["valium"]], ["levetiracetam", ["keppra"]], ["tranexamic acid", ["txa","cyklokapron"]],
+    ["propylthiouracil", ["ptu"]], ["carbimazole", ["neomercazole"]], ["salbutamol", ["ventolin"]],
+    ["vancomycin", ["vanc","vanco"]], ["gentamicin", ["gent","gentamycin"]],
+    ["ivig", ["iv immunoglobulin","intravenous immunoglobulin","iv ig","iv immunoglobulins"]],
+    ["plasma exchange", ["plex","pex","tpe","plasmapheresis","therapeutic plasma exchange","plasma exchange therapy"]],
+    ["terlipressin", ["glypressin"]], ["noradrenaline", ["norad","norepinephrine"]], ["adrenaline", ["epinephrine"]],
+    ["midazolam", ["midaz","buccal midaz"]]
+  ];
+  // Class words in the text become one class key; membersOf(key) lists the generics it covers.
+  const CLASS_WORDS = [
+    ["blood thinner", ["blood thinner","thinner","blood thinning medication","blood thinning drug"]],
+    ["anticoagulant", ["anticoagulant","anticoagulation","anticoag","anticoags","anticoagulant medication",
+                       "anticoagulant drug","anticoagulation therapy"]],
+    ["antiplatelet", ["antiplatelet","antiplatelet agent","antiplatelet drug","antiplatelet medication"]],
+    ["doac", ["doac","noac","direct oral anticoagulant"]],
+    ["lmwh", ["lmwh","low molecular weight heparin"]],
+    ["beta blocker", ["beta blocker","betablocker","b blocker","beta adrenergic blocker","bb blocker"]],
+    ["ppi", ["ppi","proton pump inhibitor"]],
+    ["antithyroid drug", ["antithyroid drug","antithyroid medication","antithyroid medicine","antithyroid treatment",
+                          "antithyroid","antithyroid therapy","antithryroid"]],
+    ["thionamide", ["thionamide"]],
+    ["nephrotoxic drug", ["nephrotoxic drug","nephrotoxic medication","nephrotoxic medicine","nephrotoxic",
+                          "nephrotoxin","nephrotoxic agent"]],
+    ["antihypertensive", ["antihypertensive","antihypertensive medication","bp medication","blood pressure medication",
+                          "blood pressure tablet","bp tablet"]],
+    ["ace inhibitor", ["ace inhibitor","acei","ace i"]],
+    ["arb", ["arb","angiotensin receptor blocker"]],
+    ["benzodiazepine", ["benzodiazepine","benzo"]],
+    ["opioid", ["opioid","opiate"]],
+    ["diuretic", ["diuretic"]],
+    ["corticosteroid", ["corticosteroid","steroid","corticosteriod","corticosteriods","steriod","steriods",
+                        "coricisteriods","cotivosteriods","cortico steroid","corticosterioid"]]
+  ];
+  const M = {
+    doac:["apixaban","rivaroxaban","edoxaban","dabigatran"],
+    lmwh:["enoxaparin","dalteparin","tinzaparin"],
+    antiplatelet:["aspirin","clopidogrel","ticagrelor","prasugrel","dipyridamole"],
+    nsaid:["naproxen","ibuprofen","diclofenac","celecoxib","etoricoxib","indometacin","ketorolac","mefenamic acid"],
+    "beta blocker":["bisoprolol","propranolol","atenolol","metoprolol","esmolol","carvedilol","labetalol","nebivolol","sotalol"],
+    ppi:["omeprazole","lansoprazole","pantoprazole","esomeprazole","rabeprazole"],
+    "antithyroid drug":["carbimazole","propylthiouracil"],
+    corticosteroid:["prednisolone","methylprednisolone","hydrocortisone","dexamethasone"],
+    "ace inhibitor":["ramipril","lisinopril","perindopril","enalapril"],
+    arb:["losartan","candesartan","irbesartan","valsartan"],
+    benzodiazepine:["lorazepam","diazepam","midazolam","chlordiazepoxide","clonazepam"],
+    opioid:["morphine","oxycodone","codeine","tramadol","fentanyl"],
+    diuretic:["furosemide","bumetanide","bendroflumethiazide","indapamide","spironolactone"]
+  };
+  M.thionamide = M["antithyroid drug"].slice();
+  M.anticoagulant = M.doac.concat(M.lmwh, ["warfarin","heparin","unfractionated heparin","fondaparinux","argatroban"]);
+  M["blood thinner"] = M.anticoagulant.concat(M.antiplatelet);   // the lay word covers both (UGIB: apixaban AND aspirin)
+  M["nephrotoxic drug"] = M.nsaid.concat(M["ace inhibitor"], M.arb, ["gentamicin","amikacin","vancomycin"]);
+  M.antihypertensive = M["ace inhibitor"].concat(M.arb, M["beta blocker"], ["amlodipine","nifedipine","bendroflumethiazide","indapamide","doxazosin"]);
+  const CLASSES = M;
+  // Sound-alike drugs that must never be fuzzy-matched onto each other, and other known drug words
+  // (a word that is itself a known drug is never "corrected" into a different one).
+  const FUZZY_BLOCK = [["clonazepam","lorazepam"],["hydroxyzine","hydralazine"],["carbimazole","carbamazepine"],
+    ["amiodarone","amlodipine"],["metformin","metronidazole"],["prednisolone","propranolol"],["naloxone","naproxen"],
+    ["cefuroxime","ceftriaxone"],["dexamethasone","desmopressin"],["insulin","inulin"]];
+  const EXTRA_DRUGS = ["clonazepam","hydroxyzine","hydralazine","carbamazepine","amlodipine","metformin","metronidazole",
+    "naloxone","cefuroxime","ceftriaxone","desmopressin","insulin","heparin","aspirin","dexamethasone","pantoprazole",
+    "thiamine","pabrinex","phenytoin","sodium valproate","morphine","ondansetron","metoclopramide","cyclizine",
+    "doxycycline","clarithromycin","amoxicillin","levofloxacin","rituximab","cyclophosphamide","octreotide","ceftriaxone"];
+
+  /* ------------------------------------------------------------------ 3. specialties */
+  // names count on their own; ctx words count only beside a referral word or a team suffix
+  // ("refer to renal", "renal team"), because "renal function", "neuro obs", "urine micro" and
+  // "surgical emphysema" are not referrals.
+  const SPECIALTIES = {
+    gastroenterology:{ names:["gastroenterology","gastroenterologist","gastro","gastro team","endoscopist",
+      "on call endoscopist","gi team","gi registrar","gi reg","upper gi team","gastroenterology team"], ctx:["gi"] },
+    haematology:{ names:["haematology","hematology","haematologist","hematologist","haem","haem team","heme",
+      "haemotology","heamatology","haematolgy","haematology team"], ctx:[] },
+    endocrinology:{ names:["endocrinology","endocrinologist","endo","endo team","endocrine team","endocrinology team"],
+      ctx:["endocrine"] },
+    rheumatology:{ names:["rheumatology","rheumatologist","rheum","rheum team","rheumy","rheumatology team"], ctx:[] },
+    nephrology:{ names:["nephrology","nephrologist","renal team","renal registrar","renal reg","renal unit",
+      "renal physician","renal consultant","nephrology team"], ctx:["renal","kidney"] },
+    neurology:{ names:["neurology","neurologist","neuro team","neuro registrar","neuro reg","neurology team"], ctx:["neuro"] },
+    cardiology:{ names:["cardiology","cardiologist","cardio team","cards team","cardiology team"], ctx:["cardio","cards"] },
+    microbiology:{ names:["microbiology","microbiologist","micro team","infectious diseases","infectious disease",
+      "id team","id consultant","id registrar","id physician","microbiology team"], ctx:["micro","id"] },
+    surgery:{ names:["surgeon","general surgeon","general surgery","gen surg","surgical team","surgical registrar",
+      "surgical on call","surgery team","colorectal team","upper gi surgeon","on call surgeon"], ctx:["surgical","surgery"] },
+    "critical care":{ names:["critical care","critical care outreach","critical care team","intensive care","intensivist",
+      "outreach","outreach team","itu","icu","hdu","high dependency","high dependency unit","intensive care unit",
+      "level 2 care","level 3 care","ccot"], ctx:[] },
+    respiratory:{ names:["respiratory team","respiratory physician","resp team","chest team","respiratory registrar",
+      "respiratory medicine"], ctx:["respiratory","resp"] },
+    geriatrics:{ names:["geriatrics","geriatrician","care of the elderly","coe team","frailty team","elderly care"], ctx:[] },
+    "palliative care":{ names:["palliative care","palliative team","palliative care team","palliative"], ctx:[] }
+  };
+  const REFER_FRAMES = ["refer","referral","referred","discuss","discussion","discussing","discussed","inform","call",
+    "ring","bleep","contact","page","review","reviewed","input","advice","tci","liaise","involve","consult","escalate",
+    "transfer","admit","admission","under","speak","handover","phone","d/w"];
+  const TEAM_SUFFIX = ["team","review","referral","consult","opinion","input","reg","registrar","spr","consultant",
+    "on call","advice","unit","physician","specialist","nurse"];
+
+  /* ------------------------------------------------------------------ 4. negation */
+  const NEGATION = {
+    // pre-negators. "held": the verb takes the drug down. "avoid": the drug is refused.
+    held:["stop","stopping","stop all","hold","holding","hold off","hold off on","withhold","withholding","withold",
+      "witholding","with hold","with holding","omit","omitting","suspend","suspending","pause","pausing","discontinue",
+      "discontinuing","cease","ceasing","take down","turn off","switch off","remove","no more","no further",
+      "come off","take off","taken off"],
+    avoid:["no","nil","not","never","avoid","avoiding","dont","do not","does not need","doesnt need","dont need",
+      "does not require","doesnt require","no need for","no need to","no indication for","no role for","not for",
+      "without","refrain from","decline","declined","nor","neither","wont","will not","not needed for"],
+    // post-negators, after the drug: "X held", "X: hold", "X not indicated"
+    postHeld:["held","on hold","stopped","withheld","witheld","omitted","suspended","paused","discontinued","ceased",
+      "taken down","turned off","switched off","temporarily held"],
+    postAvoid:["not indicated","contraindicated","contra indicated","not recommended","no role","not effective",
+      "ineffective","of no benefit","no benefit","not beneficial","not required","not needed","not necessary",
+      "unnecessary","not routinely","not routine","avoided","to be avoided","not to be given","not given","not appropriate","inappropriate",
+      "declined","allergic","allergy"],
+    // imperative after the drug ("Aspirin: hold") counts only when nothing follows it but a pause or "until"
+    postImperative:["stop","hold","omit","withhold","withold","suspend","pause","discontinue","cease","avoid"],
+    // closed list of words allowed between the negator and the drug (never any word: "no improvement, give TXA")
+    fillers:["the","a","an","any","all","her","his","their","its","this","that","these","those","tonights","todays",
+      "tonight","today","morning","evening","dose","doses","of","prophylactic","chemical","pharmacological",
+      "mechanical","further","more","regular","routine","current","usual","existing","home","iv","oral","po","sc","im",
+      "intravenous","subcutaneous","empirical","empiric","therapeutic","treatment","additional","extra","routinely",
+      "currently","for","now","yet","anticoagulant"],
+    verbFillers:["give","giving","start","starting","use","using","attempt","attempting","prescribe","prescribing",
+      "administer","administering","commence","commencing","initiate","initiating","offer","continue","continuing",
+      "restart","restarting","resume","add","adding","need","needs","require","requires","recommend","advise","be",
+      "been","to","try","trying","run","put","on","be given"],
+    joiners:["and","or","nor",",","/","&"],
+    // words that end a negator's reach
+    breakers:["but","then","however","except","although","whereas","so","instead","otherwise","later","thereafter","while","whilst"],
+    // a new instruction ends a list ("stop aspirin and give PPI")
+    positive:["give","start","continue","add","send","check","commence","begin","restart","resume","prescribe",
+      "administer","request","order","arrange","book","refer","increase","transfuse","plus","keep","maintain","switch",
+      "change","convert","replace","perform","do","repeat","recheck","measure","monitor","treat","escalate","call",
+      "discuss","inform","consider","titrate","load","bolus"],
+    // phrases that look like refusals but are not ("nil by mouth" does not refuse the next drug)
+    exempt:["nil by mouth","nil orally","nil per os","nil po","no known","not known","no change","no improvement",
+      "no response","not improving","not responding","no better","if no","if not","no allergies","nkda"],
+    rule:"A refusal of a drug the patient is already on reads as HELD (stopped: credit the hold). A refusal of a drug "
+      + "not started reads as AVOIDED (no danger call-back). 'Do not stop X' reads as CONTINUED."
+  };
+
+  /* ------------------------------------------------------------------ 5. conditions */
+  const CONDITIONS = {
+    hard:["if","unless","provided","providing","in case","in the event","should"],   // "should" only opening a phrase
+    soft:["when","once","after","following","post","whenever","as soon as"],          // conditional only with a threshold
+    prn:["prn","as required","as needed","if needed","if required","if necessary","on standby","standby","to hand",
+         "on hand","available","sos"],
+    monitor:["monitor","monitoring","watch","watch for","watch out for","observe","observe for","look out for",
+             "keep an eye on","trend","serial","surveillance","be aware of","beware","beware of","risk of"],
+    reason:["given","due to","because of","in view of","secondary to","owing to"],
+    reference:["after","following","post","once","until","till","before","prior to","pending","awaiting","during"],
+    referNow:["after discussion with","following discussion with","after discussing with","once discussed with",
+              "pending discussion with","discuss with","d/w"],
+    rule:"Conditions govern only their own phrase (commas and spaced dashes end a phrase). 'ICU if FVC<20' does not "
+      + "order ICU; 'monitor platelets' and 'when plt>50' do not order platelets; 'after 2 hours', 'post bolus', "
+      + "'4 hourly' and 'once daily' are times, not conditions. 'After discussion with <team>' is a referral now."
+  };
+  const TIME_RE = /\b(?:(?:after|in|within|post|over|every|for|at)\s+\d[\d.]*(?:\s+to\s+\d[\d.]*)?\s*(?:min|mins|minute|minutes|h|hr|hrs|hour|hours|day|days|week|weeks|wk|wks)|(?:once|twice)\s+(?:daily|weekly|a day|a week|only)|\d[\d.]*\s*(?:hourly|h|hr|hrs)\b\s*(?:hourly)?)\b/g;
+  const THRESH_RE = /[<>≤≥]|\b(?:above|below|less than|more than|greater than|at least|exceeds?|exceeding|reach(?:es)?|normali[sz]e[sd]?|improv\w*|deteriorat\w*|worsen\w*|results?|back|confirmed|positive|negative|stable|tolerat\w*|over \d|under \d)\b/;
+
+  /* ------------------------------------------------------------------ build the matchers */
+  function buildMap(entries){
+    const map = {};
+    entries.forEach(function(e){
+      const canon = e[0];
+      map[canon] = canon;                                 // identity: "critical care outreach" is never re-expanded
+      e[1].forEach(function(f){ const n = normalise(f); if(n && !map[n]) map[n] = canon; });
+    });
+    return map;
+  }
+  const ABBREV_MAP = buildMap(ABBREV);
+  const BRAND_MAP = buildMap(BRANDS.concat(CLASS_WORDS));
+  const ABBREV_RE = phraseRe(Object.keys(ABBREV_MAP));
+  const BRAND_RE = phraseRe(Object.keys(BRAND_MAP));
+
+  const NEG_KIND = {};
+  NEGATION.avoid.forEach(f => { NEG_KIND[normalise(f)] = "avoid"; });
+  NEGATION.held.forEach(f => { NEG_KIND[normalise(f)] = "held"; });
+  const NEG_RE = phraseRe(Object.keys(NEG_KIND));
+  const EXEMPT_RE = phraseRe(NEGATION.exempt.map(normalise));
+  const POST_KIND = {};
+  NEGATION.postAvoid.forEach(f => { POST_KIND[normalise(f)] = "avoid"; });
+  NEGATION.postHeld.forEach(f => { POST_KIND[normalise(f)] = "held"; });
+  NEGATION.postImperative.forEach(f => { POST_KIND[normalise(f)] = f === "avoid" ? "avoid-imp" : "held-imp"; });
+  const POST_RE = new RegExp("^(" + Object.keys(POST_KIND).sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const FILL = set(NEGATION.fillers), VFILL = set(NEGATION.verbFillers), JOIN = set(NEGATION.joiners),
+        BREAK = set(NEGATION.breakers), POS = set(NEGATION.positive);
+  const COND_WORDS = set(["if","unless","when","once","after","until","till","pending","following","before","provided","should"]);
+  const POST_FILL = set(["is","are","was","were","be","been","being","should","must","to","currently","now","for","at",
+    "present","already","also","both","all","therefore","which","as","it","they","this","here","temporarily",",",":",
+    "(",")","has","have","will"]);
+  const IMP_OK_AFTER = set([",",";",")","until","till","til","pending","for","while","whilst","meanwhile","today",
+    "tonight","now","temporarily","and"]);
+
+  /* ------------------------------------------------------------------ 6b. expanders */
+  function expandAbbrev(text){ return replaceForms(normalise(text), ABBREV_RE, ABBREV_MAP).replace(/\s+/g, " ").trim(); }
+  function expandBrands(text){ return replaceForms(normalise(text), BRAND_RE, BRAND_MAP).replace(/\s+/g, " ").trim(); }
+  function prep(text){ return expandBrands(expandAbbrev(text)); }
+  function membersOf(key){ return (CLASSES[prep(key)] || CLASSES[key] || []).slice(); }
+  function classesOf(drug){ const d = prep(drug); return Object.keys(CLASSES).filter(k => CLASSES[k].indexOf(d) >= 0); }
+
+  /* ------------------------------------------------------------------ 6c. clauses */
+  // Splits typed text into clauses: newlines, semicolons, list bullets, and full stops followed by a
+  // space or the end. Never splits "0.9%", "1.5 mg", "i.v." or "e.g.". Commas stay inside a clause.
+  function clauseSplit(text){
+    let s = String(text == null ? "" : text).replace(/\r/g, "");
+    s = s.replace(/^[ \t]*(?:\d+[.)]|[-*–—•·>])[ \t]+/gm, "\n");    // "1. ", "2) ", "- ", "• "
+    s = s.replace(/(\d)\.(\d)/g, "$1\u0001$2");
+    s = s.replace(/(^|[^A-Za-z0-9])((?:[A-Za-z]\.)+[A-Za-z]\.?)(?=$|[^A-Za-z0-9])/g,
+      function(m, p, ab){ return p + ab.replace(/\./g, "\u0002"); });
+    s = s.replace(/\b(vs|approx|incl|dr|mr|mrs|ms|cf|etc)\./gi, "$1\u0002");
+    return s.split(/\n+|;|[•·◦▪‣⁃]|\.+(?=\s|$)/)
+      .map(c => c.replace(/\u0001/g, ".").replace(/\u0002/g, ".").trim())
+      .filter(c => /[A-Za-z0-9]/.test(c));
+  }
+  // Clauses, then commas: the units a "Not understood:" line reports.
+  function segments(text){
+    const out = [];
+    clauseSplit(text).forEach(c => c.split(/,|\s[-–—]\s/).forEach(p => { p = p.trim(); if(/[A-Za-z0-9]/.test(p)) out.push(p); }));
+    return out;
+  }
+
+  /* ------------------------------------------------------------------ term finding and fuzzy */
+  function findTerm(text, term){
+    const t = normalise(term); if(!t) return [];
+    return scan(text, phraseRe([t])).map(m => ({ index:m.start, length:m.end - m.start }));
+  }
+  function tolerance(n){ return n <= 5 ? 0 : n <= 7 ? 1 : 2; }
+  function editDistance(a, b, max){                                // optimal string alignment (a swap costs 1)
+    if(max == null) max = 99;
+    if(Math.abs(a.length - b.length) > max) return max + 1;
+    const d = [];
+    for(let i = 0; i <= a.length; i++){ d[i] = [i]; }
+    for(let j = 0; j <= b.length; j++){ d[0][j] = j; }
+    for(let i = 1; i <= a.length; i++){
+      let rowMin = 99;
+      for(let j = 1; j <= b.length; j++){
+        const c = a[i-1] === b[j-1] ? 0 : 1;
+        d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + c);
+        if(i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
+        if(d[i][j] < rowMin) rowMin = d[i][j];
+      }
+      if(rowMin > max) return max + 1;
+    }
+    return d[a.length][b.length];
+  }
+  const KNOWN = new Set();
+  BRANDS.forEach(e => { KNOWN.add(e[0]); e[1].forEach(f => KNOWN.add(normalise(f))); });
+  Object.keys(CLASSES).forEach(k => CLASSES[k].forEach(d => KNOWN.add(d)));
+  EXTRA_DRUGS.forEach(d => KNOWN.add(d));
+  function blocked(a, b){ return FUZZY_BLOCK.some(p => (p[0] === a && p[1] === b) || (p[0] === b && p[1] === a)); }
+  // A typed word matches a catalogue word: exact, or within an edit budget that grows with length
+  // (exact at 5 letters or fewer, 1 edit at 6-7, 2 at 8+). A known drug is never corrected into another.
+  function fuzzyEq(word, term){
+    if(word === term || BRAND_MAP[word] === term || ABBREV_MAP[word] === term) return true;   // a listed spelling of it
+    if(blocked(word, term) || KNOWN.has(word)) return false;
+    const tol = tolerance(Math.min(word.length, term.length));
+    return tol > 0 && editDistance(word, term, tol) <= tol;
+  }
+  function fuzzyFind(text, term){
+    const exact = findTerm(text, term);
+    if(exact.length) return Object.assign({ fuzzy:false }, exact[0]);
+    const tw = normalise(term).split(" ").filter(Boolean); if(!tw.length) return null;
+    const words = []; const re = /[a-z0-9&+%.]+/g; let m;
+    while((m = re.exec(text))) words.push({ t:m[0], s:m.index, e:m.index + m[0].length });
+    for(let i = 0; i + tw.length <= words.length; i++){
+      let all = true;
+      for(let k = 0; k < tw.length && all; k++) all = fuzzyEq(words[i+k].t, tw[k]);
+      if(all){ const s = words[i].s, e = words[i + tw.length - 1].e; return { index:s, length:e - s, fuzzy:true, matched:text.slice(s, e) }; }
+    }
+    return null;
+  }
+
+  /* ------------------------------------------------------------------ 6d. negation reader */
+  function toks(text, from, to){
+    const out = []; const re = /[a-z0-9&+%.]+|[<>≤≥=]+|[,;:()\/]/g; let m;
+    const sub = text.slice(from, to);
+    while((m = re.exec(sub))) out.push({ t:m[0], s:from + m.index, e:from + m.index + m[0].length });
+    return out;
+  }
+  function isDose(t){
+    return /^(?:\d[\d.]*%?|x\d+|\d+x|mg|g|mcg|microgram|micrograms|ml|mls|l|litre|litres|unit|units|iu|mmol|kg|m2|stat|od|bd|tds|qds|nocte|morning|prn|hourly|daily)$/.test(t);
+  }
+  function isItemWord(t){
+    return /^[a-z0-9&+%.]+$/.test(t) && !POS.has(t) && !BREAK.has(t) && !COND_WORDS.has(t) && !JOIN.has(t) && !NEG_KIND[t];
+  }
+  function mask(text){
+    return text.replace(EXEMPT_RE, function(all, pre, form){ return pre + form.replace(/[^ ]/g, "_"); });
+  }
+  // The words between a negator and the drug: fillers only, or a list ("stop naproxen and aspirin").
+  function gapOk(g){
+    if(g.some(x => x.t === ";" || BREAK.has(x.t))) return false;
+    let i = 0; const n = g.length;
+    while(i < n && (FILL.has(g[i].t) || VFILL.has(g[i].t) || isDose(g[i].t) || (g[i].t === "/" && i > 0 && isDose(g[i-1].t)))) i++;
+    if(i === n) return true;
+    for(let items = 0; items < 5; items++){
+      let c = 0;
+      while(i < n && (isItemWord(g[i].t) || g[i].t === "(" || g[i].t === ")")){ if(!isDose(g[i].t) && /[a-z]/.test(g[i].t)) c++; if(c > 3) return false; i++; }
+      if(c === 0) return false;
+      let j = 0; while(i < n && JOIN.has(g[i].t)){ i++; j++; }
+      if(j === 0) return false;
+      while(i < n && (FILL.has(g[i].t) || isDose(g[i].t))) i++;
+      if(i === n) return true;
+    }
+    return false;
+  }
+  function untilOf(text, from){
+    const rest = text.slice(from).split(";")[0];
+    const m = /(?:^|[^a-z0-9])(?:until|till|til|pending)\s+([^,;]*)/.exec(rest);
+    return m ? m[1].trim() : null;
+  }
+  // isNegated(clause, termIndex[, termLength]) -> null | { kind:"held"|"avoid"|"continued", word, pos, until }
+  // `clause` should already be normalised (Vocab.prep). termLength defaults to the word at termIndex.
+  function isNegated(clause, termIndex, termLength){
+    const text = mask(String(clause));
+    if(termLength == null){ const w = /^[a-z0-9&+%.]+/.exec(text.slice(termIndex)); termLength = w ? w[0].length : 0; }
+    const termEnd = termIndex + termLength;
+    const negs = scan(text, NEG_RE).filter(n => n.end <= termIndex).reverse();
+    for(let k = 0; k < negs.length; k++){
+      const n = negs[k], gap = toks(text, n.end, termIndex);
+      if(gap.some(x => x.t === ";")) break;
+      if(!gapOk(gap)) continue;
+      const kind = NEG_KIND[n.form];
+      if(kind === "held"){
+        const before = negs.slice(k + 1).find(a => NEG_KIND[a.form] === "avoid" && a.end <= n.start &&
+          toks(text, a.end, n.start).every(x => ["to","be","need","needs"].indexOf(x.t) >= 0));
+        if(before) return { kind:"continued", word:before.form + " " + n.form, pos:"pre", until:null };
+      }
+      return { kind:kind, word:n.form, pos:"pre", until:untilOf(text, termEnd) };
+    }
+    // after the drug
+    const g = toks(text, termEnd, text.length);
+    let i = 0;
+    for(let guard = 0; guard < 16 && i < g.length; guard++){
+      const t = g[i].t;
+      if(t === ";" || BREAK.has(t)) return null;
+      const pm = POST_RE.exec(text.slice(g[i].s));
+      if(pm){
+        const kind = POST_KIND[pm[1]];
+        if(kind === "held-imp" || kind === "avoid-imp"){
+          const nx = toks(text, g[i].s + pm[1].length, text.length)[0];
+          if(nx && !IMP_OK_AFTER.has(nx.t)) return null;          // "TXA, stop aspirin": the stop belongs to aspirin
+        }
+        return { kind:kind.replace("-imp", ""), word:pm[1], pos:"post", until:untilOf(text, g[i].s) };
+      }
+      if(POST_FILL.has(t) || isDose(t)){ i++; continue; }
+      if(t === "and" || t === "or" || t === "/" || t === "&"){
+        i++; let c = 0; while(i < g.length && c < 3 && isItemWord(g[i].t) && !POST_RE.test(text.slice(g[i].s))){ i++; c++; }
+        if(!c) return null; continue;
+      }
+      return null;
+    }
+    return null;
+  }
+
+  /* ------------------------------------------------------------------ 6e. conditions and readTerm */
+  function segmentAround(text, idx, end){
+    let s = idx; while(s > 0 && text[s-1] !== "," && text[s-1] !== ";") s--;
+    let e = end; while(e < text.length && text[e] !== "," && text[e] !== ";") e++;
+    let ps = s - 1, pe = s - 1;
+    if(ps >= 0 && text[ps] === ","){ ps--; while(ps > 0 && text[ps-1] !== "," && text[ps-1] !== ";") ps--; } else { ps = pe = -1; }
+    return { s:s, e:e, prev: ps >= 0 ? text.slice(ps, pe).trim() : "" };
+  }
+  const wordsRe = list => new RegExp("(?:^|[^a-z0-9])(?:" + list.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const tailRe = (list, n) => new RegExp("(?:^|[^a-z0-9])(?:" + list.slice().sort(byLen).map(esc).join("|") + ")\\s+(?:[a-z0-9&+%.]+\\s+){0," + n + "}$");
+  const HARD_RE = wordsRe(CONDITIONS.hard.filter(w => w !== "should"));
+  const HARD_START = /^(?:if|unless|provided|providing|in case|in the event|should)(?=$|[^a-z0-9])/;
+  const SOFT_RE = new RegExp("(?:^|[^a-z0-9])(" + CONDITIONS.soft.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])", "g");
+  const PRN_AFTER = new RegExp("^\\s*(?:[a-z0-9&+%./]+\\s+){0,3}?(?:" + CONDITIONS.prn.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  const PRN_BEFORE = tailRe(["prn","standby","as required","sos","if needed","if required","if necessary"], 1);
+  const MON_BEFORE = tailRe(CONDITIONS.monitor, 2);
+  const MON_AFTER = /^\s*(?:count\s+|level\s+|levels\s+)?(?:monitoring|surveillance)(?=$|[^a-z0-9])/;
+  const REASON_BEFORE = tailRe(CONDITIONS.reason, 2);
+  const REF_BEFORE = new RegExp("(?:^|[^a-z0-9])(?:" + CONDITIONS.reference.slice().sort(byLen).map(esc).join("|") + ")\\s+(?:(?:the|her|his|a|an|this|that|first|1st|initial)\\s+)?$");
+  const TH_SKIP = set(["count","level","levels","is","of","value","values","concentration","conc","remains","stays","rise","rises","fall","falls","drop","drops"]);
+  function maskTime(t){ return t.replace(TIME_RE, m => m.replace(/[^ ]/g, "_")); }
+  function between(text, a, b){ return toks(text, a, b).filter(x => /[a-z0-9]/.test(x.t)).length; }
+
+  // conditionOf(clause, termIndex, termLength) -> null | { kind, word }
+  // kind: threshold | monitor | reason | reference | prn | conditional | sequenced
+  function conditionOf(clause, termIndex, termLength){
+    const text = maskTime(String(clause));
+    const end = termIndex + (termLength == null ? ((/^[a-z0-9&+%.]+/.exec(text.slice(termIndex)) || [""])[0].length) : termLength);
+    const seg = segmentAround(text, termIndex, end);
+    const before = text.slice(seg.s, termIndex), after = text.slice(end, seg.e);
+    // threshold: "plt >50", "platelets below 30" (not "over 15 min", which is masked as a time)
+    const at = toks(text, end, seg.e);
+    let i = 0; if(at[i] && TH_SKIP.has(at[i].t)) i++;
+    if(at[i] && (/^[<>≤≥=]/.test(at[i].t) || (/^(above|below|over|under|less|more|greater|exceeds?|exceeding)$/.test(at[i].t) && at.slice(i+1, i+3).some(x => /^\d/.test(x.t)))))
+      return { kind:"threshold", word:at[i].t };
+    let m;
+    if((m = MON_BEFORE.exec(before)) || MON_AFTER.test(after)) return { kind:"monitor", word:m ? m[0].trim().split(" ")[0] : "monitoring" };
+    if((m = REASON_BEFORE.exec(before))) return { kind:"reason", word:m[0].trim().split(" ")[0] };
+    if((m = REF_BEFORE.exec(before))) return { kind:"reference", word:m[0].trim().split(" ")[0] };
+    if((m = PRN_AFTER.exec(after)) || (m = PRN_BEFORE.exec(before))) return { kind:"prn", word:m[0].trim() };
+    // hard conditions: inside the phrase before the term, just after it ("ICU if FVC<20"), or an
+    // opening "If K>6," governing the next phrase
+    const segText = text.slice(seg.s, seg.e).trim();
+    if(HARD_RE.test(before) || HARD_START.test(segText)) return { kind:"conditional", word:(before.match(HARD_RE) || segText.match(HARD_START) || [""])[0].trim() };
+    // ...but a frequency in between ("spirometry every 1 hr if <20") means the order was complete
+    const ha = HARD_RE.exec(after);
+    if(ha && between(text, end, end + ha.index) <= 2 && text.slice(end, end + ha.index).indexOf("_") < 0) return { kind:"conditional", word:ha[0].trim() };
+    if(seg.prev && (HARD_START.test(seg.prev) || (/^(when|once|after|following)\b/.test(seg.prev) && THRESH_RE.test(seg.prev))))
+      return { kind:"conditional", word:seg.prev.split(" ")[0] };
+    // soft conditions need a threshold ("when plt >50"); otherwise they only sequence the order
+    let sm; SOFT_RE.lastIndex = 0;
+    while((sm = SOFT_RE.exec(before))){ if(THRESH_RE.test(before.slice(sm.index))) return { kind:"conditional", word:sm[1] }; }
+    SOFT_RE.lastIndex = 0;
+    if((sm = SOFT_RE.exec(after)) && between(text, end, end + sm.index) <= 2 && text.slice(end, end + sm.index).indexOf("_") < 0)
+      return THRESH_RE.test(after.slice(sm.index)) ? { kind:"conditional", word:sm[1] } : { kind:"sequenced", word:sm[1] };
+    return null;
+  }
+
+  // readTerm(clause, termIndex, termLength, { alreadyOn }) -> { status, negation, condition, until, timing }
+  //   ordered      write it on the chart (also "sequenced": "repeat calcium after the bolus")
+  //   continued    "do not stop apixaban"
+  //   held         refused, and the patient is on it: credit the hold
+  //   avoided      refused, and the patient is not on it: no danger call-back
+  //   conditional  "ICU if FVC<20", "LMWH when plt>50": not an order now
+  //   prn          "midazolam on standby", "analgesia PRN": a contingency; the case decides
+  //   monitor      "monitor platelets": the thing is measured, not given
+  //   threshold    "plt >50": a number, not an order
+  //   reason       "given low platelets": named as the reason
+  //   reference    "after IVIG", "post bolus", "until thionamide given": an event used for timing
+  function readTerm(clause, termIndex, termLength, opts){
+    opts = opts || {};
+    const text = String(clause);
+    const neg = isNegated(text, termIndex, termLength);
+    const tm = maskTime(text) !== text ? (text.match(TIME_RE) || [])[0] || null : null;
+    if(neg){
+      if(neg.kind === "continued") return { status:"continued", negation:neg, condition:null, until:null, timing:tm };
+      return { status: opts.alreadyOn ? "held" : "avoided", negation:neg, condition:null, until:neg.until, timing:tm };
+    }
+    const c = conditionOf(text, termIndex, termLength);
+    const status = !c ? "ordered" : c.kind === "sequenced" ? "ordered" : c.kind;
+    return { status:status, negation:null, condition:c, until:null, timing:tm };
+  }
+  // Does this status put the thing on the chart (and so, for a danger item, earn the call-back)?
+  function isOrder(status){ return status === "ordered" || status === "continued"; }
+
+  /* ------------------------------------------------------------------ teams */
+  const TEAM_FORM = {}, TEAM_CTX = {};
+  Object.keys(SPECIALTIES).forEach(function(k){
+    SPECIALTIES[k].names.forEach(f => { TEAM_FORM[normalise(f)] = k; });
+    SPECIALTIES[k].ctx.forEach(f => { const n = normalise(f); if(!TEAM_FORM[n]) { TEAM_FORM[n] = k; TEAM_CTX[n] = true; } });
+  });
+  const TEAM_RE = phraseRe(Object.keys(TEAM_FORM));
+  const FRAME_BEFORE = tailRe(REFER_FRAMES.concat(["discuss with","speak to","refer to","referral to","under the","admit under"]), 2);
+  const SUFFIX_AFTER = new RegExp("^\\s*(?:" + TEAM_SUFFIX.slice().sort(byLen).map(esc).join("|") + ")(?=$|[^a-z0-9])");
+  // teamsIn(text) -> { text, teams:[{ team, form, index, length, status }] }, one entry per team.
+  // status: referred | conditional | avoided. Any mention of a team counts as a referral ("Hematology"
+  // at the end of a plan), including "after discussion with rheumatology".
+  function teamsIn(raw){
+    const text = expandAbbrev(raw);
+    const best = {}, rank = { referred:3, conditional:2, avoided:1 };
+    scan(text, TEAM_RE).forEach(function(m){
+      const team = TEAM_FORM[m.form];
+      if(TEAM_CTX[m.form] && !FRAME_BEFORE.test(text.slice(0, m.start)) && !SUFFIX_AFTER.test(text.slice(m.end))) return;
+      const r = readTerm(text, m.start, m.end - m.start);
+      if(["monitor","threshold","reason"].indexOf(r.status) >= 0) return;
+      const status = r.status === "held" || r.status === "avoided" ? "avoided"
+                   : r.status === "conditional" || r.status === "prn" ? "conditional" : "referred";
+      if(!best[team] || rank[status] > rank[best[team].status])
+        best[team] = { team:team, form:m.form, index:m.start, length:m.end - m.start, status:status };
+    });
+    return { text:text, teams:Object.keys(best).map(k => best[k]) };
+  }
+
+  /* ------------------------------------------------------------------ diagnosis clauses */
+  // dxClauses(raw) -> [{ text, denied, raw }]. Split BEFORE normalising, on , ; : ( ) / spaced dashes,
+  // "but", and before "not"/"no", so "Not ITP – TTP" and "Thyroid storm, not an addisonian crisis"
+  // keep their positive clause. The case judges each clause with its own tiers: correct if any
+  // clause is correct and not denied; a denied clause must not cancel a positive one.
+  const DX_LEAD = /^(?:not|no|never|neither|nor|excluded|exclude|ruled out|rule out|unlikely|less likely|without)\s+(?:an?\s+|the\s+)?/;
+  const DX_TRAIL = /\s+(?:excluded|ruled out|unlikely|less likely|not likely|not the cause|doubtful)$/;
+  function dxClauses(raw){
+    let s = String(raw == null ? "" : raw);
+    /* "thyroid storm — excluded", "thyroid storm: ruled out", "thyroid storm (unlikely)": a dash,
+       colon or bracket before a trailing denial keeps the denial on the thing it follows (round 3) */
+    s = s.replace(/\s*[-‐-―−:(]+\s*(excluded|ruled out|unlikely|less likely|not likely|not the cause|doubtful)\s*\)?(?=\s*(?:$|[,;.]))/gi, " $1");
+    /* "thyroid storm — less likely than sepsis": the thing before is denied, the thing after stands;
+       "sepsis more likely than thyroid storm" denies the thing after (round 4) */
+    s = s.replace(/\s*[-‐-―−:(]*\s*\bless likely than\b/gi, " less likely , ").replace(/\s*\bmore likely than\b/gi, " , not ");
+    s = s.replace(/\s[-‐-―−]+\s/g, " , ");
+    s = s.replace(/\b(?:rather than|instead of)\b/gi, ", not ").replace(/\bbut\b/gi, ",");
+    /* a trailing "not likely" / "not the cause" stays on the clause it follows (round 4) */
+    s = s.replace(/\s+(not|no)\s+(?!(?:likely|the cause)\s*(?:$|[,;.:)\/]))/gi, " ,$1 ");
+    return s.split(/[,;:()\/]|\.(?=\s|$)/).map(function(part){
+      let t = normalise(part).replace(/^[\s,;:]+|[\s,;:]+$/g, "");
+      if(!t) return null;
+      let denied = false;
+      if(DX_LEAD.test(t)){ denied = true; t = t.replace(DX_LEAD, ""); }
+      if(DX_TRAIL.test(t)){ denied = true; t = t.replace(DX_TRAIL, ""); }
+      return t ? { text:t, denied:denied, raw:part.trim() } : null;
+    }).filter(Boolean);
+  }
+
+  return {
+    // data
+    ABBREV, BRANDS, CLASS_WORDS, CLASSES, SPECIALTIES, REFER_FRAMES, TEAM_SUFFIX, NEGATION, CONDITIONS, FUZZY_BLOCK,
+    // helpers
+    normalise, expandAbbrev, expandBrands, prep, membersOf, classesOf, clauseSplit, segments,
+    findTerm, fuzzyFind, fuzzyEq, editDistance, tolerance,
+    isNegated, conditionOf, readTerm, isOrder, teamsIn, dxClauses
+  };
+})();
+if(typeof module !== "undefined" && module.exports) module.exports = Vocab;
+/* END shared vocab */
 
 /* ============================================================
    CASE DATA — this object is the weekly authoring template.
@@ -830,14 +1541,17 @@ const CASE = {
      case: naming the gland but not the emergency (thyrotoxicosis, hyperthyroidism, Graves') is
      accepted and docked rather than fatal — see judgeDx(). */
   meta: { dxAny: [],
-          dxAll: [["thyroid","storm"],["thyrotoxic","storm"],["thyrotoxic","crisis"],["thyroid","crisis"],["thyrotoxicosis","storm"],["thyrotoxicosis","crisis"]],
+          dxAll: [["thyroid","storm"],["thyrotoxic","storm"],["thyrotoxic","crisis"],["thyroid","crisis"],["thyrotoxicosis","storm"],["thyrotoxicosis","crisis"],
+                  ["hyperthyroid|hyperthyroidism","crisis|storm"],["graves|gravess","storm|crisis"],["decompensated","thyrotoxicosis"]],
+          /* positive fused-word tier: "thyroidstorm" typed as one word */
+          dxSub: ["thyroidstorm","thyrotoxiccrisis","thyrotoxicstorm","thyroidcrisis"],
           dxPartial: ["thyrotoxicosis","thyrotoxic","hyperthyroidism","hyperthyroid","graves","gravess","overactive"],
           /* words that constitute a claim on this diagnosis — the negation machinery reads
              these, so "sepsis, not thyroid storm" is a denial rather than a commitment */
           dxClaim: ["thyroid","thyrotoxic","thyrotoxicosis","storm","crisis","hyperthyroidism","graves"],
           /* near-misses that share the vocabulary but are different diagnoses: they must not
              collect partial credit */
-          dxPartialBlock: ["periodic","paralysis","amiodarone","induced","myxoedema","hypothyroid","underactive"],
+          dxPartialBlock: ["periodic","paralysis","amiodarone","induced","myxoedema","hypothyroid","underactive","myasthen","gravis"],
           dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against"],
           dxPostNegators: ["excluded","ruled out","unlikely","improbable","not the diagnosis"],
           dxName: "Thyroid storm", startClock: 1360 /* 22:40 in minutes */,
@@ -884,13 +1598,13 @@ const CASE = {
     /* ---- the discriminators, each requested separately ---- */
     { id:"eyes", name:"Eyes", key:true, tone:"alert", imgOnly:true,
       img:"thy-eyes.jpg", imgAlt:"His eyes, front on",
-      aliases:["eyes","eye","eye signs","eye examination","look at the eyes","lids","eyelids","lid retraction","lid lag","exophthalmos","proptosis","stare","staring","periorbital","conjunctiva","conjunctivae","sclera","sclerae","ophthalmic","orbits"] },
+      aliases:["eyes","eye","eye signs","eye examination","look at the eyes","lids","eyelids","lid retraction","lid lag","exophthalmos","proptosis","stare","staring","periorbital","conjunctiva","conjunctivae","sclera","sclerae","ophthalmic","orbits","thyroid eye disease"] },
     { id:"neck", name:"Neck", key:true, tone:"alert", imgOnly:true,
       img:"thy-goitre.jpg", imgAlt:"The front of his neck",
       aliases:["neck","front of the neck","neck lump","goitre","goiter","swelling in the neck","palpate the neck","feel the neck","neck swelling","swallow","swallowing test","neck mass","anterior neck"] },
     { id:"hands", name:"Hands", key:true, tone:"alert", imgOnly:true,
       img:"thy-hands.jpg", imgAlt:"Both hands, palms towards you",
-      aliases:["hands","hand","hand examination","palms","palm","nails","nail","fingernails","onycholysis","clubbing","palmar erythema","sweaty hands","sweat","warm hands","peripheries warm","skin temperature of the hands"] },
+      aliases:["hands","hand","hand examination","palms","palm","nails","nail","fingernails","onycholysis","clubbing","palmar erythema","sweaty hands","sweaty palms","sweat","warm hands","peripheries warm","skin temperature of the hands"] },
     { id:"tremor", name:"Outstretched arms", key:true, tone:"alert", imgOnly:true,
       img:"thy-tremor.gif", imgAlt:"Both arms held out in front of him",
       aliases:["tremor","tremors","outstretched arms","outstretched hands","arms out","hold his arms out","hold out his hands","fine tremor","shaking","shakes","asterixis","flap","postural tremor","hands out","arms outstretched"] },
@@ -910,7 +1624,7 @@ const CASE = {
     { id:"prox", name:"Proximal muscle power", tone:"alert",
       f:"He cannot get out of the chair without pushing up on the arms, and cannot hold his arms above his head for more than a few seconds. Distal power is normal — grip is strong. Proximal weakness with preserved distal strength.",
       aliases:["proximal power","proximal weakness","proximal myopathy","stand from a chair","sit to stand","rise from the chair","shoulder abduction","hip flexion","muscle power","power","myopathy","proximal muscle power"] },
-    { id:"shins", name:"Shins", key:true, tone:"alert", imgOnly:true, img:"thy-oedema.jpg", imgAlt:"Both lower legs, pressed and released", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles","fluid overload","shins","shin","pretibial","pretibial myxoedema","legs","lower legs","tibia","front of the legs","skin over the shins"] },
+    { id:"shins", name:"Shins", key:true, tone:"alert", imgOnly:true, img:"thy-oedema.jpg", imgAlt:"Both lower legs, pressed and released", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles","fluid overload","shins","shin","pretibial","pretibial myxoedema","legs","lower legs","tibia","front of the legs","skin over the shins","lower limb","lower limbs","lower limb examination"] },
 
     /* ---- everything else: real examinations, genuinely normal ---- */
     { id:"hydr",  name:"Volume status", f:"Mucous membranes dry, tongue dry. JVP raised at 5 cm. Peripheries warm, capillary refill under 2 s. He has been sweating litres, and yet the venous pressure is up.", aliases:["volume status","fluid status","hydration","hydration status","assess volume","fluid assessment","jvp","jugular venous pressure","capillary refill","skin turgor","mucous membranes","dehydration","fluid balance"] },
@@ -978,7 +1692,7 @@ const CASE = {
     ],
     bloods: [
       { id:"tft",  name:"Thyroid function tests", cost:120, costL:"2 h", tag:"key",
-        aliases:["tft","tfts","thyroid function","thyroid function tests","tsh","t4","t3","free t4","free t3","thyroid bloods","thyroid levels","thyroid profile"],
+        aliases:["tft","tfts","thyroid function","thyroid function tests","tsh","t4","t3","free t4","free t3","ft4","ft3","free thyroxine","thyroxine","thyroid hormones","thyroid function test","thyroid bloods","thyroid levels","thyroid profile"],
         labs:[{n:"TSH", v:"<0.01", r:"0.3–4.2", u:"mU/L", flag:"lo"},{n:"Free T4", v:"62", r:"9.0–19.0", u:"pmol/L", flag:"hi"},{n:"Free T3", v:"28", r:"3.1–6.8", u:"pmol/L", flag:"hi"}] },
       { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true,
         aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets","white cells","wcc"],
@@ -1012,7 +1726,7 @@ const CASE = {
       { id:"cult", name:"Blood cultures", cost:1440, costL:"24–48 h", tag:"key", defer:true,
         aliases:["blood cultures","cultures","bc","septic screen","sepsis screen","culture him"],
         text:"Two sets taken from separate sites and sent.\n\nNo growth at 48 hours." },
-      { id:"trab", name:"TSH receptor antibodies", cost:1440, costL:"send-away", tag:"supp", defer:true,
+      { id:"trab", name:"Thyroid antibodies (TRAb, TPO)", cost:1440, costL:"send-away", tag:"supp", defer:true,
         aliases:["tsh receptor antibodies","trab","tras","thyroid antibodies","thyroid autoantibodies","tpo","anti tpo","thyroid peroxidase antibodies","graves antibodies"],
         text:"Sent to the reference laboratory. Result in several days — it will confirm the cause, but it will not change anything you do tonight." },
       { id:"met",  name:"Plasma metanephrines", cost:1440, costL:"send-away", tag:"supp", defer:true,
@@ -1055,7 +1769,7 @@ const CASE = {
         aliases:["cxr","chest x ray","chest xray","chest radiograph","chest film","portable chest","mobile chest x ray"],
         text:"Reported by the on-call radiologist:\n\nUpper lobe blood diversion with perihilar haze and interstitial septal thickening, in keeping with pulmonary oedema. Superimposed patchy airspace opacification at both bases, likely infective. Heart size difficult to assess on this projection. No pneumothorax, no large effusion." },
       { id:"echo", name:"Echocardiogram", cost:180, costL:"3 h", tag:"key",
-        aliases:["echo","echocardiogram","echocardiography","cardiac echo","tte","bedside echo","pocus","focused echo","assess lv function"],
+        aliases:["echo","echocardiogram","echocardiography","cardiac echo","tte","transthoracic echo","transthoracic echocardiogram","urgent echo","bedside echo","pocus","focused echo","assess lv function"],
         text:"Consultant-delivered focused study at the bedside:\n\nDilated left ventricle with globally impaired systolic function, visual ejection fraction 30–35%. No regional wall motion abnormality. Moderate functional mitral regurgitation. Right ventricle mildly dilated. Inferior vena cava plethoric. No pericardial effusion, no vegetation seen.\n\nIMPRESSION: dilated cardiomyopathy with a high-output picture — consider a tachycardia-mediated or endocrine cause." },
       { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"supp",
         aliases:["ct head","ct brain","head ct","ct scan head","ct","urgent ct head","non contrast ct head"],
@@ -1337,27 +2051,60 @@ $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>
 
 /* ---------- judging the committed diagnosis ---------- */
 /* Free text, so read what they wrote rather than matching a menu entry. */
-function judgeDx(raw){
-  const t = " " + norm(raw) + " ";
-  const B = "\\";                       // one backslash, for building word boundaries
-  const has = w => new RegExp(B + "b" + w + B + "b").test(t);
+/* Clause-aware (scoring audit 2026-11): the raw text is split into clauses BEFORE normalising,
+   so "Thyroid storm, not an addisonian crisis" keeps its positive clause; hyphens become spaces;
+   a denied clause never cancels a positive one. Words of 5+ letters within one edit of the
+   diagnosis vocabulary are read as that word ("thryoid storm"), claim words included. */
+let DX_VOCAB = null;
+function dxCanon(t){
   const m = CASE.meta;
-  // "sepsis, not thyroid storm" is not a commitment to thyroid storm
-  const claim = [...(m.dxAny || []), ...(m.dxClaim || [])].join("|");
-  const denied = !!claim && (m.dxNegators || []).some(n => new RegExp(
-    B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")" + B + "b").test(t));
-  const trailed = !!claim && (m.dxPostNegators || []).some(n => new RegExp(
-    "(?:" + claim + ")" + B + "s+" + n + B + "b").test(t));
-  if (denied || trailed) return false;
+  if(!DX_VOCAB){
+    DX_VOCAB = new Set();
+    [...(m.dxAll||[]).flat(), ...(m.dxAny||[]), ...(m.dxPartial||[]), ...(m.dxClaim||[]), ...(m.dxPartialBlock||[])]
+      .forEach(w => String(w).split("|").forEach(x => DX_VOCAB.add(x)));
+  }
+  return t.split(" ").map(w => {
+    if(w.length < 5 || DX_VOCAB.has(w)) return w;
+    for(const v of DX_VOCAB){ if(v.length >= 5 && Math.abs(v.length - w.length) <= 1 && Vocab.editDistance(w, v, 1) <= 1) return v; }
+    return w;
+  }).join(" ");
+}
+function dxJudgeClause(t){
+  const m = CASE.meta, B = "\\";
+  const has = w => new RegExp(B + "b(?:" + w + ")" + B + "b").test(t);
+  const words = t.trim().split(" ");
   if ((m.dxAny || []).some(has)) return true;
   if ((m.dxAll || []).some(group => group.every(has))) return true;
-  /* substring, not word boundary: norm() deletes hyphens rather than replacing them, so
-     "Amiodarone-induced" collapses to one token and amiodarone would never fire */
+  /* a whole fused word only: "hypothyroid crisis" must never collapse into "thyroidcrisis" */
+  if ((m.dxSub || []).some(x => words.includes(x))) return true;
+  /* substring: near-misses that share the vocabulary but are different diagnoses */
   if ((m.dxPartialBlock || []).some(w => t.indexOf(w) >= 0)) return false;
   /* Near miss: they have named the gland but not the emergency. Accepted and docked rather
      than fatal — they reach treatment and the drill, and the outcome names the gap. */
   if ((m.dxPartial || []).some(has)) return "partial";
   return false;
+}
+function judgeDx(raw){
+  const m = CASE.meta, B = "\\";
+  const claim = [...(m.dxAny || []), ...(m.dxClaim || [])].join("|");
+  let best = false, stormDenied = false;
+  /* "hyperthyroidism, not storm": the emergency itself was named and denied, so the gland alone
+     is not a docked pass (a denied clause naming something else, "not addisonian crisis", is not this) */
+  const STORM_ONLY = /^(?:(?:an?|the|frank|thyroid|thyrotoxic|thyrotoxicosis|hyperthyroid|hyperthyroidism|graves|storm|crisis)\s*)+$/;
+  for(const c of Vocab.dxClauses(raw)){
+    let t = " " + dxCanon(c.text.replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim()) + " ";
+    if(c.denied){ if(/ (?:storm|crisis) /.test(t) && STORM_ONLY.test(t.trim())) stormDenied = true; continue; }
+    /* "sepsis, doubt thyroid storm": delete each negated span, then judge what remains */
+    if(claim){
+      const cut = re => { t = t.replace(re, s => { if(/(?:storm|crisis)/.test(s)) stormDenied = true; return " "; }); };
+      (m.dxNegators || []).forEach(n => cut(new RegExp(B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")" + B + "w*", "g")));
+      (m.dxPostNegators || []).forEach(n => cut(new RegExp("(?:" + B + "w+" + B + "s+){0,2}(?:" + claim + ")" + B + "w*" + B + "s+" + n + B + "b", "g")));
+    }
+    const v = dxJudgeClause(" " + t.replace(/\s+/g, " ").trim() + " ");
+    if(v === true) return true;
+    if(v === "partial") best = "partial";
+  }
+  return stormDenied ? false : best;
 }
 
 /* ---------- history (chat) ---------- */
@@ -1510,13 +2257,23 @@ function lev2(a,b){
    neck, the hands and the tremor each have to be asked for. The chips name regions, never
    signs, and they appear only when the player has already said the word themselves \u2014 a vague
    "examine him" reduces to nothing and is refused, exactly as before. */
-const THYROID_WORDS = new Set(["thyroid","thyroids","thyroxine","thyrotoxicosis","thyrotoxic","hyperthyroid","hyperthyroidism","overactive","graves","endocrine","endocrinological","status","gland","glands","signs","state"]);
+const THYROID_WORDS = new Set(["thyroid","thyroids","thyroxine","thyrotoxicosis","thyrotoxic","hyperthyroid","hyperthyroidism","overactive","graves","endocrine","endocrinological","status","gland","glands","signs","state","palpate","palpation","palpating"]);
 const CLARIFY_IDS = ["eyes","neck","hands","tremor","reflexes","pulse"];
 function isThyroidQuery(q){
   const t = queryTokens(norm(q));
   if(!t.length) return false;
   if(!t.some(w=>["thyroid","thyroids","thyrotoxicosis","thyrotoxic","hyperthyroid","hyperthyroidism","graves","endocrine","thyroxine"].includes(w))) return false;
   return t.every(w=>THYROID_WORDS.has(w));
+}
+/* "Examine the upper limbs" is several examinations too: the same region prompt, never a sign.
+   A bare "limbs" is asked which ones, so it cannot reach the shins by itself.
+   Returns "upper", "all" or false. */
+const UPPER_LIMB_IDS = ["hands","tremor","pulse","reflexes","prox"];
+function isUpperLimbQuery(q){
+  const t = queryTokens(norm(q));
+  if(!t.some(w=>w==="limb"||w==="limbs")) return false;
+  if(!t.every(w=>["upper","limb","limbs","both","all","four","neurological","neuro"].includes(w))) return false;
+  return t.includes("upper") ? "upper" : "all";
 }
 function examPhrases(e){ return [e.name, ...(e.aliases||[])].map(norm); }
 function matchExam(query){
@@ -1567,6 +2324,14 @@ function submitExam(){
     msg.querySelectorAll("button").forEach(b=>b.onclick=()=>doFocusExam(b.dataset.id));
     return;
   }
+  const limbQ = isUpperLimbQuery(raw);
+  if(limbQ){
+    msg.innerHTML = `<div class="ambwrap"><div class="aq">The ${limbQ==="upper"?"upper limbs are":"limbs are"} several examinations, not one. What do you want to look at?</div><div class="ambchips">`+
+      (limbQ==="upper" ? UPPER_LIMB_IDS : [...UPPER_LIMB_IDS, "shins"]).map(id=>`<button type="button" data-id="${id}">${CASE.examMore.find(x=>x.id===id).name}</button>`).join("")+
+      `</div></div>`;
+    msg.querySelectorAll("button").forEach(b=>b.onclick=()=>doFocusExam(b.dataset.id));
+    return;
+  }
   const m = matchExam(raw);
   if(m.kind==="one"){ doFocusExam(m.id); return; }
   if(m.kind==="amb"){
@@ -1597,7 +2362,7 @@ $("#rxReassessBtn").onclick = doReexam;
 function allIx(){ return Object.keys(CASE.ix).flatMap(g=>CASE.ix[g]); }
 function ixPhrases(x){ return [x.name, ...(x.aliases||[])].map(norm); }
 function matchIx(query){
-  const q = norm(String(query).replace(/&/g," and "));
+  const q = norm(String(query).replace(/&/g," and ").replace(/-/g," "));
   if(!q) return {kind:"none"};
   const all = allIx();
   for(const x of all){ if(ixPhrases(x).includes(q)) return {kind:"one", id:x.id}; }
@@ -1765,41 +2530,41 @@ const RX_DANGERS = ["iodinefirst","propmax","asp","amio"];
    ============================================================ */
 const PLAN_ITEMS = {
   /* ---- the ladder ---- */
-  bb:      { label:"Beta blockade", rx:"bb", aliases:["esmolol","esmolol infusion","iv esmolol","short acting beta blocker","short acting beta blockade","titratable beta blocker","beta blocker","beta blockade","betablocker","beta blocked","block the beta receptors","propranolol","iv propranolol","oral propranolol","labetalol","metoprolol","bisoprolol","rate control","rate controlled","control the rate","slow the heart rate","diltiazem","verapamil","calcium channel blocker"] },
-  thion:   { label:"Thionamide", rx:"thion", aliases:["propylthiouracil","ptu","thionamide","thionamides","antithyroid drug","antithyroid drugs","anti thyroid drug","anti thyroid medication","carbimazole","cbz","methimazole","mmi","neomercazole","block the synthesis","block hormone synthesis","loading dose of ptu","ptu loading dose"] },
+  bb:      { label:"Beta blockade", rx:"bb", aliases:["esmolol","esmolol infusion","iv esmolol","short acting beta blocker","short acting beta blockade","titratable beta blocker","beta blocker","beta blockade","betablocker","beta blocked","block the beta receptors","propranolol","iv propranolol","oral propranolol","labetalol","metoprolol","bisoprolol","rate control","rate controlled","control the rate","slow the heart rate","diltiazem","verapamil","calcium channel blocker","beta blockers","b blocker","b blockers"] },
+  thion:   { label:"Thionamide", rx:"thion", aliases:["propylthiouracil","ptu","thionamide","thionamides","antithyroid drug","antithyroid drugs","anti thyroid drug","anti thyroid medication","carbimazole","cbz","methimazole","mmi","neomercazole","block the synthesis","block hormone synthesis","loading dose of ptu","ptu loading dose","antithyroid medication","antithyroid medications","anti thyroid drugs","anti thyroid medications","antithyroid treatment","antithyroid"] },
   iodine:  { label:"Iodine, after the thionamide", rx:"iodine", aliases:["lugols iodine after the thionamide","lugols after the thionamide","iodine one hour after the thionamide","iodine after the thionamide","iodine after thionamide","iodine an hour after","iodine after ptu","lugols iodine","lugols","lugol","sski","potassium iodide","saturated solution of potassium iodide","iodine","iodide","block the release"] },
   steroid: { label:"Corticosteroid", rx:"steroid", aliases:["hydrocortisone","iv hydrocortisone","hydrocortisone 100mg","steroid","steroids","corticosteroid","corticosteroids","glucocorticoid","glucocorticoids","dexamethasone","methylprednisolone","prednisolone"] },
-  cool:    { label:"Cooling and paracetamol", rx:"cool", aliases:["paracetamol","active cooling","cooling","cool him","cooling measures","cooled fluids","fan","ice packs","antipyretic","antipyretics","tepid sponging","temperature management","cool the patient"] },
-  abx:     { label:"Antibiotics for the precipitant", rx:"abx", aliases:["antibiotics","iv antibiotics","empirical antibiotics","broad spectrum antibiotics","co amoxiclav","amoxicillin","doxycycline","ceftriaxone","tazocin","treat the chest infection","treat the pneumonia","treat the precipitant","treat the infection","cover the chest","cap antibiotics","antibiotic"] },
-  endo:    { label:"Urgent endocrinology referral", rx:"endo", aliases:["refer to endocrinology","refer endocrinology","call endocrinology","discuss with endocrinology","endocrinology referral","bleep endocrinology","phone endocrinology","endocrine referral","refer to endocrine","refer to the endocrinologist","endocrinology","endocrine","endo reg","endocrine reg","endocrinology review","endocrine opinion","endocrinology advice","dw endo","dw endocrinology","specialist advice"] },
-  itu:     { label:"Critical care", rx:"itu", aliases:["critical care","itu","icu","hdu","intensive care","intensive care unit","anaesthetics","anaesthetic review","critical care review","critical care outreach","outreach","level 2 bed","level 2 care","level 3 care","high dependency","itu referral","refer to itu","refer to critical care","escalate to critical care"] },
+  cool:    { label:"Cooling and paracetamol", rx:"cool", aliases:["paracetamol","active cooling","cooling","cool him","cooling measures","cooled fluids","fan","ice packs","antipyretic","antipyretics","tepid sponging","temperature management","cool the patient","acetaminophen"] },
+  abx:     { label:"Antibiotics for the precipitant", rx:"abx", aliases:["antibiotics","iv antibiotics","empirical antibiotics","broad spectrum antibiotics","co amoxiclav","amoxicillin","doxycycline","ceftriaxone","tazocin","treat the chest infection","treat the pneumonia","treat the precipitant","treat the infection","cover the chest","cap antibiotics","antibiotic","abx","iv abx","clarithromycin","augmentin","piperacillin tazobactam","pip taz","doxy","levofloxacin","cefuroxime","treat cap","treat the cap","treat pneumonia","treat lrti","treat the lrti","treat chest infection"] },
+  endo:    { label:"Urgent endocrinology referral", rx:"endo", aliases:["refer to endocrinology","refer endocrinology","call endocrinology","discuss with endocrinology","endocrinology referral","bleep endocrinology","phone endocrinology","endocrine referral","refer to endocrine","refer to the endocrinologist","endocrinology","endocrine","endo reg","endocrine reg","endocrinology review","endocrine opinion","endocrinology advice","dw endo","dw endocrinology","specialist advice","endo","endo team","endocrinologist","endocrinologists","refer to endo"] },
+  itu:     { label:"Critical care", rx:"itu", aliases:["critical care","itu","icu","hdu","intensive care","intensive care unit","anaesthetics","anaesthetic review","critical care review","critical care outreach","outreach","level 2 bed","level 2 care","level 3 care","high dependency","itu referral","refer to itu","refer to critical care","escalate to critical care","intensivist","intensivists","ccot","icu team","itu team"] },
 
   /* ---- supportive ---- */
-  iv:      { label:"IV access and fluid", rx:"iv", aliases:["iv access","cannula","cannulate","two large bore cannulae","iv fluids","intravenous fluids","fluid resuscitation","fluids","crystalloid","hartmanns","saline","resuscitate with fluid","rehydrate"] },
+  iv:      { label:"IV access and fluid", rx:"iv", aliases:["iv access","cannula","cannulate","two large bore cannulae","iv fluids","intravenous fluids","fluid resuscitation","fluids","crystalloid","hartmanns","saline","resuscitate with fluid","rehydrate","iv fluid","ivf","ivi","intravenous fluid","fluid bolus","cannulae","large bore cannula","plasmalyte","dextrose","glucose infusion"] },
   o2:      { label:"Oxygen", rx:"o2", aliases:["oxygen","o2","supplemental oxygen","high flow oxygen","face mask oxygen","target saturations","sats target"] },
-  k:       { label:"Potassium and magnesium replacement", rx:"k", aliases:["potassium replacement","replace the potassium","iv potassium","magnesium","replace the magnesium","iv magnesium","correct the electrolytes","electrolyte replacement","correct the potassium"] },
+  k:       { label:"Potassium and magnesium replacement", rx:"k", aliases:["potassium replacement","replace the potassium","iv potassium","magnesium","replace the magnesium","iv magnesium","correct the electrolytes","electrolyte replacement","correct the potassium","replace k","replace potassium","k replacement"] },
   thia:    { label:"Thiamine", rx:"thia", aliases:["thiamine","pabrinex","vitamin b","b vitamins","vitamin supplementation"] },
   diur:    { label:"Cautious diuresis", rx:"diur", aliases:["furosemide","frusemide","diuretic","diuretics","iv furosemide","diuresis","offload him","offload","treat the pulmonary oedema"] },
-  chlor:   { label:"Chlorpromazine for agitation", rx:"chlor", aliases:["chlorpromazine","largactil","sedation","sedate him","haloperidol","lorazepam","midazolam","benzodiazepine"] },
+  chlor:   { label:"Chlorpromazine for agitation", rx:"chlor", aliases:["chlorpromazine","largactil","sedation","sedate him","haloperidol","lorazepam","midazolam","benzodiazepine","diazepam"] },
   chole:   { label:"Cholestyramine", rx:"chole", aliases:["cholestyramine","colestyramine","questran","bile acid sequestrant","interrupt enterohepatic circulation"] },
   cath:    { label:"Catheter and fluid balance", rx:"cath", aliases:["catheter","catheterise","urinary catheter","fluid balance","strict fluid balance","monitor urine output","hourly urine output"] },
   obs:     { label:"Continuous monitoring", rx:"obs", aliases:["cardiac monitoring","continuous monitoring","monitored bed","telemetry","close monitoring","hourly obs","frequent obs","regular observations","news2 monitoring","monitor him"] },
   bed:     { label:"Admission", rx:"bed", aliases:["admit","admission","ward bed","request a bed","find a bed","admit him"] },
   esc:     { label:"Escalation plan", rx:"esc", aliases:["escalation plan","treatment escalation plan","ceiling of care","tep","resuscitation status","dnacpr discussion"] },
-  anticoag:{ label:"Anticoagulation by stroke risk", rx:"anticoag", aliases:["anticoagulation","anticoagulate","cha2ds2 vasc","chadsvasc","chads vasc","stroke risk assessment","doac","apixaban","rivaroxaban","edoxaban","warfarin","low molecular weight heparin","lmwh","dalteparin","enoxaparin","clexane","tinzaparin","thromboprophylaxis","vte prophylaxis"] },
+  anticoag:{ label:"Anticoagulation by stroke risk", rx:"anticoag", aliases:["anticoagulation","anticoagulate","cha2ds2 vasc","chadsvasc","chads vasc","stroke risk assessment","doac","apixaban","rivaroxaban","edoxaban","warfarin","low molecular weight heparin","lmwh","dalteparin","enoxaparin","clexane","tinzaparin","thromboprophylaxis","vte prophylaxis","prophylactic vte"] },
   cards:   { label:"Cardiology", rx:"cards", aliases:["cardiology","refer cardiology","call cardiology","cardiology review","cardiology opinion","cardiology referral"] },
   micro:   { label:"Microbiology", rx:"micro", aliases:["microbiology","micro","infection specialist","id team","infectious diseases","discuss with micro"] },
-  echo:    { label:"Echocardiogram", ix:"echo", aliases:["echo","echocardiogram","bedside echo","urgent echo","assess lv function","pocus"] },
+  echo:    { label:"Echocardiogram", ix:"echo", aliases:["echo","echocardiogram","bedside echo","urgent echo","assess lv function","pocus","transthoracic echo","transthoracic echocardiogram","tte"] },
   cult:    { label:"Blood cultures", ix:"cult", aliases:["blood cultures","cultures","septic screen","culture him"] },
 
   /* ---- penalised, with teaching ---- */
   alpha:   { label:"Alpha blockade", rx:"alpha", teach:"This is the phaeochromocytoma sequence, not this one. In phaeo the circulating catecholamines act on both receptor families, so beta blockade alone leaves alpha-mediated vasoconstriction unopposed — hence alpha first. In thyroid storm there is <b>no catecholamine excess</b>: thyroid hormone increases <i>sensitivity</i> to normal catecholamine levels, largely through beta receptors. <b>No alpha-blocker appears anywhere in the thyroid storm guidance.</b> The sequencing that matters here is thionamide before iodine.", aliases:["alpha blockade","alpha blocker","alpha block","phenoxybenzamine","doxazosin","phentolamine","prazosin","alpha blockade first","alpha before beta"] },
   dcc:     { label:"DC cardioversion", rx:"dcc", teach:"Understandable at 170 — but this atrial fibrillation is driven by the thyrotoxic state, and shocking it without treating the cause fails, or restores sinus rhythm for minutes. <b>“Many patients revert to sinus rhythm once euthyroidism is restored.”</b> Rate control and treat the storm. Cardioversion belongs to the patient who is peri-arrest from the rhythm itself.", aliases:["dc cardioversion","cardiovert","cardioversion","synchronised dc shock","dc shock","shock him","electrical cardioversion","defibrillate"] },
   dig:     { label:"Digoxin", rx:"dig", teach:"Not contraindicated, but <b>relatively ineffective</b> here: clearance is increased in thyrotoxicosis and the sympathetic drive overwhelms the vagal effect, so it is an adjunct at best. It is the reflex reach in atrial fibrillation with heart failure, which is why it is worth naming. The rate here follows the storm.", aliases:["digoxin","digoxin loading","digitalise","digitalisation","iv digoxin"] },
-  waitlvl: { label:"Waiting for the thyroid function tests before treating", rx:"waitlvl", teach:"Thyroid storm is a <b>clinical</b> diagnosis. <b>Hormone concentrations do not differentiate storm from uncomplicated thyrotoxicosis</b>, so the assay was never going to settle it — and the patient who is scored at 105 on Burch–Wartofsky is treated while the sample is still in the pod.", aliases:["wait for the thyroid function","await the tfts","wait for the tfts","hold treatment until the tfts","wait for the levels","await the thyroid levels","wait for the results before starting","defer treatment until the result","wait for endocrinology before starting"] },
+  waitlvl: { label:"Waiting for the thyroid function tests before treating", rx:"waitlvl", teach:"Thyroid storm is a <b>clinical</b> diagnosis. <b>Hormone concentrations do not differentiate storm from uncomplicated thyrotoxicosis</b>, so the assay was never going to settle it — and the patient who is scored at 105 on Burch–Wartofsky is treated while the sample is still in the pod.", aliases:["wait for the thyroid function","await the tfts","wait for the tfts","hold treatment until the tfts","wait for the levels","await the thyroid levels","wait for the results before starting","defer treatment until the result","wait for endocrinology before starting","wait for tfts","wait for tft","wait for tft result","wait for tft results","await tfts","await tft","await tft results","wait for thyroid function","wait for thyroid function tests","await thyroid function","await thyroid function tests","await the thyroid function"] },
 
   /* ---- the dangers ---- */
-  iodinefirst:{ label:"Iodine before the thionamide", rx:"iodinefirst", danger:true, aliases:["lugols iodine first then the thionamide","lugols iodine first then ptu","lugols iodine first","lugol iodine first","iodine first","lugols first","iodine before the thionamide","iodine then thionamide","lugols then ptu","iodine before ptu","iodine straight away","give the iodine first","start with iodine","iodine now and ptu later"] },
+  iodinefirst:{ label:"Iodine before the thionamide", rx:"iodinefirst", danger:true, aliases:["lugols iodine first then the thionamide","lugols iodine first then ptu","lugols iodine first","lugol iodine first","iodine first","lugols first","iodine before the thionamide","iodine then thionamide","lugols then ptu","iodine before ptu","iodine straight away","give the iodine first","start with iodine","iodine now and ptu later","lugols iodine now then ptu","lugols iodine now, then ptu","iodine now then ptu","iodine now, then ptu","lugols now then ptu","lugols now, then ptu","iodine now then thionamide","iodine now, then thionamide","iodine now then carbimazole","iodine now, then carbimazole","iodine then ptu","iodine, then ptu","lugols iodine then ptu","lugols iodine, then ptu","lugols iodine then the thionamide","iodine then the thionamide","iodine then carbimazole","iodine, then carbimazole","iodine followed by ptu","lugols iodine followed by ptu","iodine followed by the thionamide","iodine followed by carbimazole"] },
   propmax: { label:"High-dose propranolol", rx:"propmax", danger:true, aliases:["propranolol 80mg","propranolol 80 mg four hourly","high dose propranolol","propranolol 60 to 80mg","full dose propranolol","propranolol every four hours","maximal beta blockade","iv propranolol 5mg","large dose of propranolol"] },
   asp:     { label:"Aspirin", rx:"asp", danger:true, aliases:["aspirin","asa","salicylate","aspirin for the fever","aspirin as an antipyretic","soluble aspirin"] },
   amio:    { label:"Amiodarone", rx:"amio", danger:true, aliases:["amiodarone","amiodarone infusion","iv amiodarone","cordarone","amiodarone loading"] }
@@ -1810,27 +2575,163 @@ const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold
    hydrocortisone" negate the hydrocortisone too. */
 const NEG_VERBS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|"+
   "administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for)";
-function parsePlan(text){
-  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
-  const matched = new Set(), negated = new Set();
-  const pairs = [];
-  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
-  pairs.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "iodine after the thionamide" beats "iodine"
-  for(const [k,a] of pairs){
-    if(!a) continue;
-    const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
-    let m;
-    while((m = re.exec(t)) !== null){
-      // long enough for the longest negator plus the longest intervening verb
-      const before = t.slice(Math.max(0, m.index-32), m.index);
-      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_VERBS+"\\s+)?$").test(before));
-      if(isNeg) negated.add(k); else matched.add(k);
-      break;
+/* Plan reader (scoring audit 2026-11): shared vocabulary for spelling (plurals, brands, abbreviations,
+   class words), clause by clause; Vocab.readTerm for negation (pre and post, carried across a list),
+   conditions, thresholds and monitoring; a length-scaled typo pass that never lands on a danger or
+   a penalised item; referrals read by Vocab.teamsIn. NEGATORS / NEG_VERBS above are kept for reference. */
+const PLAN_FUZZY_SKIP = new Set(["iodinefirst","propmax","asp","amio","alpha","dcc","dig","waitlvl"]);
+const PLAN_RUN_WORDS = new Set(["and","or","nor","the","a","an","any","also","either","neither","z"]);
+const PLAN_TEAMS = { endocrinology:"endo", "critical care":"itu", cardiology:"cards", microbiology:"micro" };
+/* "Withhold iodine until the thionamide is in" IS the guideline sequence, not a refusal */
+const PLAN_IODINE_NOW_RE = /\biodine\b[^.;]{0,30}?\b(?:now|stat|immediately|straight away|right away|first)\b[^.;]{0,30}?\b(?:ptu|propylthiouracil|carbimazole|methimazole|thiamazole|thionamide|antithyroid drugs?)\b[^.;,]{0,12}?\b(?:in\s+(?:an?|one|1|2|two|half an)\s+(?:hours?|hrs?|h)|in\s+(?:30|60)\s*(?:min|mins|minutes)|later|afterwards|after\s+that|(?:an?|one|1)\s+(?:hours?|hrs?|h)\s+later)\b/;
+const PLAN_IODINE_WAIT_RE =/^[^;]{0,40}?(?:^|[^a-z0-9])(?:until|till|after|once|following)\s+(?:[a-z0-9.]+\s+){0,3}?(?:thionamide|propylthiouracil|carbimazole|methimazole|antithyroid drug|hours?|hrs?|h|an hour|one hour)(?=$|[^a-z0-9])/;
+let PLAN_PAIRS = null;
+function planPairs(){
+  if(PLAN_PAIRS) return PLAN_PAIRS;
+  const seen = {}; PLAN_PAIRS = [];
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>{
+    const p = Vocab.prep(a); if(p && !seen[p]){ seen[p] = k; PLAN_PAIRS.push([k, p]); } }));
+  PLAN_PAIRS.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "iodine after the thionamide" beats "iodine"
+  return PLAN_PAIRS;
+}
+function planPhraseRe(p){ return new RegExp("(^|[^a-z0-9])(" + p.replace(/[.*+?^${}()|[\]\\\/]/g,"\\$&") + ")(?=$|[^a-z0-9])", "g"); }
+/* "do not refer to endocrinology", "dont refer endo", "no need to call ITU": the shared reader lets
+   the referral verb end a refusal, so the case reads its own referral refusals */
+const PLAN_REFER_NEG_RE = /(?:^|[^a-z0-9])(?:no|not|dont|do not|never|avoid|without|wont|will not|no need to|no need for|no indication to|no indication for)\s+(?:(?:refer|referral|call|discuss|involve|bleep|contact|escalate|phone|ring|page|speak|to|with|the|an?|need|needs|for|be|referred|discussed|involved|escalated|yet|currently|at|this|stage|point|on|it)\s+){0,5}$/;
+const PLAN_INCL_NEG_RE = /(?:^|[^a-z0-9])(?:no|not|avoid|avoiding|stop|hold|withhold|never|dont|do not)\s+(?:(?:all|any|the|nsaid|nsaids|antiplatelet|antiplatelets|salicylate|salicylates|antipyretic|antipyretics)\s+)+(?:including|incl|such as|eg|e g|like|especially|particularly)\s+$/;
+function planSegStart(t, idx){ return Math.max(t.lastIndexOf(",", idx - 1), t.lastIndexOf(";", idx - 1)) + 1; }
+function planReferNegated(t, idx){ return PLAN_REFER_NEG_RE.test(t.slice(planSegStart(t, idx), idx)); }
+/* A refusal covers the drug(s) it names, joined by and / or / nor: "no aspirin, paracetamol, PTU"
+   refuses the aspirin only. The shared reader carries a negator across commas, so a refusal reached
+   only through a comma is re-read on its own comma phrase. The one exception is a run made only of
+   things a doctor would refuse ("avoid aspirin, amiodarone and alpha blockers"), where the refusal
+   still runs on, so a correct avoidance never triggers the danger call-back. */
+function planRead(t, idx, len){
+  const r = Vocab.readTerm(t, idx, len);
+  let status = r.status, viaComma = false;
+  if((status === "held" || status === "avoided") && r.negation && r.negation.pos === "pre"){
+    const s = planSegStart(t, idx);
+    if(s > 0){
+      const r2 = Vocab.readTerm(t.slice(s), idx - s, len);
+      if(r2.status !== "held" && r2.status !== "avoided"){
+        const c = Vocab.conditionOf(t, idx, len);
+        status = !c || c.kind === "sequenced" ? "ordered" : c.kind; viaComma = true;
+      }
     }
-    if(matched.has(k) || negated.has(k)) t = t.replace(re, " ; ");
+  }
+  if(status === "ordered" && planReferNegated(t, idx)) status = "avoided";
+  /* "avoid NSAIDs including aspirin": the example sits inside the refusal */
+  if(status === "ordered" && PLAN_INCL_NEG_RE.test(t.slice(planSegStart(t, idx), idx))) status = "avoided";
+  return { status, viaComma, neg:r.status };
+}
+/* every reading of every item in one prepped clause: [{k, status, end, text}] */
+function planHits(text){
+  const hits = [], orig = text;
+  /* consumed phrases become one same-length placeholder word, so indices still point into orig */
+  const read = (k, idx, len, t) => { const r = planRead(t, idx, len); hits.push({ k, status:r.status, idx, end:idx+len, text:orig, viaComma:r.viaComma, neg:r.neg }); };
+  for(const [k,a] of planPairs()){
+    const found = Vocab.findTerm(text, a);
+    if(!found.length) continue;
+    found.forEach(h=>read(k, h.index, h.length, text));
+    text = text.replace(planPhraseRe(a), (all, pre, form)=>pre + "z".repeat(form.length));   // consumed, but still a list item for negation
+  }
+  // typo pass: only items not read exactly, never a danger or a penalised item
+  const got = new Set(hits.map(h=>h.k));
+  for(const [k,a] of planPairs()){
+    if(got.has(k) || PLAN_FUZZY_SKIP.has(k) || !a.split(" ").some(w=>w.length>5)) continue;
+    const f = Vocab.fuzzyFind(text, a);
+    if(f && f.fuzzy){ read(k, f.index, f.length, text); got.add(k); text = text.slice(0, f.index) + "z".repeat(f.length) + text.slice(f.index + f.length); }
+  }
+  /* the refuse-only run (round 3): "avoid aspirin, amiodarone and alpha blockers" keeps the refusal
+     running across the commas, so a correct avoidance never rings pharmacy. It stands only in
+     list form: every comma phrase after the direct refusal holds nothing but refusable items and
+     joining words, and the run closes with and / or / nor. A dose, an indication or a route
+     ("amiodarone 300mg", "aspirin for fever", "amiodarone loading") or a bare unjoined pair
+     ("no aspirin, amiodarone") breaks it, and the item is read as ordered, with the call-back. */
+  hits.sort((a,b)=>a.idx-b.idx);
+  const segOf = i => { const s = planSegStart(orig, i); let e = orig.length;
+    [",", ";"].forEach(c=>{ const j = orig.indexOf(c, i); if(j >= 0 && j < e) e = j; }); return [s, e]; };
+  const segs = [];
+  hits.forEach(h=>{ const [s, e] = segOf(h.idx); let g = segs[segs.length - 1];
+    if(!g || g.s !== s){ g = { s, e, hits:[] }; segs.push(g); } g.hits.push(h); });
+  const bare = g => { let txt = orig.slice(g.s, g.e).split("");
+    g.hits.forEach(h=>{ for(let i = h.idx; i < h.end; i++) txt[i - g.s] = " "; });
+    return txt.join("").split(/[^a-z0-9]+/).filter(Boolean).every(w=>PLAN_RUN_WORDS.has(w)); };
+  const joined = g => orig.slice(g.s, g.e).split(/[^a-z0-9]+/).some(w=>w === "and" || w === "or" || w === "nor");
+  for(let i = 0; i < segs.length; i++){
+    const g = segs[i];
+    if(!g.hits.some(h=>!h.viaComma && (h.status === "held" || h.status === "avoided") && PLAN_FUZZY_SKIP.has(h.k))) continue;
+    if(g.hits.some(h=>!h.viaComma && h.status !== "held" && h.status !== "avoided")) continue;
+    let last = -1, run = i;
+    for(let j = i + 1; j < segs.length; j++){
+      const n = segs[j];
+      if(n.s !== segs[j - 1].e + 1) break;                               // a phrase with no item between
+      if(!n.hits.every(h=>h.viaComma && PLAN_FUZZY_SKIP.has(h.k)) || !bare(n)) break;
+      run = j;
+      if(joined(n)) last = j;
+    }
+    for(let j = i + 1; j <= last; j++) segs[j].hits.forEach(h=>{ h.status = h.neg; });
+    /* an unjoined list of three or more refusable items ("avoid aspirin, amiodarone, alpha blockers,
+       esmolol, PTU") is a list of refusals too, but only the items with no pharmacy call-back take
+       the refusal; a danger in it is still asked about, so "give it anyway" stays possible (round 4) */
+    if(last < i && run >= i + 2 && !segs.slice(i + 1, run + 1).some(n=>/\b(?:first|before|then|now|stat|start|give)\b/.test(orig.slice(n.s, n.e)))){
+      for(let j = i + 1; j <= run; j++) segs[j].hits.forEach(h=>{ if(!PLAN_ITEMS[h.k].danger) h.status = h.neg; });
+      last = run;
+    }
+    if(last > i) i = last;
+  }
+  return hits;
+}
+function parsePlan(text){
+  const matched = new Set(), negated = new Set();
+  Vocab.clauseSplit(String(text)).forEach(clause=>{
+    const t = Vocab.prep(clause);
+    planHits(t).forEach(h=>{
+      const it = PLAN_ITEMS[h.k];
+      let st = h.status;
+      if(st === "monitor") st = it.ix ? "ordered" : "none";        // "monitor X": a test is done, a drug is not given
+      if(st === "prn") st = "ordered";
+      /* "amiodarone if the rate does not settle" is still a plan to give it: pharmacy rings */
+      /* every penalised item, not only the dangers: "DC cardioversion if unstable", "digoxin if the
+         rate is not controlled" are still on the chart, as they were before round 2 (round 4) */
+      if(st === "conditional" && (it.danger || PLAN_FUZZY_SKIP.has(h.k))) st = "ordered";
+      if(st === "reference" && h.k === "thion") st = "ordered";    // "until the thionamide is given": it is being given
+      if((st === "held" || st === "avoided") && h.k === "iodine" && PLAN_IODINE_WAIT_RE.test(h.text.slice(h.end))) st = "ordered";
+      if(st === "ordered" || st === "continued") matched.add(h.k);
+      else if(st === "held" || st === "avoided") negated.add(h.k);
+    });
+    const tIn = Vocab.teamsIn(clause);
+    tIn.teams.forEach(tm=>{
+      const k = PLAN_TEAMS[tm.team]; if(!k) return;
+      let st = tm.status;
+      if(st === "avoided"){                       // reached only through a comma: re-read its own phrase
+        const s = planSegStart(tIn.text, tm.index);
+        if(s > 0){ const r2 = Vocab.readTerm(tIn.text.slice(s), tm.index - s, tm.length); if(r2.status !== "held" && r2.status !== "avoided") st = "referred"; }
+      }
+      if(st === "referred" && planReferNegated(tIn.text, tm.index)) st = "avoided";
+      if(st === "referred") matched.add(k);
+      else if(st === "avoided") negated.add(k);
+    });
+  });
+  negated.forEach(k=>{ if(matched.has(k)) negated.delete(k); });
+  /* "Lugol's iodine now, PTU in an hour": the iodine is timed before the thionamide, which is the
+     iodine-first danger even though neither phrase says "first" (round 4) */
+  if(matched.has("iodine") && matched.has("thion") && PLAN_IODINE_NOW_RE.test(String(text).toLowerCase())){
+    matched.delete("iodine"); matched.add("iodinefirst");
   }
   return { matched, negated };
 }
+/* the player's own words that the reader could not place, for a "Not understood" line */
+const PLAN_FILLER = new Set(["plan","impression","management","mx","imp","dx","diagnosis","and","then","also","etc","ok","thanks","pt","patient","for","to","the","a"]);
+function unreadSegments(text){
+  return Vocab.segments(String(text)).filter(seg=>{
+    const t = Vocab.prep(seg);
+    if(!t.split(/[^a-z0-9]+/).some(w=>w && !PLAN_FILLER.has(w))) return false;
+    if(planHits(t).length) return false;
+    return !Vocab.teamsIn(seg).teams.some(tm=>PLAN_TEAMS[tm.team]);
+  });
+}
+function escHTML(x){ return String(x).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 /* the chart is cumulative — anything already enacted still counts when the plan is amended */
 function effectivePlan(matched){
   const eff = new Set(matched);
@@ -1855,7 +2756,7 @@ function enactPlan(matched){
    forfeits only the individual line items. That is deliberate: it is what actually happens. */
 const BUNDLE = [
   { k:"Recognise",  want:"Name it — a decompensated thyrotoxic patient is a storm until proven otherwise",
-    ok:()=> S.dxCorrect, why:"Recognition is the step everything else hangs off. Burch–Wartofsky 45 or more is highly suggestive; his is about 105." },
+    ok:()=> S.dxCorrect && !S.dxPartial, why:"Recognition is the step everything else hangs off. Burch–Wartofsky 45 or more is highly suggestive; his is about 105." },
   { k:"Block the effect", want:"Beta blockade matched to his haemodynamics",
     ok:(m)=> m.has("bb") && !S.rx.has("propmax"),
     why:(m)=> S.rx.has("propmax")
@@ -1867,8 +2768,8 @@ const BUNDLE = [
     viaNote:"Not on your chart — credited because you referred, and endocrinology will load it. You score higher for having it in before they arrive: every hour without a synthesis block is an hour the gland keeps producing.",
     why:"<b>PTU</b> 500–1000 mg loading then 250 mg four-hourly, or <b>carbimazole</b> 80–100 mg/day — and carbimazole is preferred where the liver is deranged, as his is. Nothing else stops the gland making more hormone." },
   { k:"Block release", want:"Iodine — at least one hour after the thionamide",
-    ok:(m)=> (m.has("iodine") && !S.rx.has("iodinefirst")) || (m.has("endo") && !S.rx.has("iodinefirst")),
-    via:(m)=> !m.has("iodine") && m.has("endo"),
+    ok:(m)=> (m.has("iodine") && m.has("thion") && !S.rx.has("iodinefirst")) || (m.has("endo") && !S.rx.has("iodinefirst")),
+    via:(m)=> !(m.has("iodine") && m.has("thion")) && m.has("endo"),
     viaNote:"Not on your chart, and quite right — credited because you referred. <b>Iodine is endocrinology's to prescribe</b>, and the one-hour rule after the thionamide is theirs to keep.",
     why:(m)=> S.rx.has("iodinefirst")
       ? "The iodine went in first. <b>“Wait for 1 h post-administration of antithyroid drugs before administering iodide — this delay is essential.”</b> An unblocked gland handed an iodine load uses it as substrate."
@@ -1940,6 +2841,8 @@ function closePlan(text, matched, negated){
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
   S.bundleCovered = covered;
   const teaches = [...matched, ...negated].filter(k=>PLAN_ITEMS[k].teach);
+  const shownNeg = [...negated].filter(k=>!eff.has(k));
+  const unread = unreadSegments(text);
   const out = $("#planOut");
   out.innerHTML =
     `<div class="bundle"><h4>Your plan against the care bundle</h4>`+
@@ -1952,7 +2855,8 @@ function closePlan(text, matched, negated){
       return `<li data-ok="${via?'via':ok?1:0}"><span class="mk">${via?'◐':ok?'✓':'✗'}</span><span><span class="bl"><b>${b.k}</b> — ${b.want}</span>`+
              (ok?(via?`<br><span class="bw">${b.viaNote}</span>`:``):`<br><span class="bw">${why}</span>`)+`</span></li>`; }).join("")+
     `</ul>`+
-    (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    (shownNeg.length?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${shownNeg.map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    (unread.length?`<div class="bw planunread" style="margin-bottom:var(--s2);">Not understood: ${unread.map(u=>`“${escHTML(u)}”`).join(" · ")}</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
     (eff.has("endo") ? referFinding() : ``)+
@@ -2195,7 +3099,7 @@ function scoreAndShow(){
   else if(S.rx.has("endo")) add("Referred to endocrinology", 3);
   if(S.rx.has("itu")) add("Critical care involved", 5);
   if(S.rx.has("thion")) add("Thionamide loaded", 8);
-  if(S.rx.has("iodine") && !S.rx.has("iodinefirst")) add("Iodine, correctly after the thionamide", 6);
+  if(S.rx.has("iodine") && S.rx.has("thion") && !S.rx.has("iodinefirst")) add("Iodine, correctly after the thionamide", 6);
   if(S.rx.has("steroid")) add("Corticosteroid started", 5);
   if(S.rx.has("abx")) add("Precipitant treated", 4);
   if(S.rx.has("cool")) add("Cooled, with paracetamol", 3);
@@ -2209,6 +3113,8 @@ function scoreAndShow(){
   if(S.rx.has("alpha")) add("Alpha blockade \u2014 the wrong crisis", -6);
   if(S.rx.has("dcc")) add("Cardioverted a rhythm driven by the storm", -6);
 
+  /* judged from the final chart (plan, ICE and the Refer button), so the row agrees with the score */
+  if(S.planWritten) S.bundleCovered = BUNDLE.filter(b=>b.ok(effectivePlan(new Set()))).length;
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} guideline domains`, S.bundleCovered*4);
 
   if(S.died){

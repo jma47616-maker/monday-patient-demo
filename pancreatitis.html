@@ -1526,7 +1526,7 @@ const DATA_EXAM = (function(){
         wet:{ text:"Calves soft and symmetrical, non-tender. Pitting oedema to both ankles. Feet warm. Dorsalis pedis and posterior tibial pulses palpable bilaterally." } } },
 
     { id:"pulse", name:"Pulse", cost:0.5, typed:true, key:true,
-      aliases:A("pluse|plus rate|pulse|pulses|radial pulse|radial pulses|radial|pulse rate|pulse rhythm|pulse character|pulse volume|rhythm|heart rhythm|feel his pulse|take his pulse|brachial pulse|brachial|radio radial delay|radioradial delay|radio femoral delay|radiofemoral delay|collapsing pulse|irregular pulse|irregularly irregular|carotid|carotids|carotid pulse|carotid pulses"),
+      aliases:A("pluse|plus rate|pulse|pulses|radial pulse|radial pulses|radial|pulse rate|pulse rhythm|pulse character|pulse volume|rhythm|heart rhythm|feel his pulse|take his pulse|brachial pulse|brachial|radio radial delay|radioradial delay|radio femoral delay|radiofemoral delay|collapsing pulse|irregular pulse|irregularly irregular|carotid|carotids|carotid pulse|carotid pulses|bp both arms|bp in both arms|bp in each arm|bilateral bp|bps both arms|bp left and right arm"),
       text:"Radial pulse {hr}/min, regular, low volume. Equal at both wrists; no radio-femoral delay.",
       states:{
         dry2:{ text:"Radial pulse {hr}/min, regular, thready. Equal at both wrists." },
@@ -2133,7 +2133,7 @@ const DATA_IX = (function(){
         cueOk:"a radiologist’s report as issued; it names organs and no diagnosis",
         text:"Ultrasound abdomen. Transverse view of the epigastrium (image B): the pancreas lies in front of the splenic vein and the superior mesenteric artery; it is bulky and of reduced echogenicity, with an indistinct outline (arrows). Bright echoes with reverberation lie in front of it. Liver: bright echotexture, smooth outline, no focal lesion. Gallbladder: thin-walled, no calculi, no sludge. Common bile duct 4 mm. No intrahepatic duct dilatation. Spleen 10.8 cm. Right kidney 11.2 cm, left kidney 11.4 cm; no hydronephrosis. Aorta of normal calibre where seen. No free fluid." },
       { id:"ct", name:"CT abdomen and pelvis", cost:90, tag:"trap", trapIf:{ back:["lipase","amylase"] }, tagElse:"noise", img:"panc-ct.jpg", imgFallback:"panc-ct.svg", imgAlt:"CT abdomen and pelvis",
-        aliases:A("ct abdomen|ct abdomen and pelvis|ct abdo|ct abdo pelvis|ct ap|ctap|ct a/p|ct abdomen pelvis|ct abdo and pelvis|abdominal ct|abdo ct|ct scan abdomen|ct abdomen with contrast|contrast ct abdomen|cect|cect abdomen|ct tap|ct cap|ct kub|ct chest abdomen pelvis|ct thorax abdomen pelvis|ct mesenteric angiogram|ct angiogram|ct angio|cta|cta abdomen|ct angiogram abdomen|mesenteric angiogram|ct pancreas|pancreatic protocol ct|ct for perforation"),
+        aliases:A("ct abdomen|ct abomen|ct abdomen and pelvis|ct abdo|ct abdo pelvis|ct ap|ctap|ct a/p|ct abdomen pelvis|ct abdo and pelvis|abdominal ct|abdo ct|ct scan abdomen|ct abdomen with contrast|contrast ct abdomen|cect|cect abdomen|ct tap|ct cap|ct kub|ct chest abdomen pelvis|ct thorax abdomen pelvis|ct mesenteric angiogram|ct angiogram|ct angio|cta|cta abdomen|ct angiogram abdomen|mesenteric angiogram|ct pancreas|pancreatic protocol ct|ct for perforation"),
         cueOk:"a radiologist’s report as issued; it describes and gives no conclusion line",
         text:"CT abdomen and pelvis, portal venous phase. The pancreas is diffusely swollen, with ill-defined margins and peripancreatic fat stranding. It enhances uniformly throughout. No peripancreatic fluid collection. No free intraperitoneal or retroperitoneal gas. No free fluid in the pelvis. Gallbladder thin-walled; no calcified stones; common bile duct not dilated. Coeliac axis, superior mesenteric artery and vein, and portal vein opacify normally. Small and large bowel of normal calibre, with normal wall enhancement. Liver of reduced attenuation. Lung bases clear." },
       { id:"ctaorta", name:"CT aortogram", cost:90, tag:"trap", trapIf:{ back:["lipase","amylase"] }, tagElse:"noise", img:"panc-ct.jpg", imgFallback:"panc-ct.svg", imgAlt:"CT aortogram",
@@ -2437,7 +2437,7 @@ const DATA_MARKING = (function(){
         rule:"round(n / of × 40); n counts each slot once, whenever and by whatever route it was gathered",
         hx:["spread","worse","else","before","gall","drugs","etoh2"],                       /* S.asked */
         ex:["abdo","hands","trousseau","chvostek","perioral","pulse","hydr"],                /* the grow-only set of examinations done */
-        ix:[["ecg"],["gas"],["amylase","lipase"],["bone"],["mg"],["cxr"]],                    /* LEDGER.ids(); a group is one slot */
+        ix:[["ecg"],["gas","abg"],["amylase","lipase"],["bone"],["mg"],["cxr"]],                    /* LEDGER.ids(); a group is one slot */
         of:20 },
       plan:{ max:50, label:"Your plan against the standard", rule:"score.rows, judged on the chart as it stands at the close (an amendment never loses credit)" },
       drill:{ per:4, of:8, max:32, label:"Management drill" },
@@ -2989,7 +2989,7 @@ const DATA_PLAN_VOCAB = (function(){
     /* ---- fluid ---- */
     fluid:   { kind:"fluid", is:"treatment", aliases:A("iv fluids|iv fluid|ivf|ivi|fluids|fluid|hartmanns|hartmanns solution|hartmann|ringers lactate|ringers|lactated ringers|compound sodium lactate|csl|plasmalyte|plasma lyte|saline|normal saline|n saline|n/saline|0.9% saline|0.9% sodium chloride|0.9% nacl|nacl 0.9%|sodium chloride 0.9%|sodium chloride|nacl|crystalloid|crystalloids|iv crystalloid|fluid resuscitation|fluid resus|resuscitate with fluids|iv hydration|rehydrate|rehydration|fluid bolus|fluid challenge|bolus|stat fluids|maintenance fluids|maintenance fluid|maintenance|bag of fluid|litre of fluid|aggressive fluids|aggressive fluid resuscitation|goal directed fluids|moderate fluid resuscitation") },
     dex:     { kind:"rx", is:"treatment", tag:"not a resuscitation fluid", aliases:A("5% dextrose|5% glucose|dextrose 5%|glucose 5%|dextrose|iv dextrose|dextrose saline|10% dextrose|10% glucose") },
-    fbal:    { kind:"rx", is:"monitoring", aliases:A("fluid balance|fluid balance chart|fluid chart|strict fluid balance|input output chart|input and output chart|i/o chart|io chart|i and o chart|input and output|strict input output|strict i/o|hourly urine output|urine output|monitor urine output|urine output monitoring|measure urine output|uo|hourly uo|monitor uo|hourly urines|urine output chart|aim urine output 0.5 ml/kg/h|urine output more than 0.5 ml/kg/h") },
+    fbal:    { kind:"rx", is:"monitoring", aliases:A("fluid balance|fluid balance chart|fluid chart|strict fluid balance|input output chart|input and output chart|i/o chart|io chart|i and o chart|input and output|strict input output|strict i/o|hourly urine output|urine output|monitor urine output|urine output monitoring|measure urine output|uo|hourly uo|monitor uo|hourly urines|urine output chart|aim urine output 0.5 ml/kg/h|urine output more than 0.5 ml/kg/h|strict input/output|input/output|input/output chart|strict input and output|input output") },
     cath:    { kind:"rx", is:"monitoring", aliases:A("catheter|urinary catheter|catheterise|urethral catheter|foley|foley catheter|idc|catheter and urometer|urometer|catheterise for hourly urines") },
     reassess:{ kind:"rx", is:"monitoring", ord:true, aliases:A("reassess|reassess after bolus|review after bolus|reassess after fluids|review after fluids|review in 1 hour|reassess in 1 hour|review in 2 hours|reassess fluid status|review fluid status|reassess volume status|reassess in 6 hours|review|r/v|reassess response to fluids|titrate fluids to response|titrate fluids|review fluids") },
     dailyb:  { kind:"rx", is:"monitoring", ord:true, aliases:A("daily bloods|bloods in am|bloods tomorrow|bloods mane|bloods in the morning|repeat bloods|repeat bloods in 6 hours|repeat u and e in 6 hours|daily u and e|daily u and es|u and e in am|u and es in the morning|monitor renal function|repeat u and e tomorrow|repeat urea|urea in 6 hours|daily crp|crp at 48 hours|repeat crp|repeat bloods tomorrow|am bloods") },
@@ -3001,7 +3001,7 @@ const DATA_PLAN_VOCAB = (function(){
     para:    { kind:"rx", is:"treatment", ord:true, aliases:A("paracetamol|iv paracetamol|paracetamol iv|pcm|perfalgan|regular paracetamol") },
     analgesia:{ kind:"rx", is:"treatment", aliases:A("analgesia|pain relief|painkillers|analgesics|analgesic|adequate analgesia|pain control|who ladder|analgesic ladder|iv analgesia") },
     nsaid:   { kind:"danger", ref:true, is:"treatment", aliases:A("ibuprofen|diclofenac|naproxen|ketorolac|nsaid|nsaids|voltarol|pr diclofenac|brufen|nurofen|continue ibuprofen") },
-    stopnsaid:{ kind:"rx", is:"treatment", aliases:A("stop ibuprofen|stop nsaids|stop nsaid|hold ibuprofen|withhold ibuprofen|stop his ibuprofen|no further ibuprofen|hold nephrotoxics|avoid nephrotoxics|stop nephrotoxics") },
+    stopnsaid:{ kind:"rx", is:"treatment", aliases:A("stop ibuprofen|stop nsaids|stop nsaid|hold ibuprofen|withhold ibuprofen|stop his ibuprofen|no further ibuprofen|hold nephrotoxics|avoid nephrotoxics|stop nephrotoxics|hold nsaid|hold nsaids|withhold nsaid|withhold nsaids|stop naproxen|stop diclofenac") },
     cyc:     { kind:"rx", is:"treatment", aliases:A("cyclizine|iv cyclizine|cyclizine iv|valoid|cyclizine 50 mg") },
     ondan:   { kind:"danger", ref:true, loose:true, is:"treatment", tag:"a QT-prolonging antiemetic: ondansetron, and haloperidol, droperidol, domperidone (owner, Gate 4)", aliases:A("ondansetron|iv ondansetron|ondansetron iv|zofran|ondans|ondansetron 4 mg|ondansetron 8 mg|haloperidol|haldol|droperidol|domperidone|motilium") },
     aeother: { kind:"rx", is:"treatment", tag:"an antiemetic other than cyclizine, with no QT call-back", aliases:A("metoclopramide|maxolon|prochlorperazine|stemetil|buccastem|levomepromazine|nozinan") },
@@ -3011,7 +3011,7 @@ const DATA_PLAN_VOCAB = (function(){
     ngt:     { kind:"rx", is:"treatment", ord:true, aliases:A("ng tube|ngt|ng|nasogastric tube|nasogastric|ryles tube|ng on free drainage|wide bore ng") },
     nbm:     { kind:"rx", ref:true, is:"treatment", aliases:A("nbm|nil by mouth|nothing by mouth|keep nbm|strict nbm|remain nbm|nil orally|no oral intake|bowel rest|rest the gut|gut rest") },
     nbmnow:  { kind:"rx", is:"treatment", aliases:A("nbm for now|nbm until vomiting settles|nbm while vomiting|nbm today|nbm until vomiting stops|nbm until he stops vomiting|nil by mouth for now|nil by mouth until vomiting settles|nil by mouth while vomiting|nbm initially|nbm then diet as tolerated|nbm until pain and vomiting settle") },
-    feedplan:{ kind:"rx", is:"treatment", aliases:A("eat and drink as tolerated|e and d as tolerated|diet as tolerated|eat when able|eat when vomiting settles|eat once vomiting settles|oral intake when vomiting settles|oral intake as tolerated|sips as tolerated|sips|clear fluids|free fluids|light diet|normal diet when able|early feeding|early enteral nutrition|early enteral feeding|enteral nutrition|enteral feeding|ng feeding|nj feeding|feed early|restart diet when able|build up diet|low fat diet|eat and drink|e and d|can eat and drink|diet and fluids|oral diet when able|early oral feeding|feed when able|food when able|eat as able") },
+    feedplan:{ kind:"rx", is:"treatment", aliases:A("eat and drink as tolerated|e and d as tolerated|diet as tolerated|eat when able|eat when vomiting settles|eat once vomiting settles|oral intake when vomiting settles|oral intake as tolerated|sips as tolerated|sips|clear fluids|free fluids|light diet|normal diet when able|early feeding|early enteral nutrition|early enteral feeding|enteral nutrition|enteral feeding|ng feeding|nj feeding|feed early|restart diet when able|build up diet|low fat diet|eat and drink|e and d|can eat and drink|diet and fluids|oral diet when able|early oral feeding|feed when able|food when able|eat as able|ng feed|ng feeds|nj feed|nj feeds|enteral feed|enteral feeds|tube feed|tube feeds|tube feeding|ng feed if not tolerating|ng feeding if not tolerating|nj feed if not tolerating|nj feeding if not tolerating|enteral feeding if not tolerating|enteral nutrition if not tolerating|tube feeding if not tolerating") },
 
     /* ---- calcium ---- */
     cabolus: { kind:"rx", is:"treatment", aliases:A("calcium gluconate|ca gluconate|calcium gluconate 10%|10% calcium gluconate|iv calcium|calcium iv|iv ca|intravenous calcium|replace calcium|calcium replacement|correct calcium|correct the calcium|treat hypocalcaemia|treat the hypocalcaemia|treat hypocalcemia|give calcium|iv calcium replacement|calcium bolus|ca bolus|calcium gluconate bolus|10 ml calcium gluconate|20 ml calcium gluconate|10 ml of 10% calcium gluconate|20 ml of 10% calcium gluconate|10 ml 10% calcium gluconate|20 ml 10% calcium gluconate|calcium gluc|ca gluc|cagluc|replace ca|correct ca|iv ca gluconate|iv calcium gluconate|calcium gluconate iv|10 to 20 ml calcium gluconate") },
@@ -3020,7 +3020,7 @@ const DATA_PLAN_VOCAB = (function(){
     caoral:  { kind:"rx", is:"treatment", tag:"oral calcium: not treatment for him (02-evidence.md F10, N12)", aliases:A("oral calcium|po calcium|calcium po|sandocal|adcal|adcal d3|calcichew|calcichew d3|calcium carbonate|calcium tablets|calcium supplements|calcium supplement|oral calcium supplements|calceos|accrete") },
     vitdrx:  { kind:"rx", is:"treatment", ord:true, aliases:A("alfacalcidol|calcitriol|one alpha|vitamin d replacement|colecalciferol|cholecalciferol|vitamin d loading|replace vitamin d") },
     monitor: { kind:"rx", is:"monitoring", aliases:A("cardiac monitor|cardiac monitoring|continuous ecg|ecg monitoring|continuous ecg monitoring|telemetry|tele|monitored bed|on a monitor|on monitor|on the monitor|with monitoring|continuous monitoring|move to resus|resus|transfer to resus|monitored area|ccu|coronary care|mecu|hdu|high dependency|level 2|level 2 bed|with cardiac monitoring|under cardiac monitoring|with ecg monitoring|w/ ecg monitoring|on cardiac monitor|on a cardiac monitor|under ecg monitoring|with ecg monitor|monitored setting|portable monitor|defib monitor|crash trolley monitor|defibrillator monitor|on the defib|transport monitor") },
-    recalc:  { kind:"timed", is:"monitoring", ix:"bone", aliases:A("repeat calcium|recheck calcium|repeat ca|recheck ca|repeat bone profile|recheck bone profile|rpt calcium|rpt ca|rpt bone profile|repeat calcium level|repeat adjusted calcium|calcium at 2 hours|repeat calcium in 2 hours|recheck calcium in 2 hours|repeat ca in 2 hours|repeat calcium 2 hours|repeat ca 2 hours|repeat calcium and ecg|repeat ca and ecg|rpt ca and ecg|repeat ecg and calcium|monitor calcium|calcium monitoring|serial calcium|calcium 2 hourly|check calcium post bolus|calcium post bolus|repeat calcium after bolus|repeat calcium after the bolus|repeat ionised calcium|repeat vbg for calcium|6 hourly calcium|4 hourly calcium|daily calcium|biochemical monitoring|recheck calcium after infusion|repeat calcium post infusion") },
+    recalc:  { kind:"timed", is:"monitoring", ix:"bone", aliases:A("repeat calcium|recheck calcium|repeat ca|recheck ca|repeat bone profile|recheck bone profile|rpt calcium|rpt ca|rpt bone profile|repeat calcium level|repeat adjusted calcium|calcium at 2 hours|repeat calcium in 2 hours|recheck calcium in 2 hours|repeat ca in 2 hours|repeat calcium 2 hours|repeat ca 2 hours|repeat calcium and ecg|repeat ca and ecg|rpt ca and ecg|repeat ecg and calcium|monitor calcium|calcium monitoring|serial calcium|calcium 2 hourly|check calcium post bolus|calcium post bolus|repeat calcium after bolus|repeat calcium after the bolus|repeat ionised calcium|repeat vbg for calcium|6 hourly calcium|4 hourly calcium|daily calcium|biochemical monitoring|recheck calcium after infusion|repeat calcium post infusion|repeat bloods with ca|repeat bloods with calcium|repeat bloods including ca|repeat bloods including calcium|repeat bloods incl ca|repeat bloods incl calcium|bloods with ca|bloods with calcium") },
     reecg:   { kind:"timed", is:"monitoring", ix:"ecg", aliases:A("repeat ecg|rpt ecg|recheck ecg|repeat ecg after calcium|repeat ecg in 2 hours|ecg after calcium|ecg post calcium|serial ecgs|serial ecg|repeat ecg 2 hours|ecg at 2 hours|repeat 12 lead|repeat ecg post bolus|ecg after the bolus|monitor qtc|recheck qtc|repeat qtc") },
     wideline:{ kind:"rx", is:"treatment", ord:true, aliases:A("cannula|cannulas|cannulae|iv cannula|iv cannulas|iv access|cannulate|2 large bore cannulas|two large bore cannulas|large bore cannulas|2 wide bore cannulas|two wide bore cannulas|wide bore cannulas|2 cannulas|two cannulas|2 x cannulas|2 x large bore cannulas|bilateral cannulas|bilateral large bore cannulas|large bore iv access|large bore access|large bore cannula|wide bore cannula|large cannula|grey cannula|green cannula|second cannula|two cannulae|2 cannulae|central line|cvc|picc|long line|via large vein|via a large vein|check cannula site|second iv access|2 large bore cannulae|iv access x2|large vein") },
 
@@ -3056,12 +3056,12 @@ const DATA_PLAN_VOCAB = (function(){
     acs:     { kind:"rx", is:"treatment", tag:"treatment for the heart-attack explanation", aliases:A("aspirin 300 mg|aspirin 300|acs protocol|ticagrelor|clopidogrel|fondaparinux|gtn|dual antiplatelet|acs treatment|aspirin") },
     cbg:     { kind:"rx", is:"monitoring", ord:true, aliases:A("cbg|bm|bms|capillary glucose|monitor bms|bm monitoring|cbg qds|bms qds|4 hourly bms|glucose monitoring|monitor glucose|monitor blood glucose|blood glucose monitoring|monitor cbg|cbg monitoring") },
     glasgow: { kind:"note", is:"monitoring", aliases:A("glasgow score|glasgow imrie|glasgow imrie score|modified glasgow score|glasgow criteria|ranson|ransons criteria|ranson score|apache ii|apache|bisap|severity score|severity scoring|score at 48 hours|glasgow score at 48 hours|complete glasgow score at 48 hours|severity assessment|assess severity|sirs|sirs criteria|sirs score|marshall score|risk stratify|risk stratification|glasgow") },
-    ward:    { kind:"rx", is:"treatment", ord:true, aliases:A("admit|admit under surgeons|admit surgical|admit medical|admit under medics|admission|admit to sau|sau|surgical assessment unit|admit to ward|amu|admit to amu") },
+    ward:    { kind:"rx", is:"treatment", ord:true, aliases:A("admit|admit medical|admit under medics|admission|admit to sau|sau|surgical assessment unit|admit to ward|amu|admit to amu") },
     family:  { kind:"rx", is:"treatment", ord:true, aliases:A("inform family|update family|inform nok|nok aware|update nok|ring his daughter|call daughter|inform daughter|next of kin|family aware") },
     esc:     { kind:"rx", is:"treatment", ord:true, aliases:A("full escalation|for full escalation|escalation status full|for full active treatment|for cpr|full code") },
 
     /* ---- teams ---- */
-    surg:    { kind:"team", is:"referral", aliases:A("refer surgs|surgs|refer to surgs|refer gen surg|refer general surgery|surgeons|surgical team|surgical registrar|surgical reg|surg reg|general surgery|surgical review|surgical referral|general surgeons|upper gi surgeons|hpb|hpb surgeons|surgical sho|gen surg|surgery|surgical opinion|on call surgeons") },
+    surg:    { kind:"team", is:"referral", aliases:A("refer surgs|surgs|refer to surgs|refer gen surg|refer general surgery|surgeons|surgical team|surgical registrar|surgical reg|surg reg|general surgery|surgical review|surgical referral|general surgeons|upper gi surgeons|hpb|hpb surgeons|surgical sho|gen surg|surgery|surgical opinion|on call surgeons|admit under surgeons|admit under the surgeons|admit surgical|admit under surgical team|admit under the surgical team|surgical admission") },
     medreg:  { kind:"team", is:"referral", aliases:A("medical registrar|med reg|medical reg|medics|medical team|medical review|medical spr|med spr|st doctor on call|medical st|on call medical registrar|medical senior|medical opinion") },
     icu:     { kind:"team", is:"referral", aliases:A("itu|icu|critical care|intensive care|outreach|critical care outreach|ccot|itu review|icu review|intensivist|outreach review|critical care review") },
     cardio:  { kind:"team", is:"referral", aliases:A("cardiology|cardiologist|cardiology review|cardiology registrar|cardio|primary pci|ppci|cath lab|cardiology opinion") },
@@ -3099,7 +3099,7 @@ const DATA_PLAN_VOCAB = (function(){
                      phosphate:{ test:"bone", treat:"po4rx", words:["phosphate","po4"] } },
       treatVerbs:["replace","replacement","correct","supplement","top up","give","treat","start","prescribe"],
       testVerbs:["check","send","add","add on","measure","repeat","recheck","monitor","chase","await","level","levels"],
-      treatMarks:["gluconate","sulfate","sulphate","chloride","iv","intravenous","infusion","bolus","stat","ml","g","mmol","%"],
+      treatMarks:["gluconate","sulfate","sulphate","chloride","iv","intravenous","infusion","bolus","stat","ml","g","mmol","%","po","oral","orally","tablets"],
       /* 2. A benzodiazepine: by what surrounds it. */
       benzo:[ { near:["ciwa","withdrawal","dts","dt","alcohol","symptom triggered","detox"], reads:"ciwa", note:"a symptom-triggered regimen, charted and enacted; PRN here is the regimen, not a hedge" },
               { near:["reducing","regime","regimen","qds","fixed dose"], reads:"chlordiaz" },
@@ -3187,7 +3187,7 @@ const DATA_PLAN_VOCAB = (function(){
     /* Timing words for a repeat, read as a time and never as a condition: the repeat is booked two hours after the latest
        calcium bolus, or at the plan's minute plus two hours if no bolus is on the chart. "Repeat calcium and ECG after
        treatment" books both. */
-    afterWords:{ words:["after treatment","post treatment","after the calcium","after calcium given","after calcium","post calcium","after the bolus","post bolus","after treatment given","following treatment","once treated","after calcium replacement","post replacement"], bookAfterMinutes:120 },
+    afterWords:{ words:["after treatment","post treatment","after the calcium","after calcium given","after calcium","post calcium","after the bolus","post bolus","after treatment given","following treatment","once treated","after calcium replacement","post replacement","following replacement","after bolus"], bookAfterMinutes:120 },
     /* an alias of recalc that itself contains "ecg" ("repeat Ca and ECG at 2 hours") charts reecg as well, at the same time */
 
     /* A heading is not an order: `analgesia` is not charted when an opioid, paracetamol or an NSAID is named in the same
@@ -3326,8 +3326,8 @@ const DATA_PLAN_VOCAB = (function(){
     done:n => `Done at the bedside: ${n}.`,
     alreadySent:(n, at) => `${n} — already sent at ${at}.`,
     booked:(n, at) => `From your plan: ${n}, due ${at}.`,
-    notRead:runs => `Not read: ${runs.map(r => `“${r}”`).join(" · ")}. If ${runs.length === 1 ? "that" : runs.length === 2 ? "either" : "any"} was an order, reword it in your amendment.`,
-    notReadLast:runs => `Not read: ${runs.map(r => `“${r}”`).join(" · ")}.`,
+    notRead:runs => `Not understood: ${runs.map(r => `“${r}”`).join(" · ")}. If ${runs.length === 1 ? "that" : runs.length === 2 ? "either" : "any"} was an order, reword it in your amendment.`,
+    notReadLast:runs => `Not understood: ${runs.map(r => `“${r}”`).join(" · ")}.`,
     conditional:(cond, label, verb) => `${cond}: ${label} — ${verb}.`,
     hedged:(label, verb) => `Considered: ${label} — ${verb}.`,
     negated:(label, verb) => `${label} — ${verb}, as you wrote`,
@@ -3430,7 +3430,7 @@ const DATA_PLAN_VOCAB = (function(){
         tips:[
           { lacks:["ciwa","chlordiaz"], say:"Withdrawal cover: a CIWA chart or a reducing regimen." },
           { lacks:["pabrinex"], say:"Parenteral thiamine for a harmful drinker who eats little." } ] },
-      { k:7, name:"Who knows", want:"The surgeons told: they admit him, in joint care with the medical team",
+      { k:7, name:"Who knows", want:"The surgeons (or gastroenterology) told: they admit him",
         core:{ any:["surg","gastro"] },
         extras:"",
         reasons:[ { lacks:["surg","gastro"], say:"The surgeons, who admit him and share his care with the medical team, were not told." } ],
@@ -4861,7 +4861,10 @@ function coreAgain(id){
 }
 
 /* ---------- the typed box: week 8's matcher, step for step (legs.md, 3. Examine) ---------- */
-const exNorm = s => String(s).toLowerCase().replace(/[’'`]/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+const exNorm = s => String(s).toLowerCase().replace(/[’'`]/g, "").replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim()
+  /* "blood pressure in both arms" is "bp in both arms" (round 3): rewritten only before both/each/left/right or after bilateral,
+     so a bare "blood pressure" stays a test and "bloods" never meets the word "blood" in the pulse entry */
+  .replace(/(^| )blood pressures?(?= (?:in |on )?(?:both|each|left|right|the left|the right)(?: |$))/g, "$1bp").replace(/(^| )bilateral blood pressures?(?= |$)/g, "$1bilateral bp");
 const EXAM_NOISE = new Set(CAT.noise);
 const exTokens = q => q.split(" ").filter(t=>t && !EXAM_NOISE.has(t));
 function exLev(a, b){                    /* plain edit distance: a transposition counts as two */
@@ -5771,7 +5774,7 @@ const PLAN_FILLER = new Set(("a an the of to in on at by for from with without i
   "followed before after once when until pending await awaiting unless should prn needs need needed required requires remain remains keep kept through throughout during ongoing started commenced " +
   "consider considered re bed ward mane only just still first next both either each any all some more further again back up down out off here there well very early elective yes present currently " +
   "declined refused rejected cancelled reason miss cannot hold must bloods tests investigations avoided withheld omitted stopped yet vs versus alternatively liaise speak talk input informed told involved called requested made needs probably neither nor rather instead avoiding indication necessary appropriate " +
-  "every wait waiting delay dont cant wont hasnt isnt whilst while meanwhile avoid omit withhold never nil hold role indicated contraindicated unnecessary stop").split(" "));
+  "every wait waiting delay dont cant wont doesnt didnt does require requires refrain hasnt isnt whilst while meanwhile avoid omit withhold never nil hold role indicated contraindicated unnecessary stop").split(" "));
 (PV.PLAN_FILLER_ADD || []).forEach(a=>pnorm(a).split(" ").forEach(w=>{ if(w) PLAN_FILLER.add(w); }));
 const PLAN_CONNECT = new Set("a an the of to in on at by for from with and or but then so that this it its he him his is are was were be please pls also now".split(" "));
 const PLAN_WORDS = (function(){
@@ -5827,8 +5830,8 @@ function planHits(s){
   return hits.sort((p, q)=>p.start - q.start);
 }
 /* negation, conditions and hedges (week 8, g4 278–310, without its own items) */
-const PL_NEG_RE = /(?:^|\s)(no|not|not for|avoid|avoiding|do not|dont|hold off|withhold|omit|without|nil|never|neither|rather than|instead of|no role for|no need for|no indication for|contraindicated|x)\s+(?:(?:for|a|an|the|any|to|give|start|role|need|fit|indication)\s+){0,2}$/;
-const PL_POSTNEG_RE = /^\s*(?:(?!not\b|and\b|or\b|then\b|if\b|unless\b|when\b|once\b|until\b|after\b|before\b)[a-z]+\s+){0,2}?(?:is |are |was |were |to be |should be )?(?:avoided|withheld|omitted|held|stopped|not indicated|not needed|not required|not necessary|not given|not for now|not yet|not appropriate|contraindicated|unnecessary|declined|refused|rejected|cancelled|considered and rejected)\b/;
+const PL_NEG_RE = /(?:^|\s)(no|not|not for|not needed|avoid|avoiding|do not|dont|does not|doesnt|did not|didnt|will not|wont|hold off|withhold|omit|without|nil|never|neither|rather than|instead of|no role for|no need for|no need to|no indication for|contraindicated|refrain from|x)\s+(?:(?:for|a|an|the|any|to|give|start|role|need|needs|require|requires|fit|indication|repeat|recheck|redo)\s+){0,2}$/;  /* round 4: "repeat" sits between a refusal and its test ("don't repeat the gas", "avoid repeat blood gas") */
+const PL_POSTNEG_RE = /^\s*(?:(?!not\b|and\b|or\b|then\b|if\b|unless\b|when\b|once\b|until\b|after\b|before\b)[a-z]+\s+){0,2}?(?:is |are |was |were |to be |should be )?(?:avoided|withheld|omitted|held|stopped|not indicated|not needed|not required|not necessary|not given|not for now|not yet|not appropriate|not recommended|not routinely|not to be given|no role|of no benefit|no benefit|inappropriate|contraindicated|unnecessary|declined|refused|rejected|cancelled|suspended|discontinued|ceased|considered and rejected)\b/;
 const PL_POSTNO_RE = /^\s*(?:no|not for|nil|none)\s*(?=,|$)/;
 const PL_DOUBLE_NEG_RE = /\b(?:(?:do not|dont|never|not|no need to)\s+(?:withhold|delay|stop|omit|hold off|avoid|hold)|no reason not to|no reason to withhold|never without|not without|must not miss|cannot do without|cant do without)\s+(?:(?:give|start|the|a|an)\s+)*$/;
 const PL_DOUBLE_POST_RE = /^\s*(?:should|must|is|are|can)?\s*(?:not|never) (?:be )?(?:withheld|omitted|stopped|delayed|missed|held)\b/;
@@ -5836,6 +5839,8 @@ const PL_ONHOLD_POST_RE = /^\s*(?:is |are |to be |was |were )?(?:on hold|held fo
 const PL_ONHOLD_PRE_RE = /(?:^|\s)(?:hold off on|hold off|hold)\s+(?:the\s+)?$/;
 const PL_DISCRETION_RE = /^\s*(?:prn|as required|as needed|if needed|if required|when required|when needed)\b/;
 const PL_COND_WORDS = ["in the event", "in case", "should he", "should she", "should it", "should his", "should the", "if", "once", "when", "unless", "after", "prn"];
+/* a time is not a condition (audit 2026-11): "after 2 hours", "after 30 min" book a time; "once daily", "once a day" are a frequency */
+const PL_TIME_NOT_COND = { after:/^ (?:\d+(?:\.\d+)?|an?) (?:hours|hour|hrs|hr|h|minutes|minute|mins|min)(?= |$)/, once:/^ (?:every \d|a day(?= |$)|daily(?= |$)|only(?= |$))/ };
 const PL_HEDGE_PRE = ["for consideration of", "low threshold for", "likely to need", "probably needs", "probably need", "discuss whether", "might need", "may require", "think about", "may need", "will need", "consider", "?"];
 const PL_HEDGE_POST = ["in due course", "at some point", "eventually"];
 const PL_NOWAIT_RE = /\b(dont|do not|no need to|not|never|without|wont)\s+(wait|await|delay|hold up|hold)\b/;
@@ -5904,8 +5909,8 @@ function plFluidPart(p){
   else if((m = /(?:^| )(\d{2,4}) (?:stat|bolus|challenge|now|fast)(?= |$)/.exec(p))) vol = +m[1];
   if(vol !== null){
     o.read = true;
-    const ov = PL_OVER_RE.exec(p), ev = /(?:^| )every (\d+(?:\.\d+)?) hours(?= |$)/.exec(p);
-    const mins = ov ? (/^m/.test(ov[2]) ? +ov[1] : +ov[1] * 60) : null;
+    const ov = PL_OVER_RE.exec(p), ev = /(?:^| )every (\d+(?:\.\d+)?) hours(?= |$)/.exec(p), sl = /(?:^| )\/ (\d+(?:\.\d+)?) ?(?:h|hr|hrs|hour|hours)(?= |$)/.exec(p);
+    const mins = ov ? (/^m/.test(ov[2]) ? +ov[1] : +ov[1] * 60) : sl ? +sl[1] * 60 : null;      /* "1 L/8 h" is 1 L over 8 hours */
     if(mins !== null){ if(mins <= F.bolusMaxMinutes) o.bolus = vol; else o.rate = vol / (mins / 60); }
     else if(ev) o.rate = vol / +ev[1];
     else if(bolusW) o.bolus = vol;
@@ -5923,6 +5928,7 @@ function parsePlan(text){
   const P = { rx:new Map(), ix:[], teams:[], dangers:{}, queries:[], noted:[], notedIds:[], notRead:[], neg:[], onhold:[], pos:{}, negHow:{}, mixed:false,
     loose:{}, fluids:[], timed:[], rcond:[], holds:[], push:null, ctLater:false, cainfRate:null, ixLater:[], ixRepeat:new Set() };
   const L = PSAY;
+  const plBolusWritten = ["cabolus","carepeat"].some(id=>S.rx.has(id)) || PLAN_ALIASES.some(al=>(al.id === "cabolus" || al.id === "carepeat") && plHas(pnorm(text), al.a));
   const labelOf = h => { if(h.kind === "ix") return h.id === "routine" ? "routine bloods" : plLow((findIx([].concat(h.ix)[0]) || {}).name || h.alias);
     const l = L.label[h.id]; return !l || l === "{w}" ? h.alias : l; };
   const verbOf = (h, hedged) => { const k = h.kind === "team" ? "team" : h.kind === "ix" ? "ix" : h.kind === "timed" ? "timed" : h.kind === "fluid" ? "fluid" : "rx"; return L.verb[k][hedged ? 1 : 0]; };
@@ -6029,6 +6035,8 @@ function parsePlan(text){
       if(r < 0 && !firstTimed) continue;
       const from = r >= 0 ? (firstTimed ? Math.min(r, firstTimed.start) : r) : firstTimed.start;
       after = { at:i + 1, end:i + 1 + w.length, from };
+      /* the timing phrase is consumed whole: the "bolus" of "post bolus" is not a second fluid bolus (audit 2026-11) */
+      for(let k = hits.length - 1; k >= 0; k--) if(hits[k].start < after.end && hits[k].end > after.at) hits.splice(k, 1);
       hits.push({ id:"noop", kind:"noop", alias:w, start:after.at, end:after.end }); useSpan(after.at, after.end); hits.sort((p, q)=>p.start - q.start);
       hits.forEach(h=>{ if(h.start >= from && h.end <= after.at && (h.kind === "timed" || h.kind === "ix")) h.afterTx = true; });
       break;
@@ -6058,7 +6066,8 @@ function parsePlan(text){
        for a refusable item or a trailing negation, a closed comma list of refusable items or tests, a colon list on one
        line, the lines under a heading alone on its line, and the Y of "X not Y". Never across a comma, a dash, a "+", a
        list number, a bullet or a new line. */
-    { const TIGHT = /^\s*(?:or|nor|\/)\s*$/, AND = /^\s*and\s*$/, COMMA = /^\s*,\s*$/, CLOSE = /^\s*,?\s*(?:or|nor|and)\s*$/, gap = (a, b) => s.slice(a.end, b.start);
+    /* an article does not end a refused list: "no antibiotics or a CT" (audit 2026-11) */
+    { const TIGHT = /^\s*(?:or|nor|\/)\s*(?:(?:a|an|the|any)\s+)?$/, AND = /^\s*and\s*(?:(?:a|an|the|any)\s+)?$/, COMMA = /^\s*,\s*(?:(?:a|an|the|any)\s+)?$/, CLOSE = /^\s*,?\s*(?:or|nor|and)\s*(?:(?:a|an|the|any)\s+)?$/, gap = (a, b) => s.slice(a.end, b.start);
       const plus = (a, b) => T.some((x, i)=>off[i] >= a.end && off[i] < b.start && x.t === "and" && /^\+$/.test(words[x.w] || ""));
       const andJoin = (a, b) => AND.test(gap(a, b)) && !plus(a, b), closing = (a, b) => CLOSE.test(gap(a, b)) && !plus(a, b);
       const refusable = h => !!(PLAN_BY_ID[h.id] && PLAN_BY_ID[h.id].ref);
@@ -6115,7 +6124,7 @@ function parsePlan(text){
     const find = (list, a, b) => { const out = []; list.forEach(w=>{ let i = s.indexOf(" " + w + " ", a - 1); while(i >= 0 && i + 1 < b){ if(freeAt(i + 1) && !out.some(o=>i + 1 >= o.at && i + 1 < o.end)) out.push({ at:i + 1, end:i + 1 + w.length, w }); i = s.indexOf(" " + w + " ", i + 1); } }); return out.sort((p, q)=>p.at - q.at); };
     let carry = null, a0 = 1;
     [...commas, s.length].forEach(c=>{
-      const inC = real.filter(h=>h.start >= a0 && h.end <= c), conds = find(PL_COND_WORDS, a0, c), pre = find(PL_HEDGE_PRE, a0, c), post = find(PL_HEDGE_POST, a0, c);
+      const inC = real.filter(h=>h.start >= a0 && h.end <= c), conds = find(PL_COND_WORDS, a0, c).filter(cd=>!(PL_TIME_NOT_COND[cd.w] && PL_TIME_NOT_COND[cd.w].test(s.slice(cd.end)))), pre = find(PL_HEDGE_PRE, a0, c), post = find(PL_HEDGE_POST, a0, c);
       const first = inC[0];
       conds.forEach(cd=>{
         const beforeIt = inC.filter(h=>h.end <= cd.at), tail = s.slice(cd.at, c), tailRaw = rawSpan(cd.at, c);
@@ -6178,13 +6187,26 @@ function parsePlan(text){
       if(RT && (h.id === RT.from || h.id === RT.to)){
         if(RT.oral.some(w=>plHas(h.clause, pnorm(w)))) h.id = RT.to; else if(RT.parenteral.some(w=>plHas(h.clause, pnorm(w)))) h.id = RT.from;
         h.drugTyped = rawSpan(h.start, h.end); }
+      /* an electrolyte by mouth (audit 2026-11): magnesium is mgoral and calcium caoral, unless the clause names an injection */
+      if((h.id === "mgrx" || h.id === "cabolus") && /(?:^| )(?:oral|orally|po|tablet|tablets|mouth)(?= |$)/.test(h.clause) && !/(?:^| )(?:iv|intravenous|infusion|sulfate|sulphate|gluconate|bolus)(?= |$)/.test(h.clause)){
+        h.id = h.id === "mgrx" ? "mgoral" : "caoral"; h.kind = PLAN_BY_ID[h.id].kind; }
       const key = plKey(h);
       if(h.onhold){ if(!P.onhold.includes(key)) P.onhold.push(key); return; }
-      if(h.neg){ P.neg.push(key); return; }
+      if(h.neg){ P.neg.push(key);
+        /* he is on ibuprofen: refusing NSAIDs is stopping it (audit 2026-11) */
+        if(h.id === "nsaid" && !P.rx.has("stopnsaid")){ P.rx.set("stopnsaid", { raw:h.own, own:h.own, alias:h.alias, each:[h.own] }); if(!("stopnsaid" in P.pos)) P.pos.stopnsaid = P.pos[key]; }
+        return; }
       if(h.id === "reassess" && h.alias === "review" && real.some(o=>o.kind === "team" && o.ca === h.ca)) return;      /* "surgeons to review" */
       if(h.kind === "ix" && PL_VALUE_RE.test(h.after)){ useSpan(h.start, h.cb); return; }                               /* a stated value is not an order */
       if(h.kind === "ix" && nowait) return;
       if(h.cond && condOf(h) !== "order") return;
+      /* round 3: "after N hours" books a time only for a repeat, an after-treatment test, or a calcium check beside the bolus;
+         any other test written "after 72 hours" ("CT abdomen after 72 hours") is held back, as written, and noted (not sent) */
+      if(h.kind === "ix" && !h.cond && !h.afterTx){
+        const tA = /(?:^| )(after (?:\d+(?:\.\d+)?|an?) (?:hours|hour|hrs|hr|h|days|day|minutes|minute|mins|min))(?= |$)/.exec(h.clause);
+        const caCheck = plBolusWritten && [].concat(h.ix).every(id=>id === "bone" || id === "ecg" || id === "gas" || id === "abg");
+        if(tA && !caCheck && !/(?:^| )(?:repeat|recheck|again)(?= |$)/.test(h.clause)){ h.cond = { at:0, tail:tA[1], raw:tA[1] }; condOf(h); return; }
+      }
       if(h.rescue){ note(h, false, h.rescue); return; }
       if(h.hedge && !h.ord){ note(h, true); return; }
       if(h.loose) P.loose[key] = h.loose;
@@ -6193,10 +6215,15 @@ function parsePlan(text){
       if(h.kind === "ix"){
         /* a repeat with a time ("repeat gas in 1 hour", "rpt VBG 1hr", "repeat bone profile and magnesium in 1 hour") is booked
            for that minute (beside a timed calcium repeat, its minute), not sent now */
-        const n = h.afterTx ? (plRepeatMin(h.clause) !== null ? plRepeatMin(h.clause) : PL_AFTER.minutes) : /(?:^| )(?:repeat|recheck|again)(?= |$)/.test(h.clause) ? plRepeatMin(h.clause) : null;
+        const caIds = plBolusWritten && [].concat(h.ix).every(id=>id === "bone" || id === "ecg" || id === "gas" || id === "abg");
+        let n = h.afterTx ? (plRepeatMin(h.clause) !== null ? plRepeatMin(h.clause) : PL_AFTER.minutes) : (/(?:^| )(?:repeat|recheck|again)(?= |$)/.test(h.clause) || (caIds && /(?:^| )after \d/.test(h.clause))) ? plRepeatMin(h.clause) : null;
+        /* an untimed repeat gas beside a calcium bolus is the calcium recheck (its ionised calcium): booked for the after-treatment
+           minute, not drawn with the bolus still running (audit 2026-11) */
+        if(n === null && /(?:^| )(?:repeat|recheck)(?= |$)/.test(h.clause) && [].concat(h.ix).every(id=>id === "gas" || id === "abg") && plBolusWritten) n = PL_AFTER.minutes;
         if(n !== null){
           /* a repeated test that is one of the timed repeats (bone, ECG) is that repeat, charted (recalc, reecg) */
-          const ids = [].concat(h.ix), tk = ids.length === 1 && Object.keys(PR.timed).find(k=>PR.timed[k].ix === ids[0]);
+          /* a repeat gas beside the calcium bolus is the calcium recheck (its ionised calcium): charted as recalc (round 3) */
+          const ids = [].concat(h.ix), tk = (plBolusWritten && ids.every(id=>id === "gas" || id === "abg")) ? "recalc" : ids.length === 1 && Object.keys(PR.timed).find(k=>PR.timed[k].ix === ids[0]);
           if(tk){ if(!P.timed.some(t=>t.id === tk)){ P.timed.push({ id:tk, n, raw:h.own, after:!!h.afterTx }); if(!(tk in P.pos)) P.pos[tk] = si * 100000 + h.start; } return; }
           const tw = real.find(o=>o.kind === "timed" && !o.neg && (h.afterTx ? o.afterTx : o.ca === h.ca)); [].concat(h.ix).forEach(id=>{ if(!P.ixLater.some(x=>x.ix === id)) P.ixLater.push({ ix:id, n, with: tw ? tw.id : null }); }); return; }
         if(/(?:^| )(?:repeat|recheck|again)(?= |$)/.test(h.clause)) [].concat(h.ix).forEach(id=>P.ixRepeat.add(id));      /* only an explicit repeat sends a test already back */
@@ -7188,9 +7215,9 @@ function judgeLOs(Q){
       : ["hands","trousseau","chvostek","perioral"].some(id=>S.examDone.has(id)) ? s.partDiedSeen : s.partDiedNamed });
     else if(picked("C")){
       const miss = [];
-      if(!S.examDone.has("hands")) miss.push("his hands");
+      if(!S.examDone.has("hands") && !S.examDone.has("trousseau")) miss.push("his hands");
       if(!S.examDone.has("perioral") && !S.examDone.has("chvostek")) miss.push("his mouth");
-      if(!LEDGER.has("bone") && !LEDGER.has("gas")) miss.push("a calcium level");
+      if(!LEDGER.has("bone") && !LEDGER.has("gas") && !LEDGER.has("abg")) miss.push("a calcium level");
       if(!LEDGER.has("ecg")) miss.push("an ECG");
       out.push(miss.length ? { v:"part", t:s.partMissing.replace("{missing}", listAnd(miss)) } : { v:"hit", t:s.hit }); }
     else if(picked("H")) out.push({ v:"miss", t:s.missDecoy });

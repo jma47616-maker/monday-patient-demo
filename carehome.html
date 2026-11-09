@@ -1617,7 +1617,7 @@ const CASE = {
   /* a bare "urine" in the ICE box offers exactly these five, in this order (04-ix-mx.md 1.0, Round 4) */
   urineBareQs: A("urine","urine test","urine tests","urine sample","urines","test his urine"),
   urineTests: ["dip","umcs","upcr","uelec","uag"],
-  refuseQs: A("bladder test","urine test","urine","water","waterworks","wee"),
+  refuseQs: A("bladder test","urine test","urine","water","waterworks","wee","blood smear","blood film"),
   bloodsQs: A("bloods","routine bloods","some bloods","blood tests"),
   pharmQs: A("pharmacy","pharmacist","medicines review","medication review","meds rec","medicines reconciliation","pharmacy review","pharmacist review"),
   spcQs: A("suprapubic catheter","spc"),
@@ -2028,9 +2028,12 @@ const IX_ADD = {
   cult: A("blood cultures x2","bcs"),
   cxr: A("chest x-ray","chest xr","cxrs"),
   ecg: A("ecgs","12-lead","12-lead ecg"),
-  flu: A("swabs","viral swabs","flu swabs","resp swab","respiratory viral swab","flu covid swab","resp pcr"),
+  flu: A("swabs","viral swabs","flu swabs","resp swab","respiratory viral swab","flu covid swab","resp pcr",
+    "influenza pcr","influenza a pcr","sars-cov-2 pcr","sars cov 2 pcr","npa","nasopharyngeal aspirate","multiplex pcr","viral screen","respiratory viral screen","respiratory screen"),       /* scoring audit 2026-11 */
   dip: A("dip","urine dipped","dipsticks","ua"),
-  umcs: A("urine for culture","urine cultures","urine mc+s","send urine for culture","urine for mc&s"),
+  umcs: A("urine for culture","urine cultures","urine mc+s","send urine for culture","urine for mc&s","urinary culture","urinary culture and sensitivity","urine culture and sensitivity","urinary c&s"),
+  b12: A("vit b12"),
+  bone: A("ca","ca po4","calcium phosphate"),
   cth: A("ct of head","head scan","brain scan","cthead")
 };
 Object.keys(CASE.ix).forEach(g=>CASE.ix[g].forEach(x=>{ if(IX_ADD[x.id]) x.aliases = [...new Set([...x.aliases, ...IX_ADD[x.id]])]; }));
@@ -3053,6 +3056,7 @@ function matchIx(query){
   if(SETS.pharm.has(q)) return { kind:"say", text:CASE.examSay.pharm };
   if(SETS.bloods.has(q)) return { kind:"say", text:CASE.examSay.bloods };
   if(SETS.urineBare.has(q)) return { kind:"amb", ids:CASE.urineTests.slice() };
+  if(/^(?:blood |peripheral )(?:smear|film)s?\b|^smears?$/.test(q)) return { kind:"none" };      /* scoring audit 2026-11: no film on this menu; "smear" is not "sugar" */
   const qT = queryTokens(q), qf = qT.join(" ");
   if(!cathLanded() && (SETS.urine.has(q) || SETS.urine.has(qf))) return { kind:"say", text:CASE.examSay.urineQ };
   const all = ixPool();
@@ -3212,9 +3216,10 @@ function renderWait(){
 const DX_ORDER = [...CASE.conditions].sort(()=>Math.random() - .5);          /* one order, behind all three boxes */
 $("#dxlist").innerHTML = DX_ORDER.map(c=>`<option value="${c}">`).join("");
 const DX_BOX = [1, 2, 3];
-const dxKey = s => String(s).trim().toLowerCase();
+const dxKey = s => String(s).trim().toLowerCase().replace(/[-‐‑–—]+/g, " ").replace(/\s+/g, " ").trim();     /* scoring audit 2026-11: hyphens folded */
 const DX_NO = new Map(CASE.conditions.map((c, i)=>[dxKey(c), i + 1]));       /* entry number, as 05-marking.md 4.3 numbers them */
-const dxEntry = text => DX_NO.get(dxKey(text)) || 0;
+const DX_ALIAS = { "aki":21, "influenza a":1, "aur":34 };    /* scoring audit 2026-11: short forms typed into a box (entries 1, 21, 34). "flu" / "flu a" held back: the owner's rule is that a box takes only a list entry, and the harness asserts "flu" is refused; add them only on the owner's word */
+const dxEntry = text => DX_NO.get(dxKey(text)) || DX_ALIAS[dxKey(text)] || 0;
 const dxIs = (n, cls) => CASE.dxClass[cls].includes(n);
 const dxName = n => CASE.conditions[n - 1];
 /* judgePicks([entry numbers]) -> the three parts and the verdict. Order does not matter; the same entry twice counts once.
@@ -3326,7 +3331,7 @@ const PLAN_ITEMS = {
   /* ---------- 5.3 D — Dry or wet, and U — Urinary I&O ---------- */
   ivf: { label:"IV crystalloid", rx:"ivf", aliases:A("iv fluids","ivf","ivi","fluids","0.9% saline","normal saline","saline","sodium chloride","hartmanns","hartmann's","plasmalyte","plasma-lyte","crystalloid","500 ml over","1 litre over","1l over 8 hours","1l over 6 hours","250 ml bolus","500 ml bolus","fluid challenge","fluid bolus","maintenance fluids","rehydrate","iv hydration","subcut fluids","sc fluids","subcutaneous fluids","hypodermoclysis") },
   replace: { label:"Urine output replaced", rx:"replace", aliases:A("replace urine output","replace losses","match urine output","match output","ml for ml","replace 50% of output","replace previous hour's output","fluid replacement against output","replace output") },
-  ivfbig: { label:"Large-volume resuscitation", rx:"ivfbig", aliases:A("30 ml/kg","30ml kg","2 litres stat","2l stat","fluid resuscitation","fluid resus","sepsis fluids","aggressive fluids") },
+  ivfbig: { label:"Large-volume resuscitation", rx:"ivfbig", aliases:A("30 ml/kg","30ml kg","2 litres stat","2l stat","sepsis fluids","aggressive fluids") },
   volstat: { label:"Volume status assessed", rx:"volstat", aliases:A("euvolaemic","volume status","fluid status assessed","clinically euvolaemic","not dry","not overloaded","assess fluid status") },
   fbchart: { label:"Fluid balance chart, hourly urine, nurse told", rx:"fbchart", aliases:A("fluid balance chart","fluid balance","strict fluid balance","fluid chart","input output","input and output","i/o chart","i&o","strict i/o","hourly urine output","hourly urines","urometer","hourly uo","urine output monitoring","monitor urine output","hourly measurements","inform nursing staff of fluid balance") },
   ioreview: { label:"Daily review of input and output", rx:"ioreview", aliases:A("daily fluid balance review","review fluid balance daily","daily i&o review","review input output daily") },
@@ -3522,6 +3527,30 @@ globalThis.PLAN_ADD = {
   bscan: A("us bladder","bladder us","us of bladder","uss bladder","ultrasound of bladder","ultrasound of the bladder","bladder ultrasound scan","scan of bladder","scan of the bladder","scanning bladder","scanning his bladder","bladder scanning","bladder scans","bladder volume scan","pvr scan","post void residual volume","post-void residual volume","post void scan","residual urine","residual scan","bladder scan please","ask for a bladder scan","bladder scan post void","bladder scanned","scan for retention","scan for residual","retention scan","check residual")
 };
 Object.keys(PLAN_ADD).forEach(k=>{ const it = PLAN_ITEMS[k]; if(it) it.aliases = [...new Set([...it.aliases, ...PLAN_ADD[k]])]; });
+/* ---------- scoring audit 2026-11 (audit/scoring-2026-11/fix-list.md, "Delirium"): forms trainees wrote that were not read.
+   Merged like PLAN_ADD. Never a bare "precautions". ---------- */
+globalThis.PLAN_ADD_AUDIT = {
+  holdneph: A("stop nephrotoxic medication","stop nephrotoxic medications","stop nephrotoxic medicines","stop nephrotoxic drugs","stop nephrotoxic meds","stop nephrotoxic","withhold nephrotoxic medication","withhold nephrotoxic medications","withhold nephrotoxic drugs","withhold nephrotoxic meds","hold nephrotoxic medication","hold nephrotoxic meds","hold nephrotoxic","stop all nephrotoxics","hold all nephrotoxics","withhold all nephrotoxics","stop all nephrotoxic medications","hold all nephrotoxic medications","suspend nephrotoxics","suspend nephrotoxic medications","stop any nephrotoxics","nephrotoxic medications held","nephrotoxic medications stopped"),
+  fbchart: A("ip op","ip/op","monitor ip/op","monitor ip op","ip/op chart","ip op chart","strict ip/op","intake output","intake and output","intake output chart","intake and output chart","intake/output","monitor intake and output","strict intake and output"),
+  isolate: A("respiratory precautions","respiratory infection precautions","infection precautions","contact precautions","airborne precautions","transmission based precautions","transmission-based precautions","droplet","droplet and contact precautions"),
+  ivf: A("fluid resuscitation","fluid resus"),
+  painplan: A("analgesia","adequate analgesia","pain relief","pain management","pain score","pain scores","ensure not in pain","ensure pain controlled","ensure pain is controlled","abbey pain score","painad","pain ad"),
+  volstat: A("fluid status","fluid status review","review fluid status","daily review of fluid status","hydration status","assess hydration","assess hydration status","fluid assessment"),
+  reorient: A("orientate","try to orientate","orientate him","reorientate him"),
+  familiar: A("ask family to come in","family to come in","ask family to visit"),
+  deesc: A("optimise environment","optimise the environment","environmental measures","quiet environment","delirium prevention measures"),
+  noabx: A("do not treat dipstick","do not treat positive dipstick","do not treat the dipstick","do not treat dip","do not treat positive dip","do not treat the dip","do not treat the positive dip","dont treat the dip","dont treat dip","dont treat dipstick","dont treat the dipstick","dont treat positive dipstick",
+    "do not treat the positive dipstick","dont treat the positive dipstick","do not treat a positive dipstick","dont treat a positive dipstick","dont treat positive dip","dont treat the positive dip"),      /* round 3: the "(the)" form */
+  oral: A("encourage oral intake","support oral intake","improve oral intake","monitor oral intake","oral intake chart","oral intake"),      /* a bare "oral intake" counts only as its own item (parsePlan): "given poor oral intake" is a reason */
+  tellhome: A("inform health protection","tell health protection","tell care home","update care home","notify care home","call care home","ring care home","phone care home"),
+  renaldose: A("renally adjust","renally adjust doses","renally adjust meds","renally adjust medications"),
+  nomove: A("avoid ward moves","avoid ward move"),
+  replace: A("match input to output","match input with output"),
+  holdfuro: A("suspend furosemide"),
+  holdall: A("withhold regular meds","withhold regular medications","withhold all regular medications","withhold all regular meds","hold all medications","hold all his medications","hold all his meds"),
+  pharm: A("review amitriptyline","review solifenacin","review anticholinergics","review anticholinergic medications","review anticholinergic burden")
+};
+Object.keys(PLAN_ADD_AUDIT).forEach(k=>{ const it = PLAN_ITEMS[k]; if(it) it.aliases = [...new Set([...it.aliases, ...PLAN_ADD_AUDIT[k]])]; });
 
 /* ---------- class words (04-ix-mx.md 5.10, "One verb, a list of medicines or classes"): the medicine each stands for
    in a shared-verb list, and the ones a passive ("diuretic held") is read for. Vocabulary only: never shown. ---------- */
@@ -3560,7 +3589,9 @@ const NINE_WORDS = ["ramipril","furosemide","solifenacin","amitriptyline","cocod
 const CLASSES = PLAN_CLASSES;
 const MED_WORD = NINE + "|" + Object.keys(DRUG_CANON).join("|") + "|" + Object.keys(CLASSES).join("|");
 function pbase(s, slash){
-  s = String(s).toLowerCase().replace(/[’']/g, "");
+  s = String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "");      /* scoring audit 2026-11: "Reoriéntate" */
+  s = s.replace(/\b(?:tmrw|tmrow|tmw|tmr|tomoz|tommorow|tomorow|2moro|2morrow)\b/g, "tomorrow");
+  s = s.replace(/\b(?:do not|dont|never)\s+((?:inform|tell|ring|call|update|notify|phone|contact)\b(?:(?!\b(?:and|but|then|give|start|stop|hold)\b)[^;.\n])*?)\buntil\b/g, "$1 when");      /* round 3: "don't call the home until the swab is back" is a call for later, a condition */
   s = s.replace(/→|->|=>/g, " to ").replace(/[>≥]=?/g, " above ").replace(/[<≤]=?/g, " below ");
   s = s.replace(/\bq1h\b/g, " hourly ").replace(/\br\/v\b/g, " review ").replace(/\bd\/w\b/g, " discuss with ").replace(/\bc\/w\b/g, " continue ").replace(/\bf\/u\b/g, " follow up ").replace(/\/hr\b/g, " hourly ");
   s = s.replace(new RegExp("\\b(?:d\\/c|dc)\\b(?=\\s+(?:the |his )?(?:" + MED_WORD + "|ace))", "g"), " stop ").replace(/\bw\/h\b/g, " withhold ");
@@ -3603,6 +3634,8 @@ const NEG_PHRASES = ["would not benefit from","would not benefit","not a candida
   "would not","wouldnt","no need to","no need for","hold off","holding off","not giving","not starting","take off","no more","no further","not for","do not","dont","no","not","nil","never","without","avoid","avoiding","against",
   "defer","omit","withhold","hold","stop","discontinue","cancel","remove"].map(p=>p.split(" ")).sort((a,b)=>b.length - a.length);
 const NEG_FILL = new Set(["give","giving","start","starting","treat","treating","with","prescribe","prescribing","for","now","yet","at","present","any","the","his","further","more","additional","iv","a","an","to","be","of","need","needed","dose","doses","regular","routine","him","all"]);
+const NEG_DIRECTIVE = new Set(["do not","dont","would not","wouldnt","never","avoid","avoiding","no need to"]);      /* scoring audit 2026-11: these forbid an instruction verb that follows */
+const NEG_COMM = new Set(["inform","tell","ring","call","update","notify","phone","contact","let","know"]);      /* round 3: "don't inform the care home": the forbidden call does not break the negation */
 const NEG_LEAD = /^(no|not|avoid|without|never|nil|against|hold off|do not|dont|would not|wouldnt)\b/;
 const ACT_LEAD = /^(hold|stop|withhold|omit|suspend|discontinue|pause|reduce|taper|wean|halve|change|switch|swap|continue|inform|tell|update|discuss|encourage|record|document|note|monitor|repeat|recheck|watch|assess|review|ring|call|phone|let|speak|notify|refer|start|treat as|ask|move|nurse|chart|measure|push|cease)\b/;
 const INSTR_LEAD = /^(catheterise|insert|put|pass|give|start|send|do|check|repeat|hold|stop|refer|for|needs|need|please|discuss|inform|tell|update|ring|call|ask|continue|treat|record|monitor|review|encourage|scan|dip|swab|isolate|move|rehydrate)\b/;
@@ -3614,7 +3647,7 @@ const KIND = { abx:"abx", abxuti:"abx", abxchest:"abx", tmp:"abx", nitro:"abx", 
   holdace:"hold", holdfuro:"hold", stopsoli:"hold", ami:"hold", cod:"hold", holdall:"hold", holdneph:"hold", stopdonep:"hold", holdclop:"hold" };
 const NEG_MAP = { abx:"noabx", abxuti:"noabx", abxchest:"noabx", tmp:"noabx", nitro:"noabx", gent:"noabx",
   benzo:"nobenzo", halo:"nobenzo", halobig:"nobenzo", sedother:"nobenzo", insdex:"kwatch",
-  dialysis:"ceiling", itu:"ceiling", nephrost:"ceiling", xfer:"ceiling", renal:"ceiling", urol:"ceiling",
+  dialysis:"ceiling", itu:"ceiling", nephrost:"ceiling", xfer:"ceiling",      /* round 4: "do not refer to urology" / "no need to call renal" is not a ceiling of care */
   sepsis6:"nosepsis", nsaid:"nonsaid", clamp:"free", cath:"nocath", cathio:"nocath", ivf:"nofluid", ivfbig:"nofluid" };
 const CTX = {
   uti: /\b(uti|urine|urinary|urosepsis|dipstick|dip|cystitis|pyelonephritis|for his water)\b/,
@@ -3648,7 +3681,7 @@ const ARTS = new Set(["the","his","her","both","tonights","todays","this"]);
 /* the plan as a stream of words, each knowing the clause it was written in */
 function planWords(text){
   planAliases();
-  const raw = String(text).replace(/(\d),(\d{3})\b/g, "$1$2").replace(/\s[-–—]\s/g, " , ").replace(/\brenal \(york\)/gi, "renal york");
+  const raw = String(text).replace(/(\d),(\d{3})\b/g, "$1$2").replace(/\s+[-–—]+\s*(?=(?:(?:is |are )?not (?:needed|required|indicated|necessary|appropriate)|ruled out|excluded)\b)/gi, " ").replace(/\s[-–—]\s/g, " , ").replace(/\brenal \(york\)/gi, "renal york");
   const clauses = [], out = [], partial = [], partialC = new Set();
   /* what is written in brackets is its own clause, and remembers that it was in brackets */
   raw.split(/(\([^)]*\))/).forEach(seg=>{
@@ -3854,6 +3887,8 @@ function parsePlan(text){
         if(isCath(h) && (h.paren || CATH_FACT_AFTER.test(after) || CATH_FACT_BEFORE.has(st.before) || st.before === "thereis")){ h.drop = true; h.fact = true; st = { mode:"list", kind:"cath", join:null, fact:h }; }
         else { h.neg = true; negHere = true; st = { mode:"list", kind:KIND[h.k] || "", join:null }; }
       }
+      /* scoring audit 2026-11, round 2: "do not stop nephrotoxics", "don't encourage oral intake": a forbidden instruction is not given */
+      else if(st && st.mode === "pending" && act && NEG_DIRECTIVE.has(st.phrase)){ h.neg = true; negHere = true; st = { mode:"list", kind:KIND[h.k] || "", join:null }; }
       else if(st && st.mode === "list" && st.join && !led && bare(h) && (st.join === "and" || (st.kind && KIND[h.k] === st.kind))){
         if(st.fact){ ask.mixed = true; ask.clauses.add(st.fact.c); ask.clauses.add(h.c); }
         if(isCath(h)){ h.drop = true; ask.carried = true; ask.clauses.add(h.c); }                 /* the nurse asks: rule 12 */
@@ -3862,7 +3897,7 @@ function parsePlan(text){
       }
       else if(led){ negHere = true; st = { mode:"list", kind:KIND[h.k] || "", join:null }; }
       else st = null;
-      if(!h.neg && !h.mention && !h.drop && /^(?:is |are |was )?not (?:needed|required|indicated|necessary|appropriate)\b/.test(after)){ h.neg = true; negHere = true; }
+      if(!h.neg && !h.mention && !h.drop && /^(?:(?:is |are |was )?not (?:needed|required|indicated|necessary|appropriate)|(?:is |are |was )?(?:ruled out|excluded))\b/.test(after)){ h.neg = true; negHere = true; }
       if(!h.neg && h.test && isWord(h.end) && used[h.end] < 0 && MENTION.has(T[h.end].w)) h.mention = true;   /* "the dipstick is not a UTI": a mention, not an order */
       /* "await swab", "chase cultures": a test already sent is referred to, and nothing is sent */
       if(!h.neg && (h.test || PLAN_ITEMS[h.k].ix) && /^(await|awaiting|chase|chasing|pending)$/.test(prevWord(h.start)) || (!h.neg && h.test && wordAt(h.start - 1) === "up" && wordAt(h.start - 2) === "follow")){
@@ -3878,7 +3913,7 @@ function parsePlan(text){
     if(/^(and|or|nor)$/.test(x.w)){ if(st && st.mode === "list") st.join = "and"; else if(!(st && st.mode === "pending")) st = null; hush = false; continue; }
     const p = phraseAt(i);
     if(p){ let b = i - 1; const before = isWord(b) && used[b] < 0 ? T[b].w : ""; st = { mode:"pending", left:5, phrase:p.join(" "), before: before === "is" && wordAt(b - 1) === "there" ? "thereis" : before }; i += p.length - 1; continue; }
-    if(st && st.mode === "pending"){ if(NEG_FILL.has(x.w) && st.left-- > 0) continue; st = null; continue; }
+    if(st && st.mode === "pending"){ if((NEG_FILL.has(x.w) || (NEG_DIRECTIVE.has(st.phrase) && NEG_COMM.has(x.w))) && st.left-- > 0) continue; st = null; continue; }
     if(st && st.mode === "list" && st.join && /^(the|his|any|further)$/.test(x.w)) continue;
     st = null;
   }
@@ -3971,7 +4006,9 @@ function parsePlan(text){
       for(let n = before.length - 2; n >= 0; n--){ const h = before[n], nx = tg[tg.length - 1];
         if(KIND[h.k] && KIND[h.k] === KIND[nx.k] && T.slice(h.end, nx.start).every(x=>x.w === "," || /^(and|or)$/.test(x.w))) tg.push(h); else break; }
       /* what is named inside a condition is a mention, not an order ("antibiotics only if cultures positive") */
-      if(!tg.every(h=>isOrder(h, text))) inSent.forEach(h=>{ if(h.start > ci && liveNow(h) && !INSTR_LEAD.test(h.alias) && !ACT_LEAD.test(h.alias) && T.slice(ci, h.start).every(x=>x.w !== ",")) h.mention = true; });
+      /* round 3: "…when the swab is back and give trimethoprim": a new instruction after "and" ends the condition, so a danger is never hidden inside it */
+      const freshOrder = h => T.slice(ci + 1, h.start).some((x, o)=>/^(and|then|also|plus)$/.test(x.w) && /^(give|start|commence|prescribe|add|send|then)$/.test(wordAt(ci + 2 + o)));
+      if(!tg.every(h=>isOrder(h, text))) inSent.forEach(h=>{ if(h.start > ci && liveNow(h) && !INSTR_LEAD.test(h.alias) && !ACT_LEAD.test(h.alias) && T.slice(ci, h.start).every(x=>x.w !== ",") && !freshOrder(h)) h.mention = true; });
       tg.forEach(h=>setCond(h, text));
     } else {
       /* "if … [then] [item]": everything after the condition, up to the end of the sentence */
@@ -3982,7 +4019,10 @@ function parsePlan(text){
         else if(used[i] >= 0 && hits[used[i]].start === i && (ACT_LEAD.test(hits[used[i]].alias) || INSTR_LEAD.test(hits[used[i]].alias))) cut = i;
       }
       const text = condText(T[ci].c, true);
-      inSent.forEach(h=>{ if(h.start <= ci || !liveNow(h)) return;
+      /* round 3: "…when the swab is back and give trimethoprim": a new order after "and", not the condition's */
+      let fresh = -1; for(let j = ci + 1; j < b - 1 && fresh < 0; j++) if(isWord(j) && used[j] < 0 && /^(and|also|plus)$/.test(T[j].w) && used[j + 1] < 0 && /^(give|start|commence|prescribe|add|send)$/.test(wordAt(j + 1))) fresh = j;
+      if(fresh >= 0 && T.slice(ci + 1, fresh).some(x=>x.w === "then")) fresh = -1;      /* "if … then A and give B": both rest on the condition */
+      inSent.forEach(h=>{ if(h.start <= ci || !liveNow(h) || (fresh >= 0 && h.start > fresh)) return;
         if(cut >= 0 ? h.start < cut : (isWord(h.end) && used[h.end] < 0 && MENTION.has(T[h.end].w))) h.mention = true; else setCond(h, text); });
     }
   }
@@ -4019,6 +4059,7 @@ function parsePlan(text){
     }
     if(["tmp","nitro","gent","addach","nsaid","kbind","bicarb"].includes(k)) info.drug[k] = h.raw;
     if(k === "renal" && (inS(h.s, "xfer") || inS(h.s, "dialysis"))) return;
+    if(k === "o2" && /^(?:if needed |prn |only )?(?:to |if )?(?:keep|target|targeting|aim|aiming|maintain|maintaining)\b/.test(wordsAfter(h, 5)) && /\b(?:sats?|saturations?|spo2|\d{2})\b/.test(o)) return;   /* scoring audit 2026-11: "O2 to keep sats 94-98%" is a target, not an order */
     if(k === "ksalb" && CTX.wheeze.test(o)){ info.notes.push("Salbutamol: no wheeze recorded — not charted"); return; }
     if(k === "ivf" && (CTX.kvo.test(o) || inS(h.s, "ivfbig"))) return;
     /* "fluids as tolerated orally" is a drink; an explicit IV, a volume or a rate is always a drip; and what follows
@@ -4035,11 +4076,17 @@ function parsePlan(text){
     if(k === "cod"){ info.cod = /\b(8 500|15 500|reduce|halve)\b/.test(h.alias) ? "reduce" : "stop"; if(/paracetamol/.test(h.alias)) matched.add("para"); }
     if(k === "ami" && /\b(taper|wean|reduce|10 mg)\b/.test(h.alias)) info.amiTaper = true;
     if(k === "repk"){ const r = /\b(?:in|at) (\d+) h\b|\b(\d+) h\b/.exec(o); if(r) info.repH = +(r[1] || r[2]);
-      if(info.repH > 6 || (!r && /\b(?:tomorrow|mane|daily|in the morning)\b/.test(o))){ info.repH = null; k = "dailyue"; } }                  /* more than six hours on is tomorrow's bloods */
+      if(info.repH > 6 || (!r && /\b(?:tomorrow|mane|daily|in the morning|in morning|am)\b/.test(o.replace(/\bi am\b/g, " ")))){ info.repH = null; k = "dailyue"; } }                  /* more than six hours on is tomorrow's bloods */
     /* Round 6 (04-ix-mx.md 5.13, 5.14) */
     if(k === "deldx" && !/^(document|record)/.test(h.alias) && (clauseOf(h).trim() !== h.alias || /^(imp|impression|dx|diagnosis|ddx|differential)\b/.test(o))) return;   /* only as its own clause; never a word inside another, or an impression line */
     if(k === "contmed"){ const after = o.slice(o.search(/\b(?:continue|cont)\b/));
       CONT_MEDS.forEach(([w, name])=>{ const at = after.search(new RegExp("\\b" + w + "\\b")); if(at >= 0 && !info.cont.some(c=>c[1] === name)) info.cont.push([at, name]); }); }
+    /* scoring audit 2026-11, round 2: a bare "oral intake" is an order only as its own item ("given poor oral intake" is a reason) */
+    if(k === "oral" && h.alias === "oral intake" && !/^(?:(?:encourage|encouraged|monitor|monitored|chart|charted|push|support|improve|maintain|ensure|good|adequate|and|to|be|please|plan)\s*)*$/.test(clauseOf(h).replace(/\boral intake\b/, " ").replace(/\s+/g, " ").trim())) return;
+    /* "pain relief: ibuprofen" is the NSAID, not a pain assessment */
+    if(k === "painplan" && inS(h.s, "nsaid") && !/^(?:assess|abbey|pain assessment|pain score|painad|pain ad)/.test(h.alias)) return;
+    /* "do not treat the positive dipstick" was read as a dip before these aliases were added; it still is */
+    if(k === "noabx" && /\bpositive dip/.test(h.alias)) matched.add("dip");
     if(k === "oral" && /food and (?:fluid|drink) chart/.test(h.alias)) info.alsoFood = true;                 /* "food and fluid charts" sets both */
     if(k === "catcare" && !(S.rx.has("cath") || S.rx.has("cathio") || hits.some(x=>isCath(x) && live(x)))) return;   /* nobody has a catheter to care for */
     if(!info.raw[k]) info.raw[k] = h.raw;
@@ -4052,10 +4099,14 @@ function parsePlan(text){
     const here = (x, i) => sentOf(i) === s;
     if(freeIn((x, i)=>here(x, i) && x.w === "daily") && (inS(s, "repk") || inS(s, "ue") || inS(s, "sh_bloods"))) matched.add("dailyue");
     if(freeIn((x, i)=>here(x, i) && /^(recheck|repeat)$/.test(x.w)) && (inS(s, "kwatch") || hits.some(h=>h.s === s && h.k === "insdex" && h.neg))) matched.add("repk");
+    /* scoring audit 2026-11: "Monitor K+, repeat ECG and bloods": the watched potassium and a repeat of a blood test in one sentence */
+    if(inS(s, "kwatch")){ const ws = T.map((x, i)=>isWord(i) && here(x, i) && !(used[i] >= 0 && hits[used[i]].k === "kwatch") ? x.w : "").join(" ");
+      if(/\b(?:repeat|recheck)\b/.test(ws) && /\b(?:bloods?|ue|u and e|k|potassium|vbg|gas|renal profile)\b/.test(ws)) matched.add(/\b(?:tomorrow|mane|morning|daily)\b/.test(ws) ? "dailyue" : "repk"); }
     if(freeIn((x, i)=>here(x, i) && x.w === "pcr") && CTX.urine.test(o) && hits.some(h=>h.s === s && live(h) && (h.k === "dip" || h.k === "umcs"))) matched.add("upcr");      /* "urine dip + PCR" */
-    if(CTX.tell.test(o) && !negated.has("tellhome")) matched.add("tellhome");
+    if(CTX.tell.test(o) && !negated.has("tellhome") && !/\b(?:do not|dont|never|no need to)(?: \w+)? (?:inform|tell|ring|call|update|notify|phone)\b/.test(o)) matched.add("tellhome");
   });
-  hits.forEach(h=>{ if(h.k === "fbchart" && live(h) && isWord(h.start - 1) && used[h.start - 1] < 0 && T[h.start - 1].w === "daily") matched.add("ioreview"); });   /* "daily fluid balance chart" sets both */
+  hits.forEach(h=>{ if(h.k === "fbchart" && live(h) && isWord(h.start - 1) && used[h.start - 1] < 0 && T[h.start - 1].w === "daily") matched.add("ioreview"); });
+  hits.forEach(h=>{ if(h.k === "volstat" && live(h) && /^daily review\b/.test(h.alias)) matched.add("ioreview"); });   /* scoring audit 2026-11: "daily review of fluid status" sets both */   /* "daily fluid balance chart" sets both */
   negated.forEach(k=>{ const to = NEG_MAP[k]; if(to){ if(!matched.has(to)) (info.derived[to] = info.derived[to] || []).push(k); matched.add(to); matched.delete(k); } });
   /* the bundle's six-hour ultrasound line is remarked on only when "6 h" is in the ultrasound's own clause */
   info.uss6 = hits.some(h=>h.k === "usskub" && live(h) && /\b6 h\b/.test(clauseOf(h)));
@@ -4792,6 +4843,7 @@ function chartState(dead){
     item("Isolated, infection prevention told", 3, iso, flu ? "Influenza A, in an open bay." : "No swab was sent, so nobody knew what he would be isolated for."),
     item("Renal advice by telephone", 1, rx.has("renal") && !rx.has("xfer") && !rx.has("dialysis"), "Stage 3: NICE asks for a conversation with a nephrologist within 24 hours."),
     item("The home or health protection told", 1, home, flu ? "Hazelgarth has five residents coughing and was not told what it is." : "Hazelgarth has five residents coughing and nobody found out what it is."),
+    item("Oseltamivir prescribed", 2, rx.has("oselt"), "No antiviral was written. An older man in hospital with influenza is offered oseltamivir, at a dose set for his kidneys."),
     item("Residual volume recorded", 1, rx.has("residual") && drained, drained ? "The volume that came out was not written down as his residual. Over a litre is what asks for the ultrasound." : "Nothing was drained, so there was no residual to record.") ] };
   const musts = { R1:L[0].items[0].pts > 0, R23:L[0].items[1].pts > 0 || L[0].items[2].pts > 0, R4:L[0].items[3].pts > 0, O1:o1, O2:drained, U3:L[2].items[2].pts > 0, I1:rx.has("fbchart"),
                   P:["ace","furo","cod","soli","ami"].every(k=>named[k] || carried) && rx.has("pharm") };
@@ -4855,8 +4907,8 @@ CASE.screens = [
     { k:"Identify it", d:["D1","D2","D19"], want:"A 4AT scored", ok:f=>f.fourat, why:()=>"No delirium assessment was recorded.",
       extra:f=>[f.rx.has("deldx") ? "Delirium recorded" : "", (f.rx.has("fouratrep") || S.fourat.length > 1) ? "To be looked at again" : ""] },
     { k:"Pain, food and drink", d:["D4","D8","D7"], want:"Pain assessed; hydration and nutrition looked at",
-      ok:f=>f.pain && (f.rx.has("foodchart") || f.rx.has("oral") || f.rx.has("volstat") || f.hyd),
-      why:f=>!f.pain ? "Nobody asked whether he was in pain." : "Fluid status was not assessed.", extra:f=>[f.rx.has("bowels") ? "Bowels charted" : ""] },
+      ok:f=>f.pain && (f.rx.has("foodchart") || f.rx.has("oral")),
+      why:f=>!f.pain ? "Nobody asked whether he was in pain." : "Nothing was written about what he was eating and drinking.", extra:f=>[f.rx.has("bowels") ? "Bowels charted" : ""] },
     { k:"Infection", d:["D5","D13"], want:"Infection looked for; urine not treated on a dipstick", paid:"counted under U and the work-up",
       ok:f=>f.on("flu") && !f.uabx, why:f=>!f.on("flu") ? "No respiratory swab." : "An antibiotic was started on a dipstick." },
     { k:"Bladder and medicines", d:["D6","D9","D16"], want:"Bladder checked; each of his regular medicines questioned", paid:"counted under O and P",

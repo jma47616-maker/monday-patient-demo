@@ -828,9 +828,14 @@ const CASE = {
      the patient for punctuation. dxAny = any one token is enough; dxAll = every word of a
      group; dxNever blocks the near-misses that share vocabulary (ITP is written
      "immune thrombocytopenic purpura", which is why "thrombotic" is always required). */
-  meta: { dxAny: ["ttp","ittp","moschcowitz","moschkowitz"],
-          dxAll: [["thrombotic","thrombocytopenic"],["thrombotic","thrombocytopaenic"]],
-          dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against"],
+  meta: { dxAny: ["ttp","ittp","attp","moschcowitz","moschkowitz"],
+          /* three-word groups for the noun spellings: a two-word "thrombotic thrombocytopenia"
+             would let vaccine-induced thrombotic thrombocytopenia (VITT) pass */
+          dxAll: [["thrombotic","thrombocytopenic"],["thrombotic","thrombocytopaenic"],
+                  ["thrombotic","thrombocytopenia","purpura"],["thrombotic","thrombocytopaenia","purpura"],
+                  ["thrombotic","thrombocytopoenic","purpura"]],
+          /* "excluded" is a trailing negator only ("TTP excluded") */
+          dxNegators: ["not","no","excludes","exclude","unlikely","doubt","doubts","rather than","other than","against"],
           /* trailing form, and it must be adjacent: "TTP excluded" is a denial, but
              "TTP - no evidence of DIC" is still a commitment to TTP */
           dxPostNegators: ["excluded","ruled out","unlikely","improbable","not the diagnosis"],
@@ -884,7 +889,7 @@ const CASE = {
       aliases:["meningism","neck stiffness","kernig","brudzinski","meningeal irritation","photophobia","nuchal rigidity","neck","stiff neck","signs of meningism"] },
     { id:"cog", name:"Cognitive screen", key:true, tone:"alert",
       f:"AMTS 6/10 — she gives the wrong year, cannot name the place, and cannot hold the address. 4AT scores 4: positive for delirium. No focal deficit to explain it.",
-      aliases:["cognitive screen","amts","4at","abbreviated mental test","confusion screen","orientation","delirium screen","mmse","cognition","gcs","glasgow coma scale","confusion assessment"] },
+      aliases:["cognitive screen","amts","amt","4at","abbreviated mental test","confusion screen","orientation","delirium screen","mmse","cognition","gcs","glasgow coma scale","confusion assessment"] },
     { id:"obsrep", name:"Repeat the observations", key:true, f:"", dynObs:true,
       aliases:["repeat the observations","repeat obs","recheck obs","observations","obs","vital signs","vitals","news","news2","repeat the obs","re-check observations"] },
 
@@ -897,7 +902,7 @@ const CASE = {
     { id:"hands", name:"Hands", f:"Palmar creases pale. No clubbing, no koilonychia, no splinter haemorrhages, no Dupuytren's.", aliases:["hands","hand examination","nails","clubbing","koilonychia","palms","palmar creases"] },
     { id:"calf",  name:"Calves", f:"Calves soft, non-tender and equal. No swelling, no cords.", aliases:["calf","calves","dvt","dvt check","legs","leg swelling","homans"] },
     { id:"pulses",name:"Peripheral pulses", f:"All peripheral pulses present and symmetrical. No radio-radial or radio-femoral delay. No bruits.", aliases:["peripheral pulses","foot pulses","pedal pulses","dorsalis pedis","femoral pulses","radio femoral delay","radio radial delay","bruits","carotid"] },
-    { id:"fundi", name:"Fundoscopy", f:"Discs sharp, no papilloedema. No retinal haemorrhages, no Roth spots.", aliases:["fundoscopy","fundi","ophthalmoscopy","eye fundus","retina","roth spots","papilloedema"] },
+    { id:"fundi", name:"Fundoscopy", f:"Discs sharp, no papilloedema. No retinal haemorrhages, no Roth spots.", aliases:["fundoscopy","fundi","ophthalmoscopy","eye fundus","retina","roth spots","papilloedema","opthalmoscopy","ophthalmoscope","opthalmoscope","funduscopy","fundoscope"] },
     { id:"cn",    name:"Cranial nerves", f:"Cranial nerves II–XII intact. Pupils equal and reactive at 2 mm. No nystagmus, no visual field defect.", aliases:["cranial nerves","cranial nerve exam","pupils","eye movements","facial nerve","visual fields"] },
     { id:"ul",    name:"Upper limb neurology", f:"Normal tone, power 5/5 throughout, reflexes present and symmetrical, sensation intact.", aliases:["upper limb neurology","upper limbs","arm neurology","arms","power","reflexes","upper limb neuro"] },
     { id:"ll",    name:"Lower limb neurology", f:"Normal tone, power 5/5 throughout, reflexes present and symmetrical, plantars downgoing, sensation intact.", aliases:["lower limb neurology","lower limbs","leg neurology","lower limb neuro","plantars","babinski"] },
@@ -920,7 +925,7 @@ const CASE = {
     { id:"oedema", name:"Peripheral and sacral oedema", f:"No pitting oedema at the ankles, none over the sacrum.", aliases:["oedema","edema","peripheral oedema","ankle oedema","sacral oedema","pitting oedema","swollen ankles","ankles"] },
     { id:"bparms", name:"Blood pressure in both arms", f:"Equal in both arms, no significant differential.", aliases:["blood pressure both arms","bp both arms","both arms","blood pressure in both arms","bp differential","arm bp difference"] },
     { id:"organo", name:"Liver and spleen", f:"No hepatomegaly, no splenomegaly, no masses. Liver edge not palpable.", aliases:["liver","spleen","hepatomegaly","splenomegaly","organomegaly","hepatosplenomegaly","liver edge","palpate the liver","palpate the spleen"] },
-    { id:"kidneys",name:"Ballot the kidneys", f:"Kidneys not ballotable. No renal angle tenderness on either side.", aliases:["ballot the kidneys","kidneys","ballotable","renal angle","renal angle tenderness","loin tenderness","loins"] },
+    { id:"kidneys",name:"Ballot the kidneys", f:"Kidneys not ballotable. No renal angle tenderness on either side.", aliases:["ballot the kidneys","kidneys","ballotable","renal angle","renal angle tenderness","loin tenderness","loins","renal punch"] },
     { id:"suprapubic", name:"Suprapubic palpation", f:"Soft and completely non-tender. Bladder not palpable.", aliases:["suprapubic","suprapubic tenderness","suprapubic palpation","bladder","palpable bladder"] },
     { id:"aorta",  name:"Aortic pulsation", f:"Aorta not expansile, no palpable aneurysm, no bruit.", aliases:["aorta","aortic pulsation","aaa","abdominal aorta","aneurysm","expansile mass"] },
     { id:"bs",     name:"Bowel sounds", f:"Bowel sounds present and normal in character.", aliases:["bowel sounds","auscultate the abdomen","abdominal auscultation","borborygmi"] },
@@ -952,7 +957,7 @@ const CASE = {
         aliases:["urine dip","urine dipstick","dipstick","urinalysis","urine test","urine microscopy"],
         img:"ttp-urinalysis.svg", imgAlt:"Urinalysis result slip and the sample pot" },
       { id:"preg", name:"Pregnancy test", cost:5, costL:"5 min", tag:"key",
-        aliases:["pregnancy test","bhcg","hcg","beta hcg","urine pregnancy test","upt","is she pregnant"],
+        aliases:["pregnancy test","bhcg","hcg","beta hcg","urine pregnancy test","upt","is she pregnant","serum hcg","urine hcg","serum bhcg"],
         text:"Negative." },
       { id:"ecg",  name:"ECG", cost:10, costL:"10 min", tag:"supp",
         img:"ttp-ecg-normal.png", imgAlt:"12-lead ECG",
@@ -963,31 +968,31 @@ const CASE = {
     ],
     bloods: [
       { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true,
-        aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets","platelet count","full blood picture"],
+        aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets","platelet count","full blood picture","retics","reticulocytes","reticulocyte count"],
         labs:[{n:"Hb", v:"72", r:"120–160", u:"g/L", flag:"lo", base:"134 (18 months ago)"},{n:"RBC", v:"2.4", r:"4.0–5.2", u:"×10¹²/L", flag:"lo"},{n:"Hct", v:"0.22", r:"0.36–0.46", u:"L/L", flag:"lo"},{n:"MCV", v:"91", r:"80–100", u:"fL", base:"88 (18 months ago)"},{n:"MCH", v:"30", r:"27–33", u:"pg"},{n:"MCHC", v:"330", r:"320–360", u:"g/L"},{n:"WCC", v:"8.7", r:"4.0–11.0", u:"×10⁹/L", base:"6.4 (18 months ago)"},{n:"Neutrophils", v:"6.2", r:"2.0–7.5", u:"×10⁹/L"},{n:"Lymphocytes", v:"1.8", r:"1.0–4.0", u:"×10⁹/L"},{n:"Platelets", v:"18", r:"150–400", u:"×10⁹/L", flag:"lo", base:"268 (18 months ago)"},{n:"Reticulocytes", v:"180", r:"25–100", u:"×10⁹/L", flag:"hi"}] },
       { id:"fbc2", name:"Repeat full blood count", cost:60, costL:"60 min", tag:"key", repeatable:true, dynLabs:true,
         aliases:["repeat fbc","repeat full blood count","recheck the platelets","repeat bloods","repeat the fbc","recheck fbc","second fbc","serial fbc","recheck the haemoglobin"] },
       { id:"film", name:"Blood film", cost:60, costL:"60 min", tag:"key",
-        aliases:["blood film","film","peripheral smear","smear","peripheral blood film","morphology","ask the lab to look at the film","urgent film"],
+        aliases:["blood film","film","peripheral smear","smear","peripheral blood film","morphology","ask the lab to look at the film","urgent film","blood smear","peripheral blood smear","film for schistocytes","film for fragments","schistocytes","red cell fragments"],
         img:"ttp-film.jpg", imgFallback:"ttp-film.svg", imgAlt:"Peripheral blood film",
         text:"Haematology BMS reports urgently by phone:\n\n• Numerous schistocytes (red cell fragments)\n• Polychromasia\n• Marked thrombocytopenia, confirmed on the film — not a clumping artefact\n• No blasts seen" },
       { id:"hapt", name:"Haemolysis screen", cost:90, costL:"90 min", tag:"key",
-        aliases:["haemolysis screen","hemolysis screen","haptoglobin","ldh","lactate dehydrogenase","dat","coombs","direct antiglobulin test","direct coombs","haemolysis markers","screen for haemolysis"],
+        aliases:["haemolysis screen","hemolysis screen","haptoglobin","ldh","lactate dehydrogenase","dat","coombs","direct antiglobulin test","direct coombs","haemolysis markers","screen for haemolysis","ldh and haptoglobin","ldh haptoglobin"],
         labs:[{n:"LDH", v:"1800", r:"135–225", u:"U/L", flag:"hi"},{n:"Bilirubin (total)", v:"62", r:"<21", u:"µmol/L", flag:"hi", base:"11 (18 months ago)"},{n:"— unconjugated", v:"54", r:"<17", u:"µmol/L", flag:"hi"},{n:"Haptoglobin", v:"undetectable", r:"0.3–2.0 g/L", flag:"lo"},{n:"DAT (Coombs)", v:"NEGATIVE", r:"negative"}] },
       { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key",
-        aliases:["ue","u and e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","egfr"],
+        aliases:["ue","u and e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","egfr","u and es","ues","u es","u and e s"],
         labs:[{n:"Sodium", v:"138", r:"133–146", u:"mmol/L"},{n:"Potassium", v:"4.2", r:"3.5–5.3", u:"mmol/L"},{n:"Urea", v:"8.1", r:"2.5–7.8", u:"mmol/L", flag:"hi", base:"4.1 (18 months ago)"},{n:"Creatinine", v:"118", r:"45–90", u:"µmol/L", flag:"hi", base:"64 (18 months ago)"},{n:"eGFR", v:"78", r:">90", u:"mL/min/1.73m²", flag:"lo", base:">90 (18 months ago)"}] },
       { id:"coag", name:"Coagulation screen", cost:60, costL:"60 min", tag:"key",
-        aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen","dic screen"],
+        aliases:["coag","clotting","coagulation","coagulation screen","clotting screen","inr","aptt","pt","fibrinogen","dic screen","pt aptt","pt and aptt","clauss fibrinogen","clauss"],
         labs:[{n:"PT", v:"11.8", r:"11.0–13.5", u:"s"},{n:"INR", v:"1.0", r:"0.9–1.2"},{n:"APTT", v:"30", r:"24–36", u:"s"},{n:"Fibrinogen", v:"3.4", r:"2.0–4.0", u:"g/L"}] },
       { id:"adamts", name:"ADAMTS13 activity & inhibitor", cost:60, costL:"send-away", tag:"key", defer:true,
-        aliases:["adamts13","adamts 13","adamts13 activity","adamts13 level","adamts13 assay","adamts13 inhibitor","von willebrand cleaving protease","vwf cleaving protease"],
+        aliases:["adamts13","adamts 13","adamts13 activity","adamts13 level","adamts13 assay","adamts13 inhibitor","von willebrand cleaving protease","vwf cleaving protease","adamts 13 activity","adamts 13 level","adamts 13 inhibitor","adamts13 antibody","anti adamts13"],
         text:"Sample accepted and sent to the reference laboratory. Result not available for several days." },
       { id:"gs",   name:"Group & save + crossmatch", cost:45, costL:"45 min", tag:"key",
-        aliases:["group and save","gs","g and s","crossmatch","cross match","xmatch","group and screen","blood bank","transfusion sample","type and screen","antibody screen"],
+        aliases:["group and save","gs","g and s","crossmatch","cross match","xmatch","group and screen","blood bank","transfusion sample","type and screen","antibody screen","g s","xm"],
         text:"Group O positive, antibody screen negative. Two units of red cells crossmatched and available.\n\nThe blood bank asks whether you also want platelets — “most people ask, with a count of 18.”" },
       { id:"viro", name:"Virology screen (HIV, HBV, HCV)", cost:240, costL:"send-away", tag:"key", defer:true,
-        aliases:["virology","virology screen","hiv","hepatitis","hepatitis b","hepatitis c","hbv","hcv","bbv","blood borne virus","viral screen","hiv test"],
+        aliases:["virology","virology screen","hiv","hepatitis","hepatitis b","hepatitis c","hbv","hcv","bbv","blood borne virus","viral screen","hiv test","hepatitis serology","hiv hep b hep c","hep b","hep c","bbv screen"],
         text:"Sent. Results follow in a few days." },
       { id:"lft",  name:"Liver function tests", cost:60, costL:"60 min", tag:"supp",
         aliases:["lft","lfts","liver function","liver function tests","liver","bilirubin","alt","alp","albumin"],
@@ -1049,7 +1054,7 @@ const CASE = {
     ],
     imaging: [
       { id:"cth",  name:"CT head", cost:90, costL:"90 min", tag:"supp",
-        aliases:["ct head","ct brain","head ct","ct scan head","ct","urgent ct head","non contrast ct head"],
+        aliases:["ct head","ct brain","head ct","ct scan head","ct","urgent ct head","non contrast ct head","cth"],
         text:"No acute intracranial haemorrhage, extra-axial collection, mass lesion or midline shift. Grey–white matter differentiation preserved, no acute territorial infarction. Ventricles, sulci and basal cisterns normal — no hydrocephalus. Calvarium intact, sinuses and mastoids clear.\n\nIMPRESSION: No acute intracranial abnormality." },
       { id:"cxr",  name:"Chest X-ray", cost:45, costL:"45 min", tag:"supp", img:"ttp-cxr-normal.jpeg", imgAlt:"Chest radiograph",
         aliases:["cxr","chest x ray","chest xray","chest radiograph","chest film","portable chest"] },
@@ -1121,6 +1126,7 @@ const CASE = {
     { id:"folate",g:"further", t:"Folic acid" },
     { id:"rituximab", g:"further", t:"Rituximab discussed with haematology" },
     { id:"vte",   g:"further", t:"Thromboprophylaxis — deferred until platelets >50" },
+    { id:"mech",  g:"further", t:"Mechanical thromboprophylaxis (stockings)" },
     { id:"itu",   g:"further", t:"Critical care / anaesthetic review before transfer" },
     { id:"neuro", g:"further", t:"Hourly neurological observations" },
     { id:"line",  g:"further", t:"Wide-bore venous access for exchange" },
@@ -1244,7 +1250,8 @@ const NOISE_WORDS = new Set(["the","a","an","her","his","him","she","he","they",
   "have","has","had","lets","let","us","we","i","want","would","like","need","just","now","then","also","again",
   "look","looking","looks","check","checking","checks","examine","examining","examined","examination","exam","exams",
   "inspect","inspecting","assess","assessing","assessment","perform","performing","review","reviewing",
-  "test","testing","tests","screen","screening","order","send","get","request","requesting","patient","patients"]);
+  "test","testing","tests","screen","screening","order","send","get","request","requesting","patient","patients",
+  "inspection"]);
 function queryTokens(q){ return q.split(" ").filter(t=>t && !NOISE_WORDS.has(t)); }
 
 function fmtClock(min){ const h=Math.floor(min/60)%24, m=Math.floor(min%60); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
@@ -1347,20 +1354,33 @@ $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>
 
 /* ---------- judging the committed diagnosis ---------- */
 /* Free text, so read what they wrote rather than matching a menu entry. */
+/* Judged clause by clause, BEFORE punctuation is stripped: "Not ITP – TTP" and "no DIC, TTP"
+   commit to TTP; "HUS, not TTP" does not. In-word hyphens become spaces. */
 function judgeDx(raw){
-  const t = " " + norm(raw) + " ";
   const B = "\\";                       // one backslash, for building word boundaries
-  const has = w => new RegExp(B + "b" + w + B + "b").test(t);
   const m = CASE.meta;
-  // "HUS, not TTP" is not a commitment to TTP
   const claim = [...(m.dxAny || []), "thrombotic"].join("|");
-  const denied = (m.dxNegators || []).some(n => new RegExp(
-    B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")" + B + "b").test(t));
-  const trailed = (m.dxPostNegators || []).some(n => new RegExp(
-    "(?:" + claim + ")" + B + "s+" + n + B + "b").test(t));
-  if (denied || trailed) return false;
-  if ((m.dxAny || []).some(has)) return true;
-  return (m.dxAll || []).some(group => group.every(has));
+  const clauses = String(raw || "")
+    .replace(/\s[-\u2010-\u2015\u2212]+\s/g, " , ")         // a spaced dash ends a clause
+    .replace(/\bbut\b/gi, ",")
+    .split(/[,;:()\/?!]|\.(?=\s|$)/)
+    .map(c => " " + norm(c.replace(/[-\u2010-\u2015\u2212]/g, " ")) + " ")
+    .filter(c => c.trim());
+  let ok = false;
+  clauses.forEach((t, i) => {
+    const has = w => new RegExp(B + "b" + w + B + "b").test(t);
+    const hit = (m.dxAny || []).some(has) || (m.dxAll || []).some(group => group.every(has));
+    if (!hit) return;
+    // "HUS, not TTP" is not a commitment to TTP
+    const denied = (m.dxNegators || []).some(n => new RegExp(
+      B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")" + B + "b").test(t));
+    const trailed = (m.dxPostNegators || []).some(n => new RegExp(
+      "(?:" + claim + ")" + B + "s+" + n + B + "b").test(t));
+    // "TTP? No — HUS": a bare "no" straight after the clause takes it back
+    const retracted = /^ (?:no|not|nope|not it) $/.test(clauses[i + 1] || "");
+    if (!denied && !trailed && !retracted) ok = true;
+  });
+  return ok;
 }
 
 /* ---------- history (chat) ---------- */
@@ -1739,27 +1759,29 @@ const RX_DANGERS = ["plt","heparin","asp","waitad"];
    ============================================================ */
 const PLAN_ITEMS = {
   /* --- the treatment --- */
-  pex:     { label:"Plasma exchange", rx:"pex", aliases:["plasma exchange","plasmapheresis","pex","plex","plx","tpe","therapeutic plasma exchange","exchange","apheresis","plasma exchange within 4 hours","urgent plasma exchange","start plasma exchange","arrange plasma exchange","plasma infusion","octaplas","fresh frozen plasma","ffp"] },
-  steroid: { label:"Corticosteroid", rx:"steroid", aliases:["methylprednisolone","methylpred","methyl pred","high dose methylprednisolone","steroids","steroid","corticosteroids","corticosteroid","prednisolone","iv steroids","immunosuppression","pulsed methylprednisolone"] },
+  pex:     { label:"Plasma exchange", rx:"pex", aliases:["plasma exchange","plasmapheresis","pex","plex","plx","tpe","therapeutic plasma exchange","exchange","apheresis","plasma exchange within 4 hours","urgent plasma exchange","start plasma exchange","arrange plasma exchange","plasma infusion","octaplas","fresh frozen plasma","ffp","plasma exchanges","exchanges"] },
+  steroid: { label:"Corticosteroid", rx:"steroid", aliases:["methylprednisolone","methylpred","methyl pred","high dose methylprednisolone","steroids","steroid","corticosteroids","corticosteroid","prednisolone","iv steroids","immunosuppression","pulsed methylprednisolone","pred","ivmp","iv methylpred","iv methylprednisolone","solumedrol","solu medrol"] },
+  /* a steroid, but not the one the guideline uses: taught, not scored */
+  othersteroid:{ label:"Hydrocortisone / dexamethasone", teach:"A steroid is the right idea, but not this one. BSH uses high-dose <b>methylprednisolone</b> (or prednisolone 1 mg/kg) in immune TTP; hydrocortisone and dexamethasone are not the regimen. Write the one you mean.", aliases:["hydrocortisone","dexamethasone","dex"] },
   capla:   { label:"Caplacizumab", rx:"capla", aliases:["caplacizumab","cablivi","anti vwf nanobody"] },
   rituximab:{ label:"Rituximab", rx:"rituximab", aliases:["rituximab","anti cd20","mabthera","obinutuzumab"] },
 
   /* --- referral and transfer --- */
-  refer:   { label:"Refer to haematology", rx:"refer", aliases:["refer to haematology","refer haematology","call haematology","discuss with haematology","haematology referral","bleep haematology","phone haematology","haematology advice","refer to the ttp centre","call the ttp centre","discuss with the regional centre","refer to the regional centre","haematology","haem","haem reg","haem review","haematology review","refer to haem","refer haem","call haem","dw haem","dw haematology"] },
-  transfer:{ label:"Transfer to the designated TTP centre", rx:"transfer", aliases:["transfer","blue light transfer","urgent transfer","transfer to the regional centre","transfer to a ttp centre","time critical transfer","arrange transfer","retrieval","move her to the tertiary centre","tertiary centre"] },
+  refer:   { label:"Refer to haematology", rx:"refer", aliases:["refer to haematology","refer haematology","call haematology","discuss with haematology","haematology referral","bleep haematology","phone haematology","haematology advice","refer to the ttp centre","call the ttp centre","discuss with the regional centre","refer to the regional centre","haematology","haem","haem reg","haem review","haematology review","refer to haem","refer haem","call haem","dw haem","dw haematology","hematology","refer to hematology","haematologist","haematologists","hematologist","hematologists","ttp centre","regional ttp centre","discuss with ttp centre","the ttp centre"] },
+  transfer:{ label:"Transfer to the designated TTP centre", rx:"transfer", aliases:["transfer","blue light transfer","urgent transfer","transfer to the regional centre","transfer to a ttp centre","time critical transfer","arrange transfer","retrieval","move her to the tertiary centre","tertiary centre","blue light","regional centre"] },
   itu:     { label:"Critical care / anaesthetic review", rx:"itu", aliases:["critical care","itu","icu","hdu","intensive care","anaesthetics","anaesthetic review","airway escort","intubation","outreach","critical care outreach","level 2 bed"] },
 
   /* --- samples that must go before treatment --- */
   adamts:  { label:"ADAMTS13 sample", ix:"adamts", aliases:["adamts13","adamts 13","adamts13 sample","send adamts13","adamts13 level","adamts13 activity","adamts13 before exchange","adamts13 assay"] },
-  gs:      { label:"Group & save / crossmatch", ix:"gs", aliases:["group and save","group & save","crossmatch","cross match","g and s","gs","xmatch","x match","transfusion sample","type and screen"] },
+  gs:      { label:"Group & save / crossmatch", ix:"gs", aliases:["group and save","group & save","crossmatch","cross match","g and s","gs","xmatch","x match","transfusion sample","type and screen","g s","xm"] },
   viro:    { label:"Virology screen", ix:"viro", aliases:["virology","virology screen","viral screen","bbv","bbvs","bbv screen","blood borne virus","blood borne viruses","blood borne virus screen","hiv","hepatitis serology","hepatitis b","hepatitis c","hbv","hcv","hepatitis b status"] },
   film:    { label:"Blood film", ix:"film", aliases:["blood film","urgent blood film","film","peripheral smear","ask the lab to review the film"] },
 
   /* --- supportive --- */
-  iv:      { label:"IV access and fluid", rx:"iv", aliases:["iv access","cannula","cannulate","iv fluids","intravenous fluids","maintenance fluids","crystalloid","hartmanns","saline"] },
-  line:    { label:"Wide-bore venous access for exchange", rx:"line", aliases:["vascath","wide bore access","central line","central venous catheter","dialysis line","apheresis line","femoral line","large bore access"] },
-  rbc:     { label:"Red cell transfusion", rx:"rbc", aliases:["red cells","packed red cells","transfuse red cells","blood transfusion","transfuse","units of blood","prbc","transfuse two units"] },
-  stopnitro:{ label:"Stop the nitrofurantoin", rx:"stopnitro", aliases:["stop the nitrofurantoin","stop nitrofurantoin","withhold the nitrofurantoin","stop the antibiotic she is on","discontinue nitrofurantoin","nitrofurantoin"] },
+  iv:      { label:"IV access and fluid", rx:"iv", aliases:["iv access","cannula","cannulate","iv fluids","intravenous fluids","maintenance fluids","crystalloid","hartmanns","saline","ivf","fluids","iv fluid"] },
+  line:    { label:"Wide-bore venous access for exchange", rx:"line", aliases:["vascath","wide bore access","central line","central venous catheter","dialysis line","apheresis line","femoral line","large bore access","hf line","haemofiltration line","hickman"] },
+  rbc:     { label:"Red cell transfusion", rx:"rbc", aliases:["red cells","packed red cells","transfuse red cells","blood transfusion","transfuse","units of blood","prbc","transfuse two units","red cell","red cell transfusion","rbc"] },
+  stopnitro:{ label:"Stop the nitrofurantoin", rx:"stopnitro", aliases:["stop the nitrofurantoin","stop nitrofurantoin","withhold the nitrofurantoin","stop the antibiotic she is on","discontinue nitrofurantoin","nitrofurantoin","withhold nitrofurantoin","hold nitrofurantoin","omit nitrofurantoin","no more nitrofurantoin","stop nitro","stop antibiotics","stop the antibiotics","stop abx","stop macrobid","macrobid"], heldOnNeg:true },
   folate:  { label:"Folic acid", rx:"folate", aliases:["folic acid","folate","folate replacement","folate supplementation"] },
   neuro:   { label:"Hourly neurological observations", rx:"neuro", aliases:["neuro obs","neurological observations","hourly neuro obs","gcs monitoring","monitor the gcs","neuro observations"] },
   obs:     { label:"Close observation", rx:"obs", aliases:["close monitoring","hourly obs","regular observations","frequent obs","continuous monitoring","cardiac monitoring","monitor observations","news2 monitoring"] },
@@ -1768,45 +1790,265 @@ const PLAN_ITEMS = {
   esc:     { label:"Escalation plan", rx:"esc", aliases:["escalation plan","treatment escalation plan","document a plan","ceiling of care","tep"] },
 
   /* --- reasonable, but with a caveat --- */
-  abx:     { label:"Empirical antibiotics", rx:"abx", teach:"Not unreasonable to cover an unwell, febrile patient while you are still unsure — but the culture results are already negative, there is no source, and antibiotics must not become the reason nobody rang haematology. The temperature here is the disease.", aliases:["antibiotics","iv antibiotics","empirical antibiotics","broad spectrum antibiotics","ceftriaxone","tazocin","co amoxiclav","antibiotic cover","continue the antibiotics","sepsis six"] },
+  abx:     { label:"Empirical antibiotics", rx:"abx", teach:"Not unreasonable to cover an unwell, febrile patient while you are still unsure — but the culture results are already negative, there is no source, and antibiotics must not become the reason nobody rang haematology. The temperature here is the disease.", aliases:["antibiotics","iv antibiotics","empirical antibiotics","broad spectrum antibiotics","ceftriaxone","tazocin","co amoxiclav","antibiotic cover","continue the antibiotics","sepsis six","abx","iv abx"], heldCredits:"stopnitro" },
   acyc:    { label:"Aciclovir", rx:"acyc", teach:"Defensible while encephalitis is still on your list — but the CSF is normal, there is no meningism, and the film has already given you the answer. Do not let it delay the exchange.", aliases:["aciclovir","acyclovir","antiviral","cover for encephalitis","hsv cover"] },
   nephro:  { label:"Nephrology", rx:"nephro", aliases:["nephrology","renal team","refer nephrology","call renal","renal referral"] },
   neurol:  { label:"Neurology", rx:"neurol", aliases:["neurology","refer neurology","call neurology","neurology referral","neuro team"] },
-  vte:     { label:"Thromboprophylaxis", rx:"vte", teach:"Right instinct, wrong moment. BSH: thromboprophylaxis once the platelet count is <b>above 50</b> — hers is 18. Chart it to start when the count recovers, and note that low-dose aspirin is avoided while caplacizumab is running.", aliases:["thromboprophylaxis","vte prophylaxis","dalteparin","enoxaparin","clexane","lmwh","prophylactic lmwh","teds","ted stockings","mechanical prophylaxis","tinzaparin"] },
+  vte:     { label:"Thromboprophylaxis", rx:"vte", teach:"Right instinct, wrong moment. BSH: thromboprophylaxis once the platelet count is <b>above 50</b> — hers is 18. Chart it to start when the count recovers, and note that low-dose aspirin is avoided while caplacizumab is running.", aliases:["thromboprophylaxis","vte prophylaxis","dalteparin","enoxaparin","clexane","lmwh","prophylactic lmwh","tinzaparin","low molecular weight heparin","prophylactic heparin","chemical thromboprophylaxis","pharmacological thromboprophylaxis"], deferOn50:true },
+  mech:    { label:"Mechanical thromboprophylaxis", rx:"mech", aliases:["teds","ted stockings","mechanical prophylaxis","mechanical thromboprophylaxis","anti embolism stockings","flowtrons","ipc"] },
 
   /* --- dangers --- */
-  plt:     { label:"Platelet transfusion", rx:"plt", danger:true, aliases:["platelets","platelet transfusion","transfuse platelets","give platelets","pool of platelets","platelet pool","one adult dose of platelets","top up the platelets","platelet cover"] },
-  heparin: { label:"Treatment-dose anticoagulation", rx:"heparin", danger:true, aliases:["treatment dose anticoagulation","therapeutic anticoagulation","heparin infusion","treatment dose lmwh","therapeutic enoxaparin","anticoagulate her","start anticoagulation","warfarin","doac","apixaban"] },
+  /* bare "platelets" is an order ("1 pool platelets", "platelets before the line"); parsePlan exempts a
+     measurement ("monitor platelets daily", "plts >50", "plts 18", "plt count") and a reason ("given low platelets") */
+  plt:     { label:"Platelet transfusion", rx:"plt", danger:true, measured:true, aliases:["platelets","platelet","plt","platelets transfusion","transfuse plts","plt transfusion","plts","platelet transfusion","transfuse platelets","give platelets","pool of platelets","platelet pool","one adult dose of platelets","top up the platelets","platelet cover","transfusion of platelets","transfuse with platelets"] },
+  heparin: { label:"Treatment-dose anticoagulation", rx:"heparin", danger:true, aliases:["treatment dose anticoagulation","therapeutic anticoagulation","heparin infusion","treatment dose lmwh","therapeutic enoxaparin","anticoagulate her","start anticoagulation","warfarin","doac","apixaban","heparin"], deferOn50:true, deferBareTo:{heparin:"vte"} },
   asp:     { label:"Aspirin / antiplatelet", rx:"asp", danger:true, aliases:["aspirin","antiplatelet","clopidogrel","dipyridamole","dual antiplatelet"] },
-  waitad:  { label:"Waiting for the ADAMTS13 result before treating", rx:"waitad", danger:true, aliases:["wait for the adamts13","await the adamts13","hold treatment until adamts13","wait for adamts13 before","await adamts13 result","wait for the result before starting","defer treatment until the result"] }
+  waitad:  { label:"Waiting for the ADAMTS13 result before treating", rx:"waitad", danger:true, aliases:["wait for the adamts13","await the adamts13","hold treatment until adamts13","wait for adamts13 before","await adamts13 result","wait for the result before starting","defer treatment until the result","wait for adamts13","wait for adamts13 result","wait for adamts 13","wait for the adamts13 result","await adamts13","await the adamts13 result"] }
 };
-const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold","hold off","omit","refrain from","stop the"];
-/* One verb may sit between the negator and the drug — "do not GIVE aspirin", "avoid TRANSFUSING
-   platelets" — but only these, and only one. Allowing any word would make "no platelets, give
-   steroids" negate the steroids too. */
+const NEGATORS = ["no","nil","not","not for","avoid","avoiding","without","dont","do not","never","withhold","hold","hold off","omit",
+  "refrain from","stop","stop the","stopping","cease","discontinue","no more","no further","no need for","no role for",
+  "no indication for","decline"];
+/* the refusals that take down something she is already on (so "stop abx" stops the nitrofurantoin) */
+const HELD_NEG = /^(?:withhold|hold|hold off|omit|stop|stop the|stopping|cease|discontinue|no more|no further)$/;
+/* Up to two of these may sit between the negator and the drug — "do not GIVE aspirin", "no CHEMICAL
+   thromboprophylaxis" — but only these. Allowing any word would make "no platelets, give steroids"
+   negate the steroids too. */
 const NEG_VERBS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|"+
-  "administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for)";
+  "administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for|"+
+  "chemical|pharmacological|the|any|her|further|more|prophylactic|routine|iv|empirical|all|to|be)";
+/* after the drug: "platelets contraindicated", "aspirin should be avoided" */
+const POST_NEG = /^\s*(?:(?:is|are|should|must|be|to|currently|absolutely|strictly|all|both)\s+){0,3}(?:contraindicated|contra indicated|avoided|not indicated|not recommended|not required|not needed|not necessary|no role|not appropriate|not to be given|held|on hold|withheld|stopped|discontinued|omitted|ceased)\b/;
+/* "monitor platelets", "plts >50", "plt count": a measurement or a number, never a product order */
+const MON_BEFORE = /\b(?:monitor|monitoring|check|checking|recheck|repeat|trend|serial|watch|measure|daily|regular|aim|target)\s+(?:(?:the|her|a)\s+)?$/;
+const MON_AFTER = /^\s*(?:(?:are|is|to be|will be)\s+)?(?:count|counts|level|levels|monitoring|monitored|checked|rechecked|trended|watched|measured)\b/;
+const THRESH_AFTER = /^\s*(?:(?:count|level|is|of|are)\s+)?(?:[<>=]|above|below|over|under|less than|more than|greater than|at least)\s*\d/;
+/* "plts 18", "platelets of 18", "18 platelets": a count; "platelets 1 pool", "platelets 1 ATD", "platelets 2"
+   stay orders. Nobody orders five or more pools, and nobody writes a count below five as a bare number, so a
+   number under 5 is an order unless it carries a count unit ("x10 9", "k") */
+const PLT_ORDER_WORD = /^\s*(?:pool|pools|unit|units|adult|adults|atd|atds|dose|doses|bag|bags|pack|packs|bolus|x\s*[1-4]\b|x\s*one\b|stat\b|now\b|today\b|asap\b|urgent)/;
+const PLT_COUNT_UNIT = /^\s*(?:x\s*10\b|10\s*9\b|k\b|per\b|10e9\b)/;
+function pltCountAfter(after){
+  const m = /^\s*(?:(?:of|is|are|now|at)\s+)?(\d+)\b(.*)$/.exec(after);
+  if(!m) return false;
+  if(PLT_ORDER_WORD.test(m[2])) return false;
+  return +m[1] >= 5 || PLT_COUNT_UNIT.test(m[2]);
+}
+const COUNT_BEFORE = /\b(?:[5-9]|\d{2,})\s+$/;
+/* A transfusion word in the same sentence turns the "reason" or "threshold" reading back into an order:
+   "increase platelets with transfusion", "transfuse to raise platelets", "platelets low - transfuse",
+   "keep platelets >50 with transfusion". Not when it is refused, or plainly about red cells, plasma or a
+   group-and-save ("G&S for transfusion"). */
+const TX_NONPLT = /\b(?:red|rbc|rbcs|prbc|blood|packed|cells|hb|haemoglobin|hemoglobin|ffp|plasma|cryo|cryoprecipitate|threshold|trigger)\b/;
+const TX_PREP = /\b(?:for|possible|potential|consent|save|crossmatch|xmatch|gs)\s+(?:(?:a|any|the)\s+)?$/;
+const TX_NEG = /\b(?:no|nil|not|dont|avoid|avoiding|without|never|withhold|omit|decline|refrain)\b/;
+/* A double negative is an order: "never delay a pool", "do not hold back platelets", "no reason not to give a
+   pool", "I will not withhold a pool", "no contraindication to a pool", "not before giving a pool". A negator,
+   at most two filler words, then a second refusal word: the pair refuses nothing. */
+const NEG_FILL = "(?:(?:reason|reasons|need|cause|point|call|to|in|be|is|any|the|real|good|for|on|of)\\s+){0,2}";
+/* contractions arrive without the apostrophe (planPrep): "won't" = wont, "mustn't" = mustnt, "can't" = cant.
+   Attitude words count as refusals too: "not opposed to", "not averse to", "don't be afraid to", "not hesitant". */
+const DBL_NEGATOR = "(?:not|never|no|nil|dont|without|cannot|cant|wont|wouldnt|mustnt|shouldnt|couldnt|doesnt|didnt)";
+const DBL_NEG = new RegExp("\\b" + DBL_NEGATOR + "\\s+" + NEG_FILL +
+  "(?:withhold\\w*|hold\\w*|delay\\w*|forget\\w*|skip\\w*|avoid\\w*|without|not|never|omit\\w*|refus\\w*|declin\\w*|refrain\\w*|" +
+  "before|wait\\w*|hesita\\w*|question\\w*|contraindicat\\w*|contra\\s+indicat\\w*|harm|problem|issue|objection|fail|" +
+  "oppos\\w*|avers\\w*|afraid|reluctan\\w*|scared|wary)\\b", "g");
+/* what comes just before a refusal word that is itself refused: "do not AVOID platelets", "never WITHHOLD platelets" */
+const DBL_NEG_PRE = new RegExp("\\b" + DBL_NEGATOR + "\\s+" + NEG_FILL + "$");
+function pltTxInSentence(t, s, e){
+  const a = t.lastIndexOf(";", s), b = t.indexOf(";", e);
+  const lo = a < 0 ? 0 : a + 1, hi = b < 0 ? t.length : b;
+  const re = /\btransfus\w*/g; let m;
+  const sent = t.slice(lo, hi);
+  while((m = re.exec(sent)) !== null){
+    const ws = lo + m.index, we = ws + m[0].length;
+    if(ws < e && we > s) continue;                                    // inside the platelet phrase itself
+    const pre = t.slice(lo, ws), post = t.slice(we, hi);
+    const clauseStart = Math.max(pre.lastIndexOf(","), -1);
+    const preClause = pre.slice(clauseStart + 1).replace(DBL_NEG, " ");
+    if(TX_NEG.test(preClause) || POST_NEG.test(post)) continue;      // "do not transfuse"
+    const near = pre.split(/\s+/).slice(-4).join(" ") + " " + post.split(/[,;]/)[0].split(/\s+/).slice(0, 5).join(" ");
+    if(TX_NONPLT.test(near) || TX_PREP.test(pre)) continue;           // red cells, plasma, "G&S for transfusion"
+    return true;
+  }
+  /* a platelet dose with no transfusion verb: "platelets 18, give 1 pool", "platelets 18 so 1 pool",
+     "give 1 ATD", "- give 1 adult dose". Only in the clause chain after the platelet word, only a dose
+     word (a bare "unit"/"bag" needs a number or article, so "haematology unit" stays a place), never
+     refused, and never about red cells or plasma ("1 unit red cells", "1 pool of FFP"). */
+  /* The dose may sit in any later sentence ("platelets 18; give a pool", "platelets 18. FFP. Give a pool").
+     The red-cell/plasma exemption holds only when that product is the dose's own object, written right
+     against it: "1 pool of FFP", "2 units red cells", "one pooled plasma unit", "FFP 2 units", "Octaplas a
+     pool". Anything between them ("with", "alongside", "after the", "not", "rather than", "and", a comma)
+     means a second product, so "give red cells and a pool", "2 units red cells with a pool" and "a pool not
+     FFP" stay platelet orders. "apheresis" alone is plasma exchange; only "apheresis unit/dose/platelets"
+     is a platelet dose. "a unit" after "to/at/in/from" is a place ("transfer to a unit with PEX"). */
+  const rest = t.slice(e);
+  const DOSE_RE = /\b(?:(?:\d+|a|an|one|two|another)\s+)?(?:pools?|pooled|apheresis\s+(?:units?|doses?|platelets|packs?|bags?)|atds?|adult\s+doses?)\b|\b(?:\d+|a|an|one|two|another)\s+(?:units?|packs?|bags?)\b/g;
+  const PHRASE_END = /,|;|\b(?:and|or|then|plus|but)\b/;
+  const PRODUCT = "(?:red|rbc|rbcs|prbc|prbcs|blood(?!\\s+products?)|haemoglobin|hemoglobin|ffp|plasma|cryo|cryoprecipitate|saline|fluids?|hartmanns?|crystalloid|dextrose|glucose|octaplas|exchange|pex|plex|tpe)";
+  const PRODUCT_AFTER = new RegExp("^\\s*(?:of\\s+(?:the\\s+)?)?" + PRODUCT + "\\b");
+  const PRODUCT_BEFORE = new RegExp("\\b" + PRODUCT + "\\s+$");
+  const POOL_PRODUCT = "(?:ffp|plasma|cryo|cryoprecipitate|octaplas)";
+  const POOL_AFTER = new RegExp("^\\s*(?:of\\s+(?:the\\s+)?)?" + POOL_PRODUCT + "\\b");
+  const POOL_BEFORE = new RegExp("\\b" + POOL_PRODUCT + "\\s+$");
+  const PLACE_BEFORE =/\b(?:to|at|in|into|from|on)\s+$/;
+  const DOSE_PREP = /\b(?:for|possible|potential|consent|consented)\s+(?:(?:a|any|the)\s+)?$/;
+  let dm;
+  while((dm = DOSE_RE.exec(rest)) !== null){
+    const pre = rest.slice(0, dm.index), post = rest.slice(dm.index + dm[0].length);
+    const preParts = pre.split(PHRASE_END), cl = preParts[preParts.length - 1].replace(/\bwithout\s+(?:delay|fail|hesitation)\b/g, " ").replace(DBL_NEG, " ");
+    if(TX_NEG.test(cl) || POST_NEG.test(post) || DOSE_PREP.test(pre)) continue;
+    const isUnit = /^\s*(?:\d+\s+|a\s+|an\s+|one\s+|two\s+|another\s+)?(?:units?|packs?|bags?)\s*$/.test(dm[0]);
+    if(isUnit && PLACE_BEFORE.test(pre)) continue;
+    // the dose is of red cells, plasma or fluid; but red cells, saline and fluid come in units and bags,
+    // never pools, so "1 pool + red cells" (the "+" is lost in planPrep) is two products
+    if(isUnit ? (PRODUCT_AFTER.test(post) || PRODUCT_BEFORE.test(pre)) : (POOL_AFTER.test(post) || POOL_BEFORE.test(pre))) continue;
+    return true;
+  }
+  return false;
+}
+/* "hold PEX until ADAMTS13 back", "PEX once ADAMTS13 confirms", "treat after ADAMTS13 result": the wait,
+   written without the word "wait". Only when what is held is the exchange, the steroid or treatment, and
+   never a taper, a repeat or a later decision guided by the level. */
+const WAIT_AD_RE = /\b(?:until|till|once|after|when)\s+(?:the\s+|her\s+|an?\s+)?adamts\s*13\s+(?:(?:level|activity|assay|test|sample|is|are|has|comes|come)\s+){0,2}(?:back|returns?|returned|confirms?|confirmed|confirmation|available|known|results?|resulted)\b/;
+const WAIT_AD_TREAT = /\b(?:pex|plex|plx|tpe|plasma\s+exchange|plasmapheresis|exchange|treat|treatment|treating|steroids?|methylpred\w*|prednisolone|corticosteroids?)\b/;
+const WAIT_AD_NOT = /\b(?:taper|tapering|wean|weaning|stop|stopping|reduce|reducing|continue|continuing|repeat|recheck|monitor|guide|guided|rituximab|discharge|no|not|dont|never|without|rather)\b/;
+/* "given low platelets", "until platelets recover", "platelets are low": the count as a reason, not a product */
+const REASON_BEFORE = /\b(?:low|lower|falling|fall in|drop in|dropping|reduced|given|due to|because of|since|in view of|despite|until|till|raise|raising|increase|increasing|improve|improving)\s+(?:(?:the|her|low|very|a)\s+)?$/;
+const REASON_AFTER = /^\s*(?:(?:are|is|remain|remains|still|very)\s+)?(?:low|falling|dropping|rising|recover|recovers|recovered|recovering|recovery|improve|improves|improving|normalise|normalises|normalize|normalizes|normal|response|trend)\b/;
+/* "LMWH when plt >50": charted to start later, not an order now */
+const DEFER_AFTER = /^[^;]*?\b(?:when|once|until|till|if|after|unless)\b[^;]*?(?:\b50\b|recover|normalis|normaliz|improv)/;
+const DEFER_BEFORE = /\b(?:when|once|if|after)\b[^;]*?(?:\b50\b|recover|normalis|normaliz|improv)[^;]*?$/;
+const NEG_SORTED = NEGATORS.slice().sort((a,b)=>b.length-a.length);
+function planPrep(text){
+  let s = String(text).replace(/\r/g, "");
+  s = s.replace(/(\d)\.(\d)/g, "$1$2")                  // "0.9%" is not a full stop
+       .replace(/\.+(?=\s|$)/g, " ; ").replace(/[\n;]+/g, " ; ")
+       .replace(/\s[-\u2013\u2014]+\s/g, " , ").replace(/,/g, " , ");
+  s = s.replace(/[^A-Za-z0-9&', ;<>=]+/g, " ").toLowerCase().replace(/[&']/g, "").replace(/\s+/g, " ").trim();
+  return " " + s + " ";
+}
 function parsePlan(text){
-  let t = " " + norm(String(text).replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
-  const matched = new Set(), negated = new Set();
+  const t = planPrep(text);
+  const matched = new Set(), negated = new Set(), deferred = new Set();
   const pairs = [];
-  Object.entries(PLAN_ITEMS).forEach(([k,it])=>it.aliases.forEach(a=>pairs.push([k, norm(a)])));
+  Object.entries(PLAN_ITEMS).forEach(([k,it])=>{
+    it.aliases.forEach(a=>pairs.push([k, norm(a), false]));
+    (it.negOnly||[]).forEach(a=>pairs.push([k, norm(a), true]));
+  });
   pairs.sort((a,b)=>b[1].length-a[1].length);   // longest alias wins, so "stop the nitrofurantoin" beats "nitrofurantoin"
-  for(const [k,a] of pairs){
+  // 1. every hit, longest first, never overlapping
+  const taken = new Uint8Array(t.length), hits = [];
+  for(const [k,a,negOnly] of pairs){
     if(!a) continue;
     const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
     let m;
     while((m = re.exec(t)) !== null){
-      // long enough for the longest negator plus the longest intervening verb
-      const before = t.slice(Math.max(0, m.index-32), m.index);
-      const isNeg = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_VERBS+"\\s+)?$").test(before));
-      if(isNeg) negated.add(k); else matched.add(k);
-      break;
+      const s = m.index, e = s + m[0].length;
+      let free = true; for(let i=s;i<e;i++) if(taken[i]){ free=false; break; }
+      if(!free) continue;
+      for(let i=s;i<e;i++) taken[i]=1;
+      hits.push({k, s, e, negOnly, neg:null});
     }
-    if(matched.has(k) || negated.has(k)) t = t.replace(re, " ; ");
   }
-  return { matched, negated };
+  hits.sort((a,b)=>a.s-b.s);
+  // 2. refusals before the item ("do not give X") or after it ("X contraindicated")
+  hits.forEach(h=>{
+    const before = t.slice(Math.max(0, h.s-48), h.s);
+    for(const n of NEG_SORTED){
+      const mm = new RegExp("\\b("+n+")\\s+(?:"+NEG_VERBS+"\\s+){0,2}$").exec(before);
+      if(mm){
+        // "do not stop X" keeps X going
+        const pre = before.slice(0, mm.index);
+        if(HELD_NEG.test(n) && /\b(?:do not|dont|not)\s+$/.test(pre)) h.neg = "continue";
+        // a refused refusal is an order for a danger: "never withhold platelets", "do not avoid platelets",
+        // "no reason not to give platelets", "not avoiding platelets"
+        else if(PLAN_ITEMS[h.k].danger && DBL_NEG_PRE.test(pre)) h.neg = "continue";
+        else h.neg = HELD_NEG.test(n) ? "held" : "avoid";
+        break;
+      }
+    }
+    if(!h.neg && POST_NEG.test(t.slice(h.e))) h.neg = "avoid";
+  });
+  // 3. a refusal covers every item of its list: "avoid aspirin, heparin and platelets"
+  const JOIN = /^(?:\s|,|and|or|nor|\/|the|any|her|all|also|either|neither|further|more|chemical|iv|of)*$/;
+  const groups = []; let cur = [hits[0]];
+  for(let i=1;i<hits.length;i++){
+    const gap = t.slice(hits[i-1].e, hits[i].s);
+    if(JOIN.test(gap) && !/;/.test(gap)){ hits[i].link = /\b(?:and|or|nor)\b|\//.test(gap) ? "word" : "comma"; cur.push(hits[i]); }
+    else { groups.push(cur); cur = [hits[i]]; }
+  }
+  if(hits.length) groups.push(cur);
+  groups.forEach(g=>{
+    // a comma joins the list only when "and"/"or" closes it later ("A, B and C"), never "no X, Y"
+    const runs = []; let r = [g[0]];
+    for(let i=1;i<g.length;i++){
+      const keep = g[i].link === "word" || g.slice(i+1).some(x=>x.link === "word");
+      if(keep) r.push(g[i]); else { runs.push(r); r = [g[i]]; }
+    }
+    runs.push(r);
+    runs.forEach(run=>{
+      if(run.length < 2) return;
+      const lead = run[0].neg, tail = run[run.length-1].neg;
+      const carry = (lead && lead !== "continue") ? lead : (tail && tail !== "continue" && !lead) ? tail : null;
+      if(carry) run.forEach(h=>{ if(!h.neg) h.neg = carry; });
+    });
+  });
+  // 4. read each hit
+  hits.forEach(h=>{
+    const it = PLAN_ITEMS[h.k];
+    if(h.neg === "held" || h.neg === "avoid"){
+      // "do not STOP nitrofurantoin" refuses the stop, so it stays on
+      if(it.heldOnNeg && h.neg === "avoid" && /^(?:stop|withhold|hold|omit|discontinue|no more|cease)\b/.test(t.slice(h.s, h.e))) return;
+      if(it.heldOnNeg){ matched.add(h.k); return; }                       // "withhold nitrofurantoin" = stopped
+      if(it.heldCredits && h.neg === "held") matched.add(it.heldCredits); // "stop abx": the nitrofurantoin is stopped
+      negated.add(h.k); return;
+    }
+    if(h.negOnly) return;                                                  // bare "platelets", not refused
+    if(h.neg === "continue" && it.heldOnNeg) return;                       // "do not stop nitrofurantoin"
+    if(it.heldOnNeg && /\b(?:continue|keep|carry on|complete|finish)\s+(?:(?:the|her)\s+)?$/.test(t.slice(Math.max(0,h.s-24), h.s))) return;
+    if(it.measured){
+      const before = t.slice(Math.max(0, h.s-32), h.s), after = t.slice(h.e);
+      if(MON_BEFORE.test(before) || MON_AFTER.test(after)) return;
+      const asReason = THRESH_AFTER.test(after) || pltCountAfter(after) || COUNT_BEFORE.test(before)
+        || REASON_BEFORE.test(before) || REASON_AFTER.test(after);
+      if(asReason && !pltTxInSentence(t, h.s, h.e)) return;
+    }
+    // bare "heparin when plt >50" is the thromboprophylaxis, charted for later; a treatment dose stays an order
+    const deferTo = it.deferBareTo ? it.deferBareTo[t.slice(h.s, h.e).trim()] : h.k;
+    if(it.deferOn50 && deferTo){
+      const seg0 = t.lastIndexOf(";", h.s);
+      if(DEFER_AFTER.test(t.slice(h.e)) || DEFER_BEFORE.test(t.slice(seg0 < 0 ? 0 : seg0, h.s))){ deferred.add(deferTo); return; }
+    }
+    matched.add(h.k);
+  });
+  // 5. the wait for ADAMTS13 written as a condition on the treatment
+  if(PLAN_ITEMS.waitad) t.split(/[;,]/).forEach(cl=>{
+    const m = WAIT_AD_RE.exec(cl);
+    if(m && WAIT_AD_TREAT.test(cl.slice(0, m.index)) && !WAIT_AD_NOT.test(cl)) matched.add("waitad");
+  });
+  matched.forEach(k=>{ negated.delete(k); deferred.delete(k); });
+  return { matched, negated, deferred };
 }
+/* The phrases of a plan that matched nothing: shown back to the player, in their own words,
+   so the one amendment can fix them. A test named in the plan but not orderable from it is
+   pointed to ICE instead. */
+function planUnread(text){
+  const segs = String(text).replace(/\r/g,"").replace(/(\d)\.(\d)/g, "$1\u0001$2")
+    .split(/\n|;|\.(?=\s|$)|,|\s[-\u2013\u2014]+\s/)
+    .map(s=>s.replace(/\u0001/g, ".").trim()).filter(s=>/[A-Za-z]/.test(s));
+  const planPh = [], ixPh = [];
+  Object.values(PLAN_ITEMS).forEach(it=>[...it.aliases, ...(it.negOnly||[])].forEach(a=>planPh.push(norm(a))));
+  allIx().forEach(x=>ixPh.push(...ixPhrases(x)));
+  const has = (t, list)=>list.some(a=>a && new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b").test(t));
+  const unread = [], ice = [];
+  segs.forEach(s=>{
+    const t = planPrep(s);
+    if(has(t, planPh)) return;
+    if(has(t, ixPh)) ice.push(s); else unread.push(s);
+  });
+  return { unread, ice };
+}
+const escTxt = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 /* the chart is cumulative — anything already enacted still counts when the plan is amended */
 function effectivePlan(matched){
   const eff = new Set(matched);
@@ -1866,7 +2108,9 @@ const BUNDLE = [
     why:"Immune TTP is an autoantibody disease — exchange alone treats the consequence, not the cause." },
   { k:"Do no harm",     want:"No platelet transfusion, and transfer arranged with senior support",
     ok:(m)=> !S.rx.has("plt") && (m.has("transfer")||m.has("itu")),
-    why:"Platelet transfusion is associated with a significant increase in mortality. Transfer needs a pre-transfer review, and an airway escort if the GCS falls." }
+    why:()=> S.rx.has("plt")
+      ? "Platelet transfusion is associated with a significant increase in mortality. Transfer needs a pre-transfer review, and an airway escort if the GCS falls."
+      : "No platelets — that part is right. What is missing is the <b>transfer</b> to the designated TTP centre, or a <b>critical care</b> review before she travels: transfer needs a pre-transfer review, and an airway escort if the GCS falls." }
 ];
 function chartHTML(){
   const on = CASE.rx.filter(m=>S.rx.has(m.id));
@@ -1889,7 +2133,8 @@ function submitPlan(){
     return; }
   const { matched, negated } = parsePlan(text);
   // pharmacy rings about any danger they have not already asked about
-  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.planAsked.has(k));
+  // ...including on an amendment, unless it is already running on the chart
+  const dangers = [...matched].filter(k=>PLAN_ITEMS[k].danger && !S.rx.has(PLAN_ITEMS[k].rx));
   if(dangers.length){ pharmacyCallback(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
 }
@@ -1915,7 +2160,8 @@ function closePlan(text, matched, negated){
   renderRx(); renderObs();
   const covered = BUNDLE.filter(b=>b.ok(eff)).length;
   S.bundleCovered = covered;
-  const teaches = [...matched, ...negated].filter(k=>PLAN_ITEMS[k].teach);
+  const extra = parsePlan(text), unread = planUnread(text);
+  const teaches = [...matched, ...negated].filter(k=>PLAN_ITEMS[k].teach);   // a correctly deferred item needs no lesson
   const out = $("#planOut");
   out.innerHTML =
     `<div class="bundle"><h4>Your plan against the care bundle</h4>`+
@@ -1927,6 +2173,9 @@ function closePlan(text, matched, negated){
     `</ul>`+
     (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    (extra.deferred.size?`<div class="bw" style="margin-bottom:var(--s2);">Charted to start later: ${[...extra.deferred].map(k=>PLAN_ITEMS[k].label).join(" · ")} — once the platelet count allows.</div>`:``)+
+    (unread.ice.length?`<div class="bw" style="margin-bottom:var(--s2);">Not sent from the plan — order on ICE: ${unread.ice.map(s=>`“${escTxt(s)}”`).join(" · ")}</div>`:``)+
+    (unread.unread.length?`<div class="bw" style="margin-bottom:var(--s2);">Not understood: ${unread.unread.map(s=>`“${escTxt(s)}”`).join(" · ")}</div>`:``)+
     teaches.map(k=>`<div class="teach" data-tone="wrong"><b>${PLAN_ITEMS[k].label}. </b>${PLAN_ITEMS[k].teach}</div>`).join("")+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
     (eff.has("refer") ? referFinding() : ``)+
@@ -1967,7 +2216,9 @@ function doRefer(){
 }
 function placeCall(team){
   const r = REFERRALS[team];
-  S.rx.add(r.rx); tick(5); renderRx();
+  S.rx.add(r.rx); tick(5);
+  if(team === "obs" && !S.ordered.has("gs")){ S.ordered.add("gs"); renderIx(); }   // the lab now holds her sample
+  renderRx();
   const body = r.isChecklist ? referFinding()
     : `<div class="reflist"><div class="rq">${r.name} registrar, on call:</div><div>${typeof r.reply==="function"?r.reply():r.reply}</div></div>`;
   $("#planOut").innerHTML = body +
@@ -2165,6 +2416,8 @@ function scoreAndShow(){
   const referFull = S.rx.has("refer") && S.ordered.has("film") && S.ordered.has("adamts") && S.ordered.has("gs") && S.ordered.has("viro") && S.rx.has("steroid") && !S.rx.has("plt");
   if(referFull) add("Referred with the checklist complete", 8);
   else if(S.rx.has("refer")) add("Referred to haematology — checklist incomplete", 3);
+  // recount from the final chart (plan + ICE + Refer button), so the panel and the score agree
+  if(S.planWritten) S.bundleCovered = BUNDLE.filter(b=>b.ok(effectivePlan(new Set()))).length;
   if(S.planWritten) add(`Written plan covered ${S.bundleCovered} of ${BUNDLE.length} guideline domains`, S.bundleCovered*4);
 
   if(S.died){

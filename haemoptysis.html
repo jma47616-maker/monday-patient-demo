@@ -881,16 +881,29 @@ const CASE = {
           dxAll: [["rapidly","progressive","glomerulonephritis"],["crescentic","glomerulonephritis"],
                   ["alveolar","haemorrhage","nephritis"],["alveolar","haemorrhage","glomerulonephritis"],
                   ["alveolar","haemorrhage","aki"],["alveolar","haemorrhage","renal"],["alveolar","haemorrhage","kidney"],
-                  ["lung","kidney","syndrome"],["lung","renal","syndrome"],["pulmonary","renal"],["pulmonary","kidney"]],
-          dxSub: ["vasculit","pulmonaryrenal","pulmonary renal","lungrenal","antineutrophil","anti neutrophil","microscopic polyangi"],
+                  ["lung","kidney","syndrome"],["lung","renal","syndrome"],["pulmonary","renal"],["pulmonary","kidney"],
+                  /* scoring audit 2026-11: the abbreviations and the descriptive names a registrar writes */
+                  ["rapidly","progressive","gn"],["crescentic","gn"],
+                  ...["pulmonary","alveolar"].flatMap(a=>["haemorrhage","hemorrhage"].flatMap(h=>
+                      ["aki","glomerulonephritis","gn","renal","kidney","nephritis"].map(k=>[a,h,k]))),
+                  ...["aki","gn","renal","glomerulonephritis","kidney","nephritis"].map(k=>["dah",k])],
+          /* a descriptive pair is not a pass when it names another cause ("pulmonary oedema and renal
+             failure"); the groups that name the disease (rapidly progressive / crescentic) are exempt */
+          dxAllBlock: ["anticoag","warfarin","apixaban","rivaroxaban","edoxaban","dabigatran","doac","heparin","coagulopath","oedema","edema","embol","pneumonia","infection","heart failure","cardiorenal","cardiac","sepsis","septic","tuberculosis","malignan","cancer","carcinoma","metasta","contrast","rhabdo"],
+          dxSub: ["vasculit","pulmonaryrenal","pulmonary renal","lungrenal","antineutrophil","anti neutrophil","microscopic polyangi",
+                  "pauciimmune","pauci immune","ancaassoc","ancapos","polyangi","lungkidney","lung kidney"],
           /* near misses: the right organ, the right pattern, the wrong name — a docked pass */
-          dxPartial: ["goodpasture","goodpastures","antigbm","gbm","glomerulonephritis","nephritic","haemorrhage","hemorrhage","lupus","sle","henoch","schonlein","cryoglobulinaemia","cryoglobulinemia"],
-          dxPartialAll: [["anti","gbm"],["alveolar","haemorrhage"],["diffuse","alveolar"],["nephritic","syndrome"],["acute","nephritis"],["iga","nephropathy"],["iga","vasculitis"]],
+          dxPartial: ["goodpasture","goodpastures","antigbm","gbm","glomerulonephritis","nephritic","haemorrhage","hemorrhage","lupus","sle","henoch","schonlein","cryoglobulinaemia","cryoglobulinemia","dah","gn"],
+          dxPartialAll: [["anti","gbm"],["alveolar","haemorrhage"],["diffuse","alveolar"],["nephritic","syndrome"],["acute","nephritis"],["iga","vasculitis"]],
           dxSubDemote: ["cerebral","cns","central nervous","brain","rheumatoid","hypersensitivity","drug induced","druginduced","urticarial","cryoglobulin","iga","henoch","leukocytoclastic","leucocytoclastic","cutaneous"],
-          dxPartialBlock: ["post infectious","post streptococcal","poststreptococcal","diabetic","hypertensive","contrast","nsaid","interstitial","prerenal","pre renal","atn","acute tubular","obstructive","cystitis","pyelo","urinary tract","uti","tumour","cancer","carcinoma","malignan","pulmonary embol","embolus","emboli","pneumonia","heart failure","oedema","edema","sepsis","subarachnoid","intracranial","cerebral","gastrointestinal","variceal","peptic"],
-          dxClaim: ["vasculit","anca","gpa","wegener","granulomatosis","polyangiitis","pulmonaryrenal","goodpasture","gbm","rpgn","glomerulonephritis"],
-          dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against","versus","vs"],
-          dxPostNegators: ["excluded","ruled out","unlikely","improbable","not the diagnosis","less likely"],
+          dxPartialBlock: ["post infectious","post streptococcal","poststreptococcal","diabetic","hypertensive","contrast","nsaid","interstitial","prerenal","pre renal","atn","acute tubular","obstructive","cystitis","pyelo","urinary tract","uti","tumour","cancer","carcinoma","malignan","pulmonary embol","embolus","emboli","pneumonia","heart failure","oedema","edema","sepsis","subarachnoid","intracranial","cerebral","gastrointestinal","variceal","peptic","postinfectious","endocarditis","iga nephropathy","anticoag","warfarin","apixaban","rivaroxaban","edoxaban","dabigatran","doac","heparin","coagulopath"],
+          dxClaim: ["vasculit","anca","gpa","wegener","granulomatosis","polyangiitis","pulmonaryrenal","goodpasture","gbm","rpgn","glomerulonephritis",
+                    "pulmonary renal","polyangi","pauci","rapidly progressive","crescentic"],
+          /* the partial-tier names: denying one of these ("ANCA vasculitis, not Goodpasture's") must
+             never deny the true diagnosis, so they are tested only before the partial tiers */
+          dxClaimPartial: ["goodpasture","gbm","glomerulonephritis","gn","dah","nephritis","nephritic"],
+          dxNegators: ["not","no","without","non","ruled out","rule out","absence of","negative for","excludes","excluded","exclude","unlikely","doubt","doubts","rather than","other than","against","versus","vs"],
+          dxPostNegators: ["negative","excluded","ruled out","unlikely","improbable","not the diagnosis","less likely"],
           dxName: "ANCA-associated vasculitis — a pulmonary-renal syndrome",
           startClock: 160 /* 02:40 */, weightKg: 63,
           patientName: "Walter", companionName: "Care home" },
@@ -939,7 +952,7 @@ const CASE = {
     /* ---- the discriminators ---- */
     { id:"back", name:"Back, flanks and pressure areas", key:true, imgOnly:true,
       img:"vasc-back.jpg", imgAlt:"His back, with the gown off", f:"",
-      aliases:["back","his back","the back","turn him","turn him over","roll him","log roll","sacrum","sacral","pressure areas","pressure area","pressure sores","pressure sore","pressure damage","buttocks","buttock","bottom","flanks","flank","loins","posterior","skin on his back","spine","spinal","lumbar spine","thoracic spine","back examination","examine the back","renal angle","renal angle tenderness","loin tenderness","waterlow","skin integrity","turn","reposition him","shoulders","shoulder blades","scapulae"] },
+      aliases:["back","his back","the back","sacral oedema","sacral edema","turn him","turn him over","roll him","log roll","sacrum","sacral","pressure areas","pressure area","pressure sores","pressure sore","pressure damage","buttocks","buttock","bottom","flanks","flank","loins","posterior","skin on his back","spine","spinal","lumbar spine","thoracic spine","back examination","examine the back","renal angle","renal angle tenderness","loin tenderness","waterlow","skin integrity","turn","reposition him","shoulders","shoulder blades","scapulae"] },
     { id:"arms", name:"Arms and hands", key:true, imgOnly:true,
       img:"vasc-arms.jpg", imgAlt:"His right forearm and hand on the blanket", f:"",
       aliases:["arms","arm","the arms","his arms","forearms","forearm","upper limbs","upper limb","hands","hand","his hands","the hands","nails","nail","fingers","finger nails","fingernails","splinters","splinter haemorrhages","splinter","osler","oslers nodes","osler nodes","janeway","janeway lesions","clubbing","finger clubbing","peripheral stigmata","stigmata","stigmata of endocarditis","stigmata of infective endocarditis","endocarditis stigmata","cannula site","the cannula","cannula","elbows","elbow","palms","palmar","capillary refill","cap refill","crt","peripheral perfusion","peripheries","tremor","outstretched arms","arms out","hold his arms out","pronator drift","drift","asterixis","flap","hepatic flap","radial pulse","pulse character","pulse volume","brachial"] },
@@ -969,7 +982,7 @@ const CASE = {
     /* ---- the honest decoy ---- */
     { id:"legs", name:"Legs and feet", imgOnly:true,
       img:"vasc-legs.jpg", imgAlt:"Both shins and feet, from the knees down", f:"",
-      aliases:["legs","leg","the legs","his legs","lower limbs","lower limb","shins","shin","calves","calf","the calves","feet","foot","the feet","his feet","toes","ankle swelling","leg swelling","swelling","swollen legs","oedema","edema","pitting oedema","pitting","peripheral oedema","dvt","dvt check","check for a dvt","check for a clot","clot","deep vein thrombosis","homans","calf tenderness","calf swelling","pedal pulses","foot pulses","dorsalis pedis","posterior tibial","popliteal","femoral pulses","thighs","thigh","groin","groins","below the knee","knees down","peripheral pulses","varicose veins","varicosities","venous eczema","ulcers","leg ulcers","diabetic foot","foot check","gait","walking","stand him up","standing","mobility","weight bear","transfer"] },
+      aliases:["legs","leg","the legs","his legs","lower limb oedema","leg oedema","leg edema","lower limb edema","lower limbs","lower limb","shins","shin","calves","calf","the calves","feet","foot","the feet","his feet","toes","ankle swelling","leg swelling","swelling","swollen legs","oedema","edema","pitting oedema","pitting","peripheral oedema","dvt","dvt check","check for a dvt","check for a clot","clot","deep vein thrombosis","homans","calf tenderness","calf swelling","pedal pulses","foot pulses","dorsalis pedis","posterior tibial","popliteal","femoral pulses","thighs","thigh","groin","groins","below the knee","knees down","peripheral pulses","varicose veins","varicosities","venous eczema","ulcers","leg ulcers","diabetic foot","foot check","gait","walking","stand him up","standing","mobility","weight bear","transfer"] },
 
     /* ---- rewarding, not scored as key ---- */
     { id:"mouth", name:"Mouth and throat",
@@ -1091,9 +1104,9 @@ const CASE = {
     ],
     bloods: [
       { id:"fbc",  name:"Full blood count", cost:60, costL:"60 min", tag:"key", isFBC:true, dynLabs:"fbc", repeatable:true,
-        aliases:["fbc","full blood count","bloods","haemoglobin","hb","blood count","cbc","platelets","white cells","wcc","neutrophils","routine bloods","admission bloods","repeat fbc","repeat the fbc","repeat hb","repeat the hb","recheck hb"] },
+        aliases:["fbc","full blood count","blood film","peripheral film","peripheral blood film","blood smear","film","bloods","haemoglobin","hb","blood count","cbc","platelets","white cells","wcc","neutrophils","routine bloods","admission bloods","repeat fbc","repeat the fbc","repeat hb","repeat the hb","recheck hb"] },
       { id:"ue",   name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key", dynLabs:"ue", repeatable:true,
-        aliases:["ue","u and e","u e","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","egfr","kidney function","repeat ue","repeat u and e","repeat u e","repeat renal function","repeat creatinine","repeat potassium","repeat bloods","recheck bloods","morning bloods","6am bloods","repeat the bloods","recheck renal function","recheck potassium"] },
+        aliases:["ue","u and e","u e","ues","u es","u and es","urea and electrolytes","us and es","renal function","urea","creatinine","electrolytes","renal profile","potassium","sodium","egfr","kidney function","repeat ue","repeat u and e","repeat u e","repeat renal function","repeat creatinine","repeat potassium","repeat bloods","recheck bloods","morning bloods","6am bloods","repeat the bloods","recheck renal function","recheck potassium"] },
       { id:"crp",  name:"CRP and ESR", cost:60, costL:"60 min", tag:"key",
         aliases:["crp","c reactive protein","inflammatory markers","esr","inflammatory screen","plasma viscosity","pv"],
         labs:[{n:"CRP", v:"96", r:"<5", u:"mg/L", flag:"hi"},{n:"ESR", v:"88", r:"<20", u:"mm/h", flag:"hi"}] },
@@ -1168,10 +1181,10 @@ const CASE = {
     ],
     imaging: [
       { id:"cxr",  name:"Chest X-ray (portable)", cost:30, costL:"30 min", tag:"key", img:"vasc-cxr.jpg", imgAlt:"Portable chest radiograph",
-        aliases:["cxr","chest x ray","chest xray","chest film","chest radiograph","portable chest x ray","portable cxr","x ray chest","chest x-ray","plain film chest"],
+        aliases:["cxr","chest xr","chest x ray","chest xray","chest film","chest radiograph","portable chest x ray","portable cxr","x ray chest","chest x-ray","plain film chest"],
         text:"No report at night. Bilateral patchy airspace shadowing, perihilar and lower-zone, more on the right. Heart size normal. No effusion. No pneumothorax." },
       { id:"ctpa", name:"CTPA", cost:90, costL:"90 min", tag:"key", img:"vasc-ct.jpg", imgAlt:"CT pulmonary angiogram, lung window",
-        aliases:["ctpa","ct pulmonary angiogram","ct pulmonary angiography","ct chest","ct thorax","ct of the chest","ct scan chest","pulmonary angiogram","ct pe","exclude a pe","exclude pe","rule out pe","ct for pe","hrct","high resolution ct","ct lungs","ct"],
+        aliases:["ctpa","ct pa","ct pulmonary angiogram","ct pulmonary angiography","ct chest","ct thorax","ct of the chest","ct scan chest","pulmonary angiogram","ct pe","exclude a pe","exclude pe","rule out pe","ct for pe","hrct","high resolution ct","ct lungs","ct"],
         text:"<b>Provisional report — outsourced night teleradiology (two lines):</b>\n\n“No pulmonary embolus. Bilateral ground-glass opacification with patchy consolidation, dependent, ?infection ?oedema. Formal report to follow.”\n\nFormal report from the in-house chest radiologist lands at 09:00.",
         landsAt: 540, landedName:"CTPA — formal report",
         landed:"<b>Formal report, 09:00 — consultant chest radiologist:</b>\n\n“No filling defect in the pulmonary arteries to subsegmental level. Extensive bilateral ground-glass opacification with patchy dependent consolidation, no lobar predominance, no nodules, no cavitation, no effusion, no lymphadenopathy. Heart size normal. Appearances are non-specific and would be in keeping with infection, <b>alveolar haemorrhage</b>, or oedema — clinical and biochemical correlation advised. In the presence of haemoptysis and renal impairment, a pulmonary-renal syndrome should be considered.”" },
@@ -1367,7 +1380,7 @@ const S = {
   firstDx: "", firstVerdict: null, bleeped: false, corrected: false, consequence: "", dxClock: null,
   mg: {}, mgIdx: 0,
   stageMax: 0, revisits: 0, mgStarted: false,
-  planWritten: false, planWarned: false, planAmended: false, planText: "", bundleCovered: 0, died: false,
+  kCond: new Set(), planWritten: false, planWarned: false, planAmended: false, planText: "", planGas: false, bundleCovered: 0, died: false,
   teaches: new Set(),
   examEver: new Set(),   // every examination ever done: re-examining clears the dynamic ones so they can be repeated
   given: new Set(),      // an anticoagulant or thrombolytic that was given and later stopped: the dose still happened
@@ -1556,23 +1569,57 @@ $("#dxlist").innerHTML = [...CASE.conditions].sort(()=>Math.random()-.5).map(c=>
 
 /* ---------- judging the diagnosis (silently, at the working stage) ---------- */
 function judgeDx(raw){
-  const t = " " + norm(raw) + " ";
+  /* Scoring audit 2026-11. The text is split into clauses BEFORE norm() deletes the punctuation, so
+     "ANCA vasculitis, not Goodpasture's" and "Not pneumonia – pulmonary-renal syndrome" are read as
+     a commitment plus a denial, not as one long denial. Hyphens become spaces ("pauci-immune",
+     "pulmonary-renal"); the fused spelling is still tested by the substring tier. Negation is split
+     by tier: denying a partial-tier name (Goodpasture's, anti-GBM, GN, DAH) never denies the true one. */
   const B = "\\";
-  const has = w => new RegExp(B + "b" + w + B + "b").test(t);
   const m = CASE.meta;
-  const claim = [...(m.dxAny || []), ...(m.dxClaim || [])].join("|");
-  const denied = !!claim && (m.dxNegators || []).some(n => new RegExp(
-    B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")").test(t));
-  const trailed = !!claim && (m.dxPostNegators || []).some(n => new RegExp(
-    "(?:" + claim + ")" + B + "w*" + B + "s+" + n + B + "b").test(t));
-  if (denied || trailed) return false;
-  if ((m.dxAny || []).some(has)) return true;
-  if ((m.dxAll || []).some(group => group.every(has))) return true;
-  if ((m.dxSub || []).some(w => t.indexOf(w) >= 0))
-    return (m.dxSubDemote || []).some(w => t.indexOf(w) >= 0) ? "partial" : true;
-  if ((m.dxPartialBlock || []).some(w => t.indexOf(w) >= 0)) return false;
-  if ((m.dxPartial || []).some(has)) return "partial";
-  if ((m.dxPartialAll || []).some(group => group.every(has))) return "partial";
+  const esc = w => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const partialClaim = (m.dxClaimPartial || []);
+  const trueClaim = [...(m.dxAny || []), ...(m.dxClaim || [])].filter(w => partialClaim.indexOf(w) < 0);
+  const denies = (t, words) => {
+    if (!words.length) return false;
+    const claim = words.map(esc).join("|");
+    return (m.dxNegators || []).some(n => new RegExp(
+        B + "b" + n + B + "s+(?:" + B + "w+" + B + "s+){0,2}?(?:" + claim + ")").test(t))
+      || (m.dxPostNegators || []).some(n => new RegExp(
+        "(?:" + claim + ")" + B + "w*" + B + "s+(?:" + B + "w+" + B + "s+)?" + n + B + "b").test(t));
+  };
+  const postNeg = (m.dxPostNegators || []).map(esc).join("|");
+  const clauses = String(raw || "")
+    .replace(postNeg ? new RegExp(B + "s*(?:-+|" + B + "u2013|" + B + "u2014)" + B + "s*(?=(?:" + postNeg + ")" + B + "s*(?:$|[.;,:()" + B + "[" + B + "]" + B + "n/?!]))", "gi") : /$^/, " ")
+    .split(/[.;,:()\[\]\n\u2013\u2014\/]|\s-+\s|\?|\bbut\b|\bhowever\b|\bthough\b/i)
+    .map(c => " " + norm(c.replace(/(\w)-+(?=\w)/g, "$1 ")) + " ")
+    /* "ANCA-negative vasculitis" names the disease; "ANCA negative pneumonia" and "vasculitis
+       negative" deny it, so only the qualifier in front of a disease word is lifted */
+    .map(c => c.replace(/ anca negative (?=(?:[a-z]+ )?(?:vasculit|pauci|small vessel|crescentic|rapidly|glomerulo|gn |rpgn|polyangi|pulmonary renal))/g, " "))
+    .filter(c => c.trim());
+  const keepT = clauses.filter(c => !denies(c, trueClaim));
+  const keepP = keepT.filter(c => !denies(c, partialClaim));
+  const join = cs => " " + cs.map(c => c.trim()).join(" ") + " ";
+  const tT = join(keepT), tP = join(keepP);
+  /* a block word in a clause that rules it out ("not pneumonia") must not block the answer */
+  const negClause = c => (m.dxNegators || []).some(n => new RegExp(B + "b" + esc(n) + B + "b").test(c));
+  const bT = join(keepT.filter(c => !negClause(c))), bP = join(keepP.filter(c => !negClause(c)));
+  const hasIn = t => w => new RegExp(B + "b" + esc(w) + B + "b").test(t);
+  /* true tiers, on the clauses that do not deny the diagnosis */
+  if (keepT.length) {
+    const has = hasIn(tT);
+    if ((m.dxAny || []).some(has)) return true;
+    const blocked = (m.dxAllBlock || []).some(w => bT.indexOf(w) >= 0);
+    if ((m.dxAll || []).some(g => g.every(has) &&
+        (!blocked || g.some(w => w === "progressive" || w === "crescentic")))) return true;
+    if ((m.dxSub || []).some(w => tT.indexOf(w) >= 0))
+      return (m.dxSubDemote || []).some(w => tT.indexOf(w) >= 0) ? "partial" : true;
+  }
+  /* partial tiers, on the clauses that deny neither */
+  if (!keepP.length) return false;
+  const hasP = hasIn(tP);
+  if ((m.dxPartialBlock || []).some(w => bP.indexOf(w) >= 0)) return false;
+  if ((m.dxPartial || []).some(hasP)) return "partial";
+  if ((m.dxPartialAll || []).some(group => group.every(hasP))) return "partial";
   return false;
 }
 
@@ -2002,7 +2049,7 @@ const PLAN_ITEMS = {
     "vte prophylaxis","thromboprophylaxis","dvt prophylaxis","vte assessment","vte risk assessment","prophylactic dose","prophylaxis dose","prophylactic anticoagulation"
   ) },
   stockings: { label:"Mechanical VTE prophylaxis", rx:"stockings", aliases:A("ted stockings","teds","tedds","stockings","antiembolism stockings","anti embolism stockings","compression stockings","ipc","flowtrons","intermittent pneumatic compression","mechanical prophylaxis","mechanical vte prophylaxis") },
-  fluids: { label:"IV fluid bolus / resuscitation", rx:"fluids", danger:true, aliases:A(
+  fluids: { label:"IV fluids", rx:"fluids", danger:true, aliases:A(
     "fluid bolus","fluid boluses","bolus of fluid","bolus","boluses","500ml bolus","500 ml bolus","250ml bolus","250 ml bolus","1l bolus","1 l bolus","1 litre bolus","litre bolus",
     "fluid resuscitation","fluid resus","resuscitate with fluids","fluid resuscitate","aggressive fluids","aggressive fluid","aggressive iv fluids","fluid challenge","fluid challenges","further fluids","more fluids","another bag","another litre","another 500","another 500ml","1l stat","1 litre stat","1l iv","1 litre iv","1l of hartmanns","1l hartmanns","1l saline","1l of saline","2l of fluid","2 litres of fluid","3 litres of fluid","litre of hartmanns","litre of saline","litres of fluid","bag of fluid","bag of hartmanns","bag of saline",
     "iv fluids","ivf","ivi","iv fluid","intravenous fluids","intravenous fluid","fluids","fluid","crystalloid","crystalloids","hartmanns","hartmann","hartmans","plasmalyte","plasma lyte","normal saline","0 9 saline","0 9 sodium chloride","0 9 nacl","saline","sodium chloride","nacl",
@@ -2010,6 +2057,7 @@ const PLAN_ITEMS = {
     "125ml hr","125 ml hr","125ml hour","100ml hr","100 ml hr","100ml hour","83ml hr","1l over 8 hours","1l 8 hours","1 litre over 8 hours","over 8 hours","over 4 hours","over 2 hours","over 1 hour","stat fluids","fluids stat","stat bolus"
   ) },
   stopfluids: { label:"No further fluid", rx:"stopfluids", aliases:A(
+    "nil fluids","nil iv fluids","nil ivf","nil ivi","nil fluid","nil further fluids",
     "no further fluids","no further fluid","no further iv fluids","no more fluids","no more fluid","no more iv fluids","no additional fluids","no fluids","no fluid","no iv fluids","no ivf","no ivi","no fluid bolus","no boluses","no bolus","no further boluses",
     "stop fluids","stop iv fluids","stop the iv fluids","stop ivf","stop ivi","stop the ivi","fluids off","ivf off","ivi off","take down the fluids","take the fluids down","discontinue fluids","discontinue iv fluids","fluids to stop","fluids stopped","iv fluids stopped","withhold fluids","withhold iv fluids","hold fluids","hold iv fluids","hold the fluids",
     "fluid restriction","fluid restrict","fluid restricted","restrict fluids","restrict fluid","restrict to 1l","restrict to 1 litre","restrict to 1 5l","restrict 1l","restrict 1 litre","restrict 1 5l","fluid restrict 1l","fluid restrict 1 litre","fluid restrict 1 5l","fluid restrict to 1l","fluid restrict to 1 litre","fluid restriction 1l","fluid restriction 1 litre","fluid restriction 1 5l","1l restriction","1 litre restriction","1 5l restriction","1l fluid restriction","1 litre fluid restriction","1 5l fluid restriction","1 5 litre restriction","1 5 litre fluid restriction","fluid restrict 1 5 litres","fluid restrict 1 5 l","restrict to 1 5 litres",
@@ -2031,7 +2079,7 @@ const PLAN_ITEMS = {
   ) },
 
   /* ---------- domain 3: stop the harm ---------- */
-  nsaid: { label:"NSAID continued", rx:"nsaid", danger:true, aliases:A(
+  nsaid: { label:"Naproxen (NSAID)", rx:"nsaid", danger:true, aliases:A(
     "naproxen","naprosyn","nsaid","nsaids","non steroidal","non steroidals","nonsteroidal","nonsteroidals","ibuprofen","brufen","nurofen","diclofenac","voltarol","celecoxib","etoricoxib","meloxicam","indomethacin","ketorolac","anti inflammatories","anti inflammatory",
     "continue naproxen","continue the naproxen","continue his naproxen","carry on naproxen","carry on with the naproxen","keep the naproxen","naproxen for the knees","naproxen for his knees","naproxen as usual","regular naproxen","naproxen prn","naproxen bd","naproxen 500","naproxen 500mg","naproxen 500 mg","naproxen 250","naproxen 250mg"
   ) },
@@ -2041,12 +2089,13 @@ const PLAN_ITEMS = {
     "naproxen stopped","naproxen to stop","naproxen to be stopped","naproxen to be withheld","naproxen withheld","naproxen held","naproxen off","naproxen discontinued","nsaids stopped","nsaids to stop","nsaids to be stopped","nsaids withheld","nsaids held","off naproxen","off the naproxen","off nsaids","no naproxen","no nsaids","no nsaid","no more naproxen","no further naproxen","no more nsaids","no further nsaids","avoid nsaids","avoid naproxen","avoid nsaid","never nsaids","not for nsaids","not for naproxen","nsaid free","naproxen is nephrotoxic","stop the nephrotoxic naproxen"
   ) },
   nephrotox: { label:"Nephrotoxins reviewed", rx:"nephrotox", aliases:A(
+    "hold nephrotoxics","withhold nephrotoxics","hold nephrotoxic meds","withhold nephrotoxic medications","withhold nephrotoxic meds","nephrotoxins","nephrotoxics","nephrotoxic drugs","nephrotoxic medications","nephrotoxic medication","nephrotoxic meds","stop nephrotoxic medication",
     "stop nephrotoxins","stop nephrotoxic drugs","stop nephrotoxic medications","stop nephrotoxic meds","stop nephrotoxics","stop all nephrotoxins","stop any nephrotoxins","withhold nephrotoxins","withhold nephrotoxic drugs","hold nephrotoxins","hold nephrotoxic drugs","hold nephrotoxic medications","avoid nephrotoxins","avoid nephrotoxic drugs","avoid nephrotoxics","no nephrotoxins","no nephrotoxic drugs","nephrotoxins","nephrotoxic drugs","nephrotoxic medications","nephrotoxic meds","nephrotoxics","nephrotoxin",
     "review medications","review meds","review his medications","review the medications","medication review","medicines review","medicine review","medicines reconciliation","meds rec","meds reconciliation","med rec","drug chart review","review the drug chart","review drug chart","rationalise medications","rationalise meds","rationalise his medications",
     "renally dose","renal dose","renal dosing","renally adjust","renal adjustment","dose adjust for renal function","dose adjust","dose for egfr","adjust doses","adjust for renal function","adjust for egfr","renally cleared","renal dose adjustment","pharmacy review","pharmacist review","ask pharmacy","pharmacy to review"
   ) },
-  aspirin: { label:"Aspirin continued", rx:"aspirin", aliases:A("aspirin","continue aspirin","continue the aspirin","aspirin 75","aspirin 75mg","aspirin 75 mg","antiplatelet","antiplatelets","clopidogrel") },
-  stopaspirin: { label:"Aspirin held", rx:"stopaspirin", aliases:A("stop aspirin","stop the aspirin","stop his aspirin","hold aspirin","hold the aspirin","hold his aspirin","withhold aspirin","withhold the aspirin","omit aspirin","omit the aspirin","aspirin held","aspirin withheld","aspirin stopped","aspirin to be held","aspirin to be withheld","aspirin to be stopped","aspirin off","off aspirin","no aspirin","avoid aspirin","suspend aspirin","discontinue aspirin","stop antiplatelets","hold antiplatelets","withhold antiplatelets","stop antiplatelet","hold antiplatelet","no antiplatelets") },
+  aspirin: { label:"Aspirin", rx:"aspirin", aliases:A("aspirin","continue aspirin","continue the aspirin","aspirin 75","aspirin 75mg","aspirin 75 mg","antiplatelet","antiplatelets","clopidogrel") },
+  stopaspirin: { label:"Aspirin held", rx:"stopaspirin", aliases:A("stio aspirin","stop aspirin","stop the aspirin","stop his aspirin","hold aspirin","hold the aspirin","hold his aspirin","withhold aspirin","withhold the aspirin","omit aspirin","omit the aspirin","aspirin held","aspirin withheld","aspirin stopped","aspirin to be held","aspirin to be withheld","aspirin to be stopped","aspirin off","off aspirin","no aspirin","avoid aspirin","suspend aspirin","discontinue aspirin","stop antiplatelets","hold antiplatelets","withhold antiplatelets","stop antiplatelet","hold antiplatelet","no antiplatelets") },
   acei: { label:"ACE inhibitor / ARB started", rx:"acei", aliases:A("ramipril","lisinopril","enalapril","perindopril","ace inhibitor","ace inhibitors","acei","ace i","acei arb","losartan","candesartan","irbesartan","valsartan","arb","angiotensin","start an ace","start ace","start acei","ace for the bp","ace inhibitor for the bp","sacubitril","entresto") },
   antihtn: { label:"Antihypertensive", rx:"antihtn", aliases:A("amlodipine","continue amlodipine","antihypertensive","antihypertensives","treat the bp","treat the blood pressure","treat the hypertension","treat hypertension","bp control","blood pressure control","control the bp","control the blood pressure","control his bp","control his blood pressure","labetalol","labetalol infusion","gtn","gtn infusion","nitrate infusion","hydralazine","nifedipine","doxazosin","bisoprolol","atenolol","metoprolol","beta blocker","beta blockade","lower the bp","lower the blood pressure","lower his bp","bring the bp down","bring his bp down","bring down the bp") },
 
@@ -2055,6 +2104,8 @@ const PLAN_ITEMS = {
     "blood cultures","blood culture","cultures","culture","bc","bcs","bcx","bcxs","blood cx","bloodcultures","two sets of cultures","2 sets of cultures","two sets of blood cultures","2 sets of blood cultures","two sets","2 sets","x2 cultures","cultures x2","cultures x 2","cultures x3","cultures x 3","three sets","3 sets",
     "septic screen","sepsis screen","infection screen","full septic screen","cultures before steroids","cultures prior to steroids","cultures before the steroids","cultures first","culture first","cultures then steroids","take cultures","send cultures","cultures off","cultures sent","cultures taken","cultures away","cultures before antibiotics","cultures prior to antibiotics","cultures before abx","cultures prior to abx","cultures before immunosuppression"
   ) },
+  umicro: { label:"Urine microscopy", ix:"umicro", aliases:A("urine microscopy","urine to microscopy","urine for microscopy","urine sent for microscopy","send urine for microscopy","microscopy of the urine","urine microscopy for casts","urine for casts","urine for red cell casts","urine for cell casts","microscopy for casts","look for casts","casts","red cell casts","urine phase contrast","phase contrast microscopy") },
+  dip: { label:"Urine dipstick", ix:"dip", aliases:A("urine dip","urine dipstick","dip the urine","dip his urine","dipstick the urine","dipstick urine","dip urine","urine dip test","dipstick","urinalysis","urine analysis","urine dipped","bedside urinalysis") },
   urinecult: { label:"Urine culture", ix:"ucult", aliases:A("urine culture","urine cultures","msu","msu culture","cathether specimen","csu","catheter specimen","urine for culture","urine mc s","urine mcs","urine m c s","urine for mcs","mcs","mc s","m c s","urine micro","micro on the urine") },
   virology: { label:"Hepatitis and HIV serology", ix:"virol", aliases:A(
     "hepatitis serology","hepatitis screen","hepatitis b and c","hepatitis b","hepatitis c","hep b","hep c","hep b c","hep b and c","hep bc","hep serology","hep screen","hbv","hcv","hbv hcv","hbsag","hep b surface antigen","hiv","hiv test","hiv serology","hiv and hepatitis","hiv hep","hiv hepatitis","virology","viral screen","virology screen","viral serology","blood borne virus","blood borne viruses","blood borne virus screen","bbv","bbv screen","bbvs",
@@ -2068,6 +2119,7 @@ const PLAN_ITEMS = {
 
   /* ---------- domain 5: glucocorticoids ---------- */
   pulse: { label:"IV methylprednisolone pulse", rx:"pulse", aliases:A(
+    "methylprednisoloen","methy prednisone","methyl prednisone","methylprednisone","prednisone pulsed","pulsed prednisone","methy prednisolone","pulsed prednisolone","prednisolone pulse","iv steriods","iv corticosteriods","pulse steriods","pulsed steriods",
     "methylprednisolone","methylpred","methyl pred","methyl prednisolone","methylprednisolone pulse","methylpredisolone","methylprednisalone","methylpredinsolone","methypred","methylpredniolone","methpred","mp pulse","pulse of methylprednisolone","pulse of methylpred","pulsed methylprednisolone","pulsed methylpred","pulsed methyl pred",
     "iv methylprednisolone","iv methylpred","iv methyl pred","ivmp","iv mp","iv mp 500","iv mp 500mg","iv mp 1g","iv mp 1 g","mp 500","mp 500mg","mp 500 mg","mp 1g","mp 1 g","mp 250","mp 250mg","mp 1000","mp 1000mg","solu medrol","solumedrol","depo medrol",
     "pulse steroids","pulsed steroids","pulse steroid","pulse him","pulse of steroids","steroid pulse","steroid pulses","pulse dose steroids","pulse dose","pulsed iv steroids","pulse iv steroids","iv steroids","iv steroid","intravenous steroids","intravenous methylprednisolone","high dose iv steroids","high dose steroids","high dose steroid","stat steroids","steroids stat","big dose of steroids",
@@ -2076,7 +2128,7 @@ const PLAN_ITEMS = {
   pred: { label:"Oral prednisolone", rx:"pred", aliases:A(
     "prednisolone","pred","prednisone","oral prednisolone","oral pred","po pred","po prednisolone","prednisolone 1mg kg","prednisolone 1 mg kg","pred 1mg kg","pred 1 mg kg","1mg kg pred","1mg kg prednisolone","prednisolone 60","prednisolone 60mg","prednisolone 60 mg","pred 60","pred 60mg","pred 60 mg","prednisolone 40","prednisolone 40mg","pred 40","pred 40mg","prednisolone 50","prednisolone 50mg","pred 50","pred 50mg","prednisolone 30","pred 30","pred 30mg","reduced dose prednisolone","reduced dose steroids","reducing course","pexivas taper","pexivas regimen","pexivas dosing","steroid taper","tapering steroids","weaning steroids","weaning course of steroids","pred taper"
   ) },
-  steroid: { label:"Steroids (unspecified)", rx:"steroid", aliases:A("steroids","steroid","corticosteroids","corticosteroid","glucocorticoids","glucocorticoid","start steroids","start steroid","give steroids","commence steroids","steroids tonight","steroids now","for steroids","needs steroids","immunosuppress","immunosuppression tonight","hydrocortisone","hydrocort","dexamethasone","dex","dexa","iv hydrocortisone","hydrocortisone 100","hydrocortisone 200") },
+  steroid: { label:"Steroids (unspecified)", rx:"steroid", aliases:A("steroids","steroid","steriods","steriod","corticosteriods","corticosteriod","coricisteriods","cotivosteriods","corticosteroids iv","corticosteroids","corticosteroid","glucocorticoids","glucocorticoid","start steroids","start steroid","give steroids","commence steroids","steroids tonight","steroids now","for steroids","needs steroids","immunosuppress","immunosuppression tonight","hydrocortisone","hydrocort","dexamethasone","dex","dexa","iv hydrocortisone","hydrocortisone 100","hydrocortisone 200") },
 
   /* ---------- domain 6: renal, tonight, by phone ---------- */
   renal: { label:"Renal on call", rx:"renal", isRefer:true, aliases:A(
@@ -2084,6 +2136,7 @@ const PLAN_ITEMS = {
     "renal team","renal reg","renal registrar","renal spr","renal on call","on call renal","oncall renal","renal oncall","renal physician","renal physicians","renal consultant","renal doctors","renal doctor","renal medicine","renal unit","renal centre","renal center","tertiary renal","regional renal","renal referral","refer to renal","refer renal","refer to the renal team","refer to the renal reg","discuss with renal","discuss with the renal team","discuss with the renal reg","discuss with the renal registrar","discussed with renal","d w renal","dw renal","d w the renal team","renal opinion","renal review","renal advice","renal input","renal involvement","renal to review","renal to see","renal aware","renal to be aware","renal referral tonight","speak to renal","speak to the renal reg","speak to the renal team","talk to renal","phone renal","ring renal","call renal","bleep renal","contact renal","get renal","get renal involved","involve renal","urgent renal","urgent renal referral","urgent renal review","urgent nephrology","urgent renal opinion","transfer to renal","transfer to the renal unit","transfer to the renal centre","renal transfer","kidney team","kidney doctors","kidney specialist","kidney specialists","renal specialist","renal specialists","refer to the kidney team","the renal sho","renal sho"
   ) },
   phonelab: { label:"Lab phoned about ANCA / anti-GBM", ix:"phonelab", aliases:A(
+    "contact the bms","contact bms","call the bms","call bms","ring bms","phone bms","speak to bms","contact the on call bms","call the on call bms",
     "phone the lab","ring the lab","call the lab","speak to the lab","contact the lab","phone lab","ring lab","call lab","phone the laboratory","ring the laboratory","phone immunology","ring immunology","call immunology","speak to immunology","contact immunology","phone the bms","ring the bms","speak to the bms","biomedical scientist","on call bms","phone biochemistry","ring biochemistry","phone microbiology","ring microbiology",
     "chase the anca","chase anca","chase the antibodies","chase the gbm","chase anti gbm","chase the anti gbm","chase antigbm","chase the antigbm","chase the vasculitis screen","chase the serology","chase the immunology","chase immunology","chase results","chase the results","chase bloods","chase the bloods",
     "urgent anca","anca urgently","anca urgent","urgent anti gbm","anti gbm urgently","anti gbm urgent","urgent antigbm","antigbm urgently","urgent gbm","urgent vasculitis screen","vasculitis screen urgently","urgent immunology","urgent serology","expedite the anca","expedite anca","expedite anti gbm","ask the lab to run","ask the lab to run the anca","ask for the anca to be run","anca to be run urgently","same day anca","same day anti gbm","anca today","anti gbm today","gbm today","anca asap","anti gbm asap","fast track the anca","prioritise the anca"
@@ -2106,6 +2159,7 @@ const PLAN_ITEMS = {
   bicarb: { label:"Sodium bicarbonate", rx:"bicarb", aliases:A("sodium bicarbonate","sodium bicarb","bicarbonate","bicarb","bicarbonate infusion","bicarb infusion","1 26 bicarbonate","1 26 sodium bicarbonate","1 26 bicarb","1 26 nahco3","8 4 bicarbonate","8 4 sodium bicarbonate","8 4 bicarb","8 4 nahco3","nahco3","hco3","iv bicarbonate","iv bicarb","isotonic bicarbonate","isotonic bicarb","500ml 1 26 bicarbonate","500 ml 1 26 bicarbonate","500ml 1 26 sodium bicarbonate","bicarbonate for the acidosis","bicarb for the acidosis","bicarbonate for acidosis","bicarb for acidosis","treat the acidosis","correct the acidosis","treat acidosis","correct acidosis") },
   binder: { label:"Potassium binder", rx:"binder", aliases:A("lokelma","sodium zirconium","sodium zirconium cyclosilicate","szc","patiromer","veltassa","calcium resonium","resonium","calcium polystyrene","polystyrene sulfonate","kayexalate","potassium binder","potassium binders","k binder","k binders","cation exchange resin","exchange resin","resin") },
   repeatgas: { label:"Repeat gas / potassium", ix:"vbg", aliases:A(
+    "monitor vbg","monitor vbgs","monitor the vbg","serial vbgs","serial vbg","serial gases","serial gas","regular vbgs","regular gases","hourly vbgs","hourly gases",
     "repeat gas","repeat the gas","repeat vbg","repeat the vbg","repeat abg","repeat the abg","repeat blood gas","repeat the blood gas","repeat a gas","gas in 1 hour","gas in an hour","gas in one hour","gas in 1hr","gas in 1 hr","gas in 30 minutes","gas in 30 mins","gas in half an hour","gas in 2 hours","gas in two hours","gas in 2hrs","gas in 4 hours","gas in four hours","gas at 2 hours","gas at 1 hour","hourly gas","hourly gases","2 hourly gas","2 hourly gases","two hourly gases","4 hourly gases","regular gases","serial gases","serial gas","serial vbgs","vbg in 1 hour","vbg in an hour","vbg in 2 hours","vbg in 4 hours","abg in 1 hour","abg in an hour","another gas","further gas","recheck gas","recheck the gas","re check gas","check a gas","vbg","abg","gas","blood gas","venous gas","arterial gas","arterial blood gas","venous blood gas",
     "recheck potassium","recheck the potassium","recheck k","recheck the k","repeat potassium","repeat the potassium","repeat k","repeat the k","repeat k in","potassium in 1 hour","potassium in an hour","potassium in 2 hours","k in 1 hour","k in an hour","k in 2 hours","k in 2 hrs","k in 4 hours","monitor potassium","monitor the potassium","monitor k","monitor the k","watch the potassium","watch the k","potassium monitoring","k monitoring","check potassium","check the potassium","check k","check the k","potassium recheck","k recheck","potassium level","potassium levels","serial potassium","serial k",
     "repeat u e","repeat u and e","repeat ue","repeat ues","repeat u es","repeat u and es","repeat us and es","repeat the u e","repeat the u and e","repeat the ue","repeat the ues","repeat renal function","repeat renal profile","repeat creatinine","repeat the creatinine","repeat bloods","repeat the bloods","repeat blood","repeat bloods in the morning","repeat bloods in 4 hours","repeat bloods in 6 hours","repeat bloods in 2 hours","repeat bloods at 6","repeat bloods at 06 00","repeat bloods at 0600","morning bloods","am bloods","bloods in the morning","bloods at 6","bloods at 6am","bloods at 06 00","bloods at 0600","early morning bloods","6am bloods","recheck bloods","recheck the bloods","re check bloods","recheck u e","recheck u and e","recheck ue","recheck renal function","recheck creatinine","recheck the creatinine","monitor renal function","monitor the renal function","monitor creatinine","monitor the creatinine","monitor u e","monitor u and e","monitor ue","serial u e","serial u and e","serial ue","serial creatinine","serial bloods","daily bloods","daily u e","daily u and e","daily ue","daily renal function","daily creatinine","trend the creatinine","trend creatinine","trend the potassium","trend potassium","renal function","u e","u and e","ue","ues","u es","u and es","us and es","creatinine","egfr","fbc","full blood count","fbc u e","fbc ue","fbc and u e","fbc and ue","bloods","hb","haemoglobin","repeat hb","repeat the hb","recheck hb","recheck the hb","repeat fbc","repeat the fbc","recheck fbc","monitor hb","monitor the hb","serial hb","serial hbs","hb in 4 hours","hb in 6 hours","hb in the morning","watch the hb","trend the hb","crp","repeat crp","repeat the crp","lft","lfts","bone profile","clotting","coag","coagulation"
@@ -2113,7 +2167,7 @@ const PLAN_ITEMS = {
   rrt: { label:"Renal replacement readiness", rx:"rrt", aliases:A(
     "dialysis","haemodialysis","hemodialysis","hd","haemofiltration","hemofiltration","cvvh","cvvhd","cvvhdf","cvvhf","crrt","rrt","renal replacement","renal replacement therapy","filter","filtration","filtering","the filter","on the filter","for the filter","needs a filter","needs the filter","need the filter","may need a filter","may need filtering","may need filtration","may need dialysis","may need haemodialysis","may need rrt","may need renal replacement","might need dialysis","might need rrt","might need a filter","might need filtering","likely to need dialysis","likely to need rrt","likely to need a filter","will need dialysis","will need rrt","will need a filter","heading for dialysis","heading for rrt","heading for a filter","for dialysis","for rrt","for haemodialysis","for haemofiltration","for renal replacement","dialyse","dialyse him","dialysed","dialyze","urgent dialysis","urgent rrt","emergency dialysis","emergency rrt","discuss rrt","discuss dialysis","discuss renal replacement","discuss the filter","discuss filtering","consider rrt","consider dialysis","consider renal replacement","consider a filter","consider filtering","rrt if","dialysis if","filter if","dialysis indications","indications for dialysis","indications for rrt","rrt indications","rrt readiness","dialysis readiness","ready for dialysis","ready for rrt","ready for the filter","vascath","vas cath","vascular access","dialysis line","dialysis catheter","femoral line for dialysis","line for dialysis","line for rrt","line for the filter","access for dialysis","access for rrt","access for the filter","dialysis access","rrt access","refractory hyperkalaemia","refractory hyperkalemia","if the potassium does not come down","if the potassium doesn t come down","if the potassium doesnt come down","if the k does not come down","if the k doesn t come down","if the k doesnt come down","if the potassium stays up","if the k stays up","if the potassium keeps rising","if the k keeps rising","if the potassium rises","if the k rises","if the potassium continues to rise","if the k continues to rise","if refractory","if not responding","if no response","if unresponsive"
   ) },
-  hyperk: { label:"Hyperkalaemia treated (unspecified)", rx:"hyperk", aliases:A("treat the potassium","treat potassium","treat the k","treat k","treat the hyperkalaemia","treat hyperkalaemia","treat the hyperkalemia","treat hyperkalemia","treat the high potassium","treat high potassium","treat his potassium","treat his hyperkalaemia","manage the hyperkalaemia","manage hyperkalaemia","manage the potassium","manage the k","hyperkalaemia protocol","hyperkalemia protocol","hyperkalaemia treatment","hyperkalemia treatment","hyperkalaemia management","hyperkalemia management","hyperkalaemia pathway","hyperkalemia pathway","hyperkalaemia bundle","hyperkalemia bundle","hyperkalaemia guideline","hyperkalemia guideline","hyperkalaemia guidelines","hyperkalaemia","hyperkalemia","high potassium","high k","raised potassium","raised k","potassium protocol","k protocol","potassium pathway","k pathway","lower the potassium","lower potassium","lower the k","lower k","bring the potassium down","bring the k down","bring down the potassium","bring down the k","get the potassium down","get the k down","reduce the potassium","reduce the k","correct the potassium","correct the k","correct hyperkalaemia","correct hyperkalemia","as per hyperkalaemia guideline","as per hyperkalaemia protocol","as per the hyperkalaemia guideline","per hyperkalaemia guideline","per hyperkalaemia protocol","as per trust hyperkalaemia guideline","as per uk kidney association","uk kidney association guideline","uk kidney association hyperkalaemia","renal association hyperkalaemia","renal association guideline","potassium treatment","k treatment","potassium management","k management") },
+  hyperk: { label:"Hyperkalaemia treated (unspecified)", rx:"hyperk", aliases:A("hyperk","hyper k","hyperk protocol","hyper k protocol","treat hyperk","treat hyper k","hyperkalaemia protocol","hyperkalemia protocol","treat the potassium","treat potassium","treat the k","treat k","treat the hyperkalaemia","treat hyperkalaemia","treat the hyperkalemia","treat hyperkalemia","treat the high potassium","treat high potassium","treat his potassium","treat his hyperkalaemia","manage the hyperkalaemia","manage hyperkalaemia","manage the potassium","manage the k","hyperkalaemia protocol","hyperkalemia protocol","hyperkalaemia treatment","hyperkalemia treatment","hyperkalaemia management","hyperkalemia management","hyperkalaemia pathway","hyperkalemia pathway","hyperkalaemia bundle","hyperkalemia bundle","hyperkalaemia guideline","hyperkalemia guideline","hyperkalaemia guidelines","hyperkalaemia","hyperkalemia","high potassium","high k","raised potassium","raised k","potassium protocol","k protocol","potassium pathway","k pathway","lower the potassium","lower potassium","lower the k","lower k","bring the potassium down","bring the k down","bring down the potassium","bring down the k","get the potassium down","get the k down","reduce the potassium","reduce the k","correct the potassium","correct the k","correct hyperkalaemia","correct hyperkalemia","as per hyperkalaemia guideline","as per hyperkalaemia protocol","as per the hyperkalaemia guideline","per hyperkalaemia guideline","per hyperkalaemia protocol","as per trust hyperkalaemia guideline","as per uk kidney association","uk kidney association guideline","uk kidney association hyperkalaemia","renal association hyperkalaemia","renal association guideline","potassium treatment","k treatment","potassium management","k management") },
   cardmon: { label:"Cardiac monitoring", rx:"cardmon", aliases:A("cardiac monitoring","cardiac monitor","cardiac monitored","continuous cardiac monitoring","continuous monitoring","continuous ecg monitoring","ecg monitoring","ecg monitor","monitored bed","monitor bed","monitoring bed","telemetry","tele","on a monitor","on the monitor","put him on a monitor","put him on the monitor","on telemetry","monitor his heart","monitor the heart","monitor his rhythm","monitor rhythm","rhythm monitoring","3 lead","three lead","3 lead monitoring","three lead monitoring","cardiac monitoring for the potassium","monitor for arrhythmia","monitor for arrhythmias","repeat ecg","repeat the ecg","serial ecgs","serial ecg","12 lead ecg","ecg","hourly obs","hourly observations","obs hourly","regular obs","regular observations","frequent obs","frequent observations","close obs","close observation","close monitoring","closely monitor","monitor closely","half hourly obs","15 minute obs","15 min obs","news2 monitoring","news monitoring","continuous obs","continuous observations","continuous sats","continuous saturations","continuous spo2","sats monitoring","saturation monitoring","spo2 monitoring","pulse oximetry","continuous pulse oximetry") },
 
   /* ---------- domain 8: fluid balance and blood ---------- */
@@ -2162,8 +2216,8 @@ Object.assign(PLAN_ITEMS.antibiotics, { teach:"Reasonable cover once the culture
 Object.assign(PLAN_ITEMS.vte, { teach:"Prophylactic LMWH in a man with active haemoptysis and a falling haemoglobin is a judgement call, and most would hold it tonight and use stockings. Writing “VTE assessment — held while bleeding, review daily” is the mature version." });
 
 const RX_DANGERS = ["anticoag","lyse","fluids","diuretic","nsaid"];
-const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold","hold off","omit","refrain from","stop the","stop","stopping","discontinue","cease","withdraw","suspend","not for","never give"];
-const NEG_FILLERS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for|further|more|additional|any|the|his|iv|intravenous|routine|regular|empirical|empiric|treatment|dose|of|all|to|be|him)";
+const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold","hold off","omit","refrain from","stop the","stop","stopping","discontinue","cease","withdraw","suspend","not for","never give","nil","nil further","nil more","decline","declined"];
+const NEG_FILLERS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|administer|administering|order|ordering|transfuse|transfusing|commence|commencing|add|adding|for|further|more|additional|any|the|his|iv|intravenous|routine|regular|empirical|empiric|treatment|dose|of|all|to|be|him|pharmacological|chemical|anticoagulant)";
 const POST_NEG = "^\\s*(?:is\\s+|are\\s+|to\\s+be\\s+|has\\s+been\\s+|have\\s+been\\s+|was\\s+|were\\s+)?(?:stopped|withheld|held|discontinued|omitted|suspended|ceased|withdrawn|off|not\\s+indicated|contraindicated|contra\\s+indicated|not\\s+required|not\\s+needed|not\\s+appropriate|not\\s+for\\s+now|not\\s+tonight|not\\s+to\\s+be\\s+given|not\\s+given|unnecessary|inappropriate)\\b";
 function normAlias(a){ return norm(String(a).replace(/[^A-Za-z0-9&']+/g, " ")); }
 let PLAN_PAIRS = null;
@@ -2174,12 +2228,45 @@ function planPairs(){
   PLAN_PAIRS.sort((a,b)=>b[1].length-a[1].length);
   return PLAN_PAIRS;
 }
+/* Scoring audit 2026-11, second round. A potassium treatment written against a threshold ("calcium
+   gluconate and insulin-dextrose if K>6", "if the potassium goes over 6, salbutamol nebs") is an
+   instruction for later, not a drug given now: it is returned in `cond`, never charted, counts as the
+   written potassium plan while K stays under 6, and as treatment once K has crossed 6 (the nurse
+   follows the instruction). Every other item in that sentence is read as usual. */
+const K_COND_ITEMS = ["calcium","insdex","salb","bicarb","binder","hyperk"];
+const K_COND_RE = /\b(?:if|when|whenever|should|once|in case|in the event|until)\b[^.;\n]{0,25}?\b(?:k|k\+|potassium|serum potassium|it)\b\s*(?:is\s+|goes\s+|gets\s+|rises\s+|climbs\s+|reaches\s+|becomes\s+|stays\s+)?(?:>|≥|>=|=>|above|over|greater|more than|exceeds|exceeding|up|to\s+\d|\d)/i;
+function planSentences(text){ return String(text||"").split(/\.(?=\s|$)|[;\n]/).filter(x=>x.trim()); }
 function parsePlan(text){
+  const sents = planSentences(text);
+  const condS = sents.filter(x=>K_COND_RE.test(x));
+  if(!condS.length) return Object.assign(parsePlanCore(text), { cond:new Set() });
+  const r = parsePlanCore(sents.filter(x=>!K_COND_RE.test(x)).join(". "));
+  const c = parsePlanCore(condS.join(". "));
+  const cond = new Set();
+  c.matched.forEach(k=>{ if(K_COND_ITEMS.includes(k)) { if(!r.matched.has(k)) cond.add(k); } else r.matched.add(k); });
+  c.negated.forEach(k=>{ if(!r.matched.has(k)) r.negated.add(k); });
+  ["fluids","aspirin","nsaid"].forEach(k=>{ if(r.matched.has("stop"+k)){ r.matched.delete(k); r.negated.delete("stop"+k); } });
+  return { matched:r.matched, negated:r.negated, cond };
+}
+function parsePlanCore(text){
   let raw = String(text);
   raw = raw.replace(/\b(stop|stopping|hold|holding|withhold|withholding|avoid|avoiding|omit|omitting|discontinue|discontinuing|suspend|suspending|no|not for)\b([^.;\n()]{0,40})\(([^)]*)\)/gi,
     (m, v, mid, list) => `${v}${mid} ` + list.split(/[,/&+]| and /).map(s=>s.trim()).filter(Boolean).map(s=>"not "+s).join(" "));
+  /* scoring audit 2026-11: a refusing verb covers every drug in its list — "stop naproxen and aspirin",
+     "hold naproxen, aspirin and fluids". Only drugs that can be held carry it, so "no fluids and
+     catheterise" never becomes "no catheter". Looped so a long list carries all the way. */
+  const HOLDABLE = "(?:naproxen|naprosyn|nsaids?|non steroidals?|anti inflammator(?:y|ies)|ibuprofen|diclofenac|aspirin|antiplatelets?|clopidogrel|(?:iv |intravenous )?fluids?|ivf|ivi|nephrotox(?:ins|ics|ic drugs|ic medications?|ic meds)|amlodipine|antihypertensives?|ramipril|ace inhibitors?|acei|furosemide|frusemide|diuretics?|dalteparin|enoxaparin|heparin|lmwh|anticoagula(?:nts?|tion)|thromboprophylaxis)";
+  const CARRY = new RegExp("\\b(stop|stopping|hold|holding|withhold|withholding|omit|omitting|discontinue|cease|suspend|avoid|avoiding|no|nil|not for)(\\s+(?:(?:the|his|all|any|regular)\\s+)?" + HOLDABLE + ")(\\s*(?:,|&|\\+|/|\\band\\b|\\bor\\b)\\s*(?:and\\s+|or\\s+)?(?:(?:the|his|any|all|regular)\\s+)?)(?=" + HOLDABLE + "\\b)", "i");
+  for(let i=0; i<12 && CARRY.test(raw); i++) raw = raw.replace(CARRY, (m, v, first, sep) => v + first + sep + v + " ");
+  /* a sentence boundary stops a negation: "No anticoagulant. Dalteparin 5000 units" prescribes the
+     dalteparin. The marker is a word no filler or alias contains. */
+  raw = raw.replace(/[.!?;]+(?=\s|$)|\n+/g, " zzsep ");
   let t = " " + norm(raw.replace(/[^A-Za-z0-9&']+/g, " ")) + " ";
-  const matched = new Set(), negated = new Set();
+  const matched = new Set(), negated = new Set(), keepOn = new Set();
+  /* round 3: "do not stop the naproxen" / "don't hold aspirin" refuses the STOP, so the drug carries on;
+     other negators in front of a stop phrase ("hold off aspirin") still read as the stop */
+  const STOP_OF = { stopnsaid:"nsaid", stopaspirin:"aspirin", stopfluids:"fluids", nephrotox:null };
+  const REFUSE_STOP = /\b(?:do not|dont|never|not|no need to|need not|must not|should not|shouldnt)\s+(?:(?:the|his|any|all|to|be)\s+){0,2}$/;
   for(const [k,a] of planPairs()){
     if(!a) continue;
     const re = new RegExp("\\b"+a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\b","g");
@@ -2189,6 +2276,7 @@ function parsePlan(text){
       const after  = t.slice(m.index + m[0].length, m.index + m[0].length + 40);
       const preNeg  = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_FILLERS+"\\s+){0,2}$").test(before));
       const postNeg = new RegExp(POST_NEG).test(after);
+      if(k in STOP_OF && REFUSE_STOP.test(before)){ keepOn.add(k); negated.add(k); break; }
       if(preNeg || postNeg) negated.add(k); else matched.add(k);
       break;
     }
@@ -2198,7 +2286,12 @@ function parsePlan(text){
   if(negated.has("nsaid")) matched.add("stopnsaid");
   if(negated.has("aspirin")) matched.add("stopaspirin");
   if(negated.has("fluids")) matched.add("stopfluids");
+  ["nephrotox","stopnsaid","stopaspirin","stopfluids"].forEach(k=>{
+    if(!negated.has(k)) return;
+    if(keepOn.has(k)){ if(STOP_OF[k] && !negated.has(STOP_OF[k])) matched.add(STOP_OF[k]); return; }   // still taking it
+    negated.delete(k); matched.add(k); });
   if(matched.has("stopfluids")) matched.delete("fluids");
+  if(matched.has("stopaspirin")) matched.delete("aspirin");
   if(matched.has("stopnsaid")) matched.delete("nsaid");
   return { matched, negated };
 }
@@ -2219,7 +2312,9 @@ function enactPlan(matched){
     if(it.rx==="stopfluids"){ S.rx.delete("fluids"); }
     if(it.rx==="stopnsaid"){ S.rx.delete("nsaid"); }
     if(it.rx==="fluids"){ S.rx.delete("stopfluids"); S.fluids++; }
+    if(it.rx==="stopaspirin"){ S.rx.delete("aspirin"); }
   });
+  if(matched.has("repeatgas") && !S.planGas){ S.gasCount++; S.planGas = true; }
   if(S.rx.has("cultures") && !S.ordered.has("cult")) S.ordered.add("cult");
   if(S.rx.has("virol") && !S.ordered.has("virol")) S.ordered.add("virol");
   return planResults([...S.ordered].filter(id=>!before.has(id)));
@@ -2245,6 +2340,12 @@ function planResults(ids){
   if(names.length){ renderIx(); checkPending(); }
   return names;
 }
+/* the potassium he actually reached on this shift (it only climbs) */
+function kHigh(){ return parseFloat(renalState().k) >= 6; }
+/* potassium items on the chart, plus those written against a threshold (followed once K has crossed 6;
+   below 6 they are the written plan the bundle asks for, never a treatment) */
+const kItems = list => list.filter(k=>S.rx.has(k) || S.kCond.has(k));
+const kTreated = list => list.filter(k=>S.rx.has(k) || (kHigh() && S.kCond.has(k)));
 /* EULAR 2022 / KDIGO 2024 — tonight's eight domains. Induction is renal's; it is not here. */
 const BUNDLE = [
   { k:"Recognise and protect", want:"Pulmonary-renal syndrome named; no anticoagulant, no more fluid",
@@ -2270,8 +2371,8 @@ const BUNDLE = [
     ok:(m)=> S.rx.has("renal"),
     why:"Nobody rang renal. They own the induction decision, the biopsy, the filter and the plasma-exchange conversation, and at 04:00 they are a phone call away. A referral form for the morning is not a referral." },
   { k:"The potassium", want:"K ≥6 treated, a repeat gas, and renal replacement readiness named",
-    ok:(m)=> ["calcium","insdex","salb","bicarb","binder","hyperk","rrt"].filter(k=>S.rx.has(k)).length + (S.gasCount>=2?1:0) >= 2,
-    why:"The potassium crossed 6 on your shift and was not treated. Calcium to protect the myocardium, insulin–dextrose to shift it, salbutamol to help, bicarbonate for the acidosis, a gas in an hour — and a sentence in the notes saying he may need a filter, so nobody is surprised at nine." },
+    ok:(m)=> kItems(["calcium","insdex","salb","bicarb","binder","hyperk","rrt"]).length + (S.gasCount>=2?1:0) >= (kHigh()?2:1),
+    why:()=> !kHigh() ? `The potassium was ${renalState().k} and climbing at handover, with nothing written about it. Below 6 it does not need calcium, but it needs a plan: a repeat gas, and a sentence saying he may need a filter, so nobody is surprised at nine.` : "The potassium crossed 6 on your shift and was not treated. Calcium to protect the myocardium, insulin–dextrose to shift it, salbutamol to help, bicarbonate for the acidosis, a gas in an hour — and a sentence in the notes saying he may need a filter, so nobody is surprised at nine." },
   { k:"Fluid balance and blood", want:"Catheter and hourly urine output; group and save, and a transfusion threshold",
     ok:(m)=> ["cath","balance","gs","transfuse","cardmon"].filter(k=>S.rx.has(k)).length + (S.ordered.has("gs")?1:0) >= 2,
     why:"An oliguric man bleeding into his lungs needs a catheter with an hourly chart, blood available, and a threshold written down. Fluid balance in a nephritis is a treatment, not a nursing task." }
@@ -2288,10 +2389,12 @@ function renderRx(){
   updateTabDots();
   if(S.dxCommitted) updateBar();
 }
+let planCondNow = new Set();
 function submitPlan(){
   const text = $("#planText").value.trim();
   if(!text) return;
-  const { matched, negated } = parsePlan(text);
+  const { matched, negated, cond } = parsePlan(text);
+  planCondNow = cond; cond.forEach(k=>S.kCond.add(k));
   const dangers = [...matched].filter(k=>PLAN_ITEMS[k] && PLAN_ITEMS[k].danger);
   if(dangers.length && !S.planWarned){ callBack(text, matched, negated, dangers); return; }
   closePlan(text, matched, negated);
@@ -2321,7 +2424,9 @@ function callBack(text, matched, negated, dangers){
        <button class="btn btn--ghost" id="pharmOn">Do it anyway</button>
      </div>`;
   out.scrollIntoView({block:"nearest"});
-  $("#pharmOff").onclick = ()=>{ dangers.forEach(k=>{ matched.delete(k); negated.add(k); }); closePlan(text, matched, negated); };
+  $("#pharmOff").onclick = ()=>{ dangers.forEach(k=>{ matched.delete(k); negated.add(k);
+      const hold = {nsaid:"stopnsaid", aspirin:"stopaspirin", fluids:"stopfluids"}[k]; if(hold) matched.add(hold); });
+    closePlan(text, matched, negated); };
   $("#pharmOn").onclick  = ()=>{ closePlan(text, matched, negated); };
 }
 function closePlan(text, matched, negated){
@@ -2334,12 +2439,19 @@ function closePlan(text, matched, negated){
   S.planWritten = true; S.planText = text;
   [...matched, ...negated].forEach(k=>{ if(PLAN_ITEMS[k] && PLAN_ITEMS[k].teach) S.teaches.add(k); });
   renderRx(); renderObs();
-  const on = [...matched].filter(k=>PLAN_ITEMS[k] && (PLAN_ITEMS[k].rx || PLAN_ITEMS[k].ix)).map(k=>PLAN_ITEMS[k].label);
+  const onK = [...matched].filter(k=>PLAN_ITEMS[k] && (PLAN_ITEMS[k].rx || PLAN_ITEMS[k].ix));
+  const plain = k => PLAN_ITEMS[k].danger || k==="aspirin";   // charted, but never with a green tick
+  const unread = unreadPlan(text);
+  const esc = s => String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const out = $("#planOut");
   out.innerHTML =
     `<div class="bundle"><h4>Enacted at ${fmtClock(S.clock)}</h4>`+
-    `<div class="bsub">${on.length} item${on.length===1?"":"s"} onto the chart. It is marked against the guideline at the handover, when the day team can see what you saw.</div>`+
-    (on.length?`<ul>${on.map(l=>`<li data-ok="1"><span class="mk">✓</span><span class="bl">${l}</span></li>`).join("")}</ul>`:"")+
+    `<div class="bsub">${onK.length} item${onK.length===1?"":"s"} onto the chart. It is marked against the guideline at the handover, when the day team can see what you saw.</div>`+
+    (onK.length?`<ul>${onK.map(k=>plain(k)
+        ? `<li data-ok="0"><span class="mk">•</span><span class="bl">${PLAN_ITEMS[k].label}</span></li>`
+        : `<li data-ok="1"><span class="mk">✓</span><span class="bl">${PLAN_ITEMS[k].label}</span></li>`).join("")}</ul>`:"")+
+    (unread.length?`<div class="bw" style="margin-bottom:var(--s2);">Not understood: ${unread.map(u=>`“${esc(u)}”`).join(" · ")}${S.planAmended?"":" — use the amendment to rephrase it."}</div>`:``)+
+    (planCondNow.size?`<div class="bw" style="margin-bottom:var(--s2);">Written against a potassium threshold, not given now: ${[...planCondNow].map(k=>PLAN_ITEMS[k].label).join(" · ")}.</div>`:``)+
     (sent.length?`<div class="bw" style="margin-bottom:var(--s2);">Sent from your plan: ${sent.join(" · ")}. The results are under Investigate.</div>`:``)+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
     (S.planAmended ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">Amend the plan</button>`)+
@@ -2347,6 +2459,17 @@ function closePlan(text, matched, negated){
   const amend = $("#planAmend");
   if(amend) amend.onclick = ()=>{ S.planAmended = true; $("#planOut").innerHTML=""; $("#planText").focus(); };
   out.scrollIntoView({block:"nearest"});
+}
+/* the phrases of a plan that the reader could not place, quoted back in the player's own words */
+function unreadPlan(text){
+  const FILLER = new Set(["plan","and","then","also","the","a","to","for","with","please","tonight","now","stat","iv","po","x","mg","g","ml","daily","od","bd","tds","qds","prn","if","needed","overnight","morning","in","of","on","at","him","his","he","patient","pt"]);
+  return String(text||"").split(/\.(?=\s|$)|[;\n•]|,/)
+    .map(s=>s.replace(/^\s*(?:[-*\d]+[.)]?\s+)?/, "").trim())
+    .filter(s=>/[a-z]/i.test(s))
+    .filter(s=>norm(s).split(" ").some(w=>w && !FILLER.has(w) && !/^\d/.test(w)))
+    .filter(s=>!(K_COND_RE.test(s) && /^\s*(?:if|when|whenever|should|once|until|in case)\b/i.test(s)))   // a bare threshold clause belongs to its sentence
+    .filter(s=>{ const r = parsePlan(s); return !r.matched.size && !r.negated.size && !r.cond.size; })
+    .slice(0, 8);
 }
 $("#planForm").addEventListener("submit", e=>{ e.preventDefault(); submitPlan(); });
 
@@ -2533,7 +2656,7 @@ function showSaved(){
   const steroid = S.rx.has("pulse")||S.rx.has("pred")||S.rx.has("steroid");
   const renal = S.rx.has("renal");
   const looked = S.examMore.has("back") || S.examMore.has("arms");
-  const kdone = ["calcium","insdex","salb","bicarb","hyperk","binder"].some(k=>S.rx.has(k));
+  const kdone = kTreated(["calcium","insdex","salb","bicarb","hyperk","binder"]).length > 0;
   let head, lede, story;
   if(!S.corrected){
     head = S.dxPartial ? "He lived. You nearly named it." : "You saved him.";
@@ -2542,7 +2665,7 @@ function showSaved(){
       : `Walter Brigg is alive. He is also furious, because somebody promised him toast at 02:40 and it is now ${fmtClock(S.clock)}.`;
     story =
       `<b>08:15.</b> The renal registrar arrives, reads your notes from the top, and does the thing renal registrars are contractually forbidden from doing: nods. ${steroid?"“Pulsed. Cultures first. Naproxen off.” Another nod. Two in one morning; the ward will be talking about it for weeks.":"“No steroids yet?” The nod is withdrawn. It is reissued, provisionally, when you explain the cultures are off and the methylpred is drawn up."}<br><br>`+
-      `<b>08:40.</b> ${renal?"Renal take him, as promised at four in the morning, because you rang.":"Renal take him, eventually, after a conversation at handover that would have been a phone call at four if anyone had made it."} The potassium is ${r.k}. ${kdone?"It has been treated, twice, and is behaving. ":"It has not been treated, and the registrar treats it in the lift. "}He is filtered at ten — steroids or no steroids, that kidney was always having a wash today — and he sleeps through the whole thing.<br><br>`+
+      `<b>08:40.</b> ${renal?"Renal take him, as promised at four in the morning, because you rang.":"Renal take him, eventually, after a conversation at handover that would have been a phone call at four if anyone had made it."} The potassium is ${r.k}. ${kdone?"It has been treated, twice, and is behaving. ":parseFloat(r.k)<6?"It has not reached 6, and it is on the morning's list. ":"It has not been treated, and the registrar treats it in the lift. "}He is filtered at ten — steroids or no steroids, that kidney was always having a wash today — and he sleeps through the whole thing.<br><br>`+
       `<b>09:00.</b> The immunology BMS rings ${S.ordered.has("phonelab")?"your bleep, because you asked them to: PR3-ANCA 84, anti-GBM negative. You already knew.":"the ward. Nobody had asked them to, so it takes until eleven to reach anyone who knows who Mr Brigg is. PR3-ANCA 84, anti-GBM negative."}<br><br>`+
       `<b>09:20.</b> The formal CT report lands, from a consultant radiologist who took one look and wrote <i>“pulmonary-renal syndrome should be considered.”</i> ${looked?"You had considered it at four in the morning, with a torch, from the back.":"You had considered it without ever turning him over, which is either brilliant or lucky, and the registrar has decided not to ask."}<br><br>`+
       `<b>11:00.</b> His daughter arrives with a bag of his things and a look that says she has been told what “vasculitis” means by a search engine. The home have rung twice to ask whether he's all right, and once to ask whether they were right to call 999. They were. They are the only people in this story who have never been wrong about anything.<br><br>`+
@@ -2739,8 +2862,8 @@ function scoreAndShow(){
   if(S.ordered.has("virol")||S.rx.has("virol")) add("Hepatitis and HIV screen sent, ahead of induction", 2);
   if(S.rx.has("renal")) add("Renal on call rung and accepted", 10);
   if(S.ordered.has("phonelab")) add("Rang the lab — results phoned to your bleep", 3);
-  const kdone = ["calcium","insdex","salb","bicarb","binder","hyperk"].filter(k=>S.rx.has(k)).length;
-  if(kdone>=2) add("Hyperkalaemia treated", 6); else if(kdone===1) add("Hyperkalaemia partly treated", 3);
+  const kdone = kTreated(["calcium","insdex","salb","bicarb","binder","hyperk"]).length;
+  if(kHigh()){ if(kdone>=2) add("Hyperkalaemia treated", 6); else if(kdone===1) add("Hyperkalaemia partly treated", 3); }
   if(S.rx.has("rrt")) add("Renal replacement readiness named", 3);
   if(S.rx.has("stopnsaid")||S.rx.has("nephrotox")) add("Naproxen stopped / nephrotoxins reviewed", 4);
   if(S.rx.has("stopaspirin")) add("Aspirin held while bleeding", 1);
@@ -2751,6 +2874,7 @@ function scoreAndShow(){
   if(S.rx.has("diuretic")) add("Diuretic for a kidney that has stopped", -6);
   if(S.rx.has("nsaid"))    add("Naproxen continued into an AKI", -6);
 
+  if(S.planWritten || S.rx.size){ const effF = effectivePlan(); S.bundleCovered = BUNDLE.filter(b=>b.ok(effF)).length; }
   if(S.planWritten || S.bundleCovered) add(`Plan covered ${S.bundleCovered} of ${BUNDLE.length} guideline domains`, S.bundleCovered*4);
 
   if(S.died){

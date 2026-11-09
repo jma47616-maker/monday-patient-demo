@@ -1679,7 +1679,7 @@ const CASE = {
       { id:"mg", name:"Magnesium", cost:60, tag:"supp", aliases:["magnesium","mg","serum magnesium"], labs:[["Magnesium","0.84","mmol/L","0.70–1.00"]] },
       { id:"glu", name:"Laboratory glucose", cost:60, tag:"supp", aliases:["lab glucose","laboratory glucose","plasma glucose","venous glucose","serum glucose"], labs:[["Plasma glucose","9.6","mmol/L",""]] },
       { id:"ck", name:"Creatine kinase", cost:60, tag:"supp", aliases:["ck","creatine kinase","cpk","cpk level","muscle enzymes"], labs:[["Creatine kinase","162","U/L","40–320"]] },
-      { id:"clot", name:"Clotting screen", cost:60, tag:"supp", aliases:["clotting","clotting screen","coag","coag screen","coagulation screen","inr","pt","aptt"],
+      { id:"clot", name:"Clotting screen", cost:60, tag:"supp", aliases:["clotting","clotting screen","coag","coag screen","coagulation screen","inr","pt","aptt","coagulation","coagulation profile","clotting profile"],
         labs:[["PT","11.4","s","10–14"],["INR","1.0","",""],["APTT","28","s","24–34"],["Fibrinogen","3.1","g/L","2.0–4.0"]] },
       { id:"tft", name:"Thyroid function", cost:60, tag:"noise", aliases:["tft","tfts","thyroid function","tsh","t4"], labs:[["TSH","1.8","mU/L","0.3–4.2"]] },
       { id:"trop", name:"High-sensitivity troponin I", cost:60, tag:"noise", aliases:["troponin","trop","hs troponin","troponin i","cardiac enzymes"], labs:[["High-sensitivity troponin I","6","ng/L","<34"]] },
@@ -1698,7 +1698,7 @@ const CASE = {
       { id:"spep", name:"Serum protein electrophoresis", defer:true, tag:"noise", ack:"Sent.", aliases:["electrophoresis","serum electrophoresis","protein electrophoresis","myeloma screen","paraprotein","serum free light chains"], when:"The following week", later:"no paraprotein band detected." },
       { id:"autoab", name:"ANA and ANCA", defer:true, tag:"noise", ack:"Sent.", aliases:["ana","anca","autoimmune screen","autoantibodies","vasculitis screen","connective tissue screen"], when:"Friday", later:"ANA negative · ANCA negative." },
       { id:"gang", name:"Anti-ganglioside antibodies", defer:true, tag:"noise", exactOnly:true, ack:"Sent to the reference laboratory. Turnaround 14 to 21 days.", aliases:["ganglioside antibodies","anti ganglioside antibodies","anti ganglioside","antiganglioside","antiganglioside antibodies","gm1","anti gm1","gd1a","gq1b","anti gq1b","ganglioside"], when:"Three weeks later", later:"Anti-GM1 IgG negative · Anti-GD1a IgG negative · Anti-GQ1b IgG negative." },
-      { id:"achr", name:"Acetylcholine receptor antibodies", defer:true, tag:"supp", exactOnly:true, ack:"Sent to the reference laboratory. Turnaround 10 to 14 days.", aliases:["acetylcholine receptor antibodies","achr","achr antibodies","anti achr","musk","anti musk","myasthenia antibodies","myasthenia screen"], when:"Two weeks later", later:"Acetylcholine receptor antibodies not detected. MuSK antibodies not detected." },
+      { id:"achr", name:"Acetylcholine receptor antibodies", defer:true, tag:"supp", exactOnly:true, ack:"Sent to the reference laboratory. Turnaround 10 to 14 days.", aliases:["acetylcholine receptor antibodies","achr","achr antibodies","anti achr","anti acetylcholine receptor","anti acetylcholine receptor antibodies","anti achr antibodies","musk","anti musk","myasthenia antibodies","myasthenia screen"], when:"Two weeks later", later:"Acetylcholine receptor antibodies not detected. MuSK antibodies not detected." },
       { id:"inf", name:"Infection serology", defer:true, tag:"noise", exempt:true, exactOnly:true, ack:"Sent.", aliases:["cmv","ebv","viral serology","viral screen","viral pcr","mycoplasma","mycoplasma antibodies","mycoplasma serology","hepatitis e","hiv","lyme","lyme serology","borrelia","atypical serology","infection screen","syphilis","syphilis serology","treponemal serology","treponemal antibodies","vdrl","rpr","tpha"], when:"The following week", later:"CMV IgG positive, IgM negative · EBV VCA IgG positive, IgM negative · Mycoplasma pneumoniae IgM negative · Hepatitis E IgM negative · HIV 1 and 2 antigen/antibody not detected · Borrelia antibodies negative · Treponemal antibodies not detected." },
       { id:"cult", name:"Blood cultures", defer:true, tag:"noise", ack:"Sent.", aliases:["blood cultures","cultures","blood culture","bc","cultures x2"], when:"Thursday", later:"no growth at 24 hours. Incubation continues." },
       { id:"gs", name:"Group and save", defer:true, tag:"noise", ack:"Sent.", aliases:["group and save","g&s","group and screen","crossmatch"] },
@@ -1711,7 +1711,7 @@ const CASE = {
       { id:"msu", name:"Urine microscopy and culture", defer:true, tag:"noise", ack:"Sent.", aliases:["msu","urine culture","urine mc&s","urine mcs","urine microscopy"], when:"Thursday", later:"white cells <10 /µL · red cells <10 /µL · no growth." }
     ],
     imaging: [
-      { id:"cxr", name:"Chest radiograph", cost:30, tag:"supp", reportLater:true, img:"legs-cxr.jpg", imgFallback:"legs-cxr.svg", imgAlt:"Chest radiograph", aliases:["cxr","chest x ray","chest xray","chest radiograph","chest film"],
+      { id:"cxr", name:"Chest radiograph", cost:30, tag:"supp", reportLater:true, img:"legs-cxr.jpg", imgFallback:"legs-cxr.svg", imgAlt:"Chest radiograph", aliases:["cxr","chest x ray","chest xray","chest radiograph","chest film","chest xr"],
         /* round 15, as week 7 shows its film (04-ix-mx.md 3.3): in play the picture and this one line; the report is on the outcome's later list only */
         text:"Chest radiograph. Awaiting report.", when:"Thursday", later:"Lungs clear. No pleural effusion. No pneumothorax. Heart size normal. No free gas under the diaphragm." },
       { id:"cthead", name:"CT head", cost:45, tag:"supp", img:"legs-ct.jpg", imgAlt:"CT head", aliases:["ct head","ct brain","cth","head ct","ct scan head","non contrast ct head"],
@@ -1734,7 +1734,7 @@ const CASE = {
         text:"CSF. Appearance: clear, colourless · White cells 2 ×10⁶/L (<5) · Red cells 3 ×10⁶/L · Protein 0.98 g/L (0.15–0.45) H · Glucose 5.9 mmol/L; paired plasma 9.6 mmol/L · Gram stain: no organisms seen · Culture: to follow · Oligoclonal bands: sent" },
       { id:"ncs", name:"Nerve conduction studies", defer:true, tag:"supp", exactOnly:true, holdName:"nerve conduction studies", ack:"Request received by clinical neurophysiology. Appointment: Friday 10:30.",
         cueOk:"04-ix-mx.md 3.3, the report as issued. The checker reads 'Motor' and 'Sensory' as naming the diagnosis only because the judge's dxAll groups hold those two words. For the owner to accept.",
-        aliases:["nerve conduction","nerve conduction studies","ncs","emg","ncs emg","electromyography","neurophysiology","repetitive nerve stimulation","single fibre emg","nerve studies","nerve conduction study","conduction studies","ncs/emg","emg/ncs","emg ncs","nerve conduction and emg"], when:"Friday",
+        aliases:["nerve conduction","nerve conduction studies","ncs","emg","ncs emg","electromyography","neurophysiology","repetitive nerve stimulation","single fibre emg","nerve studies","nerve study","nerve conduction study","conduction studies","ncs/emg","emg/ncs","emg ncs","nerve conduction and emg"], when:"Friday",
         later:"Motor studies, median, ulnar, peroneal and tibial nerves both sides: distal latencies prolonged; conduction velocities 28 to 34 m/s; distal amplitudes within reference limits; F waves not obtained. Sensory studies: median and ulnar potentials small; sural potentials preserved." },
       { id:"carotid", name:"Carotid Doppler", defer:true, tag:"noise", ack:"Request received. The vascular laboratory will contact the ward with a time.", aliases:["carotid doppler","carotid dopplers","carotid ultrasound","carotid duplex"] },
       { id:"echo", name:"Echocardiogram", defer:true, tag:"noise", ack:"Request received. Earliest inpatient slot Thursday afternoon.", aliases:["echo","echocardiogram","tte","bubble echo"] },
@@ -2433,7 +2433,7 @@ CASE.examCat = { "core": { "gen": ["general inspection", "general", "general app
   { "id": "r_flat", "name": "Lying him flat", "cost": 2, "typed": true, "aliases": ["lie him flat", "lie flat", "lying flat", "lay him flat", "lay flat", "flat", "laid flat", "lie him down", "lying him flat", "lie him back", "supine", "supine breathing", "breathing lying flat", "breathing flat", "breathing supine", "chest lying flat", "abdomen lying flat", "watch him breathe lying flat", "watch his breathing lying flat", "orthopnoea", "orthopnea", "test for orthopnoea", "paradoxical breathing", "abdominal paradox", "paradox", "paradoxical abdominal movement", "diaphragm", "diaphragm movement", "diaphragmatic movement", "diaphragmatic breathing", "diaphragm weakness", "recumbent breathing", "lay him down", "lay him back", "breathing lying down", "breathe lying down", "watch him breathe lying down", "chest lying down", "abdomen lying down", "diaphragmatic weakness", "weak diaphragm", "diaphragm function", "diaphragmatic function", "diaphragm strength", "diaphragm paralysis", "paradoxical", "diaphragmatic", "lie him supine", "lie supine", "lay him supine", "lie flat and watch abdomen", "lie flat and watch his abdomen", "breathing when flat", "breathing when lying flat", "see saw breathing", "seesaw breathing"], "disc": true, "noChip": true, "ra": ["flat", "supine", "orthopnoea", "orthopnea", "paradox", "paradoxical", "diaphragm", "diaphragmatic", "recumbent"], "byBand": ["After about a minute: 'Sit me up, will you.'", "After four breaths: 'Up. Sit me up.'", "He shakes his head as you reach for the bed control. Harriet: 'He can't. Please don't.' He stays propped."], "imgAlt": "His chest and abdomen, lying flat", "flatImg": ["legs-flat-1.svg", "legs-flat-2.svg",
     null]
   },
-  { "id": "r_count", "name": "Count on one breath", "cost": 1, "typed": true, "aliases": ["single breath count", "single breath counting", "single breath test", "sbc", "breath count", "breath counting", "one breath count", "count on one breath", "count in one breath", "counting on one breath", "count aloud on one breath", "count to twenty in one breath", "count to 20 in one breath", "count out loud in one breath", "how far can he count in one breath", "count as far as he can on one breath", "one breath counting", "single breath", "how far can he count", "far count", "count as far as he can", "count far", "how high can he count", "count as high as he can", "count for as long as he can", "how high can he count in one breath", "count to as high as he can", "number count in one breath", "one breath"], "key": true, "disc": true, "noChip": true, "ra": ["breath", "sbc"], "raExact": true, "clips": ["legs-count-1", "legs-count-2", "legs-count-3"]
+  { "id": "r_count", "name": "Count on one breath", "cost": 1, "typed": true, "aliases": ["single breath count", "single breath counting", "single breath test", "sbc", "breath count", "breath counting", "one breath count", "count on one breath", "count in one breath", "counting on one breath", "count aloud on one breath", "count to twenty in one breath", "count to 20 in one breath", "count out loud in one breath", "how far can he count in one breath", "count as far as he can on one breath", "one breath counting", "single breath", "how far can he count", "far count", "count as far as he can", "count far", "how high can he count", "count as high as he can", "count for as long as he can", "how high can he count in one breath", "count to as high as he can", "number count in one breath", "one breath", "count to 20", "count to twenty", "counting to 20", "counting to twenty", "count test", "counting test"], "key": true, "disc": true, "noChip": true, "ra": ["breath", "sbc"], "raExact": true, "clips": ["legs-count-1", "legs-count-2", "legs-count-3"]
   },
   { "id": "r_cough", "name": "Cough", "cost": 0.5, "typed": true, "aliases": ["cough", "ask him to cough", "get him to cough", "cough strength", "cough force", "strength of cough", "voluntary cough", "cough effort", "cough test", "assess cough", "coughing", "peak cough", "hear him cough", "listen to his cough", "a cough", "weak cough", "cough reflex", "cough weakness", "effective cough", "cough power"], "disc": true, "noChip": true, "ra": ["cough", "coughing", "coughs"], "byBand": ["Asked to cough: a short huff. His abdomen hardly moves.", "Asked to cough: a breath out and a click in his throat. No sound behind it.", "Asked to cough: a breath out and a click in his throat. No sound behind it."], "clips": ["legs-cough-1", "legs-cough-2", "legs-cough-2"]
   },
@@ -4048,27 +4048,27 @@ const PLAN_ITEMS = [
   { id:"fvcrep", kind:"fvc", aliases:["fvc 4 hourly","4 hourly fvc","fvc 4 hrly","fvc 4/24","fvc q4h","fvc every 4 hours","fvc 2 hourly","2 hrly fvc","hourly fvc","fvc qds","fvc tds","fvc bd","fvc od","daily fvc","fvc 6 hourly","serial fvc","serial fvcs","fvcs","serial spirometry","regular fvc","regular spirometry","repeat fvc","monitor fvc","fvc monitoring","fvc chart","spirometry 4 hourly","spirometry every 4 hours","vital capacity 4 hourly","trend fvc"] },
   { id:"fvcagain", kind:"fvc", aliases:["repeat fvc in 1 hour","rpt fvc in 1 hr","fvc again in 2 hours","recheck fvc in an hour","fvc at 14:00"] },
   { id:"fvccont", kind:"fvc", aliases:["continue fvc after ivig","fvc to continue after treatment","keep measuring fvc","ongoing fvc monitoring","continue spirometry during treatment","fvc throughout ivig","do not stop fvc","fvc until improving"] },
-  { id:"sbc", kind:"rx", aliases:["single breath count","breath count","sbc","count test"] },
-  { id:"obsfreq", kind:"rx", aliases:["hourly obs","obs hourly","1 hourly obs","2 hourly obs","4 hourly obs","news hourly","neuro obs","obs qds","continuous sats","sats monitoring","bp 4 hourly","regular obs","monitor obs","monitor bp","monitor hr","monitor bp and hr","bp and hr","monitor for autonomic instability","autonomic monitoring"] },
+  { id:"sbc", kind:"rx", aliases:["single breath count","breath count","sbc","count test","count to 20","count to twenty","counting to 20","counting test"] },
+  { id:"obsfreq", kind:"rx", aliases:["hourly obs","obs hourly","1 hourly obs","2 hourly obs","4 hourly obs","news hourly","neuro obs","obs qds","continuous sats","sats monitoring","bp 4 hourly","regular obs","monitor obs","monitor bp","monitor hr","monitor bp and hr","bp and hr","autonomic monitoring"] },
   { id:"gasnow", kind:"ix", ix:"gas", aliases:["abg","blood gas","gas","arterial gas","arterial blood gas"] },
   { id:"vbgnow", kind:"ix", ix:"vbg", aliases:["vbg","venous gas","venous blood gas"] },
   { id:"o2", kind:"rx", ord:true, aliases:["oxygen","o2","target sats 94-98","sats 94-98","nasal cannulae"] },
   { id:"upright", kind:"rx", ord:true, aliases:["sit up","sit upright","nurse upright","45 degrees","head up","do not lie flat","avoid lying flat"] },
   /* 5.2 airway and swallow */
-  { id:"nbm", kind:"rx", aliases:["nbm","nil by mouth","nothing by mouth","keep nbm","remain nbm","strict nbm","nil orally","no oral intake","nothing orally","no food or drink","not to eat or drink","nothing to eat or drink"] },
+  { id:"nbm", kind:"rx", aliases:["nbm","nil by mouth","nothing by mouth","keep nbm","remain nbm","strict nbm","nil orally","no oral intake","nothing orally","no food or drink","not to eat or drink","nothing to eat or drink","npo","keep npo","nil per os","nil po"] },
   { id:"swallowix", kind:"ix", ix:"swallow", aliases:["swallow screen","swallow test","water swallow test","bedside swallow","swallow assessment","assess swallow","check swallow",
       "monitor swallow"] },                                                                               /* KEPT: 5.10 rule 8 */
   { id:"slt", kind:"team", aliases:["slt","salt","speech and language","speech therapy","speech and language therapy","slt review","salt review","salt assessment"] },
   { id:"ngt", kind:"rx", aliases:["ng tube","ngt","ng","nasogastric tube","ng feeding","ng for meds","meds via ng","nasogastric"] },
   { id:"oral", ref:true, kind:"danger", aliases:["eat and drink","e+d","e&d","normal diet","light diet","diet and fluids","diet as tolerated","soft diet","pureed diet","oral fluids","clear fluids","clear fluids only","free fluids","fluids only","thickened fluids","encourage oral fluids","encourage fluids","sips","can eat","cup of tea","tea and toast","oral intake","feed him","oral meds","po meds","tablets"] },
   /* 5.3 the heart */
-  { id:"monitor", kind:"rx", aliases:["cardiac monitor","cardiac monitoring","continuous ecg","ecg monitoring","telemetry","tele","monitored bed","on a monitor","continuous monitoring"] },
+  { id:"monitor", kind:"rx", aliases:["cardiac monitor","cardiac monitoring","continuous ecg","ecg monitoring","telemetry","tele","monitored bed","on a monitor","continuous monitoring","monitor for autonomic instability","monitor for autonomic dysfunction","cardiac monitor for autonomic instability","cardiac monitor for autonomic dysfunction","cardiac monitoring for autonomic instability","cardiac monitoring for autonomic dysfunction","monitor for arrhythmias","monitor for arrhythmia","monitoring for arrhythmias","arrhythmia monitoring","monitor for arrythmias"] },
   { id:"ecgnow", kind:"ix", ix:"ecg", aliases:["ecg","12 lead ecg","12 lead"] },
   { id:"bladder", kind:"ix", ix:"bscan", aliases:["bladder scan","post void residual","pvr","bladder scans"] },
   { id:"fbal", kind:"rx", ord:true, aliases:["fluid balance","fluid chart","input output chart","stool chart","bowel chart","monitor bowels"] },
   /* 5.4 the people */
   { id:"neuro", kind:"team", aliases:["neurology","neuro","neurologist","neurologists","neurology team","neurology review","neuro review","neurology opinion","neuro opinion","d/w neurology","discuss with neurology","refer neurology","neurology referral","neuro reg","neuro spr","neurology registrar","urgent neurology"] },
-  { id:"icu", kind:"team", aliases:["icu","itu","critical care","critical care review","intensive care","intensive care review","intensivist","intensivists","intensivist review","hdu","outreach","outreach review","ccot","critical care outreach","anaesthetics","anaesthetist","anaesthetic review","anaesthetics review","airway review","itu reg","itu spr","icu reg","icu spr","d/w itu","itu review","icu review","refer itu","itu aware","icu aware","admit itu","admit icu","admit hdu","level 2 bed","level 3 bed"] },
+  { id:"icu", kind:"team", aliases:["icu","itu","critical care","critical care review","intensive care","intensive care review","intensivist","intensivists","intensivist review","hdu","outreach","outreach review","ccot","critical care outreach","anaesthetics","anaesthetist","anaesthetic review","anaesthetics review","airway review","itu reg","itu spr","icu reg","icu spr","d/w itu","itu review","icu review","refer itu","itu aware","icu aware","admit itu","admit icu","admit hdu","level 2 bed","level 3 bed","high dependency unit","high dependency","level 2 care","level 2","level 3 care","admit to hdu","admit to icu","admit to itu","admission to icu","admission to itu","admission to hdu"] },
   { id:"senior", kind:"team", aliases:["consultant","senior review","d/w consultant","consultant review","med reg","post take","ptwr"] },
   /* the other Refer teams, by their own names (5.4, last paragraph). KEPT */
   { id:"stroke", kind:"team", aliases:["stroke team","stroke team review","stroke nurse","stroke review"] },                 /* 5.10 rule 14 */
@@ -4084,7 +4084,7 @@ const PLAN_ITEMS = [
   { id:"preig", kind:"ix", ix:["ig","ue","fbc"], aliases:["check iga","iga level","iga before ivig","pre ivig bloods","immunoglobulin levels","serum immunoglobulins","check immunoglobulins","send immunoglobulins","ig levels"] },
   { id:"second", ref:true, kind:"note", ord:true, aliases:["second dose ivig","repeat ivig if no better","second course"] },
   /* 5.6 the rest of the bed */
-  { id:"vte", kind:"rx", aliases:["vte prophylaxis","vte proph","vte px","thromboprophylaxis","lmwh","heparin","sc heparin","s/c heparin","subcutaneous heparin","prophylactic heparin","enoxaparin","enoxaparin 40","clexane","dalteparin","dalteparin 5000","fragmin","tinzaparin","vte assessment","vte risk assessment","dvt prophylaxis","dvt proph"] },
+  { id:"vte", kind:"rx", aliases:["vte prophylaxis","vte proph","vte px","thromboprophylaxis","lmwh","heparin","sc heparin","s/c heparin","subcutaneous heparin","prophylactic heparin","enoxaparin","enoxaparin 40","clexane","dalteparin","dalteparin 5000","fragmin","tinzaparin","vte assessment","vte risk assessment","dvt prophylaxis","dvt proph","vte","vte prophy","vte ppx"] },
   { id:"teds", kind:"rx", ord:true, aliases:["teds","stockings","compression stockings","anti embolism stockings"] },
   { id:"ipc", kind:"rx", ord:true, aliases:["flowtrons","ipc","intermittent pneumatic compression","calf pumps"] },
   { id:"pain", kind:"rx", ord:true, aliases:["gabapentin","pregabalin","amitriptyline","paracetamol","analgesia"] },
@@ -4093,7 +4093,7 @@ const PLAN_ITEMS = [
   { id:"care", kind:"rx", ord:true, aliases:["pressure areas","pressure area care","air mattress","turns","eye care","lubricating eye drops","physio","physiotherapy","chest physio","neuro physio","neuro rehab","neurorehab","rehab referral","ot","catheter","catheterise","urinary catheter","iv fluids","maintenance fluids","cannula"] },
   { id:"esc", kind:"rx", ord:true, aliases:["for full escalation","full escalation","full active treatment","for resus","full code"] },
   { id:"comms", kind:"rx", ord:true, aliases:["inform gp","update gp","update nok","update family","update wife","inform family","speak to family"] },
-  { id:"holdmed", kind:"rx", ord:true, aliases:["hold ramipril","withhold ramipril","hold statin","hold sertraline","hold antihypertensives"] },
+  { id:"holdmed", kind:"rx", ord:true, aliases:["hold ramipril","withhold ramipril","hold statin","hold sertraline","hold antihypertensives","omit ramipril","stop ramipril","withhold antihypertensives","hold all other medications","hold all other medication","hold oral medications","hold oral medication"] },
   { id:"basal", kind:"rx", ord:true, aliases:["continue glargine","continue basal insulin","long acting insulin","lantus","glargine 22 units","continue insulin","usual insulin","insulin as usual"] },
   { id:"vrii", kind:"rx", ord:true, aliases:["vrii","variable rate insulin","sliding scale","insulin infusion"] },
   { id:"cbg", kind:"rx", aliases:["cbg qds","cbg hourly","bm qds","bms","capillary glucose 4 hourly","monitor glucose","monitor bms"] },
@@ -4210,7 +4210,11 @@ function judgeOne(raw){
    A slash is a separator: "GBS/AIDP" is one diagnosis said twice; "GBS/MG" is two. */
 function judgeDx(raw){
   const v = judgeOne(raw);
-  const parts = dxBase(raw).split(/\s+(?:or|vs\.?|versus)\s+|\s*\/\s*/i).map(s=>s.trim()).filter(Boolean);
+  /* audit 2026-11: what is denied is cut first, so "GBS, not cauda equina or stroke" is one diagnosis, not two: from a negator to
+     the end of its clause, and a clause that ends in a denial ("stroke unlikely") whole */
+  const undenied = dxBase(raw).split(/([,;:()\n.]|\s[-–—]+\s|[–—])/).map(p=>/[,;:()\n.–—]/.test(p) && p.length <= 3 ? p
+    : /\b(?:unlikely|less likely|excluded|ruled out|negative)\s*$/.test(p) ? " " : p.replace(/(?:^|\s)(?:not|nor|rather than|instead of|excluding|unlikely to be)\b.*$/, " ")).join("");
+  const parts = undenied.split(/\s+(?:or|vs\.?|versus)\s+|\s*\/\s*/i).map(s=>s.trim().replace(/^[\s,;:.()–—-]+|[\s,;:.()–—-]+$/g, "")).filter(Boolean);
   if(parts.length > 1){ const vs = parts.map(judgeOne); if(vs.some(Boolean) && vs.some(x=>!x)) return "two"; }
   return v;
 }
@@ -4285,6 +4289,7 @@ function pword(w){
     if(ABBR[x]) return ABBR[x].split(" ");
     let m;
     if((m = /^q(\d+)h(?:rly|ourly)?$/.exec(x)) || (m = /^(\d+)\/24$/.exec(x)) || (m = /^(\d+)°$/.exec(x))) return ["every", m[1], "hours"];
+    if((m = /^q(\d+)(?:min|mins|minutes|minutely|m)$/.exec(x))) return ["every", minHours(m[1]), "hours"];      /* audit 2026-11: "q15min" */
     if((m = /^(\d+)\/7$/.exec(x))) return [m[1], "days"];
     if((m = /^(\d+)\/52$/.exec(x))) return [m[1], "weeks"];
     x = x.replace(/([<>≦≧~])/g, " $1 ").replace(/(\d)-(?=\d)/g, "$1 to ").replace(/-/g, " ");
@@ -4302,6 +4307,11 @@ function pword(w){
 }
 const isNum = t => /^\d+(?:\.\d+)?$/.test(t);
 const HOURS = new Set(["hours","hour","hrs","hr","h"]), HOURLY = new Set(["hourly","hrly","hrsly","hourlies"]), NOT_EVERY = new Set(["in","over","for","after","within","x","at"]);
+/* audit 2026-11: minutes are a fraction of an hour ("every 15 minutes", "15 minutely", "q15min" -> every 0.25 hours) */
+const MINS = new Set(["min","mins","minute","minutes"]), MINUTELY = new Set(["minutely","minly"]);
+function minHours(n){ return String(Math.round(+n / 60 * 10000) / 10000); }
+/* an interval in words: every hour, every 15 minutes, every 4 hours */
+const everyWords = n => n === 1 ? "every hour" : n < 1 ? `every ${Math.round(n * 60)} minutes` : `every ${n} hours`;
 /* intervals written across words: "4 hourly", "4 to 6 hourly" (the longer end), "every 4 hrs", "2 hrs", "hourly", "in an hour" */
 function pmerge(T){
   const out = [], put = (arr, w) => arr.forEach(t=>out.push({ t, w }));
@@ -4310,6 +4320,8 @@ function pmerge(T){
     if(isNum(a.t) && b && b.t === "to" && c && isNum(c.t) && d && (HOURLY.has(d.t) || HOURS.has(d.t))){ put(["every", String(Math.max(+a.t, +c.t)), "hours"], a.w); i += 3; continue; }
     if(a.t === "every" && b && isNum(b.t) && c && HOURS.has(c.t)){ put(["every", b.t, "hours"], a.w); i += 2; continue; }
     if(a.t === "every" && b && b.t === "hour"){ put(["every", "1", "hours"], a.w); i += 1; continue; }
+    if(a.t === "every" && b && isNum(b.t) && c && MINS.has(c.t) && +b.t > 0){ put(["every", minHours(b.t), "hours"], a.w); i += 2; continue; }
+    if(isNum(a.t) && b && MINUTELY.has(b.t) && +a.t > 0){ put(["every", minHours(a.t), "hours"], a.w); i += 1; continue; }
     if(a.t === "in" && b && (b.t === "an" || b.t === "a" || isNum(b.t)) && c && HOURS.has(c.t)){ put(["in", isNum(b.t) ? b.t : "1", "hours"], a.w); i += 2; continue; }
     if(isNum(a.t) && b && HOURLY.has(b.t)){ put(["every", a.t, "hours"], a.w); i += 1; continue; }
     if(isNum(a.t) && b && (b.t === "hr" || b.t === "hrs" || b.t === "h") && !NOT_EVERY.has(prev)){ put(["every", a.t, "hours"], a.w); i += 1; continue; }
@@ -4343,7 +4355,7 @@ const PLAN_FILLER = new Set(("a an the of to in on at by for from with without i
   "sats spo2 news news2 rr hr bp temp gcs pulse obs normal stable fine ok better worse mobile tiring agitated hypotensive improving improvement response delay possible available tolerated " +
   "followed before after once when until pending await awaiting unless should prn needs need needed required requires remain remains keep kept through throughout during ongoing started commenced " +
   "consider considered re bed ward mane only just still first next both either each any all some more further again back up down out off here there well very early elective yes present currently " +
-  "declined refused rejected cancelled reason miss cannot hold must bloods tests investigations avoided withheld omitted stopped yet vs versus alternatively liaise speak talk input informed told involved called requested made needs probably neither nor rather instead avoiding indication necessary appropriate " +
+  "declined refused rejected cancelled admission refferal referal reason miss cannot hold must bloods tests investigations avoided withheld omitted stopped yet vs versus alternatively liaise speak talk input informed told involved called requested made needs probably neither nor rather instead avoiding indication necessary appropriate " +
   "every wait waiting delay dont cant wont hasnt isnt whilst while meanwhile avoid omit withhold never nil hold role indicated contraindicated unnecessary stop " +
   /* his diagnosis and its description, in the player's own words */
   "ascending weakness weak areflexia areflexic paralysis polyneuropathy neuropathy polyradiculoneuropathy demyelinating acute inflammatory variant miller fisher severe progressive flaccid symmetrical bilateral limb limbs facial " +
@@ -4393,9 +4405,9 @@ function planHits(s){
   return hits.sort((p, q)=>p.start - q.start);
 }
 /* before the item, in its clause */
-const NEG_RE = /(?:^|\s)(no|not|not for|avoid|avoiding|do not|dont|hold off|withhold|omit|without|nil|never|neither|rather than|instead of|no role for|no need for|no indication for|contraindicated|x)\s+(?:(?:for|a|an|the|any|to|give|start|role|need|fit|indication)\s+){0,2}$/;
+const NEG_RE = /(?:^|\s)(no|not|not for|avoid|avoiding|do not|dont|hold off|withhold|omit|without|nil|never|neither|rather than|instead of|no role for|no need for|no indication for|contraindicated|x)\s+(?:(?:for|a|an|the|any|to|give|start|role|need|fit|indication|refer|consult|involve|contact|call|bleep|discuss|with|ask)\s+){0,2}$/;      /* round 3: "Do not refer to neurology" refuses the referral */
 /* after the item, in its clause; a noun that belongs to the item may stand between ("steroid card not needed", "TTOs not yet") */
-const POSTNEG_RE = /^\s*(?:(?!not\b|and\b|or\b|then\b|if\b|unless\b|when\b|once\b|until\b|after\b|before\b)[a-z]+\s+){0,2}?(?:is |are |was |were |to be |should be )?(?:avoided|withheld|omitted|held|stopped|not indicated|not needed|not required|not necessary|not given|not for now|not yet|not appropriate|contraindicated|unnecessary|declined|refused|rejected|cancelled|considered and rejected)\b/;
+const POSTNEG_RE = /^\s*(?:(?!not\b|and\b|or\b|then\b|if\b|unless\b|when\b|once\b|until\b|after\b|before\b)[a-z]+\s+){0,2}?(?:is |are |was |were |to be |should be )?(?:avoided|withheld|omitted|held|stopped|not indicated|not needed|not required|not necessary|not given|not for now|not yet|not appropriate|contraindicated|unnecessary|declined|refused|rejected|cancelled|considered and rejected|no role|not effective|ineffective|of no benefit|no benefit|not beneficial|not recommended)\b/;
 /* Fix round 18 (owner, 2026-10-13): a sentence that says sending him home would be unsafe refuses the discharge. These forms
    stand on the discharge item only (`home`), never on another item, and are never carried to a neighbour (5.11, Principle 1).
    A negative in front of one ("not unsafe to", "no longer too weak to") is two negatives, and the item is read as written. */
@@ -4404,7 +4416,7 @@ const HOME_UNSAFE_RE = new RegExp("(?:^| )" + HOME_UNSAFE + " +(?:(?:be|go|get|s
 /* the same forms on the bare word, where no alias was written: "unsafe to discharge", "not fit to go home" */
 const HOME_UNSAFE_BARE_RE = new RegExp("(?:^| )" + HOME_UNSAFE + " (?:(?:be|go|get|send|let|him|to) ){0,4}(discharged?|home)(?= )");
 /* "Steroids: no.", "Steroids - not for." */
-const POSTNO_RE = /^\s*(?:no|not for|nil|none)\s*(?=,|$)/;      /* only when the "no" ends the clause: a comma or the end of the sentence follows */
+const POSTNO_RE = /^\s*(?:no role|no|not for|nil|none)\s*(?=,|$)/;      /* only when the "no" ends the clause: a comma or the end of the sentence follows */
 /* two negatives are an order: "do not withhold IVIg", "don't delay IVIg", "do not stop the FVCs" */
 const DOUBLE_NEG_RE = /\b(?:(?:do not|dont|never|not|no need to)\s+(?:withhold|delay|stop|omit|hold off|avoid|hold)|no reason not to|no reason to withhold|never without|not without|must not miss|cannot do without|cant do without)\s+(?:(?:give|start|the|a|an)\s+)*$/;
 const DOUBLE_POST_RE = /^\s*(?:should|must|is|are|can)?\s*(?:not|never) (?:be )?(?:withheld|omitted|stopped|delayed|missed|held)\b/;
@@ -4416,8 +4428,8 @@ const HOLD_WAITS_RE = /\b(?:until|till|pending|awaiting|once|after|for)\b.*\b(?:
 const DISCRETION_RE = /\b(?:prn|as required|as needed|if needed|if required|if agitated|if distressed|if anxious|for agitation|for sleep|nocte|at night|for the scanner|for mri|if he cant lie still|if he cannot lie still)\b/;
 const PRN_SAY_RE = /\b(?:prn|as required|as needed|if needed|if required|if agitated|if distressed|if anxious|for agitation|if he cant lie still|if he cannot lie still)\b/;
 const COND_WORDS = ["in the event", "in case", "should he", "should she", "should it", "should his", "should the", "if", "once", "when", "unless", "after", "prn"];      /* "should" alone is not a condition: "ITU should be informed" (rule 18) */
-const HEDGE_PRE = ["for consideration of", "low threshold for", "likely to need", "probably needs", "probably need", "discuss whether", "might need", "may require", "think about", "may need", "will need", "consider", "?"];
-const HEDGE_POST = ["in due course", "at some point", "eventually"];
+const HEDGE_PRE = ["for consideration of", "consideration of", "for consideration", "considering", "low threshold for", "likely to need", "probably needs", "probably need", "discuss whether", "might need", "may require", "think about", "may need", "will need", "consider", "?"];
+const HEDGE_POST = ["for consideration", "in due course", "at some point", "eventually"];
 const SWITCH_RE = /\b(?:if|when|should)\b.{0,12}\b(no response|no better|no improvement|not improving|not improved|fails|failure|no benefit|unresponsive|not responding)/;
 const CHOICE_RE = /\b(?:if|when|where)\b.{0,12}\b(unavailable|not available|contraindicated|iga)/;
 const NOWAIT_RE = /\b(dont|do not|no need to|not|never|without|wont)\s+(wait|await|delay|hold up|hold)\b/;
@@ -4455,6 +4467,12 @@ function readTrigger(clause, raw, vcSentence){
   const vc = tests.length > 0 && (hasVcWord || vcSentence || !other);
   return { text:raw, vc, pts: vc ? line : 1, test: (v, first) => vc && tests.some(f=>f(v, first === undefined ? null : first)) };
 }
+/* audit 2026-11: a refusal of his own tablets holds every one named in its list ("stop ramipril and sertraline", "no ramipril",
+   "omit his statin"): each is written back as the hold the vocabulary reads. Insulin is never held this way. A negative before the
+   verb ("do not stop ramipril") leaves the sentence as written, so the reader's own negation reads it: not held. */
+const HELD_RE = /\b(hold|withhold|stop|omit|no)\s+(?:his\s+|the\s+)?((?:ramipril|sertraline|atorvastatin|simvastatin|statins?|antihypertensives?|blood pressure tablets?)(?:\s*(?:,|\band\b|&|\+|\/|\bor\b)\s*(?:his\s+|the\s+)?(?:ramipril|sertraline|atorvastatin|simvastatin|statins?|antihypertensives?|blood pressure tablets?))*)\b/gi;
+const heldName = d => /statin/i.test(d) ? "statin" : /antihypertensive|blood pressure/i.test(d) ? "antihypertensives" : d.toLowerCase();
+function heldList(raw){ return String(raw).replace(HELD_RE, (m, v, list, at, all)=>/\b(?:do not|dont|don['’]t|never|not|no need to)\s*$/i.test(all.slice(0, at)) ? m : list.split(/\s*(?:,|\band\b|&|\+|\/|\bor\b)\s*/i).map(d=>d.replace(/^(?:his|the)\s+/i, "").trim()).filter(Boolean).map(d=>"hold " + heldName(d)).join(", ")); }
 /* parsePlan(text) -> what the text asks for; nothing is enacted here */
 function parsePlan(text){
   const P = { rx:new Map(), ix:[], teams:[], dangers:{}, queries:[], notes:[], noted:[], notRead:[], neg:[], nurse:null, hold:null, unhold:false,
@@ -4480,7 +4498,8 @@ function parsePlan(text){
   let lastTrt = null, prevVc = false;                                       /* was the FVC ordered or named in the sentence before? (rule 1) */                                                       /* the treatment named in an earlier sentence: rule 3 reads across the full stop */
   let underHead = null, headSi = null, headKind = null;      /* headKind: "ceil" a pure ceiling heading, "both" ("Not for:"), "avoid" */                                                   /* "Avoid:" alone on its line: the heading the lines beneath it stand under */
   const ORDER_VERB = new Set(["start","give","commence","continue","send","refer","call","book"]);
-  sentences.forEach((rawS, si)=>{
+  sentences.forEach((rawS0, si)=>{
+    const rawS = heldList(rawS0);
     const words = rawS.replace(/,/g, " , ").split(/\s+/).filter(Boolean);
     const T = psoften(ptoks(rawS));
     if(!T.length) return;
@@ -4495,6 +4514,8 @@ function parsePlan(text){
        quoted between them, and an item standing alone between two of them is an item (round 9 of the fixes: "… - monitor - …") */
     const softs = []; T.forEach((x, i)=>{ if(!i) return; const a = T[i - 1].w, b = x.w; if(b === a) return; if(/^[+&]$/.test(words[b] || "")){ softs.push(off[i] - 1); return; } if(/:$/.test(words[a] || "")) { softs.push(off[i] - 1); return; } for(let w = a + 1; w < b; w++) if(/^(?:[-–—]+|\+)$/.test(words[w])){ softs.push(off[i] - 1); return; } });
     const segEnds = [...commas, ...softs, s.length].sort((a, b)=>a - b);
+    /* audit 2026-11: a spaced dash or a bracket ends a clause for the written trigger (see the trigger, below) */
+    const closers = []; T.forEach((x, i)=>{ if(!i) return; const a = T[i - 1].w, b = x.w; if(b === a) return; if(/\)$/.test(words[a] || "") || /^\(/.test(words[b] || "")){ closers.push(off[i] - 1); return; } for(let w = a + 1; w < b; w++) if(/^[-–—]+$/.test(words[w])){ closers.push(off[i] - 1); return; } });
     const used = new Array(T.length).fill(false);                           /* tokens that were read: matched, or consumed by a rule */
     const useSpan = (a, b) => { for(let i = 0; i < T.length; i++) if(off[i] >= a && off[i] < b) used[i] = true; };
     const rawSpan = (a, b) => { const ws = []; for(let i = 0; i < T.length; i++) if(off[i] >= a && off[i] < b && T[i].t !== "," && !ws.includes(T[i].w)) ws.push(T[i].w); return ws.map(w=>words[w]).join(" ").replace(/^[(\s]+|[\s.,;:)]+$/g, ""); };
@@ -4674,6 +4695,20 @@ function parsePlan(text){
       conds.forEach(cd=>{
         const beforeIt = inC.filter(h=>h.end <= cd.at), tail = s.slice(cd.at, c), tailRaw = rawSpan(cd.at, c);
         useSpan(cd.at, c);
+        /* audit 2026-11. What stands before the condition word is checked before the condition is handed out:
+           (a) a measurement before a treatment-named tail is the measuring carried on through treatment, and orders no treatment:
+               "Keep measuring FVC after IVIG" (fvccont), "Stop FVCs once IVIG started" (still the stop: fvcStops);
+           (b) heparin "after the LP" is heparin timed after the puncture, not heparin withheld;
+           (c) a standing measurement with its own interval, then "if" and a vital-capacity threshold, closes at "if": the
+               measurement is an order and the tail is the written trigger ("Spirometry every 1hr if <20ml/kg will need ICU"). */
+        const lastB = beforeIt[beforeIt.length - 1], tailHits = inC.filter(h=>h.start >= cd.at);
+        if(lastB && lastB.kind === "fvc" && /^(?:after|once|when)$/.test(cd.w) && (tailHits.some(h=>h.id === "ivig" || h.id === "plex") || /\b(?:treatment|immunotherapy|therapy)\b/.test(tail))){
+          lastB.trtTail = true; tailHits.forEach(h=>{ if(h.id === "ivig" || h.id === "plex") h.skip = true; else h.content = true; }); return; }
+        if(lastB && lastB.id === "vte" && /^(?:after|once|when)$/.test(cd.w) && /^\s*(?:after|once|when)\s+(?:the\s+|his\s+|a\s+)?(?:lp|lumbar puncture)(?:\s+(?:is|has|has been|been|was))?(?:\s+(?:done|performed|complete|completed|taken|sent))?\s*$/.test(tail)){
+          P.hepAfter = true; tailHits.forEach(h=>{ h.content = true; }); return; }
+        if(lastB && lastB.kind === "fvc" && cd.w === "if" && (intervalOf(s.slice(a0, cd.at)) !== null || /\b(?:regular|serial|repeat|monitor|monitoring)\b/.test(s.slice(a0, cd.at)))
+          && !OTHER_SUBJECT.test(tail.replace(/\b(?:icu|itu|hdu|critical care|intensive care|outreach)\b/g, " ")) && readTrigger(tail, "", true).vc){
+          tailHits.forEach(h=>{ if(h.id === "icu" && !h.neg){ h.cond = { at:cd.at, tail, raw:tailRaw }; h.closeAt = cd.at; } else h.content = true; }); return; }
         if(!beforeIt.length){ inC.forEach(h=>{ if(!h.cond) h.cond = { at:cd.at, tail, raw:tailRaw, lead:true }; }); if(!inC.some(h=>h.kind === "team" || h.id === "ivig" || h.id === "plex")) carry = { at:cd.at, tail, raw:tailRaw, lead:true, clause:s.slice(a0, c), rawClause:rawSpan(a0, c) }; return; }
         /* the item it follows, and anything joined to that by "and" or a slash; nothing before a comma */
         let k = beforeIt.length - 1; beforeIt[k].cond = beforeIt[k].cond || { at:cd.at, tail, raw:tailRaw };
@@ -4698,6 +4733,14 @@ function parsePlan(text){
       if(!waits) h.trigger = true; } });
     if(!real.some(h=>h.trigger)){ const i = s.search(/\bescalat/); if(i >= 0){ const cds = find(COND_WORDS, cStart(i), cEnd(i)); if(cds.length){ const h = { id:"icu", kind:"team", trigger:true, start:i, end:i, ca:cStart(i), cb:cEnd(i), clause:s.slice(cStart(i), cEnd(i)), rawClause:rawSpan(cStart(i), cEnd(i)) || rawS, before:"", after:"", cond:{ at:cds[0].at, tail:s.slice(cds[0].at, cEnd(i)), raw:rawSpan(cds[0].at, cEnd(i)) } }; real.push(h); useSpan(h.ca, h.cb); } } }
     real.filter(h=>h.trigger).forEach(h=>{
+      /* audit 2026-11: the trigger's clause starts after a standing measurement written before it in the same clause, at a
+         spaced dash or a bracket, or after the measurement's own interval ("FVC 4 hourly – ICU if <20 ml/kg"), so the
+         measurement stays an order; closed at "if" above, the trigger is its tail alone */
+      if(h.closeAt !== undefined){ h.ca = h.closeAt; h.rawClause = rawSpan(h.ca, h.cb) || h.rawClause; }
+      else if(!h.cond.carried){ const fvB = real.filter(o=>o.kind === "fvc" && !o.neg && o.ca === h.ca && o.end <= h.start);
+        if(fvB.length){ const lf = fvB[fvB.length - 1], bnd = closers.filter(x=>x >= lf.end && x < h.start).pop();
+          if(bnd !== undefined || intervalOf(s.slice(lf.start, h.start)) !== null){ h.ca = bnd !== undefined ? bnd + 1 : h.start; h.rawClause = rawSpan(h.ca, h.cb) || h.rawClause;
+            fvB.forEach(o=>{ if(o.cond && o.cond.at === h.cond.at) o.cond = null; }); } } }
       trigClauses.add(h.ca); useSpan(h.ca, h.cb);
       const condText = h.cond.carried ? h.cond.clause : h.cond.tail, raw = h.cond.carried ? `${h.cond.rawClause}, ${h.rawClause}` : h.rawClause;
       if(h.cond.carried) trigClauses.add(cStart(h.cond.at));
@@ -4716,21 +4759,38 @@ function parsePlan(text){
       const body = parts.join(" , ");
       const n = intervalOf(body);
       const serial = fv.some(h=>h.id === "fvcrep" || /\b(serial|regular|repeat|repeated|monitor|monitoring|trend|chart)\b/.test(h.alias + " " + h.before + " " + h.after));
-      const stops = /\b(until|till) (the )?(ivig|treatment|immunoglobulin|plex|plasma exchange)( is| has)?( been)? (started|given|commenced|up)\b|\bx ?1\b|\bonce only\b|\bpre ?treatment only\b|\bstop (the )?(fvc|spirometry)\b/.test(s);
+      /* audit 2026-11, second round: "stop" may stand without its object ("FVC 4 hourly, stop once IVIG started"); a stop
+         written with no interval of its own ("Stop FVCs once IVIG started", "Stop FVC monitoring after IVIG") orders nothing:
+         it sets the stop on whatever standing order the plan carries, and takes no reading */
+      const TRT_W = "(?:the )?(?:ivig|treatment|immunoglobulins?|immunotherapy|plex|plasma exchange)";
+      const STOP_TRT = new RegExp("\\bstop\\w*(?: (?:the|them|it|these|measuring|monitoring|readings?|fvcs?|spirometry|vital|capacity))* (?:once|when|after|at|on) " + TRT_W + "\\b");
+      const negStop = /\b(?:dont|do not|never|not|no need to)\s+stop\b/.test(s);      /* "Do not stop FVCs once IVIG started" is the measuring carried on */
+      const stopVerb = !negStop && (/\bstop\w* (the )?(fvcs?|spirometry|vital capacity)\b/.test(s) || STOP_TRT.test(s));
+      /* round 4: a refusal of the continuation is a stop, with or without the word FVC ("FVC 4 hourly, no need to carry on once
+         IVIG running", "don't carry on once IVIG running", "no need to continue FVC once IVIG running"): the refusal must reach
+         the treatment ("once / when / after / during / while … IVIG") or close its clause, so "do not keep him NBM" is not one */
+      const NEG_CONT_STOP = new RegExp("\\b(?:dont|do not|not|never|no need to|no)\\s+(?:continu\\w*|keep\\w*|carry(?:ing)? on)(?: (?:the|them|it|these|with|measuring|monitoring|readings?|fvcs?|spirometry|vital|capacity|going|up))*(?:\\s*$|\\s*,| (?:once|when|after|at|on|during|while|through|throughout) " + TRT_W + "\\b)");
+      const negContStop = !negStop && NEG_CONT_STOP.test(s);
+      const stops = stopVerb || negContStop || /\b(until|till) (the )?(ivig|treatment|immunoglobulin|plex|plasma exchange)( is| has)?( been)? (started|given|commenced|up)\b|\bx ?1\b|\bonce only\b|\bpre ?treatment only\b/.test(s);
+      const stopOnly = (stopVerb || negContStop) && n === null;      /* round 4: "Do not continue FVC during IVIG" reads as "Stop FVCs once IVIG started" */
       const inN = / in (\d+(?:\.\d+)?) hours /.exec(" " + body + " "), atT = / at (\d{1,2}):(\d\d) /.exec(" " + body + " ");
       const again = n === null && !stops && (fv.some(h=>h.id === "fvcagain") || (inN && /\b(repeat|recheck|again)\b/.test(body)));
-      const rep = !again && (n !== null || serial || stops);
-      const cont = fv.some(h=>h.id === "fvccont") || (rep && !stops && /\bcontinu\w* (through|throughout|during|after|and after)\b|\bthrough(out)? (and after )?(the )?(treatment|ivig|course)\b|\bafter (treatment|ivig)\b|\buntil improving\b|\bkeep measuring\b|\bongoing\b/.test(s));
+      const rep = !again && !stopOnly && (n !== null || serial || stops || negStop);      /* round 3: "Do not stop FVC" is the standing order kept, as on the old site */
+      const contTrt = new RegExp("\\b(?:continu\\w*|keep\\w*|carry(?:ing)? on)\\b.*\\b(?:during|through|throughout|after) " + TRT_W + "\\b").test(s);      /* "Continue FVC during IVIG" */
+      const negCont = /\b(?:dont|do not|not|never|no need to|no)\s+(?:continu\w*|keep\w*|carry(?:ing)? on)\b/.test(s);      /* round 3: "Do not continue FVC during IVIG" is no continuation */
+      const cont = !negCont && (fv.some(h=>h.id === "fvccont") || (!stops && fv.some(h=>h.trtTail)) || (!stops && (contTrt || (negStop && new RegExp("\\b(?:once|when|after|during|through|throughout) " + TRT_W + "\\b").test(s)))) || (rep && !stops && /\bcontinu\w* (through|throughout|during|after|and after)\b|\bthrough(out)? (and after )?(the )?(treatment|ivig|course)\b|\bafter (treatment|ivig)\b|\buntil improving\b|\bkeep measuring\b|\bcarry(?:ing)? on\b|\bongoing\b/.test(s)));
       const mention = h => VALUE_RE.test(h.after) && !/^\s*every\b/.test(h.after);
-      const now = !again && (fv.some(h=>/\b(now|check|measure|baseline|stat)\b/.test(h.alias + " " + h.clause) && !mention(h)) || (!rep && !cont && fv.some(h=>!mention(h))));
+      const now = !again && !stopOnly && (fv.some(h=>/\b(now|check|measure|baseline|stat)\b/.test(h.alias + " " + h.clause) && !mention(h)) || (!rep && (!cont || !fv.some(h=>h.id === "fvccont")) && fv.some(h=>!mention(h))));      /* round 3: "Continue FVC during IVIG" still takes the reading "Continue FVC" takes, as on the old site; the continuation item itself ("Keep measuring FVC") takes none */
       if(again) P.again = inN ? { inMin:+inN[1] * 60, raw:rawS } : atT ? { clock:+atT[1] * 60 + +atT[2], raw:rawS } : { inMin:60, raw:rawS };
-      if(now || rep || cont) P.fvc = P.fvc || { now:false, rep:false, n:null, cont:false, stops:false, text:"" };
+      if(now || rep || cont || stopOnly) P.fvc = P.fvc || { now:false, rep:false, n:null, cont:false, stops:false, text:"" };
+      if(stopOnly) P.fvc.stops = true;
       if(now) P.fvc.now = true;
-      if(rep){ P.fvc.rep = true; P.fvc.stops = stops; if(n !== null) P.fvc.n = n; P.fvc.text = rawS; }
+      if(rep){ P.fvc.rep = true; P.fvc.stops = P.fvc.stops || stops; if(n !== null) P.fvc.n = n; P.fvc.text = rawS; }      /* audit 2026-11: a stop written in one sentence is not undone by an interval in the next */
       if(cont) P.fvc.cont = true;
       if(stops) fv.forEach(h=>{ real.forEach(o=>{ if((o.id === "ivig" || o.id === "plex") && o.ca === h.ca) o.skip = true; }); });      /* "until IVIg started" names no order */
+      if(stops) real.forEach(o=>{ if((o.id === "ivig" || o.id === "plex") && (STOP_TRT.test(s.slice(o.ca, o.cb)) || NEG_CONT_STOP.test(s.slice(o.ca, o.cb)) || /\b(?:until|till)\s*(?:the\s*)?$/.test(s.slice(o.ca, o.start)))){ o.skip = true; o.cond = null; useSpan(o.ca, o.cb); } });      /* "…, stop once IVIG started" in its own clause */
       real.forEach(o=>{ if((o.id === "ivig" || o.id === "plex") && /\b(?:after|through|throughout|during)(?: the)?\s*$/.test(s.slice(o.ca, o.start))){ o.skip = true; useSpan(o.ca, o.cb); } });      /* "continue during and after IVIg" names no order either */
-      if(again || rep || cont){ let a2 = 1; segEnds.forEach(c=>{ const inC = real.filter(h=>h.start >= a2 && h.end <= c); /* a clause with no item in it is the order's own qualifier ("continue through treatment") only if it reads as one; an unread word in it keeps its place on the not-read line */
+      if(again || rep || cont || stopOnly){ let a2 = 1; segEnds.forEach(c=>{ const inC = real.filter(h=>h.start >= a2 && h.end <= c); /* a clause with no item in it is the order's own qualifier ("continue through treatment") only if it reads as one; an unread word in it keeps its place on the not-read line */
         const plainWords = s.slice(a2, c).trim().split(" ").filter(Boolean).every(w=>PLAN_FILLER.has(w) || isNum(w) || /^[<>=%?\/:.\d]+$/.test(w)) || /\b(?:continu\w*|through|throughout|treatment|ongoing|chart\w*|trend\w*|reading\w*|measur\w*|serial|regular|baseline)\b/.test(s.slice(a2, c));
         if(inC.some(h=>h.kind === "fvc") || (!inC.length && plainWords)) useSpan(a2, c); a2 = c + 1; }); }
     }
@@ -5024,7 +5084,7 @@ function nextQuery(P){
   if(q === "heplp") return ask("heplp", { lp: ()=>{ P.hepAfter = true; }, hep: ()=>{ P.lpLater = true; P.ix = P.ix.filter(i=>i !== "lp"); } });
   if(q === undefined && !P.heplpDone){
     P.heplpDone = true;
-    if(P.rx.has("vte") && P.ix.includes("lp") && !LEDGER.has("lp")){ P.queries.push("heplp"); return nextQuery(P); }
+    if(P.rx.has("vte") && P.ix.includes("lp") && !LEDGER.has("lp") && !P.hepAfter){ P.queries.push("heplp"); return nextQuery(P); }
   }
   if(q === undefined && P.lateOral){                 /* "By mouth" to the pharmacist is still an order to feed him: the nurse rings */
     P.lateOral = false;
@@ -5052,11 +5112,11 @@ function enactPlan(P){
     let t = R.t;
     if(v.fixed) t = id === "regmeds" ? (v.one ? R.tOne.replace("{d}", escHTML(v.one)) : R.t).replace("{w}", v.fixed) : v.fixed;
     else if(id === "vte") t = (/\b(enoxaparin|clexane|dalteparin|fragmin|tinzaparin)\b/i.test(v.raw) ? escHTML(v.raw) : R.tNo) + (P.hepAfter ? ", four hours after the lumbar puncture" : "") + R.tail;
-    else if(id === "obsfreq") t = v.n ? R.t.replace("every {n} hours", v.n === 1 ? "every hour" : `every ${v.n} hours`) : R.tNo;
-    else if(id === "cbg") t = v.n ? R.t.replace("every {n} hours", v.n === 1 ? "every hour" : `every ${v.n} hours`) : R.tNo;
+    else if(id === "obsfreq") t = v.n ? R.t.replace("every {n} hours", everyWords(v.n)) : R.tNo;
+    else if(id === "cbg") t = v.n ? R.t.replace("every {n} hours", everyWords(v.n)) : R.tNo;
     else if(id === "antiplt") t = (v.oral && P.given.oral ? R.tOral : R.t).replace("{w}", escHTML(cap(v.raw)));
     else if(id === "comms") t = [...new Set(v.each.map(e=>/\bgp\b/.test(e.alias) ? L.comms.gp : L.comms.family))].join(" · ");
-    else if(id === "holdmed") t = v.each.map(e=>R.t.replace("{w}", cap(e.alias.replace(/^(?:with)?hold /, "")))).join(" · ");
+    else if(id === "holdmed") t = v.each.map(e=>R.t.replace("{w}", cap(e.alias.replace(/^(?:(?:with)?hold|omit|stop) (?:all )?/, "")))).join(" · ");
     else if(id === "care") t = [...new Set(v.each.map(e=>/rehab/.test(e.alias) ? L.care.rehab : escHTML(cap(e.raw || ""))))].join(" · ");
     /* fix round 17 (proof pass 10): each analgesic in its own words, as `care` is; the line showed the first clause only and
        a second drug left no trace. An amendment adds what the line does not already say */
@@ -5086,7 +5146,11 @@ function enactPlan(P){
       if(n !== null || S.fvcrepN === null) S.fvcrepN = n;
       if(S.fvcrepAt === null) S.fvcrepAt = at;
       V.fvcrepText = P.fvc.text; S.flags.fvcStops = !!P.fvc.stops;
-      put("fvcrep", (S.fvcrepN ? (S.fvcrepN === 1 ? "FVC every hour, charted" : R.t.replace("{n}", S.fvcrepN)) : R.tNo) + (P.fvc.stops ? R.tStop : ""));
+      put("fvcrep", (S.fvcrepN ? (S.fvcrepN === 1 ? "FVC every hour, charted" : R.t.replace("every {n} hours", everyWords(S.fvcrepN))) : R.tNo) + (P.fvc.stops ? R.tStop : ""));
+    }
+    else if(P.fvc.stops){      /* a stop written on its own: no standing order and no reading; it stops the one already charted */
+      S.flags.fvcStops = true;
+      if(S.rx.has("fvcrep")){ const R = RX_BY_ID.fvcrep; put("fvcrep", (S.fvcrepN ? (S.fvcrepN === 1 ? "FVC every hour, charted" : R.t.replace("every {n} hours", everyWords(S.fvcrepN))) : R.tNo) + R.tStop); }
     }
     if(P.fvc.cont){ put("fvccont"); if(S.rx.has("fvcrep") && !P.fvc.stops) S.flags.fvcStops = false; }
   }
@@ -5176,20 +5240,27 @@ $("#planForm").addEventListener("submit", e=>{ e.preventDefault(); submitPlan();
 /* ---------- the standard's panel (05-marking.md 2.0): seven rows, a tick or a cross, no points ---------- */
 function chartFacts(){
   const R = fvcReadings(), has = id => S.rx.has(id);
-  return { R, has, fvc:R.length > 0, again:R.length > 1 && R.some(r=>r.at - R[0].at >= 60), icu:has("icu"), neuro:has("neuro"),
+  /* audit 2026-11: a reading that fell due under the standing order while play was open was taken by the nurses (1a, the panel's
+     first row): the order's interval from the time it was written, up to the close, an hour or more after the first reading */
+  const endT = S.closeAt === null ? S.clock : S.closeAt, nM = has("fvcrep") && S.fvcrepN ? S.fvcrepN * 60 : 0;
+  let dueAt = null; if(R.length && nM && S.fvcrepAt !== null) for(let t = S.fvcrepAt + nM; t <= endT + 1e-9; t += nM) if(t - R[0].at >= 60){ dueAt = t; break; }
+  const dueAgain = dueAt !== null && !(R.length > 1 && R.some(r=>r.at - R[0].at >= 60));
+  return { R, has, fvc:R.length > 0, again:(R.length > 1 && R.some(r=>r.at - R[0].at >= 60)) || dueAgain, dueAt:dueAgain ? dueAt : null, icu:has("icu"), neuro:has("neuro"),
     imm:has("ivig") || has("plex") || has("either"), hold:has("hold"), combo:S.given.has("combo"), fed:S.given.has("oral"),
-    watched:has("fvcrep") && !S.flags.fvcStops };
+    watched:has("fvcrep") && !S.flags.fvcStops, stated:has("fvcrep") && S.fvcrepN !== null && S.fvcrepN <= 4 };
 }
 function judgePanel(){
   const f = chartFacts(), h = f.has;
-  return [ f.fvc && (f.again || h("fvcrep") || f.icu),
-    !f.fed && (h("nbm") || h("ngt") || h("slt") || f.icu),      /* a failed swallow screen alone is a cross (05-marking.md 2.0, round 3) */
+  /* audit 2026-11: each row ticks only on what the score's own rows credit in full (05-marking.md 2.0): a standing order at a
+     stated interval of four hours or less, and nothing by mouth (a speech and language referral is its own score row) */
+  return [ f.fvc && (f.again || f.stated || f.icu),
+    !f.fed && (h("nbm") || h("ngt") || f.icu),      /* a failed swallow screen alone is a cross (05-marking.md 2.0, round 3) */
     h("monitor") || f.icu, f.neuro && f.icu, f.imm && !f.hold && !f.combo, h("vte") || f.icu, h("fvccont") || f.watched || f.icu ];
 }
 /* covered, but only because critical care took the bed over: nothing the player wrote covers it (05-marking.md 2.0) */
 function panelVia(){
   const f = chartFacts(), h = f.has, ok = judgePanel();
-  return [ ok[0] && !(f.again || h("fvcrep")), ok[1] && !(h("nbm") || h("ngt") || h("slt")), ok[2] && !h("monitor"), false, false, ok[5] && !h("vte"), ok[6] && !(h("fvccont") || f.watched) ];
+  return [ ok[0] && !(f.again || f.stated), ok[1] && !(h("nbm") || h("ngt")), ok[2] && !h("monitor"), false, false, ok[5] && !h("vte"), ok[6] && !(h("fvccont") || f.watched) ];
 }
 function panelWhy(k, f){
   const D = CASE.domains[k - 1];
@@ -5595,7 +5666,7 @@ function judgeLOs(Q){
   /* 1 */
   { let v, t;
     const more = S.rx.has("fvcagain") && S.againAt !== null ? ` You asked for one more at ${T(S.againAt)}; one further reading is not a standing order.` : "";
-    if(preFvc.length && f.again){ v = "hit"; const b = R.find(r=>r.at - R[0].at >= 60);
+    if(preFvc.length && f.again){ v = "hit"; const b = R.find(r=>r.at - R[0].at >= 60) || { at:f.dueAt, v:fvcAt(tOf(f.dueAt)) };      /* audit 2026-11: or the reading the standing order brought */
       t = `You measured his vital capacity at ${T(R[0].at)}: ${R[0].v.toFixed(2)} L, and again at ${T(b.at)}: ${b.v.toFixed(2)} L. His NEWS2 would not have told you: the vital capacity changes first, and saturation, respiratory rate and the gas change late.`;
       const low = R.find(r=>r.v < 1.6 - 1e-9);
       if(R[0].v >= 1.6 - 1e-9 && low) t += ` The first was above 1.6 L and the reading at ${T(low.at)} was under it. 1.6 L is 20 mL/kg for him, the figure the guideline acts on.`; }
@@ -5672,7 +5743,7 @@ function judgeLOs(Q){
     else if(S.over && !S.planCount){ v = "miss"; t = "No plan was written before the emergency call."; }
     else if(S.rx.has("fvccont") || (f.watched && f.imm)){ v = "hit"; t = "The measuring did not stop when the treatment started. Nothing given on the day changes his vital capacity, and about four in ten patients are no better four weeks after treatment."; }
     else if(rep && S.flags.fvcStops){ v = "part"; t = "You wrote the readings to stop once treatment started. Treatment does not change the vital capacity the same day."; }
-    else if(rep){ v = "part"; t = `You had him measured ${S.fvcrepN ? (S.fvcrepN === 1 ? "every hour" : `every ${S.fvcrepN} hours`) : "at intervals"} and named no treatment for the measuring to continue through.`; }
+    else if(rep){ v = "part"; t = `You had him measured ${S.fvcrepN ? everyWords(S.fvcrepN) : "at intervals"} and named no treatment for the measuring to continue through.`; }
     else if(f.icu){ v = "part"; t = "You wrote no standing order for his vital capacity. The unit measured it every two hours; that was their order, not yours."; }
     else { v = "miss"; t = "Nothing in your plan had anyone measure his breathing again."; }
     out.push([v, t]); }

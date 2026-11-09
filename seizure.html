@@ -864,7 +864,7 @@ Bloods
 
     <!-- ===================== COMMIT ===================== -->
     <section class="screen" id="s-commit">
-      <div class="kicker" id="commitKicker">Question 1 of 2</div>
+      <div class="kicker" id="commitKicker">Diagnosis</div>
       <h2 id="commitHead">Why did he fit?</h2>
       <p class="lede" id="commitLede"></p>
       <div class="field" style="margin-top:var(--s5);">
@@ -1046,30 +1046,16 @@ const CASE = {
   meta: {
     startClock: 940 /* 15:40 */, weightKg: 68,
     patientName: "Dennis", nurseName: "Priya", wifeName: "Jean",
-    /* ---- commit 1: why did he fit? ---- */
-    dx1: {
-      dxAny: ["hyponatraemia","hyponatremia","hyponatraemic","hyponatremic","siadh","siad"],
-      dxAll: [["low","sodium"],["low","na"],["na","112"],["sodium","112"]],
-      dxSub: ["hyponatr","hyponat","siadh"],
-      dxPartial: ["electrolyte","electrolytes","metabolic"],
-      dxPartialAll: [["electrolyte","disturbance"]],
-      dxSubDemote: [],
-      dxPartialBlock: ["alcohol","withdrawal","tremens","meningit","encephalit","subdural","haemorrhage","hemorrhage","stroke","epilep","hypoglyc","wernicke","hepatic","sepsis","septic","hypocalc","hypomagn","hyperglyc","uraem","uremi","benzodiazepine","toxicity","syncope","arrhythm","tumour","metasta","abscess"],
-      dxClaim: ["hypona","sodium","siadh","siad"],
-      dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","rather than","other than","against","versus","vs"],
-      dxPostNegators: ["excluded","ruled out","unlikely","improbable","less likely"],
-      dxName: "a seizure caused by acute, severe hyponatraemia"
-    },
-    /* ---- commit 2: why is his sodium low? ---- */
+    /* ---- the diagnosis: why is his sodium low? (box 1; box 2 is the cause, read by isCAP) ---- */
     dx2: {
-      dxAny: ["siadh","siad"],
+      dxAny: ["siadh","siad","saidh","siahd"],
       dxAll: [["inappropriate","adh"],["inappropriate","antidiuretic"],["inappropriate","antidiuresis"],["inappropriate","vasopressin"],["syndrome","inappropriate"]],
-      dxSub: ["siadh","antidiuretic hormone secretion","inappropriate antidiur"],
+      dxSub: ["siadh","saidh","siahd","antidiuretic hormone secretion","inappropriate antidiur"],
       dxPartial: ["euvolaemic","euvolemic","iatrogenic","dextrose"],
       dxPartialAll: [["hypotonic","fluid"],["hypotonic","fluids"],["hypotonic","drip"],["glucose","drip"],["maintenance","fluid"],["maintenance","fluids"]],
       dxSubDemote: ["nephrogenic"],
       dxPartialBlock: ["hypovol","dehydrat","potomania","beer","polydipsia","psychogenic","adrenal","addison","hypothyroid","myxoedema","cerebral salt","salt wast","salt los","diuretic","thiazide","cirrho","liver","heart failure","cardiac failure","renal failure","kidney","nephrotic","pseudo","hyperglyc","hypertrigly","paraprotein","tea and toast","teaandtoast","low solute","vomiting","diarrhoea","hypervol","osmostat","exercise","pituitar","ssri","carbamazepine","mdma","transurethral"],
-      dxClaim: ["siadh","siad","inappropriate"],
+      dxClaim: ["siadh","siad","saidh","siahd","inappropriate"],
       dxNegators: ["not","no","excludes","excluded","exclude","unlikely","doubt","rather than","other than","against","versus","vs"],
       dxPostNegators: ["excluded","ruled out","unlikely","improbable","less likely"],
       dxName: "SIADH, driven by the pneumonia — with two days of hypotonic fluid on top"
@@ -1159,7 +1145,7 @@ const CASE = {
       aliases:["fluid status","volume status","hydration","hydration status","fluid assessment","volume assessment","assess volume","assess his volume status","assess fluid status","is he dry","is he dehydrated","dehydration","dehydrated","dry or wet","jvp","jugular venous pressure","neck veins","mucous membranes","skin turgor","turgor","oedema","edema","peripheral oedema","sacral oedema","ankle oedema","euvolaemic","hypovolaemic","hypervolaemic"] },
     { id:"chest", name:"Chest (again)",
       f:"Right base: dull, bronchial breathing, coarse crackles, increased vocal resonance. Left clear.",
-      aliases:["chest","chest examination","respiratory examination","respiratory exam","resp exam","auscultate","auscultation","listen to his chest","listen to the chest","lungs","breath sounds","crackles","percussion","percuss","vocal resonance","bronchial breathing","consolidation"] },
+      aliases:["chest","chest examination","respiratory examination","respiratory exam","resp exam","auscultate","auscultation","listen to his chest","listen to the chest","lungs","breath sounds","crackles","percussion","percuss","vocal resonance","bronchial breathing","consolidation","auscultate the chest","auscultate chest","auscultate his chest","auscultate the lungs"] },
     { id:"heart", name:"Heart sounds",
       f:"Heart sounds one and two, normal. No murmur, no rub, no gallop.",
       aliases:["heart sounds","heart","cardiovascular examination","cardiovascular exam","cvs","praecordium","murmur","murmurs","apex","apex beat","listen to the heart"] },
@@ -1176,7 +1162,10 @@ const CASE = {
       f:"Once his GCS allows: AMTS 5/10 — knows his name, his age and his wife's name; not the year, the hospital or why he is here. 4AT 8: alert-ish, disorientated, inattentive, and this is new since this morning.",
       aliases:["amts","4at","abbreviated mental test","cognition","cognitive screen","cognitive assessment","orientation","orientated","oriented","delirium screen","confusion screen","mmse","moca","confusion","is he confused","how confused is he"] },
     { id:"obsrep", name:"Repeat the observations", key:true, f:"", dynObs:true,
-      aliases:["repeat the observations","repeat obs","recheck obs","observations","obs","vital signs","vitals","news","news2","repeat the obs","early warning score","sats","saturations","oxygen saturations","blood pressure","bp","heart rate","pulse","pulse rate","respiratory rate","resp rate","temperature","temp","gcs","glasgow coma scale","acvpu","conscious level","consciousness"] },
+      aliases:["repeat the observations","repeat obs","recheck obs","observations","obs","vital signs","vitals","news","news2","repeat the obs","early warning score","sats","saturations","oxygen saturations","blood pressure","bp","heart rate","pulse","pulse rate","respiratory rate","resp rate","temperature","temp","gcs","glasgow coma scale","acvpu","conscious level","consciousness","heart rate and rhythm","rhythm","pulse rhythm","rate and rhythm"] },
+    { id:"pupils", name:"Pupils",
+      f:"Equal, 3 mm, briskly reactive on both sides.",
+      aliases:["pupils","pupil","his pupils","check pupils","check his pupils","pupil size","pupillary reflex","pupillary reflexes","pupil reactions","pupillary light reflex","light reflex","pen torch","torch the pupils"] },
     { id:"weight", name:"Weight",
       f:"69.1 kg on the bed scales. The admission weight on Thursday was 68.0 kg.",
       aliases:["weight","weigh him","how much does he weigh","bed scales","bmi","body mass index","weigh"] },
@@ -1212,12 +1201,12 @@ const CASE = {
     ],
     bloods: [
       { id:"ue", name:"Urea & electrolytes", cost:60, costL:"60 min", tag:"key", dynLabs:"ue", repeatable:true,
-        aliases:["ue","u and e","u e","urea and electrolytes","us and es","u and es","renal function","renal profile","urea","creatinine","electrolytes","sodium","serum sodium","potassium","egfr","kidney function","repeat ue","repeat u and e","repeat u e","repeat the bloods","repeat bloods","recheck sodium","recheck the sodium","repeat sodium","lab sodium"] },
+        aliases:["ue","u and e","u e","urea and electrolytes","us and es","u and es","renal function","renal profile","urea","creatinine","electrolytes","sodium","serum sodium","potassium","egfr","kidney function","repeat ue","repeat u and e","repeat u e","repeat the bloods","repeat bloods","recheck sodium","recheck the sodium","repeat sodium","lab sodium","na","k","serum na","serum k","serum potassium","plasma sodium","u es","ues","u and e s"] },
       { id:"sosm", name:"Serum osmolality", cost:60, costL:"sent · ~40 min", lands:40, tag:"key",
         aliases:["serum osmolality","serum osm","plasma osmolality","plasma osm","osmolality","osmolarity","serum osmolarity","serum osmo","measured osmolality","osmolar gap"],
         labs:[{n:"Serum osmolality", v:"238", r:"275–295", u:"mOsm/kg", flag:"lo"}] },
       { id:"uosm", name:"Urine osmolality", cost:60, costL:"sent · ~40 min", lands:40, tag:"key",
-        aliases:["urine osmolality","urine osm","urinary osmolality","urine osmo","urine osmolarity","paired osmolalities","paired osmolality","paired osms"],
+        aliases:["urine osmolality","urine osm","urinary osmolality","urine osmo","urine osmolarity"],
         labs:()=>[{n:"Urine osmolality", v: S.hyperBeforeUrine ? "512" : "486", r:"", u:"mOsm/kg"}],
         text:()=> S.hyperBeforeUrine ? "Lab comment: sample received after hypertonic saline." : "" },
       { id:"una", name:"Urine sodium", cost:60, costL:"sent · ~40 min", lands:40, tag:"key",
@@ -1724,7 +1713,28 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>tab(t.dataset.tab, true)));
 /* ============================================================
    JUDGING — the same judge, two questions
    ============================================================ */
+/* norm() deletes commas, dashes and brackets, so "Not hypovolaemic – SIADH" used to read as a denial
+   of SIADH. The raw text is now also cut into clauses and each clause judged on its own: one clause
+   that names the diagnosis without denying it is enough, and a clause that only denies something
+   else ("not hypovolaemic") cannot cancel it. Hyphens are tried both deleted and as spaces. */
+const DX_SPLIT = /\s+[-\u2010-\u2015]+\s+|[\u2013\u2014]|[,;:()\[\]{}\/?!\n]|\.(?=\s|$)|\s+but\s+/i;
+function dxClausesOf(raw){ return String(raw||"").split(DX_SPLIT).map(c=>c.trim()).filter(Boolean); }
+function dxBest(a, b){ return a===true || b===true ? true : a==="partial" || b==="partial" ? "partial" : false; }
 function judgeWith(m, raw){
+  const both = txt => dxBest(judgeClause(m, txt), judgeClause(m, String(txt).replace(/[-\u2010-\u2015]/g, " ")));
+  const whole = both(raw);
+  if(whole === true) return true;
+  const cl = dxClausesOf(raw);
+  const res = cl.map(both);
+  const postOnly = new RegExp("^(?:(?:is|was|has been|been|now)\\s+)?(?:" + (m.dxPostNegators||[]).join("|") + ")$");
+  cl.forEach((c,i)=>{ if(i>0 && postOnly.test(norm(c))) res[i-1] = false; });   /* "SIADH (excluded)" */
+  if(res.includes(true)) return true;
+  if(whole === "partial") return "partial";
+  const negStart = new RegExp("^(?:" + (m.dxNegators||[]).join("|") + ")\\b");
+  const blocked = cl.some(c=>{ const t = norm(c); return !negStart.test(t) && (m.dxPartialBlock||[]).some(w=>t.indexOf(w)>=0); });
+  return !blocked && res.includes("partial") ? "partial" : false;
+}
+function judgeClause(m, raw){
   const t = " " + norm(raw) + " ";
   const B = "\\";
   const has = w => new RegExp(B + "b" + w + B + "b").test(t);
@@ -1743,7 +1753,6 @@ function judgeWith(m, raw){
   if ((m.dxPartialAll || []).some(group => group.every(has))) return "partial";
   return false;
 }
-const judgeDx1 = raw => judgeWith(CASE.meta.dx1, raw);
 const judgeDx2 = raw => judgeWith(CASE.meta.dx2, raw);
 /* "Hyponatraemia" is the answer to the first question, not the second. A commit made only of words
    that describe the sodium is sent back, unjudged. */
@@ -1751,10 +1760,14 @@ const DESCRIBE_ONLY = new Set(["hyponatraemia","hyponatremia","hyponatraemic","h
 /* "[diagnosis] secondary to [cause]": SIADH secondary to the pneumonia is the answer. SIADH with any
    other cause, or hyponatraemia secondary to SIADH (or to the pneumonia), is the right track: a
    docked pass. Anything else is wrong. */
+const CAP_TERMS = "cap|pneumon(?!itis)\\w*|pnuemon\\w*|pneumococcal|pneumococcus|lrti|chest infection|chest sepsis|lung infection|consolidation|respiratory infection|respiratory tract infection|lower respiratory tract infection|community acquired|legionella|streptococcus pneumoniae|strep pneumoniae|lobar consolidation|rll|right lower lobe";
 function isCAP(raw){
-  const t = " " + norm(raw) + " ";
-  if(/\b(not|no)\s+(\w+\s+)?(pneumonia|cap|chest infection)\b/.test(t)) return false;
-  return /\b(cap|pneumonia|pneumonic|pneumococcal|pneumococcus|lrti|chest infection|lower respiratory tract infection|community acquired|legionella|streptococcus pneumoniae|strep pneumoniae|lobar consolidation)\b/.test(t);
+  return dxClausesOf(raw).some(c=>{
+    const t = " " + norm(c.replace(/[-\u2010-\u2015]/g, " ")) + " ";
+    if(new RegExp("\\b(not|no)\\s+(\\w+\\s+)?(" + CAP_TERMS + ")").test(t)) return false;
+    if(new RegExp("(" + CAP_TERMS + ")\\s+(excluded|ruled out|unlikely)\\b").test(t)) return false;
+    return new RegExp("\\b(" + CAP_TERMS + ")\\b").test(t);
+  });
 }
 function judgePair(a, b){
   const j1 = judgeDx2(a), j2 = judgeDx2(b);
@@ -2266,6 +2279,7 @@ function doFocusExam(id){
   if(S.examMore.has(id)) S.examOrder = S.examOrder.filter(x=>x!==id);
   S.examMore.add(id);
   S.examOrder.push(id);
+  if(id==="pupils") S.ae.assessed.add("d_pupils");   /* the same look as the D plate's torch */
   tick(3);
   S.examAt = S.examAt || {}; S.examAt[id] = S.clock;
   renderExam();
@@ -2301,9 +2315,14 @@ $("#rxReassessBtn").onclick = doReexam;
    ============================================================ */
 function allIx(){ return Object.keys(CASE.ix).flatMap(g=>CASE.ix[g]); }
 function ixPhrases(x){ return [x.name, ...(x.aliases||[])].map(norm); }
+/* Paired osmolalities are one request on the ward: "serum & urine osmolality", "paired osms" and
+   "plasma and urine osmolarity" order both. A single named sample ("serum osmolality") stays single. */
+const OSM_PANEL = /^(?:(?:paired|serum (?:and )?urine|urine (?:and )?(?:serum|plasma)|plasma (?:and )?urine)\s+)?osm(?:o|os|s|olality|olalities|olarity|olarities)?$/;
 function matchIx(query){
   const q = norm(String(query).replace(/&/g," and "));
   if(!q) return {kind:"none"};
+  if(OSM_PANEL.test(q) && q!=="osmolality" && q!=="osmolarity") return {kind:"panel", ids:["sosm","uosm"]};
+  if(/^urin\w* (?:sodium|na) (?:and )?osm\w*$|^urin\w* osm\w* (?:and )?(?:urine )?(?:sodium|na)$/.test(q)) return {kind:"panel", ids:["uosm","una"]};
   const all = allIx();
   for(const x of all){ if(ixPhrases(x).includes(q)) return {kind:"one", id:x.id}; }
   const tol = t => t.length>=8 ? 2 : t.length>=5 ? 1 : 0;
@@ -2366,14 +2385,15 @@ function submitIx(){
   const raw = $("#ixInput").value.trim();
   if(!raw) return;
   const msg = $("#ixMsg");
-  if(/^(paired )?(serum and urine|urine and serum|plasma and urine)? ?osm(olalit(y|ies)|s)?$/.test(norm(raw)) && norm(raw).indexOf("osm")>=0 && !/^(serum|plasma|urine) osm/.test(norm(raw))){
-    const rs = ["sosm","uosm"].map(addToRound);
+  let m = matchIx(raw);
+  if(norm(raw)==="osmolality") m = {kind:"panel", ids:["sosm","uosm"]};   /* as before: a bare "osmolality" sends the pair */
+  if(m.kind==="panel"){
+    const rs = m.ids.map(addToRound);
     $("#ixInput").value = "";
     const why = rs.filter(r=>!r.ok).map(r=>r.why);
     msg.innerHTML = why.length ? `<div class="notefound">${why.join("<br>")}</div>` : "";
     return;
   }
-  const m = matchIx(raw);
   const place = (id)=>{ const r = addToRound(id); $("#ixInput").value = ""; msg.innerHTML = r.ok ? "" : `<div class="notefound">${r.why}</div>`; };
   if(m.kind==="one"){ place(m.id); return; }
   if(m.kind==="amb"){
@@ -2510,7 +2530,8 @@ const PLAN_ITEMS = {
   hdu: { label:"Critical care / outreach / level 2 bed", rx:"hdu", isRefer:true, aliases:A(
     "hdu","level 2","level two","level 2 bed","critical care","critical care outreach","outreach","ccot","itu","icu","itu review","icu review","itu aware","icu aware","hdu bed","hdu review","enhanced care","higher level of care","escalate to hdu","escalate to critical care","escalate to itu","refer to itu","refer to hdu","refer to critical care","intensivist","anaesthetist","anaesthetics") },
   reg: { label:"Medical registrar / senior review", rx:"reg", isRefer:true, aliases:A(
-    "med reg","medical registrar","medical reg","registrar","reg review","reg aware","inform reg","inform the reg","senior review","senior input","senior","consultant","discuss with consultant","consultant aware","inform consultant","on call consultant") },
+    "med reg","medical registrar","medical reg","registrar","reg review","reg aware","inform reg","inform the reg","senior review","senior input","senior","consultant","discuss with consultant","consultant aware","inform consultant","on call consultant",
+    "spr","medical spr","med spr","inform spr","inform the spr","discuss with spr","discuss with the spr","spr review","spr aware","registrar on call","on call registrar","medical registrar on call","call for help","call for senior help","senior help") },
   endo: { label:"Endocrinology advice", rx:"endo", isRefer:true, aliases:A(
     "endocrine","endocrinology","endocrinologist","endo","endo reg","endo on call","endocrine on call","endocrine advice","endocrinology advice","diabetes and endocrine","refer to endocrine","refer to endocrinology","discuss with endocrine","discuss with endocrinology","d w endocrine","dw endo") },
 
@@ -2518,19 +2539,28 @@ const PLAN_ITEMS = {
   hyper: { label:"Hypertonic (3%) saline bolus", rx:"hyper", aliases:A(
     "3 saline","3 sodium chloride","3 nacl","3 hypertonic saline","3 hypertonic","3 percent saline","three percent saline","2 7 saline","2 7 sodium chloride","2 7 nacl","2 7 hypertonic saline",
     "hypertonic saline","hypertonic sodium chloride","hypertonic","hts","150ml 3","150 ml 3","100ml 3","100 ml 3","150ml of 3","100ml of 3","150 ml of 3","100 ml of 3","150ml hypertonic","100ml hypertonic","150 ml hypertonic","100 ml hypertonic",
-    "3 saline bolus","hypertonic bolus","bolus of hypertonic","bolus of 3","3 bolus") },
+    "3 saline bolus","hypertonic bolus","bolus of hypertonic","bolus of 3","3 bolus",
+    /* full phrases, so "150 mL of 3% saline" is read whole and the bare "saline" is not left over as a fluid */
+    ...["150ml","150 ml","100ml","100 ml"].flatMap(v=>[" "," of "].flatMap(c=>["3 saline","3 sodium chloride","3 nacl","3 hypertonic saline","hypertonic saline","hypertonic sodium chloride"].map(x=>v+c+x))),
+    "hyperosmolar saline","hyperosmolar sodium chloride","hyperosmolar sodium","hyperosmolar nacl","hyperosmolar","3 sodium","sodium chloride 3","nacl 3","saline 3") },
   hyperinf: { label:"Hypertonic saline as a continuous infusion", rx:"hyperinf", aliases:A(
     "3 saline infusion","3 infusion","infusion of 3","hypertonic saline infusion","hypertonic infusion","infusion of hypertonic","3 saline at","3 saline 0 5","3 saline 1ml kg","3 saline 1 ml kg","3 ml kg hr","continuous hypertonic") },
   recheck: { label:"Sodium rechecked after each bolus", rx:"recheck", aliases:A(
     "recheck na","recheck sodium","recheck the sodium","recheck the na","repeat na","repeat sodium","repeat the sodium","na at 20","sodium at 20","na after 20","sodium after 20","at 20 min","at 20 mins","after 20 min","after 20 mins","in 20 min","in 20 mins","after each bolus","recheck after","check na after","check sodium after","check the sodium after",
-    "repeat gas","repeat vbg","repeat the gas","vbg after","gas after","recheck at","na in 1 hour","sodium in 1 hour","na in 1h","na 1 hour","na 1h","recheck in 1 hour","recheck in an hour","gas in 20","vbg in 20","gas at 20","vbg at 20","vbg 20","gas 20") },
+    "repeat gas","repeat vbg","repeat the gas","vbg after","gas after","recheck at","na in 1 hour","sodium in 1 hour","na in 1h","na 1 hour","na 1h","recheck in 1 hour","recheck in an hour","gas in 20","vbg in 20","gas at 20","vbg at 20","vbg 20","gas 20",
+    "repeat blood gas","repeat the blood gas","repeat blood gases","repeat gases","repeat vbgs","gas every 20","vbg every 20","gases every 20","every 20 min","every 20 mins","every 20 minutes","in 20 minutes","at 20 minutes","after 20 minutes","post bolus","after bolus","after the bolus","after each 3","post each bolus") },
   namon: { label:"Regular sodium monitoring (4–6-hourly)", rx:"namon", aliases:A(
     "4 hourly na","4 hourly sodium","6 hourly na","6 hourly sodium","na 4 hourly","na 6 hourly","sodium 4 hourly","sodium 6 hourly","4hrly na","6hrly na","na 4hrly","na 6hrly","q4h na","q6h na","na q4h","na q6h",
     "regular na","regular sodium","serial na","serial sodium","frequent na","frequent sodium","close na monitoring","close sodium monitoring","monitor na","monitor sodium","monitor the sodium","monitor the na","na monitoring","sodium monitoring",
-    "u e 4 hourly","u e 6 hourly","ue 4 hourly","ue 6 hourly","4 hourly u e","6 hourly u e","repeat u e","repeat u es","repeat ue","repeat ues","repeat bloods","repeat the bloods","6 and 12 hours","at 6 and 12","6 12 hours","hourly na","hourly sodium","2 hourly na","2 hourly sodium") },
+    "u e 4 hourly","u e 6 hourly","ue 4 hourly","ue 6 hourly","4 hourly u e","6 hourly u e","repeat u e","repeat u es","repeat ue","repeat ues","repeat bloods","repeat the bloods","6 and 12 hours","at 6 and 12","6 12 hours","hourly na","hourly sodium","2 hourly na","2 hourly sodium",
+    "na every 4","na every 6","sodium every 4","sodium every 6","na 4 hrly","na 6 hrly","sodium 4 hrly","sodium 6 hrly","na 4 6 hourly","sodium 4 6 hourly","na 4 6 hrly","4 6 hourly na","4 6 hourly sodium","na or sodium 4 6 hourly",
+    "u es 4 hourly","u es 6 hourly","ues 4 hourly","ues 6 hourly","u e 4 6 hourly","u es 4 6 hourly","ue 4 6 hourly","ues 4 6 hourly","4 6 hourly u e","4 6 hourly u es","4 6 hourly ues","u e every 4","u e every 6","u es every 4","u es every 6") },
   nalimit: { label:"A correction ceiling named (≤10 mmol/L in the first 24 h)", rx:"nalimit", aliases:A(
     "8 mmol","8mmol","8 in 24","8 in 24h","8 in 24hrs","8 in 24 hrs","8 per 24","8 per 24h","8 24h","8 24 h","8 24hrs","8 in 24 hours","8 over 24","8 in the first 24","by more than 8","more than 8","exceed 8","limit of 8","limit to 8","limit 8","max 8","maximum 8","no more than 8","not more than 8","less than 8","8 a day","8 per day",
     "10 in 24","10 per 24","10 in the first 24","no more than 10","max 10","limit of 10",
+    "10 in 24h","10 in 24hrs","10 in 24 hrs","10 in 24 hours","10 per 24h","10 per 24hrs","10 per 24 hours","10 24h","10 24 h","10 24hrs","10 over 24","8 10 mmol","8 10 in 24","8 to 10 mmol","8 to 10 in 24",
+    "less than 10 mmol","less than 10 in","less than 10 per","under 10 mmol","under 10 in","under 10 per","below 10 mmol","below 10 in","below 10 per","exceed 10","not exceed","10 mmol l","10mmol l","10 mmol in","10 mmol per","10 mmol 24",
+    "rise 8","rise 10","rise less than","rise under","rise below","rise of less than","max rise","maximum rise","max increase","maximum increase","up by 5","improved by 5","increased by 5","by 5 mmol",
     "rise of 5","rise by 5","increase of 5","increase by 5","target rise","aim for a rise","target of 5","aim 5","aim for 5","5 in 1 hour","5 in the first hour",
     "ceiling","correction limit","correction ceiling","slow correction","correct slowly","slowly","gradual correction","gradually","cautious correction","careful correction",
     "ods","osmotic demyelination","osmotic demyelination syndrome","central pontine","central pontine myelinolysis","cpm","high risk of ods","high ods risk","risk of ods") },
@@ -2541,7 +2571,8 @@ const PLAN_ITEMS = {
   /* ---------- the fluids ---------- */
   stopfluids: { label:"Hypotonic IV fluid stopped", rx:"stopfluids", aliases:A(
     "stop the dextrose","stop dextrose","stop the glucose","stop glucose","stop 5 glucose","stop 5 dextrose","stop the 5","stop maintenance","stop maintenance fluids","stop the maintenance","stop the maintenance fluids","stop iv fluids","stop ivf","stop the fluids","stop fluids","stop the iv fluids","stop the drip","stop drip","stop the ivi","stop ivi",
-    "take down the fluids","take down the drip","take the drip down","take the fluids down","stop all fluids","stop all iv fluids","stop hypotonic","stop the hypotonic","no hypotonic","avoid hypotonic","no hypotonic fluids","avoid hypotonic fluids","no more dextrose","no further dextrose","nil iv fluids","nil ivf") },
+    "take down the fluids","take down the drip","take the drip down","take the fluids down","stop all fluids","stop all iv fluids","stop hypotonic","stop the hypotonic","no hypotonic","avoid hypotonic","no hypotonic fluids","avoid hypotonic fluids","no more dextrose","no further dextrose","nil iv fluids","nil ivf",
+    "stop d5w","stop the d5w","take down the dextrose","take down the 5 glucose","take down the 5 dextrose","take down the glucose","take the dextrose down","take the glucose down","turn off the dextrose","turn off the 5 glucose","turn off the glucose","turn off the drip","turn off the fluids","switch off the drip","switch off the fluids","switch off the dextrose","pause the dextrose","pause the 5 glucose","pause the 5 dextrose","pause the drip","pause the fluids","remove the dextrose","remove the 5 glucose","remove the drip") },
   fluids: { label:"IV fluid (saline, maintenance or glucose)", rx:"fluids", danger:true, cond:["kvo","relower"], aliases:A(
     "0 9 saline","0 9 sodium chloride","0 9 nacl","normal saline","saline bolus","saline","sodium chloride","nacl","hartmanns","hartmann","hartmans","plasmalyte","plasma lyte","crystalloid","crystalloids",
     "fluid bolus","fluid boluses","bolus of fluid","500ml bolus","500 ml bolus","250ml bolus","250 ml bolus","1l bolus","1 l bolus","1 litre bolus","litre bolus","fluid resuscitation","fluid resus","fluid challenge","sepsis fluids","iv fluids for sepsis",
@@ -2551,7 +2582,7 @@ const PLAN_ITEMS = {
   kvo: { label:"Line kept open with 0.9% saline", rx:"kvo", aliases:A("kvo","tko","keep vein open","keep the vein open","to keep vein open","to keep the vein open","keep line open","keep the line open","to keep the line open") },
   restrict: { label:"Fluid restriction", rx:"restrict", aliases:A(
     "fluid restrict","fluid restriction","fluid restricted","fluid restrict to","restrict fluids","restrict fluid","restrict oral fluids","restrict his fluids","restrict intake",
-    "1l fluid restriction","1 l fluid restriction","1 litre fluid restriction","500ml fluid restriction","500 ml fluid restriction","800ml fluid restriction","800 ml fluid restriction","1l restriction","1 litre restriction","500ml restriction","500 ml restriction","fr 1l","fr 1 l","fr 500","fr 800","limit fluids","limit oral fluids","limit oral intake") },
+    "1l fluid restriction","1 l fluid restriction","1 litre fluid restriction","500ml fluid restriction","500 ml fluid restriction","800ml fluid restriction","800 ml fluid restriction","1l restriction","1 litre restriction","500ml restriction","500 ml restriction","fr 1l","fr 1 l","fr 500","fr 800","limit fluids","limit oral fluids","limit oral intake","1l fr","1 l fr","1 litre fr","restrict to 1l","restrict to 1 l","restrict to 1 litre","restrict to 800","restrict to 500","limit fluid","limit fluid intake","limit his fluid intake") },
   balance: { label:"Strict fluid balance / urine output", rx:"balance", aliases:A(
     "fluid balance","strict fluid balance","input output","input and output","io chart","i o chart","urine output","hourly urine output","catheter","catheterise","catheterize","urinary catheter","uo","daily weights","daily weight","weigh daily","weigh him daily","fluid chart","strict io") },
 
@@ -2564,7 +2595,7 @@ const PLAN_ITEMS = {
   precautions: { label:"Seizure precautions", rx:"precautions", aliases:A("seizure precautions","padded rails","pad the rails","padded cot sides","padded bed rails","cot side padding","low bed","falls precautions","falls mat") },
   aed: { label:"Antiepileptic loaded", rx:"aed", aliases:A(
     "levetiracetam","keppra","phenytoin","epanutin","sodium valproate","valproate","epilim","lacosamide","carbamazepine","antiepileptic","anti epileptic","antiepileptics","anti epileptics","aed","aeds","load with","loading dose") },
-  neuroobs: { label:"Neurological observations", rx:"neuroobs", aliases:A("neuro obs","neurological observations","neuro observations","gcs monitoring","gcs hourly","hourly gcs","monitor gcs","monitor his gcs","gcs 1 hourly","gcs 4 hourly","neuro checks") },
+  neuroobs: { label:"Neurological observations", rx:"neuroobs", aliases:A("neuro obs","neurological observations","neuro observations","gcs monitoring","gcs hourly","hourly gcs","monitor gcs","monitor his gcs","gcs 1 hourly","gcs 4 hourly","neuro checks","neuro observation","neurological observation","neuro ob") },
 
   /* ---------- the drinker ---------- */
   pabrinex: { label:"IV thiamine (Pabrinex) continued", rx:"pabrinex", aliases:A(
@@ -2576,18 +2607,20 @@ const PLAN_ITEMS = {
   lytes: { label:"Potassium, magnesium and phosphate replaced", rx:"lytes", aliases:A(
     "potassium replacement","replace potassium","replace k","replace the potassium","k replacement","sando k","sandok","kcl","potassium chloride","oral potassium","iv potassium",
     "magnesium","magnesium sulphate","magnesium sulfate","mgso4","iv magnesium","replace magnesium","replace mg","mg replacement","phosphate","replace phosphate","phosphate sandoz","phosphate polyfusor","iv phosphate",
-    "electrolyte replacement","replace electrolytes","replace his electrolytes","refeeding bloods") },
+    "electrolyte replacement","replace electrolytes","replace his electrolytes","refeeding bloods","iv mg","mg2","replace mg2","mag sulph","magnesium sulph","mag sulphate") },
   alcohol: { label:"Alcohol liaison / dietitian", rx:"alcohol", aliases:A(
-    "alcohol liaison","alcohol nurse","alcohol team","alcohol services","drug and alcohol","addiction services","brief intervention","dietitian","dietician","nutrition review","refeeding risk","refeeding syndrome","nutritional assessment","must score") },
+    "alcohol liaison","alcohol nurse","alcohol team","alcohol services","drug and alcohol","addiction services","brief intervention","dietitian","dietician","nutrition review","refeeding risk","refeeding syndrome","nutritional assessment","must score","addiction team","addiction services team","alcohol addiction","alcohol addiction team","addictions team") },
 
   /* ---------- the cause ---------- */
   abx: { label:"Pneumonia treatment continued / reviewed", rx:"abx", aliases:A(
     "benpen","benzylpenicillin","benzyl penicillin","iv benpen","iv benzylpenicillin","penicillin","continue benpen","continue antibiotics","continue abx","continue the antibiotics","continue iv antibiotics","antibiotics","abx","co amoxiclav","coamoxiclav","augmentin","clarithromycin","iv antibiotics","review antibiotics","review abx","treat the pneumonia","treat pneumonia","treat the cap","treat cap","treat the chest","treat the infection","levofloxacin","doxycycline") },
   narrow: { label:"Antibiotics narrowed (macrolide stopped / oral amoxicillin)", rx:"narrow", aliases:A(
     "stop clarithromycin","stop the clarithromycin","stop the macrolide","stop macrolide","stop clari","oral amoxicillin","iv to oral","iv to oral switch","switch to oral","narrow to amoxicillin","de escalate","deescalate","de escalate to amoxicillin","switch to amoxicillin","step down to amoxicillin","narrow spectrum","rationalise antibiotics","rationalise abx","rationalize antibiotics","amoxicillin") },
-  osms: { label:"Serum and urine osmolality", ix:"sosm", ix2:"uosm", aliases:A("paired osmolalities","paired osmolality","paired osms","paired osmo","osmolalities","osms","serum and urine osmolality","serum and urine osmolalities","serum and urine osms","urine and serum osmolality","urine and serum osmolalities","urine and serum osms","serum urine osmolality","serum urine osmolalities","plasma and urine osmolality","plasma and urine osmolalities") },
-  sosm: { label:"Serum osmolality", ix:"sosm", aliases:A("serum osmolality","serum osm","plasma osmolality","plasma osm","serum osmo","osmolality","serum osmolalities","plasma osmolalities") },
-  uosm: { label:"Urine osmolality", ix:"uosm", aliases:A("urine osmolality","urine osm","urinary osmolality","urine osmo","urine osmolalities") },
+  osms: { label:"Serum and urine osmolality", ix:"sosm", ix2:"uosm", aliases:A("paired osmolalities","paired osmolality","paired osms","paired osmo","osmolalities","osms","serum and urine osmolality","serum and urine osmolalities","serum and urine osms","urine and serum osmolality","urine and serum osmolalities","urine and serum osms","serum urine osmolality","serum urine osmolalities","plasma and urine osmolality","plasma and urine osmolalities",
+    "plasma urine osmolality","plasma urine osmolalities","urine and plasma osmolality","urine plasma osmolality","urine plasma osmolalities","urine plasma osmolarities","urine plasma osmolarity","osmolarities","paired osmolarities","paired osmolarity","serum and urine osmolarity","serum and urine osmolarities","serum urine osmolarity","plasma and urine osmolarity") },
+  uboth: { label:"Urine osmolality and urine sodium", ix:"uosm", ix2:"una", aliases:A("urine sodium and osmolality","urine na and osmolality","urine sodium and osmo","urine na and osmo","urine osmolality and sodium","urine osmolality and na","urine osm and na","urine osm and sodium","urine osmo and na","urine osmo and sodium","urinary sodium and osmolality","urine sodium osmolality","urine na osmolality") },
+  sosm: { label:"Serum osmolality", ix:"sosm", aliases:A("serum osmolality","serum osm","plasma osmolality","plasma osm","serum osmo","osmolality","serum osmolalities","plasma osmolalities","osmolarity","serum osmolarity","plasma osmolarity") },
+  uosm: { label:"Urine osmolality", ix:"uosm", aliases:A("urine osmolality","urine osm","urinary osmolality","urine osmo","urine osmolalities","urine osmolarity","urinary osmolarity") },
   una: { label:"Urine sodium", ix:"una", aliases:A("urine sodium","urinary sodium","urine na","spot urine sodium","spot urine na","urine electrolytes","una","u na") },
   tsh: { label:"Thyroid function", ix:"tsh", aliases:A("tsh","tfts","tft","thyroid function","thyroid function tests","thyroid bloods") },
   cortisol: { label:"Cortisol", ix:"cortisol", aliases:A("cortisol","random cortisol","9am cortisol","9 am cortisol","morning cortisol","serum cortisol","synacthen","short synacthen","sst") },
@@ -2598,7 +2631,7 @@ const PLAN_ITEMS = {
   /* ---------- further: enacted, neither credited nor penalised unless the engine says so ---------- */
   tolvaptan: { label:"Tolvaptan", rx:"tolvaptan", danger:true, aliases:A("tolvaptan","samsca","vaptan","vaptans","vasopressin antagonist","vasopressin receptor antagonist","conivaptan") },
   rapid: { label:"Correct to normal", rx:"rapid", danger:true, aliases:A(
-    "correct to normal","correct fully","correct rapidly","correct quickly","rapid correction","rapidly correct","normalise","normalise the sodium","normalise sodium","normalize","normalize the sodium","aim 135","aim for 135","target 135","target na 135","target sodium 135","to 135","until normal","until na normal","until sodium normal","back to normal","as quickly as possible","as fast as possible","aim for normal") },
+    "correct to normal","correct fully","correct rapidly","correct quickly","rapid correction","rapidly correct","normalise","normalise the sodium","normalise sodium","normalize","normalize the sodium","aim 135","aim for 135","target 135","target na 135","target sodium 135","to 135","until normal","until na normal","until sodium normal","back to normal","as quickly as possible","as fast as possible","aim for normal","aim na 135","aim sodium 135","na 135","sodium 135","target na of 135","correct sodium to normal","correct the sodium to normal","correct na to normal","correct the na to normal","sodium to normal","na to normal") },
   urea: { label:"Oral urea (second line, later)", rx:"urea", aliases:A("oral urea","ure na","urena","urea sachets","urea 15g","urea 15 g","urea 30g","urea 30 g") },
   demeclo: { label:"Demeclocycline", rx:"demeclo", aliases:A("demeclocycline","ledermycin") },
   steroid: { label:"Steroid before cortisol sampled", rx:"steroid", aliases:A("hydrocortisone","hydrocort","steroids","steroid","dexamethasone","prednisolone","fludrocortisone") },
@@ -2613,9 +2646,25 @@ const PLAN_ITEMS = {
 
 
 const RX_DANGERS = ["fluids","benzo","tolvaptan","rapid"];
-const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","hold","hold off","omit","refrain from","stop the","stop","stopping","discontinue","cease","withdraw","suspend","not for","never give","nil"];
+const NEGATORS = ["no","not","avoid","without","dont","do not","never","withhold","withold","with hold","hold","hold off","omit","refrain from","stop the","stop","stopping","discontinue","cease","withdraw","suspend","not for","never give","nil",
+  "take down","turn off","switch off","pause","remove"];
+/* After a refusal, "or"/"nor" carries it to the next item; "and" carries it only to an item that would
+   otherwise be a harmful order ("no benzodiazepines and no tolvaptan" = "no benzos and tolvaptan"),
+   never to the hypertonic saline ("stop the dextrose and 3% saline" still gives the 3%). */
+const CARRY_AND = new Set(["fluids","benzo","tolvaptan","rapid","cdpup","aed","steroid","furosemide","demeclo","urea","menabx"]);
+/* No harmful item is exempted for being written as a condition: tolvaptan, saline or IV fluids written
+   prn, "as needed", "if hypotensive", "when Na known", "if no improvement", "otherwise", or after another
+   condition ("midazolam if fits, 1 L saline") still get the call-back. Saline is the wrong fluid in
+   SIADH and tolvaptan is never an acute drug, so a contingency order of either is still the trap.
+   (A conditional benzodiazepine is handled before the parse, in condPass, as the rescue plan.) */
+/* nalimit aliases that carry no number of their own: the number written after them decides */
+const NALIMIT_NUM = new Set(["rise less than","rise under","rise below","rise of less than","max rise","maximum rise","max increase","maximum increase","target rise","aim for a rise","not exceed","ceiling","correction limit","correction ceiling"]);
+const NALIMIT_BARE_OK = new Set(["ceiling","correction limit","correction ceiling"]);
+/* a refused overshoot ("do not exceed 8") is the ceiling; a refused ceiling ("no ceiling") is not */
+const NALIMIT_OVERSHOOT = /\b(?:exceed|more than|over|above)\b/;
+function escHTML(x){ return String(x).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 const NEG_FILLERS = "(?:give|giving|given|start|starting|started|use|using|prescribe|prescribing|administer|administering|order|ordering|commence|commencing|add|adding|for|further|more|additional|any|the|his|iv|intravenous|routine|regular|empirical|empiric|treatment|dose|of|all|to|be|him|a|an|need|needed|required)";
-const POST_NEG = "^\\s*(?:is\\s+|are\\s+|to\\s+be\\s+|has\\s+been\\s+|have\\s+been\\s+|was\\s+|were\\s+)?(?:stopped|withheld|held|discontinued|omitted|suspended|ceased|withdrawn|off|not\\s+indicated|contraindicated|contra\\s+indicated|not\\s+required|not\\s+needed|not\\s+appropriate|not\\s+for\\s+now|not\\s+to\\s+be\\s+given|not\\s+given|unnecessary|inappropriate)\\b";
+const POST_NEG = "^\\s*(?:is\\s+|are\\s+|to\\s+be\\s+|has\\s+been\\s+|have\\s+been\\s+|was\\s+|were\\s+)?(?:stopped|withheld|held|discontinued|omitted|suspended|ceased|withdrawn|off|on\\s+hold|taken\\s+down|turned\\s+off|paused|nil(?!\\s+by\\s+mouth)|none|no\\s+role|not\\s+indicated|contraindicated|contra\\s+indicated|not\\s+required|not\\s+needed|not\\s+appropriate|not\\s+for\\s+now|not\\s+to\\s+be\\s+given|not\\s+given|unnecessary|inappropriate)\\b";
 function normAlias(a){ return norm(String(a).replace(/[^A-Za-z0-9&']+/g, " ")); }
 let PLAN_PAIRS = null;
 function planPairs(){
@@ -2638,17 +2687,23 @@ function condPass(t){
       return (before.test(pre) || after.test(post)) ? " " + repl + " " : m;
     });
   };
-  rewrite("benzo", /\b(if|prn|should|rescue|when)\b[^;]*$/, /^[^;]*?\b(if|prn|should|unless|recurs?|again|further|5 ?min|five min|more than 5|over 5|lasting)\b/, "rescue medication");
+  rewrite("benzo", /\b(if|prn|should|rescue|when|standby|on standby|to hand|on hand|monitor for|seizure activity)\b[^;]*$/, /^[^;]*?\b(if|prn|should|unless|recurs?|again|further|5 ?min|five min|more than 5|over 5|lasting|standby|on hand|to hand|available|as required|as needed)\b/, "rescue medication");
   const rel = /\b(overcorrect\w*|over correct\w*|rises? by more than|rises? too|relower\w*|re lower\w*|more than 8|exceeds?|too fast|too quickly|by more than 10|breach\w*)\b/;
+  /* a condition on the sodium written BEFORE the glucose: "if Na rises over 10, 5% dextrose" */
+  const relPre = /\b(?:if|when|should|once)\b[^;]{0,40}\b(?:rises?|rising|over 10|above 10|more than 10|over 8|above 8)\b|\bif (?:na|sodium)\b/;
+  /* "stop the 5% glucose" is a stop, whatever follows it */
+  const stopVerb = /\b(?:stop|stopping|discontinue|cease|hold|withhold|withold|take down|turn off|switch off|pause|remove|no|nil|avoid)\s+(?:(?:the|all|his|any|further|more|iv)\s+)*$/;
   const relGlucose = /\b(5 glucose|glucose 5|5 dextrose|dextrose 5|dextrose|5 glucose 10ml|iv glucose)\b/;
   const re2 = new RegExp("\\b(5 glucose|glucose 5|5 dextrose|dextrose 5|dextrose|iv glucose)\\b","g");
   t = t.replace(re2, (m, _g, off) => {
-    const pre = t.slice(Math.max(0, off-60), off), post = t.slice(off + m.length, off + m.length + 60);
-    return (rel.test(pre) || rel.test(post)) ? " relower " : m;
+    const pre = t.slice(Math.max(0, off-60), off).split(";").pop(), post = t.slice(off + m.length, off + m.length + 60).split(";")[0];
+    if(stopVerb.test(pre)) return m;
+    return (rel.test(pre) || relPre.test(pre) || rel.test(post) || relPre.test(post)) ? " relower " : m;
   });
   const reK = /\b(0 9 saline|0 9 sodium chloride|0 9 nacl|normal saline|saline|sodium chloride|nacl)\b/g;
   t = t.replace(reK, (m, _g, off) => {
     const post = t.slice(off + m.length, off + m.length + 30), pre = t.slice(Math.max(0, off-15), off);
+    if(/\b(?:3|2 7|1 8|hypertonic|hyperosmolar)\s*$/.test(pre)) return m;
     return /\b(kvo|tko|keep (?:the )?(?:vein|line) open)\b/.test(post) || /\b(kvo|tko)\b/.test(pre) ? " kvo " : m;
   });
   void relGlucose;
@@ -2656,11 +2711,26 @@ function condPass(t){
 }
 function parsePlan(text){
   let raw = String(text);
-  raw = raw.replace(/\b(stop|stopping|hold|holding|withhold|withholding|avoid|avoiding|omit|omitting|discontinue|discontinuing|suspend|suspending|no|not for)\b([^.;\n()]{0,40})\(([^)]*)\)/gi,
+  /* "sodium 3%" and a bare "3%" ("stop 3% when Na up by 5") are the hypertonic saline. A bare "3%"
+     counts only where a dose, a stop, punctuation or a plan word follows it: "3% wt loss",
+     "3% dextrose" and "3% if hypotensive" are not the hypertonic saline. */
+  /* a "3%" that follows a change word is a percentage, not the saline: "weight loss 3% in a month",
+     "sats drop by 3%". Only an explicit "3% saline / NaCl / hypertonic" after it is still the drug. */
+  /* the change word may be inflected ("drops", "fallen") and may be followed by a colon, dash, "~",
+     ">" or "<", "down" or "up" before the 3% ("Weight loss: 3%", "weight down 3%", "Na fall >3%");
+     a full stop, comma or semicolon still ends it. */
+  raw = raw.replace(/\b(by|fall|falls|fallen|falling|fell|drop|drops|dropped|dropping|loss|lose|loses|losing|lost|weight|wt|sats|sat|saturations?|spo2|rise|rises|risen|rising|rose|increase|increases|increased|increasing|decrease|decreases|decreased|decreasing|reduction|reduced)((?:\s*(?:[:~><=≥≤–—-]+|(?:approx|approximately|about|around|roughly|nearly|of|by|to|down|up|over|more\s+than|less\s+than|greater\s+than)\b))*\s*)3\s*%(?!\s*(?:saline|nacl|sodium\s+chloride|hypertonic|hyperosmolar))/gi, "$1$2 3 percentchange");
+  raw = raw.replace(/\b(?:sodium|na)\s+3\s*%/gi, "3% saline")
+           .replace(/(^|[^\d.,])3\s*%(?!\s*(?:saline|sodium|nacl|na\b|hypertonic|hyperosmolar))(?!\s*if\s+(?:he\s+(?:is|becomes|gets|goes)\s+)?(?:hypotens|shock|hypovol|(?:his\s+)?(?:bp|sbp|systolic|map|blood\s+pressure)\b))(?=\s*(?:$|[^A-Za-z\s]|(?:bolus|boluses|infusion|iv|ivi|ml|mls|mL|over|at|x|stat|now|when|once|until|till|and|then|repeat|repeated|repeating|if|to|for|via|in|immediately|asap|protocol|per|as|with|through|on|by|or|is|up|again|max|maximum|centrally|peripherally|stop|stopped|hdu|itu)\b))/gi, "$13% saline");
+  raw = raw.replace(/\b(stop|stopping|hold|holding|withhold|withholding|withold|with hold|avoid|avoiding|omit|omitting|discontinue|discontinuing|suspend|suspending|no|not for|take down|turn off|switch off|pause|remove)\b([^.;\n()]{0,40})\(([^)]*)\)/gi,
     (m, v, mid, list) => `${v}${mid} ` + list.split(/[,/&+]| and /).map(s=>s.trim()).filter(Boolean).map(s=>"not "+s).join(" "));
   raw = raw.replace(/(?:\.(?=\s|$)|[;\n])+/g, " ; ");
   let t = " " + condPass(norm(raw.replace(/;/g," zzsep ").replace(/[^A-Za-z0-9&']+/g, " ")).replace(/\bzzsep\b/g,";")) + " ";
-  const matched = new Set(), negated = new Set();
+  const matched = new Set(), negated = new Set(), heard = new Set();
+  const pos = {}, negFluid = [];
+  const fluidAliases = [], negLimit = [];
+  /* a matched phrase is blanked to the same length, so the positions recorded stay true */
+  const blank = s => s.length < 2 ? "," : " ," + " ".repeat(s.length - 2);
   for(const [k,a] of planPairs()){
     if(!a) continue;
     const re = new RegExp("\\b"+esc(a).replace(/ /g,"\\s+")+"\\b","g");
@@ -2668,19 +2738,65 @@ function parsePlan(text){
     while((m = re.exec(t)) !== null){
       const before = t.slice(Math.max(0, m.index-40), m.index).split(";").pop();
       const after  = t.slice(m.index + m[0].length, m.index + m[0].length + 40).split(";")[0];
-      const preNeg  = NEGATORS.some(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_FILLERS+"\\s+){0,2}$").test(before));
+      const negBy   = NEGATORS.find(n=>new RegExp("\\b"+n+"\\s+(?:"+NEG_FILLERS+"\\s+){0,2}$").test(before));
+      let preNeg  = !!negBy;
       const postNeg = new RegExp(POST_NEG).test(after);
-      if(preNeg || postNeg) negated.add(k); else matched.add(k);
+      heard.add(k);
+      /* "AEDs causing hyponatraemia?", "review AEDs": a question about a cause, not a load */
+      if(k==="aed" && (/^\s*(?:causing|cause|caused|induced|as (?:a|the) cause|related)\b/.test(after) || /\b(?:review|cause|causing|culprit)(?:\s+(?:the|his|any|all|of))?\s*$/.test(before))) break;
+      /* "stop the 3% once he is up by 5" is the plan for the 3%, not a refusal of it */
+      if((k==="hyper" || k==="hyperinf") && preNeg && /^(?:stop|stopping|stop the|pause|turn off|switch off|take down|discontinue|cease)$/.test(negBy) && /^\s*(?:saline\s+)?(?:when|once|after|at|if|until|on reaching)\b/.test(after)) preNeg = false;
+      /* "cortisol before steroids": a steroid deferred, not given */
+      if(k==="steroid" && /\b(?:before|prior to|until after)\s+(?:(?:any|giving|the|starting|a)\s+)?$/.test(before)) preNeg = true;
+      /* "max rise 20 in 24h": a ceiling earns credit only at 10 or less */
+      if(k==="nalimit" && NALIMIT_NUM.has(a)){
+        const num = (after.match(/\b(\d+)\b(?!\s*(?:h|hr|hrs|hour|hours|hourly|min|mins|minute|minutes|ml)\b)/)||[])[1];
+        if(num ? +num > 10 : !NALIMIT_BARE_OK.has(a)) break;
+        /* a bare "ceiling" is the sodium's only when the sodium is named: "ceiling: full escalation" is not */
+        if(!num && a==="ceiling" && !/\b(?:na|sodium|correction|correct\w*|rise|rises|mmol)\b/.test(before + " " + after)) break;
+      }
+      /* a harmful item written as a condition is not an order now */
+      if(preNeg || postNeg){ negated.add(k); if(k==="fluids") negFluid.push(a); if(k==="nalimit") negLimit.push(a); }
+      else { matched.add(k); if(k==="fluids") fluidAliases.push(a); }
+      if(!pos[k]) pos[k] = {i:m.index, e:m.index+m[0].length};
       break;
     }
-    if(matched.has(k) || negated.has(k)) t = t.replace(re, " , ");
+    if(heard.has(k)) t = t.replace(re, blank);
   }
-  if(negated.has("fluids")) { matched.add("stopfluids"); }
-  if(matched.has("stopfluids")) matched.delete("fluids");
+  /* list carry: "no benzodiazepines or tolvaptan", "avoid saline and tolvaptan" */
+  const order = Object.keys(pos).filter(k=>!pos[k].cond).sort((x,y)=>pos[x].i-pos[y].i);
+  for(let j=1;j<order.length;j++){
+    const prev = order[j-1], k = order[j];
+    if(!(negated.has(prev) || (prev==="stopfluids" && k==="fluids")) || !matched.has(k)) continue;
+    const gap = t.slice(pos[prev].e, pos[k].i);
+    if(/^[\s,]*(?:or|nor)\s+(?:(?:the|any|his|iv|oral|all|more|further)\s+)*$/.test(gap) ||
+       (CARRY_AND.has(k) && /^[\s,]*and\s+(?:(?:the|any|his|iv|oral|all|more|further)\s+)*$/.test(gap))){
+      matched.delete(k); negated.add(k); if(k==="fluids") negFluid.push("fluids");
+    }
+  }
+  /* "do not exceed 8", "not more than 10": a refused overshoot IS the ceiling */
+  if(negated.has("nalimit") && negLimit.length && negLimit.every(a=>NALIMIT_OVERSHOOT.test(a))){ negated.delete("nalimit"); matched.add("nalimit"); }
+  /* refusing fluid stops the 5% glucose, unless all that was refused was saline: "no 0.9% saline"
+     says nothing about the drip that is running */
+  const salineOnly = negFluid.length && negFluid.every(a=>/\b(?:saline|sodium chloride|nacl|hartmann\w*|plasma ?lyte|crystalloids?|bolus\w*|resus\w*|challenge)\b/.test(a) && !/\b(?:iv fluids?|ivf|fluids)\b/.test(a));
+  if(negated.has("fluids") && !salineOnly) { matched.add("stopfluids"); }
+  /* "stop the dextrose" wins over a bare mention of the drip, but not over a saline load written as
+     its own order ("stop the dextrose and give 1 L 0.9% saline" still gets the call-back) */
+  if(matched.has("stopfluids") && !fluidAliases.some(a=>/\b(?:saline|sodium chloride|nacl|hartmann\w*|plasmalyte|plasma ?lyte|crystalloids?|bolus\w*|resus\w*|challenge)\b/.test(a))) matched.delete("fluids");
   if(matched.has("hyperinf")) matched.add("hyper");
   if(negated.has("hyper")) matched.delete("hyperinf");
-  return { matched, negated };
+  const conditional = new Set(Object.keys(pos).filter(k=>pos[k].cond && !matched.has(k) && !negated.has(k)));
+  return { matched, negated, conditional, heard };
 }
+/* The segments of a plan that matched nothing, in the player's own words — shown after every plan and
+   amendment so the one amendment can put them right. */
+function unreadSegments(text){
+  return String(text).split(/(?:\.(?=\s|$)|[;\n,])+/).map(s=>s.replace(/[()]/g," ").trim()).filter(seg=>{
+    const words = norm(seg).split(" ").filter(w=>/[a-z]/.test(w) && w.length>1 && !NOISE_PLAN.has(w));
+    return words.length && parsePlan(seg).heard.size===0;
+  });
+}
+const NOISE_PLAN = new Set(["and","then","plan","the","a","an","to","of","for","with","please","pt","patient","him","his","he","is","be","as","per","at","in","on","it","this","that","now","also","will","would","need","needs","should","ok","okay","x","mg","ml","mmol","l","kg","hrs","hr","min","mins","stat","iv","po","impression","imp"]);
 function effectivePlan(matched){
   const eff = new Set(matched||[]);
   Object.entries(PLAN_ITEMS).forEach(([k,it])=>{
@@ -2788,7 +2904,6 @@ function callBack(text, matched, negated, dangers){
 }
 function closePlan(text, matched, negated){
   negated.forEach(k=>{ const it = PLAN_ITEMS[k]; if(it && it.rx && it.rx!=="stopfluids") S.rx.delete(it.rx); });
-  if(negated.has("fluids") && S.dexStopAt===null) S.dexStopAt = elapsed();
   enactPlan(matched);
   tick(10);
   if(S.dxCommitted){ S.planWritten = true; S.planAddOpen = false; }
@@ -2803,6 +2918,7 @@ function closePlan(text, matched, negated){
   if(matched.has("menabx")) S.teaches.add("menabx");
   renderRx(); renderObs();
   const on = [...matched].filter(k=>PLAN_ITEMS[k] && (PLAN_ITEMS[k].rx || PLAN_ITEMS[k].ix)).map(k=>PLAN_ITEMS[k].label);
+  const unread = unreadSegments(text);
   const out = $("#planOut");
   const naLine = S.hyperAt!==null && matched.has("hyper") ? `<div class="bw" style="margin-bottom:var(--s2);">The 3% goes up at ${fmtClock(S.clock)}. ${S.rx.has("recheck") ? "Priya will check a gas after each bolus and ring you." : ""}</div>` : "";
   out.innerHTML =
@@ -2810,6 +2926,7 @@ function closePlan(text, matched, negated){
     `<div class="bsub">${on.length} item${on.length===1?"":"s"} onto the chart. It is marked against the guideline at the final handover.</div>`+ naLine +
     (on.length?`<ul>${on.map(l=>`<li data-ok="1"><span class="mk">✓</span><span class="bl">${l}</span></li>`).join("")}</ul>`:"")+
     (negated.size?`<div class="bw" style="margin-bottom:var(--s2);">Explicitly avoided: ${[...negated].filter(k=>PLAN_ITEMS[k]).map(k=>PLAN_ITEMS[k].label).join(" · ")} — good practice to write it down.</div>`:``)+
+    (unread.length?`<div class="bw" style="margin-bottom:var(--s2);">Not understood: ${unread.map(u=>`“${escHTML(u)}”`).join(" · ")}</div>`:``)+
     ((S.dxCommitted ? S.planAmended : S.initAmended) ? `` : `<button class="btn btn--ghost" id="planAmend" style="margin-top:var(--s3);">${S.dxCommitted ? "Add more to the plan" : "Amend the plan"}</button>`)+
     `</div>`;
   const amend = $("#planAmend");
@@ -2953,7 +3070,7 @@ $("#commitBtn").onclick = ()=>{
   const p = P();
   const v = `${a} secondary to ${b}`;
   const verdict = judgePair(a, b);
-  p.dx = v; p.verdict = verdict; p.dxPartial = (verdict === "partial"); p.dxCorrect = !!verdict;
+  p.dx = v; p.dxA = a; p.dxB = b; p.verdict = verdict; p.dxPartial = (verdict === "partial"); p.dxCorrect = !!verdict;
   if(!p.bleeped){ p.firstDx = v; p.firstVerdict = verdict; p.firstAt = elapsed(); }
   if(p.bleeped && !verdict){ S.died = true; S.diedCause = "wrongdx"; showDeath(); return; }
   if(verdict){ p.dxFinal = true; if(p.dxClock===null) p.dxClock = elapsed(); if(p.bleeped) p.corrected = true; }
@@ -3249,6 +3366,7 @@ function scoreAndShow(){
   const r = rise24();
   if(!S.died && r.final > 10 && !r.caught) add(`24-hour rise of ${r.final} mmol/L — osmotic demyelination`, -15);
 
+  if(!S.died && (S.planWritten || S.bundleCovered)) S.bundleCovered = BUNDLE.filter(b=>b.ok()).length;   /* the same chart the panel shows */
   if(S.planWritten || S.bundleCovered) add(`Management covered ${S.bundleCovered} of ${BUNDLE.length} bundle domains`, S.bundleCovered*3);
 
   if(S.died){ add("He died", -30); }
@@ -3298,7 +3416,7 @@ function scoreAndShow(){
     ], "Correct safely: +5, then no more than 10 in 24 h — and watch for autocorrection", ""),
     hitIf(p2.dxCorrect && !p2.corrected && !p2.dxPartial && !S.siadhNoScreen, p2.dxCorrect, [
       "Hypotonic (serum 238), concentrated urine (486), urine sodium over 30, euvolaemic, off diuretics, TSH and cortisol normal: SIADH, earned rather than assumed. And the pneumonia behind it.",
-      p2.corrected ? `You called the cause “${p2.firstDx}” first, and the evening sodium told you otherwise.` : S.siadhNoScreen ? "SIADH — right, but named before the thyroid and adrenal glands were checked. It is a diagnosis of exclusion." : `“${p2.dx}” — part of it. The drip made it worse; the pneumonia's ADH made it happen.`,
+      p2.corrected ? `You called the cause “${p2.firstDx}” first, and the evening sodium told you otherwise.` : S.siadhNoScreen ? "SIADH — right, but named before the thyroid and adrenal glands were checked. It is a diagnosis of exclusion." : p2.dxA && describesOnly(p2.dxA) ? `“${p2.dx}” — the first box described the sodium rather than naming why it is low. Concentrated, salty urine in a man who is not dry, with normal thyroid and adrenal function, makes it SIADH${isCAP(p2.dxB||"") ? ", and you had the pneumonia behind it" : ", driven by the pneumonia"}.` : p2.dxA && judgeDx2(p2.dxA)===true ? `“${p2.dx}” — SIADH is right, but the cause is the pneumonia: its ADH made this happen, and the drip made it worse.` : `“${p2.dx}” — part of it. The drip made it worse; the pneumonia's ADH made it happen.`,
       !p2.firstDx ? "Never reached." : `“${p2.firstDx}”. His urine was concentrated and salty and he was not dry — that is not hypovolaemia, potomania or polydipsia.`
     ], "Classify the hyponatraemia before you label it", ""),
     hitIf(S.ae.assessed.has("c_bag") && S.dexStopAt!==null && S.ordered.has("fluidchart"), S.dexStopAt!==null || S.ae.assessed.has("c_bag"), [
