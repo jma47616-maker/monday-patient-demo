@@ -726,7 +726,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.24';
+const APP_VERSION='1.5.25';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -745,7 +745,7 @@ document.querySelectorAll('[data-disclaimer]').forEach(n=>{n.innerHTML=DISCLAIME
    add its id to OPEN_WEEKS. To drop its Friday debrief, add the
    id to OPEN_DEBRIEFS. That is the only edit required.
    ============================================================ */
-const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06','w07','w08','w09'];   // playable now
+const OPEN_WEEKS    = ['w01','w02','w03','w04','w05','w06','w07','w08','w09','w10'];   // playable now
 const OPEN_DEBRIEFS = [];        // Friday debriefs released so far
 const TEASERS       = 2;         // how many not-yet-released cases to preview as "coming soon"
 
@@ -839,10 +839,10 @@ const PROGRAM=[
   evidence:'NICE NG104 · revised Atlanta classification 2012 · WATERFALL 2022 · Society for Endocrinology acute hypocalcaemia guidance',
   obj:['Make the diagnosis on two of three: the pain and an enzyme over three times the upper limit, without waiting for imaging','Image with a purpose: ultrasound for the cause, not CT to prove an early diagnosis','Go and look when he says he feels funny: the hands, the mouth, the calcium and the ECG','Give intravenous calcium on a monitor, and repeat the level','Check and replace the magnesium, or the calcium will not hold','Find the cause and start the basics: fluid, analgesia, a QT-safe antiemetic, feeding'],
   read:[{t:'NICE NG104 — pancreatitis',url:'https://www.nice.org.uk/guidance/ng104'},{t:'Revised Atlanta classification of acute pancreatitis (2012)',url:'https://doi.org/10.1136/gutjnl-2012-302779'},{t:'WATERFALL — aggressive or moderate fluid resuscitation in acute pancreatitis',url:'https://doi.org/10.1056/NEJMoa2202884'},{t:'Society for Endocrinology — emergency management of acute hypocalcaemia',url:'https://doi.org/10.1530/EC-16-0056'}]},
- {id:'w10',t:'Sepsis & the deteriorating patient',sub:'ABCDE and the Sepsis Six',month:'Month 3',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
-  evidence:'NICE NG51 · UK Sepsis Trust Sepsis Six · Surviving Sepsis Campaign 2021 hour-1 bundle',
-  obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
-  read:[{t:'UK Sepsis Trust — Sepsis Six'},{t:'Surviving Sepsis — hour-1 bundle'}]},
+ {id:'w10',t:'Not settling',sub:'Antibiotic-resistant sepsis vs Still’s disease vs lymphoma',month:'Month 3',caseId:'fever',url:BASE+'fever.html',debrief:'notes',
+  evidence:'2022 EULAR/ACR points to consider in HLH/MAS · Histiocyte Society adult HLH 2019 · HiHASC 2024 · NHS England anakinra policy · EULAR SLE 2023 · EULAR/ACR SLE criteria 2019',
+  obj:['Step back from a sepsis label when the fever will not answer: the focus, the cultures, the non-infective causes','Read the ferritin, fibrinogen and triglycerides, and the falling ESR, as macrophage activation','Find what lies underneath: the GP record, the joints, the urine, the mouth, the complement','Treat with pulse IV steroid today, with rheumatology and haematology, without waiting for the marrow','Keep the safety net: antibiotics, HIV/EBV/CMV, hold the enoxaparin, no products for numbers, call critical care'],
+  read:[{t:'2022 EULAR/ACR points to consider in suspected HLH/MAS',url:'https://doi.org/10.1136/ard-2023-224123'},{t:'Recommendations for the management of HLH in adults (Blood 2019)',url:'https://doi.org/10.1182/blood.2018894618'},{t:'HiHASC consensus: diagnosis and investigation of suspected HLH in adults (2024)',url:'https://doi.org/10.1016/S2665-9913(23)00273-4'},{t:'EULAR recommendations for the management of SLE: 2023 update',url:'https://doi.org/10.1136/ard-2023-224762'}]},
  {id:'w11',t:'The poisoned patient',sub:'Overdose and the toxidromes',month:'Month 3',caseId:null,url:null,debrief:'notes',
   evidence:'TOXBASE / NPIS · MHRA paracetamol overdose guidance · NICE NG225 self-harm',
   obj:['Glucose first, always','Paracetamol timing and the nomogram','TOXBASE and the antidotes'],
@@ -874,7 +874,11 @@ const PROGRAM=[
  {id:'w18',t:'Acute kidney injury',sub:'Pre-renal, renal, post-renal',month:'Month 3',caseId:null,url:null,debrief:'notes',
   evidence:'NICE NG148 · KDIGO 2012 AKI · UK Kidney Association acute kidney injury',
   obj:['The AKI work-up and the drug chart','Bladder scan and obstruction','When to call renal'],
-  read:[{t:'NICE NG148 — acute kidney injury'}]}
+  read:[{t:'NICE NG148 — acute kidney injury'}]},
+ {id:'w19',t:'Sepsis & the deteriorating patient',sub:'ABCDE and the Sepsis Six',month:'Month 3',caseId:'sepsis-periarrest',url:BASE+'sepsis-resus.html',debrief:'video',
+  evidence:'NICE NG51 · UK Sepsis Trust Sepsis Six · Surviving Sepsis Campaign 2021 hour-1 bundle',
+  obj:['Run a structured ABCDE','Deliver the Sepsis Six in the hour','Resuscitate shock with fluids, then escalate'],
+  read:[{t:'UK Sepsis Trust — Sepsis Six'},{t:'Surviving Sepsis — hour-1 bundle'}]}
 ];
 function weekState(w,prog){
   const p=prog[w.id]||{};
@@ -887,7 +891,7 @@ function debriefLive(w){ return OPEN_DEBRIEFS.includes(w.id); }
 /* A debrief page that exists. It opens for anyone who has finished that case, and stays shut
    (and the answer hidden) for everyone else. Adding the id to OPEN_DEBRIEFS still releases a
    debrief to everybody and reveals the topic; this list does not. */
-const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html', w02: BASE+'mi-debrief.html', w03: BASE+'ttp-debrief.html', w04: BASE+'thy-debrief.html', w05: BASE+'vasc-debrief.html', w06: BASE+'fit-debrief.html', w07: BASE+'care-debrief.html', w08: BASE+'legs-debrief.html', w09: BASE+'panc-debrief.html' };
+const DEBRIEF_URLS = { w01: BASE+'ugib-debrief.html', w02: BASE+'mi-debrief.html', w03: BASE+'ttp-debrief.html', w04: BASE+'thy-debrief.html', w05: BASE+'vasc-debrief.html', w06: BASE+'fit-debrief.html', w07: BASE+'care-debrief.html', w08: BASE+'legs-debrief.html', w09: BASE+'panc-debrief.html', w10: BASE+'fever-debrief.html' };
 function debriefOpen(w){ return debriefLive(w) || !!(DEBRIEF_URLS[w.id] && ((PROG[w.id]||{}).caseDone || IS_OBSERVER)); }
 /* The one handler for every debrief button (the Home card and the case sheet): open the page if
    there is one, then mark it reviewed. It opens again on every press, reviewed or not. */

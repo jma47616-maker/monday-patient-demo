@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d18-steroid-ladder" viewBox="0 0 720 840" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Steroid dose ladder</title><desc>A ladder of four rung cards, three ticked above a dashed line and one crossed below it.</desc>
+<rect width="720" height="840" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="54.0">Steroid doses</tspan></text>
+<rect x="60" y="90" width="22" height="720" rx="8" fill="#d9c9a6" stroke="#241c15" stroke-width="4"/><rect x="638" y="90" width="22" height="720" rx="8" fill="#d9c9a6" stroke="#241c15" stroke-width="4"/>
+<rect x="101" y="115" width="528" height="140" rx="14" fill="#241c15"/><rect x="96" y="110" width="528" height="140" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="162.0">Methylprednisolone 1 g IV daily</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="202.0">for 3 to 5 days: the pulse</tspan></text>
+<g transform="translate(586.0 210.0) scale(0.9)" ><circle r="20" fill="#3f7a3a" stroke="#241c15" stroke-width="3"/><path d="M-9 1 L-2 8 L10 -7" fill="none" stroke="#fdf8ee" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<rect x="101" y="285" width="528" height="140" rx="14" fill="#241c15"/><rect x="96" y="280" width="528" height="140" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="332.0">30 mg/kg IV, maximum 1 g</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="372.0">at 58 kg she reaches the 1 g cap</tspan></text>
+<g transform="translate(586.0 380.0) scale(0.9)" ><circle r="20" fill="#3f7a3a" stroke="#241c15" stroke-width="3"/><path d="M-9 1 L-2 8 L10 -7" fill="none" stroke="#fdf8ee" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<rect x="101" y="455" width="528" height="140" rx="14" fill="#241c15"/><rect x="96" y="450" width="528" height="140" rx="14" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="502.0">Dexamethasone 10 mg/m²</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="542.0">about 16 mg for her</tspan></text>
+<g transform="translate(586.0 550.0) scale(0.9)" ><circle r="20" fill="#3f7a3a" stroke="#241c15" stroke-width="3"/><path d="M-9 1 L-2 8 L10 -7" fill="none" stroke="#fdf8ee" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>
+<path d="M40 638 H680" stroke="#c8531b" stroke-width="4" stroke-dasharray="14 10"/>
+<rect x="101" y="665" width="528" height="140" rx="14" fill="#241c15"/><rect x="96" y="660" width="528" height="140" rx="14" fill="#e8dcc2" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="712.0">Oral prednisolone</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="752.0">not the high-dose pulse</tspan></text>
+<g transform="translate(586.0 760.0) scale(0.9)" ><circle r="20" fill="#c8531b" stroke="#241c15" stroke-width="3"/><path d="M-7 -7 L7 7 M7 -7 L-7 7" stroke="#fdf8ee" stroke-width="5" stroke-linecap="round"/></g>
+</svg>

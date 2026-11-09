@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 640" width="600" height="640">
+  <title>Her back</title>
+  <!-- Listening plate, 600 by 640, on the frame and outline of weeks 8 and 9: the back with spinous processes and both shoulder blades; gown and blanket at the waist. Viewer's left is her left. -->
+  <rect width="600" height="640" fill="#f3e5c8"/>
+  <path d="M252 0 L250 92 C210 112 150 120 104 134 C70 144 52 170 46 210 L30 640 L570 640 L554 210 C548 170 530 144 496 134 C450 120 390 112 350 92 L348 0 Z" fill="#7a4a30" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M236 0 H364 L360 34 Q300 50 240 34 Z" fill="#2f6b70" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M256 16 Q300 26 344 16" fill="none" stroke="#5d9ca0" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <path d="M46 210 L30 640 H130 C114 430 130 280 160 210 C180 160 210 120 250 92 C210 112 150 120 104 134 C70 144 52 170 46 210 Z" fill="#5c3420" opacity=".45"/>
+  <g fill="none" stroke="#241c15" stroke-width="4" stroke-linecap="round">
+    <path d="M124 232 C120 330 116 480 110 640"/><path d="M476 232 C480 330 484 480 490 640"/>
+  </g>
+  <g fill="none" stroke="#4a2a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M300 70 V560"/>
+    <path d="M292 100 h16 M292 140 h16 M292 180 h16 M292 220 h16 M292 260 h16 M292 300 h16 M292 340 h16 M292 380 h16 M292 420 h16 M292 460 h16"/>
+    <path d="M222 168 L214 214 L216 370 C190 330 160 270 148 214 C164 192 196 172 222 168 Z" fill="#5c3420" fill-opacity=".18"/><path d="M222 168 L214 214 L216 370 C190 330 160 270 148 214"/><path d="M214 224 C180 210 150 190 124 168" stroke-width="6" opacity=".9"/>
+    <path d="M378 168 L386 214 L384 370 C410 330 440 270 452 214 C436 192 404 172 378 168 Z" fill="#5c3420" fill-opacity=".18"/><path d="M378 168 L386 214 L384 370 C410 330 440 270 452 214"/><path d="M386 224 C420 210 450 190 476 168" stroke-width="6" opacity=".9"/>
+  </g>
+  <path d="M60 210 C60 180 80 150 120 140 M540 210 C540 180 520 150 480 140" fill="none" stroke="#94603f" stroke-width="6" stroke-linecap="round" opacity=".5"/>
+  <path d="M36 542 Q40 512 80 508 Q300 526 520 508 Q560 512 564 542 Z" fill="#cfe0e6" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M90 518 q30 12 60 4 M440 520 q30 8 60 -2" fill="none" stroke="#a7c0c9" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="534" r="4" fill="#7fa3b0"/><circle cx="116" cy="540" r="4" fill="#7fa3b0"/><circle cx="162" cy="528" r="4" fill="#7fa3b0"/><circle cx="208" cy="534" r="4" fill="#7fa3b0"/><circle cx="254" cy="540" r="4" fill="#7fa3b0"/><circle cx="300" cy="528" r="4" fill="#7fa3b0"/><circle cx="346" cy="534" r="4" fill="#7fa3b0"/><circle cx="392" cy="540" r="4" fill="#7fa3b0"/><circle cx="438" cy="528" r="4" fill="#7fa3b0"/><circle cx="484" cy="534" r="4" fill="#7fa3b0"/><circle cx="530" cy="540" r="4" fill="#7fa3b0"/>
+  <path d="M0 546 Q150 532 300 542 Q450 552 600 540 V640 H0 Z" fill="#e8c9a8" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/><path d="M30 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M126 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M222 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M318 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M414 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M510 574 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M78 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M174 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M270 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M366 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M462 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/><path d="M558 612 h36" stroke="#c9a582" stroke-width="4" stroke-linecap="round"/>
+</svg>

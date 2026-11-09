@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d20-safety-net" viewBox="0 0 720 960" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>The safety net</title><desc>A tightrope walker on a rope between two posts above a net, with a text card below.</desc>
+<rect width="720" height="960" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="54.0">The steroid needs a net</tspan></text>
+<path d="M60 560 V180 M660 560 V180" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+<path d="M60 190 Q360 220 660 190" fill="none" stroke="#241c15" stroke-width="5"/>
+<path d="M200 140 Q360 120 520 140" fill="none" stroke="#241c15" stroke-width="6" stroke-linecap="round"/>
+<circle cx="360" cy="96" r="22" fill="#7a4a30" stroke="#241c15" stroke-width="4"/>
+<path d="M340 86 C340 64 380 64 380 86 C372 78 348 78 340 86 Z" fill="#2f6b70" stroke="#241c15" stroke-width="3"/>
+<path d="M360 118 V170 M360 170 L344 206 M360 170 L376 206 M360 132 L300 136 M360 132 L420 136" stroke="#241c15" stroke-width="7" stroke-linecap="round"/>
+<rect x="107.9" y="236.2" width="504.1" height="47.6" rx="23.8" fill="#fbe4d3" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="269.8">the steroid lowers her defences</tspan></text>
+<path d="M80 470 Q360 560 640 470" fill="none" stroke="#3f7a3a" stroke-width="6"/>
+<path d="M80 470 Q90 520 103 540 M127 470 Q137 520 150 540 M174 470 Q184 520 197 540 M221 470 Q231 520 244 540 M268 470 Q278 520 291 540 M315 470 Q325 520 338 540 M362 470 Q372 520 385 540 M409 470 Q419 520 432 540 M456 470 Q466 520 479 540 M503 470 Q513 520 526 540 M550 470 Q560 520 573 540 M597 470 Q607 520 620 540 M644 470 Q654 520 667 540" fill="none" stroke="#3f7a3a" stroke-width="3" opacity=".8"/>
+<path d="M60 470 L80 470 M640 470 L660 470" stroke="#241c15" stroke-width="6"/>
+<rect x="41" y="605" width="648" height="230" rx="14" fill="#241c15"/><rect x="36" y="600" width="648" height="230" rx="14" fill="#dcebd3" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#3f7a3a" text-anchor="start" ><tspan x="60.0" y="648.0">The net</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="690.0">keep the meropenem, with a recorded review;</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="724.0">once treatment starts: prophylaxis against</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="758.0">Pneumocystis (PJP) and fungi, and antiviral</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="792.0">prophylaxis is suggested</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="880.0">Secondary infections are a major cause of</tspan><tspan x="360.0" y="914.7">death in HLH.</tspan></text>
+</svg>

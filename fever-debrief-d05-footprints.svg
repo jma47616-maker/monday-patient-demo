@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d05-footprints" viewBox="0 0 720 1360" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Footprints of the storm</title><desc>Front body outline with three numbered hotspots, above five numbered blood-test pills.</desc>
+<rect width="720" height="1360" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="50.0">Tap a footprint</tspan></text>
+<path d="M360 90 C320 90 300 122 300 160 C300 196 320 222 340 230 L336 252 C290 262 240 276 220 300 L196 520 L226 528 L262 340 L270 560 C270 640 280 760 300 860 L346 860 L356 600 L364 600 L374 860 L420 860 C440 760 450 640 450 560 L458 340 L494 528 L524 520 L500 300 C480 276 430 262 384 252 L380 230 C400 222 420 196 420 160 C420 122 400 90 360 90 Z" fill="#7a4a30" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+<path d="M318 120 C318 84 402 84 402 120 C392 104 328 104 318 120 Z" fill="#2f6b70" stroke="#241c15" stroke-width="4"/>
+<path d="M292 392 C300 366 352 360 372 376 C368 404 330 420 296 416 Z" fill="#e8a58c" stroke="#241c15" stroke-width="3.5"/>
+<ellipse cx="420" cy="388" rx="26" ry="34" fill="#cf7c5f" stroke="#241c15" stroke-width="3.5" transform="rotate(20 420 388)"/>
+<path d="M318 640 L330 820 M402 640 L390 820" stroke="#f3e5c8" stroke-width="10" stroke-linecap="round" opacity=".55"/>
+<circle cx="360" cy="150" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="160.1">1</tspan></text>
+<circle cx="362" cy="390" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="362.0" y="400.1">2</tspan></text>
+<circle cx="324" cy="720" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="324.0" y="730.1">3</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="160.0">1 Fever</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="395.0">2 Spleen</tspan></text><text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="429.0">and liver</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="712.0">3 Falling</tspan></text><text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="746.0">counts</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="930.0">In the blood</tspan></text>
+<rect x="154" y="964" width="420" height="60" rx="30" fill="#241c15"/><rect x="150" y="960" width="420" height="60" rx="30" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="182" cy="990" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="182.0" y="999.4">4</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="216.0" y="1000.0">Ferritin</tspan></text>
+<rect x="154" y="1040" width="420" height="60" rx="30" fill="#241c15"/><rect x="150" y="1036" width="420" height="60" rx="30" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="182" cy="1066" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="182.0" y="1075.4">5</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="216.0" y="1076.0">Fibrinogen</tspan></text>
+<rect x="154" y="1116" width="420" height="60" rx="30" fill="#241c15"/><rect x="150" y="1112" width="420" height="60" rx="30" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="182" cy="1142" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="182.0" y="1151.4">6</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="216.0" y="1152.0">Triglycerides</tspan></text>
+<rect x="154" y="1192" width="420" height="60" rx="30" fill="#241c15"/><rect x="150" y="1188" width="420" height="60" rx="30" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="182" cy="1218" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="182.0" y="1227.4">7</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="216.0" y="1228.0">Liver enzymes and LDH</tspan></text>
+<rect x="154" y="1268" width="420" height="60" rx="30" fill="#241c15"/><rect x="150" y="1264" width="420" height="60" rx="30" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="182" cy="1294" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="182.0" y="1303.4">8</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="216.0" y="1304.0">Sodium</tspan></text>
+</svg>

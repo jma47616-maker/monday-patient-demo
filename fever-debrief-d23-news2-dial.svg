@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d23-news2-dial" viewBox="0 0 720 862" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>NEWS2 dial</title><desc>A half-circle gauge with a highlighted top band and three needles, above a threshold card and a key.</desc>
+<rect width="720" height="862" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="54.0">NEWS2 (the early warning score)</tspan></text>
+<rect x="498.9" y="88.2" width="202.1" height="47.6" rx="23.8" fill="#c8531b" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="600.0" y="121.8">In the case</tspan></text>
+<path d="M110 420 A250 250 0 0 1 246.5 197.2" fill="none" stroke="#e8dcc2" stroke-width="44"/>
+<path d="M246.5 197.2 A250 250 0 0 1 610 420" fill="none" stroke="#f0a27c" stroke-width="44"/>
+<path d="M88 420 A272 272 0 0 1 632 420 M132 420 A228 228 0 0 1 588 420" fill="none" stroke="#241c15" stroke-width="3"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="54.0" y="430.0">0</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="221.1" y="157.4">7</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="666.0" y="430.0">20</tspan></text>
+<path d="M360 420 L278.3 259.6" stroke="#c8531b" stroke-width="7" stroke-linecap="round"/>
+<circle cx="278.2817100468816" cy="259.6188256460938" r="12" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<path d="M360 420 L360.0 240.0" stroke="#a53f12" stroke-width="7" stroke-linecap="round"/>
+<circle cx="360.0" cy="240.0" r="12" fill="#a53f12" stroke="#241c15" stroke-width="3.5"/>
+<path d="M360 420 L505.6 314.2" stroke="#241c15" stroke-width="7" stroke-linecap="round"/>
+<circle cx="505.62305898749054" cy="314.19865458735484" r="12" fill="#241c15" stroke="#241c15" stroke-width="3.5"/>
+<circle cx="360" cy="420" r="16" fill="#241c15"/>
+<rect x="41" y="495" width="648" height="120" rx="14" fill="#241c15"/><rect x="36" y="490" width="648" height="120" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#a53f12" text-anchor="start" ><tspan x="60.0" y="538.0">7 or more: emergency assessment by</tspan></text>
+<text font-size="28" font-weight="800" fill="#a53f12" text-anchor="start" ><tspan x="60.0" y="574.0">a team with critical care skills</tspan></text>
+<circle cx="60" cy="630" r="12" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="86.0" y="640.0">7 at 09:20</tspan></text>
+<circle cx="60" cy="674" r="12" fill="#a53f12" stroke="#241c15" stroke-width="3.5"/>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="86.0" y="684.0">10 at 10:50</tspan></text>
+<circle cx="60" cy="718" r="12" fill="#241c15" stroke="#241c15" stroke-width="3.5"/>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="86.0" y="728.0">16 at 12:20, with bleeding</tspan></text>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="86.0" y="772.0">crash call at 13:50 (untreated)</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="36.0" y="822.0">The timescale is compressed for the game.</tspan></text>
+</svg>

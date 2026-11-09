@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d07-overlap" viewBox="0 0 720 906" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Sepsis and HLH overlap</title><desc>Two overlapping circles with labels, above two text cards.</desc>
+<rect width="720" height="906" fill="#fdf8ee"/>
+<circle cx="270" cy="250" r="190" fill="#b9c6dc" fill-opacity=".55" stroke="#241c15" stroke-width="5"/>
+<circle cx="450" cy="250" r="190" fill="#f0a27c" fill-opacity=".55" stroke="#241c15" stroke-width="5"/>
+<text font-size="34" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="150.0" y="262.0">Sepsis</tspan></text>
+<text font-size="34" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="574.0" y="262.0">HLH</tspan></text>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="214.0">both</tspan></text>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="360.0" y="248.0">at once:</tspan></text>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="360.0" y="282.0">sepsis can be</tspan></text>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="360.0" y="316.0">the trigger</tspan></text>
+<rect x="29" y="495" width="672" height="196" rx="14" fill="#241c15"/><rect x="24" y="490" width="672" height="196" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="48.0" y="534.0">They look alike</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="48.0" y="574.0">fever that comes back, falling counts,</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="48.0" y="608.0">liver trouble, an illness like sepsis that</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="48.0" y="642.0">can run on to organ failure</tspan></text>
+<rect x="29" y="721" width="672" height="160" rx="14" fill="#241c15"/><rect x="24" y="716" width="672" height="160" rx="14" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="48.0" y="760.0">The tests do not split them</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="48.0" y="800.0">procalcitonin and CRP can be raised in both</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="48.0" y="834.0">(lupus-MAS series: 41 of 49; 84.5%)</tspan></text>
+</svg>

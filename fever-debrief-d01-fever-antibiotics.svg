@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d01-fever-antibiotics" viewBox="0 0 720 650" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Fever under the antibiotics</title><desc>Line chart of two temperature readings over a time axis, above two horizontal bars for the antibiotics given.</desc>
+<rect width="720" height="650" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="56.0">Temperature, Sunday to Tuesday morning</tspan></text>
+<rect x="100" y="260" width="580" height="70" fill="#dcebd3"/>
+<path d="M100 80 V340 H680" fill="none" stroke="#241c15" stroke-width="3"/>
+<path d="M92 330 H100" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="end" ><tspan x="84.0" y="340.0">37</tspan></text>
+<path d="M92 260 H100" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="end" ><tspan x="84.0" y="270.0">38</tspan></text>
+<path d="M92 190 H100" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="end" ><tspan x="84.0" y="200.0">39</tspan></text>
+<path d="M92 120 H100" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="end" ><tspan x="84.0" y="130.0">40</tspan></text>
+<path d="M100 260 H680" stroke="#3f7a3a" stroke-width="2.5" stroke-dasharray="8 7"/>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="start" ><tspan x="110.0" y="305.0">°C</tspan></text>
+<path d="M100 340 V352" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="start" ><tspan x="100.0" y="384.0">Sun</tspan></text>
+<path d="M232 340 V352" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="232.0" y="384.0">Mon</tspan></text>
+<path d="M554 340 V352" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="554.2" y="384.0">Tue</tspan></text>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="end" ><tspan x="680.0" y="384.0">09:20</tspan></text>
+<circle cx="590" cy="99" r="11" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<circle cx="680" cy="162" r="11" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<text font-size="28" font-weight="800" fill="#a53f12" text-anchor="end" ><tspan x="570.0" y="109.0">40.3 °C at 02:40</tspan></text>
+<text font-size="28" font-weight="800" fill="#a53f12" text-anchor="end" ><tspan x="676.0" y="210.0">39.4 °C on the round</tspan></text>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="end" ><tspan x="676.0" y="255.0">rigors again at 08:30</tspan></text>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="446.0">Antibiotics</tspan></text>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="113.4" y="492.0">piperacillin–tazobactam, about 36 hours</tspan></text>
+<rect x="117.42592592592592" y="508" width="476.6203703703704" height="34" rx="8" fill="#241c15"/><rect x="113.42592592592592" y="504" width="476.6203703703704" height="34" rx="8" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="end" ><tspan x="680.0" y="580.0">meropenem</tspan></text>
+<rect x="598.0462962962963" y="596" width="85.9537037037037" height="34" rx="8" fill="#241c15"/><rect x="594.0462962962963" y="592" width="85.9537037037037" height="34" rx="8" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+</svg>

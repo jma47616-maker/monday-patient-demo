@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d17-clock" viewBox="0 0 720 904" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>The morning on a clock</title><desc>A clock face reading 09:20 with an arc and three numbered markers, and a three-line key below.</desc>
+<rect width="720" height="904" fill="#fdf8ee"/>
+<circle cx="360" cy="380" r="250" fill="#faf0da" stroke="#241c15" stroke-width="6"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="465.0" y="209.1">1</tspan></text>
+<path d="M481 170 L475 181" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="541.9" y="286.0">2</tspan></text>
+<path d="M570 259 L559 265" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="570.0" y="391.0">3</tspan></text>
+<path d="M602 380 L590 380" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="541.9" y="496.0">4</tspan></text>
+<path d="M570 501 L559 495" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="465.0" y="572.9">5</tspan></text>
+<path d="M481 590 L475 579" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="601.0">6</tspan></text>
+<path d="M360 622 L360 610" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="255.0" y="572.9">7</tspan></text>
+<path d="M239 590 L245 579" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="178.1" y="496.0">8</tspan></text>
+<path d="M150 501 L161 495" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="150.0" y="391.0">9</tspan></text>
+<path d="M118 380 L130 380" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="178.1" y="286.0">10</tspan></text>
+<path d="M150 259 L161 265" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="255.0" y="209.1">11</tspan></text>
+<path d="M239 170 L245 181" stroke="#241c15" stroke-width="4"/>
+<text font-size="30" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="181.0">12</tspan></text>
+<path d="M360 138 L360 150" stroke="#241c15" stroke-width="4"/>
+<path d="M195 351 A168 168 0 1 1 505 464" fill="none" stroke="#f0a27c" stroke-width="20" stroke-linecap="round" opacity=".8"/>
+<circle cx="194.54720838338767" cy="350.85598266762355" r="22" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="194.5" y="360.2">1</tspan></text>
+<circle cx="263.61514136839025" cy="242.39927679490705" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="263.6" y="251.8">2</tspan></text>
+<circle cx="505.4922678357857" cy="464.0" r="22" fill="#7f93b8" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="505.5" y="473.4">3</tspan></text>
+<circle cx="360" cy="380" r="10" fill="#241c15"/>
+<circle cx="66" cy="670" r="22" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="66.0" y="679.4">1</tspan></text>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="680.0">09:20: film and flow cytometry now;</tspan><tspan x="104.0" y="714.7">steroid now</tspan></text>
+<circle cx="66" cy="764" r="22" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="66.0" y="773.4">2</tspan></text>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="774.0">10:50: untreated, her NEWS2 is 10</tspan></text>
+<circle cx="66" cy="824" r="22" fill="#7f93b8" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="66.0" y="833.4">3</tspan></text>
+<text font-size="28" font-weight="600" fill="#241c15" text-anchor="start" ><tspan x="104.0" y="834.0">16:00: the marrow, this afternoon</tspan></text>
+</svg>

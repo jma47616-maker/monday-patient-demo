@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d15-send-checklist" viewBox="0 0 720 974" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>The send checklist</title><desc>A clipboard with eight ticked rows, some with a second line of result.</desc>
+<rect width="720" height="974" fill="#fdf8ee"/>
+<rect x="42" y="36" width="648" height="904" rx="16" fill="#241c15"/><rect x="36" y="30" width="648" height="904" rx="16" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<rect x="300" y="14" width="120" height="40" rx="8" fill="#8d969c" stroke="#241c15" stroke-width="3.5"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="90.0">Send, then look</tspan></text>
+<rect x="76" y="140" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 158 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="170.0">Blood film</tspan></text>
+<rect x="76" y="218" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 236 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="248.0">Flow cytometry</tspan></text>
+<rect x="76" y="296" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 314 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="326.0">Bone marrow</tspan></text>
+<rect x="76" y="374" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 392 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="404.0">CT scan</tspan></text>
+<text font-size="28" font-weight="400" fill="#a53f12" text-anchor="start" ><tspan x="132.0" y="438.0">one 14 mm node in the armpit</tspan></text>
+<rect x="76" y="480" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 498 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="510.0">EBV: antibodies and PCR</tspan></text>
+<text font-size="28" font-weight="400" fill="#a53f12" text-anchor="start" ><tspan x="132.0" y="544.0">caught in the past; none in her blood now</tspan></text>
+<rect x="76" y="586" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 604 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="616.0">CMV</tspan></text>
+<text font-size="28" font-weight="400" fill="#a53f12" text-anchor="start" ><tspan x="132.0" y="650.0">negative</tspan></text>
+<rect x="76" y="692" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 710 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="722.0">HIV</tspan></text>
+<text font-size="28" font-weight="400" fill="#a53f12" text-anchor="start" ><tspan x="132.0" y="756.0">negative</tspan></text>
+<rect x="76" y="798" width="36" height="36" rx="6" fill="#fdf8ee" stroke="#241c15" stroke-width="3.5"/><path d="M83 816 l9 9 l16 -18" fill="none" stroke="#3f7a3a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="132.0" y="828.0">"Save" sample</tspan></text>
+<text font-size="28" font-weight="400" fill="#a53f12" text-anchor="start" ><tspan x="132.0" y="862.0">before blood products or IVIg</tspan></text>
+</svg>

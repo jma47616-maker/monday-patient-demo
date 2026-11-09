@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d11-iceberg" viewBox="0 0 720 1060" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>What lies underneath</title><desc>An iceberg: a small tip above a wavy waterline labelled at the top, a large body below with five stacked labels.</desc>
+<rect width="720" height="1060" fill="#fdf8ee"/>
+<rect x="0" y="300" width="720" height="760" fill="#cfe0e6"/>
+<path d="M0 300 Q90 286 180 300 T360 300 T540 300 T720 300" fill="none" stroke="#7f93b8" stroke-width="5"/>
+<path d="M290 300 L330 150 L370 110 L410 170 L440 300 Z" fill="#f4f7f8" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+<path d="M290 300 L440 300 L560 520 L600 760 L480 960 L250 970 L120 780 L170 520 Z" fill="#e3edf1" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="80.0">The storm: HLH/MAS</tspan></text>
+<text font-size="32" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="420.0">Lupus?</tspan></text>
+<text font-size="32" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="512.0">Still's disease?</tspan></text>
+<text font-size="32" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="604.0">A lymphoma?</tspan></text>
+<text font-size="32" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="696.0">A virus?</tspan></text>
+<text font-size="32" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="788.0">An infection?</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="middle" ><tspan x="365.0" y="1020.0">Something always lies underneath: name it.</tspan></text>
+</svg>

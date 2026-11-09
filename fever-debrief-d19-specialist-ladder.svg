@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d19-specialist-ladder" viewBox="0 0 720 1180" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>The specialists' ladder</title><desc>A ladder of five rung cards, the top one with a padlock, and a card at its foot.</desc>
+<rect width="720" height="1180" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="54.0">Climbing past the steroid</tspan></text>
+<rect x="60" y="70" width="22" height="884" rx="8" fill="#d9c9a6" stroke="#241c15" stroke-width="4"/><rect x="670" y="70" width="22" height="884" rx="8" fill="#d9c9a6" stroke="#241c15" stroke-width="4"/>
+<rect x="101" y="95" width="560" height="172" rx="14" fill="#241c15"/><rect x="96" y="90" width="560" height="172" rx="14" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="138.0">Etoposide</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="176.0">chemotherapy, for severe disease</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="210.0">despite the rest: a specialist's</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="244.0">decision, with an expert</tspan></text>
+<g transform="translate(612.0 134.0)" ><path d="M-14 -6 V-18 A14 14 0 0 1 14 -18 V-6" fill="none" stroke="#241c15" stroke-width="6"/><rect x="-22" y="-8" width="44" height="34" rx="6" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><circle cx="0" cy="6" r="5" fill="#241c15"/></g>
+<rect x="101" y="293" width="560" height="138" rx="14" fill="#241c15"/><rect x="96" y="288" width="560" height="138" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="336.0">Ciclosporin</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="374.0">added when the response is not</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="408.0">enough</tspan></text>
+<rect x="101" y="457" width="560" height="138" rx="14" fill="#241c15"/><rect x="96" y="452" width="560" height="138" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="500.0">IVIg</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="538.0">in England, only when the heart</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="572.0">muscle or the brain is involved</tspan></text>
+<rect x="101" y="621" width="560" height="172" rx="14" fill="#241c15"/><rect x="96" y="616" width="560" height="172" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="664.0">Anakinra</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="702.0">blocks interleukin-1; second line in</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="736.0">England, through rheumatology; up</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="770.0">to 8 mg/kg a day</tspan></text>
+<rect x="101" y="819" width="560" height="104" rx="14" fill="#241c15"/><rect x="96" y="814" width="560" height="104" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="120.0" y="862.0">Steroid pulse</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="120.0" y="900.0">first line</tspan></text>
+<rect x="41" y="979" width="648" height="176" rx="14" fill="#241c15"/><rect x="36" y="974" width="648" height="176" rx="14" fill="#dcebd3" stroke="#241c15" stroke-width="3" />
+<text font-size="30" font-weight="800" fill="#3f7a3a" text-anchor="start" ><tspan x="60.0" y="1022.0">At its foot: hydroxychloroquine</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="1060.0">once lupus is established: offered to</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="1094.0">everyone with it unless contraindicated, no</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="1128.0">more than 5 mg/kg of real body weight a day</tspan></text>
+</svg>

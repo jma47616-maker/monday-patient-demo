@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d16-pathway" viewBox="0 0 720 1376" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>The pathway</title><desc>Six numbered step cards in one column joined by arrows, with a note card at the foot.</desc>
+<rect width="720" height="1376" fill="#fdf8ee"/>
+<rect x="41" y="35" width="648" height="138" rx="14" fill="#241c15"/><rect x="36" y="30" width="648" height="138" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="76" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="84.0" y="86.1">1</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="128.0" y="86.0">Suspect</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="124.0">the three Fs, on the right antibiotics,</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="158.0">with no focus</tspan></text>
+<path d="M360.0 174.0 L360.0 194.0" stroke="#241c15" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M360.0 210.0 L348.0 194.0 L372.0 194.0 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+<rect x="41" y="223" width="648" height="206" rx="14" fill="#241c15"/><rect x="36" y="218" width="648" height="206" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="264" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="84.0" y="274.1">2</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="128.0" y="274.0">Send</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="312.0">ferritin, fibrinogen, triglycerides; ANA,</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="346.0">anti-dsDNA, C3, C4; HIV, EBV, CMV;</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="380.0">film, flow cytometry, marrow; a save</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="414.0">sample</tspan></text>
+<path d="M360.0 430.0 L360.0 450.0" stroke="#241c15" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M360.0 466.0 L348.0 450.0 L372.0 450.0 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+<rect x="41" y="479" width="648" height="104" rx="14" fill="#241c15"/><rect x="36" y="474" width="648" height="104" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="520" r="26" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="84.0" y="530.1">3</tspan></text>
+<text font-size="30" font-weight="800" fill="#a53f12" text-anchor="start" ><tspan x="128.0" y="530.0">Treat</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="568.0">IV methylprednisolone 1 g, today</tspan></text>
+<path d="M360.0 584.0 L360.0 604.0" stroke="#241c15" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M360.0 620.0 L348.0 604.0 L372.0 604.0 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+<rect x="41" y="633" width="648" height="138" rx="14" fill="#241c15"/><rect x="36" y="628" width="648" height="138" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="674" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="84.0" y="684.1">4</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="128.0" y="684.0">Tell</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="722.0">rheumatology, haematology and critical</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="756.0">care, the same morning</tspan></text>
+<path d="M360.0 772.0 L360.0 792.0" stroke="#241c15" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M360.0 808.0 L348.0 792.0 L372.0 792.0 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+<rect x="41" y="821" width="648" height="172" rx="14" fill="#241c15"/><rect x="36" y="816" width="648" height="172" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="862" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="84.0" y="872.1">5</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="128.0" y="872.0">Protect</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="910.0">keep the antibiotics, hold the</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="944.0">enoxaparin, stop the ibuprofen, no</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="978.0">blood products for numbers</tspan></text>
+<path d="M360.0 994.0 L360.0 1014.0" stroke="#241c15" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M360.0 1030.0 L348.0 1014.0 L372.0 1014.0 Z" fill="#241c15" stroke="#241c15" stroke-width="2" stroke-linejoin="round"/>
+<rect x="41" y="1043" width="648" height="138" rx="14" fill="#241c15"/><rect x="36" y="1038" width="648" height="138" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="84" cy="1084" r="26" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="84.0" y="1094.1">6</tspan></text>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="128.0" y="1094.0">Escalate</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="1132.0">if the steroid is not enough, the</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="128.0" y="1166.0">specialists' ladder</tspan></text>
+<rect x="41" y="1211" width="648" height="140" rx="14" fill="#241c15"/><rect x="36" y="1206" width="648" height="140" rx="14" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="60.0" y="1252.0">Early: an HLH expert or MDT</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="60.0" y="1290.0">rheumatology, haematology, infection and</tspan><tspan x="60.0" y="1324.7">critical care</tspan></text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d08-ferritin-ladder" viewBox="0 0 720 1000" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Ferritin ladder</title><desc>A vertical ladder on a logarithmic scale with four labelled rungs and three marked points.</desc>
+<rect width="720" height="1000" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="54.0">Ferritin (µg/L)</tspan></text>
+<rect x="458.9" y="20.2" width="202.1" height="47.6" rx="23.8" fill="#c8531b" stroke="#241c15" stroke-width="3"/><text font-size="28" font-weight="800" fill="#fdf8ee" text-anchor="middle" ><tspan x="560.0" y="53.8">In the case</tspan></text>
+<rect x="150" y="110" width="26" height="780" rx="10" fill="#e8dcc2" stroke="#241c15" stroke-width="4"/><rect x="250" y="110" width="26" height="780" rx="10" fill="#e8dcc2" stroke="#241c15" stroke-width="4"/>
+<path d="M150 860 H276" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="end" ><tspan x="136.0" y="870.0">500</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="300.0" y="870.0">consider HLH</tspan></text>
+<path d="M150 535 H276" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="end" ><tspan x="136.0" y="544.9">4,000</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="300.0" y="544.9">more likely</tspan></text>
+<path d="M150 392 H276" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="end" ><tspan x="136.0" y="401.6">10,000</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="300.0" y="401.6">highly concerning:</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="300.0" y="435.6">may need treatment now</tspan></text>
+<path d="M150 140 H276" stroke="#241c15" stroke-width="10" stroke-linecap="round"/>
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="end" ><tspan x="136.0" y="150.0">50,000</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="300.0" y="150.0">over 50,000 in adults:</tspan></text>
+<text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="300.0" y="184.0">mostly kidney, liver, infection</tspan><tspan x="300.0" y="218.7">or blood cancer</tspan></text>
+<circle cx="213" cy="311" r="13" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<circle cx="213" cy="280" r="13" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<circle cx="213" cy="255" r="13" fill="#c8531b" stroke="#241c15" stroke-width="3.5"/>
+<path d="M213.0 314.5 L213.0 286.8" stroke="#c8531b" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M213.0 272.8 L223.5 286.8 L202.5 286.8 Z" fill="#c8531b" stroke="#c8531b" stroke-width="2" stroke-linejoin="round"/>
+<rect x="304" y="240" width="396" height="120" rx="14" fill="#241c15"/><rect x="300" y="236" width="396" height="120" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="700" fill="#a53f12" text-anchor="start" ><tspan x="320.0" y="276.0">Simone: 16,800 (09:30),</tspan></text>
+<text font-size="28" font-weight="700" fill="#a53f12" text-anchor="start" ><tspan x="320.0" y="310.0">20,400 (10:50), 24,000</tspan></text>
+<text font-size="28" font-weight="700" fill="#a53f12" text-anchor="start" ><tspan x="320.0" y="344.0">(12:20, untreated)</tspan></text>
+<text font-size="28" font-weight="700" fill="#463a2c" text-anchor="middle" ><tspan x="360.0" y="960.0">The rise is the signal; the number alone is not.</tspan></text>
+</svg>

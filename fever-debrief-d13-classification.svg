@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fever-debrief-d13-classification" viewBox="0 0 720 1300" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+<title>Lupus classification</title><desc>An entry banner, a front body outline with four numbered point badges, two test cards and a total card.</desc>
+<rect width="720" height="1300" fill="#fdf8ee"/>
+<text font-size="30" font-weight="800" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="54.0">Lupus classification: her points</tspan></text>
+<rect x="40" y="84" width="648" height="70" rx="14" fill="#241c15"/><rect x="36" y="80" width="648" height="70" rx="14" fill="#fbeec6" stroke="#241c15" stroke-width="3" />
+<text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="126.0">Entry: ANA positive (1:80 or more)</tspan></text>
+<path d="M360 200 C320 200 300 232 300 270 C300 306 320 332 340 340 L336 362 C290 372 240 386 220 410 L196 630 L226 638 L262 450 L270 670 C270 750 280 870 300 970 L346 970 L356 710 L364 710 L374 970 L420 970 C440 870 450 750 450 670 L458 450 L494 638 L524 630 L500 410 C480 386 430 372 384 362 L380 340 C400 332 420 306 420 270 C420 232 400 200 360 200 Z" fill="#7a4a30" stroke="#241c15" stroke-width="5" stroke-linejoin="round"/>
+<path d="M318 230 C318 194 402 194 402 230 C392 214 328 214 318 230 Z" fill="#2f6b70" stroke="#241c15" stroke-width="4"/>
+<path d="M296 420 C276 470 276 530 290 560 M424 420 C444 470 444 530 430 560" fill="none" stroke="#f6cfc4" stroke-width="6" stroke-linecap="round"/>
+<ellipse cx="330" cy="610" rx="14" ry="22" fill="#cf7c5f" stroke="#241c15" stroke-width="3"/><ellipse cx="390" cy="610" rx="14" ry="22" fill="#cf7c5f" stroke="#241c15" stroke-width="3"/>
+<circle cx="360" cy="300" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="310.1">2</tspan></text>
+<circle cx="440" cy="500" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="440.0" y="510.1">5</tspan></text>
+<circle cx="210" cy="640" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="210.0" y="650.1">6</tspan></text>
+<circle cx="360" cy="610" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="360.0" y="620.1">4</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="440.0" y="306.0">Mouth ulcers 2</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="494.0">Pleural</tspan></text><text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="528.0">effusion 5</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="36.0" y="700.0">Joints 6</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="600.0">Protein in</tspan></text><text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="560.0" y="634.0">the urine 4</tspan></text>
+<rect x="40" y="1014" width="310" height="90" rx="14" fill="#241c15"/><rect x="36" y="1010" width="310" height="90" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="76" cy="1055" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="76.0" y="1065.1">4</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="110.0" y="1050.0">Low C3 and C4</tspan></text><text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="110.0" y="1082.0">(complement)</tspan></text>
+<rect x="378" y="1014" width="310" height="90" rx="14" fill="#241c15"/><rect x="374" y="1010" width="310" height="90" rx="14" fill="#faf0da" stroke="#241c15" stroke-width="3" />
+<circle cx="414" cy="1055" r="24" fill="#e0a521" stroke="#241c15" stroke-width="3.5"/><text font-size="28" font-weight="800" fill="#241c15" text-anchor="middle" ><tspan x="414.0" y="1065.1">6</tspan></text>
+<text font-size="28" font-weight="700" fill="#241c15" text-anchor="start" ><tspan x="448.0" y="1050.0">Anti-dsDNA</tspan></text><text font-size="28" font-weight="400" fill="#463a2c" text-anchor="start" ><tspan x="448.0" y="1082.0">antibodies</tspan></text>
+<rect x="41" y="1145" width="648" height="120" rx="14" fill="#241c15"/><rect x="36" y="1140" width="648" height="120" rx="14" fill="#fbe4d3" stroke="#241c15" stroke-width="3" />
+<text font-size="32" font-weight="800" fill="#a53f12" text-anchor="middle" ><tspan x="360.0" y="1188.0">Total 27 points</tspan></text>
+<text font-size="28" font-weight="600" fill="#463a2c" text-anchor="middle" ><tspan x="360.0" y="1228.0">10 or more classifies</tspan></text>
+</svg>

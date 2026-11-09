@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560" width="500" height="560">
+  <title>Chest radiograph</title>
+  <!-- Drawn fallback for a chest radiograph, 500 by 560, greyscale film style of week 9. A side marker and no other lettering. -->
+  <defs><filter id="fever-cxr-b2" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter><filter id="fever-cxr-b4" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="4"/></filter><filter id="fever-cxr-b8" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter><filter id="fever-cxr-b16" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="16"/></filter><filter id="fever-cxr-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .10 0"/></filter><radialGradient id="fever-cxr-vig" cx=".5" cy=".5" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient><clipPath id="fever-cxr-lungs"><path d="M232 108 C196 94 148 116 120 172 C100 222 90 286 92 394 C132 366 196 356 234 362 Z M268 108 C304 94 352 116 380 172 C400 222 410 290 410 394 C370 368 316 360 272 366 C262 280 268 182 268 108 Z"/></clipPath></defs>
+  <rect width="500" height="560" fill="#060607"/>
+  <g filter="url(#fever-cxr-b8)">
+    <path d="M200 0 H300 L304 62 C360 70 430 84 500 112 V560 H0 V112 C70 84 140 70 196 62 Z" fill="#747477"/>
+    <path d="M0 140 C42 170 60 300 56 560 H0 Z M500 140 C458 170 440 300 444 560 H500 Z" fill="#424245"/>
+  </g>
+  <g filter="url(#fever-cxr-b8)"><path d="M232 108 C196 94 148 116 120 172 C100 222 90 286 92 394 C132 366 196 356 234 362 Z M268 108 C304 94 352 116 380 172 C400 222 410 290 410 394 C370 368 316 360 272 366 C262 280 268 182 268 108 Z" fill="#141416"/></g>
+  <g filter="url(#fever-cxr-b4)" stroke="#5a5a5e" stroke-width="3" fill="none" clip-path="url(#fever-cxr-lungs)" opacity=".7">
+    <path d="M226 204 C200 214 170 234 150 274 M226 218 C200 244 180 274 170 314 M274 208 C300 218 330 240 352 280 M274 224 C304 254 322 290 330 324"/>
+  </g>
+  <g filter="url(#fever-cxr-b16)" clip-path="url(#fever-cxr-lungs)" opacity=".45">
+    <path d="M96 300 C120 380 200 392 236 364 L236 400 H90 Z M404 300 C380 380 300 392 264 364 L264 400 H410 Z" fill="#6e6e72"/>
+  </g>
+  <g filter="url(#fever-cxr-b4)" fill="none" stroke="#6c6c70" stroke-width="5" opacity=".55">
+    <path d="M120 150 C96 200 98 260 118 300 M380 150 C404 200 402 260 382 300"/>
+  </g>
+  <g filter="url(#fever-cxr-b16)"><rect x="226" y="0" width="48" height="560" fill="#a6a6a9" opacity=".85"/>
+    <path d="M232 188 C216 232 198 282 192 324 C232 352 322 358 360 334 C362 288 332 228 298 204 C284 192 252 184 232 188 Z" fill="#9c9c9f" opacity=".95"/></g>
+  <g filter="url(#fever-cxr-b8)">
+    <path d="M30 560 V470 C50 430 72 404 94 394 C124 344 178 328 214 336 C236 344 246 360 250 378 C262 354 296 336 334 338 C376 342 398 376 406 394 C430 404 458 432 470 470 V560 Z" fill="#a8a8ab"/>
+  </g>
+  <g filter="url(#fever-cxr-b4)">
+    <path d="M330 374 C364 370 392 346 404 304 C414 326 418 360 420 406 L404 406 C380 394 356 382 330 374 Z" fill="#a8a8ab"/>
+  </g>
+  <g filter="url(#fever-cxr-b2)">
+    <path d="M322 356 C330 350 356 350 366 356 L368 368 H320 Z" fill="#2a2a2d" opacity=".8"/>
+  </g>
+  <rect x="245" y="0" width="10" height="150" fill="#2a2a2d" opacity=".45" filter="url(#fever-cxr-b2)"/>
+  <g fill="none" stroke="#d4d4d6" stroke-linecap="round" filter="url(#fever-cxr-b2)">
+    <g stroke-width="7" opacity=".32"><path d="M236 104 C190 94 132 102 114 126"/><path d="M264 104 C310 94 368 102 386 126"/><path d="M236 131 C190 121 132 129 112 153"/><path d="M264 131 C310 121 368 129 388 153"/><path d="M236 158 C190 148 132 156 110 180"/><path d="M264 158 C310 148 368 156 390 180"/><path d="M236 185 C190 175 132 183 108 207"/><path d="M264 185 C310 175 368 183 392 207"/><path d="M236 212 C190 202 132 210 106 234"/><path d="M264 212 C310 202 368 210 394 234"/><path d="M236 239 C190 229 132 237 104 261"/><path d="M264 239 C310 229 368 237 396 261"/><path d="M236 266 C190 256 132 264 102 288"/><path d="M264 266 C310 256 368 264 398 288"/><path d="M236 293 C190 283 132 291 100 315"/><path d="M264 293 C310 283 368 291 400 315"/><path d="M236 320 C190 310 132 318 98 342"/><path d="M264 320 C310 310 368 318 402 342"/></g>
+    <path d="M232 90 C190 80 120 82 62 96 M268 90 C310 80 380 82 438 96" stroke-width="12" opacity=".6"/>
+    <path d="M56 112 C36 132 30 152 36 172 M444 112 C464 132 470 152 464 172" stroke-width="16" opacity=".35"/>
+  </g>
+  <rect width="500" height="560" fill="url(#fever-cxr-vig)"/>
+  <rect width="500" height="560" filter="url(#fever-cxr-grain)"/>
+  <text x="462" y="52" font-family="Geist, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="700" fill="#e8e8ea" text-anchor="middle">L</text>
+</svg>
