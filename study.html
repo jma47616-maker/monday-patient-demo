@@ -726,7 +726,7 @@ const BASE=new URL('.',location.href).href;
    played last week's build gets this week's file instead of the cached one.
    The cases parse the return URL with `new URL()`, so an existing ?v= is
    preserved when they append mp_done/mp_score. */
-const APP_VERSION='1.5.27';
+const APP_VERSION='1.5.28';
 
 /* ============ governance notice ============
    One source of truth for the Caldicott / simulation-only wording.
@@ -758,7 +758,7 @@ const TEASERS       = 2;         // how many not-yet-released cases to preview a
    promises no name, no email and no way to trace an answer back,
    and appending a week id or pseudonym would quietly break that.
    ============================================================ */
-const FEEDBACK = {url:'feedback.html', until:'2026-11-09', round:'2026-10'};   /* in-app form (feedback/), saves to public.feedback; the Google Form round closed 2026-09-28 */
+const FEEDBACK = {url:'feedback.html', until:'2026-12-31', round:'2026-10'};   /* in-app form (feedback/), saves to public.feedback; the Google Form round closed 2026-09-28. Reopened 2026-11-14: the first close date (2026-11-09) passed while the write-up was still collecting */
 function feedbackLive(){
   if(!FEEDBACK || !FEEDBACK.url) return false;
   /* the form sets this flag when it has been sent from this device */
